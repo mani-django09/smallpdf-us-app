@@ -1,0 +1,166 @@
+{
+  "pageTitle": "Preise — SmallPDF.us",
+  "metaDescription": "Starter · Pro · Agency — monatliche oder jährliche Abrechnung. Alle PDF-Tools, unbegrenzte Dateigrößen, keine Werbung.",
+  "badge": "Einfache Preise, keine Überraschungen",
+  "hero": {
+    "title": "Wähle den passenden Plan",
+    "subtitle": "Alle Pläne beinhalten jedes PDF- und Bildwerkzeug. Upgrade für größere Dateien, schnellere Verarbeitung und null Werbung."
+  },
+  "billing": {
+    "monthly": "Monatlich",
+    "yearly": "Jährlich",
+    "monthsFree": "2 Monate gratis",
+    "saveAnnually": "🎉 Spare bis zu $98/Jahr mit Jahresabrechnung",
+    "billedAnnually": "Jährlich abgerechnet — ${total}/Jahr",
+    "billedMonthly": "Monatlich abgerechnet · Jederzeit kündbar",
+    "save": "${amount} sparen"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Perfekt für Einzelpersonen",
+      "cta": "Starter holen"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Für Power-User",
+      "cta": "Pro holen",
+      "badge": "Beliebteste Wahl"
+    },
+    "agency": {
+      "name": "Agency",
+      "description": "Für Teams & Agenturen",
+      "cta": "Agency holen"
+    },
+    "free": {
+      "name": "Kostenlos",
+      "description": "Für gelegentliche Nutzung",
+      "cta": "Kostenlos starten"
+    }
+  },
+  "features": {
+    "allTools": "Alle PDF- & Bildwerkzeuge",
+    "upTo200MB": "Bis zu 200 MB pro Datei",
+    "officeUpTo50MB": "Office-Konvertierungen — bis zu 50 MB",
+    "standardProcessing": "Standardverarbeitung",
+    "retain24h": "Dateien 24 Stunden gespeichert",
+    "adFree": "Werbefreies Erlebnis",
+    "batch10": "Bis zu 10 Dateien pro Batch",
+    "priorityProcessing": "Prioritätsverarbeitung",
+    "apiAccess": "API-Zugang",
+    "everythingInStarter": "Alles aus Starter",
+    "unlimitedFileSize": "Unbegrenzte Dateigröße — alle Tools",
+    "officeUnlimited": "Office-Konvertierungen — unbegrenzt",
+    "priorityQueue": "Prioritäts-Warteschlange",
+    "retain48h": "Dateien 48 Stunden gespeichert",
+    "batch20": "Bis zu 20 Dateien pro Batch",
+    "emailSupport": "E-Mail-Support",
+    "everythingInPro": "Alles aus Pro",
+    "dedicatedProcessing": "Dedizierte Verarbeitung",
+    "retain72h": "Dateien 72 Stunden gespeichert",
+    "batch50": "Bis zu 50 Dateien pro Batch",
+    "fullApiWebhooks": "Voller API-Zugang + Webhooks",
+    "teamSeats": "Teamverwaltung (5 Plätze)",
+    "priorityPhoneEmail": "Prioritäts-Telefon- & E-Mail-Support",
+    "customInvoicing": "Individuelle Rechnungsstellung möglich",
+    "upTo100MB": "Bis zu 100 MB pro Datei",
+    "officeUpTo15MB": "Office-Konvertierungen — bis zu 15 MB",
+    "retain1h": "Dateien nach 1 Stunde gelöscht",
+    "adsShown": "Werbung wird angezeigt"
+  },
+  "currentPlan": "Aktueller Plan",
+  "perMonth": "/Monat",
+  "freeBanner": {
+    "title": "Kostenloser Plan — immer verfügbar",
+    "subtitle": "Alle Tools · 100 MB Limit · 1 Stunde Aufbewahrung · Werbung",
+    "signupLink": "Kostenlos registrieren →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "SSL-verschlüsselt", "subtitle": "Alle Übertragungen gesichert" },
+    "autoDelete": { "title": "Automatisch gelöscht", "subtitle": "Dateien planmäßig entfernt" },
+    "fast": { "title": "Schnelle Verarbeitung", "subtitle": "Prioritätswarteschlange für bezahlte Pläne" },
+    "noFees": { "title": "Keine versteckten Gebühren", "subtitle": "Jederzeit sofort kündbar" }
+  },
+  "compareTable": {
+    "title": "Vollständiger Funktionsvergleich",
+    "featureCol": "Funktion",
+    "rows": {
+      "pdfToolSize": "PDF-Tool Dateigröße",
+      "officeConversions": "Office-Konvertierungen",
+      "imageTools": "Bildwerkzeuge",
+      "batchFiles": "Batch-Dateien pro Auftrag",
+      "processingSpeed": "Verarbeitungsgeschwindigkeit",
+      "fileRetention": "Dateiaufbewahrung",
+      "ads": "Werbung",
+      "apiAccess": "API-Zugang",
+      "teamSeats": "Team-Plätze",
+      "emailSupport": "E-Mail-Support",
+      "phoneSupport": "Telefon-Support"
+    },
+    "values": {
+      "standard": "Standard",
+      "priority": "Priorität",
+      "dedicated": "Dediziert",
+      "unlimited": "Unbegrenzt",
+      "yes": "Ja",
+      "none": "Keine",
+      "fiveSeats": "5 Plätze"
+    }
+  },
+  "toolLimits": {
+    "title": "Limits pro Tool",
+    "subtitle": "Genaue Dateigrößen- und Batch-Limits für jedes Tool, aufgeschlüsselt nach Plan.",
+    "singleFileNote": "— = Einzeldatei-Tool (kein Batch-Limit)",
+    "colSize": "Größe · Batch",
+    "groups": {
+      "pdfTools": "PDF-Tools",
+      "officeConversions": "Office-Konvertierungen",
+      "imageTools": "Bildwerkzeuge"
+    }
+  },
+  "faq": {
+    "title": "Häufige Fragen",
+    "items": [
+      {
+        "q": "Was ist der Unterschied zwischen monatlicher und jährlicher Abrechnung?",
+        "a": "Monatliche Abrechnung wird jeden Monat berechnet. Jährliche Abrechnung wird einmal pro Jahr zu einem ermäßigten Tarif berechnet — entspricht 2 Monaten gratis (du zahlst für 10, erhältst 12). Du kannst deinen bevorzugten Abrechnungszyklus beim Checkout wählen."
+      },
+      {
+        "q": "Kann ich jederzeit kündigen?",
+        "a": "Ja — kündige mit einem Klick auf deiner Konto-Abonnementseite. Dein Plan bleibt bis zum Ende des aktuellen Abrechnungszeitraums aktiv und wechselt dann automatisch auf Kostenlos. Keine versteckten Gebühren."
+      },
+      {
+        "q": "Kann ich nach der Anmeldung zwischen monatlicher und jährlicher Abrechnung wechseln?",
+        "a": "Um den Abrechnungszyklus zu wechseln, kündige deinen aktuellen Plan und melde dich mit dem neuen Zyklus neu an. Dein Pro-Zugang läuft bis zum Ende deines aktuellen Zeitraums weiter."
+      },
+      {
+        "q": "Welche Zahlungsmethoden werden akzeptiert?",
+        "a": "Alle gängigen Kredit-/Debitkarten (Visa, Mastercard, RuPay), UPI, Online-Banking und Wallets — sicher verarbeitet über Razorpay. Alle Transaktionen sind PCI-DSS-konform."
+      },
+      {
+        "q": "Was passiert mit meinen Dateien nach der Aufbewahrungszeit?",
+        "a": "Dateien werden automatisch dauerhaft von unseren Servern gelöscht. Wir verkaufen oder teilen deine Dateien niemals. Alle Übertragungen sind SSL-verschlüsselt."
+      },
+      {
+        "q": "Gibt es eine Rückerstattungsrichtlinie?",
+        "a": "Ja — wenn du nicht zufrieden bist innerhalb von 7 Tagen nach deiner ersten Zahlung, kontaktiere uns für eine vollständige Rückerstattung. Keine Fragen gestellt."
+      },
+      {
+        "q": "Unterstützt der Agency-Plan mehrere Benutzer?",
+        "a": "Ja — Agency umfasst 5 Team-Plätze. Jeder Platz erhält seinen eigenen Login mit gemeinsamer Abrechnung unter einem Konto. Benötigst du mehr? Kontaktiere uns."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Bereit für ein Upgrade?",
+    "subtitle": "Schließe dich Tausenden von Profis an, die SmallPDF.us täglich nutzen. Jederzeit kündbar.",
+    "proBtnMonthly": "Pro holen — $19/Monat",
+    "proBtnYearly": "Pro holen — $190/Jahr",
+    "agencyBtn": "Agency holen — $49/Monat"
+  },
+  "notices": {
+    "checkoutCancelled": "Checkout abgebrochen — es wurde keine Zahlung vorgenommen.",
+    "dismiss": "Schließen",
+    "contactSupport": "Support kontaktieren"
+  }
+}

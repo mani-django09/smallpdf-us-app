@@ -1,0 +1,166 @@
+{
+  "pageTitle": "料金プラン — SmallPDF.us",
+  "metaDescription": "Starter · Pro · Agency — 月払いまたは年払い。すべてのPDF・画像ツール、無制限のファイルサイズ、広告なし。",
+  "badge": "シンプルな料金、驚きなし",
+  "hero": {
+    "title": "あなたに合ったプランを選ぼう",
+    "subtitle": "すべてのプランにすべてのPDFと画像ツールが含まれます。より大きなファイル、高速処理、広告ゼロにアップグレード。"
+  },
+  "billing": {
+    "monthly": "月払い",
+    "yearly": "年払い",
+    "monthsFree": "2ヶ月無料",
+    "saveAnnually": "🎉 年払いで最大$98お得",
+    "billedAnnually": "年払い — ${total}/年",
+    "billedMonthly": "月払い · いつでもキャンセル",
+    "save": "${amount}節約"
+  },
+  "plans": {
+    "starter": {
+      "name": "スターター",
+      "description": "個人に最適",
+      "cta": "スターターを始める"
+    },
+    "pro": {
+      "name": "プロ",
+      "description": "ヘビーユーザー向け",
+      "cta": "プロを始める",
+      "badge": "最も人気"
+    },
+    "agency": {
+      "name": "エージェンシー",
+      "description": "チーム・代理店向け",
+      "cta": "エージェンシーを始める"
+    },
+    "free": {
+      "name": "無料",
+      "description": "たまに使う方向け",
+      "cta": "無料で始める"
+    }
+  },
+  "features": {
+    "allTools": "すべてのPDF・画像ツール",
+    "upTo200MB": "1ファイル最大200MB",
+    "officeUpTo50MB": "Officeファイル変換 — 最大50MB",
+    "standardProcessing": "標準処理",
+    "retain24h": "ファイル保持24時間",
+    "adFree": "広告なし",
+    "batch10": "バッチ最大10ファイル",
+    "priorityProcessing": "優先処理",
+    "apiAccess": "APIアクセス",
+    "everythingInStarter": "スターターの全機能",
+    "unlimitedFileSize": "無制限ファイルサイズ — 全ツール",
+    "officeUnlimited": "Officeファイル変換 — 無制限",
+    "priorityQueue": "優先処理キュー",
+    "retain48h": "ファイル保持48時間",
+    "batch20": "バッチ最大20ファイル",
+    "emailSupport": "メールサポート",
+    "everythingInPro": "プロの全機能",
+    "dedicatedProcessing": "専用処理",
+    "retain72h": "ファイル保持72時間",
+    "batch50": "バッチ最大50ファイル",
+    "fullApiWebhooks": "フルAPIアクセス + Webhook",
+    "teamSeats": "チーム管理（5シート）",
+    "priorityPhoneEmail": "優先電話・メールサポート",
+    "customInvoicing": "カスタム請求書対応",
+    "upTo100MB": "1ファイル最大100MB",
+    "officeUpTo15MB": "Officeファイル変換 — 最大15MB",
+    "retain1h": "1時間後にファイル削除",
+    "adsShown": "広告あり"
+  },
+  "currentPlan": "現在のプラン",
+  "perMonth": "/月",
+  "freeBanner": {
+    "title": "無料プラン — 常に利用可能",
+    "subtitle": "全ツール · 100MB制限 · 1時間保持 · 広告あり",
+    "signupLink": "無料登録 →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "SSL暗号化", "subtitle": "すべての通信を保護" },
+    "autoDelete": { "title": "自動削除", "subtitle": "スケジュールに従いファイルを削除" },
+    "fast": { "title": "高速処理", "subtitle": "有料プランは優先キュー" },
+    "noFees": { "title": "隠れた料金なし", "subtitle": "いつでも即座にキャンセル可能" }
+  },
+  "compareTable": {
+    "title": "機能比較一覧",
+    "featureCol": "機能",
+    "rows": {
+      "pdfToolSize": "PDFツール ファイルサイズ",
+      "officeConversions": "Office変換",
+      "imageTools": "画像ツール",
+      "batchFiles": "バッチファイル数",
+      "processingSpeed": "処理速度",
+      "fileRetention": "ファイル保持期間",
+      "ads": "広告",
+      "apiAccess": "APIアクセス",
+      "teamSeats": "チームシート",
+      "emailSupport": "メールサポート",
+      "phoneSupport": "電話サポート"
+    },
+    "values": {
+      "standard": "標準",
+      "priority": "優先",
+      "dedicated": "専用",
+      "unlimited": "無制限",
+      "yes": "あり",
+      "none": "なし",
+      "fiveSeats": "5シート"
+    }
+  },
+  "toolLimits": {
+    "title": "ツール別制限",
+    "subtitle": "各ツールのファイルサイズとバッチ数の制限をプラン別に表示。",
+    "singleFileNote": "— = 単一ファイルツール（バッチ制限なし）",
+    "colSize": "サイズ · バッチ",
+    "groups": {
+      "pdfTools": "PDFツール",
+      "officeConversions": "Office変換",
+      "imageTools": "画像ツール"
+    }
+  },
+  "faq": {
+    "title": "よくある質問",
+    "items": [
+      {
+        "q": "月払いと年払いの違いは何ですか？",
+        "a": "月払いは毎月請求されます。年払いは割引レートで年に一度の請求で、2ヶ月分無料（10ヶ月分の料金で12ヶ月利用）に相当します。チェックアウト時にご希望の請求サイクルをお選びいただけます。"
+      },
+      {
+        "q": "いつでもキャンセルできますか？",
+        "a": "はい — アカウントのサブスクリプションページからワンクリックでキャンセルできます。現在の請求期間終了までプランは有効で、その後自動的に無料プランに戻ります。隠れた請求はありません。"
+      },
+      {
+        "q": "登録後に月払いと年払いを切り替えることはできますか？",
+        "a": "請求サイクルを変更するには、現在のプランをキャンセルして新しいサイクルで再登録してください。現在の期間終了までProアクセスは継続されます。"
+      },
+      {
+        "q": "対応している支払い方法は何ですか？",
+        "a": "主要なクレジット/デビットカード（Visa、Mastercard、RuPay）、UPI、ネットバンキング、ウォレット — Razorpayを通じて安全に処理されます。すべての取引はPCI-DSSに準拠しています。"
+      },
+      {
+        "q": "保持期間後、ファイルはどうなりますか？",
+        "a": "ファイルはサーバーから自動的に完全に削除されます。ファイルを販売したり共有したりすることは一切ありません。すべての転送はSSL暗号化されています。"
+      },
+      {
+        "q": "返金ポリシーはありますか？",
+        "a": "はい — 最初の請求から7日以内にご満足いただけない場合、全額返金いたします。理由は問いません。"
+      },
+      {
+        "q": "エージェンシープランは複数のユーザーに対応していますか？",
+        "a": "はい — エージェンシーには5つのチームシートが含まれます。各シートは独自のログインを持ち、1つのアカウントの下で共有請求となります。さらに必要な場合はお問い合わせください。"
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "アップグレードの準備はできましたか？",
+    "subtitle": "毎日SmallPDF.usを使っている何千ものプロフェッショナルに加わりましょう。いつでもキャンセル可能。",
+    "proBtnMonthly": "プロを始める — $19/月",
+    "proBtnYearly": "プロを始める — $190/年",
+    "agencyBtn": "エージェンシーを始める — $49/月"
+  },
+  "notices": {
+    "checkoutCancelled": "チェックアウトがキャンセルされました — 請求はありません。",
+    "dismiss": "閉じる",
+    "contactSupport": "サポートに連絡"
+  }
+}

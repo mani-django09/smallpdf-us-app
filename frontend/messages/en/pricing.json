@@ -1,0 +1,166 @@
+{
+  "pageTitle": "Pricing — SmallPDF.us",
+  "metaDescription": "Starter · Pro · Agency — monthly or yearly billing. All PDF tools, unlimited file sizes, no ads.",
+  "badge": "Simple pricing, no surprises",
+  "hero": {
+    "title": "Pick the plan that fits you",
+    "subtitle": "All plans include every PDF and image tool. Upgrade for bigger files, faster processing, and zero ads."
+  },
+  "billing": {
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "monthsFree": "2 months free",
+    "saveAnnually": "🎉 You save up to $98/year with annual billing",
+    "billedAnnually": "Billed annually — ${total}/yr",
+    "billedMonthly": "Billed monthly · Cancel anytime",
+    "save": "Save ${amount}"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Perfect for individuals",
+      "cta": "Get Starter"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "For power users",
+      "cta": "Get Pro",
+      "badge": "Most Popular"
+    },
+    "agency": {
+      "name": "Agency",
+      "description": "For teams & agencies",
+      "cta": "Get Agency"
+    },
+    "free": {
+      "name": "Free",
+      "description": "For occasional use",
+      "cta": "Get Started Free"
+    }
+  },
+  "features": {
+    "allTools": "All PDF & image tools",
+    "upTo200MB": "Up to 200 MB per file",
+    "officeUpTo50MB": "Office conversions — up to 50 MB",
+    "standardProcessing": "Standard processing",
+    "retain24h": "Files retained 24 hours",
+    "adFree": "Ad-free experience",
+    "batch10": "Up to 10 files per batch",
+    "priorityProcessing": "Priority processing",
+    "apiAccess": "API access",
+    "everythingInStarter": "Everything in Starter",
+    "unlimitedFileSize": "Unlimited file size — all tools",
+    "officeUnlimited": "Office conversions — unlimited",
+    "priorityQueue": "Priority processing queue",
+    "retain48h": "Files retained 48 hours",
+    "batch20": "Up to 20 files per batch",
+    "emailSupport": "Email support",
+    "everythingInPro": "Everything in Pro",
+    "dedicatedProcessing": "Dedicated processing",
+    "retain72h": "Files retained 72 hours",
+    "batch50": "Up to 50 files per batch",
+    "fullApiWebhooks": "Full API access + webhooks",
+    "teamSeats": "Team management (5 seats)",
+    "priorityPhoneEmail": "Priority phone & email support",
+    "customInvoicing": "Custom invoicing available",
+    "upTo100MB": "Up to 100 MB per file",
+    "officeUpTo15MB": "Office conversions — up to 15 MB",
+    "retain1h": "Files deleted after 1 hour",
+    "adsShown": "Ads shown"
+  },
+  "currentPlan": "Current Plan",
+  "perMonth": "/mo",
+  "freeBanner": {
+    "title": "Free Plan — always available",
+    "subtitle": "All tools · 100 MB limit · 1-hour retention · Ads shown",
+    "signupLink": "Sign up free →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "SSL Encrypted", "subtitle": "All transfers secured" },
+    "autoDelete": { "title": "Auto-deleted", "subtitle": "Files removed on schedule" },
+    "fast": { "title": "Fast processing", "subtitle": "Priority queue for paid plans" },
+    "noFees": { "title": "No hidden fees", "subtitle": "Cancel any time, instantly" }
+  },
+  "compareTable": {
+    "title": "Full feature comparison",
+    "featureCol": "Feature",
+    "rows": {
+      "pdfToolSize": "PDF tool file size",
+      "officeConversions": "Office conversions",
+      "imageTools": "Image tools",
+      "batchFiles": "Batch files per job",
+      "processingSpeed": "Processing speed",
+      "fileRetention": "File retention",
+      "ads": "Ads",
+      "apiAccess": "API access",
+      "teamSeats": "Team seats",
+      "emailSupport": "Email support",
+      "phoneSupport": "Phone support"
+    },
+    "values": {
+      "standard": "Standard",
+      "priority": "Priority",
+      "dedicated": "Dedicated",
+      "unlimited": "Unlimited",
+      "yes": "Yes",
+      "none": "None",
+      "fiveSeats": "5 seats"
+    }
+  },
+  "toolLimits": {
+    "title": "Per-tool limits",
+    "subtitle": "Exact file size and batch count limits for every tool, broken down by plan.",
+    "singleFileNote": "— = single-file tool (no batch limit applies)",
+    "colSize": "size · batch",
+    "groups": {
+      "pdfTools": "PDF Tools",
+      "officeConversions": "Office Conversions",
+      "imageTools": "Image Tools"
+    }
+  },
+  "faq": {
+    "title": "Common questions",
+    "items": [
+      {
+        "q": "What is the difference between monthly and yearly billing?",
+        "a": "Monthly billing charges you each month. Yearly billing charges you once a year at a discounted rate — equivalent to 2 months free (you pay for 10, get 12). You can choose your preferred billing cycle at checkout."
+      },
+      {
+        "q": "Can I cancel anytime?",
+        "a": "Yes — cancel with one click from your account subscription page. Your plan stays active until the end of the current billing period, then reverts to Free automatically. No hidden charges."
+      },
+      {
+        "q": "Can I switch between monthly and yearly after subscribing?",
+        "a": "To switch billing cycles, cancel your current plan and re-subscribe with the new cycle. Your Pro access continues until your current period ends."
+      },
+      {
+        "q": "What payment methods are accepted?",
+        "a": "All major credit/debit cards (Visa, Mastercard, RuPay), UPI, net banking, and wallets — securely processed via Razorpay. All transactions are PCI-DSS compliant."
+      },
+      {
+        "q": "What happens to my files after the retention period?",
+        "a": "Files are permanently deleted from our servers automatically. We never sell or share your files. All transfers are SSL-encrypted."
+      },
+      {
+        "q": "Is there a refund policy?",
+        "a": "Yes — if you're not satisfied within 7 days of your first charge, contact us for a full refund. No questions asked."
+      },
+      {
+        "q": "Does the Agency plan support multiple users?",
+        "a": "Yes — Agency includes 5 team seats. Each seat gets its own login with shared billing under one account. Need more? Contact us."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Ready to upgrade?",
+    "subtitle": "Join thousands of professionals using SmallPDF.us every day. Cancel anytime.",
+    "proBtnMonthly": "Get Pro — $19/mo",
+    "proBtnYearly": "Get Pro — $190/yr",
+    "agencyBtn": "Get Agency — $49/mo"
+  },
+  "notices": {
+    "checkoutCancelled": "Checkout cancelled — no charge was made.",
+    "dismiss": "Dismiss",
+    "contactSupport": "contact support"
+  }
+}

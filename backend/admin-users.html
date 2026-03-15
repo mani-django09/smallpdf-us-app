@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmallPDF.us — Admin Users</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+  /* ── Login Screen ── */
+  #loginScreen {
+    display: flex; align-items: center; justify-content: center; min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  .login-card {
+    background: #1e293b; border: 1px solid #334155; border-radius: 16px;
+    padding: 48px; width: 100%; max-width: 400px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  }
+  .login-logo { text-align: center; margin-bottom: 32px; }
+  .login-logo .icon { background: #DC2626; width: 56px; height: 56px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 12px; }
+  .login-logo h1 { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+  .login-logo p { color: #94a3b8; font-size: 14px; margin-top: 4px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; color: #94a3b8; margin-bottom: 6px; }
+  .form-group input {
+    width: 100%; padding: 12px 14px; background: #0f172a; border: 1px solid #334155;
+    border-radius: 8px; color: #f1f5f9; font-size: 15px; outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus { border-color: #DC2626; }
+  .btn-login {
+    width: 100%; padding: 13px; background: #DC2626; color: white; border: none;
+    border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .btn-login:hover { background: #b91c1c; }
+  .login-error { background: #450a0a; border: 1px solid #DC2626; color: #fca5a5; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: none; }
+
+  /* ── Main App ── */
+  #app { display: none; }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; width: 240px;
+    background: #1e293b; border-right: 1px solid #334155; padding: 24px 0;
+  }
+  .sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid #334155; }
+  .sidebar-logo .brand { display: flex; align-items: center; gap: 10px; }
+  .sidebar-logo .brand .dot { background: #DC2626; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .sidebar-logo .brand span { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+  .sidebar-logo .sub { font-size: 11px; color: #64748b; margin-top: 4px; padding-left: 42px; }
+  .nav { padding: 16px 12px; }
+  .nav a {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px;
+    color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.15s;
+    margin-bottom: 2px;
+  }
+  .nav a:hover { background: #334155; color: #f1f5f9; }
+  .nav a.active { background: #DC262620; color: #f87171; }
+  .nav a .icon { font-size: 16px; width: 20px; text-align: center; }
+  .sidebar-creds { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 24px; border-top: 1px solid #334155; }
+  .sidebar-creds .label { font-size: 11px; color: #475569; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .cred-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+  .cred-key { color: #64748b; }
+  .cred-val { color: #94a3b8; font-family: monospace; }
+  .btn-logout { width: 100%; margin-top: 12px; padding: 8px; background: transparent; border: 1px solid #334155; color: #64748b; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .btn-logout:hover { border-color: #DC2626; color: #f87171; }
+
+  .main { margin-left: 240px; padding: 32px; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .page-header h2 { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+  .page-header p { color: #64748b; font-size: 14px; margin-top: 2px; }
+
+  /* ── Stats Cards ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
+  .stat-label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .stat-value { font-size: 28px; font-weight: 700; color: #f1f5f9; }
+  .stat-sub { font-size: 12px; color: #475569; margin-top: 4px; }
+  .stat-card.red .stat-value { color: #f87171; }
+  .stat-card.green .stat-value { color: #4ade80; }
+  .stat-card.blue .stat-value { color: #60a5fa; }
+
+  /* ── Toolbar ── */
+  .toolbar { display: flex; gap: 12px; margin-bottom: 20px; }
+  .search-box {
+    flex: 1; padding: 10px 16px; background: #1e293b; border: 1px solid #334155;
+    border-radius: 8px; color: #f1f5f9; font-size: 14px; outline: none;
+  }
+  .search-box:focus { border-color: #475569; }
+  .filter-select {
+    padding: 10px 14px; background: #1e293b; border: 1px solid #334155;
+    border-radius: 8px; color: #94a3b8; font-size: 14px; outline: none; cursor: pointer;
+  }
+  .btn-refresh {
+    padding: 10px 20px; background: #334155; border: none; border-radius: 8px;
+    color: #94a3b8; font-size: 14px; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-refresh:hover { background: #475569; color: #f1f5f9; }
+
+  /* ── Table ── */
+  .table-wrap { background: #1e293b; border: 1px solid #334155; border-radius: 12px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th { padding: 14px 16px; text-align: left; font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; background: #1e293b; border-bottom: 1px solid #334155; }
+  tbody tr { border-bottom: 1px solid #1e293b; transition: background 0.1s; }
+  tbody tr:hover { background: #253548; }
+  tbody tr:last-child { border-bottom: none; }
+  td { padding: 14px 16px; font-size: 14px; vertical-align: middle; }
+
+  .user-cell { display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+  .avatar-placeholder { width: 36px; height: 36px; border-radius: 50%; background: #334155; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #94a3b8; flex-shrink: 0; }
+  .user-name { font-weight: 500; color: #f1f5f9; font-size: 14px; }
+  .user-email { font-size: 12px; color: #64748b; margin-top: 1px; }
+
+  .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .badge-free { background: #1e3a2f; color: #4ade80; }
+  .badge-pro { background: #1e3a5f; color: #60a5fa; }
+  .badge-enterprise { background: #3b1f5e; color: #c084fc; }
+  .badge-verified { background: #1e3a2f; color: #4ade80; }
+  .badge-unverified { background: #3b2f1e; color: #fb923c; }
+  .badge-banned { background: #450a0a; color: #f87171; }
+
+  .actions { display: flex; gap: 6px; }
+  .btn-action {
+    padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500;
+    cursor: pointer; border: 1px solid transparent; transition: all 0.15s;
+  }
+  .btn-plan { background: #1e3a5f; color: #60a5fa; border-color: #1e40af; }
+  .btn-plan:hover { background: #1e40af; }
+  .btn-ban { background: #450a0a; color: #f87171; border-color: #7f1d1d; }
+  .btn-ban:hover { background: #7f1d1d; }
+  .btn-unban { background: #1e3a2f; color: #4ade80; border-color: #166534; }
+  .btn-unban:hover { background: #166534; }
+  .btn-delete { background: #1e293b; color: #64748b; border-color: #334155; }
+  .btn-delete:hover { background: #450a0a; color: #f87171; border-color: #7f1d1d; }
+
+  /* ── Pagination ── */
+  .pagination { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-top: 1px solid #334155; }
+  .pagination-info { font-size: 13px; color: #64748b; }
+  .pagination-btns { display: flex; gap: 6px; }
+  .btn-page { padding: 6px 14px; background: #334155; border: none; border-radius: 6px; color: #94a3b8; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .btn-page:hover:not(:disabled) { background: #475569; color: #f1f5f9; }
+  .btn-page:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-page.active { background: #DC2626; color: white; }
+
+  /* ── Modal ── */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; display: none; }
+  .modal { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; width: 100%; max-width: 420px; }
+  .modal h3 { font-size: 18px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+  .modal p { color: #94a3b8; font-size: 14px; margin-bottom: 24px; }
+  .modal-select { width: 100%; padding: 11px 14px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 15px; outline: none; margin-bottom: 16px; }
+  .modal-input { width: 100%; padding: 11px 14px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #f1f5f9; font-size: 15px; outline: none; margin-bottom: 16px; }
+  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-cancel { padding: 10px 20px; background: #334155; border: none; border-radius: 8px; color: #94a3b8; font-size: 14px; cursor: pointer; }
+  .btn-confirm { padding: 10px 20px; background: #DC2626; border: none; border-radius: 8px; color: white; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-confirm.green { background: #16a34a; }
+
+  .empty { text-align: center; padding: 60px 20px; color: #475569; }
+  .empty .icon { font-size: 48px; margin-bottom: 12px; }
+  .loading { text-align: center; padding: 60px 20px; color: #475569; font-size: 14px; }
+
+  .toast { position: fixed; bottom: 24px; right: 24px; background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px 20px; font-size: 14px; color: #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 999; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: #16a34a; }
+  .toast.error { border-color: #DC2626; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="icon">📄</div>
+      <h1>SmallPDF.us</h1>
+      <p>Admin Panel — Users Management</p>
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="Admin username" value="ilovepdf">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Admin password" value="ilovepdf@9902">
+    </div>
+    <button class="btn-login" onclick="doLogin()">Sign In →</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="brand">
+        <div class="dot">📄</div>
+        <span>SmallPDF.us</span>
+      </div>
+      <div class="sub">Admin Panel</div>
+    </div>
+    <nav class="nav">
+      <a href="javascript:void(0)" onclick="window.open(API+'/api/admin/stats')" target="_blank" class="nav-link">
+        <span class="icon">📊</span> Stats & Analytics
+      </a>
+      <a href="http://localhost:5011/api/admin/activity" target="_blank" class="nav-link">
+        <span class="icon">📋</span> Activity Logs
+      </a>
+      <a href="#" class="active">
+        <span class="icon">👥</span> Users
+      </a>
+      <a href="http://localhost:5011/api/admin/analytics/platforms" target="_blank" class="nav-link">
+        <span class="icon">📱</span> Platforms
+      </a>
+      <a href="http://localhost:5011/api/admin/analytics/geography" target="_blank" class="nav-link">
+        <span class="icon">🌍</span> Geography
+      </a>
+    </nav>
+    <div class="sidebar-creds">
+      <div class="label">Admin Credentials</div>
+      <div class="cred-row"><span class="cred-key">Username</span><span class="cred-val">ilovepdf</span></div>
+      <div class="cred-row"><span class="cred-key">Password</span><span class="cred-val">ilovepdf@9902</span></div>
+      <button class="btn-logout" onclick="logout()">← Sign Out</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="page-header">
+      <div>
+        <h2>👥 Users Management</h2>
+        <p>View and manage all registered users</p>
+      </div>
+    </div>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card"><div class="stat-label">Total Users</div><div class="stat-value" id="statTotal">—</div><div class="stat-sub">All registered</div></div>
+      <div class="stat-card green"><div class="stat-label">Verified</div><div class="stat-value" id="statVerified">—</div><div class="stat-sub">Email confirmed</div></div>
+      <div class="stat-card blue"><div class="stat-label">Pro / Enterprise</div><div class="stat-value" id="statPaid">—</div><div class="stat-sub">Paid plans</div></div>
+      <div class="stat-card red"><div class="stat-label">Banned</div><div class="stat-value" id="statBanned">—</div><div class="stat-sub">Suspended accounts</div></div>
+    </div>
+
+    <div class="toolbar">
+      <input class="search-box" id="searchInput" type="text" placeholder="🔍  Search by name or email..." oninput="debounceSearch()">
+      <select class="filter-select" id="filterPlan" onchange="loadUsers()">
+        <option value="">All Plans</option>
+        <option value="free">Free</option>
+        <option value="pro">Pro</option>
+        <option value="enterprise">Enterprise</option>
+      </select>
+      <button class="btn-refresh" onclick="loadUsers()">↻ Refresh</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Auth</th>
+            <th>Joined</th>
+            <th>Last Login</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="usersBody">
+          <tr><td colspan="7"><div class="loading">Loading users...</div></td></tr>
+        </tbody>
+      </table>
+      <div class="pagination" id="pagination" style="display:none;">
+        <div class="pagination-info" id="paginationInfo"></div>
+        <div class="pagination-btns">
+          <button class="btn-page" id="btnPrev" onclick="changePage(-1)">← Prev</button>
+          <button class="btn-page" id="btnNext" onclick="changePage(1)">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Plan Modal -->
+<div class="modal-overlay" id="planModal">
+  <div class="modal">
+    <h3>Change Plan</h3>
+    <p id="planModalDesc">Select new plan for this user.</p>
+    <select class="modal-select" id="planSelect">
+      <option value="free">Free</option>
+      <option value="pro">Pro</option>
+      <option value="enterprise">Enterprise</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('planModal')">Cancel</button>
+      <button class="btn-confirm green" onclick="confirmPlan()">Update Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ban Modal -->
+<div class="modal-overlay" id="banModal">
+  <div class="modal">
+    <h3>Ban User</h3>
+    <p id="banModalDesc">This will prevent the user from logging in.</p>
+    <input class="modal-input" id="banReason" placeholder="Ban reason (optional)">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('banModal')">Cancel</button>
+      <button class="btn-confirm" onclick="confirmBan()">Ban User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <h3>Delete User</h3>
+    <p id="deleteModalDesc">This is permanent and cannot be undone. All user data will be removed.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('deleteModal')">Cancel</button>
+      <button class="btn-confirm" onclick="confirmDelete()">Delete Forever</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Works locally (file://) and in production (served from Express)
+const API = window.location.protocol === 'file:' ? 'http://localhost:5011' : window.location.origin
+let token = localStorage.getItem('adminToken')
+let currentPage = 1
+let totalUsers = 0
+const limit = 20
+let activeUserId = null
+let debounceTimer = null
+
+// ── Auth ──────────────────────────────────────────────────────
+async function doLogin() {
+  const username = document.getElementById('loginUser').value
+  const password = document.getElementById('loginPass').value
+  const errEl = document.getElementById('loginError')
+  errEl.style.display = 'none'
+
+  try {
+    const res = await fetch(`${API}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    })
+    const data = await res.json()
+    if (!res.ok) throw new Error(data.error || 'Login failed')
+    token = data.token
+    localStorage.setItem('adminToken', token)
+    showApp()
+  } catch (err) {
+    errEl.textContent = err.message
+    errEl.style.display = 'block'
+  }
+}
+
+function logout() {
+  localStorage.removeItem('adminToken')
+  token = null
+  document.getElementById('app').style.display = 'none'
+  document.getElementById('loginScreen').style.display = 'flex'
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none'
+  document.getElementById('app').style.display = 'block'
+  loadUsers()
+}
+
+// Auto-login if token exists
+if (token) showApp()
+
+// Enter key on login
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') doLogin()
+})
+
+// ── Fetch ─────────────────────────────────────────────────────
+async function apiFetch(path, options = {}) {
+  const res = await fetch(`${API}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      ...options.headers
+    }
+  })
+  if (res.status === 401) { logout(); return null }
+  return res.json()
+}
+
+// ── Load Users ────────────────────────────────────────────────
+async function loadUsers() {
+  const search = document.getElementById('searchInput').value
+  const plan = document.getElementById('filterPlan').value
+
+  document.getElementById('usersBody').innerHTML = '<tr><td colspan="7"><div class="loading">Loading...</div></td></tr>'
+  document.getElementById('pagination').style.display = 'none'
+
+  try {
+    let url = `/api/admin/users?page=${currentPage}&limit=${limit}&search=${encodeURIComponent(search)}`
+    const data = await apiFetch(url)
+    if (!data) return
+
+    totalUsers = data.total
+    renderUsers(data.users, plan)
+    renderStats(data.users, data.total)
+    renderPagination(data.total)
+  } catch (err) {
+    document.getElementById('usersBody').innerHTML = `<tr><td colspan="7"><div class="empty"><div class="icon">⚠️</div>Failed to load users. Is backend running?</div></td></tr>`
+  }
+}
+
+function renderStats(users, total) {
+  document.getElementById('statTotal').textContent = total
+  document.getElementById('statVerified').textContent = users.filter(u => u.email_verified).length + (total > limit ? '+' : '')
+  document.getElementById('statPaid').textContent = users.filter(u => u.plan !== 'free').length + (total > limit ? '+' : '')
+  document.getElementById('statBanned').textContent = users.filter(u => u.is_banned).length + (total > limit ? '+' : '')
+}
+
+function renderUsers(users, planFilter) {
+  const filtered = planFilter ? users.filter(u => u.plan === planFilter) : users
+
+  if (!filtered.length) {
+    document.getElementById('usersBody').innerHTML = '<tr><td colspan="7"><div class="empty"><div class="icon">👤</div>No users found</div></td></tr>'
+    return
+  }
+
+  document.getElementById('usersBody').innerHTML = filtered.map(u => {
+    const initials = (u.name || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    const avatar = u.avatar
+      ? `<img class="avatar" src="${u.avatar}" onerror="this.outerHTML='<div class=\\'avatar-placeholder\\'>${initials}</div>'">`
+      : `<div class="avatar-placeholder">${initials}</div>`
+
+    const planBadge = `<span class="badge badge-${u.plan}">${u.plan}</span>`
+    const statusBadge = u.is_banned
+      ? `<span class="badge badge-banned">Banned</span>`
+      : u.email_verified
+        ? `<span class="badge badge-verified">✓ Verified</span>`
+        : `<span class="badge badge-unverified">Unverified</span>`
+
+    const authMethod = u.google_id ? '🔵 Google' : '📧 Email'
+    const joined = u.created_at ? new Date(u.created_at).toLocaleDateString() : '—'
+    const lastLogin = u.last_login_at ? timeAgo(u.last_login_at) : 'Never'
+
+    const banBtn = u.is_banned
+      ? `<button class="btn-action btn-unban" onclick="openUnban(${u.id}, '${esc(u.name)}')">Unban</button>`
+      : `<button class="btn-action btn-ban" onclick="openBan(${u.id}, '${esc(u.name)}')">Ban</button>`
+
+    return `<tr>
+      <td>
+        <div class="user-cell">
+          ${avatar}
+          <div>
+            <div class="user-name">${esc(u.name)}</div>
+            <div class="user-email">${esc(u.email)}</div>
+          </div>
+        </div>
+      </td>
+      <td>${planBadge}</td>
+      <td>${statusBadge}</td>
+      <td style="color:#64748b;font-size:13px;">${authMethod}</td>
+      <td style="color:#64748b;font-size:13px;">${joined}</td>
+      <td style="color:#64748b;font-size:13px;">${lastLogin}</td>
+      <td>
+        <div class="actions">
+          <button class="btn-action btn-plan" onclick="openPlan(${u.id}, '${esc(u.name)}', '${u.plan}')">Plan</button>
+          ${banBtn}
+          <button class="btn-action btn-delete" onclick="openDelete(${u.id}, '${esc(u.name)}')">✕</button>
+        </div>
+      </td>
+    </tr>`
+  }).join('')
+}
+
+function renderPagination(total) {
+  const totalPages = Math.ceil(total / limit)
+  if (totalPages <= 1) return
+
+  const start = (currentPage - 1) * limit + 1
+  const end = Math.min(currentPage * limit, total)
+  document.getElementById('paginationInfo').textContent = `Showing ${start}–${end} of ${total} users`
+  document.getElementById('btnPrev').disabled = currentPage <= 1
+  document.getElementById('btnNext').disabled = currentPage >= totalPages
+  document.getElementById('pagination').style.display = 'flex'
+}
+
+function changePage(dir) {
+  currentPage += dir
+  loadUsers()
+}
+
+function debounceSearch() {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => { currentPage = 1; loadUsers() }, 400)
+}
+
+// ── Modals ────────────────────────────────────────────────────
+function openPlan(id, name, currentPlan) {
+  activeUserId = id
+  document.getElementById('planModalDesc').textContent = `Change plan for ${name}`
+  document.getElementById('planSelect').value = currentPlan
+  document.getElementById('planModal').style.display = 'flex'
+}
+
+function openBan(id, name) {
+  activeUserId = id
+  document.getElementById('banModalDesc').textContent = `Ban ${name}? They won't be able to log in.`
+  document.getElementById('banReason').value = ''
+  document.getElementById('banModal').style.display = 'flex'
+}
+
+function openUnban(id, name) {
+  activeUserId = id
+  // Directly unban without modal
+  apiFetch(`/api/admin/users/${id}/ban`, { method: 'PUT', body: JSON.stringify({ banned: false }) })
+    .then(() => { showToast(`${name} has been unbanned`, 'success'); loadUsers() })
+    .catch(() => showToast('Failed to unban user', 'error'))
+}
+
+function openDelete(id, name) {
+  activeUserId = id
+  document.getElementById('deleteModalDesc').textContent = `Delete ${name}? This cannot be undone.`
+  document.getElementById('deleteModal').style.display = 'flex'
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none'
+  activeUserId = null
+}
+
+async function confirmPlan() {
+  const plan = document.getElementById('planSelect').value
+  const data = await apiFetch(`/api/admin/users/${activeUserId}/plan`, {
+    method: 'PUT', body: JSON.stringify({ plan })
+  })
+  closeModal('planModal')
+  if (data) { showToast(`Plan updated to ${plan}`, 'success'); loadUsers() }
+  else showToast('Failed to update plan', 'error')
+}
+
+async function confirmBan() {
+  const reason = document.getElementById('banReason').value
+  const data = await apiFetch(`/api/admin/users/${activeUserId}/ban`, {
+    method: 'PUT', body: JSON.stringify({ banned: true, reason })
+  })
+  closeModal('banModal')
+  if (data) { showToast('User banned', 'success'); loadUsers() }
+  else showToast('Failed to ban user', 'error')
+}
+
+async function confirmDelete() {
+  const data = await apiFetch(`/api/admin/users/${activeUserId}`, { method: 'DELETE' })
+  closeModal('deleteModal')
+  if (data) { showToast('User deleted', 'success'); loadUsers() }
+  else showToast('Failed to delete user', 'error')
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.style.display = 'none' })
+})
+
+// ── Helpers ───────────────────────────────────────────────────
+function esc(s) { return (s || '').replace(/'/g, "\\'").replace(/</g, '&lt;') }
+
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr)
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return 'Just now'
+  if (mins < 60) return `${mins}m ago`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours}h ago`
+  const days = Math.floor(hours / 24)
+  if (days < 30) return `${days}d ago`
+  return new Date(dateStr).toLocaleDateString()
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast')
+  t.textContent = (type === 'success' ? '✓ ' : '✗ ') + msg
+  t.className = `toast ${type} show`
+  setTimeout(() => t.className = 'toast', 3000)
+}
+</script>
+</body>
+</html>

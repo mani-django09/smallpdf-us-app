@@ -1,0 +1,166 @@
+{
+  "pageTitle": "Harga — SmallPDF.us",
+  "metaDescription": "Starter · Pro · Agency — tagihan bulanan atau tahunan. Semua alat PDF, ukuran file tak terbatas, tanpa iklan.",
+  "badge": "Harga sederhana, tanpa kejutan",
+  "hero": {
+    "title": "Pilih paket yang tepat untukmu",
+    "subtitle": "Semua paket mencakup setiap alat PDF dan gambar. Upgrade untuk file lebih besar, pemrosesan lebih cepat, dan tanpa iklan."
+  },
+  "billing": {
+    "monthly": "Bulanan",
+    "yearly": "Tahunan",
+    "monthsFree": "2 bulan gratis",
+    "saveAnnually": "🎉 Hemat hingga $98/tahun dengan tagihan tahunan",
+    "billedAnnually": "Ditagih tahunan — ${total}/tahun",
+    "billedMonthly": "Ditagih bulanan · Batalkan kapan saja",
+    "save": "Hemat ${amount}"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Sempurna untuk individu",
+      "cta": "Mulai Starter"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Untuk pengguna intensif",
+      "cta": "Mulai Pro",
+      "badge": "Paling Populer"
+    },
+    "agency": {
+      "name": "Agency",
+      "description": "Untuk tim & agensi",
+      "cta": "Mulai Agency"
+    },
+    "free": {
+      "name": "Gratis",
+      "description": "Untuk penggunaan sesekali",
+      "cta": "Mulai Gratis"
+    }
+  },
+  "features": {
+    "allTools": "Semua alat PDF & gambar",
+    "upTo200MB": "Hingga 200 MB per file",
+    "officeUpTo50MB": "Konversi Office — hingga 50 MB",
+    "standardProcessing": "Pemrosesan standar",
+    "retain24h": "File disimpan 24 jam",
+    "adFree": "Pengalaman tanpa iklan",
+    "batch10": "Hingga 10 file per batch",
+    "priorityProcessing": "Pemrosesan prioritas",
+    "apiAccess": "Akses API",
+    "everythingInStarter": "Semua fitur Starter",
+    "unlimitedFileSize": "Ukuran file tak terbatas — semua alat",
+    "officeUnlimited": "Konversi Office — tak terbatas",
+    "priorityQueue": "Antrian pemrosesan prioritas",
+    "retain48h": "File disimpan 48 jam",
+    "batch20": "Hingga 20 file per batch",
+    "emailSupport": "Dukungan email",
+    "everythingInPro": "Semua fitur Pro",
+    "dedicatedProcessing": "Pemrosesan khusus",
+    "retain72h": "File disimpan 72 jam",
+    "batch50": "Hingga 50 file per batch",
+    "fullApiWebhooks": "Akses API penuh + webhook",
+    "teamSeats": "Manajemen tim (5 kursi)",
+    "priorityPhoneEmail": "Dukungan telepon & email prioritas",
+    "customInvoicing": "Faktur kustom tersedia",
+    "upTo100MB": "Hingga 100 MB per file",
+    "officeUpTo15MB": "Konversi Office — hingga 15 MB",
+    "retain1h": "File dihapus setelah 1 jam",
+    "adsShown": "Iklan ditampilkan"
+  },
+  "currentPlan": "Paket Saat Ini",
+  "perMonth": "/bln",
+  "freeBanner": {
+    "title": "Paket Gratis — selalu tersedia",
+    "subtitle": "Semua alat · Batas 100 MB · Retensi 1 jam · Iklan ditampilkan",
+    "signupLink": "Daftar gratis →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "Terenkripsi SSL", "subtitle": "Semua transfer diamankan" },
+    "autoDelete": { "title": "Dihapus otomatis", "subtitle": "File dihapus sesuai jadwal" },
+    "fast": { "title": "Pemrosesan cepat", "subtitle": "Antrian prioritas untuk paket berbayar" },
+    "noFees": { "title": "Tanpa biaya tersembunyi", "subtitle": "Batalkan kapan saja, seketika" }
+  },
+  "compareTable": {
+    "title": "Perbandingan fitur lengkap",
+    "featureCol": "Fitur",
+    "rows": {
+      "pdfToolSize": "Ukuran file alat PDF",
+      "officeConversions": "Konversi Office",
+      "imageTools": "Alat gambar",
+      "batchFiles": "File per batch",
+      "processingSpeed": "Kecepatan pemrosesan",
+      "fileRetention": "Retensi file",
+      "ads": "Iklan",
+      "apiAccess": "Akses API",
+      "teamSeats": "Kursi tim",
+      "emailSupport": "Dukungan email",
+      "phoneSupport": "Dukungan telepon"
+    },
+    "values": {
+      "standard": "Standar",
+      "priority": "Prioritas",
+      "dedicated": "Khusus",
+      "unlimited": "Tak Terbatas",
+      "yes": "Ya",
+      "none": "Tidak Ada",
+      "fiveSeats": "5 kursi"
+    }
+  },
+  "toolLimits": {
+    "title": "Batas per alat",
+    "subtitle": "Batas ukuran file dan jumlah batch untuk setiap alat, berdasarkan paket.",
+    "singleFileNote": "— = alat satu file (tidak ada batas batch)",
+    "colSize": "ukuran · batch",
+    "groups": {
+      "pdfTools": "Alat PDF",
+      "officeConversions": "Konversi Office",
+      "imageTools": "Alat Gambar"
+    }
+  },
+  "faq": {
+    "title": "Pertanyaan umum",
+    "items": [
+      {
+        "q": "Apa perbedaan antara tagihan bulanan dan tahunan?",
+        "a": "Tagihan bulanan dikenakan setiap bulan. Tagihan tahunan dikenakan sekali setahun dengan tarif diskon — setara dengan 2 bulan gratis (bayar 10, dapatkan 12). Kamu dapat memilih siklus tagihan yang diinginkan saat checkout."
+      },
+      {
+        "q": "Bisakah saya membatalkan kapan saja?",
+        "a": "Ya — batalkan dengan satu klik dari halaman langganan akunmu. Paketmu tetap aktif hingga akhir periode tagihan saat ini, kemudian kembali ke Gratis secara otomatis. Tidak ada biaya tersembunyi."
+      },
+      {
+        "q": "Bisakah saya beralih antara tagihan bulanan dan tahunan setelah berlangganan?",
+        "a": "Untuk mengubah siklus tagihan, batalkan paket saat ini dan berlangganan ulang dengan siklus baru. Akses Pro kamu berlanjut hingga akhir periode saat ini."
+      },
+      {
+        "q": "Metode pembayaran apa yang diterima?",
+        "a": "Semua kartu kredit/debit utama (Visa, Mastercard, RuPay), UPI, net banking, dan dompet digital — diproses dengan aman melalui Razorpay. Semua transaksi sesuai PCI-DSS."
+      },
+      {
+        "q": "Apa yang terjadi pada file saya setelah masa retensi?",
+        "a": "File dihapus secara permanen dari server kami secara otomatis. Kami tidak pernah menjual atau berbagi file kamu. Semua transfer dienkripsi SSL."
+      },
+      {
+        "q": "Apakah ada kebijakan pengembalian dana?",
+        "a": "Ya — jika kamu tidak puas dalam 7 hari setelah tagihan pertama, hubungi kami untuk pengembalian dana penuh. Tanpa pertanyaan."
+      },
+      {
+        "q": "Apakah paket Agency mendukung banyak pengguna?",
+        "a": "Ya — Agency mencakup 5 kursi tim. Setiap kursi mendapatkan login sendiri dengan penagihan bersama di bawah satu akun. Butuh lebih? Hubungi kami."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Siap untuk upgrade?",
+    "subtitle": "Bergabunglah dengan ribuan profesional yang menggunakan SmallPDF.us setiap hari. Batalkan kapan saja.",
+    "proBtnMonthly": "Mulai Pro — $19/bln",
+    "proBtnYearly": "Mulai Pro — $190/tahun",
+    "agencyBtn": "Mulai Agency — $49/bln"
+  },
+  "notices": {
+    "checkoutCancelled": "Checkout dibatalkan — tidak ada tagihan yang dikenakan.",
+    "dismiss": "Tutup",
+    "contactSupport": "hubungi dukungan"
+  }
+}

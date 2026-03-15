@@ -1,0 +1,31 @@
+# 1. Create .gitignore with correct content
+@"
+node_modules/
+backend/node_modules/
+.next/
+out/
+build/
+dist/
+.env*
+*.env
+npm-debug.log*
+backend/uploads/
+backend/tmp/
+backend/cache/
+backend/converted/
+backend/compressed/
+backend/output/
+*.pdf
+*.zip
+*.dat
+*.exe
+*.dll
+*.node
+.DS_Store
+Thumbs.db
+coverage/
+.vercel/
+"@ | Out-File -FilePath .gitignore -Encoding utf8
+
+# 2. Verify it exists
+Get-Content .gitignore

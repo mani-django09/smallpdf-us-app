@@ -1,0 +1,44 @@
+{
+  "name": "smallpdf-us-frontend",
+  "version": "1.1.0",
+  "private": true,
+  "author": "SmallPDF.us",
+  "description": "Professional PDF tools 100% free forever. Optimized for English and Japanese markets.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "next-sitemap",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "lucide-react": "^0.294.0",
+    "next": "^14.0.4",
+    "next-intl": "^3.26.5",
+    "pdfjs-dist": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "redis": "^4.6.10",
+    "sharp": "^0.33.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "critters": "^0.0.23",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "next-sitemap": "^4.2.3",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6"
+  },
+  "keywords": [
+    "pdf converter",
+    "compress pdf",
+    "merge pdf",
+    "pdf to word",
+    "japanese pdf tools",
+    "pdf 圧縮",
+    "pdf 結合"
+  ],
+  "license": "ISC"
+}

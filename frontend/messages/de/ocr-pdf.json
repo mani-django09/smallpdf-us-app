@@ -1,0 +1,251 @@
+{
+  "seo": {
+    "title": "PDF OCR Online Kostenlos — Text aus gescanntem PDF extrahieren | SmallPDF.us",
+    "description": "Wandeln Sie gescannte oder bildbasierte PDFs in vollständig durchsuchbare Dokumente um. Unterstützt 100+ Sprachen, gibt durchsuchbares PDF oder Word aus. Keine Installation nötig.",
+    "keywords": "OCR PDF, Text aus PDF extrahieren, gescanntes PDF in Text, PDF OCR online, PDF durchsuchbar machen, OCR-Tool kostenlos, PDF Textextraktion, optische Zeichenerkennung PDF"
+  },
+  "hero": {
+    "title": "OCR PDF —",
+    "titleHighlight": "Text extrahieren",
+    "titleSuffix": "aus jedem gescannten Dokument",
+    "subtitle": "Wandeln Sie bild- oder scanbasierte PDFs in vollständig durchsuchbare, kopierbare Dokumente um. 100+ Sprachen. Keine Installation. Ergebnis in Sekunden."
+  },
+  "upload": {
+    "dropActive": "PDF hier ablegen",
+    "heading": "Gescanntes PDF hochladen",
+    "subheading": "Ziehen & ablegen oder klicken — nur PDF-Dateien",
+    "button": "PDF für OCR auswählen",
+    "sslEncrypted": "SSL-verschlüsselt",
+    "filesDeleted": "Dateien in 1 Std. gelöscht",
+    "noSignUp": "Keine Anmeldung nötig",
+    "freeLimits": "Kostenlos:",
+    "freeLimitsValue": "10 MB · 2 Seiten · 1/Tag",
+    "proLimits": "Pro:",
+    "proLimitsValue": "100 MB+ · Unbegrenzte Seiten · Batch-OCR",
+    "preparing": "OCR wird vorbereitet…",
+    "preparingSubtitle": "Dokument wird hochgeladen und in die Warteschlange gestellt",
+    "errorOnlyPdf": "Nur PDF-Dateien werden akzeptiert. Bitte laden Sie eine .pdf-Datei hoch.",
+    "errorSeePlans": "Pro-Pläne ansehen →"
+  },
+  "features": {
+    "sectionTitle": "Warum SmallPDF.us OCR überzeugt",
+    "sectionSubtitle": "Aufgebaut auf jahrelanger Dokumentenverarbeitungserfahrung wurde unsere OCR-Pipeline von Grund auf für Genauigkeit, Datenschutz und reale Dokumentenvielfalt entwickelt.",
+    "items": [
+      {
+        "title": "98–99 % Zeichengenauigkeit",
+        "desc": "Mehrstufige Erkennung verarbeitet gemischte Schriften, gedrehte Seiten, beschädigte Scans und mehrspaltige Layouts. Saubere 300-DPI+-Dokumente erreichen konstant nahezu menschliche Genauigkeit."
+      },
+      {
+        "title": "100+ Sprachen automatisch erkannt",
+        "desc": "Latein, Kyrillisch, Arabisch, Hebräisch, CJK (Chinesisch, Japanisch, Koreanisch), Devanagari, Thailändisch und mehr — das richtige Zeichenmodell wird seitenweise automatisch angewendet."
+      },
+      {
+        "title": "Zerstörungsfreies durchsuchbares PDF",
+        "desc": "Ihr ursprüngliches Layout, Bilder und Formatierung bleiben vollständig erhalten. Wir fügen eine transparente, pixelgenaue Textebene ein, damit Suche, Kopieren und Screenreader einwandfrei funktionieren."
+      },
+      {
+        "title": "Prioritätswarteschlange für Pro-Nutzer",
+        "desc": "Pro-Nutzer umgehen die Standardwarteschlange vollständig. Einseitige OCR-Jobs werden in unter 3 Sekunden abgeschlossen; mehrseitige Batches verarbeiten Seiten parallel für nahezu sofortige Ergebnisse."
+      },
+      {
+        "title": "Zero-Knowledge-Datenschutz",
+        "desc": "TLS 1.3 bei der Übertragung, isolierte Compute-Container pro Job, automatische Löschung innerhalb 1 Stunde (kostenlos) oder 72 Stunden (bezahlt). Wir lesen, speichern oder teilen Ihre Dokumentinhalte niemals."
+      },
+      {
+        "title": "Word- und TXT-Export (Pro)",
+        "desc": "Gehen Sie über das durchsuchbare PDF hinaus. Exportieren Sie OCR-Ergebnisse als .docx für die Bearbeitung in Word oder als .txt für Indizierungs-, Übersetzungs- und Content-Management-Workflows."
+      }
+    ]
+  },
+  "howItWorks": {
+    "sectionTitle": "So funktioniert es — 3 einfache Schritte",
+    "sectionSubtitle": "Einmal hochladen, in Sekunden ein vollständig indiziertes und zugängliches PDF erhalten.",
+    "steps": [
+      {
+        "title": "Gescanntes PDF hochladen",
+        "desc": "Ziehen & ablegen oder klicken zum Durchsuchen. Wir akzeptieren jedes PDF — Verträge, Rechnungen, Bücher, Formulare, Kameraaufnahmen. Kein Konto erforderlich.",
+        "badge": "Kostenlos: 10 MB · 2 Seiten"
+      },
+      {
+        "title": "OCR-Engine verarbeitet Seiten",
+        "desc": "Jede Seite wird entzerrt, entrauscht, spracherkannt und durch unser mehrsprachiges Zeichenerkennungsmodell verarbeitet. Textkoordinaten werden auf die ursprüngliche Geometrie zurückgemappt.",
+        "badge": "Automatische Spracherkennung"
+      },
+      {
+        "title": "Durchsuchbares PDF herunterladen",
+        "desc": "Erhalten Sie Ihr Dokument mit einer vollständig eingebetteten, unsichtbaren Textebene. Strg+F-Suche, Kopieren & Einfügen und Screenreader funktionieren jetzt überall.",
+        "badge": "Pro: auch .docx & .txt"
+      }
+    ]
+  },
+  "useCases": {
+    "sectionTitle": "Wer OCR PDF nutzt — und warum",
+    "sectionSubtitle": "Täglich verlassen sich Fachleute aus Dutzenden von Branchen auf genaues OCR, um die in ihren gescannten Dokumenten gesperrten Daten zu erschließen.",
+    "items": [
+      {
+        "title": "Juristen & Rechtsanwälte",
+        "desc": "Gescannte Gerichtsunterlagen, Vernehmungen und Verträge in durchsuchbare PDFs umwandeln für schnelle Stichwortsuche und Zitatreferenzierung bei der Fallvorbereitung."
+      },
+      {
+        "title": "Gesundheitswesen & Medizin",
+        "desc": "Handgeschriebene oder gedruckte Patientenakten, Laborbefunde und Rezepte digitalisieren — zugänglich für EHR-Systeme und Compliance-Prüfungen."
+      },
+      {
+        "title": "Wissenschaftliche Forschung",
+        "desc": "Text aus gescannten Zeitschriftenartikeln, historischen Archiven und Bibliotheksbüchern extrahieren für Volltextsuche, Zitierverwaltung und NLP-Analysen."
+      },
+      {
+        "title": "Finanzen & Buchhaltung",
+        "desc": "Rechnungen, Quittungen, Kontoauszüge und Steuerdokumente per OCR verarbeiten, um die Dateneingabe in Buchhaltungssoftware zu automatisieren und teure manuelle Fehler zu vermeiden."
+      },
+      {
+        "title": "Mehrsprachige Dokumente",
+        "desc": "Fremdsprachige Verträge, Einwanderungsunterlagen oder internationale Korrespondenz mit voller Sicherheit in 100+ unterstützten OCR-Sprachen verarbeiten."
+      },
+      {
+        "title": "Ingenieurwesen & Architektur",
+        "desc": "Spezifikationen, Teilenummern und Maße aus gescannten Blaupausen und technischen Zeichnungen für Revisionsmanagement und BIM-Workflow-Integration extrahieren."
+      }
+    ]
+  },
+  "faq": {
+    "sectionTitle": "Häufig gestellte Fragen",
+    "sectionSubtitle": "Alles, was Sie über OCR PDF auf SmallPDF.us wissen müssen",
+    "items": [
+      {
+        "q": "Wie funktioniert OCR bei einem PDF?",
+        "a": "OCR (Optische Zeichenerkennung) behandelt jede Seite Ihres PDFs als Bild und führt es durch eine mehrstufige Pipeline: Entzerrung, Rauschentfernung, Kontrastnormalisierung, dann ein Deep-Learning-Zeichenerkennungsmodell, das Pixelmuster auf Unicode-Zeichen abbildet. Der rekonstruierte Text wird als unsichtbare Ebene über den ursprünglichen Bildern eingebettet, wodurch das Dokument vollständig durchsuchbar und kopierbar wird, ohne einen einzigen Pixel des ursprünglichen Layouts zu verändern."
+      },
+      {
+        "q": "Welche PDF-Typen profitieren von OCR?",
+        "a": "Jedes PDF, das gescannte Bilder von Text enthält — Dokumente von einem Flachbettscanner, als PDF gespeicherte Kamerafotos, Faxe, gedruckte Formulare oder archivierte Mikrofilmscans — profitiert von OCR. Wenn Ihr PDF bereits auswählbaren Text enthält (d.h. Sie können Wörter markieren), handelt es sich um ein 'natives' PDF und OCR ist nicht erforderlich."
+      },
+      {
+        "q": "Wie genau ist die OCR?",
+        "a": "Für saubere, hochauflösende Scans bei 300 DPI oder mehr erreicht unsere Engine routinemäßig 98–99 % Zeichengenauigkeit bei standardmäßigen lateinschriftlichen Dokumenten. Die Genauigkeit variiert naturgemäß mit der Scanqualität: unscharfe, kontrastarme oder stark verzerrte Bilder erzielen niedrigere Werte. Handgeschriebener Text wird teilweise unterstützt, ist aber deutlich schwieriger als gedruckter Text."
+      },
+      {
+        "q": "Ist mein PDF sicher und privat?",
+        "a": "Datenschutz ist grundlegend für die Art, wie wir SmallPDF.us aufgebaut haben. Jeder Upload erfolgt über TLS-1.3-Verschlüsselung. Ihre Datei wird in einem isolierten Einmal-Container verarbeitet, der sofort nach Abschluss Ihres Jobs vernichtet wird. Kostenlose Dateien werden innerhalb von 1 Stunde dauerhaft gelöscht; bezahlte innerhalb von 24–72 Stunden. Wir lesen, indizieren, teilen, verkaufen oder behalten Ihre Dokumentinhalte niemals."
+      },
+      {
+        "q": "Welche Sprachen unterstützt die OCR?",
+        "a": "Unsere OCR-Engine unterstützt 100+ Sprachen einschließlich Englisch, Spanisch, Französisch, Deutsch, Italienisch, Portugiesisch, Niederländisch, Russisch, Arabisch, Chinesisch (Vereinfacht & Traditionell), Japanisch, Koreanisch, Hindi und viele mehr. Die Sprache wird automatisch aus einem Seitenbeispiel erkannt, aber bezahlte Nutzer können auch manuell eine Sprache angeben."
+      },
+      {
+        "q": "Kann ich ein mehrseitiges PDF per OCR verarbeiten?",
+        "a": "Kostenlose Nutzer können bis zu 2 Seiten pro OCR-Job verarbeiten. Pro- und Agency-Plan-Nutzer können PDFs mit unbegrenzt vielen Seiten in einem einzigen Job per OCR verarbeiten und auch bis zu 10 Dateien auf einmal über Batch-OCR einreichen."
+      },
+      {
+        "q": "Welche Ausgabeformate kann ich herunterladen?",
+        "a": "Kostenlose Nutzer erhalten ein durchsuchbares PDF — visuell identisch mit dem Original, aber mit einer eingebetteten, unsichtbaren Textebene, die Strg+F-Suche, Kopieren & Einfügen und Hilfsmittel ermöglicht. Pro- und Agency-Nutzer können den extrahierten Text auch als formatiertes .docx-Word-Dokument oder als rohe .txt-Datei exportieren."
+      },
+      {
+        "q": "Warum ist OCR im kostenlosen Plan auf 1 pro Tag begrenzt?",
+        "a": "Optische Zeichenerkennung ist rechenintensiv — jede Seite erfordert erhebliche GPU-Zeit für Vorverarbeitung und Inferenz. Wir bieten 1 kostenlosen OCR-Lauf pro Tag an, um den Dienst für alle Nutzer schnell und zuverlässig zu halten. Upgraden Sie auf Pro für unbegrenzte OCR-Läufe, Prioritätswarteschlangenzugang, größere Dateiunterstützung und Batch-Verarbeitung."
+      }
+    ]
+  },
+  "seoContent": {
+    "h2": "Was ist OCR und warum braucht Ihr PDF es?",
+    "p1": "OCR (Optische Zeichenerkennung) ist die Technologie, die die Lücke zwischen einem flachen, bildbasierten PDF und einem lebendigen, interaktiven Dokument überbrückt. Wenn Sie einen Papiervertrag scannen, eine Quittung fotografieren oder einen gedruckten Bericht als PDF speichern, ist die Datei im Wesentlichen ein Bild — der Computer sieht Pixelmuster, keine Buchstaben. OCR ändert das.",
+    "p2": "Das Ergebnis ist ein <strong>durchsuchbares PDF</strong>: visuell identisch mit dem Original, aber mit einer unsichtbaren, perfekt ausgerichteten Textebene unter den Bildern. Sie können jetzt einen 200-seitigen Vertrag mit Strg+F durchsuchen, einen Absatz markieren und kopieren oder Barrierefreiheits-Tools den Inhalt für sehbehinderte Leser vorlesen lassen. Pro-Nutzer gehen weiter und laden den extrahierten Text als bearbeitbare <strong>.docx-Word-Datei</strong> oder als rohe <strong>.txt-Datei</strong> herunter.",
+    "h3": "Wie SmallPDF.us genaue OCR-Ergebnisse liefert",
+    "p3": "Genauigkeit bei der Dokumentenverarbeitung ist nicht verhandelbar. Unsere OCR-Pipeline durchläuft vier klar definierte Stufen. Erstens <strong>Vorverarbeitung</strong>: Jede Seite wird auf Rotation, Rauschen, Kontrast analysiert und in Textbereiche und Nicht-Text-Figuren segmentiert. Zweitens <strong>Spracherkennung</strong>: Ein Stichprobenscan identifiziert, ob Sie in Latein, Kyrillisch, Arabisch, CJK oder einem anderen der 100+ unterstützten Skripte arbeiten. Drittens führt die <strong>Erkennungs-Engine</strong> zeichenweise Analysen durch. Schließlich <strong>Nachbearbeitung</strong> rekonstruiert Wörter und Sätze vor der Einbettung der Textebene.",
+    "p4": "Für optimale Ergebnisse stellen Sie sicher, dass Ihr Quell-Dokument mit 300 DPI oder mehr mit gleichmäßiger, schattenfreier Beleuchtung gescannt wurde. Dokumente bei 150 DPI oder darunter, schwere Hintergrungtexturen oder extreme Neigung können zu geringerer Genauigkeit führen. In jedem Fall bleiben die ursprünglichen Bilder in Ihrem PDF vollständig unverändert."
+  },
+  "cta": {
+    "heading": "Bereit, Ihr PDF durchsuchbar zu machen?",
+    "subtitle": "Legen Sie ein gescanntes PDF ein und erhalten Sie in Sekunden ein vollständig indiziertes, kopierbares Dokument. Dauerhaft kostenlos, keine Anmeldung erforderlich.",
+    "button": "OCR jetzt starten — Kostenlos"
+  },
+  "preview": {
+    "pageTitle": "OCR PDF Vorschau — SmallPDF.us",
+    "changeFile": "Datei wechseln",
+    "headerTitle": "Bereit zur Textextraktion",
+    "headerSubtitle": "Datei prüfen und OCR starten",
+    "fileReady": "Bereit",
+    "freePlanTitle": "Kostenlos-Plan-Limits",
+    "freePlanDesc": "Bis zu 2 Seiten · 10-MB-Datei · 1 OCR pro Tag · Standardwarteschlange",
+    "proPlanDesc": "Pro: Unbegrenzte Seiten · 100 MB · PDF + Word + TXT-Ausgabe",
+    "whatYoullReceive": "Was Sie erhalten",
+    "receiveSearchablePdf": "Durchsuchbares PDF mit eingebetteter Textebene",
+    "receiveDocx": "Word-Dokument (.docx) mit extrahiertem Text",
+    "receiveTxt": "Nur-Text-Datei (.txt) zum einfachen Kopieren & Einfügen",
+    "receiveProOnly": "Word- und TXT-Export (nur Pro)",
+    "runOcrButton": "OCR ausführen — Text extrahieren",
+    "securePrivate": "Sicher & privat",
+    "autoDeleted": "Automatisch in 2 Std. gelöscht",
+    "pleaseWait": "Bitte warten — schließen Sie diesen Tab nicht",
+    "ocrFailed": "OCR fehlgeschlagen",
+    "tryAgain": "Erneut versuchen",
+    "upgradeToPro": "Auf Pro upgraden",
+    "uploadDifferent": "Andere Datei hochladen",
+    "sidebarHowTitle": "Wie OCR funktioniert",
+    "sidebarSteps": [
+      "PDF hochladen",
+      "Textebene wird extrahiert",
+      "Durchsuchbares PDF erstellt",
+      "Dateien herunterladen"
+    ],
+    "sidebarSecurityTitle": "Sicherheit",
+    "sidebarSecurityItems": [
+      "256-Bit-SSL-Verschlüsselung",
+      "Automatisch in 2 Stunden gelöscht",
+      "Keine Datenspeicherung oder -verkauf",
+      "Jederzeit herunterladen & löschen"
+    ],
+    "sidebarProTitle": "Auf Pro upgraden",
+    "sidebarProDesc": "Unbegrenzte Seiten, Batch-OCR, Word- & TXT-Export, Prioritätswarteschlange",
+    "sidebarProButton": "Pläne ansehen →",
+    "advertisement": "Werbung"
+  },
+  "process": {
+    "pageTitle": "OCR-Verarbeitung — SmallPDF.us",
+    "backLink": "Zurück zu OCR PDF",
+    "processingTitle": "OCR läuft…",
+    "standardQueue": "Standardwarteschlange — Auf Pro upgraden für 3–5× schnellere Verarbeitung",
+    "doneTitle": "OCR abgeschlossen!",
+    "pagesProcessed": "{count} Seite{plural} verarbeitet",
+    "wordsExtracted": "~{count} Wörter extrahiert",
+    "downloadPdf": "Durchsuchbares PDF herunterladen",
+    "downloadDocx": "Word (.docx) herunterladen",
+    "downloadTxt": "Nur-Text (.txt) herunterladen",
+    "upsellTitle": "Mehr gewünscht?",
+    "upsellDesc": "Pro-Nutzer können dieses Dokument auch als Word-Datei oder Nur-Text herunterladen, unbegrenzte Seiten per OCR verarbeiten und Batches von bis zu 10 PDFs auf einmal bearbeiten.",
+    "upgradePro": "Auf Pro upgraden",
+    "ocrAnother": "Anderes Dokument per OCR verarbeiten",
+    "errorTitle": "OCR fehlgeschlagen",
+    "stages": [
+      "Dokument wird hochgeladen…",
+      "Seiten werden vorverarbeitet…",
+      "Zeichenerkennung wird ausgeführt…",
+      "Textlayout wird rekonstruiert…",
+      "Textebene wird eingebettet…",
+      "PDF wird fertiggestellt…"
+    ]
+  },
+  "download": {
+    "pageTitle": "OCR PDF herunterladen — SmallPDF.us",
+    "successTitle": "OCR abgeschlossen!",
+    "pagesProcessed": "{count} Seite{plural} verarbeitet",
+    "wordsExtracted": "~{count} Wörter extrahiert",
+    "fileReady": "Bereit",
+    "downloadPdf": "Durchsuchbares PDF herunterladen",
+    "downloading": "Wird heruntergeladen…",
+    "downloaded": "Heruntergeladen!",
+    "downloadDocx": "Word (.docx) herunterladen",
+    "downloadTxt": "Nur-Text (.txt) herunterladen",
+    "secureDownload": "Sicherer Download",
+    "autoDeleted": "Dateien werden in 2 Std. automatisch gelöscht",
+    "imagePdfTitle": "Gescanntes / bildbasiertes PDF erkannt",
+    "imagePdfDesc": "Dieses PDF enthält Bilder statt digitalem Text, daher konnte kein Text automatisch extrahiert werden. Das heruntergeladene PDF enthält eine Erläuterungsseite.",
+    "imagePdfUpgrade": "Auf Pro upgraden",
+    "imagePdfUpgradeSuffix": "für erweiterten OCR-Engine-Support bei gescannten Dokumenten.",
+    "proUpsellTitle": "Mehr aus OCR herausholen?",
+    "proUpsellDesc": "Upgraden Sie auf Pro für unbegrenzte Seiten, Batch-OCR, Word- & TXT-Export, 100-MB-Dateien und Prioritätsverarbeitung.",
+    "proUpsellLink": "Auf Pro upgraden",
+    "ocrAnother": "Anderes Dokument per OCR verarbeiten",
+    "advertisement": "Werbung"
+  }
+}

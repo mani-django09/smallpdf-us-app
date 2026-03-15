@@ -1,0 +1,251 @@
+{
+  "seo": {
+    "title": "OCR PDF Online Gratis — Ekstrak Teks dari PDF Hasil Scan | SmallPDF.us",
+    "description": "Ubah PDF hasil scan atau berbasis gambar menjadi dokumen yang sepenuhnya dapat dicari. Mendukung 100+ bahasa, output PDF yang dapat dicari atau Word. Tanpa instalasi.",
+    "keywords": "OCR PDF, ekstrak teks dari PDF, PDF scan ke teks, OCR PDF online, buat PDF bisa dicari, alat OCR gratis, ekstraksi teks PDF, pengenalan karakter optik PDF"
+  },
+  "hero": {
+    "title": "OCR PDF —",
+    "titleHighlight": "Ekstrak Teks",
+    "titleSuffix": "dari Dokumen Scan Apapun",
+    "subtitle": "Ubah PDF berbasis gambar, hasil scan, atau foto kamera menjadi dokumen yang sepenuhnya dapat dicari dan disalin. 100+ bahasa. Tanpa instalasi. Hasil dalam hitungan detik."
+  },
+  "upload": {
+    "dropActive": "Letakkan PDF Anda di sini",
+    "heading": "Unggah PDF Hasil Scan",
+    "subheading": "Seret & lepas atau klik untuk memilih — hanya file PDF",
+    "button": "Pilih PDF untuk OCR",
+    "sslEncrypted": "Terenkripsi SSL",
+    "filesDeleted": "File dihapus dalam 1 jam",
+    "noSignUp": "Tanpa pendaftaran",
+    "freeLimits": "Gratis:",
+    "freeLimitsValue": "10 MB · 2 halaman · 1/hari",
+    "proLimits": "Pro:",
+    "proLimitsValue": "100 MB+ · Halaman tak terbatas · OCR batch",
+    "preparing": "Mempersiapkan OCR…",
+    "preparingSubtitle": "Mengunggah dan mengantrekan dokumen Anda",
+    "errorOnlyPdf": "Hanya file PDF yang diterima. Unggah file .pdf.",
+    "errorSeePlans": "Lihat paket Pro →"
+  },
+  "features": {
+    "sectionTitle": "Mengapa OCR SmallPDF.us Unggul",
+    "sectionSubtitle": "Dibangun berdasarkan pengalaman bertahun-tahun dalam pemrosesan dokumen, pipeline OCR kami dirancang dari awal untuk akurasi, privasi, dan variasi dokumen dunia nyata.",
+    "items": [
+      {
+        "title": "Akurasi Karakter 98–99%",
+        "desc": "Pengenalan multi-pass menangani font campuran, halaman yang diputar, scan yang rusak, dan tata letak multi-kolom. Dokumen sumber bersih di 300 DPI+ secara konsisten mencapai akurasi mendekati manusia."
+      },
+      {
+        "title": "100+ Bahasa Terdeteksi Otomatis",
+        "desc": "Latin, Sirilik, Arab, Ibrani, CJK (Cina, Jepang, Korea), Devanagari, Thai, dan lainnya — model karakter yang tepat diterapkan secara otomatis per halaman."
+      },
+      {
+        "title": "PDF Dapat Dicari Non-Destruktif",
+        "desc": "Tata letak, gambar, dan format asli Anda terjaga sempurna. Kami menambahkan lapisan teks transparan yang sejajar piksel agar pencarian, penyalinan, dan pembaca layar bekerja sempurna."
+      },
+      {
+        "title": "Antrian Prioritas untuk Pengguna Pro",
+        "desc": "Pengguna Pro melewati antrian standar sepenuhnya. Job OCR satu halaman selesai dalam kurang dari 3 detik; batch multi-halaman memproses halaman secara paralel untuk penyelesaian hampir instan."
+      },
+      {
+        "title": "Privasi Zero-Knowledge",
+        "desc": "TLS 1.3 saat transit, container komputasi terisolasi per job, penghapusan otomatis dalam 1 jam (gratis) atau 72 jam (berbayar). Kami tidak pernah membaca, menyimpan, atau berbagi konten dokumen Anda."
+      },
+      {
+        "title": "Ekspor Word dan TXT (Pro)",
+        "desc": "Melampaui PDF yang dapat dicari. Ekspor hasil OCR sebagai .docx untuk diedit di Word, atau .txt untuk pipeline pengindeksan, penerjemahan, dan manajemen konten."
+      }
+    ]
+  },
+  "howItWorks": {
+    "sectionTitle": "Cara Kerja — 3 Langkah Mudah",
+    "sectionSubtitle": "Unggah sekali, dapatkan PDF yang sepenuhnya diindeks dan dapat diakses dalam hitungan detik.",
+    "steps": [
+      {
+        "title": "Unggah PDF Scan Anda",
+        "desc": "Seret dan lepas atau klik untuk memilih. Kami menerima PDF apapun — kontrak, faktur, buku, formulir, foto kamera. Tidak perlu akun.",
+        "badge": "Gratis: 10 MB · 2 halaman"
+      },
+      {
+        "title": "Mesin OCR Memproses Halaman",
+        "desc": "Setiap halaman diluruskan, dihilangkan noise-nya, dideteksi bahasanya, dan diproses oleh model pengenalan karakter multibahasa kami. Koordinat teks dipetakan kembali ke geometri asli.",
+        "badge": "Deteksi bahasa otomatis"
+      },
+      {
+        "title": "Unduh PDF yang Dapat Dicari",
+        "desc": "Terima dokumen Anda dengan lapisan teks tak kasat mata yang sepenuhnya tertanam. Pencarian Ctrl+F, salin-tempel, dan pembaca layar kini berfungsi di mana saja.",
+        "badge": "Pro: juga .docx & .txt"
+      }
+    ]
+  },
+  "useCases": {
+    "sectionTitle": "Siapa yang Menggunakan OCR PDF — dan Mengapa",
+    "sectionSubtitle": "Setiap hari, para profesional dari puluhan industri mengandalkan OCR yang akurat untuk membuka data yang terkunci dalam dokumen scan mereka.",
+    "items": [
+      {
+        "title": "Profesional Hukum",
+        "desc": "Ubah dokumen pengadilan yang di-scan, deposisi, dan kontrak menjadi PDF yang dapat dicari untuk pencarian kata kunci cepat dan referensi kutipan saat persiapan kasus."
+      },
+      {
+        "title": "Kesehatan & Medis",
+        "desc": "Digitalisasi catatan pasien tulisan tangan atau tercetak, hasil lab, dan resep — membuatnya dapat diakses oleh sistem EHR dan audit kepatuhan."
+      },
+      {
+        "title": "Penelitian Akademik",
+        "desc": "Ekstrak teks dari artikel jurnal yang di-scan, arsip sejarah, dan buku perpustakaan untuk mengaktifkan pencarian teks lengkap, manajemen kutipan, dan analisis NLP."
+      },
+      {
+        "title": "Keuangan & Akuntansi",
+        "desc": "OCR faktur, kuitansi, laporan bank, dan dokumen pajak untuk mengotomatiskan entri data ke perangkat lunak akuntansi dan menghilangkan kesalahan transkripsi manual yang mahal."
+      },
+      {
+        "title": "Dokumen Multibahasa",
+        "desc": "Proses kontrak berbahasa asing, dokumen imigrasi, atau korespondensi internasional dengan penuh keyakinan dalam 100+ bahasa OCR yang didukung."
+      },
+      {
+        "title": "Teknik & Arsitektur",
+        "desc": "Ekstrak spesifikasi, nomor suku cadang, dan pengukuran dari cetak biru dan gambar teknis yang di-scan untuk pelacakan revisi dan integrasi alur kerja BIM."
+      }
+    ]
+  },
+  "faq": {
+    "sectionTitle": "Pertanyaan yang Sering Diajukan",
+    "sectionSubtitle": "Semua yang perlu Anda ketahui tentang OCR PDF di SmallPDF.us",
+    "items": [
+      {
+        "q": "Bagaimana cara kerja OCR pada PDF?",
+        "a": "OCR (Pengenalan Karakter Optik) memperlakukan setiap halaman PDF Anda sebagai gambar dan memprosesnya melalui pipeline multi-tahap: pelurusan, penghapusan noise, normalisasi kontras, kemudian model pengenalan karakter deep learning yang memetakan pola piksel ke karakter Unicode. Teks yang direkonstruksi tertanam sebagai lapisan tak kasat mata di atas visual asli, membuat dokumen sepenuhnya dapat dicari dan disalin tanpa mengubah satu piksel pun dari tata letak asli."
+      },
+      {
+        "q": "Jenis PDF apa yang mendapat manfaat dari OCR?",
+        "a": "PDF apapun yang berisi gambar scan teks — dokumen dari scanner flatbed, foto kamera yang disimpan sebagai PDF, faks, formulir tercetak, atau scan mikrofilm arsip — akan mendapat manfaat dari OCR. Jika PDF Anda sudah berisi teks yang dapat dipilih (yaitu Anda dapat menandai kata-kata), itu adalah PDF 'native' dan OCR tidak diperlukan."
+      },
+      {
+        "q": "Seberapa akurat OCR-nya?",
+        "a": "Untuk scan bersih dan resolusi tinggi di 300 DPI atau lebih, mesin kami secara rutin mencapai akurasi karakter 98–99% pada dokumen skrip Latin standar. Akurasi secara alami bervariasi dengan kualitas scan: gambar buram, kontras rendah, atau sangat terdistorsi akan mendapat skor lebih rendah. Teks tulisan tangan sebagian didukung tetapi jauh lebih sulit dari teks cetak."
+      },
+      {
+        "q": "Apakah PDF saya tetap pribadi dan aman?",
+        "a": "Privasi adalah hal mendasar dalam cara kami membangun SmallPDF.us. Setiap unggahan berjalan melalui enkripsi TLS 1.3. File Anda diproses dalam container komputasi terisolasi sekali pakai yang dihancurkan segera setelah pekerjaan Anda selesai. File paket gratis dihapus secara permanen dalam 1 jam; file berbayar dalam 24–72 jam. Kami tidak pernah membaca, mengindeks, berbagi, menjual, atau menyimpan konten dokumen Anda."
+      },
+      {
+        "q": "Bahasa apa yang didukung OCR?",
+        "a": "Mesin OCR kami mendukung 100+ bahasa termasuk Inggris, Spanyol, Prancis, Jerman, Italia, Portugis, Belanda, Rusia, Arab, Cina (Sederhana & Tradisional), Jepang, Korea, Hindi, dan banyak lagi. Bahasa terdeteksi otomatis dari sampel halaman, tetapi pengguna berbayar juga dapat menentukan bahasa secara manual."
+      },
+      {
+        "q": "Bisakah saya melakukan OCR pada PDF multi-halaman?",
+        "a": "Pengguna paket gratis dapat memproses hingga 2 halaman per job OCR. Pengguna paket Pro dan Agency dapat melakukan OCR PDF dengan jumlah halaman tak terbatas dalam satu job, dan juga dapat mengirimkan hingga 10 file sekaligus melalui OCR batch."
+      },
+      {
+        "q": "Format output apa yang bisa saya unduh?",
+        "a": "Pengguna gratis menerima PDF yang dapat dicari — secara visual identik dengan aslinya tetapi dengan lapisan teks tak kasat mata yang tertanam yang memungkinkan pencarian Ctrl+F, salin-tempel, dan alat aksesibilitas. Pengguna Pro dan Agency juga dapat mengekspor teks yang diekstrak sebagai dokumen Word .docx yang diformat atau sebagai file .txt mentah untuk pipeline data, alat penerjemahan, atau sistem manajemen konten."
+      },
+      {
+        "q": "Mengapa OCR dibatasi 1 per hari di paket gratis?",
+        "a": "Pengenalan karakter optik sangat intensif secara komputasi — setiap halaman membutuhkan waktu GPU yang signifikan untuk pra-pemrosesan dan inferensi. Kami menyediakan 1 OCR gratis per hari untuk menjaga layanan tetap cepat dan andal untuk semua pengguna. Tingkatkan ke Pro untuk OCR tak terbatas, akses antrian prioritas, dukungan file lebih besar, dan pemrosesan batch."
+      }
+    ]
+  },
+  "seoContent": {
+    "h2": "Apa itu OCR dan Mengapa PDF Anda Membutuhkannya?",
+    "p1": "OCR (Pengenalan Karakter Optik) adalah teknologi yang menjembatani kesenjangan antara PDF flat berbasis gambar dan dokumen yang hidup dan interaktif. Saat Anda men-scan kontrak kertas, memfoto kuitansi, atau menyimpan laporan tercetak sebagai PDF, file tersebut pada dasarnya adalah gambar — komputer melihat pola piksel, bukan huruf. OCR mengubah itu.",
+    "p2": "Hasilnya adalah <strong>PDF yang dapat dicari</strong>: secara visual identik dengan aslinya, tetapi dengan lapisan teks tak kasat mata yang sejajar sempurna di bawah gambar. Anda sekarang dapat mencari dalam kontrak 200 halaman dengan Ctrl+F, menyorot dan menyalin paragraf, atau membiarkan alat aksesibilitas menceritakan konten kepada pembaca tunanetra. Pengguna Pro melangkah lebih jauh, mengunduh teks yang diekstrak sebagai <strong>file Word .docx</strong> yang dapat diedit atau <strong>file .txt</strong> mentah.",
+    "h3": "Bagaimana SmallPDF.us Menghasilkan Hasil OCR yang Akurat",
+    "p3": "Akurasi dalam pemrosesan dokumen tidak dapat dikompromikan. Pipeline OCR kami melewati empat tahap yang terdefinisi dengan baik. Pertama, <strong>pra-pemrosesan</strong>: setiap halaman dianalisis untuk rotasi, noise, kontras, dan disegmentasi menjadi wilayah teks dan gambar non-teks. Kedua, <strong>deteksi bahasa</strong>: scan sampel mengidentifikasi apakah Anda bekerja dalam Latin, Sirilik, Arab, CJK, atau skrip lain dari 100+ yang didukung. Ketiga, <strong>mesin pengenalan</strong> menjalankan analisis karakter demi karakter. Terakhir, <strong>pasca-pemrosesan</strong> merekonstruksi kata dan kalimat sebelum menyematkan lapisan teks ke dalam PDF Anda.",
+    "p4": "Untuk hasil optimal, pastikan dokumen sumber Anda di-scan pada 300 DPI atau lebih tinggi dengan pencahayaan merata dan bebas bayangan. Dokumen pada 150 DPI atau di bawahnya, tekstur latar belakang berat, atau kemiringan ekstrem dapat menghasilkan akurasi yang lebih rendah. Dalam setiap kasus, visual asli dalam PDF Anda tetap sepenuhnya tidak tersentuh."
+  },
+  "cta": {
+    "heading": "Siap Membuat PDF Anda Dapat Dicari?",
+    "subtitle": "Masukkan PDF scan apapun dan dapatkan dokumen yang sepenuhnya diindeks dan dapat disalin dalam hitungan detik. Gratis selamanya, tanpa pendaftaran.",
+    "button": "Mulai OCR Sekarang — Gratis"
+  },
+  "preview": {
+    "pageTitle": "Pratinjau OCR PDF — SmallPDF.us",
+    "changeFile": "Ganti file",
+    "headerTitle": "Siap Mengekstrak Teks",
+    "headerSubtitle": "Tinjau file Anda dan jalankan OCR",
+    "fileReady": "Siap",
+    "freePlanTitle": "Batas Paket Gratis",
+    "freePlanDesc": "Hingga 2 halaman · File 10 MB · 1 OCR per hari · Antrian standar",
+    "proPlanDesc": "Pro: Halaman tak terbatas · 100 MB · Output PDF + Word + TXT",
+    "whatYoullReceive": "Yang akan Anda terima",
+    "receiveSearchablePdf": "PDF yang dapat dicari dengan lapisan teks tertanam",
+    "receiveDocx": "Dokumen Word (.docx) dengan teks yang diekstrak",
+    "receiveTxt": "File teks biasa (.txt) untuk salin-tempel mudah",
+    "receiveProOnly": "Ekspor Word dan TXT (hanya Pro)",
+    "runOcrButton": "Jalankan OCR — Ekstrak Teks",
+    "securePrivate": "Aman & pribadi",
+    "autoDeleted": "Terhapus otomatis dalam 2 jam",
+    "pleaseWait": "Harap tunggu — jangan tutup tab ini",
+    "ocrFailed": "OCR Gagal",
+    "tryAgain": "Coba Lagi",
+    "upgradeToPro": "Tingkatkan ke Pro",
+    "uploadDifferent": "Unggah file berbeda",
+    "sidebarHowTitle": "Cara Kerja OCR",
+    "sidebarSteps": [
+      "Unggah PDF Anda",
+      "Lapisan teks diekstrak",
+      "PDF yang dapat dicari dibuat",
+      "Unduh file Anda"
+    ],
+    "sidebarSecurityTitle": "Keamanan",
+    "sidebarSecurityItems": [
+      "Enkripsi SSL 256-bit",
+      "Terhapus otomatis dalam 2 jam",
+      "Tidak ada data yang disimpan atau dijual",
+      "Unduh & hapus kapan saja"
+    ],
+    "sidebarProTitle": "Tingkatkan ke Pro",
+    "sidebarProDesc": "Halaman tak terbatas, OCR batch, ekspor Word & TXT, antrian prioritas",
+    "sidebarProButton": "Lihat Paket →",
+    "advertisement": "Iklan"
+  },
+  "process": {
+    "pageTitle": "Memproses OCR — SmallPDF.us",
+    "backLink": "Kembali ke OCR PDF",
+    "processingTitle": "OCR Sedang Berjalan…",
+    "standardQueue": "Antrian standar — tingkatkan ke Pro untuk pemrosesan 3–5× lebih cepat",
+    "doneTitle": "OCR Selesai!",
+    "pagesProcessed": "{count} halaman diproses",
+    "wordsExtracted": "~{count} kata diekstrak",
+    "downloadPdf": "Unduh PDF yang Dapat Dicari",
+    "downloadDocx": "Unduh Word (.docx)",
+    "downloadTxt": "Unduh Teks Biasa (.txt)",
+    "upsellTitle": "Ingin lebih?",
+    "upsellDesc": "Pengguna Pro juga dapat mengunduh dokumen ini sebagai file Word atau teks biasa, melakukan OCR halaman tak terbatas, dan memproses batch hingga 10 PDF sekaligus.",
+    "upgradePro": "Tingkatkan ke Pro",
+    "ocrAnother": "OCR dokumen lain",
+    "errorTitle": "OCR Gagal",
+    "stages": [
+      "Mengunggah dokumen…",
+      "Pra-pemrosesan halaman…",
+      "Menjalankan pengenalan karakter…",
+      "Merekonstruksi tata letak teks…",
+      "Menyematkan lapisan teks…",
+      "Menyelesaikan PDF Anda…"
+    ]
+  },
+  "download": {
+    "pageTitle": "Unduh OCR PDF — SmallPDF.us",
+    "successTitle": "OCR Selesai!",
+    "pagesProcessed": "{count} halaman diproses",
+    "wordsExtracted": "~{count} kata diekstrak",
+    "fileReady": "Siap",
+    "downloadPdf": "Unduh PDF yang Dapat Dicari",
+    "downloading": "Mengunduh…",
+    "downloaded": "Terunduh!",
+    "downloadDocx": "Unduh Word (.docx)",
+    "downloadTxt": "Unduh Teks Biasa (.txt)",
+    "secureDownload": "Unduhan aman",
+    "autoDeleted": "File terhapus otomatis dalam 2 jam",
+    "imagePdfTitle": "PDF hasil scan / berbasis gambar terdeteksi",
+    "imagePdfDesc": "PDF ini berisi gambar, bukan teks digital, sehingga tidak ada teks yang dapat diekstrak secara otomatis. PDF yang diunduh berisi halaman penjelasan.",
+    "imagePdfUpgrade": "Tingkatkan ke Pro",
+    "imagePdfUpgradeSuffix": "untuk dukungan mesin OCR tingkat lanjut pada dokumen yang di-scan.",
+    "proUpsellTitle": "Ingin lebih dari OCR?",
+    "proUpsellDesc": "Tingkatkan ke Pro untuk halaman tak terbatas, OCR batch, ekspor Word & TXT, file 100 MB, dan pemrosesan prioritas.",
+    "proUpsellLink": "Tingkatkan ke Pro",
+    "ocrAnother": "OCR dokumen lain",
+    "advertisement": "Iklan"
+  }
+}

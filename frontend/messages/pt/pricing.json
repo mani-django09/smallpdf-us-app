@@ -1,0 +1,166 @@
+{
+  "pageTitle": "Preços — SmallPDF.us",
+  "metaDescription": "Starter · Pro · Agency — cobrança mensal ou anual. Todas as ferramentas PDF, tamanhos de arquivo ilimitados, sem anúncios.",
+  "badge": "Preços simples, sem surpresas",
+  "hero": {
+    "title": "Escolha o plano ideal para você",
+    "subtitle": "Todos os planos incluem todas as ferramentas PDF e imagem. Faça upgrade para arquivos maiores, processamento mais rápido e zero anúncios."
+  },
+  "billing": {
+    "monthly": "Mensal",
+    "yearly": "Anual",
+    "monthsFree": "2 meses grátis",
+    "saveAnnually": "🎉 Economize até $98/ano com cobrança anual",
+    "billedAnnually": "Cobrado anualmente — ${total}/ano",
+    "billedMonthly": "Cobrado mensalmente · Cancele a qualquer momento",
+    "save": "Economize ${amount}"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Perfeito para indivíduos",
+      "cta": "Obter Starter"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Para usuários avançados",
+      "cta": "Obter Pro",
+      "badge": "Mais Popular"
+    },
+    "agency": {
+      "name": "Agency",
+      "description": "Para equipes e agências",
+      "cta": "Obter Agency"
+    },
+    "free": {
+      "name": "Grátis",
+      "description": "Para uso ocasional",
+      "cta": "Começar Grátis"
+    }
+  },
+  "features": {
+    "allTools": "Todas as ferramentas PDF e imagem",
+    "upTo200MB": "Até 200 MB por arquivo",
+    "officeUpTo50MB": "Conversões Office — até 50 MB",
+    "standardProcessing": "Processamento padrão",
+    "retain24h": "Arquivos retidos por 24 horas",
+    "adFree": "Experiência sem anúncios",
+    "batch10": "Até 10 arquivos por lote",
+    "priorityProcessing": "Processamento prioritário",
+    "apiAccess": "Acesso à API",
+    "everythingInStarter": "Tudo do Starter",
+    "unlimitedFileSize": "Tamanho de arquivo ilimitado — todas as ferramentas",
+    "officeUnlimited": "Conversões Office — ilimitadas",
+    "priorityQueue": "Fila de processamento prioritário",
+    "retain48h": "Arquivos retidos por 48 horas",
+    "batch20": "Até 20 arquivos por lote",
+    "emailSupport": "Suporte por e-mail",
+    "everythingInPro": "Tudo do Pro",
+    "dedicatedProcessing": "Processamento dedicado",
+    "retain72h": "Arquivos retidos por 72 horas",
+    "batch50": "Até 50 arquivos por lote",
+    "fullApiWebhooks": "Acesso completo à API + webhooks",
+    "teamSeats": "Gerenciamento de equipe (5 vagas)",
+    "priorityPhoneEmail": "Suporte prioritário por telefone e e-mail",
+    "customInvoicing": "Faturamento personalizado disponível",
+    "upTo100MB": "Até 100 MB por arquivo",
+    "officeUpTo15MB": "Conversões Office — até 15 MB",
+    "retain1h": "Arquivos excluídos após 1 hora",
+    "adsShown": "Anúncios exibidos"
+  },
+  "currentPlan": "Plano Atual",
+  "perMonth": "/mês",
+  "freeBanner": {
+    "title": "Plano Grátis — sempre disponível",
+    "subtitle": "Todas as ferramentas · Limite de 100 MB · Retenção de 1 hora · Anúncios",
+    "signupLink": "Cadastre-se grátis →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "Criptografia SSL", "subtitle": "Todas as transferências protegidas" },
+    "autoDelete": { "title": "Excluído automaticamente", "subtitle": "Arquivos removidos conforme agendado" },
+    "fast": { "title": "Processamento rápido", "subtitle": "Fila prioritária para planos pagos" },
+    "noFees": { "title": "Sem taxas ocultas", "subtitle": "Cancele a qualquer momento, instantaneamente" }
+  },
+  "compareTable": {
+    "title": "Comparação completa de recursos",
+    "featureCol": "Recurso",
+    "rows": {
+      "pdfToolSize": "Tamanho do arquivo PDF",
+      "officeConversions": "Conversões Office",
+      "imageTools": "Ferramentas de imagem",
+      "batchFiles": "Arquivos por lote",
+      "processingSpeed": "Velocidade de processamento",
+      "fileRetention": "Retenção de arquivos",
+      "ads": "Anúncios",
+      "apiAccess": "Acesso à API",
+      "teamSeats": "Vagas na equipe",
+      "emailSupport": "Suporte por e-mail",
+      "phoneSupport": "Suporte por telefone"
+    },
+    "values": {
+      "standard": "Padrão",
+      "priority": "Prioritário",
+      "dedicated": "Dedicado",
+      "unlimited": "Ilimitado",
+      "yes": "Sim",
+      "none": "Nenhum",
+      "fiveSeats": "5 vagas"
+    }
+  },
+  "toolLimits": {
+    "title": "Limites por ferramenta",
+    "subtitle": "Limites exatos de tamanho de arquivo e lote para cada ferramenta, por plano.",
+    "singleFileNote": "— = ferramenta de arquivo único (sem limite de lote)",
+    "colSize": "tamanho · lote",
+    "groups": {
+      "pdfTools": "Ferramentas PDF",
+      "officeConversions": "Conversões Office",
+      "imageTools": "Ferramentas de Imagem"
+    }
+  },
+  "faq": {
+    "title": "Perguntas frequentes",
+    "items": [
+      {
+        "q": "Qual é a diferença entre cobrança mensal e anual?",
+        "a": "A cobrança mensal é feita todo mês. A cobrança anual é feita uma vez por ano com taxa reduzida — equivalente a 2 meses grátis (você paga por 10, recebe 12). Você pode escolher seu ciclo de cobrança preferido no checkout."
+      },
+      {
+        "q": "Posso cancelar a qualquer momento?",
+        "a": "Sim — cancele com um clique na página de assinatura da sua conta. Seu plano permanece ativo até o final do período de cobrança atual e depois volta automaticamente para o Grátis. Sem cobranças ocultas."
+      },
+      {
+        "q": "Posso trocar entre cobrança mensal e anual após assinar?",
+        "a": "Para trocar o ciclo de cobrança, cancele seu plano atual e assine novamente com o novo ciclo. Seu acesso Pro continua até o final do período atual."
+      },
+      {
+        "q": "Quais métodos de pagamento são aceitos?",
+        "a": "Todos os principais cartões de crédito/débito (Visa, Mastercard, RuPay), UPI, internet banking e carteiras — processados com segurança via Razorpay. Todas as transações estão em conformidade com PCI-DSS."
+      },
+      {
+        "q": "O que acontece com meus arquivos após o período de retenção?",
+        "a": "Os arquivos são excluídos permanentemente de nossos servidores automaticamente. Nunca vendemos nem compartilhamos seus arquivos. Todas as transferências são criptografadas com SSL."
+      },
+      {
+        "q": "Existe uma política de reembolso?",
+        "a": "Sim — se você não estiver satisfeito dentro de 7 dias da sua primeira cobrança, entre em contato conosco para reembolso total. Sem perguntas."
+      },
+      {
+        "q": "O plano Agency suporta vários usuários?",
+        "a": "Sim — o Agency inclui 5 vagas de equipe. Cada vaga tem seu próprio login com cobrança compartilhada em uma conta. Precisa de mais? Entre em contato."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Pronto para fazer upgrade?",
+    "subtitle": "Junte-se a milhares de profissionais que usam SmallPDF.us todos os dias. Cancele a qualquer momento.",
+    "proBtnMonthly": "Obter Pro — $19/mês",
+    "proBtnYearly": "Obter Pro — $190/ano",
+    "agencyBtn": "Obter Agency — $49/mês"
+  },
+  "notices": {
+    "checkoutCancelled": "Checkout cancelado — nenhuma cobrança foi feita.",
+    "dismiss": "Fechar",
+    "contactSupport": "contatar suporte"
+  }
+}
