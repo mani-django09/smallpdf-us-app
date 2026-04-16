@@ -38,9 +38,9 @@ import {
 
 const API = typeof window !== "undefined"
   ? (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-      ? "http://localhost:5011"
+      ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011")
       : `${window.location.protocol}//${window.location.hostname}`)
-  : "http://localhost:5011"
+  : (process.env.NEXT_PUBLIC_API_URL || "https://smallpdf.us")
 
 export default function EnhancedAdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -645,19 +645,29 @@ export default function EnhancedAdminDashboard() {
                                 <button onClick={() => setChangingPlan(null)} className="text-slate-400 hover:text-slate-600"><XCircle className="w-4 h-4" /></button>
                               </div>
                             ) : (
-                              <button
-                                onClick={() => { setChangingPlan(u.id); setPendingPlan(u.plan) }}
-                                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold cursor-pointer border transition-all hover:opacity-80 ${
-                                  u.plan === "pro" ? "bg-purple-100 text-purple-700 border-purple-200" :
-                                  u.plan === "starter" ? "bg-yellow-100 text-yellow-700 border-yellow-200" :
-                                  u.plan === "agency" ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
-                                  "bg-slate-100 text-slate-600 border-slate-200"
-                                }`}
-                                title="Click to change plan"
-                              >
-                                {(u.plan === "pro" || u.plan === "agency") && <Crown className="w-3 h-3" />}
-                                {u.plan}
-                              </button>
+                              <div className="flex flex-col gap-0.5">
+                                <button
+                                  onClick={() => { setChangingPlan(u.id); setPendingPlan(u.plan) }}
+                                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold cursor-pointer border transition-all hover:opacity-80 ${
+                                    u.effective_plan === "expired"  ? "bg-red-50 text-red-500 border-red-200" :
+                                    u.effective_plan === "pro"      ? "bg-purple-100 text-purple-700 border-purple-200" :
+                                    u.effective_plan === "starter"  ? "bg-yellow-100 text-yellow-700 border-yellow-200" :
+                                    u.effective_plan === "agency"   ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
+                                    "bg-slate-100 text-slate-600 border-slate-200"
+                                  }`}
+                                  title={u.plan_expires_at ? `Expires: ${new Date(u.plan_expires_at).toLocaleDateString()}` : "Click to change plan"}
+                                >
+                                  {(u.effective_plan === "pro" || u.effective_plan === "agency") && <Crown className="w-3 h-3" />}
+                                  {u.effective_plan === "expired" ? `${u.plan} ⚠️` : (u.effective_plan || u.plan)}
+                                </button>
+                                {u.plan_expires_at && u.effective_plan !== "free" && (
+                                  <span className="text-[10px] text-slate-400 pl-0.5">
+                                    {u.effective_plan === "expired"
+                                      ? `Expired ${new Date(u.plan_expires_at).toLocaleDateString()}`
+                                      : `Until ${new Date(u.plan_expires_at).toLocaleDateString()}`}
+                                  </span>
+                                )}
+                              </div>
                             )}
                           </td>
                           {/* Verified */}
@@ -773,13 +783,14 @@ export default function EnhancedAdminDashboard() {
                   bgColor: "bg-cyan-50",
                 },
                 {
-                  label: "Total Errors",
-                  value: stats.total.errors || 0,
+                  label: "Errors Today",
+                  value: stats.last24Hours.errors || 0,
                   change: stats.last24Hours.errors || 0,
                   changeLabel: "24h",
                   icon: AlertCircle,
                   color: "from-red-500 to-rose-600",
                   bgColor: "bg-red-50",
+                  isError: true,
                 },
               ].map((stat, idx) => (
                 <div key={idx} className={`${stat.bgColor} rounded-xl shadow-sm border border-slate-200 p-6`}>
@@ -789,7 +800,7 @@ export default function EnhancedAdminDashboard() {
                     </div>
                     {stat.change > 0 && (
                       <div className="flex flex-col items-end">
-                        <div className="flex items-center gap-1 text-green-600 text-xs">
+                        <div className={`flex items-center gap-1 text-xs ${stat.isError ? "text-red-600" : "text-green-600"}`}>
                           <TrendingUp className="w-3 h-3" />
                           <span className="font-semibold">+{stat.change}</span>
                         </div>

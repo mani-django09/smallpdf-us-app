@@ -40,8 +40,8 @@
   },
   "features": {
     "allTools": "All PDF & image tools",
-    "upTo200MB": "Up to 200 MB per file",
-    "officeUpTo50MB": "Office conversions — up to 50 MB",
+    "upTo200MB": "Up to 100 MB per file",
+    "officeUpTo50MB": "Office conversions — up to 20 MB",
     "standardProcessing": "Standard processing",
     "retain24h": "Files retained 24 hours",
     "adFree": "Ad-free experience",
@@ -63,8 +63,8 @@
     "teamSeats": "Team management (5 seats)",
     "priorityPhoneEmail": "Priority phone & email support",
     "customInvoicing": "Custom invoicing available",
-    "upTo100MB": "Up to 100 MB per file",
-    "officeUpTo15MB": "Office conversions — up to 15 MB",
+    "upTo100MB": "Up to 10–20 MB per file",
+    "officeUpTo15MB": "Office conversions — up to 5 MB",
     "retain1h": "Files deleted after 1 hour",
     "adsShown": "Ads shown"
   },
@@ -72,7 +72,7 @@
   "perMonth": "/mo",
   "freeBanner": {
     "title": "Free Plan — always available",
-    "subtitle": "All tools · 100 MB limit · 1-hour retention · Ads shown",
+    "subtitle": "All tools · 10–20 MB limit · 1-hour retention · Ads shown",
     "signupLink": "Sign up free →"
   },
   "trustBadges": {

@@ -62,7 +62,7 @@
   "faq4Answer": "Ja. Alles wird beim Hochladen verschlüsselt. Wir verarbeiten auf sicheren Servern und löschen sowohl die Originale als auch das zusammengeführte PDF nach einer Stunde automatisch.",
   "faq5Question": "Muss ich eine App installieren?",
   "faq5Answer": "Nein. Alles läuft direkt in Ihrem Browser, auf jedem Gerät. Kein Download, keine App, keine Software – nichts.",
-  "seoTitle": "Wozu PDFs zusammenführen?",
+  "seoTitle": "PDF zusammenfügen kostenlos — PDFs online kombinieren | SmallPDF.us",
   "seoP1": "Wer kennt das nicht: Sie haben fünf PDF-Dateien, die eigentlich zusammengehören – aber Sie müssen jede einzeln verschicken und hoffen, dass der Empfänger sie in der richtigen Reihenfolge öffnet. Eine einzige zusammengeführte Datei löst das alles auf einen Schlag.",
   "seoP2": "Stellen Sie sich vor, Sie schicken einen Projektvorschlag. Ohne Zusammenführen hängen Sie den Hauptvorschlag an, dann das Budget als separates PDF, dann den Zeitplan, dann vielleicht Referenzen. Das sind schnell vier oder fünf Dateien. Mit einem PDF-Merger? Eine Datei. Alles drin, alles in Ordnung, wirkt deutlich professioneller.",
   "seoSubtitle": "Wer nutzt das täglich?",
@@ -142,5 +142,6 @@
     "statusComplete": "Abgeschlossen",
     "yourPrivacy": "Ihre Privatsphäre",
     "privacyDesc": "Ihre Dateien werden mit 256-Bit-SSL verschlüsselt und nach einer Stunde automatisch von unseren Servern gelöscht. Niemand kann Ihre Dokumente einsehen."
-  }
+  },
+  "seoDescription": "Mehrere PDF-Dateien kostenlos online zu einer zusammenfügen. Ohne Registrierung, ohne Wasserzeichen. Schnell und einfach."
 }

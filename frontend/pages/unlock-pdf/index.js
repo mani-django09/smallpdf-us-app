@@ -482,3 +482,9 @@ export default function UnlockPdf() {
       </Layout>
     )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

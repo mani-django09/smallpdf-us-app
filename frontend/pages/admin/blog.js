@@ -91,7 +91,7 @@ export default function AdminBlog() {
   }
 
   const copySlugToClipboard = () => {
-    const fullUrl = `http://localhost:3000/blog/${generatedSlug}`
+    const fullUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us'}/blog/${generatedSlug}`
     navigator.clipboard.writeText(fullUrl)
     setMessage({ type: "success", text: "Blog URL copied to clipboard!" })
     setTimeout(() => setMessage({ type: "", text: "" }), 3000)
@@ -284,7 +284,7 @@ export default function AdminBlog() {
                               Post URL Preview
                             </label>
                             <p className="text-sm text-blue-600 font-mono break-all">
-                              http://localhost:3000/blog/{generatedSlug}
+                              {(process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us')}/blog/{generatedSlug}
                             </p>
                           </div>
                           <button
@@ -314,15 +314,50 @@ export default function AdminBlog() {
                     {/* Content */}
                     <div>
                       <label className="block text-sm font-medium text-slate-700 mb-2">Content</label>
+                      {/* HTML formatting toolbar */}
+                      <div className="flex flex-wrap gap-1 mb-2 p-2 bg-slate-50 border border-slate-200 rounded-t-lg">
+                        {[
+                          { label: 'H2',     wrap: ['<h2>', '</h2>'] },
+                          { label: 'H3',     wrap: ['<h3>', '</h3>'] },
+                          { label: 'B',      wrap: ['<strong>', '</strong>'] },
+                          { label: 'I',      wrap: ['<em>', '</em>'] },
+                          { label: 'UL',     wrap: ['<ul>\n  <li>', '</li>\n</ul>'] },
+                          { label: 'OL',     wrap: ['<ol>\n  <li>', '</li>\n</ol>'] },
+                          { label: 'LI',     wrap: ['<li>', '</li>'] },
+                          { label: 'P',      wrap: ['<p>', '</p>'] },
+                          { label: 'Quote',  wrap: ['<blockquote>', '</blockquote>'] },
+                          { label: 'HR',     wrap: ['<hr />', ''] },
+                          { label: 'Code',   wrap: ['<code>', '</code>'] },
+                          { label: 'Link',   wrap: ['<a href="URL">', '</a>'] },
+                        ].map(({ label, wrap }) => (
+                          <button
+                            key={label}
+                            type="button"
+                            onClick={() => {
+                              const ta = document.getElementById('blog-content-ta')
+                              const start = ta.selectionStart
+                              const end   = ta.selectionEnd
+                              const sel   = formData.content.substring(start, end)
+                              const newVal = formData.content.substring(0, start) + wrap[0] + sel + wrap[1] + formData.content.substring(end)
+                              setFormData({ ...formData, content: newVal })
+                              setTimeout(() => { ta.focus(); ta.setSelectionRange(start + wrap[0].length, start + wrap[0].length + sel.length) }, 10)
+                            }}
+                            className="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 rounded hover:bg-red-50 hover:border-red-300 hover:text-red-600 transition-colors"
+                          >
+                            {label}
+                          </button>
+                        ))}
+                      </div>
                       <textarea
+                        id="blog-content-ta"
                         value={formData.content}
                         onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none font-mono text-sm"
-                        rows="20"
-                        placeholder="Write your post content here... (HTML supported)"
+                        className="w-full px-4 py-3 border border-slate-300 rounded-b-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none font-mono text-sm"
+                        rows="24"
+                        placeholder={`Write your post content in HTML.\n\nExample:\n<h2>Section Title</h2>\n<p>Your paragraph text here...</p>\n<ul>\n  <li>Point one</li>\n  <li>Point two</li>\n</ul>`}
                         required
                       />
-                      <p className="text-xs text-slate-500 mt-2">Tip: You can use HTML tags for formatting</p>
+                      <p className="text-xs text-slate-500 mt-1.5">💡 Select text then click a toolbar button to wrap it with a tag.</p>
                     </div>
                   </div>
 

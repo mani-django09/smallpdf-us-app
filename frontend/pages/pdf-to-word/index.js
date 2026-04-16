@@ -44,16 +44,16 @@ export default function PdfToWord() {
               window.pdfjsLib.GlobalWorkerOptions.workerSrc =
                 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"
               setPdfjs(window.pdfjsLib)
-              console.log("PDF.js loaded successfully")
+              if (process.env.NODE_ENV === "development") console.log("PDF.js loaded")
             }
           }
           script.onerror = (err) => {
-            console.error("Failed to load PDF.js from CDN:", err)
+            if (process.env.NODE_ENV === "development") console.error("PDF.js CDN load error:", err)
           }
           document.head.appendChild(script)
         }
       } catch (err) {
-        console.error("Failed to load PDF.js:", err)
+        if (process.env.NODE_ENV === "development") console.error("PDF.js error:", err)
       }
     }
     loadPdfjs()
@@ -86,7 +86,7 @@ export default function PdfToWord() {
 
   const generateThumbnail = async (file) => {
     if (!pdfjs) {
-      console.log("PDF.js not loaded yet")
+      if (process.env.NODE_ENV === "development") console.log("PDF.js not ready")
       return { thumbnail: null, pageCount: 1 }
     }
 
@@ -114,7 +114,7 @@ export default function PdfToWord() {
         pageCount: pdf.numPages,
       }
     } catch (err) {
-      console.error("Error generating thumbnail:", err)
+      if (process.env.NODE_ENV === "development") console.error("Thumbnail error:", err)
       return { thumbnail: null, pageCount: 1 }
     }
   }
@@ -863,4 +863,10 @@ export default function PdfToWord() {
       {BatchGateModal}
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
 }

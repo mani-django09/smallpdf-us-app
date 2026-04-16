@@ -62,7 +62,7 @@
   "faq4Answer": "No, en absoluto. Textos, imágenes, fuentes y formato permanecen idénticos a los originales. Combinamos las páginas tal como están, sin modificar nada.",
   "faq5Question": "¿Puedo reorganizar los archivos antes de combinarlos?",
   "faq5Answer": "¡Claro que sí! En la página de vista previa, arrastra y suelta los archivos en el orden exacto que quieres. El PDF final seguirá ese orden con precisión.",
-  "seoTitle": "¿Por qué combinar archivos PDF?",
+  "seoTitle": "Combinar PDF online gratis — Unir archivos PDF | SmallPDF.us",
   "seoP1": "Gestionar varios PDF por separado es un engorro. Tienes que enviarlos uno a uno, poner nombres claros, y confiar en que el destinatario los abra en el orden correcto. Un único PDF combinado resuelve todo de golpe: sin confusión, sin archivos que se pierden.",
   "seoP2": "Imagina que envías una propuesta de proyecto. Sin combinar, adjuntas el documento principal, luego el presupuesto como PDF separado, luego el cronograma, luego las referencias. Son cuatro archivos como mínimo. ¿Con la combinación? Un solo PDF. Todo en orden, nada se pierde, y causa una impresión mucho más profesional.",
   "seoSubtitle": "¿Quién usa la combinación de PDF a diario?",
@@ -140,5 +140,6 @@
     "statusComplete": "Completado",
     "yourPrivacy": "Tu privacidad",
     "privacyDesc": "Tus archivos se cifran con SSL de 256 bits y se eliminan definitivamente de nuestros servidores una hora después. Nunca leemos, almacenamos ni compartimos tus documentos."
-  }
+  },
+  "seoDescription": "Combina varios archivos PDF en uno solo online gratis. Sin registro, sin marca de agua. Rápido y sencillo."
 }

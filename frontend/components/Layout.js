@@ -181,63 +181,43 @@ export default function Layout({ children, title, description }) {
 
   return (
     <>
-      {/* Google AdSense — skip entirely for paid subscribers */}
-      {!["starter", "pro", "agency"].includes(user?.plan) && (
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6913093595582462"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
-      )}
-
-      <div className="min-h-screen bg-white">
-        {/* Header */}
-        <header className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+      <div className="min-h-screen flex flex-col">
+        <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 md:px-6">
             <div className="flex items-center justify-between h-16">
 
               {/* Logo */}
-              <LocalizedLink
-                href="/"
-                aria-label="SmallPDF.us — Home"
-                className="flex items-center space-x-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded-lg"
-              >
-                <div className="flex items-center">
-                  <span className="text-xl md:text-2xl font-bold text-gray-900">Small</span>
-                  <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">PDF</span>
-                  <span className="text-sm text-gray-500 ml-1">.us</span>
+              <Link href="/" className="flex items-center gap-2 flex-shrink-0" aria-label="SmallPDF.us home">
+                <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center shadow-sm">
+                  <FileText className="w-4 h-4 text-white" aria-hidden="true" />
                 </div>
-              </LocalizedLink>
+                <span className="font-bold text-lg text-gray-900 tracking-tight">
+                  Small<span className="text-red-600">PDF</span><span className="text-gray-400 font-normal text-sm">.us</span>
+                </span>
+              </Link>
 
-              {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
-                <LocalizedLink
-                  href="/merge-pdf"
-                  className="text-sm font-semibold text-gray-700 hover:text-red-600 px-3 py-2 rounded-lg transition-all hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-                >
-                  {t('nav.mergePdf')}
-                </LocalizedLink>
-                <LocalizedLink
-                  href="/split-pdf"
-                  className="text-sm font-semibold text-gray-700 hover:text-red-600 px-3 py-2 rounded-lg transition-all hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-                >
-                  {t('nav.splitPdf')}
-                </LocalizedLink>
-                <LocalizedLink
-                  href="/compress-pdf"
-                  className="text-sm font-semibold text-gray-700 hover:text-red-600 px-3 py-2 rounded-lg transition-all hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-                >
-                  {t('nav.compressPdf')}
-                </LocalizedLink>
+              {/* Desktop Nav */}
+              <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+                <NavDropdown label={t('nav.pdfTools')}>
+                  {[
+                    { href: "/merge-pdf",    label: t('nav.mergePdf') },
+                    { href: "/split-pdf",    label: t('nav.splitPdf') },
+                    { href: "/compress-pdf", label: t('nav.compressPdf') },
+                    { href: "/unlock-pdf",   label: t('nav.unlockPdf') },
+                    { href: "/ocr-pdf",      label: t('nav.ocrPdf') },
+                  ].map(({ href, label }) => (
+                    <LocalizedLink
+                      key={href}
+                      href={href}
+                      role="menuitem"
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      {label}
+                    </LocalizedLink>
+                  ))}
+                </NavDropdown>
 
-                {/* Convert Dropdown */}
                 <NavDropdown label={t('nav.convert')}>
-                  <div
-                    role="presentation"
-                    className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-                  >
-                    PDF {t('nav.convert')}
-                  </div>
                   {[
                     { href: "/pdf-to-word",  label: t('nav.pdfToWord') },
                     { href: "/word-to-pdf",  label: t('nav.wordToPdf') },
@@ -245,113 +225,74 @@ export default function Layout({ children, title, description }) {
                     { href: "/jpg-to-pdf",   label: t('nav.jpgToPdf') },
                     { href: "/png-to-pdf",   label: t('nav.pngToPdf') },
                     { href: "/pdf-to-png",   label: t('nav.pdfToPng') },
-                  ].map(({ href, label }) => (
-                    <LocalizedLink
-                      key={href}
-                      href={href}
-                      role="menuitem"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors focus:outline-none focus-visible:bg-red-50 focus-visible:text-red-600"
-                    >
-                      {label}
-                    </LocalizedLink>
-                  ))}
-                  <div className="border-t border-gray-100 my-1" role="separator" />
-                  <div
-                    role="presentation"
-                    className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-                  >
-                    {t('nav.imageTools')}
-                  </div>
-                  {[
-                    { href: "/webp-to-png", label: t('nav.webpToPng') },
-                    { href: "/png-to-webp", label: t('nav.pngToWebp') },
-                  ].map(({ href, label }) => (
-                    <LocalizedLink
-                      key={href}
-                      href={href}
-                      role="menuitem"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors focus:outline-none focus-visible:bg-red-50 focus-visible:text-red-600"
-                    >
-                      {label}
-                    </LocalizedLink>
-                  ))}
-                </NavDropdown>
-
-                {/* All Tools Dropdown */}
-                <NavDropdown label={t('nav.allTools')}>
-                  {[
-                    { href: "/ocr-pdf",        label: t('nav.ocrPdf') },
                     { href: "/compress-image", label: t('nav.compressImage') },
-                    { href: "/pdf-to-excel",   label: t('nav.pdfToExcel') },
-                    { href: "/excel-to-pdf",   label: t('nav.excelToPdf') },
-                    { href: "/pdf-to-ppt",     label: t('nav.pdfToPpt') },
-                    { href: "/ppt-to-pdf",     label: t('nav.pptToPdf') },
-                    { href: "/unlock-pdf",     label: t('nav.unlockPdf') },
+                    { href: "/pdf-to-excel", label: t('nav.pdfToExcel') },
+                    { href: "/excel-to-pdf", label: t('nav.excelToPdf') },
+                    { href: "/pdf-to-ppt",   label: t('nav.pdfToPpt') },
+                    { href: "/ppt-to-pdf",   label: t('nav.pptToPdf') },
+                    { href: "/webp-to-png",  label: t('nav.webpToPng') },
+                    { href: "/png-to-webp",  label: t('nav.pngToWebp') },
                   ].map(({ href, label }) => (
                     <LocalizedLink
                       key={href}
                       href={href}
                       role="menuitem"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors focus:outline-none focus-visible:bg-red-50 focus-visible:text-red-600"
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors"
                     >
                       {label}
                     </LocalizedLink>
                   ))}
                 </NavDropdown>
 
-                <LanguageSwitcher />
+                <LocalizedLink
+                  href="/pricing"
+                  className="text-sm font-semibold text-red-600 hover:text-red-700 px-3 py-2 rounded-lg transition-all hover:bg-red-50 border border-red-200 hover:border-red-300"
+                >
+                  {t('nav.pricing')}
+                </LocalizedLink>
               </nav>
 
-              {/* ── Auth Buttons (desktop) ───────────────────────────────── */}
-              <div className="hidden lg:flex items-center gap-2 ml-2">
-                {loading ? (
-                  // Skeleton placeholder while auth state loads
-                  <div className="w-8 h-8 rounded-full bg-gray-100 animate-pulse" />
-                ) : user ? (
-                  // Logged-in: show avatar dropdown
-                  <UserMenu user={user} logout={logout} t={t} />
-                ) : (
-                  // Logged-out: show Login + Sign Up
-                  <>
-                    <Link
-                      href="/auth/login"
-                      className="text-sm font-semibold text-gray-700 hover:text-red-600 px-3 py-2 rounded-lg transition-all hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-                    >
-                      {t('layout.logIn')}
-                    </Link>
-                    <Link
-                      href="/auth/signup"
-                      className="text-sm font-semibold text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-1"
-                    >
-                      {t('layout.signUpFree')}
-                    </Link>
-                  </>
+              {/* Desktop Right: Auth + Language */}
+              <div className="hidden md:flex items-center gap-2">
+                <LanguageSwitcher />
+                {!loading && (
+                  user ? (
+                    <UserMenu user={user} logout={logout} t={t} />
+                  ) : (
+                    <>
+                      <Link
+                        href={`/auth/login?redirect=${encodeURIComponent(typeof window !== "undefined" ? window.location.pathname : "/")}`}
+                        className="text-sm font-semibold text-gray-700 hover:text-red-600 px-3 py-2 rounded-lg transition-all hover:bg-red-50"
+                      >
+                        {t('layout.logIn')}
+                      </Link>
+                      <Link
+                        href={`/auth/signup?redirect=${encodeURIComponent(typeof window !== "undefined" ? window.location.pathname : "/")}`}
+                        className="text-sm font-semibold text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg transition-all shadow-sm"
+                      >
+                        {t('layout.signUpFree')}
+                      </Link>
+                    </>
+                  )
                 )}
               </div>
 
-              {/* Mobile menu toggle */}
+              {/* Mobile hamburger */}
               <button
-                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                onClick={() => setMobileMenuOpen((v) => !v)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
-                aria-controls="mobile-menu"
               >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6 text-gray-700" aria-hidden="true" />
-                ) : (
-                  <Menu className="w-6 h-6 text-gray-700" aria-hidden="true" />
-                )}
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
+          </div>
 
-            {/* Mobile Menu */}
-            {mobileMenuOpen && (
-              <nav
-                id="mobile-menu"
-                aria-label="Mobile navigation"
-                className="lg:hidden py-4 border-t border-gray-100 space-y-1"
-              >
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <nav className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1 max-h-[80vh] overflow-y-auto" aria-label="Mobile navigation">
+              <div className="space-y-1 mb-3">
                 {[
                   { href: "/merge-pdf",      label: t('nav.mergePdf') },
                   { href: "/split-pdf",      label: t('nav.splitPdf') },
@@ -382,63 +323,61 @@ export default function Layout({ children, title, description }) {
                     {label}
                   </LocalizedLink>
                 ))}
+              </div>
 
-                {/* ── Auth section in mobile menu ── */}
-                <div className="pt-3 border-t border-gray-100 mt-2 space-y-2 px-2">
-                  {!loading && (
-                    user ? (
-                      // Logged-in mobile: show name + account link + logout
-                      <>
-                        <div className="flex items-center gap-3 px-2 py-2">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                            {user.name?.[0]?.toUpperCase()}
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                            <p className="text-xs text-gray-500">{user.email}</p>
-                          </div>
+              {/* ── Auth section in mobile menu ── */}
+              <div className="pt-3 border-t border-gray-100 mt-2 space-y-2 px-2">
+                {!loading && (
+                  user ? (
+                    <>
+                      <div className="flex items-center gap-3 px-2 py-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                          {user.name?.[0]?.toUpperCase()}
                         </div>
-                        <Link
-                          href="/account"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
-                        >
-                          <Settings className="w-4 h-4" /> {t('layout.myAccount')}
-                        </Link>
-                        <button
-                          onClick={() => { setMobileMenuOpen(false); logout() }}
-                          className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
-                        >
-                          <LogOut className="w-4 h-4" /> {t('layout.logOut')}
-                        </button>
-                      </>
-                    ) : (
-                      // Logged-out mobile: Login + Sign Up buttons
-                      <div className="flex flex-col gap-2">
-                        <Link
-                          href="/auth/login"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block text-center px-4 py-3 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                        >
-                          {t('layout.logIn')}
-                        </Link>
-                        <Link
-                          href="/auth/signup"
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="block text-center px-4 py-3 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-                        >
-                          {t('layout.signUpFree')}
-                        </Link>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+                          <p className="text-xs text-gray-500">{user.email}</p>
+                        </div>
                       </div>
-                    )
-                  )}
-                  <div className="pt-2">
-                    <LanguageSwitcher />
-                  </div>
+                      <Link
+                        href="/account"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+                      >
+                        <Settings className="w-4 h-4" /> {t('layout.myAccount')}
+                      </Link>
+                      <button
+                        onClick={() => { setMobileMenuOpen(false); logout() }}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" /> {t('layout.logOut')}
+                      </button>
+                    </>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href="/auth/login"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block text-center px-4 py-3 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
+                        {t('layout.logIn')}
+                      </Link>
+                      <Link
+                        href="/auth/signup"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block text-center px-4 py-3 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                      >
+                        {t('layout.signUpFree')}
+                      </Link>
+                    </div>
+                  )
+                )}
+                <div className="pt-2">
+                  <LanguageSwitcher />
                 </div>
-              </nav>
-            )}
-          </div>
+              </div>
+            </nav>
+          )}
         </header>
 
         <main>{children}</main>
@@ -458,7 +397,7 @@ export default function Layout({ children, title, description }) {
                 <p className="text-gray-400 text-sm mb-6 leading-relaxed max-w-sm">
                   {t('footer.description')}
                 </p>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 mb-6">
                   <div className="flex items-center space-x-2 text-sm">
                     <Shield className="w-4 h-4 text-green-400" aria-hidden="true" />
                     <span className="text-gray-400">{t('common.secure')}</span>
@@ -472,6 +411,25 @@ export default function Layout({ children, title, description }) {
                     <span className="text-gray-400">{t('common.free')}</span>
                   </div>
                 </div>
+                {/* Google Play Badge — in footer brand column */}
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.snappdf.pdftools"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'inline-block', opacity: 1, transition: 'opacity 0.2s' }}
+                  onMouseOver={e => e.currentTarget.style.opacity = '0.8'}
+                  onMouseOut={e => e.currentTarget.style.opacity = '1'}
+                >
+                  <img
+                    src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                    alt="Get it on Google Play"
+                    width="202"
+                    height="72"
+                    loading="lazy"
+                    decoding="async"
+                    style={{ height: 72, width: 'auto', display: 'block' }}
+                  />
+                </a>
               </div>
 
               {/* PDF Tools */}

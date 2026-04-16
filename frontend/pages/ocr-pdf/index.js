@@ -366,3 +366,9 @@ export default function OcrPdf() {
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

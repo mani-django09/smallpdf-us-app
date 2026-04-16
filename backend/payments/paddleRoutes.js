@@ -25,6 +25,13 @@ const https   = require('https')
 const router  = express.Router()
 const { dbRun, dbGet } = require('../database')
 const { requireAuth }  = require('../middleware/authMiddleware')
+const {
+  sendPlanActivatedEmail,
+  sendPlanRenewedEmail,
+  sendCancellationScheduledEmail,
+  sendPlanExpiredEmail,
+  sendPaymentFailedEmail,
+} = require('./emailService')
 
 const PADDLE_API_HOST = 'api.paddle.com'
 
@@ -180,6 +187,8 @@ router.post('/verify-transaction', requireAuth, async (req, res) => {
       [plan, expiresAt, subscriptionId, customerId, user.id]
     )
 
+    sendPlanActivatedEmail({ name: user.name, email: user.email, plan, interval, expiresAt, gateway: 'paddle' })
+
     console.log(`✅ Paddle verified: userId=${user.id} plan=${plan} interval=${interval} txn=${transactionId} sub=${subscriptionId} expires=${expiresAt}`)
     res.json({ success: true, plan, interval, expiresAt })
   } catch (error) {
@@ -202,6 +211,8 @@ router.post('/cancel-subscription', requireAuth, async (req, res) => {
     await paddleAPI('POST', `/subscriptions/${user.paddle_subscription_id}/cancel`, {
       effective_from: 'next_billing_period',
     })
+
+    sendCancellationScheduledEmail({ name: user.name, email: user.email, plan: user.plan, expiresAt: user.plan_expires_at })
 
     console.log(`⬇️  Paddle cancel scheduled: userId=${user.id} sub=${user.paddle_subscription_id}`)
     res.json({ success: true, message: 'Subscription will cancel at end of the current billing period.' })
@@ -266,6 +277,7 @@ async function paddleWebhookHandler(req, res) {
         const customData = data.custom_data || {}
         const userId     = customData.userId ? parseInt(customData.userId) : null
         const planName   = customData.plan   || planFromPriceId(data.items?.[0]?.price?.id) || 'starter'
+        const interval   = data.billing_cycle?.interval === 'year' ? 'yearly' : 'monthly'
 
         if (!userId) {
           console.warn(`⚠️  Paddle ${event.event_type}: no userId in custom_data`, JSON.stringify(customData))
@@ -279,6 +291,8 @@ async function paddleWebhookHandler(req, res) {
           `UPDATE users SET plan = ?, plan_expires_at = ?, paddle_subscription_id = ?, paddle_customer_id = ? WHERE id = ?`,
           [planName, expiresAt, data.id, data.customer_id, userId]
         )
+        const activatedPaddleUser = await dbGet('SELECT name, email FROM users WHERE id = ?', [userId])
+        sendPlanActivatedEmail({ name: activatedPaddleUser?.name, email: activatedPaddleUser?.email, plan: planName, interval, expiresAt, gateway: 'paddle' })
         console.log(`✅ Paddle ${event.event_type}: userId=${userId} plan=${planName} sub=${data.id} expires=${expiresAt}`)
         break
       }
@@ -305,10 +319,12 @@ async function paddleWebhookHandler(req, res) {
         const user = await getUserByPaddleSubId(data.id)
         if (!user) break
 
+        const prevPlan = user.plan
         await dbRun(
           `UPDATE users SET plan = 'free', plan_expires_at = NULL, paddle_subscription_id = NULL, paddle_customer_id = NULL WHERE id = ?`,
           [user.id]
         )
+        sendPlanExpiredEmail({ name: user.name, email: user.email, plan: prevPlan })
         console.log(`⬇️  Paddle canceled: userId=${user.id} → free`)
         break
       }
@@ -345,6 +361,7 @@ async function paddleWebhookHandler(req, res) {
         }
 
         await dbRun(`UPDATE users SET plan_expires_at = ? WHERE id = ?`, [expiresAt, user.id])
+        sendPlanRenewedEmail({ name: user.name, email: user.email, plan: user.plan, expiresAt, gateway: 'paddle' })
         console.log(`💳 Paddle renewal: userId=${user.id} sub=${subId} expires=${expiresAt}`)
         break
       }
@@ -352,6 +369,12 @@ async function paddleWebhookHandler(req, res) {
       // ── Payment failed — keep plan, Paddle retries automatically ──────────
       case 'transaction.payment_failed': {
         const subId = data.subscription_id
+        if (subId) {
+          const failedUser = await getUserByPaddleSubId(subId)
+          if (failedUser) {
+            sendPaymentFailedEmail({ name: failedUser.name, email: failedUser.email, plan: failedUser.plan, gateway: 'paddle' })
+          }
+        }
         console.warn(`⚠️  Paddle payment_failed: subscription=${subId || 'one-time'} txn=${data.id}`)
         break
       }

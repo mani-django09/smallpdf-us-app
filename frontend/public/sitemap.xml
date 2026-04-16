@@ -4,7 +4,7 @@
 
   <url>
     <loc>https://smallpdf.us/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
@@ -20,9 +20,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -36,9 +36,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -52,9 +52,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -68,9 +68,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -84,9 +84,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -100,9 +100,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -116,9 +116,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/"/>
@@ -131,8 +131,904 @@
   </url>
 
   <url>
+    <loc>https://smallpdf.us/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/pricing/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/pricing/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/pricing/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/about/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/about/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/about/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/about/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/about/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/about/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/contact/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/contact/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contact/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contact/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/contact/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contact/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/privacy/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacy/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/terms/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/terms/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terms/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/terms/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/terms/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/terms/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/refund/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/refund/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/refund/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/refund/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/refund/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/refund/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/refund/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/refund/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/refund/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/ja/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/de/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/fr/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/es/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/it/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/id/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
+    <loc>https://smallpdf.us/pt/blog/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
+    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
+    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
+  </url>
+
+  <url>
     <loc>https://smallpdf.us/compress-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
@@ -148,9 +1044,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/compress-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -164,9 +1060,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-komprimieren/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -180,9 +1076,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/compresser-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -196,9 +1092,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/comprimir-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -212,9 +1108,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/comprimi-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -228,9 +1124,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/kompres-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -244,9 +1140,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/comprimir-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-pdf/"/>
@@ -260,7 +1156,7 @@
 
   <url>
     <loc>https://smallpdf.us/merge-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
@@ -276,9 +1172,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/merge-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -292,9 +1188,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-zusammenfuegen/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -308,9 +1204,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/fusionner-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -324,9 +1220,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/combinar-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -340,9 +1236,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/unisci-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -356,9 +1252,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/gabung-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -372,9 +1268,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/unir-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/merge-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/merge-pdf/"/>
@@ -388,7 +1284,7 @@
 
   <url>
     <loc>https://smallpdf.us/split-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
@@ -404,9 +1300,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/split-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -420,9 +1316,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-teilen/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -436,9 +1332,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/diviser-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -452,9 +1348,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/dividir-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -468,9 +1364,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/dividi-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -484,9 +1380,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/pisah-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -500,9 +1396,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/dividir-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/split-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/split-pdf/"/>
@@ -516,9 +1412,9 @@
 
   <url>
     <loc>https://smallpdf.us/unlock-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/unlock-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/unlock-pdf/"/>
@@ -532,7 +1428,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/unlock-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -548,7 +1444,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-entsperren/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -564,7 +1460,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/deverrouiller-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -580,7 +1476,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/desbloquear-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -596,7 +1492,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/sblocca-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -612,7 +1508,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/buka-kunci-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -628,7 +1524,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/desbloquear-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/unlock-pdf/"/>
@@ -644,7 +1540,7 @@
 
   <url>
     <loc>https://smallpdf.us/pdf-to-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
@@ -660,9 +1556,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/pdf-to-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -676,9 +1572,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-in-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -692,9 +1588,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/pdf-en-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -708,9 +1604,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/pdf-a-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -724,9 +1620,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/pdf-in-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -740,9 +1636,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/pdf-ke-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -756,9 +1652,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/pdf-para-word/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-word/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-word/"/>
@@ -772,9 +1668,9 @@
 
   <url>
     <loc>https://smallpdf.us/word-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/word-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/word-to-pdf/"/>
@@ -788,7 +1684,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/word-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -804,7 +1700,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/word-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -820,7 +1716,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/word-en-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -836,7 +1732,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/word-a-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -852,7 +1748,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/word-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -868,7 +1764,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/word-ke-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -884,7 +1780,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/word-para-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/word-to-pdf/"/>
@@ -900,9 +1796,9 @@
 
   <url>
     <loc>https://smallpdf.us/pdf-to-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-jpg/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-jpg/"/>
@@ -916,7 +1812,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/pdf-to-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -932,7 +1828,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-in-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -948,7 +1844,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/pdf-en-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -964,7 +1860,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/pdf-a-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -980,7 +1876,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/pdf-in-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -996,7 +1892,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/pdf-ke-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -1012,7 +1908,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/pdf-para-jpg/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-jpg/"/>
@@ -1028,9 +1924,9 @@
 
   <url>
     <loc>https://smallpdf.us/jpg-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/jpg-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/jpg-to-pdf/"/>
@@ -1044,7 +1940,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/jpg-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1060,7 +1956,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/jpg-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1076,7 +1972,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/jpg-en-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1092,7 +1988,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/jpg-a-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1108,7 +2004,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/jpg-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1124,7 +2020,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/jpg-ke-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1140,7 +2036,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/jpg-para-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/jpg-to-pdf/"/>
@@ -1156,9 +2052,9 @@
 
   <url>
     <loc>https://smallpdf.us/pdf-to-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-png/"/>
@@ -1172,7 +2068,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/pdf-to-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1188,7 +2084,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-in-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1204,7 +2100,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/pdf-en-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1220,7 +2116,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/pdf-a-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1236,7 +2132,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/pdf-in-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1252,7 +2148,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/pdf-ke-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1268,7 +2164,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/pdf-para-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-png/"/>
@@ -1284,9 +2180,9 @@
 
   <url>
     <loc>https://smallpdf.us/png-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-pdf/"/>
@@ -1300,7 +2196,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/png-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1316,7 +2212,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/png-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1332,7 +2228,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/png-en-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1348,7 +2244,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/png-a-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1364,7 +2260,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/png-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1380,7 +2276,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/png-ke-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1396,7 +2292,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/png-para-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-pdf/"/>
@@ -1412,9 +2308,9 @@
 
   <url>
     <loc>https://smallpdf.us/pdf-to-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-ppt/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-ppt/"/>
@@ -1428,7 +2324,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/pdf-to-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1444,7 +2340,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-in-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1460,7 +2356,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/pdf-en-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1476,7 +2372,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/pdf-a-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1492,7 +2388,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/pdf-in-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1508,7 +2404,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/pdf-ke-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1524,7 +2420,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/pdf-para-ppt/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-ppt/"/>
@@ -1540,9 +2436,9 @@
 
   <url>
     <loc>https://smallpdf.us/ppt-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ppt-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ppt-to-pdf/"/>
@@ -1556,7 +2452,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/ppt-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1572,7 +2468,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/ppt-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1588,7 +2484,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/ppt-en-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1604,7 +2500,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/ppt-a-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1620,7 +2516,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/ppt-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1636,7 +2532,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/ppt-ke-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1652,7 +2548,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/ppt-para-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ppt-to-pdf/"/>
@@ -1668,9 +2564,9 @@
 
   <url>
     <loc>https://smallpdf.us/pdf-to-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/pdf-to-excel/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/pdf-to-excel/"/>
@@ -1684,7 +2580,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/pdf-to-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1700,7 +2596,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/pdf-in-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1716,7 +2612,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/pdf-en-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1732,7 +2628,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/pdf-a-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1748,7 +2644,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/pdf-in-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1764,7 +2660,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/pdf-ke-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1780,7 +2676,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/pdf-para-excel/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/pdf-to-excel/"/>
@@ -1796,9 +2692,9 @@
 
   <url>
     <loc>https://smallpdf.us/excel-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/excel-to-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/excel-to-pdf/"/>
@@ -1812,7 +2708,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/excel-to-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1828,7 +2724,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/excel-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1844,7 +2740,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/excel-en-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1860,7 +2756,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/excel-a-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1876,7 +2772,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/excel-in-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1892,7 +2788,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/excel-ke-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1908,7 +2804,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/excel-para-pdf/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/excel-to-pdf/"/>
@@ -1924,9 +2820,9 @@
 
   <url>
     <loc>https://smallpdf.us/webp-to-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -1940,9 +2836,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/webp-to-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -1956,9 +2852,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/webp-in-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -1972,9 +2868,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/webp-en-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -1988,9 +2884,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/webp-a-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -2004,9 +2900,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/webp-in-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -2020,9 +2916,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/webp-ke-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -2036,9 +2932,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/webp-para-png/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/webp-to-png/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/webp-to-png/"/>
@@ -2052,9 +2948,9 @@
 
   <url>
     <loc>https://smallpdf.us/png-to-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2068,9 +2964,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/png-to-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2084,9 +2980,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/png-in-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2100,9 +2996,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/png-en-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2116,9 +3012,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/png-a-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2132,9 +3028,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/png-in-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2148,9 +3044,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/png-ke-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2164,9 +3060,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/png-para-webp/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/png-to-webp/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/png-to-webp/"/>
@@ -2180,9 +3076,9 @@
 
   <url>
     <loc>https://smallpdf.us/compress-image/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/compress-image/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/compress-image/"/>
@@ -2196,7 +3092,7 @@
 
   <url>
     <loc>https://smallpdf.us/ja/compress-image/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2212,7 +3108,7 @@
 
   <url>
     <loc>https://smallpdf.us/de/bild-komprimieren/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2228,7 +3124,7 @@
 
   <url>
     <loc>https://smallpdf.us/fr/compresser-image/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2244,7 +3140,7 @@
 
   <url>
     <loc>https://smallpdf.us/es/comprimir-imagen/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2260,7 +3156,7 @@
 
   <url>
     <loc>https://smallpdf.us/it/comprimi-immagine/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2276,7 +3172,7 @@
 
   <url>
     <loc>https://smallpdf.us/id/kompres-gambar/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2292,7 +3188,7 @@
 
   <url>
     <loc>https://smallpdf.us/pt/comprimir-imagem/</loc>
-    <lastmod>2025-02-18</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/compress-image/"/>
@@ -2307,648 +3203,8 @@
   </url>
 
   <url>
-    <loc>https://smallpdf.us/about/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/ja/about/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/de/ueber-uns/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/fr/a-propos/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/es/sobre-nosotros/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/it/chi-siamo/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/id/tentang-kami/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/pt/sobre-nos/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/about/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/about/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/ueber-uns/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/a-propos/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/sobre-nosotros/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/chi-siamo/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/tentang-kami/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/sobre-nos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/contact/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/ja/contact/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/de/kontakt/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/fr/contact/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/es/contacto/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/it/contatti/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/id/kontak/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/pt/contato/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/contact/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/contact/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/kontakt/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/contact/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/contacto/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/contatti/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/kontak/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/contato/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/privacy/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/ja/privacy/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/de/datenschutz/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/fr/confidentialite/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/es/privacidad/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/it/privacy/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/id/privasi/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/pt/privacidade/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/datenschutz/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/confidentialite/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/privacidad/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/privacy/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/privasi/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/privacidade/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/terms/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/ja/terms/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/de/nutzungsbedingungen/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/fr/conditions/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/es/terminos/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/it/termini/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/id/syarat/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/pt/termos/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/terms/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/terms/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/nutzungsbedingungen/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/conditions/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/terminos/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/termini/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/syarat/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/termos/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/ja/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/de/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/fr/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/es/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/it/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/id/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
-    <loc>https://smallpdf.us/pt/blog/</loc>
-    <lastmod>2025-02-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/blog/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/blog/"/>
-    <xhtml:link rel="alternate" hreflang="de" href="https://smallpdf.us/de/blog/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://smallpdf.us/fr/blog/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://smallpdf.us/es/blog/"/>
-    <xhtml:link rel="alternate" hreflang="it" href="https://smallpdf.us/it/blog/"/>
-    <xhtml:link rel="alternate" hreflang="id" href="https://smallpdf.us/id/blog/"/>
-    <xhtml:link rel="alternate" hreflang="pt" href="https://smallpdf.us/pt/blog/"/>
-  </url>
-
-  <url>
     <loc>https://smallpdf.us/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
@@ -2964,9 +3220,9 @@
 
   <url>
     <loc>https://smallpdf.us/ja/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>
@@ -2980,9 +3236,9 @@
 
   <url>
     <loc>https://smallpdf.us/de/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>
@@ -2996,9 +3252,9 @@
 
   <url>
     <loc>https://smallpdf.us/fr/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>
@@ -3012,9 +3268,9 @@
 
   <url>
     <loc>https://smallpdf.us/es/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>
@@ -3028,9 +3284,9 @@
 
   <url>
     <loc>https://smallpdf.us/it/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>
@@ -3044,9 +3300,9 @@
 
   <url>
     <loc>https://smallpdf.us/id/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>
@@ -3060,9 +3316,9 @@
 
   <url>
     <loc>https://smallpdf.us/pt/ocr-pdf/</loc>
-    <lastmod>2026-03-12</lastmod>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://smallpdf.us/ocr-pdf/"/>
     <xhtml:link rel="alternate" hreflang="ja" href="https://smallpdf.us/ja/ocr-pdf/"/>

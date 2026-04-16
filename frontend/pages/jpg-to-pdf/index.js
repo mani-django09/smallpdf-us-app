@@ -557,3 +557,9 @@ const router = useLocalizedRouter()
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

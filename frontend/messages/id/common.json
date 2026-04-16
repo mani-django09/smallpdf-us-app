@@ -6,6 +6,7 @@
     "fast": "Cepat"
   },
   "nav": {
+    "pdfTools": "Alat PDF",
     "mergePdf": "Gabung PDF",
     "splitPdf": "Pisah PDF",
     "compressPdf": "Kompres PDF",
@@ -99,7 +100,13 @@
     "planFreeDesc": "Akses dasar dengan fitur terbatas",
     "planPaidDesc": "Akses penuh ke semua alat",
     "upgradeToPro": "Upgrade ke Pro",
-    "proFeatures": ["Pemrosesan file tak terbatas", "Tanpa batas ukuran file", "Dukungan prioritas", "Pemrosesan batch", "Tanpa iklan"],
+    "proFeatures": [
+      "Pemrosesan file tak terbatas",
+      "Tanpa batas ukuran file",
+      "Dukungan prioritas",
+      "Pemrosesan batch",
+      "Tanpa iklan"
+    ],
     "upgradeBtn": "Upgrade ke Pro — Segera Hadir",
     "planBadgeFree": "Gratis",
     "planBadgePro": "Pro",

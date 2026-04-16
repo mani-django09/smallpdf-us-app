@@ -612,3 +612,9 @@ export default function PDFToJPG() {
       </Layout>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

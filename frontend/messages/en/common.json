@@ -6,6 +6,7 @@
     "fast": "Fast"
   },
   "nav": {
+    "pdfTools": "PDF Tools",
     "mergePdf": "Merge PDF",
     "splitPdf": "Split PDF",
     "compressPdf": "Compress PDF",

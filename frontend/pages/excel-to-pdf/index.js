@@ -598,3 +598,9 @@ export default function ExcelToPDF() {
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

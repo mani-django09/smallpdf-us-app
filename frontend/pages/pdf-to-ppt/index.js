@@ -784,3 +784,9 @@ export default function PdfToPpt() {
     </Layout>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

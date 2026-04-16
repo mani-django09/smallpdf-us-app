@@ -237,8 +237,8 @@ const router = useLocalizedRouter()
   return (
     <>
       <SEOHead
-        title={t("mergePdf.heroTitle")}
-        description={t("mergePdf.heroSubtitle")}
+        title={t("mergePdf.seoTitle")}
+        description={t("mergePdf.seoDescription")}
         ogImage="/og-merge-pdf.jpg"
         structuredData={structuredData}
       />
@@ -635,7 +635,7 @@ const router = useLocalizedRouter()
         <div className="bg-white py-12 px-4 border-t border-slate-200">
           <div className="max-w-4xl mx-auto">
             <div className="prose prose-slate max-w-none">
-              <h2 className="font-display text-2xl font-bold text-slate-900 mb-4">{t("mergePdf.seoTitle")}</h2>
+              <h2 className="font-display text-2xl font-bold text-slate-900 mb-4">{t("mergePdf.seoSectionTitle")}</h2>
               <p className="font-body text-slate-700 mb-4">
                 {t("mergePdf.seoP1")}
               </p>
@@ -673,4 +673,10 @@ const router = useLocalizedRouter()
       {BatchGateModal}
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
 }

@@ -610,3 +610,9 @@ export default function PngToPdf() {
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

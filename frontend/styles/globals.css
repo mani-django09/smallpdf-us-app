@@ -79,3 +79,51 @@ body {
     min-height: 44px;
   }
 }
+
+/* ── Respect prefers-reduced-motion (accessibility + perf) ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  /* Kill decorative orb / float / card-entry animations */
+  .orb1, .orb2, .orb3 {
+    animation: none !important;
+  }
+  /* Flatten all remaining animations and transitions globally */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── GPU-composited layers for animated elements ──────────────────────── */
+/* Forces browser to promote these to their own layer, avoiding repaints  */
+.orb1, .orb2, .orb3 {
+  will-change: transform;
+  contain: layout style;
+}
+
+/* ── Content-visibility for below-the-fold static sections ───────────── */
+/* Skips rendering cost until the section is near the viewport            */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px; /* estimated height, avoids scroll jump */
+}
+
+/* ── Font-display swap fallback (ensures text visible during font load) ── */
+/* Applied by _document.js <link> — this locks in the intent via CSS too  */
+@font-face {
+  font-display: swap;
+}
+
+/* ── Smooth scrollbar on desktop, preserve native on mobile ──────────── */
+@media (min-width: 768px) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── Prevent text size adjust on orientation change (iOS) ─────────────── */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}

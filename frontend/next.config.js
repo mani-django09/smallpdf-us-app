@@ -291,6 +291,7 @@ const nextConfig = {
   i18n: {
     locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt'],
     defaultLocale: 'en',
+    localeDetection: false, // ← Prevent Accept-Language header causing redirects for Googlebot
   },
 
   swcMinify: true,
@@ -298,13 +299,17 @@ const nextConfig = {
   images: {
     domains: ['smallpdf.us', 'www.smallpdf.us'],
     formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 86400,          // cache optimized images for 24h
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
   },
 
   compress: true,
   productionBrowserSourceMaps: false,
+  poweredByHeader: false,            // remove X-Powered-By header (security + tiny perf gain)
 
   env: {
-    NEXT_PUBLIC_API_URL:  process.env.NEXT_PUBLIC_API_URL  || 'http://localhost:5000',
+    NEXT_PUBLIC_API_URL:  process.env.NEXT_PUBLIC_API_URL  || 'http://localhost:5011',
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us',
   },
 
@@ -336,27 +341,76 @@ const nextConfig = {
 
   async headers() {
     return [
+      // ── Security + performance headers for all pages ──────────────────────
       {
         source: '/:path*',
         headers: [
-          { key: 'X-DNS-Prefetch-Control',  value: 'on'                              },
-          { key: 'X-Frame-Options',          value: 'SAMEORIGIN'                      },
-          { key: 'X-Content-Type-Options',   value: 'nosniff'                         },
-          { key: 'X-XSS-Protection',         value: '1; mode=block'                  },
+          { key: 'X-DNS-Prefetch-Control',  value: 'on' },
+          { key: 'X-Frame-Options',          value: 'SAMEORIGIN' },
+          { key: 'X-Content-Type-Options',   value: 'nosniff' },
+          { key: 'X-XSS-Protection',         value: '1; mode=block' },
           { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
           { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt' },
         ],
       },
+      // ── Immutable cache for Next.js JS/CSS chunks (fingerprinted filenames) ──
+      {
+        source: '/_next/static/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      // ── Long cache for static public assets ──────────────────────────────
       {
         source: '/static/:path*',
         headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
+      // ── Images: cache 7 days ──────────────────────────────────────────────
+      {
+        source: '/:file(.*\\.(?:jpg|jpeg|png|webp|avif|gif|ico|svg))',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=604800, stale-while-revalidate=86400' }],
+      },
+      // ── Fonts: cache 1 year ───────────────────────────────────────────────
+      {
+        source: '/:file(.*\\.(?:woff|woff2|ttf|otf|eot))',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      // ── Sitemap/robots: 24h cache ─────────────────────────────────────────
+      {
+        source: '/sitemap.xml',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=3600' }],
+      },
+      {
+        source: '/robots.txt',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400' }],
+      },
     ]
   },
 
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (!isServer) {
       config.resolve.fallback = { ...config.resolve.fallback, fs: false, net: false, tls: false }
+    }
+    // Production-only: split large vendor chunks for better caching
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        cacheGroups: {
+          ...config.optimization.splitChunks?.cacheGroups,
+          // Separate lucide-react into its own chunk (large icon library)
+          lucide: {
+            name: 'lucide',
+            test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
+            chunks: 'all',
+            priority: 30,
+          },
+          // Separate large PDF/file-processing libs
+          pdfjs: {
+            name: 'pdfjs',
+            test: /[\\/]node_modules[\\/](pdfjs-dist)[\\/]/,
+            chunks: 'all',
+            priority: 30,
+          },
+        },
+      }
     }
     return config
   },

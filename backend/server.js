@@ -175,15 +175,19 @@ app.use((req, res, next) => {
   // Get post with tags
   async function getPostWithTags(post) {
     const tags = await dbAll(`
-      SELECT bt.name 
+      SELECT bt.name
       FROM blog_tags bt
       JOIN post_tags pt ON bt.id = pt.tag_id
       WHERE pt.post_id = ?
     `, [post.id])
-    
+
     return {
       ...post,
-      tags: tags.map(t => t.name)
+      // Map snake_case DB fields → camelCase for frontend
+      createdAt:    post.created_at    ?? post.createdAt    ?? null,
+      updatedAt:    post.updated_at    ?? post.updatedAt    ?? null,
+      featuredImage: post.featured_image ?? post.featuredImage ?? null,
+      tags: tags.map(t => t.name),
     }
   }
   // File validation middleware
@@ -1003,14 +1007,17 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   // Get user statistics summary
   app.get("/api/admin/users/stats", adminAuth, async (req, res) => {
     try {
+      // effective_plan: if plan_expires_at is set and in the past, treat as 'free'
       const stats = await dbGet(`
         SELECT
           COUNT(*) as total,
-          SUM(CASE WHEN plan = 'free' THEN 1 ELSE 0 END) as free_users,
-          SUM(CASE WHEN plan = 'starter' THEN 1 ELSE 0 END) as starter_users,
-          SUM(CASE WHEN plan = 'pro' THEN 1 ELSE 0 END) as pro_users,
-          SUM(CASE WHEN plan = 'agency' THEN 1 ELSE 0 END) as agency_users,
-          SUM(CASE WHEN plan != 'free' THEN 1 ELSE 0 END) as paid_users,
+          SUM(CASE WHEN
+            plan = 'free' OR (plan != 'free' AND plan_expires_at IS NOT NULL AND plan_expires_at < datetime('now'))
+          THEN 1 ELSE 0 END) as free_users,
+          SUM(CASE WHEN plan = 'starter' AND (plan_expires_at IS NULL OR plan_expires_at >= datetime('now')) THEN 1 ELSE 0 END) as starter_users,
+          SUM(CASE WHEN plan = 'pro'     AND (plan_expires_at IS NULL OR plan_expires_at >= datetime('now')) THEN 1 ELSE 0 END) as pro_users,
+          SUM(CASE WHEN plan = 'agency'  AND (plan_expires_at IS NULL OR plan_expires_at >= datetime('now')) THEN 1 ELSE 0 END) as agency_users,
+          SUM(CASE WHEN plan != 'free'   AND (plan_expires_at IS NULL OR plan_expires_at >= datetime('now')) THEN 1 ELSE 0 END) as paid_users,
           SUM(CASE WHEN email_verified = 1 THEN 1 ELSE 0 END) as verified_users,
           SUM(CASE WHEN is_banned = 1 THEN 1 ELSE 0 END) as banned_users,
           SUM(CASE WHEN date(created_at) = date('now', 'localtime') THEN 1 ELSE 0 END) as new_today,
@@ -1054,9 +1061,14 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         params
       )
       const users = await dbAll(
-        `SELECT id, name, email, plan, email_verified, is_banned, ban_reason,
+        `SELECT id, name, email, plan, plan_expires_at, email_verified, is_banned, ban_reason,
                 created_at, last_login_at,
-                (google_id IS NOT NULL) as is_google
+                (google_id IS NOT NULL) as is_google,
+                CASE
+                  WHEN plan = 'free' THEN 'free'
+                  WHEN plan_expires_at IS NOT NULL AND plan_expires_at < datetime('now') THEN 'expired'
+                  ELSE plan
+                END as effective_plan
          FROM users ${whereClause}
          ORDER BY created_at DESC
          LIMIT ? OFFSET ?`,
@@ -6597,7 +6609,9 @@ app.post('/api/ocr-pdf',
       if (hdr?.startsWith('Bearer '))
         user = jwt.verify(hdr.replace('Bearer ', '').trim(), JWT_SECRET)
     } catch (_) {}
-    const isPro = user?.plan === 'pro' || user?.plan === 'enterprise'
+    // Desktop app: treat as Pro (no limits)
+    const isDesktop = process.env.ELECTRON_APP === '1' || process.env.DESKTOP_FREE === '1'
+    const isPro = isDesktop || user?.plan === 'pro' || user?.plan === 'enterprise'
 
     const filePath  = file.path
     const tmpFiles  = [] // temp page PNGs — deleted after OCR
@@ -6879,6 +6893,33 @@ app.post('/api/ocr-pdf',
     }
   }
 )
+  // ── Scheduled plan-expiry cleanup ────────────────────────────────────────
+  // Runs every hour to downgrade users whose plan_expires_at has passed AND
+  // whose Razorpay/Paddle renewal webhook failed to arrive (network issue,
+  // server was down, misconfigured secret, etc.).
+  // This is a safety net — normal renewals happen via webhooks.
+  async function cleanupExpiredPlans() {
+    try {
+      const result = await dbRun(`
+        UPDATE users
+        SET plan = 'free', plan_expires_at = NULL
+        WHERE plan != 'free'
+          AND plan_expires_at IS NOT NULL
+          AND plan_expires_at < datetime('now', '-1 day')
+      `)
+      if (result?.changes > 0) {
+        console.log(`🧹 Expired plan cleanup: ${result.changes} user(s) downgraded to free`)
+      }
+    } catch (err) {
+      console.error('Plan cleanup error:', err.message)
+    }
+  }
+
+  // Run once at startup (catches any plans that expired while server was down)
+  cleanupExpiredPlans()
+  // Then every hour
+  setInterval(cleanupExpiredPlans, 60 * 60 * 1000)
+
   // Start server
   app.listen(PORT, () => {
     console.log(`✓ Server running on port ${PORT}`)

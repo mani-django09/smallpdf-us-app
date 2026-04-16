@@ -62,7 +62,7 @@
   "faq4Answer": "Non, pas du tout. Textes, images, polices et mise en page restent intacts. Nous assemblons les pages telles quelles, sans modifier le moindre élément.",
   "faq5Question": "Puis-je choisir l'ordre des fichiers avant de fusionner ?",
   "faq5Answer": "Oui ! Sur la page de prévisualisation, glissez-déposez vos fichiers dans l'ordre exact que vous souhaitez. Le PDF final suivra cet ordre précisément.",
-  "seoTitle": "Pourquoi fusionner des fichiers PDF ?",
+  "seoTitle": "Fusionner PDF en ligne gratuit — Combiner des PDF | SmallPDF.us",
   "seoP1": "Gérer plusieurs PDF séparés, c'est vite fastidieux. Il faut les envoyer un par un, numéroter les pièces jointes, et espérer que le destinataire les ouvre dans le bon ordre. Un seul PDF fusionné règle tout ça d'un coup : plus de confusion, plus de fichiers manquants.",
   "seoP2": "Prenons un exemple concret : vous envoyez une proposition commerciale. Sans fusion, vous joignez la proposition principale, puis le budget en PDF séparé, puis le planning, puis les références. Ça fait quatre fichiers minimum. Avec la fusion ? Un seul fichier. Tout est dedans, dans l'ordre, et ça fait une impression bien plus professionnelle.",
   "seoSubtitle": "Qui utilise la fusion de PDF au quotidien ?",
@@ -140,5 +140,6 @@
     "statusComplete": "Terminé",
     "yourPrivacy": "Votre confidentialité",
     "privacyDesc": "Vos fichiers sont chiffrés avec SSL 256 bits et définitivement supprimés de nos serveurs une heure après la fusion. Nous ne lisons, ne stockons ni ne partageons jamais vos documents."
-  }
+  },
+  "seoDescription": "Fusionnez plusieurs fichiers PDF en un seul en ligne gratuitement. Sans inscription, sans filigrane. Rapide et facile."
 }

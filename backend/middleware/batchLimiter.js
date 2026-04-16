@@ -13,23 +13,25 @@ const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production'
 
 // Limits per plan: free | starter | pro | agency(ent)
 // Matches pricing page: Starter=10, Pro=20, Agency=50 files per batch
+// Limits per plan — must match pricing table on /pricing page
+// pro/ent use 999 for "Unlimited" (no practical cap)
 const BATCH_LIMITS = {
-  'ocr-pdf':        { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'merge-pdf':      { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'split-pdf':      { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'compress-pdf':   { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'word-to-pdf':    { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'ppt-to-pdf':     { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'excel-to-pdf':   { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-word':    { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-ppt':     { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-excel':   { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-jpg':     { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'jpg-to-pdf':     { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'png-to-pdf':     { free: 5,  starter: 10, pro: 20, ent: 50 },
-  'compress-image': { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'webp-to-png':    { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'png-to-webp':    { free: 2,  starter: 10, pro: 20, ent: 50 },
+  'ocr-pdf':        { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'merge-pdf':      { free: 2,  starter: 10, pro: 999, ent: 999 }, // Unlimited
+  'split-pdf':      { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'compress-pdf':   { free: 2,  starter: 10, pro: 10,  ent: 10  },
+  'word-to-pdf':    { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'ppt-to-pdf':     { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'excel-to-pdf':   { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-word':    { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-ppt':     { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-excel':   { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-jpg':     { free: 2,  starter: 10, pro: 10,  ent: 10  },
+  'jpg-to-pdf':     { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'png-to-pdf':     { free: 5,  starter: 10, pro: 20,  ent: 20  },
+  'compress-image': { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'webp-to-png':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'png-to-webp':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
 }
 
 function getUserFromRequest(req) {
@@ -53,6 +55,11 @@ function cleanupFiles(req) {
 function batchLimiter(toolName) {
   const limits = BATCH_LIMITS[toolName]
   if (!limits) return (_req, _res, next) => next()
+
+  // Desktop app: all tools are free/unlimited
+  if (process.env.ELECTRON_APP === '1' || process.env.DESKTOP_FREE === '1') {
+    return (_req, _res, next) => next()
+  }
 
   return (req, res, next) => {
     const files = Array.isArray(req.files) ? req.files

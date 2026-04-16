@@ -570,3 +570,9 @@ export default function CompressPdf() {
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

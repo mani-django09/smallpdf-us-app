@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 import SEOHead from '../components/SEOHead'
 import { useTranslations } from '../lib/i18n'
-import { Mail, Clock, MessageSquare, Send, CheckCircle, AlertCircle, Shield, Zap, Users } from 'lucide-react'
+import { Mail, Clock, MessageSquare, Send, CheckCircle, AlertCircle, Shield, Zap, Users, MapPin } from 'lucide-react'
 
 export default function Contact() {
   const { t } = useTranslations()
@@ -69,6 +69,15 @@ export default function Contact() {
       bg: "bg-emerald-50",
       border: "border-emerald-100",
     },
+    {
+      icon: MapPin,
+      title: "Business Address",
+      value: "Balahpur, Dist. Lakhisarai, Bihar 811310, India",
+      href: null,
+      gradient: "from-slate-500 to-slate-600",
+      bg: "bg-gray-50",
+      border: "border-gray-100",
+    },
   ]
 
   return (
@@ -101,7 +110,7 @@ export default function Contact() {
 
         {/* ── INFO CARDS ────────────────────────────────────────────── */}
         <div className="max-w-4xl mx-auto px-4 -mt-6 relative z-10 mb-10">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {infoCards.map((card, i) => (
               <div
                 key={i}

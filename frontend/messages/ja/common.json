@@ -6,6 +6,7 @@
     "fast": "高速"
   },
   "nav": {
+    "pdfTools": "PDFツール",
     "mergePdf": "PDFを結合",
     "splitPdf": "PDFを分割",
     "compressPdf": "PDFを圧縮",
@@ -99,7 +100,13 @@
     "planFreeDesc": "制限付きの基本アクセス",
     "planPaidDesc": "全ツールへのフルアクセス",
     "upgradeToPro": "Proにアップグレード",
-    "proFeatures": ["無制限のファイル処理", "ファイルサイズ制限なし", "優先サポート", "バッチ処理", "広告なし"],
+    "proFeatures": [
+      "無制限のファイル処理",
+      "ファイルサイズ制限なし",
+      "優先サポート",
+      "バッチ処理",
+      "広告なし"
+    ],
     "upgradeBtn": "Proにアップグレード — 近日公開",
     "planBadgeFree": "無料",
     "planBadgePro": "Pro",

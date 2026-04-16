@@ -62,7 +62,7 @@
   "faq4Answer": "Sì. Tutto viene crittografato al momento del caricamento. Elaboriamo su server sicuri e cancelliamo sia i file originali che il PDF unito dopo un'ora. Nessuno può vedere i tuoi documenti.",
   "faq5Question": "Devo installare qualcosa?",
   "faq5Answer": "No. Funziona direttamente nel browser, su qualsiasi dispositivo. Nessun download, nessuna app, nessun software da gestire.",
-  "seoTitle": "Perché unire i PDF?",
+  "seoTitle": "Unisci PDF online gratis — Combinare file PDF | SmallPDF.us",
   "seoP1": "Gestire più file PDF separati è una seccatura. Devi inviarli uno per uno, sperare che il destinatario li apra nell'ordine giusto e fare attenzione a non dimenticarne nessuno. Un unico file unito risolve tutto: meno confusione, meno allegati, meno domande del tipo qual è il documento corretto.",
   "seoP2": "Immagina di dover inviare una proposta di progetto. Senza unire, alleghi il documento principale, poi il budget come PDF separato, poi il piano di lavoro, poi i riferimenti. Sono almeno quattro file. Con l'unione? Un solo PDF. Tutto in ordine, niente va perso, un risultato molto più professionale.",
   "seoSubtitle": "Chi lo usa ogni giorno?",
@@ -140,5 +140,6 @@
     "statusComplete": "Completato",
     "yourPrivacy": "La tua privacy",
     "privacyDesc": "I tuoi file vengono crittografati con SSL a 256 bit e cancellati definitivamente dai nostri server dopo un'ora. Non leggiamo, non conserviamo e non condividiamo mai i tuoi documenti."
-  }
+  },
+  "seoDescription": "Unisci più file PDF in uno solo online gratuitamente. Senza registrazione, senza filigrana. Veloce e semplice."
 }

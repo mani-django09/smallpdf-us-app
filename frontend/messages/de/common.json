@@ -10,6 +10,7 @@
     "done": "Fertig"
   },
   "nav": {
+    "pdfTools": "PDF-Tools",
     "mergePdf": "PDFs vereinen",
     "splitPdf": "PDF aufteilen",
     "compressPdf": "PDF verkleinern",
@@ -103,7 +104,13 @@
     "planFreeDesc": "Basiszugang mit eingeschränkten Funktionen",
     "planPaidDesc": "Vollständiger Zugang zu allen Tools",
     "upgradeToPro": "Auf Pro upgraden",
-    "proFeatures": ["Unbegrenzte Dateiverarbeitung", "Keine Dateigrößenbeschränkungen", "Prioritätssupport", "Stapelverarbeitung", "Keine Werbung"],
+    "proFeatures": [
+      "Unbegrenzte Dateiverarbeitung",
+      "Keine Dateigrößenbeschränkungen",
+      "Prioritätssupport",
+      "Stapelverarbeitung",
+      "Keine Werbung"
+    ],
     "upgradeBtn": "Auf Pro upgraden — Demnächst verfügbar",
     "planBadgeFree": "Kostenlos",
     "planBadgePro": "Pro",

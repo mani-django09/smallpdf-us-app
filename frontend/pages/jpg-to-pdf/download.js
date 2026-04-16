@@ -19,6 +19,9 @@ import {
   Lock,
   Timer,
 } from "lucide-react"
+import Link from "next/link"
+import { useAuth } from "../../context/AuthContext"
+import { useIsIndia } from "../../hooks/useIsIndia"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -43,6 +46,12 @@ export default function DownloadJpgToPdf() {
   const [copied, setCopied] = useState(false)
   const [countdown, setCountdown] = useState(3600)
   const [mounted, setMounted] = useState(false)
+  const [useCount, setUseCount] = useState(0)
+
+  // Upsell — auth + india detection
+  const { user } = useAuth()
+  const { isIndia } = useIsIndia()
+  const isPaidUser = ['starter', 'pro', 'agency', 'enterprise'].includes(user?.plan)
 
   useEffect(() => {
     setMounted(true)
@@ -122,6 +131,15 @@ export default function DownloadJpgToPdf() {
 
     setDownloadComplete(true)
     setTimeout(() => setDownloadComplete(false), 3000)
+      // ── Track usage for inline upsell card ───────────────────────────
+      if (!isPaidUser) {
+        try {
+          const prev = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
+          const next = prev + 1
+          localStorage.setItem('smpdf_use_count', String(next))
+          setUseCount(next)
+        } catch {}
+      }
   } catch (error) {
     console.error("Download error:", error)
     alert(t("jpgToPdf.download.downloadFailed").replace("{{error}}", error.message))
@@ -356,6 +374,35 @@ export default function DownloadJpgToPdf() {
                       {copied ? <CheckCircle className="w-4 h-4 text-orange-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
+                  {/* ── Inline Upsell Card ── shown to free users after 1st download */}
+                  {mounted && !isPaidUser && useCount >= 1 && (
+                    <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
+                      {/* Icon */}
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
+                        <Zap className="w-5 h-5 text-white" />
+                      </div>
+                      {/* Text */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-slate-800 leading-tight">
+                          Unlimited files, bigger uploads, zero ads
+                        </p>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {isIndia
+                            ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking'
+                            : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
+                        </p>
+                      </div>
+                      {/* CTA */}
+                      <Link
+                        href="/pricing"
+                        className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
+                      >
+                        <Zap className="w-3.5 h-3.5" />
+                        Upgrade
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
 

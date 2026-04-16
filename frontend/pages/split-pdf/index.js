@@ -71,8 +71,8 @@ export default function SplitPdf() {
       }
       
       const result = await response.json()
-      console.log("PDF analysis result:", result)
-      
+      if (process.env.NODE_ENV === "development") console.log("PDF analysis result:", result)
+
       setLoadingPages(false)
       return result
     } catch (err) {
@@ -888,4 +888,10 @@ export default function SplitPdf() {
       {BatchGateModal}
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
 }

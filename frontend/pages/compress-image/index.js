@@ -6,8 +6,8 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
-import { Upload, AlertCircle, ChevronDown, Trash2, Minimize2 } from "lucide-react"
-
+  import { Upload, AlertCircle, ChevronDown, Trash2, Minimize2 } from "lucide-react"
+  import UpgradeBanner from "../../components/UpgradeBanner"
 // Inline AdSense component
 function AdSenseUnit({ adSlot, style = {} }) {
   useEffect(() => {
@@ -566,6 +566,13 @@ export default function CompressImage() {
       </Layout>
       {PremiumGateModal}
       {BatchGateModal}
+      <UpgradeBanner toolName="compress-image" trigger="idle" />
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
 }

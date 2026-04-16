@@ -538,3 +538,9 @@ export default function WordToPDF() {
     </>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

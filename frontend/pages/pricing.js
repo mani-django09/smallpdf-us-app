@@ -19,6 +19,13 @@ import { useTranslations } from '../lib/i18n'
 // yearly = monthly × 10  (2 months free = ~17% off)
 // NOTE: plan.name, plan.description, plan.cta, plan.badge are now translation keys
 //       resolved in PlanCard via t(`pricing.plans.${plan.id}.xxx`)
+// INR prices for Indian users (₹)
+const INR_PRICES = {
+  starter: { monthly: 399,  yearly: 3990  },
+  pro:     { monthly: 799,  yearly: 7990  },
+  agency:  { monthly: 2499, yearly: 24990 },
+}
+
 const PLANS = [
   {
     id:           'starter',
@@ -94,9 +101,9 @@ const FREE_PLAN_FEATURE_KEYS = [
 // ── Compare rows — values that stay the same in every locale ──────────────────
 // (sizes, counts). Only the label keys and special string values are translated.
 const COMPARE_ROW_DEFS = [
-  { labelKey: 'pdfToolSize',      free: '100 MB',    starter: '200 MB',       pro: 'unlimited', agency: 'unlimited'  },
-  { labelKey: 'officeConversions',free: '15 MB',     starter: '50 MB',        pro: 'unlimited', agency: 'unlimited'  },
-  { labelKey: 'imageTools',       free: '40 MB',     starter: '200 MB',       pro: 'unlimited', agency: 'unlimited'  },
+  { labelKey: 'pdfToolSize',      free: '10–20 MB',  starter: '100 MB',       pro: 'unlimited', agency: 'unlimited'  },
+  { labelKey: 'officeConversions',free: '5 MB',      starter: '20 MB',        pro: 'unlimited', agency: 'unlimited'  },
+  { labelKey: 'imageTools',       free: '5–15 MB',   starter: '20 MB',        pro: 'unlimited', agency: 'unlimited'  },
   { labelKey: 'batchFiles',       free: '1–5 files', starter: '10 files',     pro: '10–20 files', agency: 'Up to 50' },
   { labelKey: 'processingSpeed',  free: 'standard',  starter: 'standard',     pro: 'priority',  agency: 'dedicated'  },
   { labelKey: 'fileRetention',    free: '1 hour',    starter: '24 hours',     pro: '48 hours',  agency: '72 hours'   },
@@ -113,33 +120,33 @@ const TOOL_GROUPS_DEF = [
     groupKey: 'pdfTools',
     tools: [
       { name: 'OCR PDF',      free: { size: '10 MB',  batch: '1 file · 2 pages · 1/day' }, starter: { size: '100 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files'  }, agency: { size: 'Unlimited', batch: '20 files'  } },
-      { name: 'Merge PDF',    free: { size: '100 MB', batch: '2 files'  }, starter: { size: '200 MB',  batch: '10 files' }, pro: { size: 'Unlimited', batch: 'Unlimited' }, agency: { size: 'Unlimited', batch: 'Unlimited' } },
-      { name: 'Split PDF',    free: { size: '100 MB', batch: '1 file'   }, starter: { size: '200 MB',  batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files'  }, agency: { size: 'Unlimited', batch: '10 files'  } },
-      { name: 'Compress PDF', free: { size: '200 MB', batch: '2 files'  }, starter: { size: '200 MB',  batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files'  }, agency: { size: 'Unlimited', batch: '10 files'  } },
-      { name: 'Unlock PDF',   free: { size: '100 MB', batch: '—'        }, starter: { size: '200 MB',  batch: '—'        }, pro: { size: 'Unlimited', batch: '—'          }, agency: { size: 'Unlimited', batch: '—'          } },
+      { name: 'Merge PDF',    free: { size: '10 MB',  batch: '2 files'  }, starter: { size: '100 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: 'Unlimited' }, agency: { size: 'Unlimited', batch: 'Unlimited' } },
+      { name: 'Split PDF',    free: { size: '10 MB',  batch: '1 file'   }, starter: { size: '100 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files'  }, agency: { size: 'Unlimited', batch: '10 files'  } },
+      { name: 'Compress PDF', free: { size: '20 MB',  batch: '2 files'  }, starter: { size: '100 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files'  }, agency: { size: 'Unlimited', batch: '10 files'  } },
+      { name: 'Unlock PDF',   free: { size: '10 MB',  batch: '—'        }, starter: { size: '100 MB', batch: '—'        }, pro: { size: 'Unlimited', batch: '—'          }, agency: { size: 'Unlimited', batch: '—'          } },
     ],
   },
   {
     groupKey: 'officeConversions',
     tools: [
-      { name: 'Word → PDF',   free: { size: '15 MB', batch: '1 file'  }, starter: { size: '50 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
-      { name: 'PPT → PDF',    free: { size: '15 MB', batch: '1 file'  }, starter: { size: '50 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
-      { name: 'Excel → PDF',  free: { size: '15 MB', batch: '1 file'  }, starter: { size: '50 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
-      { name: 'PDF → Word',   free: { size: '15 MB', batch: '1 file'  }, starter: { size: '50 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
-      { name: 'PDF → PPT',    free: { size: '15 MB', batch: '1 file'  }, starter: { size: '50 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
-      { name: 'PDF → Excel',  free: { size: '15 MB', batch: '1 file'  }, starter: { size: '50 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'Word → PDF',   free: { size: '5 MB', batch: '1 file'  }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'PPT → PDF',    free: { size: '5 MB', batch: '1 file'  }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'Excel → PDF',  free: { size: '5 MB', batch: '1 file'  }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'PDF → Word',   free: { size: '5 MB', batch: '1 file'  }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'PDF → PPT',    free: { size: '5 MB', batch: '1 file'  }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'PDF → Excel',  free: { size: '5 MB', batch: '1 file'  }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
     ],
   },
   {
     groupKey: 'imageTools',
     tools: [
-      { name: 'PDF → JPG',       free: { size: '25 MB',  batch: '2 files' }, starter: { size: '200 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
-      { name: 'PDF → PNG',       free: { size: '25 MB',  batch: '—'       }, starter: { size: '200 MB', batch: '—'        }, pro: { size: 'Unlimited', batch: '—'         }, agency: { size: 'Unlimited', batch: '—'         } },
-      { name: 'JPG → PDF',       free: { size: '40 MB',  batch: '2 files' }, starter: { size: '200 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
-      { name: 'PNG → PDF',       free: { size: '40 MB',  batch: '5 files' }, starter: { size: '200 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
-      { name: 'WebP → PNG',      free: { size: '40 MB',  batch: '2 files' }, starter: { size: '200 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
-      { name: 'PNG → WebP',      free: { size: '40 MB',  batch: '2 files' }, starter: { size: '200 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
-      { name: 'Compress Image',  free: { size: '200 MB', batch: '2 files' }, starter: { size: '200 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
+      { name: 'PDF → JPG',       free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '10 files' }, agency: { size: 'Unlimited', batch: '10 files' } },
+      { name: 'PDF → PNG',       free: { size: '5 MB',  batch: '—'       }, starter: { size: '20 MB', batch: '—'        }, pro: { size: 'Unlimited', batch: '—'         }, agency: { size: 'Unlimited', batch: '—'         } },
+      { name: 'JPG → PDF',       free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
+      { name: 'PNG → PDF',       free: { size: '5 MB',  batch: '5 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
+      { name: 'WebP → PNG',      free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
+      { name: 'PNG → WebP',      free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
+      { name: 'Compress Image',  free: { size: '15 MB', batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: 'Unlimited', batch: '20 files' }, agency: { size: 'Unlimited', batch: '20 files' } },
     ],
   },
 ]
@@ -179,7 +186,7 @@ function FAQ({ q, a }) {
 }
 
 // ── Plan card ──────────────────────────────────────────────────────────────────
-function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutInr, loading, t }) {
+function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutInr, loading, isIndia, t }) {
   const Icon = plan.icon
 
   const colorMap = {
@@ -192,9 +199,16 @@ function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutInr, lo
   const isPro  = plan.highlight
   const isYear = interval === 'yearly'
 
-  const displayPrice  = isYear ? Math.round(plan.yearlyPrice / 12 * 10) / 10 : plan.monthlyPrice
-  const annualTotal   = plan.yearlyPrice
-  const annualSaving  = plan.monthlyPrice * 12 - plan.yearlyPrice
+  // India: show INR prices; others: show USD prices
+  const inrPrices    = INR_PRICES[plan.id] || { monthly: 0, yearly: 0 }
+  const displayPrice = isIndia
+    ? (isYear ? Math.round(inrPrices.yearly / 12) : inrPrices.monthly)
+    : (isYear ? Math.round(plan.yearlyPrice / 12 * 10) / 10 : plan.monthlyPrice)
+  const currency     = isIndia ? '₹' : '$'
+  const annualTotal  = isIndia ? inrPrices.yearly : plan.yearlyPrice
+  const annualSaving = isIndia
+    ? (inrPrices.monthly * 12 - inrPrices.yearly)
+    : (plan.monthlyPrice * 12 - plan.yearlyPrice)
 
   const planName        = t(`pricing.plans.${plan.id}.name`)
   const planDescription = t(`pricing.plans.${plan.id}.description`)
@@ -230,17 +244,17 @@ function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutInr, lo
       <div className="mb-5">
         <div className="flex items-baseline gap-1">
           <span className={`text-3xl sm:text-5xl font-black tracking-tight ${isPro ? 'text-white' : 'text-gray-900'}`}>
-            ${isYear ? displayPrice.toFixed(2).replace('.00','') : displayPrice}
+            {currency}{isYear ? displayPrice.toFixed(isIndia ? 0 : 2).replace('.00','') : displayPrice}
           </span>
           <span className={`text-sm ${isPro ? 'text-gray-400' : 'text-gray-400'}`}>{t('pricing.perMonth')}</span>
         </div>
         {isYear ? (
           <div className="flex items-center gap-2 mt-1.5 flex-wrap">
             <p className={`text-xs ${isPro ? 'text-gray-400' : 'text-gray-400'}`}>
-              {t('pricing.billing.billedAnnually', { total: annualTotal })}
+              {currency}{annualTotal} {t('pricing.billing.billedAnnually', { total: annualTotal }).replace(/[\$₹]\d+/g, '')}
             </p>
             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${isPro ? 'bg-green-500/20 text-green-400' : 'bg-green-100 text-green-700'}`}>
-              {t('pricing.billing.save', { amount: annualSaving })}
+              Save {currency}{annualSaving}
             </span>
           </div>
         ) : (
@@ -262,28 +276,29 @@ function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutInr, lo
         </button>
       ) : (
         <div className="flex flex-col gap-2 mb-2">
-          {/* Primary — Paddle (USD · Cards, PayPal, Apple Pay) */}
-          <button
-            onClick={() => onCheckout(plan.id, interval)}
-            disabled={loading}
-            className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-60 ${c.btn} text-white active:scale-[0.98]`}
-          >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-            {planCta}
-            {!loading && <ArrowRight className="w-4 h-4" />}
-          </button>
-          {/* Secondary — Razorpay (INR · for India) */}
-          <button
-            onClick={() => onCheckoutInr(plan.id, interval)}
-            disabled={loading}
-            className={`w-full py-2.5 rounded-xl font-semibold text-xs transition-all flex items-center justify-center gap-1.5 disabled:opacity-60 border ${
-              isPro
-                ? 'border-gray-600 text-gray-400 hover:border-gray-400 hover:text-gray-200'
-                : 'border-gray-200 text-gray-500 hover:border-gray-400 hover:text-gray-700'
-            }`}
-          >
-            Pay in ₹ INR · Razorpay
-          </button>
+          {isIndia ? (
+            /* ── India: Razorpay only (UPI · Card · Net Banking in INR) ── */
+            <button
+              onClick={() => onCheckoutInr(plan.id, interval)}
+              disabled={loading}
+              className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-60 ${c.btn} text-white active:scale-[0.98]`}
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+              {planCta}
+              {!loading && <ArrowRight className="w-4 h-4" />}
+            </button>
+          ) : (
+            /* ── International: Paddle only (Card · PayPal · auto-recurring) ── */
+            <button
+              onClick={() => onCheckout(plan.id, interval)}
+              disabled={loading}
+              className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-60 ${c.btn} text-white active:scale-[0.98]`}
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+              {planCta}
+              {!loading && <ArrowRight className="w-4 h-4" />}
+            </button>
+          )}
         </div>
       )}
 
@@ -375,7 +390,16 @@ export default function PricingPage() {
   const { startCheckout, startPaddleCheckout, loading, error } = useSubscription()
   const [cancelled, setCancelled] = useState(false)
   const [interval,  setInterval]  = useState('monthly')
+  const [isIndia,   setIsIndia]   = useState(false)
   const { t } = useTranslations()
+
+  // Detect India via timezone (IST = Asia/Kolkata, only used in India)
+  useEffect(() => {
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+      setIsIndia(['Asia/Kolkata', 'Asia/Calcutta'].includes(tz))
+    } catch { /* keep false */ }
+  }, [])
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.search.includes('cancelled=1')) {
@@ -449,7 +473,7 @@ export default function PricingPage() {
     <Layout title={t('pricing.pageTitle')}>
       <SEOHead
         title="Pricing — Starter, Pro & Agency Plans | SmallPDF.us"
-        description="Simple, transparent pricing for SmallPDF.us. Starter $9/mo, Pro $19/mo, Agency $49/mo. All PDF tools included. Cancel anytime. Pay with Card, PayPal, or UPI."
+        description="Simple, transparent pricing for SmallPDF.us. Starter $9/mo, Pro $19/mo, Agency $49/mo. Indian users: ₹399/mo. All PDF tools included. Cancel anytime."
         keywords="SmallPDF pricing, PDF tools subscription, PDF converter price, merge PDF price, compress PDF price, PDF plan"
         structuredData={pricingStructuredData}
       />
@@ -493,6 +517,25 @@ export default function PricingPage() {
             {t('pricing.hero.subtitle')}
           </p>
 
+          {/* Social proof row */}
+          <div className="mt-6 flex flex-wrap justify-center items-center gap-x-6 gap-y-2">
+            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+              <span className="flex">{'★★★★★'.split('').map((s,i) => <span key={i} className="text-amber-400 text-base">{s}</span>)}</span>
+              <span className="font-semibold text-gray-700">4.8</span>
+              <span>· 500+ users</span>
+            </div>
+            <span className="hidden sm:block text-gray-200">|</span>
+            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+              <Shield className="w-4 h-4 text-green-500" />
+              <span>14-day money-back guarantee</span>
+            </div>
+            <span className="hidden sm:block text-gray-200">|</span>
+            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+              <Zap className="w-4 h-4 text-blue-500" />
+              <span>Cancel anytime</span>
+            </div>
+          </div>
+
           {/* Billing interval toggle */}
           <div className="mt-8 flex justify-center">
             <BillingToggle interval={interval} onChange={setInterval} t={t} />
@@ -518,6 +561,7 @@ export default function PricingPage() {
                 onCheckout={startPaddleCheckout}
                 onCheckoutInr={startCheckout}
                 loading={loading}
+                isIndia={isIndia}
                 t={t}
               />
             ))}
@@ -528,24 +572,42 @@ export default function PricingPage() {
             <FreeBanner isCurrentPlan={!user?.plan || user?.plan === 'free'} t={t} />
           </div>
 
-          <p className="text-center text-xs text-gray-400 mt-5">
-            No credit card tricks · Cancel anytime
-          </p>
+          <div className="flex flex-wrap justify-center items-center gap-4 mt-6">
+            <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
+              🔒 Secure checkout
+            </span>
+            {isIndia ? (
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
+                💳 UPI · Debit/Credit Card · Net Banking
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
+                💳 Card · PayPal · Auto-renews via Paddle
+              </span>
+            )}
+            <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
+              ↩ 14-day money-back guarantee
+            </span>
+          </div>
         </section>
 
         {/* Trust badges */}
-        <section className="bg-white border-y border-gray-100 py-10">
-          <div className="max-w-4xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <section className="bg-gradient-to-r from-slate-50 via-white to-slate-50 border-y border-gray-100 py-10">
+          <div className="max-w-4xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { icon: '🔒', key: 'ssl'        },
-              { icon: '🗑️', key: 'autoDelete' },
-              { icon: '⚡', key: 'fast'       },
-              { icon: '✨', key: 'noFees'     },
-            ].map(({ icon, key }) => (
-              <div key={key} className="flex flex-col items-center gap-2">
-                <span className="text-2xl">{icon}</span>
-                <p className="text-sm font-bold text-gray-800">{t(`pricing.trustBadges.${key}.title`)}</p>
-                <p className="text-xs text-gray-400">{t(`pricing.trustBadges.${key}.subtitle`)}</p>
+              { icon: '🔒', key: 'ssl',        color: 'bg-blue-50 text-blue-600'   },
+              { icon: '🗑️', key: 'autoDelete', color: 'bg-orange-50 text-orange-600' },
+              { icon: '⚡', key: 'fast',       color: 'bg-yellow-50 text-yellow-600' },
+              { icon: '✨', key: 'noFees',     color: 'bg-green-50 text-green-600'  },
+            ].map(({ icon, key, color }) => (
+              <div key={key} className="flex flex-col items-center gap-3">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl ${color}`}>
+                  {icon}
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-gray-800">{t(`pricing.trustBadges.${key}.title`)}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{t(`pricing.trustBadges.${key}.subtitle`)}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -670,28 +732,46 @@ export default function PricingPage() {
         </section>
 
         {/* Bottom CTA */}
-        <section className="bg-gray-900 py-16 px-4 text-center text-white">
-          <Crown className="w-10 h-10 mx-auto mb-4 text-red-400" />
-          <h2 className="text-3xl font-extrabold mb-3">{t('pricing.bottomCta.title')}</h2>
-          <p className="text-gray-400 mb-8 max-w-md mx-auto">
-            {t('pricing.bottomCta.subtitle')}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
-              onClick={() => startPaddleCheckout('pro', interval)}
-              disabled={loading}
-              className="inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-400 text-white font-bold px-8 py-3.5 rounded-xl transition-colors text-sm shadow-lg disabled:opacity-70"
-            >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              {interval === 'yearly' ? t('pricing.bottomCta.proBtnYearly') : t('pricing.bottomCta.proBtnMonthly')}
-            </button>
-            <button
-              onClick={() => startPaddleCheckout('agency', interval)}
-              disabled={loading}
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm"
-            >
-              {t('pricing.bottomCta.agencyBtn')}
-            </button>
+        <section className="relative overflow-hidden bg-gray-900 py-20 px-4 text-center text-white">
+          {/* Background glow */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-500/10 rounded-full blur-3xl" />
+          </div>
+          <div className="relative">
+            <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/30 rounded-full px-4 py-1.5 text-sm text-red-400 font-semibold mb-5">
+              <Crown className="w-3.5 h-3.5" />
+              Limited time offer
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-3">{t('pricing.bottomCta.title')}</h2>
+            <p className="text-gray-400 mb-8 max-w-md mx-auto text-lg">
+              {t('pricing.bottomCta.subtitle')}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button
+                onClick={() => isIndia ? startCheckout('pro', interval) : startPaddleCheckout('pro', interval)}
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400 text-white font-bold px-8 py-4 rounded-xl transition-all text-sm shadow-xl shadow-red-500/25 disabled:opacity-70 active:scale-[0.98]"
+              >
+                {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
+                {isIndia
+                  ? (interval === 'yearly' ? 'Get Pro — ₹7,990/yr' : 'Get Pro — ₹799/mo')
+                  : (interval === 'yearly' ? 'Get Pro — $190/yr'   : 'Get Pro — $19/mo')}
+              </button>
+              <button
+                onClick={() => isIndia ? startCheckout('agency', interval) : startPaddleCheckout('agency', interval)}
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-8 py-4 rounded-xl transition-all text-sm"
+              >
+                <Building2 className="w-4 h-4" />
+                {isIndia
+                  ? (interval === 'yearly' ? 'Get Agency — ₹24,990/yr' : 'Get Agency — ₹2,499/mo')
+                  : (interval === 'yearly' ? 'Get Agency — $490/yr'    : 'Get Agency — $49/mo')}
+              </button>
+            </div>
+            <p className="mt-5 text-xs text-gray-500">
+              🔒 14-day money-back guarantee · No hidden fees · Cancel anytime
+              {isIndia ? ' · Powered by Razorpay' : ' · Powered by Paddle'}
+            </p>
           </div>
         </section>
 

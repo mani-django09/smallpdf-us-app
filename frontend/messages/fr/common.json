@@ -6,6 +6,7 @@
     "fast": "Rapide"
   },
   "nav": {
+    "pdfTools": "Outils PDF",
     "mergePdf": "Fusionner PDF",
     "splitPdf": "Diviser PDF",
     "compressPdf": "Compresser PDF",
@@ -80,7 +81,7 @@
     "logOut": "Se déconnecter",
     "tabProfile": "👤 Profil",
     "tabSecurity": "🔒 Sécurité",
-    "tabPlan": "⭐ Plan",
+    "tabPlan": "⭐ Forfait",
     "profileTitle": "Profil",
     "fullNameLabel": "Nom complet",
     "emailLabel": "Adresse e-mail",

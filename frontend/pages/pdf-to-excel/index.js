@@ -1492,3 +1492,9 @@ export default function PdfToExcel() {
     </Layout>
   )
 }
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {},
+  }
+}

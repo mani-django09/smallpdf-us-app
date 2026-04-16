@@ -15,6 +15,13 @@ const crypto  = require('crypto')
 const router  = express.Router()
 const { dbRun, dbGet } = require('../database')
 const { requireAuth }  = require('../middleware/authMiddleware')
+const {
+  sendPlanActivatedEmail,
+  sendPlanRenewedEmail,
+  sendCancellationScheduledEmail,
+  sendPlanExpiredEmail,
+  sendPaymentFailedEmail,
+} = require('./emailService')
 
 const FRONTEND_URL = process.env.FRONTEND_URL || 'https://smallpdf.us'
 
@@ -117,6 +124,21 @@ router.post('/create-subscription', requireAuth, async (req, res) => {
 
     const rzp = getRazorpay()
 
+    // ── Cancel any stale/unpaid previous subscription ─────────────────────
+    // Prevents ghost subscriptions in Razorpay when user re-opens checkout
+    if (user.razorpay_subscription_id && user.plan === 'free') {
+      try {
+        const existing = await rzp.subscriptions.fetch(user.razorpay_subscription_id)
+        // Only cancel if it's still in created/authenticated state (not yet charged)
+        if (['created', 'authenticated'].includes(existing.status)) {
+          await rzp.subscriptions.cancel(user.razorpay_subscription_id, { cancel_at_cycle_end: 0 })
+          console.log(`🗑️  Cancelled stale subscription ${user.razorpay_subscription_id} for ${user.email}`)
+        }
+      } catch (e) {
+        // Ignore — subscription may already be gone
+      }
+    }
+
     // total_count: yearly plans bill once per year; use 12 cycles (12 years)
     const totalCount = interval === 'yearly' ? 12 : 120
 
@@ -189,6 +211,10 @@ router.post('/verify-payment', requireAuth, async (req, res) => {
     // Activate plan — set expiry 32 days from now; webhook will keep it renewed
     const expiresAt = new Date(Date.now() + 32 * 24 * 60 * 60 * 1000).toISOString()
     await setUserPlan(req.user.id, plan, expiresAt, razorpay_subscription_id)
+
+    const activatedUser = await dbGet('SELECT * FROM users WHERE id = ?', [req.user.id])
+    const interval = req.body.interval || 'monthly'
+    sendPlanActivatedEmail({ name: activatedUser?.name, email: activatedUser?.email, plan, interval, expiresAt, gateway: 'razorpay' })
 
     console.log(`✅ Plan activated: userId=${req.user.id} plan=${plan} sub=${razorpay_subscription_id} payment=${razorpay_payment_id}`)
     res.json({ success: true, plan })
@@ -272,6 +298,8 @@ router.post('/cancel-subscription', requireAuth, async (req, res) => {
     // cancel_at_cycle_end: 1 = cancel at the end of current billing cycle
     await rzp.subscriptions.cancel(user.razorpay_subscription_id, { cancel_at_cycle_end: 1 })
 
+    sendCancellationScheduledEmail({ name: user.name, email: user.email, plan: user.plan, expiresAt: user.plan_expires_at })
+
     console.log(`⬇️  Cancellation requested: userId=${user.id} sub=${user.razorpay_subscription_id}`)
     res.json({ success: true, message: 'Subscription will cancel at end of current billing period.' })
   } catch (error) {
@@ -327,11 +355,13 @@ async function webhookHandler(req, res) {
         if (!user) { console.warn(`No user found for sub ${sub.id}`); break }
 
         const planName  = sub.notes?.plan || 'starter'
+        const interval  = sub.notes?.interval || 'monthly'
         const expiresAt = sub.current_end
           ? new Date(sub.current_end * 1000).toISOString()
           : new Date(Date.now() + 32 * 24 * 60 * 60 * 1000).toISOString()
 
         await setUserPlan(user.id, planName, expiresAt, sub.id)
+        sendPlanActivatedEmail({ name: user.name, email: user.email, plan: planName, interval, expiresAt, gateway: 'razorpay' })
         console.log(`✅ Activated: ${user.email} → ${planName} (expires ${expiresAt})`)
         break
       }
@@ -348,6 +378,7 @@ async function webhookHandler(req, res) {
           : new Date(Date.now() + 32 * 24 * 60 * 60 * 1000).toISOString()
 
         await setUserPlan(user.id, planName, expiresAt, sub.id)
+        sendPlanRenewedEmail({ name: user.name, email: user.email, plan: planName, expiresAt, gateway: 'razorpay' })
         console.log(`💳 Renewal: ${user.email} → ${planName} (expires ${expiresAt})`)
         break
       }
@@ -359,7 +390,9 @@ async function webhookHandler(req, res) {
         const user = await getUserBySubId(sub.id)
         if (!user) break
 
+        const prevPlan = user.plan
         await setUserPlan(user.id, 'free', null, null)
+        sendPlanExpiredEmail({ name: user.name, email: user.email, plan: prevPlan })
         console.log(`⬇️  ${user.email} → free (${event.event})`)
         break
       }
@@ -367,6 +400,13 @@ async function webhookHandler(req, res) {
       // Payment failed — keep current plan (Razorpay retries automatically)
       case 'payment.failed': {
         const payment = event.payload.payment?.entity
+        const subId   = payment?.subscription_id
+        if (subId) {
+          const failedUser = await getUserBySubId(subId)
+          if (failedUser) {
+            sendPaymentFailedEmail({ name: failedUser.name, email: failedUser.email, plan: failedUser.plan, gateway: 'razorpay' })
+          }
+        }
         console.warn(`⚠️  Payment failed: ${payment?.id} — ${payment?.error_description || 'unknown error'}`)
         break
       }
@@ -473,6 +513,9 @@ router.post('/verify-intl-payment', requireAuth, async (req, res) => {
 
     // No subscription ID for one-time orders — set null to distinguish from INR subscriptions
     await setUserPlan(req.user.id, plan, expiresAt, null)
+
+    const intlUser = await dbGet('SELECT * FROM users WHERE id = ?', [req.user.id])
+    sendPlanActivatedEmail({ name: intlUser?.name, email: intlUser?.email, plan, interval, expiresAt, gateway: 'razorpay' })
 
     console.log(`✅ Intl plan activated: userId=${req.user.id} plan=${plan} interval=${interval} order=${razorpay_order_id} expires=${expiresAt}`)
     res.json({ success: true, plan, interval, expiresAt })

@@ -66,81 +66,20 @@ function MyApp({ Component, pageProps }) {
     }
   }, [router.events, router.pathname])
 
-  // Report Web Vitals to analytics
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
-      try {
-        // Largest Contentful Paint (LCP)
-        const lcpObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries()
-          const lastEntry = entries[entries.length - 1]
-          const lcpValue = lastEntry.renderTime || lastEntry.loadTime
-          if (window.gtag) {
-            window.gtag('event', 'web_vitals', {
-              event_category: 'Web Vitals',
-              event_label: 'LCP',
-              value: Math.round(lcpValue),
-              non_interaction: true,
-            })
-          }
-        })
-        lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true })
+  // Web Vitals are reported via the exported reportWebVitals() below — no duplicate observers needed
 
-        // First Input Delay (FID)
-        const fidObserver = new PerformanceObserver((list) => {
-          const entries = list.getEntries()
-          entries.forEach((entry) => {
-            const fidValue = entry.processingStart - entry.startTime
-            if (window.gtag) {
-              window.gtag('event', 'web_vitals', {
-                event_category: 'Web Vitals',
-                event_label: 'FID',
-                value: Math.round(fidValue),
-                non_interaction: true,
-              })
-            }
-          })
-        })
-        fidObserver.observe({ type: 'first-input', buffered: true })
-
-        // Cumulative Layout Shift (CLS)
-        let clsValue = 0
-        const clsObserver = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (!entry.hadRecentInput) {
-              clsValue += entry.value
-            }
-          }
-          if (window.gtag && clsValue > 0) {
-            window.gtag('event', 'web_vitals', {
-              event_category: 'Web Vitals',
-              event_label: 'CLS',
-              value: Math.round(clsValue * 1000),
-              non_interaction: true,
-            })
-          }
-        })
-        clsObserver.observe({ type: 'layout-shift', buffered: true })
-      } catch (e) {
-        console.error('Performance monitoring error:', e)
-      }
-    }
-  }, [])
-
-  // Prefetch common pages for faster navigation
+  // Prefetch common pages — only on fast connections to avoid burning mobile data
   useEffect(() => {
     const prefetchPages = [
-      '/merge-pdf',
-      '/split-pdf',
-      '/compress-pdf',
-      '/pdf-to-word',
-      '/word-to-pdf',
-      '/jpg-to-pdf',
-      '/pdf-to-jpg',
+      '/merge-pdf', '/split-pdf', '/compress-pdf',
+      '/pdf-to-word', '/word-to-pdf', '/jpg-to-pdf', '/pdf-to-jpg',
     ]
+    // Skip prefetch on slow connections (2G/3G/save-data)
+    const conn = navigator?.connection || navigator?.mozConnection || navigator?.webkitConnection
+    if (conn?.saveData || (conn?.effectiveType && ['slow-2g', '2g', '3g'].includes(conn.effectiveType))) return
     const timeout = setTimeout(() => {
       prefetchPages.forEach((page) => router.prefetch(page))
-    }, 3000)
+    }, 5000) // after 5s — well after page is interactive
     return () => clearTimeout(timeout)
   }, [router])
 

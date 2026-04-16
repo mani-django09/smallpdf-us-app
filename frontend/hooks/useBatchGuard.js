@@ -30,23 +30,24 @@ import BatchLimitModal from '../components/BatchLimitModal'
 
 // ── Per-tool limits — keep in sync with middleware/batchLimiter.js ────────────
 // Pricing: Free=per-tool, Starter=10, Pro=20, Agency=50 files per batch
+// Must match backend/middleware/batchLimiter.js exactly
 export const BATCH_LIMITS = {
-  'ocr-pdf':        { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'merge-pdf':      { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'split-pdf':      { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'compress-pdf':   { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'word-to-pdf':    { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'ppt-to-pdf':     { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'excel-to-pdf':   { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-word':    { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-ppt':     { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-excel':   { free: 1,  starter: 10, pro: 20, ent: 50 },
-  'pdf-to-jpg':     { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'jpg-to-pdf':     { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'png-to-pdf':     { free: 5,  starter: 10, pro: 20, ent: 50 },
-  'compress-image': { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'webp-to-png':    { free: 2,  starter: 10, pro: 20, ent: 50 },
-  'png-to-webp':    { free: 2,  starter: 10, pro: 20, ent: 50 },
+  'ocr-pdf':        { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'merge-pdf':      { free: 2,  starter: 10, pro: 999, ent: 999 }, // Unlimited
+  'split-pdf':      { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'compress-pdf':   { free: 2,  starter: 10, pro: 10,  ent: 10  },
+  'word-to-pdf':    { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'ppt-to-pdf':     { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'excel-to-pdf':   { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-word':    { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-ppt':     { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-excel':   { free: 1,  starter: 10, pro: 10,  ent: 10  },
+  'pdf-to-jpg':     { free: 2,  starter: 10, pro: 10,  ent: 10  },
+  'jpg-to-pdf':     { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'png-to-pdf':     { free: 5,  starter: 10, pro: 20,  ent: 20  },
+  'compress-image': { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'webp-to-png':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'png-to-webp':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
 }
 
 function getAllowedCount(limits, user) {

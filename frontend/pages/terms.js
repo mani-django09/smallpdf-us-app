@@ -68,6 +68,9 @@ export default function Terms() {
             <p className="text-slate-300 text-sm max-w-xl mx-auto mt-2">
               Plain and simple. By using SmallPDF.us you agree to these terms.
             </p>
+            <p className="text-slate-400 text-xs max-w-xl mx-auto mt-2">
+              Operated by: <span className="text-slate-300 font-semibold">Manikant Kumar (Individual)</span> — Balahpur, District Lakhisarai, Bihar 811310, India
+            </p>
           </div>
         </div>
 
@@ -231,6 +234,11 @@ export default function Terms() {
                 <section id="s10" className="p-6 md:p-8">
                   <SectionHeading num={10} title={t('terms.s10Title')} icon={Scale} color="text-slate-600" gradient="from-slate-500 to-slate-600" />
                   <p className="text-sm text-gray-600 leading-relaxed">{t('terms.s10Para')}</p>
+                  <div className="mt-4 bg-gray-50 border border-gray-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-gray-500 uppercase tracking-wider mb-1">Legal Operator</p>
+                    <p className="text-sm font-bold text-gray-900">Manikant Kumar (Individual)</p>
+                    <p className="text-sm text-gray-600">Balahpur, District Lakhisarai, Bihar 811310, India</p>
+                  </div>
                 </section>
 
                 {/* S11 — Contact */}

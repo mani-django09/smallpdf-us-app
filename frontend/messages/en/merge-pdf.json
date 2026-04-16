@@ -5,6 +5,8 @@
   "errorTooManyFiles": "You can merge up to 20 files at once",
   "errorProcessing": "Something went wrong while processing your files. Please try again.",
 
+  "seoTitle": "Merge PDF Files Free Online — Combine PDFs | SmallPDF.us",
+  "seoDescription": "Merge multiple PDF files into one online for free. Combine PDFs in seconds — no signup, no watermark. Drag, drop, and download your merged PDF instantly.",
   "heroTitle": "Merge PDF Files",
   "heroTitleHighlight": "Online Free",
   "heroSubtitle": "Combine multiple PDF documents into one file in seconds. Fast, easy, and completely free — no signup required.",
@@ -74,7 +76,7 @@
   "faq5Question": "Do I need to install anything?",
   "faq5Answer": "No. Works right in your browser on any device. Phone, tablet, laptop, whatever. No downloads, no apps, no software to manage.",
 
-  "seoTitle": "Why Merge PDFs Together",
+  "seoSectionTitle": "Why Merge PDFs Together",
   "seoP1": "Multiple PDF files are a pain to deal with. You've got to send them all separately, keep track of which one is which, and hope the person on the other end opens them in the right order. One merged file solves all of that at once.",
   "seoP2": "Think about sending a project proposal. Without merging, you're attaching the main proposal, then the budget as a separate PDF, then the timeline, then maybe some references. That's four files minimum. With merging? One file. Everything's in order, nothing gets lost, looks way more professional.",
   "seoSubtitle": "Who Uses This",

@@ -128,9 +128,7 @@ export default function SEOHead({
         isPartOf: { '@id': `${baseUrl}/#website` },
         about: { '@id': `${baseUrl}/#organization` },
         datePublished: '2024-01-01T00:00:00+00:00',
-        // Static date — update manually on major content revisions rather than
-        // using new Date() which signals modification on every crawl.
-        dateModified: '2025-06-01T00:00:00+00:00',
+        dateModified: '2026-04-14T00:00:00+00:00',
       },
       {
         '@type': 'SoftwareApplication',
@@ -210,14 +208,14 @@ export default function SEOHead({
             '@type': 'Question',
             name:
               locale === 'ja'
-                ? 'SmallPDF.usは本当に無料ですか？'
-                : 'Is SmallPDF.us really free to use?',
+                ? 'SmallPDF.usは無料で使えますか？'
+                : 'Is SmallPDF.us free to use?',
             acceptedAnswer: {
               '@type': 'Answer',
               text:
                 locale === 'ja'
-                  ? 'はい、SmallPDF.usは完全無料で、隠れた費用や有料プランはありません。'
-                  : 'Yes, SmallPDF.us is completely free with no hidden fees or premium tiers. You can convert, compress, merge, and split as many PDFs as you want without paying anything.',
+                  ? 'はい、SmallPDF.usは無料で使えます。無料プランでは主要ツールをすべて利用でき、ファイルサイズや処理数に制限があります。より大きなファイルや無制限の処理が必要な場合は有料プランをご利用ください。'
+                  : 'Yes, SmallPDF.us offers a free plan that lets you use all core tools with file size and batch limits. For unlimited conversions, larger files, and priority processing, a paid Starter or Pro plan is available. No account needed for free use.',
             },
           },
           {

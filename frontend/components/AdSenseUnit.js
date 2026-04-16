@@ -27,7 +27,8 @@ export default function AdSenseUnit({ adSlot, style = {}, format = "auto", respo
 
       // Check if adsbygoogle script is loaded
       if (typeof window.adsbygoogle === "undefined") {
-        console.warn("AdSense script not loaded yet")
+        // Script not ready yet — retry after short delay
+        setTimeout(() => { if (!loadedRef.current) loadedRef.current = false }, 2000)
         return
       }
 
@@ -48,15 +49,21 @@ export default function AdSenseUnit({ adSlot, style = {}, format = "auto", respo
     }
   }, [adSlot])
 
+  // Reserve space to prevent CLS (Cumulative Layout Shift)
+  // AdSense horizontal banner is typically 90px, responsive auto is ~280px
+  const minHeight = style?.minHeight ?? (format === 'auto' ? 100 : 90)
+
   return (
-    <ins
-      ref={adRef}
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format={format}
-      data-full-width-responsive={responsive ? "true" : "false"}
-    />
+    <div style={{ minHeight, display: 'block', contain: 'layout' }}>
+      <ins
+        ref={adRef}
+        className="adsbygoogle"
+        style={{ display: "block", ...style }}
+        data-ad-client="ca-pub-6913093595582462"
+        data-ad-slot={adSlot}
+        data-ad-format={format}
+        data-full-width-responsive={responsive ? "true" : "false"}
+      />
+    </div>
   )
 }

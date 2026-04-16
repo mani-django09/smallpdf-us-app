@@ -19,47 +19,58 @@ import { useState, useCallback } from 'react'
 import { useAuth } from '../context/AuthContext'
 import PremiumModal from '../components/PremiumModal'
 
-// ── Free-tier limits (bytes) — must match server middleware ─────────────────
-// Free plan: 100 MB general limit (lower for OCR and office tools)
-const FREE_DEFAULT = 100 * 1024 * 1024  // 100 MB
+// ── Free-tier limits (bytes) — must match pricing table ─────────────────────
+const FREE_DEFAULT = 10 * 1024 * 1024  // 10 MB fallback
 
 export const FREE_LIMITS = {
-  'ocr-pdf':          10 * 1024 * 1024,   //  10 MB (OCR is CPU-intensive)
-  'merge-pdf':       100 * 1024 * 1024,   // 100 MB
-  'split-pdf':       100 * 1024 * 1024,   // 100 MB
-  'compress-pdf':    200 * 1024 * 1024,   // 200 MB
-  'unlock-pdf':      100 * 1024 * 1024,   // 100 MB
-  'rotate-pdf':      100 * 1024 * 1024,   // 100 MB
+  'ocr-pdf':          10 * 1024 * 1024,   //  10 MB
+  'merge-pdf':        10 * 1024 * 1024,   //  10 MB
+  'split-pdf':        10 * 1024 * 1024,   //  10 MB
+  'compress-pdf':     20 * 1024 * 1024,   //  20 MB
+  'unlock-pdf':       10 * 1024 * 1024,   //  10 MB
+  'rotate-pdf':       10 * 1024 * 1024,   //  10 MB
 
-  'word-to-pdf':      15 * 1024 * 1024,   //  15 MB
-  'ppt-to-pdf':       15 * 1024 * 1024,   //  15 MB
-  'excel-to-pdf':     15 * 1024 * 1024,   //  15 MB
-  'pdf-to-word':      15 * 1024 * 1024,   //  15 MB
-  'pdf-to-ppt':       15 * 1024 * 1024,   //  15 MB
-  'pdf-to-excel':     15 * 1024 * 1024,   //  15 MB
+  'word-to-pdf':       5 * 1024 * 1024,   //   5 MB
+  'ppt-to-pdf':        5 * 1024 * 1024,   //   5 MB
+  'excel-to-pdf':      5 * 1024 * 1024,   //   5 MB
+  'pdf-to-word':       5 * 1024 * 1024,   //   5 MB
+  'pdf-to-ppt':        5 * 1024 * 1024,   //   5 MB
+  'pdf-to-excel':      5 * 1024 * 1024,   //   5 MB
 
-  'pdf-to-jpg':       25 * 1024 * 1024,   //  25 MB
-  'pdf-to-png':       25 * 1024 * 1024,   //  25 MB
-  'jpg-to-pdf':       40 * 1024 * 1024,   //  40 MB
-  'png-to-pdf':       40 * 1024 * 1024,   //  40 MB
-  'webp-to-png':      40 * 1024 * 1024,   //  40 MB
-  'png-to-webp':      40 * 1024 * 1024,   //  40 MB
-  'compress-image':  200 * 1024 * 1024,   // 200 MB
+  'pdf-to-jpg':        5 * 1024 * 1024,   //   5 MB
+  'pdf-to-png':        5 * 1024 * 1024,   //   5 MB
+  'jpg-to-pdf':        5 * 1024 * 1024,   //   5 MB
+  'png-to-pdf':        5 * 1024 * 1024,   //   5 MB
+  'webp-to-png':       5 * 1024 * 1024,   //   5 MB
+  'png-to-webp':       5 * 1024 * 1024,   //   5 MB
+  'compress-image':   15 * 1024 * 1024,   //  15 MB
 }
 
-// ── Starter-tier limits (bytes) — must match server middleware ───────────────
-// Starter plan: 200 MB for PDF/image tools, 50 MB for office conversions
-const STARTER_DEFAULT = 200 * 1024 * 1024  // 200 MB
+// ── Starter-tier limits (bytes) — must match pricing table ───────────────────
+const STARTER_DEFAULT = 100 * 1024 * 1024  // 100 MB for PDF tools
 
 export const STARTER_LIMITS = {
-  // Office conversions capped at 50 MB for Starter
-  'word-to-pdf':   50 * 1024 * 1024,   //  50 MB
-  'ppt-to-pdf':    50 * 1024 * 1024,   //  50 MB
-  'excel-to-pdf':  50 * 1024 * 1024,   //  50 MB
-  'pdf-to-word':   50 * 1024 * 1024,   //  50 MB
-  'pdf-to-ppt':    50 * 1024 * 1024,   //  50 MB
-  'pdf-to-excel':  50 * 1024 * 1024,   //  50 MB
-  // All other tools fall through to STARTER_DEFAULT (200 MB)
+  // PDF tools: 100 MB
+  'merge-pdf':     100 * 1024 * 1024,   // 100 MB
+  'split-pdf':     100 * 1024 * 1024,   // 100 MB
+  'compress-pdf':  100 * 1024 * 1024,   // 100 MB
+  'unlock-pdf':    100 * 1024 * 1024,   // 100 MB
+  'rotate-pdf':    100 * 1024 * 1024,   // 100 MB
+  // Office conversions: 20 MB
+  'word-to-pdf':    20 * 1024 * 1024,   //  20 MB
+  'ppt-to-pdf':     20 * 1024 * 1024,   //  20 MB
+  'excel-to-pdf':   20 * 1024 * 1024,   //  20 MB
+  'pdf-to-word':    20 * 1024 * 1024,   //  20 MB
+  'pdf-to-ppt':     20 * 1024 * 1024,   //  20 MB
+  'pdf-to-excel':   20 * 1024 * 1024,   //  20 MB
+  // Image tools: 20 MB
+  'pdf-to-jpg':     20 * 1024 * 1024,   //  20 MB
+  'pdf-to-png':     20 * 1024 * 1024,   //  20 MB
+  'jpg-to-pdf':     20 * 1024 * 1024,   //  20 MB
+  'png-to-pdf':     20 * 1024 * 1024,   //  20 MB
+  'webp-to-png':    20 * 1024 * 1024,   //  20 MB
+  'png-to-webp':    20 * 1024 * 1024,   //  20 MB
+  'compress-image': 20 * 1024 * 1024,   //  20 MB
 }
 
 function fmtMB(bytes) {

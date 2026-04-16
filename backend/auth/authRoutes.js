@@ -17,6 +17,13 @@ const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production'
 const JWT_EXPIRES_IN = '7d'
 const FRONTEND_URL = process.env.FRONTEND_URL || 'https://smallpdf.us'
 
+// Returns 'free' if plan_expires_at has passed, otherwise the stored plan.
+function getEffectivePlan(user) {
+  if (!user || user.plan === 'free') return 'free'
+  if (user.plan_expires_at && new Date(user.plan_expires_at) < new Date()) return 'free'
+  return user.plan
+}
+
 // ─── Email Transporter ──────────────────────────────────────────────────────
 function createTransporter() {
   return nodemailer.createTransport({
@@ -121,6 +128,15 @@ router.post('/login', async (req, res) => {
 
     if (!user.email_verified)
       return res.status(403).json({ error: 'Please verify your email before logging in.', code: 'EMAIL_NOT_VERIFIED' })
+
+    // Check plan expiry — downgrade to free before issuing JWT
+    const effectivePlan = getEffectivePlan(user)
+    if (effectivePlan !== user.plan) {
+      await dbRun(`UPDATE users SET plan = 'free', plan_expires_at = NULL WHERE id = ?`, [user.id])
+      user.plan = 'free'
+      user.plan_expires_at = null
+      console.log(`⏰ Plan auto-expired at login for userId=${user.id}`)
+    }
 
     // Update last login
     await dbRun('UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = ?', [user.id])
@@ -286,10 +302,27 @@ router.post('/reset-password', async (req, res) => {
 router.get('/me', requireAuth, async (req, res) => {
   try {
     const user = await dbGet(
-      `SELECT id, name, email, plan, avatar, created_at, last_login_at FROM users WHERE id = ?`,
+      `SELECT id, name, email, plan, plan_expires_at, avatar, created_at, last_login_at FROM users WHERE id = ?`,
       [req.user.id]
     )
     if (!user) return res.status(404).json({ error: 'User not found' })
+
+    // ── Auto-expire plan if plan_expires_at has passed ─────────────────────
+    // Prevents paid-plan users from staying "paid" after subscription ends
+    // if the renewal webhook didn't fire (e.g. webhook misconfigured).
+    if (user.plan !== 'free' && user.plan_expires_at) {
+      const expiry = new Date(user.plan_expires_at)
+      if (expiry < new Date()) {
+        await dbRun(
+          `UPDATE users SET plan = 'free', plan_expires_at = NULL WHERE id = ?`,
+          [user.id]
+        )
+        user.plan            = 'free'
+        user.plan_expires_at = null
+        console.log(`⏰ Plan auto-expired for userId=${user.id}`)
+      }
+    }
+
     res.json({ user })
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch user data' })
@@ -364,6 +397,14 @@ router.post('/google', async (req, res) => {
         [name, email.toLowerCase(), '', picture, googleId]
       )
       user = await dbGet('SELECT * FROM users WHERE email = ?', [email.toLowerCase()])
+    }
+
+    // Check plan expiry before issuing JWT
+    const effectivePlanGoogle = getEffectivePlan(user)
+    if (effectivePlanGoogle !== user.plan) {
+      await dbRun(`UPDATE users SET plan = 'free', plan_expires_at = NULL WHERE id = ?`, [user.id])
+      user.plan = 'free'
+      console.log(`⏰ Plan auto-expired at Google login for userId=${user.id}`)
     }
 
     const token = jwt.sign(

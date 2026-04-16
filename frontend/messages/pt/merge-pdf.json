@@ -62,7 +62,7 @@
   "faq4Answer": "Absolutamente. Toda a transferência é protegida por criptografia SSL de 256 bits. Seus arquivos são processados em servidores seguros e excluídos automaticamente após 1 hora. Nenhum dado é compartilhado com terceiros.",
   "faq5Question": "Posso usar em celular ou tablet?",
   "faq5Answer": "Sim! Nossa ferramenta funciona perfeitamente em dispositivos móveis. Basta abrir o navegador, enviar seus arquivos e baixar o PDF unido — sem instalar nada.",
-  "seoTitle": "Unir PDFs Online: Rápido, Gratuito e Sem Cadastro",
+  "seoTitle": "Unir PDF online grátis — Combinar arquivos PDF | SmallPDF.us",
   "seoP1": "Unir arquivos PDF nunca foi tão simples. Com o SmallPDF.us, você combina documentos diretamente no navegador — sem instalar softwares, sem criar conta e sem pagar nada. Nossa ferramenta foi desenvolvida para ser acessível a qualquer pessoa, em qualquer dispositivo.",
   "seoP2": "Seja para consolidar relatórios de trabalho, organizar documentos pessoais ou preparar materiais para impressão, nosso unificador de PDF entrega resultados profissionais em segundos. Carregue seus arquivos, organize a ordem desejada e baixe o documento final com toda a qualidade preservada.",
   "seoSubtitle": "Segurança e Privacidade em Primeiro Lugar",
@@ -140,5 +140,6 @@
     "statusComplete": "Concluído",
     "yourPrivacy": "Sua privacidade",
     "privacyDesc": "Seus arquivos são processados com criptografia SSL de 256 bits e excluídos automaticamente dos nossos servidores após 1 hora. Nunca acessamos nem compartilhamos o conteúdo dos seus documentos."
-  }
+  },
+  "seoDescription": "Una vários ficheiros PDF num só online gratuitamente. Sem registo, sem marca de água. Rápido e simples."
 }

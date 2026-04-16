@@ -6,6 +6,7 @@
     "fast": "Rápido"
   },
   "nav": {
+    "pdfTools": "Ferramentas PDF",
     "mergePdf": "Juntar PDF",
     "splitPdf": "Dividir PDF",
     "compressPdf": "Comprimir PDF",
@@ -99,7 +100,13 @@
     "planFreeDesc": "Acesso básico com recursos limitados",
     "planPaidDesc": "Acesso completo a todas as ferramentas",
     "upgradeToPro": "Fazer upgrade para Pro",
-    "proFeatures": ["Processamento de arquivos ilimitado", "Sem limites de tamanho de arquivo", "Suporte prioritário", "Processamento em lote", "Sem anúncios"],
+    "proFeatures": [
+      "Processamento de arquivos ilimitado",
+      "Sem limites de tamanho de arquivo",
+      "Suporte prioritário",
+      "Processamento em lote",
+      "Sem anúncios"
+    ],
     "upgradeBtn": "Fazer upgrade para Pro — Em breve",
     "planBadgeFree": "Grátis",
     "planBadgePro": "Pro",
