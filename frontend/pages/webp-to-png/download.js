@@ -32,6 +32,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
+import { useIsIndia } from "../../hooks/useIsIndia"
 
 // Inline AdSense component
 function AdSenseUnit({ adSlot, style = {} }) {

@@ -3,6 +3,8 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
 import SEOHead from "../../components/SEOHead"
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
   FileSpreadsheet,
   Upload,
