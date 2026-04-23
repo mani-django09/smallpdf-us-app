@@ -17,11 +17,13 @@ import {
   Mail,
   Printer,
   Archive,
+  Zap,
+  ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-import AdUnit from "../../components/AdUnit"
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 // Inline translations for strings not yet in JSON files
 // Covers all 8 supported locales — no new JSON keys needed
@@ -68,10 +70,24 @@ export default function DownloadExcelToPDF() {
 
   // Helper: pick the right locale from INLINE_T, fall back to English
   const ti = (key) => INLINE_T[key]?.[locale] ?? INLINE_T[key]?.en ?? key
+  const { user } = useAuth()
+  const isIndia = useIsIndia()
+  const [mounted, setMounted] = useState(false)
+  const [useCount, setUseCount] = useState(0)
+  const isPaidUser = !!(user?.plan && user.plan !== 'free')
+
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(false)
   const [downloaded, setDownloaded] = useState(false)
   const [error, setError] = useState("")
+
+  useEffect(() => {
+    setMounted(true)
+    try {
+      const count = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
+      setUseCount(count)
+    } catch {}
+  }, [])
 
   useEffect(() => {
     const storedResult = sessionStorage.getItem("excelToPdfResult")
@@ -244,7 +260,7 @@ export default function DownloadExcelToPDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdUnit slot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -447,7 +463,7 @@ export default function DownloadExcelToPDF() {
             {/* Sidebar Ad */}
             <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
               <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
-              <AdUnit slot="7489539676" label="Download Sidebar" />
+              <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
             </div>
 
             {/* Quick Tips */}

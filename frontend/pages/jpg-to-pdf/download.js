@@ -3,7 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
-import AdUnit from "../../components/AdUnit"
+import AdSenseUnit from "../../components/AdSenseUnit"
 import {
   Download,
   FileText,
@@ -223,7 +223,7 @@ export default function DownloadJpgToPdf() {
 
       {/* Header Ad */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <AdUnit slot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+        <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
       </div>
 
       {/* Success Header */}
@@ -549,7 +549,7 @@ export default function DownloadJpgToPdf() {
               {/* Sidebar Ad */}
               <div className="bg-white rounded-2xl border border-orange-200 p-3">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
-                <AdUnit slot="7489539676" label="Download Sidebar" />
+                <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
               </div>
             </div>
           </div>

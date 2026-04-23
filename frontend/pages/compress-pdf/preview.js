@@ -5,7 +5,7 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from '../../lib/i18n'
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, Minimize2 } from "lucide-react"
 import { compressPdfStore } from "./index"
-import AdUnit from "../../components/AdUnit"
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -248,7 +248,7 @@ export default function PreviewCompressPdf() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-4xl mx-auto">
-          <AdUnit slot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -479,7 +479,7 @@ export default function PreviewCompressPdf() {
               {/* Sidebar Ad */}
               <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
-                <AdUnit slot="1617102171" label="Preview Sidebar" />
+                <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
               </div>
             </div>
           </div>

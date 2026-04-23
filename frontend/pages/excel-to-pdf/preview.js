@@ -17,7 +17,7 @@ import {
   AlignCenter,
 } from "lucide-react"
 import { excelToPdfStore } from "./index"
-import AdUnit from "../../components/AdUnit"
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -229,7 +229,7 @@ export default function PreviewExcelToPDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-5xl mx-auto">
-          <AdUnit slot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -467,7 +467,7 @@ export default function PreviewExcelToPDF() {
             {/* Sidebar Ad */}
             <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
               <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
-              <AdUnit slot="1617102171" label="Preview Sidebar" />
+              <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
             </div>
           </div>
         </div>

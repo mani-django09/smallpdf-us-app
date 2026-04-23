@@ -4,7 +4,7 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle } from "lucide-react"
-import AdUnit from "../../components/AdUnit"
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 import { jpgFileStore } from "./index"
 
@@ -150,7 +150,7 @@ export default function PreviewJpgToPdf() {
           <div className="max-w-7xl mx-auto">
 
             {/* Header Ad */}
-            <AdUnit slot="8004544994" label="Header Ad" className="mb-6 rounded-xl overflow-hidden" />
+            <AdSenseUnit adSlot="8004544994" label="Header Ad" className="mb-6 rounded-xl overflow-hidden" />
 
             {/* Header */}
             <div className="mb-8">
@@ -334,7 +334,7 @@ export default function PreviewJpgToPdf() {
                 {/* Sidebar Ad */}
                 <div className="bg-white rounded-xl border-2 border-slate-200 p-3">
                   <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-                  <AdUnit slot="1617102171" label="Preview Sidebar" />
+                  <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
                 </div>
 
                 {/* Tip box */}

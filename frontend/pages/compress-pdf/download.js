@@ -22,7 +22,7 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-import AdUnit from "../../components/AdUnit"
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 export default function DownloadCompressPdf() {
   const router = useLocalizedRouter()
@@ -201,6 +201,8 @@ export default function DownloadCompressPdf() {
   const originalSize = compressResult?.totalOriginalSize || 0
   const compressedSize = compressResult?.compressedSize || 0
   const savings = originalSize > 0 ? Math.round((1 - compressedSize / originalSize) * 100) : 0
+  const savingsDisplay = savings <= 0 ? '< 1' : savings
+  const alreadyOptimized = savings <= 0
 
   const compressionLabels = {
     maximum: t('compressPdf.download.maximum'),
@@ -232,7 +234,7 @@ export default function DownloadCompressPdf() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdUnit slot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -352,9 +354,9 @@ export default function DownloadCompressPdf() {
                       <div className="font-display text-2xl sm:text-3xl font-bold text-slate-900">{fileCount}</div>
                       <div className="font-body text-xs text-slate-500 mt-1">{t('compressPdf.download.files')}</div>
                     </div>
-                    <div className="text-center p-4 bg-rose-50 rounded-xl border border-rose-100">
-                      <div className="font-display text-2xl sm:text-3xl font-bold text-rose-600">{savings}%</div>
-                      <div className="font-body text-xs text-slate-500 mt-1">{t('compressPdf.download.smaller')}</div>
+                    <div className={`text-center p-4 rounded-xl border ${alreadyOptimized ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100'}`}>
+                      <div className={`font-display text-2xl sm:text-3xl font-bold ${alreadyOptimized ? 'text-emerald-600' : 'text-rose-600'}`}>{savingsDisplay}%</div>
+                      <div className="font-body text-xs text-slate-500 mt-1">{alreadyOptimized ? 'Optimized' : t('compressPdf.download.smaller')}</div>
                     </div>
                     <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <div className="font-display text-2xl sm:text-3xl font-bold text-slate-900">{t('compressPdf.download.format')}</div>
@@ -422,7 +424,7 @@ export default function DownloadCompressPdf() {
                   {
                     icon: TrendingDown,
                     title: t('compressPdf.download.sizeReduced'),
-                    desc: `${savings}% ${t('compressPdf.download.smaller')}`,
+                    desc: alreadyOptimized ? 'File already optimized' : `${savingsDisplay}% ${t('compressPdf.download.smaller')}`,
                     color: "bg-rose-600",
                   },
                   { icon: Zap,       title: t('compressPdf.download.fastProcessing'),  desc: t('compressPdf.download.fastProcessingDesc'),    color: "bg-amber-500" },
@@ -516,6 +518,11 @@ export default function DownloadCompressPdf() {
                       </span>
                     </div>
                   </div>
+                  {alreadyOptimized && (
+                    <div className="mt-3 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
+                      <p className="text-xs text-emerald-700 font-medium">✅ This PDF is already well-optimized. Text-only PDFs have minimal compression potential.</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -547,7 +554,7 @@ export default function DownloadCompressPdf() {
               {/* Sidebar Ad */}
               <div className="bg-white rounded-2xl border border-slate-200 p-3">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
-                <AdUnit slot="7489539676" label="Download Sidebar" />
+                <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
               </div>
             </div>
           </div>
