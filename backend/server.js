@@ -1,4 +1,20 @@
 ﻿// server.js - Express Backend with Admin Panel, Activity Tracking & File Validation
+
+// ── DOMMatrix polyfill — required by pdf-parse in Node.js environments ────────
+if (typeof globalThis.DOMMatrix === 'undefined') {
+  globalThis.DOMMatrix = class DOMMatrix {
+    constructor() { this.a=1;this.b=0;this.c=0;this.d=1;this.e=0;this.f=0; }
+  }
+}
+if (typeof globalThis.ImageData === 'undefined') {
+  globalThis.ImageData = class ImageData {
+    constructor(w, h) { this.width=w; this.height=h; this.data=new Uint8ClampedArray(w*h*4); }
+  }
+}
+if (typeof globalThis.Path2D === 'undefined') {
+  globalThis.Path2D = class Path2D {}
+}
+
   require('dotenv').config()
   const express = require("express")
   const multer = require("multer")
@@ -27,12 +43,56 @@
   } = require('./database')
   const { router: authRouter } = require('./auth/authRoutes')
   const { batchLimiter } = require('./middleware/batchLimiter')
+  const { fileSizeLimiter } = require('./middleware/fileSizeLimiter')
+  const { virusScan } = require('./middleware/virusScan')
+  const { optionalAuth } = require('./middleware/optionalAuth')
+  const {
+    router: myFilesRouter,
+    initMyFilesTable,
+    recordUserFile,
+    startFileRetentionSweep,
+  } = require('./myFiles')
+  const { router: apiKeysRouter, initApiTables } = require('./api/apiKeys')
+  const { router: apiV1Router } = require('./api/v1Routes')
+  const {
+    SQLiteRateStore,
+    ocrCheckDaily,
+    ocrIncrementDaily,
+    cleanupExpiredRateLimits,
+  } = require('./middleware/sqliteRateStore')
   const { router: paymentRouter, webhookHandler } = require('./payments/paymentRoutes')
-  const { router: paddleRouter, paddleWebhookHandler } = require('./payments/paddleRoutes')
-
+  const { router: paypalRouter, paypalWebhookHandler } = require('./payments/paypalRoutes')
+  const { router: lsRouter, webhookHandler: lsWebhookHandler } = require('./payments/lemonSqueezyRoutes')
+  const helmet = require('helmet')
+  const rateLimit = require('express-rate-limit')
+  // Normalise the client IP for rate-limit keying.
+  // Collapses IPv6 to a /64 prefix so limits can't be bypassed by rotating
+  // addresses within the same /64 block.
+  function rateLimitKey(req) {
+    const ip = req.clientIP || req.ip || "unknown"
+    if (!ip.includes(':')) return ip           // plain IPv4
+    // IPv6 → keep first 4 groups (= /64 prefix)
+    const groups = ip.split(':')
+    return groups.slice(0, 4).join(':')
+  }
 
   const app = express()
   const PORT = process.env.PORT || 5011
+
+  // Behind Cloudflare / reverse proxy — trust the first proxy hop so req.ip is correct
+  app.set('trust proxy', 1)
+
+  // Unguessable job IDs — prevents enumeration/IDOR of other users' converted files.
+  // Format: <timestamp>-<random hex>. Download endpoints look up by this exact string,
+  // so generation can change freely without touching any lookup code.
+  function genJobId() {
+    return Date.now().toString() + "-" + crypto.randomBytes(9).toString("hex")
+  }
+
+  // Reject job IDs that could escape the storage directory (path traversal) or are malformed.
+  function isSafeJobId(jobId) {
+    return typeof jobId === "string" && /^[A-Za-z0-9._-]+$/.test(jobId) && !jobId.includes("..")
+  }
 
   // Admin credentials (CHANGE THESE IN PRODUCTION!)
   const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "mypdftools"
@@ -48,38 +108,58 @@
 }))
   // ⚠️ Razorpay webhook MUST be before express.json() — needs raw body
   app.use('/api/payments/webhook', express.raw({ type: 'application/json' }), webhookHandler)
-  // ⚠️ Paddle webhook MUST be before express.json() — needs raw body for HMAC verification
-  app.use('/api/paddle/webhook', express.raw({ type: 'application/json' }), paddleWebhookHandler)
+  // ⚠️ PayPal webhook MUST be before express.json() — needs raw body for signature verification
+  app.use('/api/paypal/webhook', express.raw({ type: 'application/json' }), paypalWebhookHandler)
+  // ⚠️ Lemon Squeezy webhook MUST be before express.json() — needs raw body for HMAC verification
+  app.use('/api/lemonsqueezy/webhook', express.raw({ type: 'application/json' }), lsWebhookHandler)
 
   app.use(express.json())
   app.use("/uploads", express.static("uploads"))
   app.use('/api/auth', authRouter)
   app.use('/api/payments', paymentRouter)
-  app.use('/api/paddle', paddleRouter)
+  app.use('/api/paypal', paypalRouter)
+  app.use('/api/lemonsqueezy', lsRouter)
+  app.use('/api/my-files', myFilesRouter)
+
+  // "My Files" history: ensure the table exists and start the retention sweep
+  // (free = 1h, paid = 24h). Sweep also unrefs so it never blocks shutdown.
+  initMyFilesTable().then(() => startFileRetentionSweep())
+
+  // Developer API: key management (JWT dashboard) + versioned public endpoints
+  // (X-API-Key auth, metered per plan quota).
+  app.use('/api/keys', apiKeysRouter)
+  app.use('/api/v1', apiV1Router)
+  initApiTables()
 // IP DETECTION MIDDLEWARE
 // ============================================
 function getClientIP(req) {
-  let ip = 
-    req.headers['cf-connecting-ip'] ||           
-    req.headers['x-real-ip'] ||                  
+  let ip =
+    req.headers['cf-connecting-ip'] ||
+    req.headers['x-real-ip'] ||
     req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
-    req.headers['x-client-ip'] ||                
-    req.connection?.remoteAddress ||             
-    req.socket?.remoteAddress ||                 
-    req.ip ||                                    
+    req.headers['x-client-ip'] ||
+    req.connection?.remoteAddress ||
+    req.socket?.remoteAddress ||
+    req.ip ||
     'unknown'
 
   // Clean up IPv6 localhost
-  if (ip === '::1' || ip === '::ffff:127.0.0.1') {
-    ip = '127.0.0.1'
+  if (ip === '::1' || ip === '::ffff:127.0.0.1') return '127.0.0.1'
+
+  // Remove IPv6-mapped IPv4 prefix  e.g. ::ffff:1.2.3.4 → 1.2.3.4
+  if (ip.startsWith('::ffff:')) ip = ip.substring(7)
+
+  ip = ip.trim()
+
+  // Validate IPv4 — each octet must be 0-255
+  const ipv4Regex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
+  const match = ip.match(ipv4Regex)
+  if (match) {
+    const valid = [match[1], match[2], match[3], match[4]].every(n => parseInt(n) <= 255)
+    if (!valid) return 'unknown'
   }
 
-  // Remove IPv6 prefix
-  if (ip.startsWith('::ffff:')) {
-    ip = ip.substring(7)
-  }
-
-  return ip.trim()
+  return ip
 }
 
 // Attach client IP to every request
@@ -87,6 +167,33 @@ app.use((req, res, next) => {
   req.clientIP = getClientIP(req)
   next()
 })
+
+// Security headers. CSP disabled because the API serves cross-origin file downloads
+// and a static admin HTML page; the rest of helmet's defaults are safe here.
+app.use(helmet({ contentSecurityPolicy: false, crossOriginResourcePolicy: false }))
+
+// Global rate limiter for the API — blocks spam/abuse of the conversion endpoints
+// without affecting normal usage. Keyed on the real client IP (set above).
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300,                 // per IP per window
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: rateLimitKey,
+  store: new SQLiteRateStore("api"), // persist across restarts / instances
+  message: { error: "Too many requests. Please slow down and try again in a few minutes." },
+})
+app.use("/api/", apiLimiter)
+
+// Validate any :jobId route param once, globally — guards every download endpoint
+// against path traversal and malformed IDs.
+app.param("jobId", (req, res, next, jobId) => {
+  if (!isSafeJobId(jobId)) {
+    return res.status(400).json({ error: "Invalid job ID" })
+  }
+  next()
+})
+
   // Configure multer for file uploads
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -349,7 +456,7 @@ const fileValidation = (req, res, next) => {
     logActivity({
       type: "security_incident",
       action: "file_validation_failed",
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       errors: validationErrors,
       status: "blocked",
@@ -404,6 +511,59 @@ const fileValidation = (req, res, next) => {
     return "soffice"
   }
 
+  // EBUSY/EPERM-safe file delete. On Windows the file is often still locked by
+  // LibreOffice/AV for a moment after conversion, so retry with backoff instead
+  // of throwing (the old fs.unlinkSync threw EBUSY and failed the request).
+  async function safeUnlink(filePath) {
+    if (!filePath) return
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        if (fs.existsSync(filePath)) fs.unlinkSync(filePath)
+        return
+      } catch (err) {
+        if ((err.code === "EBUSY" || err.code === "EPERM") && attempt < 4) {
+          await new Promise((r) => setTimeout(r, 200 * (attempt + 1)))
+          continue
+        }
+        console.warn(`safeUnlink: could not delete ${filePath}: ${err.message}`)
+        return
+      }
+    }
+  }
+
+  // Run a LibreOffice command with an isolated, per-call user profile so that
+  // concurrent conversions don't fight over the same profile lock (a major
+  // cause of "soffice exited with code 1" under load). Retries once on failure.
+  // `command` must be the full command string starting with the soffice path.
+  async function runLibreOffice(command, options = {}) {
+    const os = require("os")
+    const profileDir = path.join(
+      os.tmpdir(),
+      `lo-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    )
+    // Build a valid file:// URI on both Windows (C:/...) and Linux (/tmp/...)
+    const profilePath = profileDir.replace(/\\/g, "/")
+    const profileUri = `file://${profilePath.startsWith("/") ? "" : "/"}${profilePath}`
+    const profileArg = `-env:UserInstallation=${profileUri}`
+    // Inject the isolated profile right after the soffice executable (first token,
+    // which may be a quoted path on Windows).
+    const injected = command.replace(/^("[^"]+"|\S+)/, `$1 ${profileArg}`)
+    const execOpts = { timeout: 120000, maxBuffer: 100 * 1024 * 1024, ...options }
+    try {
+      try {
+        return await execPromise(injected, execOpts)
+      } catch (err) {
+        // One retry — LibreOffice intermittently fails under concurrency / profile locks.
+        await new Promise((r) => setTimeout(r, 1000))
+        return await execPromise(injected, execOpts)
+      }
+    } finally {
+      try {
+        fs.rmSync(profileDir, { recursive: true, force: true })
+      } catch {}
+    }
+  }
+
   // Find Ghostscript executable
   function getGhostscriptPath() {
     const possiblePaths = [
@@ -449,8 +609,19 @@ const fileValidation = (req, res, next) => {
   // ADMIN PANEL ROUTES
   // ============================================
 
+  // Strict limiter for the admin login — slows brute-force attempts on credentials.
+  const adminLoginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: rateLimitKey,
+    store: new SQLiteRateStore("admin-login"), // persist across restarts / instances
+    message: { error: "Too many login attempts. Try again in 15 minutes." },
+  })
+
   // Admin login
-  app.post("/api/admin/login", async (req, res) => {
+  app.post("/api/admin/login", adminLoginLimiter, async (req, res) => {
     const { username, password } = req.body
 
     if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
@@ -502,7 +673,7 @@ app.get("/api/admin/ip/:ipAddress", adminAuth, async (req, res) => {
       type: "admin",
       action: "view_ip_details",
       metadata: { ipAddress: ipAddress },
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "success",
     })
@@ -531,7 +702,7 @@ app.post("/api/admin/ip/:ipAddress/block", adminAuth, async (req, res) => {
       type: "admin",
       action: blocked ? "ip_blocked" : "ip_unblocked",
       metadata: { ipAddress: ipAddress },
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "success",
     })
@@ -732,7 +903,7 @@ app.get("/api/admin/export/logs", adminAuth, async (req, res) => {
         startDate: startDate,
         endDate: endDate,
       },
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "success",
     })
@@ -1115,8 +1286,20 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
       if (!validPlans.includes(plan)) {
         return res.status(400).json({ error: 'Invalid plan' })
       }
-      await dbRun('UPDATE users SET plan = ? WHERE id = ?', [plan, id])
-      res.json({ success: true })
+      // When admin sets a plan:
+      // - free → clear expiry + subscription IDs
+      // - paid → set expiry 1 year from now + clear subscription IDs (admin override, not billing-tied)
+      const expiresAt = plan === 'free'
+        ? null
+        : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString()
+      await dbRun(
+        `UPDATE users SET plan = ?, plan_expires_at = ?,
+         razorpay_subscription_id = NULL, paypal_subscription_id = NULL,
+         paypal_customer_id = NULL WHERE id = ?`,
+        [plan, expiresAt, id]
+      )
+      console.log(`👑 Admin plan change: userId=${id} → ${plan} expires=${expiresAt || 'never'}`)
+      res.json({ success: true, plan, expiresAt })
     } catch (err) {
       console.error("Change plan error:", err)
       res.status(500).json({ error: err.message })
@@ -1183,7 +1366,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           title: title,
           status: status || "published"
         },
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "success",
       })
@@ -1200,7 +1383,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         type: "admin",
         action: "blog_post_create_failed",
         metadata: { error: error.message },
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -1372,7 +1555,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           postId: id,
           title: updatedPost.title
         },
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -1388,7 +1571,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         type: "admin",
         action: "blog_post_update_failed",
         metadata: { error: error.message },
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -1423,7 +1606,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           postId: id,
           title: post.title
         },
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -1438,7 +1621,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         type: "admin",
         action: "blog_post_delete_failed",
         metadata: { error: error.message },
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -1509,7 +1692,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
     }
   })
   // Word to PDF Conversion
-  app.post("/api/word-to-pdf", upload.single("file"), fileValidation, async (req, res) => {
+  app.post("/api/word-to-pdf", upload.single("file"), fileSizeLimiter("word-to-pdf"), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" })
@@ -1521,7 +1704,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         tool: "word-to-pdf",
         filename: req.file.originalname,
         fileSize: req.file.size,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
@@ -1540,7 +1723,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
       console.log("Converting with LibreOffice (High Quality Mode)...")
 
       try {
-        await execPromise(command, {
+        await runLibreOffice(command, {
           timeout: 60000,
           maxBuffer: 10 * 1024 * 1024,
         })
@@ -1553,7 +1736,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           }
 
           console.log("Conversion successful:", outputFilename)
-          fs.unlinkSync(inputPath)
+          await safeUnlink(inputPath)
 
           logActivity({
             type: "conversion",
@@ -1561,7 +1744,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
             tool: "word-to-pdf",
             conversionType: "word-to-pdf",
             filename: req.file.originalname,
-            ip: req.ip || req.headers["x-forwarded-for"],
+            ip: req.clientIP,
             status: "success",
           })
 
@@ -1578,9 +1761,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
       } catch (conversionError) {
         console.error("LibreOffice conversion error:", conversionError)
 
-        if (fs.existsSync(inputPath)) {
-          fs.unlinkSync(inputPath)
-        }
+        await safeUnlink(inputPath)
 
         logActivity({
           type: "conversion",
@@ -1588,7 +1769,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           tool: "word-to-pdf",
           filename: req.file.originalname,
           error: conversionError.message,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
 
@@ -1605,7 +1786,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         action: "word_to_pdf_failed",
         tool: "word-to-pdf",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -1614,7 +1795,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   })
 
   // PNG to PDF - FIXED VERSION
-  app.post("/api/png-to-pdf", upload.array("files", 500), batchLimiter("png-to-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/png-to-pdf", upload.array("files", 500), fileSizeLimiter("png-to-pdf"), batchLimiter("png-to-pdf"), fileValidation, async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: "No files uploaded" })
@@ -1625,7 +1806,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         action: "png_uploaded",
         tool: "png-to-pdf",
         fileCount: req.files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
@@ -1743,7 +1924,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           action: "png_to_pdf_failed",
           tool: "png-to-pdf",
           error: "No valid images processed",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -1780,7 +1961,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           action: "png_to_pdf_failed",
           tool: "png-to-pdf",
           error: "PDF file is empty",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -1796,7 +1977,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         tool: "png-to-pdf",
         conversionType: "png-to-pdf",
         pageCount: successCount,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -1830,7 +2011,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         action: "png_to_pdf_failed",
         tool: "png-to-pdf",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -1845,7 +2026,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   // EXCEL TO PDF ENDPOINTS
 
 // Excel to PDF Conversion
-app.post("/api/excel-to-pdf", upload.single("file"), fileValidation, async (req, res) => {
+app.post("/api/excel-to-pdf", upload.single("file"), fileSizeLimiter("excel-to-pdf"), fileValidation, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No Excel file uploaded" })
@@ -1859,14 +2040,14 @@ app.post("/api/excel-to-pdf", upload.single("file"), fileValidation, async (req,
       action: "excel_uploaded",
       tool: "excel-to-pdf",
       fileCount: req.files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "processing",
     })
 
     console.log(`Excel to PDF - ${req.files.length} file(s) received`)
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
 
     if (!fs.existsSync(convertedDir)) {
@@ -1914,7 +2095,7 @@ try:
     from openpyxl.utils import get_column_letter
     import re
 
-    wb = load_workbook("${file.path.replace(/\\/g, "\\\\")}")
+    wb = load_workbook(sys.argv[1])
 
     for ws in wb.worksheets:
         # ── 1. Auto-fit every column to its longest content ──────────────────
@@ -1966,7 +2147,7 @@ try:
         # ── 5. Gridlines in print ─────────────────────────────────────────────
         ws.print_options.gridLines = True
 
-    wb.save("${preparedPath.replace(/\\/g, "\\\\")}")
+    wb.save(sys.argv[2])
     print("PREP_OK")
 except ImportError:
     print("PREP_SKIP")  # openpyxl not installed — skip prep, use original
@@ -1978,7 +2159,7 @@ except Exception as e:
 
         let sourceForLibreOffice = file.path
         try {
-          const { stdout: prepOut } = await execPromise(`"${pythonBin}" "${tempScriptPath}"`, {
+          const { stdout: prepOut } = await execPromise(`"${pythonBin}" "${tempScriptPath}" "${file.path}" "${preparedPath}"`, {
             timeout: 60000, maxBuffer: 10 * 1024 * 1024
           })
           if (prepOut.includes("PREP_OK") && fs.existsSync(preparedPath)) {
@@ -2004,10 +2185,10 @@ except Exception as e:
         const command = `"${libreOfficePath}" --headless --convert-to "pdf:calc_pdf_Export:{${pdfFilter}}" --outdir "${convertedDir}" "${sourceForLibreOffice}"`
         console.log(`Executing LibreOffice: ${command}`)
 
-        await execPromise(command, { timeout: 180000, maxBuffer: 100 * 1024 * 1024 })
+        await runLibreOffice(command, { timeout: 180000, maxBuffer: 100 * 1024 * 1024 })
 
         // Clean up prepared file
-        if (fs.existsSync(preparedPath)) fs.unlinkSync(preparedPath)
+        await safeUnlink(preparedPath)
 
         // ── LibreOffice names output after INPUT basename — find it ───────────
         const tempBaseName = path.basename(sourceForLibreOffice).replace(/\.[^.]+$/, "")
@@ -2064,7 +2245,7 @@ except Exception as e:
         action: "excel_to_pdf_failed",
         tool: "excel-to-pdf",
         error: "No files converted",
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -2081,7 +2262,7 @@ except Exception as e:
       conversionType: "excel-to-pdf",
       fileCount: convertedFiles.length,
       jobId: jobId,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -2126,7 +2307,7 @@ except Exception as e:
       action: "excel_to_pdf_failed",
       tool: "excel-to-pdf",
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
 
@@ -2149,8 +2330,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: jobId,
         error: "Files not found or expired",
-        ip: req.ip || req.headers["x-forwarded-for"],
-        status: "error",
+        ip: req.clientIP,
+        status: "warning",
       })
       
       return res.status(404).json({ error: "Files not found or expired" })
@@ -2171,7 +2352,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "file_downloaded",
         jobId: jobId,
         filename: files[0],
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -2223,7 +2404,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       action: "zip_downloaded",
       jobId: jobId,
       fileCount: files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -2253,7 +2434,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       action: "download_failed",
       jobId: req.params.jobId,
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
     
@@ -2263,7 +2444,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   }
 })
   // PNG to WEBP conversion endpoint
-  app.post("/api/png-to-webp", upload.array("files", 500), batchLimiter("png-to-webp"), fileValidation, async (req, res) => {
+  app.post("/api/png-to-webp", upload.array("files", 500), fileSizeLimiter("png-to-webp"), batchLimiter("png-to-webp"), fileValidation, async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: "No files uploaded" })
@@ -2274,14 +2455,14 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "png_uploaded",
         tool: "png-to-webp",
         fileCount: req.files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
 
       console.log(`PNG to WEBP - ${req.files.length} file(s) received`)
 
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
       const outputDir = "./uploads"
       const convertedFiles = []
       let totalOriginalSize = 0
@@ -2341,7 +2522,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "png_to_webp_failed",
           tool: "png-to-webp",
           error: "No files compressed",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -2357,7 +2538,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         conversionType: "png-to-webp",
         fileCount: convertedFiles.length,
         savedPercentage: savedPercentage,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -2387,7 +2568,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "png_to_webp_failed",
         tool: "png-to-webp",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -2419,7 +2600,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "download_failed",
           jobId: jobId,
           error: "No files found",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -2434,7 +2615,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "file_downloaded",
           jobId: jobId,
           filename: compressedFiles[0],
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "success",
         })
         
@@ -2477,7 +2658,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "zip_downloaded",
         jobId: jobId,
         fileCount: compressedFiles.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -2500,7 +2681,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: req.params.jobId,
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -2509,7 +2690,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   })
 
   // Compress Image endpoint
-  app.post("/api/compress-image", upload.array("files", 500), batchLimiter("compress-image"), fileValidation, async (req, res) => {
+  app.post("/api/compress-image", upload.array("files", 500), fileSizeLimiter("compress-image"), batchLimiter("compress-image"), fileValidation, async (req, res) => {
     try {
       console.log("Compress Image - " + req.files.length + " file(s) received")
 
@@ -2522,12 +2703,12 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "images_uploaded",
         tool: "compress-image",
         fileCount: req.files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
 
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
       const compressedDir = path.join(__dirname, "compressed", jobId)
 
       if (!fs.existsSync(compressedDir)) {
@@ -2674,7 +2855,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "compress_image_failed",
           tool: "compress-image",
           error: "No files compressed",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -2690,7 +2871,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         conversionType: "compress-image",
         fileCount: compressedFiles.length,
         savedPercentage: savedPercentage,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -2725,7 +2906,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "compress_image_failed",
         tool: "compress-image",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -2747,8 +2928,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "download_failed",
           jobId: jobId,
           error: "Files not found or expired",
-          ip: req.ip || req.headers["x-forwarded-for"],
-          status: "error",
+          ip: req.clientIP,
+          status: "warning",
         })
         
         return res.status(404).json({ error: "Files not found or expired" })
@@ -2769,7 +2950,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "file_downloaded",
           jobId: jobId,
           filename: originalName,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "success",
         })
 
@@ -2825,7 +3006,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "zip_downloaded",
         jobId: jobId,
         fileCount: files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -2855,7 +3036,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: req.params.jobId,
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -2876,8 +3057,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "download_failed",
           jobId: jobId,
           error: "Files not found or expired",
-          ip: req.ip || req.headers["x-forwarded-for"],
-          status: "error",
+          ip: req.clientIP,
+          status: "warning",
         })
         
         return res.status(404).json({ error: "Files not found or expired" })
@@ -2897,7 +3078,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           action: "file_downloaded",
           jobId: jobId,
           filename: files[0],
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "success",
         })
 
@@ -2952,7 +3133,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "zip_downloaded",
         jobId: jobId,
         fileCount: files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -2982,7 +3163,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: req.params.jobId,
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -2992,7 +3173,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
     }
   })
 
-  app.post("/api/merge-pdf", upload.array("files", 500), batchLimiter("merge-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/merge-pdf", upload.array("files", 500), fileSizeLimiter("merge-pdf"), batchLimiter("merge-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
     try {
       if (!req.files || req.files.length < 2) {
         return res.status(400).json({ error: "At least 2 PDF files required for merging" })
@@ -3003,7 +3184,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "pdfs_uploaded",
         tool: "merge-pdf",
         fileCount: req.files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
@@ -3027,6 +3208,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           console.log(`Added ${pages.length} pages from ${file.originalname}`)
         } catch (pdfError) {
           console.error(`Error processing ${file.originalname}:`, pdfError)
+          throw new Error(`Could not read "${file.originalname}". The file may be corrupted or password-protected. Please check the file and try again.`)
         }
       }
 
@@ -3053,9 +3235,22 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         conversionType: "merge-pdf",
         fileCount: req.files.length,
         pageCount: totalPages,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
+
+      // Attach to the user's "My Files" history when logged in (optionalAuth).
+      if (req.user) {
+        await recordUserFile({
+          userId: req.user.id,
+          plan: req.user.plan,
+          tool: "merge-pdf",
+          originalName: outputFilename,
+          storedPath: path.resolve(outputPath),
+          downloadUrl: `/uploads/${outputFilename}`,
+          fileSize: mergedPdfBytes.length,
+        })
+      }
 
       res.json({
         success: true,
@@ -3081,7 +3276,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         action: "merge_pdf_failed",
         tool: "merge-pdf",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -3090,7 +3285,219 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   })
 
 
-app.post("/api/compress-pdf-batch", upload.array("files", 500), batchLimiter("compress-pdf"), fileValidation, async (req, res) => {
+  // ── Rotate PDF ──────────────────────────────────────────────────────────────
+  // Rotates pages by a multiple of 90°. Rotation is ADDITIVE to any rotation the
+  // page already has. Optional `pages` (JSON array of 1-based page numbers) limits
+  // which pages are rotated; omitted/empty = all pages.
+  app.post("/api/rotate-pdf", upload.single("file"), fileSizeLimiter("rotate-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No PDF file uploaded" })
+      }
+
+      const { degrees } = require("pdf-lib")
+
+      // Normalise requested angle to one of 0/90/180/270.
+      let angle = parseInt(req.body.angle, 10)
+      if (isNaN(angle)) angle = 90
+      const delta = ((angle % 360) + 360) % 360
+
+      // Optional subset of pages (1-based).
+      let targetPages = null
+      if (req.body.pages) {
+        try {
+          const parsed = JSON.parse(req.body.pages)
+          if (Array.isArray(parsed) && parsed.length) targetPages = parsed.map(Number)
+        } catch (_) { /* ignore — rotate all */ }
+      }
+
+      logActivity({
+        type: "upload",
+        action: "pdf_uploaded_for_rotate",
+        tool: "rotate-pdf",
+        filename: req.file.originalname,
+        fileSize: req.file.size,
+        ip: req.clientIP,
+        userAgent: req.headers["user-agent"],
+        status: "processing",
+      })
+
+      const pdfBytes = fs.readFileSync(req.file.path)
+      let pdf
+      try {
+        pdf = await PDFLibDocument.load(pdfBytes, { ignoreEncryption: true })
+      } catch (e) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+        return res.status(400).json({ error: "Could not read the PDF. It may be corrupted or password-protected." })
+      }
+
+      const pages = pdf.getPages()
+      pages.forEach((page, idx) => {
+        if (targetPages && !targetPages.includes(idx + 1)) return
+        const current = page.getRotation().angle || 0
+        page.setRotation(degrees((current + delta) % 360))
+      })
+
+      const outBytes = await pdf.save()
+      const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
+      const outputFilename = `rotated-${Date.now()}-${baseName}.pdf`
+      const outputPath = path.join("./uploads", outputFilename)
+      fs.writeFileSync(outputPath, outBytes)
+
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+
+      // Attach to the user's "My Files" history when logged in (optionalAuth).
+      if (req.user) {
+        await recordUserFile({
+          userId: req.user.id,
+          plan: req.user.plan,
+          tool: "rotate-pdf",
+          originalName: outputFilename,
+          storedPath: path.resolve(outputPath),
+          downloadUrl: `/uploads/${outputFilename}`,
+          fileSize: outBytes.length,
+        })
+      }
+
+      logActivity({
+        type: "conversion",
+        action: "rotate_pdf_complete",
+        tool: "rotate-pdf",
+        conversionType: "rotate-pdf",
+        pageCount: pages.length,
+        ip: req.clientIP,
+        status: "success",
+      })
+
+      res.json({
+        success: true,
+        message: "PDF rotated successfully",
+        downloadUrl: `/uploads/${outputFilename}`,
+        convertedName: outputFilename,
+        pageCount: pages.length,
+        angle: delta,
+      })
+    } catch (error) {
+      console.error("Rotate PDF Error:", error)
+      if (req.file && fs.existsSync(req.file.path)) {
+        try { fs.unlinkSync(req.file.path) } catch (_) {}
+      }
+      logActivity({
+        type: "conversion",
+        action: "rotate_pdf_failed",
+        tool: "rotate-pdf",
+        error: error.message,
+        ip: req.clientIP,
+        status: "error",
+      })
+      res.status(500).json({ error: error.message })
+    }
+  })
+
+
+  // ── Protect PDF ───────────────────────────────────────────────────────────
+  // Encrypts a PDF with a user password using qpdf (AES-256). We use execFile
+  // with an args array (NOT a shell string) so the password can never be
+  // interpreted by the shell — eliminates command injection.
+  app.post("/api/protect-pdf", upload.single("file"), fileSizeLimiter("protect-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
+    const { execFile } = require("child_process")
+    const execFileP = util.promisify(execFile)
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No PDF file uploaded" })
+      }
+
+      const password = (req.body.password || "").toString()
+      if (!password || password.length < 1) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+        return res.status(400).json({ error: "A password is required to protect the PDF." })
+      }
+      if (password.length > 256) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+        return res.status(400).json({ error: "Password is too long (max 256 characters)." })
+      }
+
+      logActivity({
+        type: "upload",
+        action: "pdf_uploaded_for_protect",
+        tool: "protect-pdf",
+        filename: req.file.originalname,
+        fileSize: req.file.size,
+        ip: req.clientIP,
+        userAgent: req.headers["user-agent"],
+        status: "processing",
+      })
+
+      const jobId = genJobId()
+      const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
+      const outputFilename = `protected-${jobId}-${baseName}.pdf`
+      const outputPath = path.join("./uploads", outputFilename)
+
+      // qpdf --encrypt <user> <owner> 256 -- input output
+      // owner password = user password (single password to open).
+      try {
+        await execFileP("qpdf", ["--encrypt", password, password, "256", "--", req.file.path, outputPath])
+      } catch (qErr) {
+        // qpdf exits 3 on warnings but still produces a valid file — only fail if
+        // no usable output was created.
+        if (!fs.existsSync(outputPath) || fs.statSync(outputPath).size === 0) {
+          console.error("Protect PDF qpdf error:", qErr.message)
+          if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+          return res.status(500).json({ error: "Could not protect this PDF. It may be corrupted or already encrypted." })
+        }
+      }
+
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+
+      const outBytes = fs.statSync(outputPath).size
+
+      if (req.user) {
+        await recordUserFile({
+          userId: req.user.id,
+          plan: req.user.plan,
+          tool: "protect-pdf",
+          originalName: outputFilename,
+          jobId,
+          storedPath: path.resolve(outputPath),
+          downloadUrl: `/uploads/${outputFilename}`,
+          fileSize: outBytes,
+        })
+      }
+
+      logActivity({
+        type: "conversion",
+        action: "protect_pdf_complete",
+        tool: "protect-pdf",
+        conversionType: "protect-pdf",
+        ip: req.clientIP,
+        status: "success",
+      })
+
+      res.json({
+        success: true,
+        message: "PDF protected successfully",
+        downloadUrl: `/uploads/${outputFilename}`,
+        convertedName: outputFilename,
+      })
+    } catch (error) {
+      console.error("Protect PDF Error:", error)
+      if (req.file && fs.existsSync(req.file.path)) {
+        try { fs.unlinkSync(req.file.path) } catch (_) {}
+      }
+      logActivity({
+        type: "conversion",
+        action: "protect_pdf_failed",
+        tool: "protect-pdf",
+        error: error.message,
+        ip: req.clientIP,
+        status: "error",
+      })
+      res.status(500).json({ error: error.message })
+    }
+  })
+
+
+app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter("compress-pdf"), batchLimiter("compress-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -3108,7 +3515,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), batchLimiter("co
 
     console.log(`\n📥 Compress PDF Batch — ${req.files.length} file(s) received`)
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const compressedDir = path.join(__dirname, "compressed", jobId)
     if (!fs.existsSync(compressedDir)) {
       fs.mkdirSync(compressedDir, { recursive: true })
@@ -3198,6 +3605,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), batchLimiter("co
       const finalOutputPath = path.join(compressedDir, outputFilename)
       const pass1Path       = path.join(compressedDir, `${ts}-p1-${file.originalname}`)
       const pass2Path       = path.join(compressedDir, `${ts}-p2-${file.originalname}`)
+      const pass3Path       = path.join(compressedDir, `${ts}-p3-${file.originalname}`)
 
       console.log(`\n  ⏳ ${file.originalname} (${formatFileSize(file.size)})`)
 
@@ -3235,8 +3643,31 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), batchLimiter("co
           console.log(`     Pass2 GS: FAILED — ${gsErr.message.slice(0, 80)}`)
         }
 
-        // ── Pass 3: pick the smallest — never inflate the file ──
+        // ── Pass 3: qpdf — stream recompression for text-heavy PDFs ──
+        // Best input: smallest of pass1/pass2/original
+        const qpdfInput = pickSmallest([
+          pass2OK ? { path: pass2Path, size: pass2Size } : null,
+          pass1OK ? { path: pass1Path, size: pass1Size } : null,
+          { path: file.path, size: file.size },
+        ])
+        let pass3OK   = false
+        let pass3Size = Infinity
+        try {
+          const qpdfCmd = `qpdf --compress-streams=y --object-streams=generate --recompress-flate --compression-level=9 --linearize "${qpdfInput.path}" "${pass3Path}"`
+          await execPromise(qpdfCmd, { timeout: 120000, maxBuffer: 200 * 1024 * 1024 })
+          if (fs.existsSync(pass3Path) && fs.statSync(pass3Path).size > 0) {
+            pass3OK   = true
+            pass3Size = fs.statSync(pass3Path).size
+            console.log(`     Pass3 qpdf:    ${formatFileSize(qpdfInput.size)} → ${formatFileSize(pass3Size)} (${Math.round((1 - pass3Size / file.size) * 100)}% saved)`)
+          }
+        } catch (qpdfErr) {
+          console.log(`     Pass3 qpdf: FAILED — ${qpdfErr.message.slice(0, 80)}`)
+          console.log(`     💡 Fix: apt-get install -y qpdf`)
+        }
+
+        // ── Pick smallest of all passes — never inflate the file ──
         const winner = pickSmallest([
+          pass3OK ? { path: pass3Path, size: pass3Size } : null,
           pass2OK ? { path: pass2Path, size: pass2Size } : null,
           pass1OK ? { path: pass1Path, size: pass1Size } : null,
           { path: file.path, size: file.size },
@@ -3274,7 +3705,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), batchLimiter("co
         } catch (_) {}
 
       } finally {
-        for (const tmp of [pass1Path, pass2Path]) {
+        for (const tmp of [pass1Path, pass2Path, pass3Path]) {
           try { if (fs.existsSync(tmp)) fs.unlinkSync(tmp) } catch (_) {}
         }
         try { if (fs.existsSync(file.path)) fs.unlinkSync(file.path) } catch (_) {}
@@ -3297,6 +3728,22 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), batchLimiter("co
       compressionLevel, ip: req.clientIP, status: "success" })
 
     console.log(`\n📊 SUMMARY: ${compressedFiles.length} files | ${formatFileSize(totalOriginalSize)} → ${formatFileSize(totalCompressedSize)} (${savedPercentage}% saved)\n`)
+
+    // Attach compressed outputs to the user's "My Files" history when logged in.
+    if (req.user) {
+      for (const cf of compressedFiles) {
+        await recordUserFile({
+          userId: req.user.id,
+          plan: req.user.plan,
+          tool: "compress-pdf",
+          originalName: cf.originalName,
+          jobId,
+          storedPath: path.join(compressedDir, cf.filename),
+          downloadUrl: `/api/download-compressed/${jobId}`,
+          fileSize: cf.compressedSize,
+        })
+      }
+    }
 
     res.json({
       success: true,
@@ -3344,7 +3791,7 @@ app.get("/api/compress-meta/:jobId", async (req, res) => {
 
 //api/pdf-to-jpg endpoint
 
-app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg"), fileValidation, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" })
@@ -3356,7 +3803,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
       tool: "pdf-to-jpg",
       filename: req.file.originalname,
       fileSize: req.file.size,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "processing",
     })
@@ -3410,7 +3857,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         conversionType: "pdf-to-jpg",
         filename: req.file.originalname,
         pageCount: jpgFiles.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -3498,7 +3945,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         tool: "pdf-to-jpg",
         filename: req.file.originalname,
         error: conversionError.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -3515,7 +3962,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
       action: "pdf_to_jpg_failed",
       tool: "pdf-to-jpg",
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
     
@@ -3524,7 +3971,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
 })
 
   // PDF to PNG Conversion
-  app.post("/api/pdf-to-png", upload.single("pdf"), fileValidation, async (req, res) => {
+  app.post("/api/pdf-to-png", upload.single("pdf"), fileSizeLimiter("pdf-to-png"), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" })
@@ -3536,7 +3983,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         tool: "pdf-to-png",
         filename: req.file.originalname,
         fileSize: req.file.size,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
@@ -3546,11 +3993,15 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
       const inputPath = req.file.path
       const outputDir = path.dirname(inputPath)
       const baseName = path.basename(req.file.filename, path.extname(req.file.filename))
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
 
-      const dpi = 150
+      // Quality → DPI, matching pdf-to-jpg (standard 150 / high 300 / maximum 600).
+      const quality = req.body.quality || "standard"
+      let dpi = 150
+      if (quality === "high") dpi = 300
+      if (quality === "maximum") dpi = 600
 
-      console.log(`Converting PDF to PNG with DPI: ${dpi}...`)
+      console.log(`Converting PDF to PNG with DPI: ${dpi} (quality=${quality})...`)
 
       const gsPath = getGhostscriptPath()
       const outputPattern = path.join(outputDir, `${jobId}-page-%d.png`)
@@ -3590,7 +4041,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           filename: req.file.originalname,
           pageCount: pngFiles.length,
           jobId: jobId,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "success",
         })
 
@@ -3615,7 +4066,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           tool: "pdf-to-png",
           filename: req.file.originalname,
           error: conversionError.message,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
 
@@ -3632,7 +4083,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "pdf_to_png_failed",
         tool: "pdf-to-png",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -3641,7 +4092,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
   })
 
   // WEBP to PNG Conversion
-  app.post("/api/webp-to-png", upload.array("files", 500), batchLimiter("webp-to-png"), fileValidation, async (req, res) => {
+  app.post("/api/webp-to-png", upload.array("files", 500), fileSizeLimiter("webp-to-png"), batchLimiter("webp-to-png"), fileValidation, async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: "No files uploaded" })
@@ -3652,14 +4103,14 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "webp_uploaded",
         tool: "webp-to-png",
         fileCount: req.files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
 
       console.log(`WEBP to PNG - ${req.files.length} file(s) received`)
 
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
       const outputDir = "./uploads"
       const convertedFiles = []
 
@@ -3688,7 +4139,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           action: "webp_to_png_failed",
           tool: "webp-to-png",
           error: "No files converted",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -3702,7 +4153,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         conversionType: "webp-to-png",
         fileCount: convertedFiles.length,
         jobId: jobId,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -3729,7 +4180,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "webp_to_png_failed",
         tool: "webp-to-png",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -3752,7 +4203,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           action: "download_failed",
           jobId: jobId,
           error: "Upload directory not found",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -3779,7 +4230,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           action: "download_failed",
           jobId: jobId,
           error: "No files found for this job",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -3800,7 +4251,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           jobId: jobId,
           filename: convertedFiles[0],
           fileCount: 1,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           userAgent: req.headers["user-agent"],
           status: "success",
         })
@@ -3859,7 +4310,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         filename: zipFilename,
         fileCount: convertedFiles.length,
         size: archive.pointer(),
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "success",
       })
@@ -3897,7 +4348,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "download_failed",
         jobId: req.params.jobId,
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -3929,7 +4380,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         tool: "split-pdf",
         filename: req.file.originalname,
         fileSize: req.file.size,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
@@ -3937,7 +4388,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
       console.log("Analyze PDF - File received:", req.file.originalname)
 
       const inputPath = req.file.path
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
       const thumbnailDir = path.join(__dirname, "uploads", "thumbnails", jobId)
       
       if (!fs.existsSync(thumbnailDir)) {
@@ -3992,7 +4443,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           filename: req.file.originalname,
           pageCount: pageCount,
           jobId: jobId,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "success",
         })
 
@@ -4016,7 +4467,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           tool: "split-pdf",
           filename: req.file.originalname,
           error: pdfError.message,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
 
@@ -4033,7 +4484,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "pdf_analyze_failed",
         tool: "split-pdf",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -4042,7 +4493,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
   })
 
   // Split PDF - Extract specific pages
-  app.post("/api/split-pdf", upload.single("file"), fileValidation, async (req, res) => {
+  app.post("/api/split-pdf", upload.single("file"), fileSizeLimiter("split-pdf"), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No PDF file uploaded" })
@@ -4054,7 +4505,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         tool: "split-pdf",
         filename: req.file.originalname,
         fileSize: req.file.size,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
@@ -4075,7 +4526,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
       console.log(`Extracting pages: ${selectedPages.join(", ")}`)
 
       const inputPath = req.file.path
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
       const outputDir = path.join(__dirname, "uploads")
       const baseName = path.basename(req.file.originalname, ".pdf")
       const outputFilename = `${jobId}-split-${baseName}.pdf`
@@ -4121,7 +4572,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           filename: req.file.originalname,
           pageCount: validPages.length,
           jobId: jobId,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "success",
         })
 
@@ -4149,7 +4600,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           tool: "split-pdf",
           filename: req.file.originalname,
           error: splitError.message,
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
 
@@ -4166,7 +4617,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "split_pdf_failed",
         tool: "split-pdf",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -4189,8 +4640,8 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
           action: "download_failed",
           jobId: jobId,
           error: "Split PDF not found or expired",
-          ip: req.ip || req.headers["x-forwarded-for"],
-          status: "error",
+          ip: req.clientIP,
+          status: "warning",
         })
         
         return res.status(404).json({ error: "Split PDF not found or expired" })
@@ -4204,7 +4655,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "file_downloaded",
         jobId: jobId,
         filename: splitFile,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "success",
       })
@@ -4235,7 +4686,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
         action: "download_failed",
         jobId: req.params.jobId,
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -4245,7 +4696,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileValidation, async (req, r
 
 
 // ── PDF TO WORD CONVERSION ENDPOINT ──────────────────────────────────────────
-app.post("/api/pdf-to-word", upload.array("files", 500), batchLimiter("pdf-to-word"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to-word"), batchLimiter("pdf-to-word"), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -4263,7 +4714,7 @@ app.post("/api/pdf-to-word", upload.array("files", 500), batchLimiter("pdf-to-wo
 
     console.log(`PDF to Word — ${req.files.length} file(s) received`)
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
     if (!fs.existsSync(convertedDir)) {
       fs.mkdirSync(convertedDir, { recursive: true })
@@ -4341,7 +4792,7 @@ app.post("/api/pdf-to-word", upload.array("files", 500), batchLimiter("pdf-to-wo
           // Simple --convert-to docx works on all LibreOffice versions on Linux/Mac/Windows.
           const loCmd = `"${libreOfficePath}" --headless --convert-to docx --outdir "${convertedDir}" "${file.path}"`
 
-          await execPromise(loCmd, {
+          await runLibreOffice(loCmd, {
             timeout: 180000,
             maxBuffer: 100 * 1024 * 1024,
           })
@@ -4419,20 +4870,33 @@ app.post("/api/pdf-to-word", upload.array("files", 500), batchLimiter("pdf-to-wo
         if (fs.existsSync(convertedDir)) fs.rmSync(convertedDir, { recursive: true, force: true })
       } catch (_) {}
 
+      // No engine errors means nothing was extractable — almost always a
+      // scanned/image PDF. Treat that as a "warning" (not a server error) and
+      // point the user at OCR. A real engine failure stays an error.
+      const isScannedInput = errors.length === 0
+
       logActivity({
         type: "conversion",
-        action: "pdf_to_word_failed",
+        action: isScannedInput ? "pdf_to_word_no_content" : "pdf_to_word_failed",
         tool: "pdf-to-word",
-        error: "No files converted.",
+        error: isScannedInput
+          ? "No extractable text (likely scanned PDF)"
+          : errors.map(e => e.error).join("; "),
         ip: req.clientIP,
-        status: "error",
+        status: isScannedInput ? "warning" : "error",
       })
+
+      if (isScannedInput) {
+        return res.status(422).json({
+          error: "We couldn't find any selectable text in this PDF.",
+          code: "NO_EXTRACTABLE_CONTENT",
+          details: "This looks like a scanned or image-based PDF. Run it through our OCR PDF tool first to make the text selectable, then convert again.",
+        })
+      }
 
       return res.status(500).json({
         error: "No files were converted successfully.",
-        details: errors.length > 0
-          ? errors.map(e => e.error).join("; ")
-          : "Ensure pdf2docx is installed: pip install pdf2docx pdfplumber python-docx\nAnd LibreOffice 7.0+ is installed as a fallback.",
+        details: errors.map(e => e.error).join("; "),
       })
     }
 
@@ -4495,7 +4959,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         jobId: jobId,
         error: "Files not found or expired",
         ip: req.clientIP,
-        status: "error",
+        status: "warning",
       })
       return res.status(404).json({ error: "Files not found or expired. Please convert again." })
     }
@@ -4609,7 +5073,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
   // JPG TO PDF ENDPOINT
   // ============================================
 
-  app.post("/api/jpg-to-pdf", upload.array("files", 500), batchLimiter("jpg-to-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/jpg-to-pdf", upload.array("files", 500), fileSizeLimiter("jpg-to-pdf"), batchLimiter("jpg-to-pdf"), fileValidation, async (req, res) => {
     try {
       console.log("Files received:", req.files?.length) // ADD THIS LOG
       console.log("Request body:", req.body) // ADD THIS LOG
@@ -4623,14 +5087,14 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         action: "jpg_uploaded",
         tool: "jpg-to-pdf",
         fileCount: req.files.length,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "processing",
       })
 
       console.log(`JPG to PDF - ${req.files.length} file(s) received`)
 
-      const jobId = Date.now().toString()
+      const jobId = genJobId()
       const pageSize = req.body.pageSize || "a4"
       const orientation = req.body.orientation || "auto"
 
@@ -4732,7 +5196,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
           action: "jpg_to_pdf_failed",
           tool: "jpg-to-pdf",
           error: "No valid JPG images processed",
-          ip: req.ip || req.headers["x-forwarded-for"],
+          ip: req.clientIP,
           status: "error",
         })
         
@@ -4761,7 +5225,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         conversionType: "jpg-to-pdf",
         pageCount: successCount,
         jobId: jobId,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -4791,7 +5255,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         action: "jpg_to_pdf_failed",
         tool: "jpg-to-pdf",
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
 
@@ -4817,8 +5281,8 @@ app.get("/api/download-word/:jobId", async (req, res) => {
           action: "download_failed",
           jobId: jobId,
           error: "PDF file not found",
-          ip: req.ip || req.headers["x-forwarded-for"],
-          status: "error",
+          ip: req.clientIP,
+          status: "warning",
         })
         
         return res.status(404).json({ error: "PDF file not found" })
@@ -4829,7 +5293,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         action: "file_downloaded",
         jobId: jobId,
         filename: pdfFilename,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         userAgent: req.headers["user-agent"],
         status: "success",
       })
@@ -4850,7 +5314,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: req.params.jobId,
         error: error.message,
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -4858,7 +5322,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
     }
   })
 // PDF to Excel Conversion using pdfplumber
-app.post("/api/pdf-to-excel", upload.array("files", 500), batchLimiter("pdf-to-excel"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-to-excel"), batchLimiter("pdf-to-excel"), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -4869,14 +5333,14 @@ app.post("/api/pdf-to-excel", upload.array("files", 500), batchLimiter("pdf-to-e
       action: "pdf_uploaded",
       tool: "pdf-to-excel",
       fileCount: req.files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "processing",
     })
 
     console.log(`PDF to Excel - ${req.files.length} file(s) received`)
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
 
     if (!fs.existsSync(convertedDir)) {
@@ -4918,143 +5382,317 @@ app.post("/api/pdf-to-excel", upload.array("files", 500), batchLimiter("pdf-to-e
         const pythonScript = `
 import sys
 import os
+import re
+
+def color_to_hex(color):
+    """Convert pdfplumber color (grayscale/RGB/CMYK) to 6-char hex string."""
+    if color is None:
+        return None
+    try:
+        if isinstance(color, (int, float)):
+            v = max(0, min(255, int(color * 255)))
+            return f"{v:02X}{v:02X}{v:02X}"
+        if isinstance(color, (list, tuple)):
+            if len(color) == 3:
+                r, g, b = [max(0, min(255, int(c * 255))) for c in color]
+                return f"{r:02X}{g:02X}{b:02X}"
+            if len(color) == 4:
+                c, m, y, k = color
+                r = max(0, min(255, int(255 * (1 - c) * (1 - k))))
+                g = max(0, min(255, int(255 * (1 - m) * (1 - k))))
+                b = max(0, min(255, int(255 * (1 - y) * (1 - k))))
+                return f"{r:02X}{g:02X}{b:02X}"
+    except Exception:
+        pass
+    return None
+
+def is_bold(fontname):
+    f = (fontname or '').lower()
+    return any(kw in f for kw in ('bold', ',b', '-b', 'black', 'heavy', 'demi', 'semibold'))
+
+def is_italic(fontname):
+    f = (fontname or '').lower()
+    return any(kw in f for kw in ('italic', 'oblique', ',i', '-i'))
+
+def chars_in_bbox(chars, x0, top, x1, bottom, tol=2):
+    return [c for c in chars
+            if c['x0'] >= x0 - tol and c['x1'] <= x1 + tol
+            and c['top'] >= top - tol and c['bottom'] <= bottom + tol]
+
+def rects_in_bbox(rects, x0, top, x1, bottom, tol=3):
+    return [r for r in rects
+            if r['x0'] >= x0 - tol and r['x1'] <= x1 + tol
+            and r['top'] >= top - tol and r['bottom'] <= bottom + tol]
+
+def dominant(lst):
+    if not lst:
+        return None
+    return max(set(lst), key=lst.count)
+
+def cell_text_from_chars(chars, x0, top, x1, bottom):
+    """Reconstruct multi-line cell text preserving line breaks."""
+    cell_chars = chars_in_bbox(chars, x0, top, x1, bottom)
+    if not cell_chars:
+        return ''
+    # Group by line (cluster by top coordinate)
+    lines = {}
+    for c in cell_chars:
+        line_key = round(c['top'])
+        lines.setdefault(line_key, []).append(c)
+    result_lines = []
+    for k in sorted(lines.keys()):
+        line_chars = sorted(lines[k], key=lambda c: c['x0'])
+        text = ''
+        prev_x1 = None
+        for c in line_chars:
+            if prev_x1 is not None and c['x0'] - prev_x1 > 3:
+                text += ' '
+            text += c['text']
+            prev_x1 = c['x1']
+        result_lines.append(text)
+    return '\\n'.join(result_lines).strip()
+
+def detect_h_align(chars, cell_x0, cell_x1):
+    if not chars or cell_x1 <= cell_x0:
+        return 'left'
+    mid = (cell_x0 + cell_x1) / 2
+    # center of mass of all char midpoints
+    avg = sum((c['x0'] + c['x1']) / 2 for c in chars) / len(chars)
+    rel = (avg - cell_x0) / (cell_x1 - cell_x0)
+    if rel < 0.35:
+        return 'left'
+    if rel > 0.65:
+        return 'right'
+    return 'center'
+
+def sanitize_excel(val):
+    """Remove characters illegal in Excel cells (openpyxl raises ValueError on them).
+    openpyxl rejects Unicode control chars in ranges 0x00-0x08, 0x0B-0x0C, 0x0E-0x1F, 0x7F.
+    Also strips any remaining XML-illegal surrogate code points (Python 3.13 strict XML).
+    """
+    import re
+    if not isinstance(val, str):
+        return val
+    # Strip XML-illegal control characters
+    cleaned = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', val)
+    # Strip UTF-16 surrogates that openpyxl's XML writer rejects
+    cleaned = re.sub(r'[\ud800-\udfff]', '', cleaned)
+    return cleaned or None
+
+
+def safe_cell_write(ws, row, col, value):
+    """Write a value to an Excel cell, silently skipping illegal values."""
+    try:
+        ws.cell(row=row, column=col, value=sanitize_excel(value) if isinstance(value, str) else value)
+    except Exception:
+        try:
+            ws.cell(row=row, column=col, value=None)  # blank is better than a crash
+        except Exception:
+            pass
 
 def convert_pdf_to_excel(input_pdf, output_xlsx):
     try:
         import pdfplumber
-        import pandas as pd
         from openpyxl import Workbook
-        from openpyxl.utils.dataframe import dataframe_to_rows
         from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
-        
+        from openpyxl.utils import get_column_letter
+
         print(f"Reading PDF: {input_pdf}")
-        
-        all_tables = []
-        
-        with pdfplumber.open(input_pdf) as pdf:
-            print(f"PDF has {len(pdf.pages)} pages")
-            
-            for page_num, page in enumerate(pdf.pages, 1):
-                # Extract tables from page
-                tables = page.extract_tables()
-                
-                if tables:
-                    for table_idx, table in enumerate(tables):
-                        if table and len(table) > 0:
-                            # Convert to DataFrame
-                            # Use first row as header if it looks like headers
-                            df = pd.DataFrame(table[1:], columns=table[0]) if len(table) > 1 else pd.DataFrame(table)
-                            
-                            # Clean up empty columns and rows
-                            df = df.dropna(how='all', axis=1)
-                            df = df.dropna(how='all', axis=0)
-                            
-                            if not df.empty:
-                                all_tables.append({
-                                    'page': page_num,
-                                    'table': table_idx + 1,
-                                    'data': df
-                                })
-                                print(f"Found table on page {page_num}: {len(df)} rows x {len(df.columns)} columns")
-                
-                # If no tables found, try to extract all text as a single column
-                if not tables:
-                    text = page.extract_text()
-                    if text and text.strip():
-                        lines = [line.strip() for line in text.split('\\n') if line.strip()]
-                        if lines:
-                            # Try to detect if text is tabular (has consistent delimiters)
-                            # Check for tab or multiple spaces as delimiters
-                            potential_table = []
-                            for line in lines:
-                                # Split by multiple spaces or tabs
-                                import re
-                                cells = re.split(r'\\t|\\s{2,}', line)
-                                cells = [c.strip() for c in cells if c.strip()]
-                                if cells:
-                                    potential_table.append(cells)
-                            
-                            if potential_table and len(potential_table) > 1:
-                                # Find max columns
-                                max_cols = max(len(row) for row in potential_table)
-                                # Pad rows to have same number of columns
-                                padded_table = [row + [''] * (max_cols - len(row)) for row in potential_table]
-                                
-                                df = pd.DataFrame(padded_table[1:], columns=padded_table[0]) if len(padded_table) > 1 else pd.DataFrame(padded_table)
-                                df = df.dropna(how='all', axis=1)
-                                df = df.dropna(how='all', axis=0)
-                                
-                                if not df.empty and len(df.columns) > 1:
-                                    all_tables.append({
-                                        'page': page_num,
-                                        'table': 1,
-                                        'data': df
-                                    })
-                                    print(f"Extracted text table from page {page_num}: {len(df)} rows x {len(df.columns)} columns")
-        
-        if not all_tables:
-            print("NO_TABLES_FOUND")
-            return False
-        
-        print(f"Total tables found: {len(all_tables)}")
-        
-        # Create Excel workbook
+        COL_WIDTH_FACTOR = 6.5   # pts -> Excel column width units
+        ROW_HEIGHT_FACTOR = 0.75 # pts -> Excel row height pts
+
         wb = Workbook()
         wb.remove(wb.active)
-        
-        # Define styles
-        header_font = Font(bold=True, color="FFFFFF", size=11)
-        header_fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
-        header_alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
-        cell_alignment = Alignment(horizontal="left", vertical="center")
-        thin_border = Border(
-            left=Side(style='thin', color='B4B4B4'),
-            right=Side(style='thin', color='B4B4B4'),
-            top=Side(style='thin', color='B4B4B4'),
-            bottom=Side(style='thin', color='B4B4B4')
-        )
-        
-        for idx, table_info in enumerate(all_tables):
-            sheet_name = f"Page{table_info['page']}_Table{table_info['table']}"
-            if len(sheet_name) > 31:
-                sheet_name = f"P{table_info['page']}_T{table_info['table']}"
-            
-            ws = wb.create_sheet(title=sheet_name[:31])
-            df = table_info['data']
-            
-            # Write data
-            for r_idx, row in enumerate(dataframe_to_rows(df, index=False, header=True)):
-                for c_idx, value in enumerate(row, 1):
-                    cell = ws.cell(row=r_idx + 1, column=c_idx, value=value)
-                    cell.border = thin_border
-                    
-                    if r_idx == 0:
-                        cell.font = header_font
-                        cell.fill = header_fill
-                        cell.alignment = header_alignment
-                    else:
-                        cell.alignment = cell_alignment
-            
-            # Auto-adjust column widths
-            for column in ws.columns:
-                max_length = 0
-                column_letter = column[0].column_letter
-                for cell in column:
+        has_content = False
+
+        with pdfplumber.open(input_pdf) as pdf:
+            print(f"PDF has {len(pdf.pages)} pages")
+
+            for page_num, page in enumerate(pdf.pages, 1):
+                ws = wb.create_sheet(title=f"Page {page_num}")
+
+                # Collect all characters and filled rectangles on this page
+                all_chars = page.chars or []
+                all_rects = [r for r in (page.rects or []) if r.get('fill') and r.get('non_stroking_color') is not None]
+
+                # ── Try table extraction: prefer line-based, fall back to text-based ──
+                found_tables = []
+                for strategy in [
+                    {"vertical_strategy": "lines",  "horizontal_strategy": "lines",  "snap_tolerance": 3, "join_tolerance": 3, "edge_min_length": 3},
+                    {"vertical_strategy": "lines",  "horizontal_strategy": "lines",  "snap_tolerance": 5, "join_tolerance": 5, "edge_min_length": 3},
+                    {"vertical_strategy": "text",   "horizontal_strategy": "lines",  "snap_tolerance": 3},
+                    {"vertical_strategy": "text",   "horizontal_strategy": "text",   "snap_tolerance": 3},
+                ]:
                     try:
-                        if cell.value:
-                            max_length = max(max_length, len(str(cell.value)))
-                    except:
+                        found_tables = page.find_tables(strategy)
+                        if found_tables:
+                            break
+                    except Exception:
                         pass
-                adjusted_width = min(max_length + 2, 50)
-                ws.column_dimensions[column_letter].width = max(adjusted_width, 10)
-        
+
+                if found_tables:
+                    current_xl_row = 1
+
+                    for tbl in found_tables:
+                        # Collect all unique x and y boundaries from cells
+                        xs = sorted(set(x for cell in tbl.cells for x in (cell[0], cell[2])))
+                        ys = sorted(set(y for cell in tbl.cells for y in (cell[1], cell[3])))
+
+                        if len(xs) < 2 or len(ys) < 2:
+                            continue
+
+                        has_content = True
+
+                        # Set column widths proportional to PDF widths
+                        for ci, (cx0, cx1) in enumerate(zip(xs[:-1], xs[1:]), 1):
+                            col_letter = get_column_letter(ci)
+                            w = max((cx1 - cx0) / COL_WIDTH_FACTOR, 6)
+                            ws.column_dimensions[col_letter].width = w
+
+                        # Set row heights proportional to PDF heights
+                        for ri, (ry0, ry1) in enumerate(zip(ys[:-1], ys[1:]), 1):
+                            xl_r = current_xl_row + ri - 1
+                            h = max((ry1 - ry0) * ROW_HEIGHT_FACTOR, 12)
+                            ws.row_dimensions[xl_r].height = h
+
+                        merged_done = set()
+
+                        for cell_bbox in tbl.cells:
+                            cx0, cy0, cx1, cy1 = cell_bbox
+
+                            if cx0 not in xs or cx1 not in xs or cy0 not in ys or cy1 not in ys:
+                                continue
+
+                            xl_col = xs.index(cx0) + 1
+                            xl_row = ys.index(cy0) + current_xl_row
+                            col_span = xs.index(cx1) - xs.index(cx0)
+                            row_span = ys.index(cy1) - ys.index(cy0)
+
+                            if (xl_row, xl_col) in merged_done:
+                                continue
+                            merged_done.add((xl_row, xl_col))
+
+                            # ── Cell text ──
+                            cell_chars = chars_in_bbox(all_chars, cx0, cy0, cx1, cy1)
+                            text = cell_text_from_chars(all_chars, cx0, cy0, cx1, cy1)
+
+                            safe_cell_write(ws, xl_row, xl_col, text if text else None)
+                            xl_cell = ws.cell(row=xl_row, column=xl_col)
+
+                            # ── Font styling ──
+                            fontnames = [c.get('fontname', '') for c in cell_chars if c.get('fontname')]
+                            sizes     = [c.get('size', 11) for c in cell_chars if c.get('size') and c.get('size') > 0]
+                            colors    = [c.get('non_stroking_color') for c in cell_chars if c.get('non_stroking_color') is not None]
+
+                            fontname  = dominant(fontnames) or ''
+                            raw_size  = dominant(sizes) or 11
+                            # PDF sizes are in pts; enforce readable minimum of 10pt
+                            # and cap at 36pt to avoid oversized headers blowing up layout
+                            font_size = max(min(round(raw_size), 36), 10)
+                            text_hex  = color_to_hex(dominant(colors)) or '000000'
+
+                            xl_cell.font = Font(
+                                bold=is_bold(fontname),
+                                italic=is_italic(fontname),
+                                size=font_size,
+                                color=text_hex,
+                            )
+
+                            # ── Background fill ──
+                            cell_rects = rects_in_bbox(all_rects, cx0, cy0, cx1, cy1)
+                            if cell_rects:
+                                bg_hex = color_to_hex(cell_rects[0].get('non_stroking_color'))
+                                if bg_hex and bg_hex.upper() not in ('FFFFFF', 'FEFEFE', 'FDFDFD'):
+                                    xl_cell.fill = PatternFill(start_color=bg_hex, end_color=bg_hex, fill_type='solid')
+
+                            # ── Alignment ──
+                            h_align = detect_h_align(cell_chars, cx0, cx1)
+                            xl_cell.alignment = Alignment(horizontal=h_align, vertical='center', wrap_text=True)
+
+                            # ── Borders ──
+                            xl_cell.border = Border(
+                                left=Side(style='thin', color='AAAAAA'),
+                                right=Side(style='thin', color='AAAAAA'),
+                                top=Side(style='thin', color='AAAAAA'),
+                                bottom=Side(style='thin', color='AAAAAA'),
+                            )
+
+                            # ── Merge cells ──
+                            if col_span > 1 or row_span > 1:
+                                end_col = xl_col + col_span - 1
+                                end_row = xl_row + row_span - 1
+                                try:
+                                    ws.merge_cells(start_row=xl_row, start_column=xl_col,
+                                                   end_row=end_row, end_column=end_col)
+                                except Exception:
+                                    pass
+                                for mr in range(xl_row, end_row + 1):
+                                    for mc in range(xl_col, end_col + 1):
+                                        merged_done.add((mr, mc))
+
+                        current_xl_row += (len(ys) - 1) + 1   # table rows + 1 blank separator
+
+                else:
+                    # ── No table lines found: word-position layout ──
+                    words = page.extract_words(
+                        x_tolerance=4, y_tolerance=4,
+                        keep_blank_chars=False, use_text_flow=False,
+                    ) or []
+
+                    if not words:
+                        continue
+
+                    has_content = True
+
+                    # Cluster x-positions into column buckets (tolerance 15 pts)
+                    x_starts = sorted(set(round(w['x0']) for w in words))
+                    col_buckets = []
+                    for x in x_starts:
+                        if not col_buckets or x - col_buckets[-1] > 15:
+                            col_buckets.append(x)
+
+                    # Cluster y-positions into row buckets (tolerance 5 pts)
+                    y_tops = sorted(set(round(w['top']) for w in words))
+                    row_buckets = []
+                    for y in y_tops:
+                        if not row_buckets or y - row_buckets[-1] > 5:
+                            row_buckets.append(y)
+
+                    col_map = {x: min(range(len(col_buckets)), key=lambda i: abs(col_buckets[i] - x)) + 1 for x in x_starts}
+                    row_map = {y: min(range(len(row_buckets)), key=lambda i: abs(row_buckets[i] - y)) + 1 for y in y_tops}
+
+                    for w in words:
+                        xl_col = col_map.get(round(w['x0']), 1)
+                        xl_row = row_map.get(round(w['top']), 1)
+                        cell = ws.cell(row=xl_row, column=xl_col)
+                        existing = cell.value or ''
+                        safe_cell_write(ws, xl_row, xl_col, (existing + ' ' + w['text']).strip())
+
+                        # Rough font styling from pdfplumber word dict (if available)
+                        fn = w.get('fontname', '')
+                        fs = w.get('size', 11)
+                        if fn or fs:
+                            cell.font = Font(bold=is_bold(fn), italic=is_italic(fn),
+                                             size=max(min(round(fs or 11), 36), 10))
+                        cell.alignment = Alignment(vertical='top', wrap_text=True)
+
+                    # Auto column widths for word-layout pages
+                    for col_cells in ws.columns:
+                        max_len = max((len(str(c.value or '')) for c in col_cells), default=0)
+                        col_letter = col_cells[0].column_letter
+                        ws.column_dimensions[col_letter].width = max(min(max_len + 2, 60), 8)
+
+        if not has_content:
+            print("NO_TABLES_FOUND")
+            return False
+
         wb.save(output_xlsx)
         print("SUCCESS")
         return True
-        
+
     except ImportError as e:
         print(f"IMPORT_ERROR: {e}")
-        print("Please install required packages: pip install pdfplumber pandas openpyxl")
+        print("Please install required packages: pip install pdfplumber openpyxl")
         return False
     except Exception as e:
         print(f"ERROR: {e}")
@@ -5064,7 +5702,10 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
 
 # Run conversion
 if __name__ == "__main__":
-    result = convert_pdf_to_excel("${inputPath}", "${outputPath}")
+    # Paths come from argv (NOT interpolated into the source) so a filename with
+    # odd bytes/quotes can never corrupt this script — that previously produced
+    # "SyntaxError: source code cannot contain null bytes" and was an injection risk.
+    result = convert_pdf_to_excel(sys.argv[1], sys.argv[2])
     sys.exit(0 if result else 1)
 `
 
@@ -5072,7 +5713,7 @@ if __name__ == "__main__":
         console.log(`Python script created: ${scriptPath}`)
 
         try {
-          const { stdout, stderr } = await execPromise(`python "${scriptPath}"`, {
+          const { stdout, stderr } = await execPromise(`python "${scriptPath}" "${inputPath}" "${outputPath}"`, {
             timeout: 180000,
             maxBuffer: 100 * 1024 * 1024,
           })
@@ -5134,18 +5775,22 @@ if __name__ == "__main__":
         fs.rmSync(convertedDir, { recursive: true, force: true })
       }
 
+      // Not a server failure — the input PDF simply had no extractable tabular
+      // text (usually a scanned/image PDF). Log as "warning" so it does not
+      // inflate the error count, and return 422 (unprocessable input).
       logActivity({
         type: "conversion",
-        action: "pdf_to_excel_failed",
+        action: "pdf_to_excel_no_content",
         tool: "pdf-to-excel",
-        error: "No files converted",
-        ip: req.ip || req.headers["x-forwarded-for"],
-        status: "error",
+        error: "No extractable tables (likely scanned PDF)",
+        ip: req.clientIP,
+        status: "warning",
       })
-      
-      return res.status(500).json({ 
-        error: "No files were converted successfully.",
-        details: "The PDF may not contain extractable tables, or it might be a scanned/image-based PDF. Please try a PDF with clear tabular data."
+
+      return res.status(422).json({
+        error: "We couldn't find any extractable tables in this PDF.",
+        code: "NO_EXTRACTABLE_CONTENT",
+        details: "This looks like a scanned or image-based PDF. Run it through our OCR PDF tool first to make the text selectable, then convert again."
       })
     }
 
@@ -5156,7 +5801,7 @@ if __name__ == "__main__":
       conversionType: "pdf-to-excel",
       fileCount: convertedFiles.length,
       jobId: jobId,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -5184,7 +5829,7 @@ if __name__ == "__main__":
       action: "pdf_to_excel_failed",
       tool: "pdf-to-excel",
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
 
@@ -5268,7 +5913,7 @@ app.get("/api/download-excel/:jobId", async (req, res) => {
 })
 
 // PPT to PDF Conversion using LibreOffice
-app.post("/api/ppt-to-pdf", upload.array("files", 500), batchLimiter("ppt-to-pdf"), fileValidation, async (req, res) => {
+app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-pdf"), batchLimiter("ppt-to-pdf"), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PowerPoint files uploaded" })
@@ -5279,14 +5924,14 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), batchLimiter("ppt-to-pdf
       action: "ppt_uploaded",
       tool: "ppt-to-pdf",
       fileCount: req.files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "processing",
     })
 
     console.log(`PPT to PDF - ${req.files.length} file(s) received`)
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
 
     if (!fs.existsSync(convertedDir)) {
@@ -5324,7 +5969,7 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), batchLimiter("ppt-to-pdf
 
         console.log(`Executing: ${command}`)
 
-        await execPromise(command, {
+        await runLibreOffice(command, {
           timeout: 300000, // 5 minutes for large presentations
           maxBuffer: 100 * 1024 * 1024,
         })
@@ -5391,7 +6036,7 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), batchLimiter("ppt-to-pdf
         action: "ppt_to_pdf_failed",
         tool: "ppt-to-pdf",
         error: "No files converted",
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -5408,7 +6053,7 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), batchLimiter("ppt-to-pdf
       conversionType: "ppt-to-pdf",
       fileCount: convertedFiles.length,
       jobId: jobId,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -5435,7 +6080,7 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), batchLimiter("ppt-to-pdf
       action: "ppt_to_pdf_failed",
       tool: "ppt-to-pdf",
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
 
@@ -5458,8 +6103,8 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: jobId,
         error: "Files not found or expired",
-        ip: req.ip || req.headers["x-forwarded-for"],
-        status: "error",
+        ip: req.clientIP,
+        status: "warning",
       })
       
       return res.status(404).json({ error: "Files not found or expired" })
@@ -5480,7 +6125,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
         action: "file_downloaded",
         jobId: jobId,
         filename: files[0],
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -5537,7 +6182,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
       action: "zip_downloaded",
       jobId: jobId,
       fileCount: files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -5567,7 +6212,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
       action: "download_failed",
       jobId: req.params.jobId,
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
     
@@ -5577,7 +6222,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
   }
 })
 // PDF to PowerPoint Conversion using LibreOffice
-app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-ppt"), batchLimiter("pdf-to-ppt"), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -5588,14 +6233,14 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
       action: "pdf_uploaded_for_ppt",
       tool: "pdf-to-ppt",
       fileCount: req.files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       userAgent: req.headers["user-agent"],
       status: "processing",
     })
 
     console.log(`PDF to PPT - ${req.files.length} file(s) received`)
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
 
     if (!fs.existsSync(convertedDir)) {
@@ -5633,7 +6278,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
           const command = `"${libreOfficePath}" --headless --infilter="impress_pdf_import" --convert-to pptx --outdir "${convertedDir}" "${file.path}"`
           console.log(`Executing Method 1: ${command}`)
 
-          await execPromise(command, {
+          await runLibreOffice(command, {
             timeout: 300000,
             maxBuffer: 100 * 1024 * 1024,
           })
@@ -5663,7 +6308,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
             console.log(`Trying Method 2: draw_pdf_import filter...`)
             const command2 = `"${libreOfficePath}" --headless --infilter="draw_pdf_import" --convert-to pptx --outdir "${convertedDir}" "${file.path}"`
             
-            await execPromise(command2, {
+            await runLibreOffice(command2, {
               timeout: 300000,
               maxBuffer: 100 * 1024 * 1024,
             })
@@ -5697,7 +6342,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
             
             const command3 = `"${libreOfficePath}" --headless --infilter="impress_pdf_import" --convert-to odp --outdir "${convertedDir}" "${file.path}"`
             
-            await execPromise(command3, {
+            await runLibreOffice(command3, {
               timeout: 300000,
               maxBuffer: 100 * 1024 * 1024,
             })
@@ -5720,7 +6365,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
               // Convert ODP to PPTX
               const command4 = `"${libreOfficePath}" --headless --convert-to pptx --outdir "${convertedDir}" "${foundOdpPath}"`
               
-              await execPromise(command4, {
+              await runLibreOffice(command4, {
                 timeout: 300000,
                 maxBuffer: 100 * 1024 * 1024,
               })
@@ -5784,7 +6429,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
         action: "pdf_to_ppt_failed",
         tool: "pdf-to-ppt",
         error: "No files converted",
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "error",
       })
       
@@ -5801,7 +6446,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
       conversionType: "pdf-to-ppt",
       fileCount: convertedFiles.length,
       jobId: jobId,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -5828,7 +6473,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), batchLimiter("pdf-to-ppt
       action: "pdf_to_ppt_failed",
       tool: "pdf-to-ppt",
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
 
@@ -5851,8 +6496,8 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
         action: "download_failed",
         jobId: jobId,
         error: "Files not found or expired",
-        ip: req.ip || req.headers["x-forwarded-for"],
-        status: "error",
+        ip: req.clientIP,
+        status: "warning",
       })
       
       return res.status(404).json({ error: "Files not found or expired" })
@@ -5873,7 +6518,7 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
         action: "file_downloaded",
         jobId: jobId,
         filename: files[0],
-        ip: req.ip || req.headers["x-forwarded-for"],
+        ip: req.clientIP,
         status: "success",
       })
 
@@ -5930,7 +6575,7 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
       action: "zip_downloaded",
       jobId: jobId,
       fileCount: files.length,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "success",
     })
 
@@ -5960,7 +6605,7 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
       action: "download_failed",
       jobId: req.params.jobId,
       error: error.message,
-      ip: req.ip || req.headers["x-forwarded-for"],
+      ip: req.clientIP,
       status: "error",
     })
     
@@ -5985,7 +6630,7 @@ async function checkQpdfInstalled() {
 }
 
 // Unlock PDF - Remove password and restrictions while preserving ALL content
-app.post("/api/unlock-pdf", upload.array("files", 5), fileValidation, async (req, res) => {
+app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pdf"), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -6013,7 +6658,7 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileValidation, async (req
       console.log("No passwords provided")
     }
 
-    const jobId = Date.now().toString()
+    const jobId = genJobId()
     const unlockedDir = path.join(__dirname, "unlocked", jobId)
 
     if (!fs.existsSync(unlockedDir)) {
@@ -6367,7 +7012,7 @@ app.get("/api/download-unlocked/:jobId", async (req, res) => {
         jobId: jobId,
         error: "Files not found or expired",
         ip: req.clientIP,
-        status: "error",
+        status: "warning",
       })
       
       return res.status(404).json({ error: "Files not found or expired" })
@@ -6574,22 +7219,9 @@ if (process.platform === 'win32') {
   process.env.GM_PATH = 'C:\\Program Files\\GraphicsMagick-1.3.46-Q16\\gm.exe'
 }
 
-// ── Daily limit tracker (free/guest users, resets on server restart) ─────────
-const ocrDailyMap = new Map() // ip → { date: 'YYYY-MM-DD', count: number }
-
-function ocrCheckDaily(ip) {
-  const today = new Date().toISOString().slice(0, 10)
-  const rec = ocrDailyMap.get(ip)
-  if (!rec || rec.date !== today) return true
-  return rec.count < 1
-}
-
-function ocrIncrementDaily(ip) {
-  const today = new Date().toISOString().slice(0, 10)
-  const rec = ocrDailyMap.get(ip)
-  if (!rec || rec.date !== today) ocrDailyMap.set(ip, { date: today, count: 1 })
-  else rec.count++
-}
+// ── Daily OCR quota for free/guest users is now persisted in SQLite ──────────
+// (ocrCheckDaily / ocrIncrementDaily imported from middleware/sqliteRateStore.js).
+// Survives restarts and is shared across instances.
 
 // ── Route ─────────────────────────────────────────────────────────────────────
 app.post('/api/ocr-pdf',
@@ -6635,7 +7267,7 @@ app.post('/api/ocr-pdf',
       }
 
       // ── Daily limit (free users) ─────────────────────────────────────────
-      if (!isPro && !ocrCheckDaily(req.clientIP)) {
+      if (!isPro && !(await ocrCheckDaily(req.clientIP))) {
         cleanup()
         return res.status(429).json({
           error: 'DAILY_LIMIT_REACHED',
@@ -6729,7 +7361,7 @@ app.post('/api/ocr-pdf',
         extractedText = pageTexts.join('\f')
       }
 
-      if (!isPro) ocrIncrementDaily(req.clientIP)
+      if (!isPro) await ocrIncrementDaily(req.clientIP)
 
       const wordCount = extractedText.replace(/\f/g, ' ').split(/\s+/).filter(Boolean).length
       const timestamp = Date.now()
@@ -6905,7 +7537,7 @@ app.post('/api/ocr-pdf',
         SET plan = 'free', plan_expires_at = NULL
         WHERE plan != 'free'
           AND plan_expires_at IS NOT NULL
-          AND plan_expires_at < datetime('now', '-1 day')
+          AND plan_expires_at < datetime('now')
       `)
       if (result?.changes > 0) {
         console.log(`🧹 Expired plan cleanup: ${result.changes} user(s) downgraded to free`)
@@ -6919,6 +7551,43 @@ app.post('/api/ocr-pdf',
   cleanupExpiredPlans()
   // Then every hour
   setInterval(cleanupExpiredPlans, 60 * 60 * 1000)
+
+  // ── Orphaned temp-file sweep ─────────────────────────────────────────────────
+  // Per-request setTimeout cleanup is lost if the server restarts/crashes mid-job,
+  // leaving files behind that slowly fill the disk. This sweeps the work dirs on a
+  // schedule, deleting anything older than maxAge. uploads/blog is preserved.
+  function sweepOldFiles() {
+    const ONE_HOUR = 60 * 60 * 1000
+    const cutoff = Date.now() - ONE_HOUR
+    const dirs = ["uploads", "converted", "compressed", "downloads", "temp", "unlocked"]
+    let removed = 0
+    for (const d of dirs) {
+      const dirPath = path.join(__dirname, d)
+      if (!fs.existsSync(dirPath)) continue
+      let entries
+      try { entries = fs.readdirSync(dirPath) } catch { continue }
+      for (const entry of entries) {
+        if (d === "uploads" && entry === "blog") continue // keep persistent blog images
+        const entryPath = path.join(dirPath, entry)
+        try {
+          const stat = fs.statSync(entryPath)
+          if (stat.mtimeMs < cutoff) {
+            fs.rmSync(entryPath, { recursive: true, force: true })
+            removed++
+          }
+        } catch { /* file may already be gone — ignore */ }
+      }
+    }
+    if (removed > 0) console.log(`🧹 Temp sweep: removed ${removed} expired item(s)`)
+  }
+
+  // Run once at startup (clears orphans from any previous crash), then every 30 min
+  sweepOldFiles()
+  setInterval(sweepOldFiles, 30 * 60 * 1000)
+
+  // Prune expired rows from the persistent rate-limit table (startup + hourly)
+  cleanupExpiredRateLimits()
+  setInterval(cleanupExpiredRateLimits, 60 * 60 * 1000)
 
   // Start server
   app.listen(PORT, () => {

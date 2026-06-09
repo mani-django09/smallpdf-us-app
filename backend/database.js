@@ -141,6 +141,56 @@ function initializeDatabase() {
       }
     });
 
+    // Subscriptions table — records every gateway subscription (Lemon Squeezy,
+    // Razorpay, PayPal) so subscription history is not lost and cancel/status
+    // lookups work. Required by lemonSqueezyRoutes.js upsertSub().
+    db.run(`
+      CREATE TABLE IF NOT EXISTS subscriptions (
+        id                     INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id                INTEGER NOT NULL,
+        gateway                TEXT NOT NULL,
+        gateway_subscription_id TEXT NOT NULL,
+        plan                   TEXT NOT NULL,
+        status                 TEXT NOT NULL DEFAULT 'active',
+        current_period_end     DATETIME,
+        cancel_at_period_end   INTEGER DEFAULT 0,
+        created_at             DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at             DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `, (err) => {
+      if (err) {
+        console.error('Error creating subscriptions table:', err.message);
+      } else {
+        console.log('✓ Subscriptions table ready');
+      }
+    });
+    db.run('CREATE INDEX IF NOT EXISTS idx_subscriptions_user ON subscriptions(user_id)');
+    db.run('CREATE INDEX IF NOT EXISTS idx_subscriptions_gateway_sub ON subscriptions(gateway_subscription_id)');
+    db.run('CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON subscriptions(status)');
+
+    // Persistent rate-limit / quota store — survives restarts and is shared across
+    // instances (replaces in-memory Maps). One row per (bucket, identifier).
+    //   bucket      : limiter name, e.g. 'api', 'admin-login', 'ocr-daily'
+    //   ident       : client identifier (usually IP)
+    //   count       : hits in the current window
+    //   expires_at  : epoch ms when the window resets
+    db.run(`
+      CREATE TABLE IF NOT EXISTS rate_limits (
+        bucket TEXT NOT NULL,
+        ident TEXT NOT NULL,
+        count INTEGER NOT NULL DEFAULT 0,
+        expires_at INTEGER NOT NULL,
+        PRIMARY KEY (bucket, ident)
+      )
+    `, (err) => {
+      if (err) {
+        console.error('Error creating rate_limits table:', err.message);
+      } else {
+        console.log('✓ Rate limits table ready');
+      }
+    });
+    db.run('CREATE INDEX IF NOT EXISTS idx_rate_limits_expires ON rate_limits(expires_at)');
+
     // Create indexes for better performance
     db.run('CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug)');
     db.run('CREATE INDEX IF NOT EXISTS idx_blog_posts_status ON blog_posts(status)');
@@ -290,38 +340,26 @@ async function logActivityToDB(data) {
 // Update IP analytics
 async function updateIPAnalytics(ipAddress, activityType, country, city) {
   try {
-    const existing = await dbGet('SELECT * FROM ip_analytics WHERE ip_address = ?', [ipAddress]);
-    
-    if (existing) {
-      const updates = {
-        last_seen: new Date().toISOString(),
-        total_requests: existing.total_requests + 1,
-        total_conversions: activityType === 'conversion' ? existing.total_conversions + 1 : existing.total_conversions,
-        total_downloads: activityType === 'download' ? existing.total_downloads + 1 : existing.total_downloads,
-      };
-      
-      await dbRun(
-        `UPDATE ip_analytics SET 
-         last_seen = ?, 
-         total_requests = ?, 
-         total_conversions = ?, 
-         total_downloads = ? 
-         WHERE ip_address = ?`,
-        [updates.last_seen, updates.total_requests, updates.total_conversions, updates.total_downloads, ipAddress]
-      );
-    } else {
-      await dbRun(
-        `INSERT INTO ip_analytics (ip_address, country, city, total_conversions, total_downloads)
-         VALUES (?, ?, ?, ?, ?)`,
-        [
-          ipAddress, 
-          country || null, 
-          city || null,
-          activityType === 'conversion' ? 1 : 0,
-          activityType === 'download' ? 1 : 0
-        ]
-      );
-    }
+    // Atomic upsert — the previous SELECT-then-INSERT/UPDATE had a race where two
+    // concurrent requests for the same new IP both saw no row and both INSERTed,
+    // tripping "UNIQUE constraint failed: ip_analytics.ip_address".
+    const now = new Date().toISOString();
+    const isConversion = activityType === 'conversion' ? 1 : 0;
+    const isDownload = activityType === 'download' ? 1 : 0;
+
+    await dbRun(
+      `INSERT INTO ip_analytics
+         (ip_address, country, city, last_seen, total_requests, total_conversions, total_downloads)
+       VALUES (?, ?, ?, ?, 1, ?, ?)
+       ON CONFLICT(ip_address) DO UPDATE SET
+         last_seen         = excluded.last_seen,
+         total_requests    = total_requests + 1,
+         total_conversions = total_conversions + excluded.total_conversions,
+         total_downloads   = total_downloads + excluded.total_downloads,
+         country           = COALESCE(ip_analytics.country, excluded.country),
+         city              = COALESCE(ip_analytics.city, excluded.city)`,
+      [ipAddress, country || null, city || null, now, isConversion, isDownload]
+    );
   } catch (error) {
     console.error('Error updating IP analytics:', error.message);
   }
