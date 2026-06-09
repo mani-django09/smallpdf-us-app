@@ -1,4 +1,4 @@
-import { useState, useEffect, memo, useRef } from "react"
+import { useState, memo } from "react"
 import Link from "next/link" 
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
@@ -7,27 +7,20 @@ import { getLocalizedRoute } from "../lib/route-translations"
 import {
   FileText, Merge, Scissors, Gauge, FileImage, ArrowRight, Check, Upload,
   Download, Lock, Zap, ChevronRight, Shield, Clock, Users, ChevronDown,
-  Star, Presentation, Table, Sparkles, Crown, Award, ScanText
+  Star, Presentation, Table, Sparkles, Crown, Award, ScanText, RotateCw
 } from "lucide-react"
 
 function L(locale, map) { return map[locale] ?? map.en ?? '' }
 
-function useInView() {
-  const ref = useRef(null)
-  const [inView, setInView] = useState(false)
-  useEffect(() => {
-    if (!ref.current) return
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect() } }, { threshold: 0.08 })
-    obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [])
-  return [ref, inView]
-}
-
+// Reveal — CSS-only animation (no JS class toggling at runtime).
+// Previously used IntersectionObserver to toggle opacity-0→1 which:
+//   (a) caused 281% "rendered content" change (LLM readability fail), and
+//   (b) kept below-fold content invisible for crawlers/LLMs until JS fired.
+// Now it uses a pure CSS @keyframes animation so SSR HTML is already correct
+// and no class mutations happen after hydration.
 const Reveal = memo(({ children, className = "", delay = 0 }) => {
-  const [ref, inView] = useInView()
   return (
-    <div ref={ref} className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div className={`reveal-animate ${className}`} style={{ animationDelay: `${delay}ms` }}>
       {children}
     </div>
   )
@@ -74,13 +67,11 @@ FAQItem.displayName = 'FAQItem'
 // Styles moved to globals.css — no dynamic injection needed
 
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false)
+  // NOTE: removed `mounted` state — hero was opacity-0 until JS ran, causing
+  // LCP of 11.7 s (mobile) because Largest Contentful Paint (the H1) was
+  // invisible until hydration. Now the hero is visible from SSR/static HTML.
   const [openFAQ, setOpenFAQ] = useState(0)
   const { t, locale } = useTranslations()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const toggleFAQ = (i) => setOpenFAQ(openFAQ === i ? -1 : i)
 
@@ -102,6 +93,8 @@ export default function HomePage() {
     { name: t('nav.webpToPng'), shortDesc: L(locale, { ja: 'WebP変換', de: 'WebP-Konvertierung', fr: 'Conversion WebP', es: 'Conversión WebP', en: 'WebP conversion', it: 'Conversione WebP', id: 'Konversi WebP', pt: 'Conversão WebP' }), href: "/webp-to-png", Icon: FileImage, gradient: "from-teal-500 to-emerald-500" },
     { name: t('nav.pngToWebp'), shortDesc: L(locale, { ja: 'WebPに変換', de: 'In WebP konvertieren', fr: 'Convertir en WebP', es: 'Convertir a WebP', en: 'Convert to WebP', it: 'Converti in WebP', id: 'Konversi ke WebP', pt: 'Converter para WebP' }), href: "/png-to-webp", Icon: FileImage, gradient: "from-lime-500 to-green-500" },
     { name: t('nav.unlockPdf'), shortDesc: L(locale, { ja: 'パスワード保護を解除', de: 'Passwortschutz entfernen', fr: 'Supprimer la protection', es: 'Eliminar protección', en: 'Remove password protection', it: 'Rimuovi protezione password', id: 'Hapus proteksi kata sandi', pt: 'Remover proteção por senha' }), href: "/unlock-pdf", Icon: Lock, gradient: "from-amber-500 to-orange-500" },
+    { name: t('nav.rotatePdf'), shortDesc: L(locale, { ja: 'PDFページを回転', de: 'PDF-Seiten drehen', fr: 'Pivoter les pages PDF', es: 'Rotar páginas PDF', en: 'Rotate PDF pages', it: 'Ruota le pagine PDF', id: 'Putar halaman PDF', pt: 'Girar páginas PDF' }), href: "/rotate-pdf", Icon: RotateCw, gradient: "from-indigo-500 to-blue-500" },
+    { name: "Protect PDF", shortDesc: L(locale, { ja: 'パスワードで保護', de: 'Mit Passwort schützen', fr: 'Protéger par mot de passe', es: 'Proteger con contraseña', en: 'Password-protect PDF', it: 'Proteggi con password', id: 'Lindungi dengan kata sandi', pt: 'Proteger com senha' }), href: "/protect-pdf", Icon: Lock, gradient: "from-emerald-500 to-teal-500" },
     { name: "OCR PDF", shortDesc: L(locale, { ja: 'PDFからテキストを抽出', de: 'Text aus PDF extrahieren', fr: 'Extraire le texte du PDF', es: 'Extraer texto del PDF', en: 'Extract text from PDF', it: 'Estrai testo dal PDF', id: 'Ekstrak teks dari PDF', pt: 'Extrair texto do PDF' }), href: "/ocr-pdf", Icon: ScanText, gradient: "from-violet-500 to-purple-500" },
   ]
 
@@ -256,7 +249,7 @@ export default function HomePage() {
   ] : [
     {
       question: "Is your website really free to use?",
-      answer: "Absolutely! Everything here is free forever. There are no trial periods, premium plans, or surprise charges lurking around the corner. We believe PDF tools should be accessible to everyone. That's why you can merge, split, compress, and convert as many files as you want without ever reaching for your wallet. We keep the lights on with some minimal ads, but they won't interrupt your work or bombard you with pop-ups."
+      answer: "SmallPDF.us offers a free plan with access to all core PDF and image tools. Free users get standard file size limits and 1-hour file retention. For larger files, priority processing, and an ad-free experience, our Starter and Pro plans are available at affordable prices. No hidden charges — cancel anytime."
     },
     {
       question: "How secure are my files when I upload them?",
@@ -282,7 +275,7 @@ export default function HomePage() {
 
   return (
     <>
-      <SEOHead title={t('seo.home.title')} description={t('seo.home.description')} keywords={t('seo.home.keywords')} />
+      <SEOHead title={t('seo.home.title')} description={t('seo.home.description')} keywords={t('seo.home.keywords')} pathname="" locale={locale} />
       <Layout>
         {/* ══ HERO ══ */}
         <section className="relative overflow-hidden" style={{ fontFamily: "'Sora','Instrument Sans',system-ui,sans-serif" }}>
@@ -295,7 +288,7 @@ export default function HomePage() {
 
           <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-12 md:pt-20 md:pb-16">
             <div className="grid lg:grid-cols-[1.1fr,0.9fr] gap-10 lg:gap-16 items-center">
-              <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <div className="hero-content-animate">
                 <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 mb-6 bg-gray-950 text-white shadow-lg">
                   <Sparkles className="w-3.5 h-3.5 text-sky-400" />
                   <span className="text-[11px] font-semibold tracking-wide">{L(locale, { ja: '世界中で1億人以上の満足したユーザー', de: '50M+ Nutzer weltweit', fr: '50M+ utilisateurs dans le monde', es: '50M+ usuarios en todo el mundo', en: '50M+ Happy Users Worldwide', it: '50M+ utenti nel mondo', id: '100 Juta+ Pengguna di Dunia', pt: '50M+ Usuários no Mundo' })}</span>
@@ -303,14 +296,11 @@ export default function HomePage() {
                 <h1 className="text-[2.5rem] sm:text-5xl md:text-[3.5rem] font-extrabold text-gray-950 mb-5 leading-[1.08] tracking-tight">
                   {L(locale, { ja: 'プロフェッショナルなPDFツール', de: 'Professionelle PDF-Tools', fr: 'Outils PDF professionnels', es: 'Herramientas PDF profesionales', en: 'Professional PDF tools', it: 'Strumenti PDF professionali', id: 'Alat PDF profesional', pt: 'Ferramentas PDF profissionais' })}
                   <span className="block mt-1 bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 bg-clip-text text-transparent">
-                    {L(locale, { ja: '永久に100%無料', de: '100% kostenlos für immer', fr: '100% gratuit pour toujours', es: '100% gratis para siempre', en: '100% free forever', it: '100% gratuiti per sempre', id: '100% gratis selamanya', pt: '100% gratuito para sempre' })}
+                    {L(locale, { ja: 'プロフェッショナル・ツールスイート', de: 'Professionelle Tool-Suite', fr: 'Suite d\'outils professionnels', es: 'Suite de herramientas profesionales', en: 'Professional Tool Suite', it: 'Suite di strumenti professionali', id: 'Suite Alat Profesional', pt: 'Suite de Ferramentas Profissionais' })}
                   </span>
                 </h1>
                 <p className="text-base sm:text-lg text-gray-600 mb-5 leading-relaxed max-w-lg" style={{ fontFamily:"'Instrument Sans',system-ui,sans-serif" }}>
                   {L(locale, { ja: 'PDFを数秒で変換、圧縮、結合、編集。', de: 'PDFs in Sekunden konvertieren, komprimieren, zusammenführen & bearbeiten.', fr: 'Convertissez, compressez, fusionnez et modifiez vos PDF en secondes.', es: 'Convierte, comprime, combina y edita tus PDF en segundos.', en: 'Convert, compress, merge & edit PDFs in seconds.', it: 'Converti, comprimi, unisci e modifica i tuoi PDF in pochi secondi.', id: 'Konversi, kompres, gabung & edit PDF dalam hitungan detik.', pt: 'Converta, comprima, mescle e edite PDFs em segundos.' })}
-                  <span className="block mt-1.5 text-gray-900 font-semibold">
-                    {L(locale, { ja: '登録不要。制限なし。', de: 'Keine Anmeldung. Keine Limits.', fr: 'Sans inscription. Sans limites.', es: 'Sin registro. Sin límites.', en: 'No signup. No limits.', it: 'Senza registrazione. Senza limiti.', id: 'Tanpa daftar. Tanpa batas.', pt: 'Sem cadastro. Sem limites.' })}
-                  </span>
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {[
@@ -345,7 +335,7 @@ export default function HomePage() {
               </div>
 
               {/* Hero Visual */}
-              <div className={`hidden lg:flex items-center justify-center transition-all duration-1000 delay-300 ${mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
+              <div className="hidden lg:flex items-center justify-center hero-visual-animate">
                 <div className="relative w-full max-w-md">
                   <div className="relative bg-white rounded-3xl shadow-2xl shadow-gray-200/60 border border-gray-100 p-7 mx-auto" style={{ animation:'float 6s ease-in-out infinite' }}>
                     <div className="flex items-center gap-2 mb-5">
@@ -383,7 +373,7 @@ export default function HomePage() {
           <div className="relative max-w-6xl mx-auto">
             <Reveal><div className="text-center mb-10">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2 tracking-tight">{L(locale, { ja:'すべてのPDFツール', de:'Alle PDF-Tools', fr:'Tous les outils PDF', es:'Todas las herramientas PDF', en:'All PDF Tools', it:'Tutti gli strumenti PDF', id:'Semua Alat PDF', pt:'Todas as Ferramentas PDF' })}</h2>
-              <p className="text-sm sm:text-base text-gray-500 max-w-lg mx-auto">{L(locale, { ja:'PDFファイルの作業に必要なすべて', de:'Alles für die Arbeit mit PDFs', fr:'Tout pour vos PDF, entièrement gratuit', es:'Todo para trabajar con PDF, gratis', en:'Everything you need to work with PDF files, completely free forever', it:'Tutto per lavorare con i PDF, gratis per sempre', id:'Semua untuk bekerja dengan file PDF, gratis', pt:'Tudo para trabalhar com PDFs, gratuito para sempre' })}</p>
+              <p className="text-sm sm:text-base text-gray-500 max-w-lg mx-auto">{L(locale, { ja:'PDFファイルの作業に必要なすべて', de:'Alles für die Arbeit mit PDFs', fr:'Tout pour vos PDF', es:'Todo para trabajar con PDF', en:'Everything you need to work with PDF files', it:'Tutto per lavorare con i PDF', id:'Semua untuk bekerja dengan file PDF', pt:'Tudo para trabalhar com PDFs' })}</p>
             </div></Reveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5">
               {tools.map((tool, i) => <ToolCard key={tool.name} tool={tool} index={i} locale={locale} />)}
@@ -458,13 +448,13 @@ export default function HomePage() {
           <div className="max-w-5xl mx-auto">
             <Reveal><div className="text-center mb-10">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2 tracking-tight">{L(locale, { ja: 'なぜSmallPDF.us？', de: 'Warum SmallPDF.us?', fr: 'Pourquoi SmallPDF.us ?', es: '¿Por qué SmallPDF.us?', en: 'Why SmallPDF.us?', it: 'Perché SmallPDF.us?', id: 'Mengapa SmallPDF.us?', pt: 'Por que SmallPDF.us?' })}</h2>
-              <p className="text-sm sm:text-base text-gray-500">{L(locale, { ja: 'エンタープライズ機能、完全無料。妥協なし。', de: 'Enterprise-Funktionen, komplett kostenlos. Keine Kompromisse.', fr: 'Fonctionnalités entreprise, entièrement gratuit. Aucun compromis.', es: 'Funciones empresariales, completamente gratis. Sin compromisos.', en: 'Enterprise features, completely free. No compromises.', it: 'Funzionalità enterprise, completamente gratuito. Nessun compromesso.', id: 'Fitur enterprise, sepenuhnya gratis. Tanpa kompromi.', pt: 'Recursos empresariais, completamente gratuito. Sem compromissos.' })}</p>
+              <p className="text-sm sm:text-base text-gray-500">{L(locale, { ja: 'プロ品質のツール、シンプルな料金体系。', de: 'Professionelle Tools, einfache Preisgestaltung.', fr: 'Outils professionnels, tarification simple.', es: 'Herramientas profesionales, precios simples.', en: 'Professional-grade tools, simple pricing.', it: 'Strumenti professionali, prezzi semplici.', id: 'Alat berkualitas profesional, harga sederhana.', pt: 'Ferramentas profissionais, preços simples.' })}</p>
             </div></Reveal>
             <div className="grid md:grid-cols-3 gap-4">
               {[
                 { icon: Shield, title: L(locale, { ja: '銀行レベルのセキュリティ', de: 'Banktaugliche Sicherheit', fr: 'Sécurité niveau bancaire', es: 'Seguridad de nivel bancario', en: 'Bank-Level Security', it: 'Sicurezza di livello bancario', id: 'Keamanan Level Bank', pt: 'Segurança de Nível Bancário' }), desc: L(locale, { ja: '256ビット暗号化。ファイルは処理後に自動削除。', de: '256-Bit-Verschlüsselung. Dateien werden nach der Verarbeitung automatisch gelöscht.', fr: 'Cryptage 256 bits. Fichiers supprimés automatiquement après traitement.', es: 'Cifrado de 256 bits. Los archivos se eliminan automáticamente después del procesamiento.', en: '256-bit encryption. Files auto-delete after processing.', it: "Crittografia a 256 bit. I file vengono eliminati automaticamente dopo l'elaborazione.", id: 'Enkripsi 256-bit. File dihapus otomatis setelah diproses.', pt: 'Criptografia de 256 bits. Os arquivos são excluídos automaticamente após o processamento.' }), gradient: "from-emerald-500 to-green-600", bg: "from-emerald-50 to-green-50" },
                 { icon: Zap, title: L(locale, { ja: '超高速', de: 'Blitzschnell', fr: 'Ultra rapide', es: 'Ultra rápido', en: 'Lightning Fast', it: 'Velocissimo', id: 'Sangat Cepat', pt: 'Extremamente Rápido' }), desc: L(locale, { ja: '最適化されたサーバーで数秒でファイルを処理。', de: 'Dateien in Sekunden mit optimierten Servern verarbeiten.', fr: 'Traitement des fichiers en quelques secondes avec des serveurs optimisés.', es: 'Procesa archivos en segundos con servidores optimizados.', en: 'Process files in seconds with optimized servers.', it: 'Elabora i file in pochi secondi con server ottimizzati.', id: 'Proses file dalam hitungan detik dengan server yang dioptimalkan.', pt: 'Processe arquivos em segundos com servidores otimizados.' }), gradient: "from-amber-500 to-orange-500", bg: "from-amber-50 to-yellow-50" },
-                { icon: Award, title: L(locale, { ja: '常に無料', de: 'Immer kostenlos', fr: 'Toujours gratuit', es: 'Siempre gratis', en: 'Always Free', it: 'Sempre gratuito', id: 'Selalu Gratis', pt: 'Sempre Gratuito' }), desc: L(locale, { ja: '隠れた費用なし。登録不要。制限なし。', de: 'Keine versteckten Kosten. Keine Anmeldung. Keine Limits.', fr: 'Aucuns frais cachés. Sans inscription. Sans limites.', es: 'Sin tarifas ocultas. Sin registro. Sin límites.', en: 'No hidden fees. No signup. No limits.', it: 'Nessun costo nascosto. Senza registrazione. Senza limiti.', id: 'Tidak ada biaya tersembunyi. Tanpa daftar. Tanpa batas.', pt: 'Sem taxas ocultas. Sem cadastro. Sem limites.' }), gradient: "from-blue-500 to-sky-500", bg: "from-blue-50 to-sky-50" },
+                { icon: Award, title: L(locale, { ja: '常に無料で開始', de: 'Kostenlos starten', fr: 'Commencez gratuitement', es: 'Comienza gratis', en: 'Free to Start', it: 'Inizia gratuitamente', id: 'Mulai Gratis', pt: 'Comece Grátis' }), desc: L(locale, { ja: '隠れた費用なし。プレミアムプランでさらに強力に。', de: 'Keine versteckten Kosten. Premium-Pläne für mehr Leistung.', fr: 'Aucuns frais cachés. Passez en Premium pour plus de puissance.', es: 'Sin tarifas ocultas. Planes Premium para mayor rendimiento.', en: 'No hidden fees. Upgrade to Premium for more power.', it: 'Nessun costo nascosto. Passa a Premium per più potenza.', id: 'Tidak ada biaya tersembunyi. Upgrade ke Premium untuk lebih banyak fitur.', pt: 'Sem taxas ocultas. Faça upgrade para Premium para mais recursos.' }), gradient: "from-blue-500 to-sky-500", bg: "from-blue-50 to-sky-50" },
               ].map((f, i) => (
                 <Reveal key={i} delay={i * 80}>
                   <div className={`group bg-gradient-to-br ${f.bg} rounded-2xl p-6 border border-gray-100/60 hover:shadow-lg hover:border-gray-200 transition-all duration-300 h-full`}>

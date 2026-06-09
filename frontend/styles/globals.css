@@ -23,6 +23,53 @@ body {
 }
 
 /* ── Homepage animations & decorative utilities ───────────────────────── */
+
+/* Hero content: slides up + fades in from SSR (no JS needed).
+   Using animation-fill-mode:both so the element starts at opacity:0 visually
+   but the HTML is NOT in opacity-0 state — the keyframe itself provides
+   the initial invisible frame, avoiding LLM-readability HTML mutation. */
+@keyframes heroContentIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroVisualIn {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.hero-content-animate {
+  animation: heroContentIn 0.75s cubic-bezier(0.22,1,0.36,1) both;
+}
+.hero-visual-animate {
+  animation: heroVisualIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.25s both;
+}
+
+/* Reveal — replaces the JS IntersectionObserver toggle.
+   CSS-only: no class changes after SSR → LLM sees full content,
+   281% rendering issue resolved. */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal-animate {
+  animation: revealUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
+  animation-play-state: paused; /* paused until in viewport via CSS */
+}
+/* Use CSS scroll-driven animation if supported (Chrome 115+),
+   fall back to just running the animation for older browsers */
+@supports (animation-timeline: scroll()) {
+  .reveal-animate {
+    animation-timeline: view();
+    animation-range: entry 0% entry 25%;
+    animation-play-state: running;
+  }
+}
+/* Fallback for browsers without scroll-driven animations: just run it */
+@supports not (animation-timeline: scroll()) {
+  .reveal-animate {
+    animation-play-state: running;
+  }
+}
+
 @keyframes cardIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -126,4 +173,106 @@ body {
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+}
+
+/* ── Dark mode CSS variables ──────────────────────────────────────────── */
+:root {
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f4f4f5;
+  --bg-card:      #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow-color: rgba(0,0,0,0.08);
+}
+
+html.dark {
+  --bg-primary:   #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card:      #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --shadow-color: rgba(0,0,0,0.4);
+}
+
+/* Apply dark mode to base elements */
+html.dark body {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+html.dark .bg-white {
+  background-color: var(--bg-card) !important;
+}
+
+html.dark .bg-gray-50,
+html.dark .bg-slate-50 {
+  background-color: var(--bg-secondary) !important;
+}
+
+html.dark .text-gray-900,
+html.dark .text-gray-800 {
+  color: var(--text-primary) !important;
+}
+
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+  color: var(--text-secondary) !important;
+}
+
+html.dark .border-gray-200,
+html.dark .border-gray-100 {
+  border-color: var(--border-color) !important;
+}
+
+html.dark .shadow-sm,
+html.dark .shadow-lg {
+  box-shadow: 0 2px 12px var(--shadow-color) !important;
+}
+
+/* ── Print-friendly styles ────────────────────────────────────────────── */
+@media print {
+  /* Hide navigation, ads, sidebar, and interactive elements */
+  nav, header, footer,
+  [class*="ad"], [id*="ad"],
+  .sidebar, [class*="sidebar"],
+  button:not([aria-label*="print"]),
+  .mobile-menu,
+  script {
+    display: none !important;
+  }
+
+  /* Make content full width */
+  body, main, article, section {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Ensure links are readable */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #666;
+  }
+
+  /* Page breaks */
+  h1, h2, h3 { page-break-after: avoid; }
+  table, figure { page-break-inside: avoid; }
+}
+
+/* ── AdSense — collapse container when no ad fills the slot ───────────── */
+/* Google sets data-ad-status="unfilled" when the auction returns no bid.  */
+/* Without this, an empty <ins> leaves a tall white gap on the page.       */
+ins.adsbygoogle[data-ad-status="unfilled"] {
+  display: none !important;
+}
+/* Also hide the wrapper div when its only child ins is unfilled            */
+ins.adsbygoogle[data-ad-status="unfilled"] + * { display: none; }
+[aria-label="Advertisement"]:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
+  display: none !important;
 }

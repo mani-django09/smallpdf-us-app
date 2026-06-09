@@ -1,0 +1,57 @@
+# SmallPDF.us — Free Online PDF & Document Tools
+
+> SmallPDF.us is a free, privacy-first online platform offering professional-grade PDF and document conversion tools. No account required, no file size paywall, files auto-deleted after 2 hours.
+
+## Tools Available
+
+### PDF Conversion
+- PDF to Word (DOCX) — Convert PDF documents to editable Word format
+- Word to PDF — Convert DOC/DOCX files to PDF
+- PDF to Excel (XLSX) — Extract tables from PDFs into spreadsheets
+- Excel to PDF — Convert XLS/XLSX spreadsheets to PDF
+- PDF to PowerPoint (PPTX) — Convert PDFs into editable presentations
+- PowerPoint to PDF — Convert PPT/PPTX presentations to PDF
+
+### PDF Management
+- Merge PDF — Combine multiple PDF files into one document
+- Split PDF — Extract specific pages or split PDF into multiple files
+- Compress PDF — Reduce PDF file size while maintaining quality
+- Rotate PDF — Rotate pages in a PDF document
+- Unlock PDF — Remove password protection from PDF files
+- Protect PDF — Add password protection to PDF files
+- OCR PDF — Extract text from scanned/image-based PDFs
+
+### Image Conversion
+- JPG to PDF — Convert JPEG images to PDF format
+- PNG to PDF — Convert PNG images to PDF format
+- PDF to JPG — Extract pages from PDF as JPEG images
+- PDF to PNG — Extract pages from PDF as PNG images
+- PNG to WebP — Convert PNG images to WebP format
+- WebP to PNG — Convert WebP images to PNG format
+- Compress Image — Optimize JPG, PNG, WebP images for web/email
+
+## Key Features
+- 100% free, no registration required
+- 256-bit SSL encryption for all file transfers
+- Files automatically deleted from servers after 2 hours
+- GDPR compliant — no data collection or sharing
+- Supports 8 languages: English, Japanese, German, French, Spanish, Italian, Indonesian, Portuguese
+- Works on all devices: desktop, tablet, mobile
+- No file size limits for most operations
+
+## Technical Details
+- Built with Next.js (frontend) and Node.js/Express (backend)
+- LibreOffice-powered document conversion
+- Python/pdfplumber for PDF table extraction
+- Sharp for image processing
+
+## URL Structure
+- Homepage: https://smallpdf.us
+- Tools: https://smallpdf.us/{tool-name}/ (e.g. /merge-pdf/, /compress-pdf/)
+- Localized: https://smallpdf.us/{locale}/{tool-name}/ (e.g. /fr/compresser-pdf/)
+
+## Contact & Legal
+- Website: https://smallpdf.us
+- Privacy Policy: https://smallpdf.us/privacy/
+- Terms of Service: https://smallpdf.us/terms/
+- Contact: https://smallpdf.us/contact/
