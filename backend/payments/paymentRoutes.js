@@ -331,7 +331,13 @@ async function webhookHandler(req, res) {
       .digest('hex')
 
     if (expected !== signature) {
+      // Enhanced debug: log first 8 chars of each so we can tell if secret is totally
+      // wrong vs. a body-encoding issue. REMOVE these lines once the secret is fixed.
       console.error('❌ Razorpay webhook signature mismatch')
+      console.error('   received sig  :', signature?.slice(0, 8), '...')
+      console.error('   computed sig   :', expected?.slice(0, 8), '...')
+      console.error('   body type      :', Buffer.isBuffer(req.body) ? 'Buffer' : typeof req.body, '| len:', req.body?.length)
+      console.error('   secret len     :', webhookSecret?.length)
       return res.status(400).send('Invalid webhook signature')
     }
   }
