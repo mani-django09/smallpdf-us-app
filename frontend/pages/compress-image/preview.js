@@ -4,32 +4,12 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
 import { Minimize2, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, Settings } from "lucide-react"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 export default function PreviewCompressImage() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [filesData, setFilesData] = useState([])
   const [compressing, setCompressing] = useState(false)
@@ -270,7 +250,7 @@ export default function PreviewCompressImage() {
         <div className="max-w-5xl mx-auto">
           {/* Header Ad */}
           <div className="mb-6">
-            <AdSenseUnit adSlot="8004544994" />
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
 
           {/* Back button */}
@@ -527,6 +507,7 @@ export default function PreviewCompressImage() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { excelToPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -31,6 +32,7 @@ function getApiUrl() {
 
 export default function PreviewExcelToPDF() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [fileData, setFileData] = useState(null)
   const [converting, setConverting] = useState(false)
@@ -89,13 +91,10 @@ export default function PreviewExcelToPDF() {
       formData.append("fitToPage", fitToPage)
 
       const API_URL = getApiUrl()
-      console.log('Sending request to backend...')
       const convertResponse = await fetch(`${API_URL}/api/excel-to-pdf`, {
         method: "POST",
         body: formData,
       })
-
-      console.log('Response status:', convertResponse.status)
 
       // Safe JSON parse — server may return HTML on 500
       let result
@@ -107,8 +106,6 @@ export default function PreviewExcelToPDF() {
         console.error('Non-JSON response:', text.substring(0, 200))
         throw new Error(`Server error ${convertResponse.status}: Check LibreOffice is installed`)
       }
-
-      console.log('Response data:', result)
 
       setProgress(100)
       setStage(t("excelToPdf.stages.complete"))
@@ -229,7 +226,7 @@ export default function PreviewExcelToPDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-5xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -472,6 +469,7 @@ export default function PreviewExcelToPDF() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

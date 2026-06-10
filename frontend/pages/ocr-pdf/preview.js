@@ -12,6 +12,9 @@ import {
   Crown, CheckCircle2, AlertCircle, Download,
 } from "lucide-react"
 import { ocrPdfStore } from "./index"
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
+
 
 const STAGES_EN = [
   { pct: 10, label: "Uploading document…" },
@@ -22,30 +25,10 @@ const STAGES_EN = [
   { pct: 96, label: "Finalising your PDF…" },
 ]
 
-function AdSenseUnit({ adSlot }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block" }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
 
 export default function OcrPdfPreview() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { user } = useAuth()
   const { t } = useTranslations()
   const isPro = user?.plan === "pro" || user?.plan === "enterprise"
@@ -180,7 +163,7 @@ export default function OcrPdfPreview() {
         {/* Ad */}
         <div className="bg-slate-50 px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" />
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
         </div>
 
@@ -391,6 +374,7 @@ export default function OcrPdfPreview() {
             </div>
           </div>
         </div>
+      {DailyLimitGate}
       </Layout>
     </>
   )

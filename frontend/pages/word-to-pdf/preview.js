@@ -5,29 +5,8 @@ import SEOHead from "../../components/SEOHead"
 import { FileText, ArrowLeft, CheckCircle2, Sparkles, Shield, Zap, Clock, Play } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
 import { wordToPdfStore } from "../word-to-pdf"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -41,6 +20,7 @@ function getApiUrl() {
 
 export default function PreviewWordToPDF() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [fileData, setFileData] = useState(null)
   const [converting, setConverting] = useState(false)
@@ -197,7 +177,7 @@ export default function PreviewWordToPDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-5">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
 
@@ -350,6 +330,7 @@ export default function PreviewWordToPDF() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
     </>
   )

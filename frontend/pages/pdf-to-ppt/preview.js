@@ -4,32 +4,12 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, Presentation, Layers, Edit3, AlertCircle } from "lucide-react"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 export default function PreviewPdfToPpt() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [filesData, setFilesData] = useState([])
   const [converting, setConverting] = useState(false)
@@ -221,7 +201,7 @@ export default function PreviewPdfToPpt() {
       {/* Header Ad */}
       <div className="bg-red-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
 
@@ -435,6 +415,7 @@ export default function PreviewPdfToPpt() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

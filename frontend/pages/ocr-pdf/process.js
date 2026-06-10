@@ -13,6 +13,7 @@ import {
   AlertCircle, Crown, ArrowRight, Clock, Zap,
 } from "lucide-react"
 import { ocrPdfStore } from "./index"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 const STAGES_EN = [
   { pct: 10, label: "Uploading document…"          },
@@ -27,6 +28,7 @@ export default function OcrPdfProcess() {
   const router  = useLocalizedRouter()
   const { user } = useAuth()
   const { t } = useTranslations()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const isPro   = user?.plan === "pro" || user?.plan === "enterprise"
 
   const [status,   setStatus]   = useState("processing")
@@ -241,6 +243,7 @@ export default function OcrPdfProcess() {
             </div>
           </div>
         </div>
+      {DailyLimitGate}
       </Layout>
     </>
   )

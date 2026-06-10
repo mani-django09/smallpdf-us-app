@@ -4,32 +4,12 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { FileText, ArrowLeft, Key, Shield, Zap, Clock, Unlock, Trash2, CheckCircle, Lock, AlertTriangle } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 export default function PreviewUnlockPdf() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [filesData, setFilesData] = useState([])
   const [unlocking, setUnlocking] = useState(false)
@@ -153,6 +133,8 @@ export default function PreviewUnlockPdf() {
       setStage(t("unlockPdf.previewStageDone"))
 
       if (!response.ok) {
+        let _dlBody = null; try { _dlBody = await response.clone().json() } catch (_) {}
+        if (handleDailyLimitError(response.status, _dlBody)) return
         const errorData = await response.json()
         throw new Error(errorData.error || errorData.details || "Unlock failed")
       }
@@ -201,7 +183,7 @@ export default function PreviewUnlockPdf() {
         <div className="max-w-4xl mx-auto">
           {/* Header Ad */}
           <div className="mb-6">
-            <AdSenseUnit adSlot="8004544994" />
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
 
           {/* Header */}
@@ -407,6 +389,7 @@ export default function PreviewUnlockPdf() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

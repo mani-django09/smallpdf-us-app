@@ -4,32 +4,12 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { Presentation, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, FileText, Layers } from "lucide-react"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 export default function PreviewPptToPdf() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [filesData, setFilesData] = useState([])
   const [converting, setConverting] = useState(false)
@@ -265,7 +245,7 @@ export default function PreviewPptToPdf() {
       {/* Header Ad */}
       <div className="bg-orange-50 px-4 pt-6">
         <div className="max-w-7xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
 
@@ -445,7 +425,6 @@ export default function PreviewPptToPdf() {
                 </div>
               </div>
 
-
               {/* What You Get */}
               <div className="bg-white rounded-2xl shadow-lg p-6">
                 <h3 className="font-display text-lg font-semibold text-slate-900 mb-4">{t('pptToPdf.whatYouGet')}</h3>
@@ -495,6 +474,7 @@ export default function PreviewPptToPdf() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

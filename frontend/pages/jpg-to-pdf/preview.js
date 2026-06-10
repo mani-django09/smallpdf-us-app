@@ -7,9 +7,11 @@ import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckC
 import AdSenseUnit from "../../components/AdSenseUnit"
 
 import { jpgFileStore } from "./index"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 export default function PreviewJpgToPdf() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t, locale } = useTranslations()
   const [filesData, setFilesData] = useState([])
   const [converting, setConverting] = useState(false)
@@ -109,6 +111,8 @@ export default function PreviewJpgToPdf() {
       })
 
       if (!response.ok) {
+        let _dlBody = null; try { _dlBody = await response.clone().json() } catch (_) {}
+        if (handleDailyLimitError(response.status, _dlBody)) return
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.error || "Failed to convert images")
       }
@@ -139,218 +143,224 @@ export default function PreviewJpgToPdf() {
 
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title={t('jpgToPdf.title')}
         description={t('jpgToPdf.description')}
         keywords={t('jpgToPdf.keywords')}
         noIndex={true}
       />
       <Layout>
-        <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 min-h-screen py-8 px-4">
-          <div className="max-w-7xl mx-auto">
+        {/* Leaderboard ad — full-width strip above content */}
+        <div className="bg-slate-50 px-4 pt-3 pb-1">
+          <div className="max-w-6xl mx-auto">
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          </div>
+        </div>
 
-            {/* Header Ad */}
-            <AdSenseUnit adSlot="8004544994" label="Header Ad" className="mb-6 rounded-xl overflow-hidden" />
+        <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 min-h-screen py-4 px-4">
+          <div className="max-w-6xl mx-auto">
 
-            {/* Header */}
-            <div className="mb-8">
+            {/* Compact header row */}
+            <div className="flex items-center justify-between mb-3">
               <button
                 onClick={() => router.push("/jpg-to-pdf")}
-                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold mb-4 transition-colors"
+                className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 text-sm font-semibold transition-colors"
               >
-                <ArrowLeft className="w-5 h-5" />
-                <span>{t('jpgToPdf.preview.backToUpload')}</span>
+                <ArrowLeft className="w-4 h-4" />
+                {t('jpgToPdf.preview.backToUpload')}
               </button>
-
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-                {t('jpgToPdf.preview.title')}
-              </h1>
-              <p className="font-body text-slate-600">
-                {filesData.length} {t('jpgToPdf.preview.imagesReady')} {t('jpgToPdf.preview.reviewText')}
-              </p>
+              <span className="text-xs text-slate-500">
+                {filesData.length} {t('jpgToPdf.preview.imagesReady')}
+              </span>
             </div>
 
-            {/* Two-column layout: main content + sidebar */}
-            <div className="flex flex-col lg:flex-row gap-6">
+            {/* Two-column layout */}
+            <div className="flex flex-col lg:flex-row gap-4">
 
-              {/* Main content */}
-              <div className="flex-1 min-w-0">
+              {/* ── Main content ── */}
+              <div className="flex-1 min-w-0 space-y-3">
 
-            {/* Files Grid */}
-            <div className="bg-white rounded-xl border-2 border-slate-200 p-6 mb-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="font-display font-bold text-slate-900">{t('jpgToPdf.preview.yourImages')}</h2>
-                    <p className="text-sm text-slate-600">
-                      {selectedFiles.length} / {filesData.length} {t('jpgToPdf.preview.selected')}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setSelectedFiles(filesData.map((f) => f.id))}
-                    className="text-sm text-blue-600 hover:text-blue-700 font-semibold transition-colors"
-                  >
-                    {t('jpgToPdf.preview.selectAll')}
-                  </button>
-                  <span className="text-slate-400">|</span>
-                  <button
-                    onClick={() => setSelectedFiles([])}
-                    className="text-sm text-slate-600 hover:text-slate-700 font-semibold transition-colors"
-                  >
-                    {t('jpgToPdf.preview.deselectAll')}
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filesData.map((file, index) => (
-                  <div
-                    key={file.id}
-                    className={`relative group border-2 rounded-lg overflow-hidden transition-all ${
-                      selectedFiles.includes(file.id)
-                        ? "border-blue-500 shadow-lg ring-2 ring-blue-200"
-                        : "border-slate-200 hover:border-slate-300"
-                    }`}
-                  >
-                    <div className="aspect-square bg-slate-100 relative">
-                      <img src={file.data} alt={file.name} className="w-full h-full object-cover" />
-
-                      <button
-                        onClick={() => toggleFileSelection(file.id)}
-                        className="absolute top-2 left-2 w-6 h-6 rounded-md bg-white border-2 border-slate-300 flex items-center justify-center hover:border-blue-500 transition-colors"
-                      >
-                        {selectedFiles.includes(file.id) && (
-                          <CheckCircle className="w-5 h-5 text-blue-600" fill="currentColor" />
-                        )}
-                      </button>
-
-                      <button
-                        onClick={() => removeFile(file.id)}
-                        className="absolute top-2 right-2 w-8 h-8 bg-red-600 hover:bg-red-700 text-white rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                        title={t('jpgToPdf.preview.removeImage')}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-
-                      <div className="absolute bottom-2 left-2 bg-slate-900/75 text-white text-xs px-2 py-1 rounded">
-                        #{index + 1}
+                {/* Files grid card */}
+                <div className="bg-white rounded-xl border border-slate-200 p-4">
+                  {/* Card header */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 bg-blue-600 rounded-md flex items-center justify-center flex-shrink-0">
+                        <FileText className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <h2 className="font-display font-bold text-slate-900 text-sm leading-tight">
+                          {t('jpgToPdf.preview.yourImages')}
+                        </h2>
+                        <p className="text-xs text-slate-500">
+                          {selectedFiles.length}/{filesData.length} {t('jpgToPdf.preview.selected')}
+                        </p>
                       </div>
                     </div>
-
-                    <div className="p-2 bg-white">
-                      <p className="text-xs font-medium text-slate-900 truncate" title={file.name}>
-                        {file.name}
-                      </p>
-                      <p className="text-xs text-slate-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                    <div className="flex items-center gap-2 text-xs">
+                      <button
+                        onClick={() => setSelectedFiles(filesData.map((f) => f.id))}
+                        className="text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+                      >
+                        {t('jpgToPdf.preview.selectAll')}
+                      </button>
+                      <span className="text-slate-300">|</span>
+                      <button
+                        onClick={() => setSelectedFiles([])}
+                        className="text-slate-500 hover:text-slate-700 font-semibold transition-colors"
+                      >
+                        {t('jpgToPdf.preview.deselectAll')}
+                      </button>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Convert Section */}
-            <div className="bg-white rounded-xl border-2 border-slate-200 p-6">
-              {converting ? (
-                <div className="text-center py-8">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-                    <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                  </div>
-
-                  <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
-                    {t('jpgToPdf.preview.converting')}
-                  </h3>
-                  <p className="text-slate-600 mb-6">{stage}</p>
-
-                  <div className="max-w-md mx-auto">
-                    <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                  {/* Image grid — tighter gap, more columns */}
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-6 gap-2">
+                    {filesData.map((file, index) => (
                       <div
-                        className="h-full bg-gradient-to-r from-blue-600 to-blue-700 transition-all duration-300 ease-out"
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-sm text-slate-600 mt-2">{progress}% {t('jpgToPdf.preview.stages.complete').replace('!','')}</p>
+                        key={file.id}
+                        className={`relative group border-2 rounded-lg overflow-hidden transition-all cursor-pointer ${
+                          selectedFiles.includes(file.id)
+                            ? "border-blue-500 ring-1 ring-blue-200"
+                            : "border-slate-200 hover:border-blue-300"
+                        }`}
+                        onClick={() => toggleFileSelection(file.id)}
+                      >
+                        <div className="aspect-square bg-slate-100 relative">
+                          <img src={file.data} alt={file.name} className="w-full h-full object-cover" />
+
+                          {/* Checkbox overlay */}
+                          <div className={`absolute top-1 left-1 w-5 h-5 rounded flex items-center justify-center border-2 transition-colors ${
+                            selectedFiles.includes(file.id)
+                              ? "bg-blue-600 border-blue-600"
+                              : "bg-white/90 border-slate-300"
+                          }`}>
+                            {selectedFiles.includes(file.id) && (
+                              <CheckCircle className="w-4 h-4 text-white" fill="currentColor" />
+                            )}
+                          </div>
+
+                          {/* Remove button */}
+                          <button
+                            onClick={(e) => { e.stopPropagation(); removeFile(file.id) }}
+                            className="absolute top-1 right-1 w-6 h-6 bg-red-600 hover:bg-red-700 text-white rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            title={t('jpgToPdf.preview.removeImage')}
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+
+                          {/* Page number badge */}
+                          <span className="absolute bottom-1 left-1 bg-slate-900/70 text-white text-[10px] px-1.5 py-0.5 rounded leading-none">
+                            #{index + 1}
+                          </span>
+                        </div>
+
+                        {/* Filename */}
+                        <div className="px-1.5 py-1 bg-white">
+                          <p className="text-[10px] font-medium text-slate-700 truncate leading-tight" title={file.name}>
+                            {file.name}
+                          </p>
+                          <p className="text-[10px] text-slate-400 leading-tight">
+                            {(file.size / 1024).toFixed(0)} KB
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ) : (
-                <div className="text-center">
-                  <h3 className="font-display text-2xl font-bold text-slate-900 mb-4">
-                    {t('jpgToPdf.preview.readyToConvert')}
-                  </h3>
 
-                  <div className="grid md:grid-cols-3 gap-4 mb-6">
-                    <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">
-                      <Shield className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                      <div className="text-left">
-                        <p className="font-semibold text-slate-900 text-sm">{t('jpgToPdf.features.secure.title')}</p>
-                        <p className="text-xs text-slate-600">{t('jpgToPdf.features.secure.desc')}</p>
+                {/* Convert card */}
+                <div className="bg-white rounded-xl border border-slate-200 p-4">
+                  {converting ? (
+                    <div className="flex flex-col items-center py-4 gap-3">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <div className="w-7 h-7 border-[3px] border-blue-600 border-t-transparent rounded-full animate-spin" />
+                      </div>
+                      <div className="text-center">
+                        <p className="font-semibold text-slate-900 text-sm">{t('jpgToPdf.preview.converting')}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{stage}</p>
+                      </div>
+                      <div className="w-full max-w-xs">
+                        <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-600 to-blue-500 transition-all duration-300"
+                            style={{ width: `${progress}%` }}
+                          />
+                        </div>
+                        <p className="text-xs text-slate-500 mt-1 text-center">{progress}%</p>
                       </div>
                     </div>
+                  ) : (
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                      {/* Compact feature chips */}
+                      <div className="flex flex-wrap gap-2">
+                        <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+                          <Shield className="w-3.5 h-3.5" /> {t('jpgToPdf.features.secure.title')}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full">
+                          <Zap className="w-3.5 h-3.5" /> {t('jpgToPdf.features.fast.title')}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 bg-purple-50 text-purple-700 text-xs font-medium px-2.5 py-1 rounded-full">
+                          <Sparkles className="w-3.5 h-3.5" /> {t('jpgToPdf.features.quality.title')}
+                        </span>
+                      </div>
 
-                    <div className="flex items-center gap-3 p-4 bg-green-50 rounded-lg">
-                      <Zap className="w-6 h-6 text-green-600 flex-shrink-0" />
-                      <div className="text-left">
-                        <p className="font-semibold text-slate-900 text-sm">{t('jpgToPdf.features.fast.title')}</p>
-                        <p className="text-xs text-slate-600">{t('jpgToPdf.features.fast.desc')}</p>
+                      {/* Convert button */}
+                      <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                        <button
+                          onClick={handleConvert}
+                          disabled={selectedFiles.length === 0}
+                          className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <Play className="w-4 h-4" />
+                          {t('jpgToPdf.preview.convertButton')} {selectedFiles.length} → PDF
+                        </button>
+                        {selectedFiles.length === 0 && (
+                          <p className="text-xs text-red-500">{t('jpgToPdf.preview.selectAtLeastOne')}</p>
+                        )}
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3 p-4 bg-purple-50 rounded-lg">
-                      <Sparkles className="w-6 h-6 text-purple-600 flex-shrink-0" />
-                      <div className="text-left">
-                        <p className="font-semibold text-slate-900 text-sm">{t('jpgToPdf.features.quality.title')}</p>
-                        <p className="text-xs text-slate-600">{t('jpgToPdf.features.quality.desc')}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={handleConvert}
-                    disabled={selectedFiles.length === 0}
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                  >
-                    <Play className="w-6 h-6" />
-                    <span>
-                      {t('jpgToPdf.preview.convertButton')} {selectedFiles.length} {t('jpgToPdf.preview.imagesReady').replace('.','')} PDF
-                    </span>
-                  </button>
-
-                  {selectedFiles.length === 0 && (
-                    <p className="text-sm text-red-600 mt-3">{t('jpgToPdf.preview.selectAtLeastOne')}</p>
                   )}
                 </div>
-              )}
-            </div>
 
-              </div>{/* end main content */}
+              </div>{/* end main */}
 
-              {/* Sidebar */}
-              <div className="lg:w-72 xl:w-80 flex-shrink-0 space-y-4">
-                {/* Sidebar Ad */}
-                <div className="bg-white rounded-xl border-2 border-slate-200 p-3">
-                  <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-                  <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
+              {/* ── Sidebar ── */}
+              <div className="lg:w-64 xl:w-72 flex-shrink-0 space-y-3">
+
+                {/* Sidebar ad */}
+                <div className="bg-white rounded-xl border border-slate-200 p-2.5">
+                  <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider">Advertisement</p>
+                  <AdSenseUnit adSlot="1617102171" />
                 </div>
 
-                {/* Tip box */}
-                <div className="bg-blue-50 rounded-xl border-2 border-blue-100 p-4">
-                  <h3 className="font-bold text-slate-800 text-sm mb-2">💡 Quick Tips</h3>
-                  <ul className="space-y-2 text-xs text-slate-600">
-                    <li>✓ Drag to reorder images before converting</li>
-                    <li>✓ Uncheck images to exclude them from the PDF</li>
-                    <li>✓ All files are deleted after 1 hour</li>
+                {/* Quick tips — compact */}
+                <div className="bg-blue-50 rounded-xl border border-blue-100 p-3">
+                  <p className="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-blue-500" /> Quick Tips
+                  </p>
+                  <ul className="space-y-1.5 text-xs text-slate-600">
+                    <li className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      Uncheck images to exclude from PDF
+                    </li>
+                    <li className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      Image order = page order in PDF
+                    </li>
+                    <li className="flex items-start gap-1.5">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
+                      Files auto-deleted after 1 hour
+                    </li>
                   </ul>
                 </div>
+
               </div>{/* end sidebar */}
 
             </div>{/* end two-column */}
           </div>
         </div>
+      {DailyLimitGate}
       </Layout>
     </>
   )

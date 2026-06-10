@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
+import { getApiUrl } from "../../lib/getApiUrl"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
@@ -15,32 +16,13 @@ import {
   Settings,
   Palette,
 } from "lucide-react"
+import AdSenseUnit from "../../components/AdSenseUnit"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
 
 export default function PreviewPDFToJPG() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t, locale } = useTranslations()
   const [fileData, setFileData] = useState(null)
   const [converting, setConverting] = useState(false)
@@ -102,7 +84,7 @@ export default function PreviewPDFToJPG() {
       formData.append("file", file)
       formData.append("quality", quality)
 
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
+      const API_URL = getApiUrl()
       const convertResponse = await fetch(`${API_URL}/api/pdf-to-jpg`, {
         method: "POST",
         body: formData,
@@ -132,7 +114,7 @@ export default function PreviewPDFToJPG() {
   if (!fileData) {
     return (
       <Layout>
-        <SEOHead title={t('pdfToJpg.previewPageTitle') || "Preview & Convert - PDF to JPG | SmallPDF.us"} noIndex={true} />
+        <SEOHead title="Preview & Convert – PDF to JPG | SmallPDF.us" noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-3">
@@ -149,7 +131,7 @@ export default function PreviewPDFToJPG() {
   return (
     <Layout title="Preview & Convert - PDF to JPG" description="Preview your PDF and convert to JPG images">
       {/* noIndex — transient post-upload page, no static indexable content */}
-      <SEOHead title={t('pdfToJpg.previewPageTitle') || "Preview & Convert - PDF to JPG | SmallPDF.us"} noIndex={true} />
+      <SEOHead title="Preview & Convert – PDF to JPG | SmallPDF.us" noIndex={true} />
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         
@@ -193,7 +175,7 @@ export default function PreviewPDFToJPG() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-5">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
 
@@ -405,6 +387,7 @@ export default function PreviewPDFToJPG() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

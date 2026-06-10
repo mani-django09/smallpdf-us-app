@@ -1,11 +1,14 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
+import { getApiUrl } from "../../lib/getApiUrl"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
+import useDailyLimit from '../../hooks/useDailyLimit'
 import {
   Upload,
   FileText,
@@ -24,6 +27,7 @@ export default function PDFtoPNG() {
 const router = useLocalizedRouter()
   const { t, locale } = useTranslations()
   const { checkFiles, PremiumGateModal } = useFileSizeGuard('pdf-to-png')
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { checkBatch, BatchGateModal } = useBatchGuard('pdf-to-png')
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState("")
@@ -67,15 +71,6 @@ const router = useLocalizedRouter()
 
     setIsProcessing(true)
     setError("")
-
-    function getApiUrl() {
-      if (typeof window === 'undefined') return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
-      const { hostname, protocol } = window.location
-      if (hostname === 'localhost' || hostname === '127.0.0.1') {
-        return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
-      }
-      return `${protocol}//${hostname}`
-    }
 
     try {
       const formData = new FormData()
@@ -226,6 +221,7 @@ const router = useLocalizedRouter()
       <SEOHead
         title={t('pdfToPng.pageTitle')}
         description={t('pdfToPng.pageDescription')}
+        keywords="pdf to png, convert pdf to png, pdf to image png, pdf page to png, free pdf converter, pdf to png online, high quality pdf to png"
         ogImage="/og-pdf-to-png.jpg"
         structuredData={structuredData}
       />
@@ -234,6 +230,13 @@ const router = useLocalizedRouter()
         title="PDF to PNG - Convert PDF to Images Online"
         description="Convert PDF pages to high-quality PNG images instantly."
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
           .font-display {
@@ -397,12 +400,6 @@ const router = useLocalizedRouter()
                 </div>
               )}
 
-              {!isProcessing && (
-                <p className="text-center font-body text-sm text-slate-600 mt-5">
-                  Up to <span className="font-bold text-blue-600">{t('pdfToPng.fileLimitSize')}</span> per file •{" "}
-                  <span className="font-bold text-blue-600">{t('pdfToPng.fileLimitQuality')}</span> output
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -595,6 +592,7 @@ const router = useLocalizedRouter()
           </div>
         </div>
         <RelatedTools current="pdf-to-png" />
+      {DailyLimitGate}
       </Layout>
       {PremiumGateModal}
       {BatchGateModal}
@@ -605,5 +603,6 @@ const router = useLocalizedRouter()
 export async function getStaticProps({ locale }) {
   return {
     props: {},
+    revalidate: 86400,
   }
 }

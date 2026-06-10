@@ -15,29 +15,10 @@ import {
   Table,
   FileSpreadsheet,
 } from "lucide-react"
+import AdSenseUnit from "../../components/AdSenseUnit"
+import { getApiUrl } from "../../lib/getApiUrl"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
 
 // ── i18n translations ──────────────────────────────────────────────────────────
 const translations = {
@@ -312,6 +293,7 @@ const translations = {
 
 export default function PreviewPdfToExcel() {
   const router = useLocalizedRouter()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { locale } = router
   const t = translations[locale] || translations.en
 
@@ -406,24 +388,19 @@ export default function PreviewPdfToExcel() {
             lastModified: Date.now(),
           })
 
-          console.log("Created PDF file:", fileData.name, "Type:", file.type, "Size:", file.size)
           formData.append("files", file)
         } catch (fileError) {
           console.error(`Error processing file ${fileData.name}:`, fileError)
         }
       }
 
-      console.log("Sending request to backend...")
-
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011"
+      const apiUrl = getApiUrl()
       const convertResponse = await fetch(`${apiUrl}/api/pdf-to-excel`, {
         method: "POST",
         body: formData,
       })
 
-      console.log("Response status:", convertResponse.status)
       const result = await convertResponse.json()
-      console.log("Response data:", result)
 
       setProgress(100)
       setStage(t.previewStageComplete)
@@ -442,12 +419,23 @@ export default function PreviewPdfToExcel() {
         }, 500)
       } else {
         console.error("Conversion failed:", result)
-        alert(t.conversionFailedAlert + (result.error || "Unknown error"))
+        // Give a clear, actionable message for known failure reasons
+        const code = result?.error || ""
+        let msg = t.conversionFailedAlert + (result.error || "Unknown error")
+        if (code === "FILE_SIZE_LIMIT_EXCEEDED") {
+          msg = `File too large for your current plan (limit: ${result.limitMB} MB). Please upgrade or use a smaller file.`
+        } else if (convertResponse.status === 500) {
+          msg = "Conversion failed — this PDF may be scanned, encrypted, or have an unsupported layout. Try a different file."
+        }
+        alert(msg)
         setConverting(false)
       }
     } catch (error) {
       console.error("Error:", error)
-      alert(t.conversionErrorAlert + error.message)
+      const msg = error.message?.includes("NetworkError") || error.message?.includes("fetch")
+        ? "Network error — please check your connection and try again."
+        : (t.conversionErrorAlert || "Conversion error: ") + error.message
+      alert(msg)
       setConverting(false)
     }
   }
@@ -504,7 +492,7 @@ export default function PreviewPdfToExcel() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 sm:px-6 lg:px-8 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
 
@@ -709,6 +697,7 @@ export default function PreviewPdfToExcel() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }
