@@ -6,6 +6,8 @@ import { useTranslations } from '../../lib/i18n'
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, Minimize2 } from "lucide-react"
 import { compressPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import useDailyLimit from "../../hooks/useDailyLimit"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -20,6 +22,8 @@ function getApiUrl() {
 export default function PreviewCompressPdf() {
   const router = useLocalizedRouter()
   const { t, locale } = useTranslations()
+  const { handleApiError, PremiumGateModal } = useFileSizeGuard('compress-pdf')
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const [filesData, setFilesData] = useState([])
   const [compressing, setCompressing] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -109,7 +113,11 @@ export default function PreviewCompressPdf() {
     })
 
     if (!response.ok) {
-      const errText = await response.text()
+      let body = null
+      try { body = await response.clone().json() } catch (_) {}
+      if (handleDailyLimitError(response.status, body)) return  // daily limit modal
+      if (handleApiError(response, body)) return                 // file-size modal
+      const errText = body ? JSON.stringify(body) : await response.text()
       throw new Error(errText || `Server error: ${response.status}`)
     }
 
@@ -248,7 +256,7 @@ export default function PreviewCompressPdf() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -485,6 +493,8 @@ export default function PreviewCompressPdf() {
           </div>
         </div>
       </div>
+      {PremiumGateModal}
+      {DailyLimitGate}
     </Layout>
   )
 }

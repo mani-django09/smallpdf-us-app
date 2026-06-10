@@ -59,6 +59,7 @@ if (typeof globalThis.Path2D === 'undefined') {
     ocrCheckDaily,
     ocrIncrementDaily,
     cleanupExpiredRateLimits,
+    dailyConversionLimiter,
   } = require('./middleware/sqliteRateStore')
   const { router: paymentRouter, webhookHandler } = require('./payments/paymentRoutes')
   const { router: paypalRouter, paypalWebhookHandler } = require('./payments/paypalRoutes')
@@ -1692,7 +1693,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
     }
   })
   // Word to PDF Conversion
-  app.post("/api/word-to-pdf", upload.single("file"), fileSizeLimiter("word-to-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/word-to-pdf", upload.single("file"), fileSizeLimiter("word-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" })
@@ -1795,7 +1796,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   })
 
   // PNG to PDF - FIXED VERSION
-  app.post("/api/png-to-pdf", upload.array("files", 500), fileSizeLimiter("png-to-pdf"), batchLimiter("png-to-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/png-to-pdf", upload.array("files", 500), fileSizeLimiter("png-to-pdf"), batchLimiter("png-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: "No files uploaded" })
@@ -2026,7 +2027,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   // EXCEL TO PDF ENDPOINTS
 
 // Excel to PDF Conversion
-app.post("/api/excel-to-pdf", upload.single("file"), fileSizeLimiter("excel-to-pdf"), fileValidation, async (req, res) => {
+app.post("/api/excel-to-pdf", upload.single("file"), fileSizeLimiter("excel-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No Excel file uploaded" })
@@ -2444,7 +2445,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   }
 })
   // PNG to WEBP conversion endpoint
-  app.post("/api/png-to-webp", upload.array("files", 500), fileSizeLimiter("png-to-webp"), batchLimiter("png-to-webp"), fileValidation, async (req, res) => {
+  app.post("/api/png-to-webp", upload.array("files", 500), fileSizeLimiter("png-to-webp"), batchLimiter("png-to-webp"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: "No files uploaded" })
@@ -2690,7 +2691,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   })
 
   // Compress Image endpoint
-  app.post("/api/compress-image", upload.array("files", 500), fileSizeLimiter("compress-image"), batchLimiter("compress-image"), fileValidation, async (req, res) => {
+  app.post("/api/compress-image", upload.array("files", 500), fileSizeLimiter("compress-image"), batchLimiter("compress-image"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       console.log("Compress Image - " + req.files.length + " file(s) received")
 
@@ -3173,7 +3174,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
     }
   })
 
-  app.post("/api/merge-pdf", upload.array("files", 500), fileSizeLimiter("merge-pdf"), batchLimiter("merge-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
+  app.post("/api/merge-pdf", upload.array("files", 500), fileSizeLimiter("merge-pdf"), batchLimiter("merge-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
     try {
       if (!req.files || req.files.length < 2) {
         return res.status(400).json({ error: "At least 2 PDF files required for merging" })
@@ -3289,7 +3290,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   // Rotates pages by a multiple of 90°. Rotation is ADDITIVE to any rotation the
   // page already has. Optional `pages` (JSON array of 1-based page numbers) limits
   // which pages are rotated; omitted/empty = all pages.
-  app.post("/api/rotate-pdf", upload.single("file"), fileSizeLimiter("rotate-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
+  app.post("/api/rotate-pdf", upload.single("file"), fileSizeLimiter("rotate-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No PDF file uploaded" })
@@ -3399,7 +3400,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   // Encrypts a PDF with a user password using qpdf (AES-256). We use execFile
   // with an args array (NOT a shell string) so the password can never be
   // interpreted by the shell — eliminates command injection.
-  app.post("/api/protect-pdf", upload.single("file"), fileSizeLimiter("protect-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
+  app.post("/api/protect-pdf", upload.single("file"), fileSizeLimiter("protect-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
     const { execFile } = require("child_process")
     const execFileP = util.promisify(execFile)
     try {
@@ -3497,7 +3498,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
   })
 
 
-app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter("compress-pdf"), batchLimiter("compress-pdf"), fileValidation, virusScan, optionalAuth, async (req, res) => {
+app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter("compress-pdf"), batchLimiter("compress-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -3791,7 +3792,7 @@ app.get("/api/compress-meta/:jobId", async (req, res) => {
 
 //api/pdf-to-jpg endpoint
 
-app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" })
@@ -3971,7 +3972,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
 })
 
   // PDF to PNG Conversion
-  app.post("/api/pdf-to-png", upload.single("pdf"), fileSizeLimiter("pdf-to-png"), fileValidation, async (req, res) => {
+  app.post("/api/pdf-to-png", upload.single("pdf"), fileSizeLimiter("pdf-to-png"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" })
@@ -4092,7 +4093,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
   })
 
   // WEBP to PNG Conversion
-  app.post("/api/webp-to-png", upload.array("files", 500), fileSizeLimiter("webp-to-png"), batchLimiter("webp-to-png"), fileValidation, async (req, res) => {
+  app.post("/api/webp-to-png", upload.array("files", 500), fileSizeLimiter("webp-to-png"), batchLimiter("webp-to-png"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       if (!req.files || req.files.length === 0) {
         return res.status(400).json({ error: "No files uploaded" })
@@ -4493,7 +4494,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
   })
 
   // Split PDF - Extract specific pages
-  app.post("/api/split-pdf", upload.single("file"), fileSizeLimiter("split-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/split-pdf", upload.single("file"), fileSizeLimiter("split-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No PDF file uploaded" })
@@ -4696,7 +4697,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
 
 
 // ── PDF TO WORD CONVERSION ENDPOINT ──────────────────────────────────────────
-app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to-word"), batchLimiter("pdf-to-word"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to-word"), batchLimiter("pdf-to-word"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -5073,7 +5074,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
   // JPG TO PDF ENDPOINT
   // ============================================
 
-  app.post("/api/jpg-to-pdf", upload.array("files", 500), fileSizeLimiter("jpg-to-pdf"), batchLimiter("jpg-to-pdf"), fileValidation, async (req, res) => {
+  app.post("/api/jpg-to-pdf", upload.array("files", 500), fileSizeLimiter("jpg-to-pdf"), batchLimiter("jpg-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
     try {
       console.log("Files received:", req.files?.length) // ADD THIS LOG
       console.log("Request body:", req.body) // ADD THIS LOG
@@ -5322,7 +5323,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
     }
   })
 // PDF to Excel Conversion using pdfplumber
-app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-to-excel"), batchLimiter("pdf-to-excel"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-to-excel"), batchLimiter("pdf-to-excel"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -5913,7 +5914,7 @@ app.get("/api/download-excel/:jobId", async (req, res) => {
 })
 
 // PPT to PDF Conversion using LibreOffice
-app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-pdf"), batchLimiter("ppt-to-pdf"), fileValidation, async (req, res) => {
+app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-pdf"), batchLimiter("ppt-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PowerPoint files uploaded" })
@@ -6222,7 +6223,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
   }
 })
 // PDF to PowerPoint Conversion using LibreOffice
-app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-ppt"), batchLimiter("pdf-to-ppt"), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-ppt"), batchLimiter("pdf-to-ppt"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -6630,7 +6631,7 @@ async function checkQpdfInstalled() {
 }
 
 // Unlock PDF - Remove password and restrictions while preserving ALL content
-app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pdf"), fileValidation, async (req, res) => {
+app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -7226,7 +7227,9 @@ if (process.platform === 'win32') {
 // ── Route ─────────────────────────────────────────────────────────────────────
 app.post('/api/ocr-pdf',
   upload.single('file'),
+  fileSizeLimiter('ocr-pdf'),
   batchLimiter('ocr-pdf'),
+  dailyConversionLimiter(),
   async (req, res) => {
     const startTime = Date.now()
     const file = req.file

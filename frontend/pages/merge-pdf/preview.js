@@ -1,32 +1,14 @@
 import { useState, useEffect, useRef } from "react"
+import { mergePdfStore } from "./index"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Layers, GripVertical, Trash2 } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
-
-// Inline AdSense component — same pattern as download.js
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import { useAuth } from "../../context/AuthContext"
+import AdSenseUnit from "../../components/AdSenseUnit"
+import { usePdfThumbnail } from "../../hooks/usePdfThumbnail"
+import useDailyLimit from "../../hooks/useDailyLimit"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -51,6 +33,7 @@ const INLINE_T = {
 export default function PreviewMergePDF() {
   const router = useLocalizedRouter()
   const { t, locale } = useTranslations()
+  const { authFetch } = useAuth()
 
   // Helper: pick the right locale from INLINE_T, fall back to English
   const ti = (key, replacements = {}) => {
@@ -66,6 +49,10 @@ export default function PreviewMergePDF() {
   const [stage, setStage] = useState("")
   const [draggedIndex, setDraggedIndex] = useState(null)
   const [error, setError] = useState("")
+  // First-page thumbnails for preview-before-merge, keyed by file id.
+  const [thumbs, setThumbs] = useState({})
+  const { ready: pdfReady, generateThumbnail } = usePdfThumbnail()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
 
   // ✅ FIX: Use a ref for router inside useEffect to avoid infinite re-render loop.
   // useLocalizedRouter() returns a new object each render, so putting it in the
@@ -74,27 +61,40 @@ export default function PreviewMergePDF() {
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
-    const storedFiles = sessionStorage.getItem("uploadedPDFs")
-
-    if (storedFiles) {
-      try {
-        const parsed = JSON.parse(storedFiles)
-        setFilesData(parsed)
-      } catch (err) {
-        console.error("Error parsing file data:", err)
-        routerRef.current.push("/merge-pdf")
-      }
+    // Read from in-memory store (File objects, no base64 bloat)
+    if (mergePdfStore.files.length >= 2) {
+      setFilesData(mergePdfStore.files.map(f => ({ id: f.id, name: f.name, size: f.size })))
     } else {
       routerRef.current.push("/merge-pdf")
     }
   }, []) // ✅ Empty deps — runs once on mount only
 
+  // Generate first-page thumbnails once PDF.js is ready (preview before merge).
+  useEffect(() => {
+    if (!pdfReady || mergePdfStore.files.length === 0) return
+    let cancelled = false
+    ;(async () => {
+      for (const entry of mergePdfStore.files) {
+        if (cancelled || thumbs[entry.id]) continue
+        const { thumbnail, pageCount } = await generateThumbnail(entry.file)
+        if (cancelled) return
+        setThumbs((prev) => ({ ...prev, [entry.id]: { thumbnail, pageCount } }))
+      }
+    })()
+    return () => { cancelled = true }
+  }, [pdfReady, filesData, generateThumbnail]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleReorder = (fromIndex, toIndex) => {
-    const newFiles = [...filesData]
-    const [removed] = newFiles.splice(fromIndex, 1)
-    newFiles.splice(toIndex, 0, removed)
-    setFilesData(newFiles)
-    sessionStorage.setItem("uploadedPDFs", JSON.stringify(newFiles))
+    const newMeta = [...filesData]
+    const [removedMeta] = newMeta.splice(fromIndex, 1)
+    newMeta.splice(toIndex, 0, removedMeta)
+    setFilesData(newMeta)
+
+    // Keep store in sync
+    const newStore = [...mergePdfStore.files]
+    const [removedFile] = newStore.splice(fromIndex, 1)
+    newStore.splice(toIndex, 0, removedFile)
+    mergePdfStore.files = newStore
   }
 
   const handleDragStart = (e, index) => {
@@ -114,11 +114,11 @@ export default function PreviewMergePDF() {
   }
 
   const removeFile = (id) => {
-    const newFiles = filesData.filter((f) => f.id !== id)
-    setFilesData(newFiles)
-    sessionStorage.setItem("uploadedPDFs", JSON.stringify(newFiles))
+    const newMeta = filesData.filter((f) => f.id !== id)
+    setFilesData(newMeta)
+    mergePdfStore.files = mergePdfStore.files.filter((f) => f.id !== id)
 
-    if (newFiles.length < 2) {
+    if (newMeta.length < 2) {
       router.push("/merge-pdf")
     }
   }
@@ -150,18 +150,6 @@ export default function PreviewMergePDF() {
     }
     updateProgress()
 
-    // Convert base64 data URL → Blob WITHOUT fetch() — avoids data: URL fetch blocks in browsers
-    function dataURLtoBlob(dataURL) {
-      const parts = dataURL.split(',')
-      const mime = parts[0].match(/:(.*?);/)[1]
-      const binary = atob(parts[1])
-      const bytes = new Uint8Array(binary.length)
-      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
-      return new Blob([bytes], { type: mime })
-    }
-
-    // Dev: reads NEXT_PUBLIC_API_URL (.env = http://localhost:5011)
-    // Prod: same origin (reverse proxy routes /api/* to Express)
     function getApiUrl() {
       if (typeof window === 'undefined') return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
       const { hostname, protocol } = window.location
@@ -174,44 +162,43 @@ export default function PreviewMergePDF() {
     try {
       const formData = new FormData()
 
-      for (let i = 0; i < filesData.length; i++) {
-        const fileData = filesData[i]
-        const blob = dataURLtoBlob(fileData.data)
-        const file = new File([blob], fileData.name, { type: fileData.type })
-        formData.append("files", file)
+      // Use File objects directly from in-memory store — no base64 conversion needed
+      for (const fileEntry of mergePdfStore.files) {
+        formData.append("files", fileEntry.file, fileEntry.name)
       }
 
       const API_URL = getApiUrl()
-      console.log('🔧 Merging PDFs with API:', API_URL)
 
-      const mergeResponse = await fetch(`${API_URL}/api/merge-pdf`, {
+      const mergeResponse = await authFetch(`${API_URL}/api/merge-pdf`, {
         method: "POST",
         body: formData,
       })
 
-      console.log('📊 Merge response status:', mergeResponse.status)
-
       if (!mergeResponse.ok) {
-        let errorText = await mergeResponse.text()
-        console.error('❌ Merge API error:', errorText)
-        
-        // Check if we got HTML instead of JSON (common error)
+        let body = null
+        let errorText = ''
+        try {
+          const cloned = mergeResponse.clone()
+          body = await cloned.json()
+        } catch (_) {
+          errorText = await mergeResponse.text()
+        }
+        if (handleDailyLimitError(mergeResponse.status, body)) return  // daily limit modal
+        if (body) errorText = JSON.stringify(body)
         if (errorText.includes('<!DOCTYPE') || errorText.includes('<html')) {
           throw new Error(`Server error: API returned HTML instead of JSON. Check that backend is running on port 5011`)
         }
-        
         throw new Error(`Merge failed: ${mergeResponse.status} - ${errorText}`)
       }
 
       const contentType = mergeResponse.headers.get("content-type")
       if (!contentType || !contentType.includes("application/json")) {
         const text = await mergeResponse.text()
-        console.error('❌ Non-JSON response:', text.substring(0, 200))
+        console.error('Non-JSON response:', text.substring(0, 200))
         throw new Error(`Server returned non-JSON response. Check backend server.`)
       }
 
       const result = await mergeResponse.json()
-      console.log('✅ Merge result:', result)
 
       if (!result.success) {
         throw new Error(result.error || 'Merge failed')
@@ -315,7 +302,7 @@ export default function PreviewMergePDF() {
               <h1 className="font-display text-lg sm:text-xl font-bold text-white">
                 {t('mergePdf.preview.reviewOrder').replace('{n}', filesData.length)}
               </h1>
-              <p className="font-body text-xs text-white/80">{t('mergePdf.preview.reviewOrder')}</p>
+              <p className="font-body text-xs text-white/80">{t('mergePdf.preview.reviewOrder').replace('{n}', filesData.length)}</p>
             </div>
           </div>
         </div>
@@ -324,7 +311,7 @@ export default function PreviewMergePDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-5">
         <div className="max-w-7xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
 
@@ -394,12 +381,23 @@ export default function PreviewMergePDF() {
                                   {index + 1}
                                 </div>
                               </div>
-                              <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <FileText className="w-4 h-4 text-white" />
-                              </div>
+                              {thumbs[f.id]?.thumbnail ? (
+                                <img
+                                  src={thumbs[f.id].thumbnail}
+                                  alt={f.name}
+                                  className="w-9 h-11 object-cover rounded border border-slate-300 bg-white flex-shrink-0 shadow-sm"
+                                />
+                              ) : (
+                                <div className="w-9 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 rounded flex items-center justify-center flex-shrink-0">
+                                  <FileText className="w-4 h-4 text-white" />
+                                </div>
+                              )}
                               <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-slate-900 truncate">{f.name}</p>
-                                <p className="text-xs text-slate-500">{(f.size / 1024 / 1024).toFixed(2)} MB</p>
+                                <p className="text-xs text-slate-500">
+                                  {(f.size / 1024 / 1024).toFixed(2)} MB
+                                  {thumbs[f.id]?.pageCount > 0 && ` · ${thumbs[f.id].pageCount} page${thumbs[f.id].pageCount > 1 ? "s" : ""}`}
+                                </p>
                               </div>
                               <button
                                 onClick={() => removeFile(f.id)}
@@ -520,6 +518,7 @@ export default function PreviewMergePDF() {
           </div>
         </div>
       </div>
+      {DailyLimitGate}
     </Layout>
   )
 }

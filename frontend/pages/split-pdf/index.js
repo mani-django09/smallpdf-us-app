@@ -1,13 +1,15 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { getApiUrl } from "../../lib/getApiUrl"
 import Layout from "@/components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "@/components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import { Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Trash2, Scissors, Eye, X } from "lucide-react"
+import useDailyLimit from '../../hooks/useDailyLimit'
 
 // Module-level store — no size limit unlike sessionStorage (5MB)
 // Survives Next.js client-side navigation within the same tab
@@ -17,6 +19,7 @@ export default function SplitPdf() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
   const { checkFiles, PremiumGateModal } = useFileSizeGuard('split-pdf')
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { checkBatch, BatchGateModal } = useBatchGuard('split-pdf')
   const [file, setFile] = useState(null)
   const [dragActive, setDragActive] = useState(false)
@@ -338,6 +341,13 @@ export default function SplitPdf() {
         title="Split PDF - Extract Pages Online"
         description="Pull out exactly the pages you need from any PDF document."
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
           .font-display {
@@ -687,13 +697,6 @@ export default function SplitPdf() {
                 </div>
               )}
 
-              {!isProcessing && !loadingPages && !file && (
-                <p className="text-center font-body text-sm text-slate-600 mt-5">
-                  {t("splitPdf.uploadMaxSize").replace("50MB", "")}
-                  <span className="font-bold text-blue-600">50MB</span>
-                  {" "}{t("splitPdf.fileInfoPages").includes("ページ") ? "ファイルサイズ" : "file size"}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -893,5 +896,6 @@ export default function SplitPdf() {
 export async function getStaticProps({ locale }) {
   return {
     props: {},
+    revalidate: 86400,
   }
 }
