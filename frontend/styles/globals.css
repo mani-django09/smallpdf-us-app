@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Font-fallback CLS fix ───────────────────────────────────────────────────
+   With font-display:swap the browser first paints with a system font, then
+   swaps to DM Sans / Plus Jakarta Sans when they load. If the fallback metrics
+   differ from the web font (different x-height, cap-height, spacing) every line
+   of text can shift, causing a CLS spike of 0.05–0.15.
+   size-adjust nudges the fallback to match the web-font's advance widths so
+   the line boxes stay the same height and no layout shift occurs. ──────────── */
+@font-face {
+  font-family: 'DM Sans Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('sans-serif');
+  ascent-override: 94%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+  size-adjust: 102%;
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('sans-serif');
+  ascent-override: 96%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 100%;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -73,6 +97,10 @@ body {
 @keyframes cardIn {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+/* Tool cards: CSS animation (no inline opacity:0 style → no rendered-HTML delta) */
+.tool-card-animate {
+  animation: cardIn 0.45s cubic-bezier(0.22,1,0.36,1) both;
 }
 /* ToolCard — was using opacity:0 inline style (SSR had explicit style attr,
    JS animation changed it → 20× rendered-HTML delta).

@@ -1,5 +1,5 @@
 import { useState, memo } from "react"
-import Link from "next/link" 
+import Link from "next/link"
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
@@ -32,7 +32,7 @@ const ToolCard = memo(({ tool, index, locale }) => {
   const fullHref = locale && locale !== 'en' ? `/${locale}/${localizedSlug}` : (localizedSlug ? `/${localizedSlug}` : '/')
   return (
     <Link href={fullHref} locale={false}
-      className="group relative rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 border border-gray-100/80 bg-white/70 backdrop-blur-sm hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-gray-200 tool-card-animate"
+      className="group relative rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 border border-gray-100/80 bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-gray-200 tool-card-animate"
       style={{ animationDelay: `${index * 30}ms` }}>
       <div className="flex items-center gap-3.5">
         <div className={`flex-shrink-0 w-11 h-11 bg-gradient-to-br ${tool.gradient} rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-500`}>
@@ -308,7 +308,7 @@ export default function HomePage() {
                     { icon: Zap, text: L(locale, { ja: '超高速', de: 'Blitzschnell', fr: 'Ultra rapide', es: 'Ultra rápido', en: 'Lightning fast', it: 'Velocissimo', id: 'Sangat cepat', pt: 'Extremamente rápido' }) },
                     { icon: Clock, text: L(locale, { ja: '2時間で自動削除', de: 'Auto-Löschung 2 Std.', fr: 'Suppression auto 2h', es: 'Eliminación auto 2h', en: 'Auto-delete in 2hrs', it: 'Eliminazione auto 2h', id: 'Hapus otomatis 2 jam', pt: 'Exclusão auto 2h' }) }
                   ].map((p, i) => (
-                    <div key={i} className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1.5 border border-gray-200/60 text-xs font-medium text-gray-700">
+                    <div key={i} className="flex items-center gap-1.5 bg-white rounded-full px-3 py-1.5 border border-gray-200/60 text-xs font-medium text-gray-700">
                       <p.icon className="w-3.5 h-3.5 text-gray-500" /><span>{p.text}</span>
                     </div>
                   ))}

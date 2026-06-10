@@ -99,16 +99,28 @@ export default function AdSenseUnit({
 
   if (isPaid || hidden) return null
 
+  // Reserve space BEFORE the ad loads to prevent CLS (Cumulative Layout Shift).
+  // Without min-height the container grows from 0→250px when the ad renders,
+  // pushing all content below it down — a major CLS contributor in field data.
+  const isLeaderboard = resolvedSlot === HEADER_SLOT
+  const reservedHeight = isLeaderboard ? 90 : 250  // leaderboard ~90px, rect ~250px
+
   return (
     <div
       ref={wrapRef}
       aria-label="Advertisement"
       className={className}
-      style={{ display: "block", overflow: "hidden", maxWidth: "100%", ...style }}
+      style={{
+        display: "block",
+        overflow: "hidden",
+        maxWidth: "100%",
+        // Reserve the expected ad height so no layout shift occurs on load
+        minHeight: `${reservedHeight}px`,
+        ...style,
+      }}
     >
-      {/* Render <ins> from SSR so it exists in the initial HTML — no DOM insertion
-          at runtime, which was being measured as a large "rendered content" delta.
-          AdSense still populates it client-side; we just call push() when inView. */}
+      {/* <ins> is in SSR HTML — no DOM insertion at runtime (avoids rendering delta).
+          AdSense populates it client-side once inView fires. */}
       <ins
         ref={insRef}
         className="adsbygoogle"
