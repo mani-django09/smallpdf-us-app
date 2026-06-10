@@ -32,8 +32,8 @@ const ToolCard = memo(({ tool, index, locale }) => {
   const fullHref = locale && locale !== 'en' ? `/${locale}/${localizedSlug}` : (localizedSlug ? `/${localizedSlug}` : '/')
   return (
     <Link href={fullHref} locale={false}
-      className="group relative rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 border border-gray-100/80 bg-white/70 backdrop-blur-sm hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-gray-200"
-      style={{ animationDelay: `${index * 30}ms`, animation: 'cardIn 0.5s ease-out forwards', opacity: 0 }}>
+      className="group relative rounded-2xl p-4 transition-all duration-500 hover:-translate-y-1 border border-gray-100/80 bg-white/70 backdrop-blur-sm hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-gray-200 tool-card-animate"
+      style={{ animationDelay: `${index * 30}ms` }}>
       <div className="flex items-center gap-3.5">
         <div className={`flex-shrink-0 w-11 h-11 bg-gradient-to-br ${tool.gradient} rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-500`}>
           <tool.Icon className="w-5 h-5 text-white" />
@@ -480,22 +480,22 @@ export default function HomePage() {
                 <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage:'radial-gradient(circle at 1px 1px,#059669 1px,transparent 0)',backgroundSize:'20px 20px'}} />
                 <div className="relative">
                   <div className="w-44 h-44 mx-auto relative">
-                    <div className="absolute inset-0 rounded-full border-2 border-emerald-200/60 animate-ping opacity-20" />
-                    <div className="absolute inset-4 rounded-full border-2 border-emerald-300/50 animate-ping opacity-15" style={{animationDelay:'0.5s'}} />
-                    <div className="absolute inset-8 rounded-full border border-emerald-200/30 animate-ping opacity-10" style={{animationDelay:'1s'}} />
+                    <div className="absolute inset-0 rounded-full border-2 border-emerald-200/40" />
+                    <div className="absolute inset-4 rounded-full border-2 border-emerald-300/30" />
+                    <div className="absolute inset-8 rounded-full border border-emerald-200/20" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-24 h-24 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl rotate-45 flex items-center justify-center shadow-xl shadow-emerald-500/25">
                         <Lock className="w-10 h-10 text-white -rotate-45" />
                       </div>
                     </div>
                   </div>
-                  <div className="absolute -top-1 -right-6 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5" style={{animation:'float 4s ease-in-out infinite'}}>
+                  <div className="absolute -top-1 -right-6 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5">
                     <Shield className="w-3.5 h-3.5 text-emerald-600" /><span className="text-[11px] font-bold text-gray-700">SSL 256-bit</span>
                   </div>
-                  <div className="absolute -bottom-1 -left-4 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5" style={{animation:'float 5s ease-in-out infinite',animationDelay:'1s'}}>
+                  <div className="absolute -bottom-1 -left-4 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5">
                     <Check className="w-3.5 h-3.5 text-emerald-600" /><span className="text-[11px] font-bold text-gray-700">GDPR</span>
                   </div>
-                  <div className="absolute top-1/2 -translate-y-1/2 -right-10 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5" style={{animation:'float 6s ease-in-out infinite',animationDelay:'2s'}}>
+                  <div className="absolute top-1/2 -translate-y-1/2 -right-10 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-blue-500" /><span className="text-[11px] font-bold text-gray-700">2H</span>
                   </div>
                 </div>
