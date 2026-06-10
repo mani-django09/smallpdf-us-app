@@ -4,6 +4,7 @@ import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
 import { getLocalizedRoute } from "../lib/route-translations"
+import AdSenseUnit from "../components/AdSenseUnit"
 import {
   FileText, Merge, Scissors, Gauge, FileImage, ArrowRight, Check, Upload,
   Download, Lock, Zap, ChevronRight, Shield, Clock, Users, ChevronDown,
@@ -366,6 +367,16 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ══ HOMEPAGE LEADERBOARD AD ══
+            Placed between hero and tools grid — highest-intent position.
+            User has just seen the pitch and is about to scroll to tools.
+            High viewability, good CTR spot. Hidden for paid users. */}
+        <div className="bg-white px-4 py-4">
+          <div className="max-w-5xl mx-auto">
+            <AdSenseUnit size="leaderboard" className="rounded-xl overflow-hidden" />
+          </div>
+        </div>
 
         {/* ══ TOOLS ══ */}
         <section id="tools" className="relative py-14 md:py-16 px-4">

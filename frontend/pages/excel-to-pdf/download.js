@@ -24,6 +24,7 @@ import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 // Inline translations for strings not yet in JSON files
 // Covers all 8 supported locales — no new JSON keys needed
@@ -127,7 +128,6 @@ export default function DownloadExcelToPDF() {
             return `${API_URL}${result.downloadUrl}`
           })()
 
-      console.log('Downloading from:', downloadUrl)
       const response = await fetch(downloadUrl)
 
       if (!response.ok) {
@@ -254,13 +254,6 @@ export default function DownloadExcelToPDF() {
               <p className="font-body text-sm text-white/80">{t("excelToPdf.pdfReady")}</p>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -413,6 +406,12 @@ export default function DownloadExcelToPDF() {
             </div>
           )}
 
+          {/* ── Post-Download Ad ── placed post-task for high engagement */}
+          <div className="mt-6">
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+            <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+          </div>
+
           {/* Convert Another */}
           <div className="text-center">
             <button
@@ -480,6 +479,9 @@ export default function DownloadExcelToPDF() {
           </div>{/* end two-col flex */}
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="excel-to-pdf" />
     </Layout>
   )
 }

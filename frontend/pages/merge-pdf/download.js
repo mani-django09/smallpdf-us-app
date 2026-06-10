@@ -23,30 +23,9 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// AdSense Component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
+import PrivacyNotice from "../../components/PrivacyNotice"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -341,9 +320,8 @@ export default function DownloadMergePDF() {
             Advertisement
           </p>
           <div className="flex justify-center">
-            <AdSenseUnit 
-              adSlot="4209491059"
-              style={{ width: "728px", height: "90px" }}
+            <AdSenseUnit
+              adSlot="8004544994"
             />
           </div>
         </div>
@@ -353,21 +331,8 @@ export default function DownloadMergePDF() {
       <div className="bg-slate-50/50 py-8 sm:py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-            {/* Left Sidebar Ad - Desktop Only */}
-            <div className="hidden lg:block lg:col-span-2">
-              <div className="sticky top-4">
-                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-                  Advertisement
-                </p>
-                <AdSenseUnit 
-                  adSlot="7797382279"
-                  style={{ width: "160px", height: "600px" }}
-                />
-              </div>
-            </div>
-
             {/* Main Download Section */}
-            <div className="lg:col-span-6 space-y-6">
+            <div className="lg:col-span-8 space-y-6">
               <div className="glass-card rounded-2xl border border-slate-200/60 shadow-xl shadow-slate-200/50 overflow-hidden">
                 {/* File Header */}
                 <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-5">
@@ -416,6 +381,9 @@ export default function DownloadMergePDF() {
                       </>
                     )}
                   </button>
+
+                  {/* Privacy / auto-delete trust notice */}
+                  <PrivacyNotice minutes={60} className="mt-4" />
 
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-3 mt-6">
@@ -484,6 +452,12 @@ export default function DownloadMergePDF() {
                       </Link>
                     </div>
                   )}
+
+                  {/* ── Post-Download Ad ── after task completion, high engagement */}
+                  <div className="mt-6">
+                    <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                    <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+                  </div>
                 </div>
               </div>
 
@@ -519,19 +493,6 @@ export default function DownloadMergePDF() {
                   </div>
                   <h3 className="font-display font-semibold text-slate-900 mb-1">{t('mergePdf.download.professionalOutput')}</h3>
                   <p className="font-body text-sm text-slate-600">{t('mergePdf.download.professionalDesc')}</p>
-                </div>
-              </div>
-
-              {/* Mobile Ad - Below Features */}
-              <div className="lg:hidden">
-                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-                  Advertisement
-                </p>
-                <div className="flex justify-center">
-                  <AdSenseUnit 
-                    adSlot="4209491059"
-                    style={{ width: "320px", height: "50px" }}
-                  />
                 </div>
               </div>
 
@@ -587,15 +548,14 @@ export default function DownloadMergePDF() {
 
             {/* Right Sidebar */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Ad Space 1 */}
+              {/* Ad Space */}
               <div className="glass-card rounded-2xl border border-slate-200/60 p-4">
                 <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
                   Advertisement
                 </p>
                 <div className="flex justify-center">
-                  <AdSenseUnit 
-                    adSlot="2896409385"
-                    style={{ width: "300px", height: "250px" }}
+                  <AdSenseUnit
+                    adSlot="7489539676"
                   />
                 </div>
               </div>
@@ -646,6 +606,9 @@ export default function DownloadMergePDF() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="merge-pdf" />
     </Layout>
   )
 }

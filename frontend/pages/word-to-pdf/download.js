@@ -24,29 +24,8 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 export default function DownloadPage() {
   const router = useLocalizedRouter()
@@ -104,7 +83,6 @@ export default function DownloadPage() {
       // 'file' is already an absolute URL set by preview.js (http://localhost:5011/uploads/... in dev,
       // https://smallpdf.us/uploads/... in prod)
       const downloadUrl = file.startsWith('http') ? file : `${window.location.origin}${file}`
-      console.log('Downloading from:', downloadUrl)
       const response = await fetch(downloadUrl)
       if (!response.ok) throw new Error('Download failed')
       
@@ -252,13 +230,6 @@ export default function DownloadPage() {
           background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
         }
       `}</style>
-
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
-        </div>
-      </div>
 
       {/* Compact Hero Success Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600">
@@ -438,6 +409,12 @@ export default function DownloadPage() {
                     </div>
                   )}
                 </div>
+
+              {/* ── Post-Download Ad ── placed post-task for high engagement */}
+              <div className="mt-6">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+              </div>
               </div>
 
               {/* Features Grid */}
@@ -600,6 +577,9 @@ export default function DownloadPage() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="word-to-pdf" />
     </Layout>
     </>
   )

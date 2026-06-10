@@ -8,33 +8,13 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { useTranslations } from "../../lib/i18n"
 import {
   Download, CheckCircle2, FileText, ArrowLeft, Shield, Clock,
-  Crown, ArrowRight, RefreshCw, AlertCircle,
+  Crown, ArrowRight, RefreshCw, AlertCircle, Zap,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-function AdSenseUnit({ adSlot }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block" }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 export default function OcrPdfDownload() {
   const router = useLocalizedRouter()
@@ -42,10 +22,23 @@ export default function OcrPdfDownload() {
   const { t } = useTranslations()
   const isPro = user?.plan === "pro" || user?.plan === "enterprise"
 
+  const isIndia = useIsIndia()
+  const [mounted, setMounted] = useState(false)
+  const [useCount, setUseCount] = useState(0)
+  const isPaidUser = !!(user?.plan && user.plan !== 'free')
+
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(null)
   const [downloaded, setDownloaded] = useState({})
   const [error, setError] = useState("")
+
+  useEffect(() => {
+    setMounted(true)
+    try {
+      const count = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
+      setUseCount(count)
+    } catch {}
+  }, [])
 
   useEffect(() => {
     const stored = sessionStorage.getItem("ocrPdfResult")
@@ -146,7 +139,6 @@ export default function OcrPdfDownload() {
         {/* Ad */}
         <div className="bg-slate-50 px-4 pt-6">
           <div className="max-w-3xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" />
           </div>
         </div>
 
@@ -302,6 +294,12 @@ export default function OcrPdfDownload() {
               </div>
             )}
 
+          {/* ── Post-Download Ad ── placed post-task for high engagement */}
+          <div className="mt-6">
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+            <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+          </div>
+
             {!isPro && (
               <div className="bg-white border border-violet-200 rounded-2xl p-5 mb-6">
                 <div className="flex items-center gap-2 mb-2">
@@ -331,7 +329,10 @@ export default function OcrPdfDownload() {
             </div>
           </div>
         </div>
-      </Layout>
+  
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="ocr-pdf" />
+    </Layout>
     </>
   )
 }

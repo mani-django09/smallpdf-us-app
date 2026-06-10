@@ -12,41 +12,35 @@ import {
   Sparkles,
   ChevronRight,
   RefreshCw,
+  Zap,
+  ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { useTranslations } from "../../lib/i18n"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 export default function DownloadUnlockPdf() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
+  const { user } = useAuth()
+  const isIndia = useIsIndia()
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(false)
   const [downloadComplete, setDownloadComplete] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [useCount, setUseCount] = useState(0)
+
+  const isPaidUser = !!(user?.plan && user.plan !== 'free')
+
+  useEffect(() => {
+    setMounted(true)
+    try {
+      const count = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
+      setUseCount(count)
+    } catch {}
+  }, [])
 
   // ✅ FIX: routerRef prevents infinite re-render loop.
   // useLocalizedRouter() returns a new object every render, so using it
@@ -173,10 +167,6 @@ export default function DownloadUnlockPdf() {
       <SEOHead noIndex={true} />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
         <div className="max-w-4xl mx-auto">
-          {/* Header Ad */}
-          <div className="mb-6">
-            <AdSenseUnit adSlot="8004544994" />
-          </div>
 
           {/* Success Header */}
           <div className="text-center mb-8">
@@ -335,6 +325,12 @@ export default function DownloadUnlockPdf() {
               </Link>
             </div>
           )}
+
+          {/* ── Post-Download Ad ── placed post-task for high engagement */}
+          <div className="mt-6">
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+            <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+          </div>
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-4 mb-8">

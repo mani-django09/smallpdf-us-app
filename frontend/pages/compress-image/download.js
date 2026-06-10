@@ -3,47 +3,26 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
-  import {
-    Download,
-    Minimize2,
-    CheckCircle,
-    Share2,
-    RefreshCw,
-    Shield,
-    Zap,
-    Copy,
-    Sparkles,
-    ArrowRight,
-    Lock,
-    Timer,
-  } from "lucide-react"
-  import UpgradeBanner from "../../components/UpgradeBanner"
+import {
+  Download,
+  Minimize2,
+  CheckCircle,
+  Share2,
+  RefreshCw,
+  Shield,
+  Zap,
+  Copy,
+  Sparkles,
+  ArrowRight,
+  Lock,
+  Timer,
+} from "lucide-react"
+import UpgradeBanner from "../../components/UpgradeBanner"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 export default function DownloadCompressImage() {
   const router = useLocalizedRouter()
@@ -271,13 +250,6 @@ export default function DownloadCompressImage() {
         }
       `}</style>
 
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
-        </div>
-      </div>
-
       {/* Success Header */}
       <div className="relative overflow-hidden bg-purple-600">
         <div className="absolute inset-0 opacity-10">
@@ -473,6 +445,12 @@ export default function DownloadCompressImage() {
                     </div>
                   )}
                 </div>
+
+              {/* ── Post-Download Ad ── placed post-task for high engagement */}
+              <div className="mt-6">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+              </div>
               </div>
 
               {/* Features Grid */}
@@ -601,6 +579,9 @@ export default function DownloadCompressImage() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="compress-image" />
     </Layout>
     <UpgradeBanner toolName="compress-image" trigger="usage" />
     </>

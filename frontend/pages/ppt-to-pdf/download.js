@@ -24,29 +24,8 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 export default function DownloadPptToPdf() {
   const router = useLocalizedRouter()
@@ -230,13 +209,6 @@ export default function DownloadPptToPdf() {
         .animate-fade-up-delay-2 { animation: fade-up 0.5s ease-out 0.2s forwards; opacity: 0; }
         .btn-shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
       `}</style>
-
-      {/* Header Ad */}
-      <div className="bg-orange-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
-        </div>
-      </div>
 
       {/* Success Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-orange-500 to-red-600">
@@ -444,6 +416,12 @@ export default function DownloadPptToPdf() {
                     </div>
                   )}
                 </div>
+
+              {/* ── Post-Download Ad ── placed post-task for high engagement */}
+              <div className="mt-6">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+              </div>
               </div>
 
               {/* Features Grid */}
@@ -594,6 +572,9 @@ export default function DownloadPptToPdf() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="ppt-to-pdf" />
     </Layout>
   )
 }

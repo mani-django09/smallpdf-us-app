@@ -22,6 +22,7 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
+import RelatedTools from "../../components/RelatedTools"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -59,7 +60,6 @@ export default function DownloadJpgToPdf() {
     if (result) {
       try {
         const parsed = JSON.parse(result)
-        console.log("Convert result loaded:", parsed)
         setConvertResult(parsed)
         setTimeout(() => setShowSuccess(true), 100)
       } catch (err) {
@@ -67,7 +67,6 @@ export default function DownloadJpgToPdf() {
         router.push("/jpg-to-pdf")
       }
     } else if (!jobId) {
-      console.log("No result found, redirecting...")
       router.push("/jpg-to-pdf")
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -220,11 +219,6 @@ export default function DownloadJpgToPdf() {
         .animate-fade-up-delay-2 { animation: fade-up 0.5s ease-out 0.2s forwards; opacity: 0; }
         .btn-shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
       `}</style>
-
-      {/* Header Ad */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <AdSenseUnit adSlot="8004544994" label="Header Ad" className="rounded-xl overflow-hidden" />
-      </div>
 
       {/* Success Header */}
       <div className="relative overflow-hidden bg-orange-600">
@@ -404,6 +398,12 @@ export default function DownloadJpgToPdf() {
                     </div>
                   )}
                 </div>
+
+              {/* ── Post-Download Ad ── placed post-task for high engagement */}
+              <div className="mt-6">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+              </div>
               </div>
 
               {/* Features Grid */}
@@ -555,6 +555,9 @@ export default function DownloadJpgToPdf() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="jpg-to-pdf" />
     </Layout>
   )
 }

@@ -20,33 +20,13 @@ import {
   Layers,
   FilePlus,
   FileOutput,
+  Zap,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 // Get API URL from environment or default to relative path
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""
@@ -107,8 +87,6 @@ export default function DownloadPdfToWord() {
 
     try {
       const downloadUrl = `${API_BASE_URL}/api/download-word/${jobId}`
-      console.log("Downloading from:", downloadUrl)
-
       const response = await fetch(downloadUrl)
 
       if (!response.ok) {
@@ -235,13 +213,6 @@ export default function DownloadPdfToWord() {
         .btn-shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
         .animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
       `}</style>
-
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
-        </div>
-      </div>
 
       {/* Success Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-600 to-blue-700">
@@ -433,6 +404,12 @@ export default function DownloadPdfToWord() {
                     </div>
                   )}
                 </div>
+
+              {/* ── Post-Download Ad ── placed post-task for high engagement */}
+              <div className="mt-6">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+              </div>
               </div>
 
               {/* What You Can Do Now */}
@@ -648,6 +625,9 @@ export default function DownloadPdfToWord() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="pdf-to-word" />
     </Layout>
   )
 }

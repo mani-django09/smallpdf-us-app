@@ -33,29 +33,8 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
 
 // ── Module-level API URL helper (no more duplicate inline definitions) ─────
 function getApiUrl() {
@@ -235,13 +214,6 @@ export default function DownloadWebpToPng() {
         .font-body    { font-family: 'DM Sans', sans-serif; }
       `}</style>
 
-      {/* Header Ad */}
-      <div className="bg-white px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
-        </div>
-      </div>
-
       {/* ── Page content ──────────────────────────────────────────────────── */}
       <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-emerald-50 pt-8 pb-16">
         <div className="max-w-6xl mx-auto px-4">
@@ -361,6 +333,12 @@ export default function DownloadWebpToPng() {
                     </div>
                   )}
                 </div>
+
+              {/* ── Post-Download Ad ── placed post-task for high engagement */}
+              <div className="mt-6">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+              </div>
               </div>
 
               {/* Features grid */}
@@ -478,6 +456,9 @@ export default function DownloadWebpToPng() {
           </div>
         </div>
       </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="webp-to-png" />
     </Layout>
     </>
   )

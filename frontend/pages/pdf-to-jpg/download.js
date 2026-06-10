@@ -14,45 +14,42 @@ import {
   Share2,
   RefreshCw,
   AlertCircle,
+  Zap,
+  ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import { getApiUrl } from "../../lib/getApiUrl"
+import AdSenseUnit from "../../components/AdSenseUnit"
+import RelatedTools from "../../components/RelatedTools"
+import PrivacyNotice from "../../components/PrivacyNotice"
 
 export default function DownloadJPG() {
   const router = useLocalizedRouter()
   const { t, locale } = useTranslations()
+  const { user } = useAuth()
+  const { isIndia } = useIsIndia()
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(false)
   const [downloaded, setDownloaded] = useState(false)
   const [error, setError] = useState("")
+  const [mounted, setMounted] = useState(false)
+  const [useCount, setUseCount] = useState(0)
+
+  const isPaidUser = !!(user?.plan && user.plan !== 'free')
+
+  useEffect(() => {
+    setMounted(true)
+    try {
+      const count = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
+      setUseCount(count)
+    } catch {}
+  }, [])
 
   useEffect(() => {
     const storedResult = sessionStorage.getItem("jpgConversionResult")
-    
+
     if (storedResult) {
       try {
         const parsed = JSON.parse(storedResult)
@@ -76,7 +73,7 @@ export default function DownloadJPG() {
     setError("")
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
+      const API_URL = getApiUrl()
       const downloadUrl = `${API_URL}${result.downloadUrl}`
       
       const response = await fetch(downloadUrl)
@@ -173,13 +170,6 @@ export default function DownloadJPG() {
         }
         .animate-checkmark { animation: checkmark 0.5s ease-out forwards; }
       `}</style>
-
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-3xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" />
-        </div>
-      </div>
 
       {/* Success Header */}
       <div className="bg-gradient-to-r from-emerald-600 to-teal-600 relative overflow-hidden">
@@ -390,6 +380,12 @@ export default function DownloadJPG() {
             </div>
           )}
 
+          {/* ── Post-Download Ad ── placed post-task for high engagement */}
+          <div className="mt-6">
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+            <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
+          </div>
+
           {/* Convert Another */}
           <div className="text-center">
             <button
@@ -429,6 +425,13 @@ export default function DownloadJPG() {
 
         </div>
       </div>
+
+      <div className="max-w-3xl mx-auto px-4 pb-8">
+        <PrivacyNotice minutes={60} />
+      </div>
+
+      {/* Related Tools — shown after download to encourage next action */}
+      <RelatedTools current="pdf-to-jpg" />
     </Layout>
   )
 }
