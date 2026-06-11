@@ -166,6 +166,12 @@ export default function DownloadPage() {
   return (
     <>
       <SEOHead noIndex={true} />
+      {/* Header Ad */}
+      <div className="bg-slate-50 px-4 pt-6">
+        <div className="max-w-6xl mx-auto">
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+        </div>
+      </div>
       <Layout
         title={t("wordToPdf.download.layoutTitle")}
         description={t("wordToPdf.download.layoutDesc")}
@@ -409,12 +415,6 @@ export default function DownloadPage() {
                     </div>
                   )}
                 </div>
-
-              {/* ── Post-Download Ad ── placed post-task for high engagement */}
-              <div className="mt-6">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
-              </div>
               </div>
 
               {/* Features Grid */}

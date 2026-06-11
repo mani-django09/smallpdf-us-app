@@ -168,7 +168,14 @@ export default function DownloadUnlockPdf() {
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
         <div className="max-w-4xl mx-auto">
 
-          {/* Success Header */}
+          {/* Header Ad */}
+      <div className="bg-slate-50 px-4 pt-6">
+        <div className="max-w-6xl mx-auto">
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+        </div>
+      </div>
+
+      {/* Success Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-4 shadow-xl animate-bounce">
               <CheckCircle2 className="w-10 h-10 text-white" />
@@ -325,12 +332,6 @@ export default function DownloadUnlockPdf() {
               </Link>
             </div>
           )}
-
-          {/* ── Post-Download Ad ── placed post-task for high engagement */}
-          <div className="mt-6">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-            <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
-          </div>
 
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-4 mb-8">

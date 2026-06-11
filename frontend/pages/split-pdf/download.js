@@ -206,6 +206,12 @@ export default function DownloadSplitPdf() {
         .animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
       `}</style>
 
+      {/* Header Ad */}
+      <div className="bg-slate-50 px-4 pt-6">
+        <div className="max-w-6xl mx-auto">
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+        </div>
+      </div>
       {/* Success Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-purple-600 to-purple-700">
         <div className="absolute inset-0 opacity-10">
@@ -398,12 +404,6 @@ export default function DownloadSplitPdf() {
                     </div>
                   )}
                 </div>
-
-              {/* ── Post-Download Ad ── placed post-task for high engagement */}
-              <div className="mt-6">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
-              </div>
               </div>
 
               {/* What You Can Do Now */}

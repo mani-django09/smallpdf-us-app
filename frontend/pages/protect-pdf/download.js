@@ -61,6 +61,12 @@ export default function ProtectDownload() {
       <SEOHead title="Download Protected PDF | SmallPDF.us" description="Download your password-protected PDF." noIndex={true} />
 
 
+      <div className="bg-white py-4 px-4 border-b border-slate-200">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">Advertisement</p>
+          <div className="flex justify-center"><AdSenseUnit adSlot="8004544994" /></div>
+        </div>
+      </div>
       <div className="bg-slate-50 min-h-screen py-10 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
@@ -92,12 +98,6 @@ export default function ProtectDownload() {
 
               {/* Upgrade upsell — free users only */}
               <UpgradeUpsell className="mt-4" />
-
-              {/* ── Post-Download Ad ── after task completion, high engagement */}
-              <div className="mt-4">
-                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">Advertisement</p>
-                <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
-              </div>
 
               <div className="grid grid-cols-3 gap-3 mt-6">
                 <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100"><div className="text-xl font-bold text-emerald-600">AES-256</div><div className="text-xs text-slate-500 mt-1">{t("protectPdf.download.encryptedLabel")}</div></div>

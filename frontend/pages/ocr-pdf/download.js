@@ -113,6 +113,12 @@ export default function OcrPdfDownload() {
   return (
     <>
       <SEOHead title={t("ocrPdf.download.pageTitle")} noIndex={true} />
+      {/* Header Ad */}
+      <div className="bg-slate-50 px-4 pt-6">
+        <div className="max-w-6xl mx-auto">
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+        </div>
+      </div>
       <Layout>
         {/* Success header */}
         <div className="bg-gradient-to-r from-violet-600 to-purple-600 relative overflow-hidden">
@@ -293,12 +299,6 @@ export default function OcrPdfDownload() {
                 </Link>
               </div>
             )}
-
-          {/* ── Post-Download Ad ── placed post-task for high engagement */}
-          <div className="mt-6">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-            <AdSenseUnit adSlot="1617102171" className="rounded-xl overflow-hidden" />
-          </div>
 
             {!isPro && (
               <div className="bg-white border border-violet-200 rounded-2xl p-5 mb-6">
