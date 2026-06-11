@@ -2,6 +2,7 @@ import { useState, useEffect, memo } from "react"
 import Link from "next/link"
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
+import { useTranslations } from "../lib/i18n"
 import {
   Shield, Zap, Users, Globe, Award, Heart, Code,
   Briefcase, GraduationCap, Star, CheckCircle,
@@ -228,9 +229,10 @@ const TeamCard = memo(({ member, index }) => (
 ))
 TeamCard.displayName = "TeamCard"
 
-// ─── Page 
+// ─── Page
 export default function AboutPage() {
   const [mounted, setMounted] = useState(false)
+  const { t } = useTranslations()
 
   useEffect(() => {
     setMounted(true)
@@ -248,11 +250,31 @@ export default function AboutPage() {
   const founder = team.find((m) => m.isFounder)
   const restTeam = team.filter((m) => !m.isFounder)
 
+  // Translated stats labels
+  const statsTranslated = [
+    { value: "100M+",  label: t("about.statUsers"),      icon: Users },
+    { value: "30M+",   label: t("about.statFiles"),      icon: FileText },
+    { value: "4.6★",   label: t("about.statRating"),     icon: Star },
+    { value: "99.98%", label: t("about.statUptime"),     icon: Server },
+    { value: "256-bit",label: t("about.statEncryption"), icon: Lock },
+    { value: "2 hrs",  label: t("about.statAutoDelete"), icon: Clock },
+  ]
+
+  // Translated values
+  const valuesTranslated = [
+    { icon: Heart,     title: t("about.valuesFreeTitle"),       desc: t("about.valuesFreeDesc"),       gradient: "from-rose-500 to-pink-600" },
+    { icon: Shield,    title: t("about.valuesPrivacyTitle"),    desc: t("about.valuesPrivacyDesc"),    gradient: "from-green-500 to-emerald-600" },
+    { icon: Zap,       title: t("about.valuesSimplicityTitle"), desc: t("about.valuesSimplicityDesc"), gradient: "from-amber-500 to-yellow-600" },
+    { icon: Globe,     title: t("about.valuesGlobalTitle"),     desc: t("about.valuesGlobalDesc"),     gradient: "from-blue-500 to-cyan-600" },
+    { icon: Target,    title: t("about.valuesQualityTitle"),    desc: t("about.valuesQualityDesc"),    gradient: "from-violet-500 to-purple-600" },
+    { icon: Lightbulb, title: t("about.valuesRoadmapTitle"),   desc: t("about.valuesRoadmapDesc"),    gradient: "from-teal-500 to-cyan-600" },
+  ]
+
   return (
     <>
       <SEOHead
-        title="About SmallPDF.us — Our Team, Mission & Values"
-        description="Meet the experts behind SmallPDF.us. Founded by Manikant Yadav — 26 engineers, designers, security specialists & privacy lawyers making PDF tools free for everyone."
+        title={t("about.pageTitle")}
+        description={t("about.pageDescription")}
         keywords="about smallpdf.us, Manikant Yadav, PDF tools team, privacy PDF, free PDF tools"
       />
       <Layout>
@@ -266,26 +288,23 @@ export default function AboutPage() {
             <div className={`transition-all duration-600 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
               <div className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-full px-3 py-1.5 mb-4">
                 <Users className="w-3 h-3 text-cyan-400" />
-                <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">About Us</span>
+                <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-wider">{t("about.missionBadge")}</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-3">
-                We built the PDF tools<br />
-                <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  we always wished existed
-                </span>
+                {t("about.heroTitle")}
               </h1>
 
               <p className="text-slate-300 text-sm md:text-base leading-relaxed mb-6 max-w-xl mx-auto">
-                Founded by <strong className="text-white">Manikant Yadav</strong> and run by 26 engineers, designers, security experts, and privacy lawyers — united by one belief: essential document tools should be <strong className="text-white">free, fast, and truly private</strong>.
+                {t("about.heroSubtitle")}
               </p>
 
               <div className="flex flex-wrap justify-center gap-3">
                 <Link href="#team" className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold px-5 py-2.5 rounded-lg hover:shadow-lg hover:shadow-blue-500/25 transition-all text-sm">
-                  Meet the Team <ArrowRight className="w-4 h-4" />
+                  {t("about.teamBadge")} <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link href="#mission" className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white font-semibold px-5 py-2.5 rounded-lg hover:bg-white/15 transition-all text-sm">
-                  Our Mission
+                  {t("about.missionBadge")}
                 </Link>
               </div>
             </div>
@@ -296,7 +315,7 @@ export default function AboutPage() {
         <section className="bg-white border-b border-gray-100 py-6 px-4">
           <div className="max-w-5xl mx-auto">
             <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-              {stats.map((stat, i) => (
+              {statsTranslated.map((stat, i) => (
                 <div key={i} className="text-center group">
                   <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-1.5 group-hover:bg-blue-100 transition-all">
                     <stat.icon className="w-4 h-4 text-blue-600" />
@@ -315,15 +334,13 @@ export default function AboutPage() {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full mb-4">
-                  <Target className="w-3.5 h-3.5" /> Our Mission
+                  <Target className="w-3.5 h-3.5" /> {t("about.missionBadge")}
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-5 leading-tight">
-                  Democratizing professional document tools
+                  {t("about.missionTitle")}
                 </h2>
                 <div className="space-y-4 text-gray-600 leading-relaxed text-sm md:text-base">
-                  <p>In 2018, Manikant Yadav left a document infrastructure role with one observation: the tools professionals use every day cost hundreds a year — yet the technology isn't expensive to build.</p>
-                  <p>Students couldn't afford them. Small businesses resented monthly fees. Freelancers in emerging markets were locked out entirely.</p>
-                  <p>So we built SmallPDF.us: <strong className="text-gray-900">the same quality, for free, forever</strong> — with privacy protections stronger than most paid competitors.</p>
+                  <p>{t("about.missionPara")}</p>
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-2.5">
                   {["No account required — ever", "Files deleted within 2 hours", "No ads inside conversion flows", "Transparent about how we earn", "GDPR & CCPA compliant", "Available in 8 languages"].map((item) => (
@@ -380,11 +397,11 @@ export default function AboutPage() {
         <section className="py-14 md:py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">What we stand for</h2>
-              <p className="text-gray-500 text-sm max-w-md mx-auto">Six principles guiding every decision — from product features to privacy policy.</p>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">{t("about.valuesTitle") || "What we stand for"}</h2>
+              <p className="text-gray-500 text-sm max-w-md mx-auto">{t("about.valuesSubtitle") || "Six principles guiding every decision — from product features to privacy policy."}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {values.map((v, i) => (
+              {valuesTranslated.map((v, i) => (
                 <div key={i} className="group bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                   <div className={`w-11 h-11 bg-gradient-to-br ${v.gradient} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-md`}>
                     <v.icon className="w-5 h-5 text-white" />
@@ -402,11 +419,11 @@ export default function AboutPage() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full mb-3">
-                <Users className="w-3.5 h-3.5" /> Leadership Team
+                <Users className="w-3.5 h-3.5" /> {t("about.teamBadge")}
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">The people behind SmallPDF.us</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">{t("about.teamTitle")}</h2>
               <p className="text-sm text-gray-600 max-w-xl mx-auto">
-                Engineers, designers, and lawyers who believe great software should be open to everyone — not locked behind a paywall.
+                {t("about.teamSubtitle")}
               </p>
             </div>
 
@@ -424,10 +441,7 @@ export default function AboutPage() {
 
             <div className="mt-8 text-center">
               <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-white border border-gray-200 rounded-2xl px-7 py-4 shadow-sm">
-                <p className="text-sm text-gray-600">
-                  <strong className="text-gray-900">26 people</strong> across engineering, design, security, legal & support ·{" "}
-                  <strong className="text-gray-900">11 countries</strong>
-                </p>
+                <p className="text-sm text-gray-600">{t("about.teamSize")}</p>
               </div>
             </div>
           </div>
@@ -438,9 +452,9 @@ export default function AboutPage() {
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-full mb-3">
-                <TrendingUp className="w-3.5 h-3.5" /> Our Journey
+                <TrendingUp className="w-3.5 h-3.5" /> {t("about.journeyBadge")}
               </div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900">From 0 to 100M users</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900">{t("about.journeyTitle")}</h2>
             </div>
             <div className="relative">
               <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-cyan-500 to-emerald-500" />
@@ -466,7 +480,7 @@ export default function AboutPage() {
         {/* ── PRESS  */}
         <section className="py-9 px-4 bg-gray-50 border-y border-gray-100">
           <div className="max-w-4xl mx-auto text-center">
-            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">As Seen In</p>
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">{t("about.pressLabel")}</p>
             <div className="flex flex-wrap justify-center gap-8">
               {pressLogos.map((name) => (
                 <span key={name} className="text-gray-400 font-black text-lg hover:text-gray-600 transition-colors cursor-default select-none">{name}</span>
@@ -479,8 +493,8 @@ export default function AboutPage() {
         <section className="py-14 md:py-20 px-4 bg-white">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-black text-gray-900 mb-2">Why you can trust us</h2>
-              <p className="text-gray-500 text-sm">Credentials and certifications — not just words.</p>
+              <h2 className="text-3xl font-black text-gray-900 mb-2">{t("about.trustTitle")}</h2>
+              <p className="text-gray-500 text-sm">{t("about.trustSubtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
@@ -504,14 +518,14 @@ export default function AboutPage() {
         {/* ── CTA  */}
         <section className="py-12 px-4 bg-gradient-to-br from-slate-900 to-slate-950">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-3">Ready to try the tools we built?</h2>
-            <p className="text-slate-400 text-sm mb-6">No account. No credit card. No BS. Free, fast, private PDF tools.</p>
+            <h2 className="text-2xl md:text-3xl font-black text-white mb-3">{t("about.ctaTitle")}</h2>
+            <p className="text-slate-400 text-sm mb-6">{t("about.ctaSubtitle")}</p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link href="/" className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-black px-7 py-3 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 transition-all text-sm">
-                Try SmallPDF.us Free <ArrowRight className="w-4 h-4" />
+                {t("about.ctaButton")} <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="mailto:contact@smallpdf.us" className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-5 py-3 rounded-xl hover:bg-white/15 transition-all text-sm">
-                <Mail className="w-4 h-4" /> Contact the Team
+                <Mail className="w-4 h-4" /> {t("about.ctaContact")}
               </a>
             </div>
           </div>
