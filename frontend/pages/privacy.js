@@ -47,25 +47,25 @@ export default function Privacy() {
   ]
 
   const sections = [
-    { id: "intro",         label: "Introduction" },
-    { id: "collect",       label: "Information We Collect" },
-    { id: "use",           label: "How We Use It" },
-    { id: "security",      label: "File Security" },
-    { id: "retention",     label: "Data Retention" },
-    { id: "third-party",   label: "Third-Party Services" },
-    { id: "payments",      label: "Payment Processing" },
-    { id: "rights",        label: "Your Rights" },
-    { id: "children",      label: "Children's Privacy" },
-    { id: "international", label: "International Users" },
-    { id: "changes",       label: "Policy Changes" },
-    { id: "contact",       label: "Contact Us" },
+    { id: "intro",         label: t("privacy.introTitle") },
+    { id: "collect",       label: t("privacy.collectTitle") },
+    { id: "use",           label: t("privacy.useTitle") },
+    { id: "security",      label: t("privacy.securityTitle") },
+    { id: "retention",     label: t("privacy.retentionTitle") },
+    { id: "third-party",   label: t("privacy.thirdPartyTitle") },
+    { id: "payments",      label: t("privacy.paymentTitle") },
+    { id: "rights",        label: t("privacy.rightsTitle") },
+    { id: "children",      label: t("privacy.childrenTitle") },
+    { id: "international", label: t("privacy.internationalTitle") },
+    { id: "changes",       label: t("privacy.changesTitle") },
+    { id: "contact",       label: t("privacy.contactTitle") },
   ]
 
   return (
     <Layout>
       <SEOHead
-        title="Privacy Policy — SmallPDF.us"
-        description="SmallPDF.us privacy policy. Your files are encrypted in transit and deleted automatically within 2 hours. No data sold, no signup required."
+        title="Privacy Policy — How SmallPDF.us Protects Your Data"
+        description="SmallPDF.us privacy policy — files encrypted in transit, auto-deleted within 2 hours. No data sold, no account required. GDPR compliant."
         keywords="smallpdf privacy policy, data protection, file security, GDPR"
       />
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">

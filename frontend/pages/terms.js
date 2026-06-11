@@ -25,24 +25,24 @@ export default function Terms() {
   const s12BillingList = t('terms.s12BillingList')
 
   const sections = [
-    { id: "s1",  num: 1,  label: "Acceptance of Terms",        icon: CheckCircle, color: "text-blue-600" },
-    { id: "s2",  num: 2,  label: "Use of Service",             icon: Shield,      color: "text-violet-600" },
-    { id: "s3",  num: 3,  label: "File Upload & Processing",   icon: FileText,    color: "text-cyan-600" },
-    { id: "s4",  num: 4,  label: "Intellectual Property",      icon: Lock,        color: "text-emerald-600" },
-    { id: "s5",  num: 5,  label: "Disclaimer of Warranties",   icon: AlertCircle, color: "text-amber-600" },
-    { id: "s6",  num: 6,  label: "Limitation of Liability",    icon: Scale,       color: "text-red-600" },
-    { id: "s7",  num: 7,  label: "Privacy & Data Protection",  icon: Shield,      color: "text-green-600" },
-    { id: "s8",  num: 8,  label: "Modifications to Service",   icon: Server,      color: "text-indigo-600" },
-    { id: "s9",  num: 9,  label: "Changes to Terms",           icon: FileText,    color: "text-gray-600" },
-    { id: "s10", num: 10, label: "Governing Law",              icon: Scale,       color: "text-slate-600" },
-    { id: "s11", num: 11, label: "Contact Information",        icon: Mail,        color: "text-blue-600" },
-    { id: "s12", num: 12, label: "Subscriptions & Payments",  icon: CreditCard,  color: "text-purple-600" },
+    { id: "s1",  num: 1,  label: t('terms.s1Title'),  icon: CheckCircle, color: "text-blue-600" },
+    { id: "s2",  num: 2,  label: t('terms.s2Title'),  icon: Shield,      color: "text-violet-600" },
+    { id: "s3",  num: 3,  label: t('terms.s3Title'),  icon: FileText,    color: "text-cyan-600" },
+    { id: "s4",  num: 4,  label: t('terms.s4Title'),  icon: Lock,        color: "text-emerald-600" },
+    { id: "s5",  num: 5,  label: t('terms.s5Title'),  icon: AlertCircle, color: "text-amber-600" },
+    { id: "s6",  num: 6,  label: t('terms.s6Title'),  icon: Scale,       color: "text-red-600" },
+    { id: "s7",  num: 7,  label: t('terms.s7Title'),  icon: Shield,      color: "text-green-600" },
+    { id: "s8",  num: 8,  label: t('terms.s8Title'),  icon: Server,      color: "text-indigo-600" },
+    { id: "s9",  num: 9,  label: t('terms.s9Title'),  icon: FileText,    color: "text-gray-600" },
+    { id: "s10", num: 10, label: t('terms.s10Title'), icon: Scale,       color: "text-slate-600" },
+    { id: "s11", num: 11, label: t('terms.s11Title'), icon: Mail,        color: "text-blue-600" },
+    { id: "s12", num: 12, label: t('terms.s12Title'), icon: CreditCard,  color: "text-purple-600" },
   ]
 
   const highlights = [
-    { icon: CheckCircle, text: "Free to use — no hidden fees",         color: "from-emerald-500 to-green-600",  border: "border-emerald-100" },
-    { icon: Lock,        text: "Files deleted within 2 hours",         color: "from-blue-500 to-blue-600",      border: "border-blue-100" },
-    { icon: Shield,      text: "Your content stays yours — always",    color: "from-violet-500 to-purple-600",  border: "border-violet-100" },
+    { icon: CheckCircle, text: t('terms.highlight1') || "Free to use — no hidden fees",      color: "from-emerald-500 to-green-600",  border: "border-emerald-100" },
+    { icon: Lock,        text: t('terms.highlight2') || "Files deleted within 2 hours",      color: "from-blue-500 to-blue-600",      border: "border-blue-100" },
+    { icon: Shield,      text: t('terms.highlight3') || "Your content stays yours — always", color: "from-violet-500 to-purple-600",  border: "border-violet-100" },
   ]
 
   return (
