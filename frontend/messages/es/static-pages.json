@@ -60,7 +60,16 @@
     "ctaTitle": "¿Listo para probar nuestras herramientas?",
     "ctaSubtitle": "Sin cuenta. Sin tarjeta de crédito. Sin BS. Herramientas PDF gratuitas, rápidas y privadas.",
     "ctaButton": "Prueba SmallPDF.us gratis",
-    "ctaContact": "Contactar al equipo"
+    "ctaContact": "Contactar al equipo",
+    "valuesTitle": "Por qué luchamos",
+    "valuesSubtitle": "Seis principios que guían cada decisión — desde funciones del producto hasta políticas de privacidad.",
+    "milestone2018": "Fundado por Manikant Yadav tras dejar el equipo de infraestructura documental de Google.",
+    "milestone2019": "Lanzamiento con 4 herramientas. 100.000 usuarios en 90 días — sin publicidad.",
+    "milestone2020": "8 localizaciones de idiomas y cifrado de archivos de 256 bits añadidos.",
+    "milestone2021": "Superados los 10M de usuarios. Interfaz móvil con equipo de 12 ingenieros.",
+    "milestone2022": "Certificado ISO 27001. Centro de cumplimiento GDPR y eliminación automática en 2 horas.",
+    "milestone2023": "50M de usuarios. Compresión de imágenes, conversión WebP y procesamiento por lotes.",
+    "milestone2024": "Más de 100M de usuarios en todo el mundo. 99,98% de disponibilidad. Cero incidentes de seguridad."
   },
   "privacy": {
     "layoutTitle": "Política de privacidad — SmallPDF.us",

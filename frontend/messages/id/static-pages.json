@@ -60,7 +60,16 @@
     "ctaTitle": "Siap mencoba alat kami?",
     "ctaSubtitle": "Tanpa akun. Tanpa kartu kredit. Tanpa basa-basi. Alat PDF gratis, cepat, dan privat.",
     "ctaButton": "Coba SmallPDF.us gratis",
-    "ctaContact": "Hubungi tim"
+    "ctaContact": "Hubungi tim",
+    "valuesTitle": "Apa yang kami perjuangkan",
+    "valuesSubtitle": "Enam prinsip yang memandu setiap keputusan — dari fitur produk hingga kebijakan privasi.",
+    "milestone2018": "Didirikan oleh Manikant Yadav setelah meninggalkan tim infrastruktur dokumen Google.",
+    "milestone2019": "Diluncurkan dengan 4 alat. 100.000 pengguna dalam 90 hari — tanpa iklan.",
+    "milestone2020": "8 lokalisasi bahasa dan enkripsi file 256-bit ditambahkan.",
+    "milestone2021": "Melampaui 10 juta pengguna. Antarmuka yang dioptimalkan untuk mobile dengan tim 12 insinyur.",
+    "milestone2022": "Bersertifikat ISO 27001. Pusat Kepatuhan GDPR dan penghapusan otomatis 2 jam.",
+    "milestone2023": "50 juta pengguna. Kompresi gambar, konversi WebP, dan pemrosesan batch ditambahkan.",
+    "milestone2024": "Lebih dari 100 juta pengguna di seluruh dunia. Uptime 99,98%. Nol insiden keamanan."
   },
   "privacy": {
     "layoutTitle": "Kebijakan Privasi — SmallPDF.us",

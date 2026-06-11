@@ -101,15 +101,7 @@ const values = [
   { icon: Lightbulb, title: "User-Led Roadmap",   desc: "Real users vote on features. Your feedback shapes what we ship next.",              gradient: "from-teal-500 to-cyan-600" },
 ]
 
-const milestones = [
-  { year: "2018", event: "Founded by Manikant Yadav after leaving Google's document infrastructure team." },
-  { year: "2019", event: "Launched with 4 tools. Hit 100,000 users in 90 days — zero advertising." },
-  { year: "2020", event: "Added 8 language localizations and 256-bit file encryption." },
-  { year: "2021", event: "Crossed 10M users. Launched mobile-optimized interface with a 12-person eng team." },
-  { year: "2022", event: "ISO 27001 certified. Launched GDPR Compliance Center and 2-hour auto-delete." },
-  { year: "2023", event: "50M users. Added image compression, WebP conversion, and batch processing." },
-  { year: "2024", event: "100M+ users worldwide. 99.98% uptime. Zero major security incidents — ever." },
-]
+// milestones are translated inside the component via t() — see milestonesTranslated below
 
 const pressLogos = ["TechCrunch", "Product Hunt", "Forbes", "Wired", "LifeHacker", "MakeUseOf"]
 
@@ -249,6 +241,17 @@ export default function AboutPage() {
 
   const founder = team.find((m) => m.isFounder)
   const restTeam = team.filter((m) => !m.isFounder)
+
+  // Translated milestones
+  const milestonesTranslated = [
+    { year: "2018", event: t("about.milestone2018") },
+    { year: "2019", event: t("about.milestone2019") },
+    { year: "2020", event: t("about.milestone2020") },
+    { year: "2021", event: t("about.milestone2021") },
+    { year: "2022", event: t("about.milestone2022") },
+    { year: "2023", event: t("about.milestone2023") },
+    { year: "2024", event: t("about.milestone2024") },
+  ]
 
   // Translated stats labels
   const statsTranslated = [
@@ -397,8 +400,8 @@ export default function AboutPage() {
         <section className="py-14 md:py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">{t("about.valuesTitle") || "What we stand for"}</h2>
-              <p className="text-gray-500 text-sm max-w-md mx-auto">{t("about.valuesSubtitle") || "Six principles guiding every decision — from product features to privacy policy."}</p>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-2">{t("about.valuesTitle")}</h2>
+              <p className="text-gray-500 text-sm max-w-md mx-auto">{t("about.valuesSubtitle")}</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {valuesTranslated.map((v, i) => (
@@ -459,7 +462,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-cyan-500 to-emerald-500" />
               <div className="space-y-5">
-                {milestones.map((m, i) => (
+                {milestonesTranslated.map((m, i) => (
                   <div key={i} className="flex gap-4 group">
                     <div className="relative flex-shrink-0 z-10">
                       <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-[10px] font-black shadow-md ring-4 ring-white group-hover:scale-110 transition-transform">
