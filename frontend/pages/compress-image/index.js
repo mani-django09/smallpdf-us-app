@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+﻿import { useEffect, useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
@@ -6,30 +6,9 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
-  import { Upload, AlertCircle, ChevronDown, Trash2, Minimize2 } from "lucide-react"
-  import UpgradeBanner from "../../components/UpgradeBanner"
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
+import { Upload, AlertCircle, ChevronDown, Trash2, Minimize2 } from "lucide-react"
+import UpgradeBanner from "../../components/UpgradeBanner"
 
 export default function CompressImage() {
   const router = useLocalizedRouter()
@@ -233,6 +212,7 @@ export default function CompressImage() {
       <SEOHead
         title={t("compressImage.pageTitle")}
         description={t("compressImage.pageDescription")}
+        keywords="compress image, reduce image size, image compressor online, jpg compressor, png compressor, webp compressor, free image optimizer, shrink image"
         ogImage="/og-compress-image.jpg"
         structuredData={structuredData}
       />
@@ -240,7 +220,7 @@ export default function CompressImage() {
         {/* Header Ad */}
         <div className="bg-white px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" />
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
         </div>
 
@@ -557,7 +537,7 @@ export default function CompressImage() {
         </div>
         {/* Bottom Ad */}
         <div className="bg-white px-4 py-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="hidden lg:block max-w-4xl mx-auto">
             <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
             <AdSenseUnit adSlot="1617102171" />
           </div>
@@ -574,5 +554,6 @@ export default function CompressImage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {},
+    revalidate: 86400,
   }
 }

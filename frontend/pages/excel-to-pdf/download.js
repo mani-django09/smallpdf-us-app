@@ -460,7 +460,7 @@ export default function DownloadExcelToPDF() {
           <div className="lg:w-72 xl:w-80 flex-shrink-0 space-y-4">
 
             {/* Sidebar Ad */}
-            <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+            <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
               <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
               <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
             </div>

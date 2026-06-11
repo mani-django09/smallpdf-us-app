@@ -421,7 +421,7 @@ export default function DownloadUnlockPdf() {
           </div>
 
           {/* Bottom Ad */}
-          <div className="mt-6 bg-white rounded-2xl p-3 shadow-sm border border-slate-200">
+          <div className="hidden lg:block mt-6 bg-white rounded-2xl p-3 shadow-sm border border-slate-200">
             <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
             <AdSenseUnit adSlot="7489539676" />
           </div>

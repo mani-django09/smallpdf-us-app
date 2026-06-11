@@ -539,7 +539,7 @@ export default function DownloadPDFtoPNG() {
               </div>
 
               {/* Sidebar Ad */}
-              <div className="glass-card rounded-2xl border border-blue-200/60 p-3">
+              <div className="hidden lg:block glass-card rounded-2xl border border-blue-200/60 p-3">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
                 <AdSenseUnit adSlot="7489539676" />
               </div>

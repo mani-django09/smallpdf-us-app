@@ -407,7 +407,7 @@ export default function PreviewPdfToPpt() {
               </div>
 
               {/* Sidebar Ad */}
-              <div className="bg-white rounded-2xl shadow-lg p-3">
+              <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>

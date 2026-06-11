@@ -115,7 +115,7 @@ export default function ProtectDownload() {
 
       {/* Content ad */}
       <div className="bg-slate-50 py-6 px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="hidden lg:block max-w-3xl mx-auto">
           <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">Advertisement</p>
           <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
         </div>

@@ -99,11 +99,11 @@ export default function AdSenseUnit({
 
   if (isPaid || hidden) return null
 
-  // Reserve space BEFORE the ad loads to prevent CLS (Cumulative Layout Shift).
-  // Without min-height the container grows from 0→250px when the ad renders,
-  // pushing all content below it down — a major CLS contributor in field data.
+  // min-height: only for leaderboard (always above fold, CLS risk is real).
+  // Sidebar ads are in lg:col-span-4 — hidden on mobile via their parent wrapper,
+  // and on desktop they're below fold so CLS from growth is negligible.
+  // Adding min-height to sidebar was causing a 250px blank box on mobile.
   const isLeaderboard = resolvedSlot === HEADER_SLOT
-  const reservedHeight = isLeaderboard ? 90 : 250  // leaderboard ~90px, rect ~250px
 
   return (
     <div
@@ -114,8 +114,9 @@ export default function AdSenseUnit({
         display: "block",
         overflow: "hidden",
         maxWidth: "100%",
-        // Reserve the expected ad height so no layout shift occurs on load
-        minHeight: `${reservedHeight}px`,
+        // Reserve height ONLY for leaderboard — prevents CLS on above-fold ads.
+        // Sidebar: no min-height, collapses cleanly when Google marks as unfilled.
+        ...(isLeaderboard ? { minHeight: "90px" } : {}),
         ...style,
       }}
     >

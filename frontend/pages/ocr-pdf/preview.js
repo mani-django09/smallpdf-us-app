@@ -317,7 +317,7 @@ export default function OcrPdfPreview() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.preview.advertisement")}</p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>

@@ -506,7 +506,7 @@ export default function WordToPDF() {
         </div>
         {/* Bottom Ad */}
         <div className="bg-white px-4 py-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="hidden lg:block max-w-4xl mx-auto">
             <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
             <AdSenseUnit adSlot="1617102171" />
           </div>

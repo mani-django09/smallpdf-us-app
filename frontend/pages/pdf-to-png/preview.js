@@ -4,29 +4,7 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { ArrowLeft, Sparkles, Shield, Zap, Clock, ImageIcon, Check, Download, AlertCircle } from "lucide-react"
-
-// Inline AdSense component
-function AdSenseUnit({ adSlot, style = {} }) {
-  useEffect(() => {
-    try {
-      if (typeof window !== "undefined") {
-        (window.adsbygoogle = window.adsbygoogle || []).push({})
-      }
-    } catch (err) {
-      console.error("AdSense:", err)
-    }
-  }, [])
-  return (
-    <ins
-      className="adsbygoogle"
-      style={{ display: "block", ...style }}
-      data-ad-client="ca-pub-6913093595582462"
-      data-ad-slot={adSlot}
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    />
-  )
-}
+import AdSenseUnit from "../../components/AdSenseUnit"
 
 export default function PreviewPDFtoPNG() {
   const router = useLocalizedRouter()
@@ -200,7 +178,7 @@ export default function PreviewPDFtoPNG() {
         {/* Header Ad */}
         <div className="bg-blue-50 px-4 pt-5">
           <div className="max-w-5xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" />
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
         </div>
 
@@ -400,7 +378,7 @@ export default function PreviewPDFtoPNG() {
                 </div>
 
                 {/* Sidebar Ad */}
-                <div className="bg-white rounded-xl p-3 shadow-sm border border-blue-200">
+                <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-blue-200">
                   <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
                   <AdSenseUnit adSlot="1617102171" />
                 </div>

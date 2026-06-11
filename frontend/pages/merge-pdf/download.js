@@ -553,7 +553,7 @@ export default function DownloadMergePDF() {
                 <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
                   Advertisement
                 </p>
-                <div className="flex justify-center">
+                <div className="hidden lg:block flex justify-center">
                   <AdSenseUnit
                     adSlot="7489539676"
                   />

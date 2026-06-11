@@ -547,7 +547,7 @@ export default function DownloadJpgToPdf() {
               </div>
 
               {/* Sidebar Ad */}
-              <div className="bg-white rounded-2xl border border-orange-200 p-3">
+              <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
                 <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
                 <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
               </div>

@@ -323,7 +323,7 @@ export default function OcrPdfDownload() {
               </button>
             </div>
 
-            <div className="mt-8 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+            <div className="hidden lg:block mt-8 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
               <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.download.advertisement")}</p>
               <AdSenseUnit adSlot="7489539676" />
             </div>

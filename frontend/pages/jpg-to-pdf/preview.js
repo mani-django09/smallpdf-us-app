@@ -329,7 +329,7 @@ export default function PreviewJpgToPdf() {
               <div className="lg:w-64 xl:w-72 flex-shrink-0 space-y-3">
 
                 {/* Sidebar ad */}
-                <div className="bg-white rounded-xl border border-slate-200 p-2.5">
+                <div className="hidden lg:block bg-white rounded-xl border border-slate-200 p-2.5">
                   <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider">Advertisement</p>
                   <AdSenseUnit adSlot="1617102171" />
                 </div>
