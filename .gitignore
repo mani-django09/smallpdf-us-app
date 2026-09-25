@@ -16,3 +16,9 @@ backend/eng.traineddata
 *.node
 .DS_Store
 Thumbs.db
+
+# Local SQLite database (users, logs, rate limits) — never commit
+backend/*.sqlite
+backend/*.sqlite-journal
+backend/*.sqlite-wal
+backend/*.sqlite-shm
