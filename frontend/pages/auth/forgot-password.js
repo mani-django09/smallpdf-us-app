@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslations } from '../../lib/i18n'
+import { getPageMessages } from '../../lib/i18nLoader'
 
 export default function ForgotPasswordPage() {
   const { forgotPassword } = useAuth()
@@ -99,4 +100,11 @@ const styles = {
   errorBox: { background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', borderRadius: 8, padding: '12px 14px', fontSize: 14, marginBottom: 4 },
   switchText: { textAlign: 'center', marginTop: 20 },
   link: { color: '#DC2626', textDecoration: 'none', fontWeight: 600, fontSize: 14 },
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["auth"]) },
+    revalidate: 86400,
+  }
 }

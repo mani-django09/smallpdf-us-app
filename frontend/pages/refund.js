@@ -3,6 +3,7 @@ import SEOHead from "../components/SEOHead"
 import { CreditCard, CheckCircle, XCircle, Clock, Mail, AlertCircle, RefreshCw, Shield } from "lucide-react"
 import { useState } from "react"
 import { useTranslations } from "../lib/i18n"
+import { getPageMessages } from '../lib/i18nLoader'
 
 export default function RefundPolicy() {
   const { t } = useTranslations()
@@ -334,4 +335,11 @@ function SectionHeading({ icon: Icon, title, color }) {
       <h2 className="text-lg font-black text-gray-900">{title}</h2>
     </div>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["refund"]) },
+    revalidate: 86400,
+  }
 }

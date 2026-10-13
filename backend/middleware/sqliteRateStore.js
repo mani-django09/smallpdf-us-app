@@ -134,7 +134,7 @@ const JWT_SECRET_DC = process.env.JWT_SECRET || 'change-this-secret-in-productio
 const DAILY_CONV_BUCKET = 'conv-daily'
 
 const DAILY_CONV_LIMITS = {
-  guest:   3,   // not logged in
+  guest:   5,   // not logged in — same as a free account (5 free uses/day for everyone)
   free:    5,   // logged in, free plan
   starter: 0,   // 0 = unlimited
   pro:     0,
@@ -200,9 +200,36 @@ function dailyConversionLimiter() {
         ? `u:${user.id}`
         : `ip:${req.clientIP || req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || 'unknown'}`
 
-      const { allowed, count, limit, resetTime } = await dailyConvCheckAndIncrement(identifier, dlimit)
+      // Second counter keyed on the browser (X-Client-Id, a random id the site
+      // keeps in localStorage). It is what makes the allowance 5 per day IN
+      // TOTAL: without it a visitor used 5 as a guest (counted by IP), logged
+      // in, and got another 5 (counted by account). Deliberately not the IP for
+      // logged-in users — carrier NAT puts many people behind one address.
+      const clientId = String(req.headers['x-client-id'] || '')
+      const deviceIdent = /^[a-z0-9-]{8,64}$/i.test(clientId) ? `d:${clientId.toLowerCase()}` : null
+      const idents = deviceIdent ? [identifier, deviceIdent] : [identifier]
 
-      if (allowed) return next()
+      const checks = []
+      for (const id of idents) checks.push(await dailyConvCheckAndIncrement(id, dlimit))
+      const worst = checks.reduce((a, b) => (b.count > a.count ? b : a))
+      const allowed = checks.every((c) => c.allowed)
+      const { count, limit, resetTime } = worst
+
+      if (allowed) {
+        // Refund the slot if the conversion fails (4xx/5xx): a guest whose photo
+        // couldn't be read three times in a row used to be locked out for the day
+        // without ever getting a file.
+        res.on('finish', () => {
+          if (res.statusCode < 400 || res.statusCode === 429) return
+          for (const id of idents) {
+            dbRun(
+              'UPDATE rate_limits SET count = MAX(count - 1, 0) WHERE bucket = ? AND ident = ?',
+              [DAILY_CONV_BUCKET, id]
+            ).catch(() => {})
+          }
+        })
+        return next()
+      }
 
       // Over limit — discard uploaded files and respond
       cleanupUploadedFiles(req)
@@ -222,7 +249,7 @@ function dailyConversionLimiter() {
         upgradeUrl: '/pricing',
         loginUrl:   '/auth/login',
         message: !user
-          ? `You've used all ${limit} free conversions for today. Create a free account for ${DAILY_CONV_LIMITS.free}/day, or upgrade to Pro for unlimited.`
+          ? `You've used all ${limit} free conversions for today. Upgrade to Pro for unlimited conversions. Resets at ${resetHr}.`
           : `You've reached your ${limit} free conversions for today. Upgrade to Pro for unlimited conversions. Resets at ${resetHr}.`,
       })
     } catch (err) {

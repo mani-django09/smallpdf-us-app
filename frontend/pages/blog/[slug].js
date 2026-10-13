@@ -1,15 +1,29 @@
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/router"
-import Head from "next/head"
 import Link from "next/link"
+import Image from "next/image"
 import Layout from "../../components/Layout"
+import SEOHead from "../../components/SEOHead"
+import AdSenseUnit from "../../components/AdSenseUnit"
 import { getApiUrl } from "../../lib/getApiUrl"
+import { getPageMessages } from "../../lib/i18nLoader"
 import {
   Calendar, User, Eye, Tag, Share2,
   Facebook, Twitter, Linkedin, ArrowRight,
   Clock, Copy, Check, ChevronRight, BookOpen,
   ArrowLeft,
 } from "lucide-react"
+import AdLabel from "../../components/AdLabel"
+
+// Blog featured images are uploaded files served by nginx from backend/uploads/
+// (not a Next.js-known route), so next/image's local-path resolution can't
+// reach them — force the "remote image" code path with an absolute URL, which
+// goes through images.domains instead.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us'
+function toAbsoluteImageUrl(src) {
+  if (!src) return src
+  return src.startsWith('http') ? src : `${SITE_URL}${src}`
+}
 
 // ── Smart content processor ────────────────────────────────────────────────
 // Handles mixed content: plain text + HTML tags together.
@@ -140,33 +154,27 @@ function CopyLinkBtn() {
   )
 }
 
-export default function BlogPost() {
+// Search results cut titles at ~60 characters and descriptions at ~160, so
+// add the brand only when it fits, and trim long excerpts at a word boundary.
+function blogTitle(t) {
+  if ((t + ' — SmallPDF.us Blog').length <= 65) return t + ' — SmallPDF.us Blog'
+  if ((t + ' | SmallPDF.us').length <= 65) return t + ' | SmallPDF.us'
+  return t
+}
+function metaDescription(d) {
+  if (!d || d.length <= 160) return d
+  const cut = d.slice(0, 157)
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:—–-]+$/, '') + '…'
+}
+
+export default function BlogPost({ post: initialPost, relatedPosts: initialRelated }) {
   const router = useRouter()
-  const { slug } = router.query
-  const [post, setPost]           = useState(null)
-  const [relatedPosts, setRelated] = useState([])
-  const [loading, setLoading]     = useState(true)
+  const [post, setPost]           = useState(initialPost || null)
+  const [relatedPosts, setRelated] = useState(initialRelated || [])
+  const [loading, setLoading]     = useState(!initialPost)
   const [activeId, setActiveId]   = useState("")
   const [toc, setToc]             = useState([])
   const contentRef = useRef(null)
-
-  useEffect(() => { if (slug) fetchPost() }, [slug])
-
-  const fetchPost = async () => {
-    setLoading(true)
-    try {
-      const res  = await fetch(`${getApiUrl()}/api/blog/post/${slug}`)
-      const data = await res.json()
-      if (data.success) {
-        setPost(data.post)
-        setRelated(data.relatedPosts)
-      }
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   // Build table of contents from rendered headings
   useEffect(() => {
@@ -241,13 +249,30 @@ export default function BlogPost() {
   const mins        = readingTime(post.content)
 
   return (
-    <Layout title={`${post.title} — SmallPDF.us Blog`} description={post.excerpt}>
-      <Head>
-        <meta property="og:title"       content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:type"        content="article" />
-        {post.featuredImage && <meta property="og:image" content={post.featuredImage} />}
-      </Head>
+    <Layout>
+      <SEOHead
+        title={blogTitle(post.title)}
+        description={metaDescription(post.excerpt || post.title)}
+        ogImage={post.featuredImage || 'https://smallpdf.us/og-image.jpg'}
+        canonical={`https://smallpdf.us/blog/${post.slug}/`}
+        hreflang={false}
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description: post.excerpt,
+          image: post.featuredImage || 'https://smallpdf.us/og-image.jpg',
+          datePublished: post.createdAt,
+          dateModified: post.updatedAt || post.createdAt,
+          author: { '@type': 'Person', name: post.author || 'SmallPDF.us' },
+          publisher: {
+            '@type': 'Organization',
+            name: 'SmallPDF.us',
+            logo: { '@type': 'ImageObject', url: 'https://smallpdf.us/logo.png' },
+          },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': `https://smallpdf.us/blog/${post.slug}` },
+        }}
+      />
 
       {/* ── Article-level CSS ─────────────────────────────────────────── */}
       <style jsx global>{`
@@ -347,14 +372,27 @@ export default function BlogPost() {
           </div>
         </div>
 
+        {/* ── Header Ad ─────────────────────────────────────────────────── */}
+        <div className="bg-slate-50 px-4 pt-8">
+          <div className="max-w-5xl mx-auto">
+            <p className="text-[10px] text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          </div>
+        </div>
+
         {/* ── Featured image ─────────────────────────────────────────────── */}
         {post.featuredImage && (
           <div className="max-w-5xl mx-auto px-4 -mt-0 pt-8">
-            <img
-              src={post.featuredImage}
-              alt={post.title}
-              className="w-full max-h-[420px] object-cover rounded-2xl shadow-lg"
-            />
+            <div className="relative w-full h-[420px] rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                src={toAbsoluteImageUrl(post.featuredImage)}
+                alt={post.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                priority
+                className="object-cover"
+              />
+            </div>
           </div>
         )}
 
@@ -371,6 +409,14 @@ export default function BlogPost() {
                   className="blog-content"
                   dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
+              </div>
+
+              {/* After-content Ad */}
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-8">
+                <p className="text-[10px] text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <div className="flex justify-center">
+                  <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+                </div>
               </div>
 
               {/* Tags */}
@@ -429,7 +475,7 @@ export default function BlogPost() {
                   <div>
                     <p className="font-bold text-lg">{post.author || "SmallPDF.us Team"}</p>
                     <p className="text-slate-400 text-sm mt-1">
-                      PDF tools expert — writing guides to help you work faster with documents.
+                      Writing practical guides on PDF tools, file conversion, and document workflows.
                     </p>
                     <Link
                       href="/blog"
@@ -453,11 +499,13 @@ export default function BlogPost() {
                         className="group bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md transition-all"
                       >
                         {related.featuredImage ? (
-                          <div className="h-36 overflow-hidden bg-slate-100">
-                            <img
-                              src={related.featuredImage}
+                          <div className="relative h-36 overflow-hidden bg-slate-100">
+                            <Image
+                              src={toAbsoluteImageUrl(related.featuredImage)}
                               alt={related.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              fill
+                              sizes="(max-width: 640px) 100vw, 50vw"
+                              className="object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           </div>
                         ) : (
@@ -494,6 +542,12 @@ export default function BlogPost() {
             {/* ── Sidebar ───────────────────────────────────────────────── */}
             <aside className="hidden lg:block w-64 flex-shrink-0">
               <div className="sticky top-24 space-y-6">
+
+                {/* Sidebar Ad */}
+                <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-3">
+                  <p className="text-[10px] text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                  <AdSenseUnit adSlot="8004544994" size="rectangle2" />
+                </div>
 
                 {/* Table of contents */}
                 {toc.length > 0 && (
@@ -560,4 +614,30 @@ export default function BlogPost() {
       </div>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ params, locale }) {
+  // Layout renders nav/login/etc via t('nav.*') / t('layout.*') — those live in
+  // common.json, which getPageMessages always loads regardless of the namespace
+  // list. Without this, TranslationsProvider gets messages=undefined and every
+  // t() call on this page falls back to printing the raw key (e.g. "nav.pricing").
+  try {
+    const apiUrl = getApiUrl()
+    const res    = await fetch(`${apiUrl}/api/blog/post/${params.slug}`)
+    const data   = await res.json()
+
+    if (!data.success || !data.post) {
+      return { notFound: true }
+    }
+
+    return {
+      props: {
+        messages:     getPageMessages(locale, []),
+        post:         data.post,
+        relatedPosts: data.relatedPosts || [],
+      },
+    }
+  } catch {
+    return { notFound: true }
+  }
 }

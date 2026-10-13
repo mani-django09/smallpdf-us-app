@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 import SEOHead from '../components/SEOHead'
 import { useTranslations } from '../lib/i18n'
+import { getPageMessages } from '../lib/i18nLoader'
 import { Mail, Clock, MessageSquare, Send, CheckCircle, AlertCircle, Shield, Zap, Users, MapPin } from 'lucide-react'
 
 export default function Contact() {
@@ -61,30 +62,23 @@ export default function Contact() {
       border: "border-violet-100",
     },
     {
-      icon: MessageSquare,
-      title: "Live Support",
-      value: "Mon – Fri, 9am – 6pm IST",
+      icon: MapPin,
+      title: "Based in",
+      value: "New Delhi, India",
       href: null,
       gradient: "from-emerald-500 to-green-500",
       bg: "bg-emerald-50",
       border: "border-emerald-100",
     },
-    {
-      icon: MapPin,
-      title: "Business Address",
-      value: "Balahpur, Dist. Lakhisarai, Bihar 811310, India",
-      href: null,
-      gradient: "from-slate-500 to-slate-600",
-      bg: "bg-gray-50",
-      border: "border-gray-100",
-    },
   ]
 
   return (
     <Layout>
+      {/* Localised: hardcoding English here meant all 8 locale URLs shipped an
+          identical English title + description. */}
       <SEOHead
-        title="Contact SmallPDF.us — Support & Feedback"
-        description="Get in touch with SmallPDF.us support team. We respond within 24 hours to all questions about PDF conversion, billing, and features."
+        title={t('contact.pageTitle')}
+        description={t('contact.pageDescription')}
         keywords="contact smallpdf, support, help, customer service, feedback"
       />
 
@@ -114,8 +108,8 @@ export default function Contact() {
             {infoCards.map((card, i) => (
               <div
                 key={i}
-                className={`bg-white rounded-2xl p-5 border ${card.border} shadow-lg flex items-center gap-4`}
-                style={{ animationDelay: `${i * 80}ms`, animation: "fadeUp 0.5s ease-out forwards", opacity: 0 }}
+                className={`bg-white rounded-2xl p-5 border ${card.border} shadow-lg flex items-center gap-4 reveal-animate`}
+                style={{ animationDelay: `${i * 80}ms` }}
               >
                 <div className={`w-11 h-11 bg-gradient-to-br ${card.gradient} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md`}>
                   <card.icon className="w-5 h-5 text-white" />
@@ -251,7 +245,7 @@ export default function Contact() {
 
               {/* Trust signals */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-                <h3 className="text-sm font-black text-gray-900 mb-4">Why people trust us</h3>
+                <h3 className="text-sm font-black text-gray-900 mb-4">What to expect</h3>
                 <div className="space-y-3">
                   {[
                     { icon: Shield, text: "Your messages are encrypted in transit", color: "text-green-500 bg-green-50" },
@@ -310,4 +304,11 @@ export default function Contact() {
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["contact"]) },
+    revalidate: 86400,
+  }
 }

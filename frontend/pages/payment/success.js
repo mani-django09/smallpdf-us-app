@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { CheckCircle, Zap, ArrowRight, Loader2, Receipt, Building2, FileText } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslations } from '../../lib/i18n'
+import { getPageMessages } from '../../lib/i18nLoader'
 
 const PLAN_ICONS = {
   starter: FileText,
@@ -22,22 +23,48 @@ const PLAN_STYLES = {
 
 export default function PaymentSuccess() {
   const router = useRouter()
-  const { user, refreshUser } = useAuth()
+  const { user, refreshUser, authFetch } = useAuth()
   const { t } = useTranslations()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
     if (!router.isReady) return
+
     const activate = async () => {
       try {
-        if (typeof refreshUser === 'function') await refreshUser()
-      } catch { /* ignore */ } finally {
-        setReady(true)
-      }
+        const { subscription_id, gateway, plan, interval } = router.query
+
+        // PayPal redirect — verify subscription with backend before refreshing user
+        if (gateway === 'paypal' && subscription_id) {
+          const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011')
+            : `${window.location.protocol}//${window.location.hostname}`
+
+          await authFetch(`${API_BASE}/api/paypal/verify-subscription`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ subscriptionId: subscription_id, plan, interval }),
+          })
+        }
+
+        if (typeof refreshUser === 'function') {
+          let fresh = await refreshUser()
+          // Lemon Squeezy activates the plan only via its webhook, which can
+          // land after this redirect. A token minted before that still says
+          // plan "free", and the upload limiters read the plan off the token,
+          // so keep refreshing (up to ~20s) until the paid plan shows up.
+          for (let i = 0; i < 10 && gateway === 'lemonsqueezy' && fresh && fresh.plan === 'free'; i++) {
+            await new Promise((r) => setTimeout(r, 2000))
+            fresh = await refreshUser()
+          }
+        }
+      } catch { /* ignore — plan may already be active via webhook */ }
+      finally { setReady(true) }
     }
-    const timer = setTimeout(activate, 1200)
+
+    const timer = setTimeout(activate, 800)
     return () => clearTimeout(timer)
-  }, [router.isReady]) // eslint-disable-line
+  }, [router.isReady, router.query]) // eslint-disable-line
 
   const planKey   = router.query.plan || user?.plan || 'starter'
   const validKey  = ['starter', 'pro', 'agency'].includes(planKey) ? planKey : 'starter'
@@ -117,4 +144,11 @@ export default function PaymentSuccess() {
       </div>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["auth"]) },
+    revalidate: 86400,
+  }
 }

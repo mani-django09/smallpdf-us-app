@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "OCR PDF Free — Extract Text from Scanned PDF | SmallPDF.us",
-    "description": "Turn any scanned or image-based PDF into a fully searchable document with our free OCR tool. Supports 100+ languages, outputs searchable PDF or Word. No install. No sign-up needed.",
+    "description": "Turn scanned PDFs into searchable text free. Our OCR tool supports 100+ languages, outputs searchable PDF or Word. No install needed.",
     "keywords": "OCR PDF, extract text from PDF, scanned PDF to text, PDF OCR online, make PDF searchable, OCR tool free, PDF text extraction, optical character recognition PDF, searchable PDF, scanned document to text"
   },
   "hero": {
@@ -17,7 +17,7 @@
     "button": "Choose PDF to OCR",
     "sslEncrypted": "SSL encrypted",
     "filesDeleted": "Files deleted in 1 hr",
-    "noSignUp": "No sign-up needed",
+    "noSignUp": "Fast & Easy",
     "freeLimits": "Free:",
     "freeLimitsValue": "10 MB · 2 pages · 1/day",
     "proLimits": "Pro:",
@@ -32,8 +32,8 @@
     "sectionSubtitle": "Built on years of document processing experience, our OCR pipeline was designed from the ground up for accuracy, privacy, and real-world document variety.",
     "items": [
       {
-        "title": "98–99% Character Accuracy",
-        "desc": "Multi-pass recognition handles mixed fonts, rotated pages, degraded scans, and multi-column layouts. Clean 300 DPI+ source documents consistently achieve near-human accuracy."
+        "title": "High Character Accuracy",
+        "desc": "Multi-pass recognition handles mixed fonts, rotated pages, degraded scans, and multi-column layouts. Clean 300 DPI+ source documents consistently produce sharp, highly accurate results."
       },
       {
         "title": "100+ Languages Auto-Detected",
@@ -63,7 +63,7 @@
     "steps": [
       {
         "title": "Upload Your Scanned PDF",
-        "desc": "Drag and drop or click to browse. We accept any PDF — contracts, invoices, books, forms, camera shots. No account needed.",
+        "desc": "Drag and drop or click to browse. We accept any PDF — contracts, invoices, books, forms, camera shots. Quick and easy.",
         "badge": "Free: 10 MB · 2 pages"
       },
       {
@@ -108,6 +108,20 @@
       }
     ]
   },
+  "diveTitle": "What actually happens during OCR",
+  "diveSubtitle": "The details that matter once you go beyond the basics.",
+  "dive1Title": "Native text vs. scanned text — how OCR tells the difference",
+  "dive1Desc": "A digitally created PDF already has a text layer, so running OCR on it is unnecessary — the tool detects this and can skip pages that already have selectable text. Scanned pages, which are just images with no text layer, are the ones that actually need OCR processing.",
+  "dive2Title": "What affects OCR accuracy",
+  "dive2Desc": "Scan resolution matters most — a clear 300 DPI scan recognizes far more accurately than a blurry phone photo. Font clarity, contrast between text and background, and page skew also matter; the pipeline corrects for skew and noise automatically, but very low-quality scans still produce more errors.",
+  "dive3Title": "Multiple languages in one document",
+  "dive3Desc": "OCR language models are trained per-language, so mixed-language documents can be more error-prone than single-language ones unless the correct language (or languages) is selected before processing. Selecting the right language set upfront meaningfully improves recognition accuracy.",
+  "dive4Title": "Searchable PDF vs. extracted text file",
+  "dive4Desc": "By default, OCR adds an invisible text layer over the original scanned image, so the PDF looks unchanged but becomes searchable and copyable. If you specifically need the raw text pulled out into its own file, look for a separate text-export option rather than just the searchable-PDF output.",
+  "dive5Title": "Does OCR work on handwriting?",
+  "dive5Desc": "Standard OCR models are trained on printed text and struggle significantly with handwriting, especially cursive or inconsistent handwriting. Clear, block-letter handwriting sometimes recognizes reasonably well, but accuracy drops sharply compared to printed or typed text.",
+  "dive6Title": "Tables and structured data in scanned documents",
+  "dive6Desc": "OCR recognizes the text within a table, but doesn't automatically reconstruct it as a structured table — the result is a searchable page where the numbers and labels are findable, not necessarily preserved column-and-row structure. For that, a dedicated PDF-to-Excel conversion is a better fit.",
   "faq": {
     "sectionTitle": "Frequently Asked Questions",
     "sectionSubtitle": "Everything you need to know about OCR PDF on SmallPDF.us",
@@ -122,7 +136,7 @@
       },
       {
         "q": "How accurate is the OCR?",
-        "a": "For clean, high-resolution scans at 300 DPI or above, our engine routinely achieves 98–99% character accuracy on standard Latin-script documents. Accuracy naturally varies with scan quality: blurry, low-contrast, or heavily distorted images will score lower. Handwritten text is partially supported but is significantly harder than printed text. We always recommend scanning at 300 DPI minimum with even lighting for best results."
+        "a": "For clean, high-resolution scans at 300 DPI or above, our engine achieves very high character accuracy on standard Latin-script documents. Accuracy naturally varies with scan quality: blurry, low-contrast, or heavily distorted images will score lower. Handwritten text is partially supported but is significantly harder than printed text. We always recommend scanning at 300 DPI minimum with even lighting for best results."
       },
       {
         "q": "Is my PDF kept private and secure?",
@@ -156,7 +170,7 @@
   },
   "cta": {
     "heading": "Ready to Make Your PDF Searchable?",
-    "subtitle": "Drop in any scanned PDF and get a fully indexed, copy-pasteable document in seconds. Free forever, no sign-up required.",
+    "subtitle": "Drop in any scanned PDF and get a fully indexed, copy-pasteable document in seconds. Free to start, easy to use.",
     "button": "Start OCR Now — It's Free"
   },
   "preview": {
@@ -175,7 +189,7 @@
     "receiveProOnly": "Word & TXT export (Pro only)",
     "runOcrButton": "Run OCR — Extract Text",
     "securePrivate": "Secure & private",
-    "autoDeleted": "Auto-deleted in 2 hrs",
+    "autoDeleted": "Auto-deleted in 1 hr",
     "pleaseWait": "Please wait — do not close this tab",
     "ocrFailed": "OCR Failed",
     "tryAgain": "Try Again",
@@ -191,7 +205,7 @@
     "sidebarSecurityTitle": "Security",
     "sidebarSecurityItems": [
       "256-bit SSL encryption",
-      "Auto-deleted in 2 hours",
+      "Auto-deleted in 1 hour",
       "No data stored or sold",
       "Download & delete anytime"
     ],
@@ -237,11 +251,15 @@
     "downloadDocx": "Download Word (.docx)",
     "downloadTxt": "Download Plain Text (.txt)",
     "secureDownload": "Secure download",
-    "autoDeleted": "Files auto-deleted in 2 hrs",
+    "autoDeleted": "Files auto-deleted in 1 hr",
     "imagePdfTitle": "Scanned / image-based PDF detected",
     "imagePdfDesc": "This PDF contains images rather than digital text, so no text could be extracted automatically. The downloaded PDF contains an explanation page.",
     "imagePdfUpgrade": "Upgrade to Pro",
     "imagePdfUpgradeSuffix": "for advanced OCR engine support on scanned documents.",
+    "alreadySearchableTitle": "Your PDF already had selectable text",
+    "alreadySearchableDesc": "No OCR was needed — you can already search and copy its text. Your file is unchanged.",
+    "noTextTitle": "No text could be recognised",
+    "noTextDesc": "Try a clearer scan: straight pages, good contrast and at least 300 DPI. Handwriting is not supported.",
     "proUpsellTitle": "Want more from OCR?",
     "proUpsellDesc": "Upgrade to Pro for unlimited pages, batch OCR, Word & TXT export, 100 MB files, and priority processing.",
     "proUpsellLink": "Upgrade to Pro",

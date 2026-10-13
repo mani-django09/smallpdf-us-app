@@ -5,10 +5,12 @@ import RelatedTools from '../components/RelatedTools'
 import SEOHead from "../components/SEOHead"
 import { Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield, Star, ChevronDown, Sparkles, Home } from "lucide-react"
 import { useTranslations } from "../lib/i18n"
+import { getPageMessages } from '../lib/i18nLoader'
 import { useFileSizeGuard } from "../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../hooks/useBatchGuard"
 import AdSenseUnit from "../components/AdSenseUnit"
 import useDailyLimit from '../hooks/useDailyLimit'
+import AdLabel from "../components/AdLabel"
 
 // Store raw File object in memory — no base64, no sessionStorage size limit
 export const wordToPdfStore = { file: null, meta: null }
@@ -40,15 +42,11 @@ export default function WordToPDF() {
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ]
-    const maxSize = 100 * 1024 * 1024
-
-    if (!validTypes.includes(file.type)) {
+    // Many phones/PCs without Office send an empty MIME type for .docx — accept
+    // by extension too. Size is checked by checkFiles() against the user's real
+    // plan (a fixed 5 MB check here also blocked Starter/Pro users).
+    if (!validTypes.includes(file.type) && !/\.(docx?)$/i.test(file.name)) {
       setError(t("wordToPdf.errorInvalidType"))
-      return false
-    }
-
-    if (file.size > maxSize) {
-      setError(t("wordToPdf.errorMaxSize"))
       return false
     }
 
@@ -149,11 +147,11 @@ export default function WordToPDF() {
         // data guidelines and risk losing rich results across the entire site.
         "featureList": [
           "Supports DOC and DOCX formats",
-          "Up to 100MB file size",
+          "Up to 5MB free (20MB on Starter)",
           "Perfect formatting preservation",
           "Maintains fonts and images",
           "Secure encryption",
-          "Free forever"
+          "Free plan available"
         ]
       },
       {
@@ -175,7 +173,7 @@ export default function WordToPDF() {
           {
             "@type": "HowToStep",
             "name": "Upload Word Document",
-            "text": "Upload your DOC or DOCX file. Both legacy and modern Word formats are supported up to 100MB.",
+            "text": "Upload your DOC or DOCX file. Both legacy and modern Word formats are supported, up to 5MB on the free plan (100MB on Starter).",
             "position": 1
           },
           {
@@ -210,12 +208,9 @@ export default function WordToPDF() {
         description={t("wordToPdf.heroSubtitle")}
       >
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+                    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
           .font-body { font-family: 'DM Sans', sans-serif; }
-          @keyframes blob { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(20px, -30px) scale(1.05); } 66% { transform: translate(-15px, 15px) scale(0.95); } }
-          .animate-blob { animation: blob 8s ease-in-out infinite; }
-          .animation-delay-2000 { animation-delay: 2s; }
+
           @keyframes loading-bar { 0% { width: 0%; } 50% { width: 70%; } 100% { width: 100%; } }
           .animate-loading-bar { animation: loading-bar 2s ease-in-out infinite; }
           @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
@@ -243,11 +238,11 @@ export default function WordToPDF() {
         </div>
 
         {/* Upload Section */}
-        <div className="bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50 py-8 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50 py-8 px-4">
           <div className="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-8 right-20 w-64 h-64 bg-slate-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6">
               {isProcessing ? (
                 <div className="py-10 text-center">
@@ -289,9 +284,9 @@ export default function WordToPDF() {
                       onChange={handleFileChange}
                     />
 
-                    <div className="p-10 text-center">
+                    <div className="p-6 sm:p-10 text-center">
                       <div className="mb-3">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                           <FileText className="w-8 h-8 text-white animate-bounce-slow" />
                         </div>
                       </div>
@@ -299,14 +294,14 @@ export default function WordToPDF() {
                       <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                         {dragActive ? t("wordToPdf.dropActive") : t("wordToPdf.dropTitle")}
                       </h3>
-                      <p className="font-body text-sm text-slate-500 mb-4">
+                      <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                         {t("wordToPdf.dropSubtitle")}
                       </p>
 
                       <button
                         type="button"
                         onClick={handleButtonClick}
-                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                       >
                         <Upload className="w-5 h-5" />
                         <span>{t("wordToPdf.selectButton")}</span>
@@ -432,6 +427,31 @@ export default function WordToPDF() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("wordToPdf.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("wordToPdf.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("wordToPdf.dive1Title"), t("wordToPdf.dive1Desc")],
+                [t("wordToPdf.dive2Title"), t("wordToPdf.dive2Desc")],
+                [t("wordToPdf.dive3Title"), t("wordToPdf.dive3Desc")],
+                [t("wordToPdf.dive4Title"), t("wordToPdf.dive4Desc")],
+                [t("wordToPdf.dive5Title"), t("wordToPdf.dive5Desc")],
+                [t("wordToPdf.dive6Title"), t("wordToPdf.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-3xl mx-auto">
@@ -477,7 +497,7 @@ export default function WordToPDF() {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-12 px-4 relative overflow-hidden">
+        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-12 px-4">
           <div className="absolute inset-0 opacity-10">
             <div
               className="absolute inset-0"
@@ -488,7 +508,7 @@ export default function WordToPDF() {
             ></div>
           </div>
 
-          <div className="max-w-3xl mx-auto text-center relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
               {t("wordToPdf.ctaTitle")}
             </h2>
@@ -507,7 +527,7 @@ export default function WordToPDF() {
         {/* Bottom Ad */}
         <div className="bg-white px-4 py-6">
           <div className="hidden lg:block max-w-4xl mx-auto">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
             <AdSenseUnit adSlot="1617102171" />
           </div>
         </div>
@@ -521,7 +541,7 @@ export default function WordToPDF() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["wordToPdf"]) },
     revalidate: 86400,
   }
 }

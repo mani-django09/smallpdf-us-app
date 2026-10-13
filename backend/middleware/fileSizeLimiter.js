@@ -1,4 +1,4 @@
-// middleware/fileSizeLimiter.js
+﻿// middleware/fileSizeLimiter.js
 // Freemium file-size gate.
 //
 // FREE limits — guests AND free-plan users are capped.
@@ -13,49 +13,75 @@ const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production'
 
 // ── Free-tier limits (bytes) ────────────────────────────────────────────────
-// Any tool not listed here falls back to FREE_DEFAULT (100 MB)
-const FREE_DEFAULT = 100 * 1024 * 1024 // 100 MB
+// Any tool not listed here falls back to FREE_DEFAULT (10 MB)
+// Must mirror frontend/hooks/useFileSizeGuard.js FREE_LIMITS exactly.
+const FREE_DEFAULT = 10 * 1024 * 1024 // 10 MB
 
 const FREE_LIMITS = {
   // PDF utilities
-  'ocr-pdf':         10  * 1024 * 1024,   // 10 MB  (OCR is CPU-intensive)
-  'merge-pdf':       100 * 1024 * 1024,   // 100 MB
-  'split-pdf':       100 * 1024 * 1024,   // 100 MB
-  'compress-pdf':    200 * 1024 * 1024,   // 200 MB (total batch)
-  'unlock-pdf':      100 * 1024 * 1024,   // 100 MB
-  'rotate-pdf':      100 * 1024 * 1024,   // 100 MB
+  'ocr-pdf':         10 * 1024 * 1024,   //  10 MB
+  'merge-pdf':       25 * 1024 * 1024,   //  25 MB
+  'split-pdf':       10 * 1024 * 1024,   //  10 MB
+  'compress-pdf':    20 * 1024 * 1024,   //  20 MB
+  'unlock-pdf':      10 * 1024 * 1024,   //  10 MB
+  'rotate-pdf':      10 * 1024 * 1024,   //  10 MB
+  'protect-pdf':     10 * 1024 * 1024,   //  10 MB
+  'redact-pdf':      10 * 1024 * 1024,   //  10 MB
+  'edit-pdf':        10 * 1024 * 1024,   //  10 MB
 
   // Office conversions
-  'word-to-pdf':     15  * 1024 * 1024,   // 15 MB
-  'ppt-to-pdf':      15  * 1024 * 1024,   // 15 MB
-  'excel-to-pdf':    15  * 1024 * 1024,   // 15 MB
-  'pdf-to-word':     15  * 1024 * 1024,   // 15 MB
-  'pdf-to-ppt':      15  * 1024 * 1024,   // 15 MB
-  'pdf-to-excel':    15  * 1024 * 1024,   // 15 MB
+  'word-to-pdf':      5 * 1024 * 1024,   //   5 MB
+  'ppt-to-pdf':       5 * 1024 * 1024,   //   5 MB
+  'excel-to-pdf':     5 * 1024 * 1024,   //   5 MB
+  'pdf-to-word':      5 * 1024 * 1024,   //   5 MB
+  'pdf-to-ppt':       5 * 1024 * 1024,   //   5 MB
+  'pdf-to-excel':     5 * 1024 * 1024,   //   5 MB
 
   // Image/PDF conversions
-  'pdf-to-jpg':      25  * 1024 * 1024,   // 25 MB
-  'pdf-to-png':      25  * 1024 * 1024,   // 25 MB
-  'jpg-to-pdf':      40  * 1024 * 1024,   // 40 MB
-  'png-to-pdf':      40  * 1024 * 1024,   // 40 MB
-  'webp-to-png':     40  * 1024 * 1024,   // 40 MB
-  'png-to-webp':     40  * 1024 * 1024,   // 40 MB
-  'compress-image':  200 * 1024 * 1024,   // 200 MB (total batch)
+  'pdf-to-jpg':       5 * 1024 * 1024,   //   5 MB
+  'pdf-to-png':       5 * 1024 * 1024,   //   5 MB
+  'jpg-to-pdf':       5 * 1024 * 1024,   //   5 MB
+  'png-to-pdf':       5 * 1024 * 1024,   //   5 MB
+  'webp-to-png':      5 * 1024 * 1024,   //   5 MB
+  'png-to-webp':      5 * 1024 * 1024,   //   5 MB
+  'heic-to-jpg':     10 * 1024 * 1024,   //  10 MB
+  'heic-to-png':     10 * 1024 * 1024,   //  10 MB
+  'compress-image':  15 * 1024 * 1024,   //  15 MB
 }
 
 // ── Starter-tier limits (bytes) ─────────────────────────────────────────────
-// Starter: 200 MB for PDF/image tools, 50 MB for office conversions
-const STARTER_DEFAULT = 200 * 1024 * 1024 // 200 MB
+// Must mirror frontend/hooks/useFileSizeGuard.js STARTER_LIMITS exactly.
+// Starter: 100 MB for PDF tools, 20 MB for office & image conversions
+const STARTER_DEFAULT = 100 * 1024 * 1024 // 100 MB
 
 const STARTER_LIMITS = {
-  // Office conversions capped at 50 MB for Starter plan
-  'word-to-pdf':   50 * 1024 * 1024,   // 50 MB
-  'ppt-to-pdf':    50 * 1024 * 1024,   // 50 MB
-  'excel-to-pdf':  50 * 1024 * 1024,   // 50 MB
-  'pdf-to-word':   50 * 1024 * 1024,   // 50 MB
-  'pdf-to-ppt':    50 * 1024 * 1024,   // 50 MB
-  'pdf-to-excel':  50 * 1024 * 1024,   // 50 MB
-  // All other tools: fall through to STARTER_DEFAULT (200 MB)
+  // PDF tools: 100 MB (falls through to STARTER_DEFAULT, listed explicitly for clarity)
+  'ocr-pdf':         100 * 1024 * 1024,  // 100 MB
+  'merge-pdf':       200 * 1024 * 1024,  // 200 MB
+  'split-pdf':       100 * 1024 * 1024,  // 100 MB
+  'compress-pdf':    100 * 1024 * 1024,  // 100 MB
+  'unlock-pdf':      100 * 1024 * 1024,  // 100 MB
+  'rotate-pdf':      100 * 1024 * 1024,  // 100 MB
+  'protect-pdf':     100 * 1024 * 1024,  // 100 MB
+  'redact-pdf':      100 * 1024 * 1024,  // 100 MB
+  'edit-pdf':        100 * 1024 * 1024,  // 100 MB
+  // Office conversions: 20 MB
+  'word-to-pdf':      20 * 1024 * 1024,  //  20 MB
+  'ppt-to-pdf':       20 * 1024 * 1024,  //  20 MB
+  'excel-to-pdf':     20 * 1024 * 1024,  //  20 MB
+  'pdf-to-word':      20 * 1024 * 1024,  //  20 MB
+  'pdf-to-ppt':       20 * 1024 * 1024,  //  20 MB
+  'pdf-to-excel':     20 * 1024 * 1024,  //  20 MB
+  // Image tools: 20 MB
+  'pdf-to-jpg':       20 * 1024 * 1024,  //  20 MB
+  'pdf-to-png':       20 * 1024 * 1024,  //  20 MB
+  'jpg-to-pdf':       20 * 1024 * 1024,  //  20 MB
+  'png-to-pdf':       20 * 1024 * 1024,  //  20 MB
+  'webp-to-png':      20 * 1024 * 1024,  //  20 MB
+  'png-to-webp':      20 * 1024 * 1024,  //  20 MB
+  'heic-to-jpg':      40 * 1024 * 1024,  //  40 MB
+  'heic-to-png':      40 * 1024 * 1024,  //  40 MB
+  'compress-image':   20 * 1024 * 1024,  //  20 MB
 }
 
 // ── Helper: decode JWT without throwing ────────────────────────────────────

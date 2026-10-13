@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from "react"
+﻿import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   Download,
   FileText,
@@ -19,13 +22,17 @@ import {
   FileCheck,
   Layers,
   Timer,
+  Printer,
+  Trash2,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
+import { printBlob, printFile } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import RelatedTools from "../../components/RelatedTools"
-import PrivacyNotice from "../../components/PrivacyNotice"
+import AdLabel from "../../components/AdLabel"
+
+// AdSense Component
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -82,6 +89,8 @@ export default function DownloadMergePDF() {
   const [countdown, setCountdown] = useState(3600)
   const [mounted, setMounted] = useState(false)
   const [useCount, setUseCount] = useState(0)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
 
   // Upsell — auth + india detection
   const { user } = useAuth()
@@ -132,6 +141,7 @@ export default function DownloadMergePDF() {
       if (!response.ok) throw new Error("Download failed")
 
       const blob = await response.blob()
+      setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement("a")
       link.href = url
@@ -187,6 +197,29 @@ export default function DownloadMergePDF() {
     } else {
       handleCopyLink()
     }
+  }
+
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        printBlob(downloadedBlob)
+      } else {
+        const printUrl = file && file.startsWith('http') ? file : `${window.location.origin}${file}`
+        await printFile(printUrl)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("uploadedPDFs")
+    sessionStorage.removeItem("mergeResult")
+    router.push("/merge-pdf")
   }
 
   if (!mergeResult && !file) {
@@ -262,12 +295,14 @@ export default function DownloadMergePDF() {
         }
       `}</style>
 
+
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
+
       {/* Success Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600">
         <div className="absolute inset-0 opacity-10">
@@ -323,11 +358,12 @@ export default function DownloadMergePDF() {
       <div className="bg-white py-4 px-4 border-b border-slate-200">
         <div className="max-w-6xl mx-auto">
           <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-            Advertisement
+            <AdLabel />
           </p>
           <div className="flex justify-center">
-            <AdSenseUnit
-              adSlot="8004544994"
+            <AdSenseUnit 
+              adSlot="4209491059"
+              style={{ width: "728px", height: "90px" }}
             />
           </div>
         </div>
@@ -388,9 +424,6 @@ export default function DownloadMergePDF() {
                     )}
                   </button>
 
-                  {/* Privacy / auto-delete trust notice */}
-                  <PrivacyNotice minutes={60} className="mt-4" />
-
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-3 mt-6">
                     <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
@@ -423,41 +456,31 @@ export default function DownloadMergePDF() {
                       <Share2 className="w-4 h-4" />
                     </button>
                     <button
+                      onClick={handlePrint}
+                      disabled={printing}
+                      title={t("fileActions.print")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700 disabled:opacity-60"
+                    >
+                      {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      title={t("fileActions.delete")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center gap-2 text-red-600"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={handleCopyLink}
                       className="py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700"
                     >
                       {copied ? <CheckCircle className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
-                  {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-                  {mounted && !isPaidUser && useCount >= 1 && (
-                    <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-                      {/* Icon */}
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                        <Zap className="w-5 h-5 text-white" />
-                      </div>
-                      {/* Text */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-slate-800 leading-tight">
-                          Unlimited files, bigger uploads, zero ads
-                        </p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          {isIndia
-                            ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking'
-                            : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                        </p>
-                      </div>
-                      {/* CTA */}
-                      <Link
-                        href="/pricing"
-                        className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-                      >
-                        <Zap className="w-3.5 h-3.5" />
-                        Upgrade
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  )}
+                  {/* ── Upgrade upsell ── */}
+                  <UpgradeUpsell className="mt-4" />
+
+                  <EmailCapture className="mt-3" />
                 </div>
               </div>
 
@@ -493,6 +516,19 @@ export default function DownloadMergePDF() {
                   </div>
                   <h3 className="font-display font-semibold text-slate-900 mb-1">{t('mergePdf.download.professionalOutput')}</h3>
                   <p className="font-body text-sm text-slate-600">{t('mergePdf.download.professionalDesc')}</p>
+                </div>
+              </div>
+
+              {/* Mobile Ad - Below Features */}
+              <div className="lg:hidden">
+                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
+                  <AdLabel />
+                </p>
+                <div className="flex justify-center">
+                  <AdSenseUnit 
+                    adSlot="4209491059"
+                    style={{ width: "320px", height: "50px" }}
+                  />
                 </div>
               </div>
 
@@ -548,67 +584,43 @@ export default function DownloadMergePDF() {
 
             {/* Right Sidebar */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Ad Space */}
+              {/* Ad Space 1 */}
               <div className="glass-card rounded-2xl border border-slate-200/60 p-4">
                 <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-                  Advertisement
+                  <AdLabel />
                 </p>
-                <div className="hidden lg:block flex justify-center">
+                <div className="flex justify-center">
                   <AdSenseUnit
-                    adSlot="7489539676"
+                    adSlot="2896409385"
+                    style={{ width: "300px", height: "250px" }}
                   />
                 </div>
               </div>
-              
-              {/* Summary */}
-              <div className="glass-card rounded-2xl border border-slate-200/60 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/50">
-                  <h3 className="font-display text-base font-semibold text-slate-900">{t('mergePdf.download.mergeSummary')}</h3>
-                </div>
-                <div className="p-5 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('mergePdf.download.filesCombinedLabel')}</span>
-                    <span className="font-display font-semibold text-slate-900">{fileCount}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('mergePdf.download.originalSize')}</span>
-                    <span className="font-display font-semibold text-slate-900">
-                      {(totalSize / 1024 / 1024).toFixed(2)} MB
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('mergePdf.download.qualitySummary')}</span>
-                    <span className="font-display font-semibold text-emerald-600">100%</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('mergePdf.download.statusLabel')}</span>
-                    <span className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-xs font-medium">
-                      <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
-                      {t('mergePdf.download.statusComplete')}
-                    </span>
-                  </div>
-                </div>
-              </div>
 
-              {/* Security Info */}
-              <div className="glass-card rounded-2xl border border-slate-200/60 p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-emerald-600" />
-                  </div>
-                  <h3 className="font-display font-semibold text-slate-900">{t('mergePdf.download.yourPrivacy')}</h3>
-                </div>
-                <p className="font-body text-sm text-slate-600 leading-relaxed">
-                  {t('mergePdf.download.privacyDesc')}
+              {/* Ad Space 2 */}
+              <div className="glass-card rounded-2xl border border-slate-200/60 p-4">
+                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
+                  <AdLabel />
                 </p>
+                <div className="flex justify-center">
+                  <AdSenseUnit
+                    adSlot="2896409385"
+                    size="rectangle2"
+                    style={{ width: "300px", height: "250px" }}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Related Tools — shown after download to encourage next action */}
-      <RelatedTools current="merge-pdf" />
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["mergePdf"]) },
+    revalidate: 86400,
+  }
 }

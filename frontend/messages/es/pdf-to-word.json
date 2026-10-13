@@ -1,13 +1,11 @@
 {
   "seo": {
     "title": "Convertir PDF a Word gratis – Sin registro | SmallPDF.us",
-    "description": "Convierte archivos PDF a documentos Word editables (.docx) en línea, de forma gratuita. Diseño, imágenes y formato conservados. Rápido, seguro y sin instalar software."
+    "description": "Convierte PDF a documentos Word editables (.docx) en línea y gratis. Se conservan el diseño, las imágenes y el formato. Rápido y seguro."
   },
-
   "heroTitle": "Convertir PDF a Word",
   "heroTitleHighlight": "gratis y al instante",
   "heroSubtitle": "Transforma tus archivos PDF en documentos Word completamente editables – sin perder calidad, sin necesidad de cuenta. Sube el archivo y descarga el resultado en segundos.",
-
   "dropTitle": "Arrastra tus archivos PDF aquí",
   "dropActive": "¡Suelta ahora – nosotros lo hacemos!",
   "dropSubtitle": "o haz clic para seleccionar archivos desde tu dispositivo",
@@ -23,77 +21,69 @@
   "addMoreDocuments": "Añadir más documentos",
   "convertButton_singular": "Convertir {{count}} PDF a Word",
   "convertButton_plural": "Convertir {{count}} PDFs a Word",
-
   "preparingTitle": "Preparando los documentos …",
   "preparingSubtitle_singular": "{{count}} archivo en proceso",
   "preparingSubtitle_plural": "{{count}} archivos en proceso",
-
   "previewPageLabel": "Página",
   "previewShowing": "Vista previa: primeras {{count}} páginas",
   "previewTruncated": "Páginas adicionales no mostradas",
-
   "errorInvalidType": "Por favor, sube solo archivos PDF (.pdf).",
   "errorMaxSize": "El archivo es demasiado grande. El límite es de 50 MB por archivo.",
   "errorNoFiles": "Selecciona al menos un archivo PDF para continuar.",
   "errorProcessing": "Se produjo un error al procesar los archivos. Por favor, inténtalo de nuevo.",
   "errorPreviewLoading": "La vista previa se está cargando, por favor espera un momento.",
   "errorPreviewFailed": "No se pudo cargar la vista previa. Es posible que el archivo esté dañado.",
-
   "featuresTitle": "¿Por qué elegir SmallPDF.us?",
   "featuresSubtitle": "Nuestra tecnología analiza cada PDF en detalle para producir un documento Word lo más fiel posible al original.",
-
   "feature1Title": "Reconocimiento de texto preciso",
   "feature1Desc": "Cada párrafo, título, lista y columna se extrae con precisión. El texto en el archivo Word final refleja fielmente el contenido del PDF original.",
-
   "feature2Title": "Conversión ultra-rápida",
   "feature2Desc": "Incluso los PDFs de varias decenas de páginas se convierten en pocos segundos. Sin esperas frustrantes, todo ocurre en segundo plano.",
-
   "feature3Title": "Tu privacidad, garantizada",
   "feature3Desc": "Tus archivos solo se utilizan para la conversión y se eliminan automáticamente de nuestros servidores al cabo de una hora. Nunca accedemos a su contenido.",
-
   "feature4Title": "Imágenes y gráficos conservados",
   "feature4Desc": "Las imágenes incrustadas, logos y diagramas se transfieren al documento Word en exactamente la misma posición que en el PDF original.",
-
   "feature5Title": "Compatible con móvil y tableta",
   "feature5Desc": "Tanto si estás en iPhone, Android o tableta, nuestra herramienta funciona en cualquier navegador moderno, sin necesidad de instalar ninguna app.",
-
   "feature6Title": "Sin instalación requerida",
   "feature6Desc": "Sin software que descargar, sin cuenta que crear, sin tarjeta de crédito. Abre el sitio y empieza a convertir inmediatamente.",
-
   "stepsTitle": "Cómo funciona",
   "stepsSubtitle": "Tres sencillos pasos para transformar tu PDF en un documento Word editable",
-
   "step1Title": "Sube tu PDF",
   "step1Desc": "Arrastra uno o varios archivos PDF al área de carga o haz clic para buscarlos. Hasta 10 archivos de 50 MB cada uno en una sola operación.",
-
   "step2Title": "Procesamiento automático",
   "step2Desc": "Nuestro sistema identifica los bloques de texto, el diseño, las imágenes y las tablas para reconstruir un documento Word estructurado.",
-
   "step3Title": "Descarga tu Word",
   "step3Desc": "Tu archivo .docx completamente editable estará listo en segundos. Ábrelo en Microsoft Word, Google Docs o LibreOffice.",
-
+  "diveTitle": "Lo que realmente ocurre al convertir a Word",
+  "diveSubtitle": "Los detalles que importan una vez superados los conceptos básicos.",
+  "dive1Title": "¿El formato realmente sobrevive a la conversión?",
+  "dive1Desc": "Los documentos simples — párrafos, títulos, tablas básicas — se convierten casi a la perfección. Los diseños complejos con cuadros de texto superpuestos, sustituciones de fuente inusuales o elementos de diseño personalizados intensos a veces se desplazan ligeramente, ya que el motor de diseño de Word y el diseño fijo de un PDF funcionan de forma distinta.",
+  "dive2Title": "Los PDF escaneados necesitan OCR primero",
+  "dive2Desc": "Un PDF escaneado es solo la imagen de una página, sin texto subyacente que extraer — convertirlo directamente da un documento vacío o solo con imágenes. Nuestro conversor ejecuta OCR automáticamente en las páginas escaneadas primero, así el archivo Word resultante tiene texto real y editable en lugar de una imagen.",
+  "dive3Title": "Qué puedes editar fácilmente después y qué no",
+  "dive3Desc": "El texto de párrafo, los títulos y las tablas simples se convierten en contenido de Word totalmente editable. Los gráficos complejos, los diagramas incrustados como imágenes y el posicionamiento preciso al píxel de PDF muy trabajados en diseño suelen convertirse como imágenes en vez de objetos editables — se muestran correctamente pero hay que sustituirlos para cambiarlos.",
+  "dive4Title": "Diseños de varias columnas y formularios",
+  "dive4Desc": "El texto en varias columnas, como un boletín o un artículo académico, se convierte al formato de columnas propio de Word cuando es posible, preservando el diseño visual. Los campos de formulario PDF interactivos se convierten según su apariencia visual, pero la funcionalidad rellenable no se traslada — verás los contornos de los campos como elementos normales.",
+  "dive5Title": "Fuentes que tu ordenador no tiene",
+  "dive5Desc": "Si el PDF original usa una fuente que no está instalada en tu sistema, Word la sustituye por la más parecida disponible al abrir el archivo, lo que puede desplazar ligeramente los saltos de línea y el espaciado. Incrustar la fuente en el PDF de antemano, cuando sea posible, da la sustitución más precisa.",
+  "dive6Title": "PDF a Word vs. convertir directamente a Google Docs",
+  "dive6Desc": "Convertir primero a Word (.docx) y luego subirlo a Google Docs generalmente conserva más formato que algunas funciones de importación directa de PDF de otras herramientas, ya que .docx es un formato que tanto Word como Docs leen de forma nativa. Es un paso extra, pero suele ser el camino más fiable si Docs es tu destino.",
   "faqTitle": "Preguntas frecuentes",
   "faqSubtitle": "Todo lo que necesitas saber sobre la conversión de PDF a Word",
-
   "faq1Question": "¿Qué tan precisa es la conversión de PDF a Word?",
   "faq1Answer": "Depende del tipo de PDF. Para PDFs creados digitalmente (exportados desde Word, InDesign, etc.), la conversión es muy fiel: se conservan el texto, el formato y la estructura. Para los PDFs escaneados sin texto incrustado, la calidad puede variar porque se necesita un paso de OCR.",
-
   "faq2Question": "¿Se conserva el diseño del documento?",
   "faq2Answer": "Sí, hacemos todo lo posible para reproducir fielmente el diseño original. Se tienen en cuenta las columnas, los títulos, las listas y las imágenes incrustadas. Los diseños muy complejos pueden presentar ligeras diferencias.",
-
   "faq3Question": "¿Están seguros mis archivos PDF?",
   "faq3Answer": "Absolutamente. Todas las transferencias están cifradas mediante HTTPS/SSL. Tus archivos nunca se almacenan de forma permanente ni se transmiten a terceros – se eliminan automáticamente de nuestros servidores al cabo de una hora.",
-
   "faq4Question": "¿Cuántos archivos PDF puedo convertir al mismo tiempo?",
   "faq4Answer": "Puedes subir hasta 10 archivos PDF a la vez, cada uno con un tamaño máximo de 50 MB. La conversión por lotes es perfecta si tienes varios documentos que procesar de una sola vez.",
-
   "faq5Question": "¿Puedo volver a convertir el archivo Word a PDF después?",
   "faq5Answer": "Por supuesto. El archivo .docx descargado se puede abrir y editar en Microsoft Word, Google Docs o LibreOffice, y luego exportar de nuevo como PDF u otros formatos. Tienes el control total sobre tu documento.",
-
   "ctaTitle": "¿Listo para editar tus PDFs?",
   "ctaSubtitle": "Convierte tus archivos PDF a Word gratuitamente – sin cuenta, sin software, listo en segundos.",
   "ctaButton": "Convertir mi PDF a Word",
-
   "preview": {
     "layoutTitle": "Convertir PDF a Word – Vista previa",
     "layoutDesc": "Revisa tus archivos e inicia la conversión a Word.",
@@ -136,7 +126,6 @@
     "convertingText_plural": "{{count}} archivos en conversión – no cierres esta pestaña.",
     "conversionFailed": "Error en la conversión"
   },
-
   "download": {
     "layoutTitle": "Descargar tu documento Word | SmallPDF.us",
     "layoutDesc": "Tu PDF se ha convertido con éxito en un documento Word editable. Descárgalo ahora.",
@@ -189,7 +178,7 @@
     "downloadWindow": "Ventana de descarga",
     "autoDeletePrivacy": "Eliminación automática para proteger tu privacidad",
     "timeRemaining": "Tiempo restante",
-    "autoDeleteNotice": "Por tu privacidad, los archivos serán eliminados automáticamente de nuestros servidores en 60 minutos. Recuerda descargar tu documento antes de que expire.",
+    "autoDeleteNotice": "Por tu privacidad, los archivos serán eliminados automáticamente de nuestros servidores en 1 hora. Recuerda descargar tu documento antes de que expire.",
     "privacyTitle": "Tus datos están protegidos",
     "privacySubtitle": "Tu privacidad es nuestra prioridad",
     "security1": "Transferencia cifrada mediante HTTPS/SSL",

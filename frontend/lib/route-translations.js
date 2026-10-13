@@ -1,4 +1,4 @@
-// ── German slug → EN slug ──────────────────────────────────────────────
+﻿// ── German slug → EN slug ──────────────────────────────────────────────
 export const deSlugToEn = {
   'pdf-komprimieren':    'compress-pdf',
   'pdf-zusammenfuegen':  'merge-pdf',
@@ -16,7 +16,14 @@ export const deSlugToEn = {
   'excel-in-pdf':        'excel-to-pdf',
   'webp-in-png':         'webp-to-png',
   'png-in-webp':         'png-to-webp',
+  'heic-zu-jpg':         'heic-to-jpg',
+  'heic-zu-png':         'heic-to-png',
+  'pdf-drehen':          'rotate-pdf',
+  'pdf-schuetzen':       'protect-pdf',
   'bild-komprimieren':   'compress-image',
+  'bild-auf-50kb-komprimieren': 'compress-image-to-50kb',
+  'bild-auf-100kb-komprimieren': 'compress-image-to-100kb',
+  'bild-auf-20kb-komprimieren': 'compress-image-to-20kb',
   'ueber-uns':           'about',
   'kontakt':             'contact',
   'datenschutz':         'privacy',
@@ -24,6 +31,8 @@ export const deSlugToEn = {
   'vorschau':            'preview',
   'download':            'download',
   'ocr-pdf':             'ocr-pdf',
+  'pdf-bearbeiten':      'edit-pdf',
+  'pdf-schwaerzen':      'redact-pdf',
 }
 
 export const enToDe = Object.fromEntries(
@@ -48,7 +57,14 @@ export const frSlugToEn = {
   'excel-en-pdf':      'excel-to-pdf',
   'webp-en-png':       'webp-to-png',
   'png-en-webp':       'png-to-webp',
+  'heic-en-jpg':       'heic-to-jpg',
+  'heic-en-png':       'heic-to-png',
+  'pivoter-pdf':       'rotate-pdf',
+  'proteger-pdf':      'protect-pdf',
   'compresser-image':  'compress-image',
+  'compresser-image-a-50ko': 'compress-image-to-50kb',
+  'compresser-image-a-100ko': 'compress-image-to-100kb',
+  'compresser-image-a-20ko': 'compress-image-to-20kb',
   'a-propos':          'about',
   'contact':           'contact',
   'confidentialite':   'privacy',
@@ -56,6 +72,8 @@ export const frSlugToEn = {
   'apercu':            'preview',
   'telecharger':       'download',
   'ocr-pdf':           'ocr-pdf',
+  'modifier-pdf':      'edit-pdf',
+  'caviarder-pdf':     'redact-pdf',
 }
 
 export const enToFr = Object.fromEntries(
@@ -80,7 +98,14 @@ export const esSlugToEn = {
   'excel-a-pdf':       'excel-to-pdf',
   'webp-a-png':        'webp-to-png',
   'png-a-webp':        'png-to-webp',
+  'heic-a-jpg':        'heic-to-jpg',
+  'heic-a-png':        'heic-to-png',
+  'rotar-pdf':         'rotate-pdf',
+  'proteger-pdf':      'protect-pdf',
   'comprimir-imagen':  'compress-image',
+  'comprimir-imagen-a-50kb': 'compress-image-to-50kb',
+  'comprimir-imagen-a-100kb': 'compress-image-to-100kb',
+  'comprimir-imagen-a-20kb': 'compress-image-to-20kb',
   'sobre-nosotros':    'about',
   'contacto':          'contact',
   'privacidad':        'privacy',
@@ -88,6 +113,8 @@ export const esSlugToEn = {
   'vista-previa':      'preview',
   'descargar':         'download',
   'ocr-pdf':           'ocr-pdf',
+  'editar-pdf':        'edit-pdf',
+  'censurar-pdf':      'redact-pdf',
 }
 
 export const enToEs = Object.fromEntries(
@@ -112,7 +139,14 @@ export const itSlugToEn = {
   'excel-in-pdf':      'excel-to-pdf',
   'webp-in-png':       'webp-to-png',
   'png-in-webp':       'png-to-webp',
+  'heic-in-jpg':       'heic-to-jpg',
+  'heic-in-png':       'heic-to-png',
+  'ruota-pdf':         'rotate-pdf',
+  'proteggi-pdf':      'protect-pdf',
   'comprimi-immagine': 'compress-image',
+  'comprimi-immagine-a-50kb': 'compress-image-to-50kb',
+  'comprimi-immagine-a-100kb': 'compress-image-to-100kb',
+  'comprimi-immagine-a-20kb': 'compress-image-to-20kb',
   'chi-siamo':         'about',
   'contatti':          'contact',
   'privacy':           'privacy',
@@ -120,6 +154,8 @@ export const itSlugToEn = {
   'anteprima':         'preview',
   'scarica':           'download',
   'ocr-pdf':           'ocr-pdf',
+  'modifica-pdf':      'edit-pdf',
+  'oscura-pdf':        'redact-pdf',
 }
 
 export const enToIt = Object.fromEntries(
@@ -144,7 +180,14 @@ export const idSlugToEn = {
   'excel-ke-pdf':        'excel-to-pdf',
   'webp-ke-png':         'webp-to-png',
   'png-ke-webp':         'png-to-webp',
+  'heic-ke-jpg':         'heic-to-jpg',
+  'heic-ke-png':         'heic-to-png',
+  'putar-pdf':           'rotate-pdf',
+  'lindungi-pdf':        'protect-pdf',
   'kompres-gambar':      'compress-image',
+  'kompres-gambar-ke-50kb': 'compress-image-to-50kb',
+  'kompres-gambar-ke-100kb': 'compress-image-to-100kb',
+  'kompres-gambar-ke-20kb': 'compress-image-to-20kb',
   'tentang-kami':        'about',
   'kontak':              'contact',
   'privasi':             'privacy',
@@ -152,6 +195,8 @@ export const idSlugToEn = {
   'pratinjau':           'preview',
   'unduh':               'download',
   'ocr-pdf':             'ocr-pdf',
+  'edit-pdf':            'edit-pdf',
+  'sensor-pdf':          'redact-pdf',
 }
 
 export const enToId = Object.fromEntries(
@@ -176,7 +221,14 @@ export const ptSlugToEn = {
   'excel-para-pdf':      'excel-to-pdf',
   'webp-para-png':       'webp-to-png',
   'png-para-webp':       'png-to-webp',
+  'heic-para-jpg':       'heic-to-jpg',
+  'heic-para-png':       'heic-to-png',
+  'girar-pdf':           'rotate-pdf',
+  'proteger-pdf':        'protect-pdf',
   'comprimir-imagem':    'compress-image',
+  'comprimir-imagem-para-50kb': 'compress-image-to-50kb',
+  'comprimir-imagem-para-100kb': 'compress-image-to-100kb',
+  'comprimir-imagem-para-20kb': 'compress-image-to-20kb',
   'sobre-nos':           'about',
   'contato':             'contact',
   'privacidade':         'privacy',
@@ -184,6 +236,8 @@ export const ptSlugToEn = {
   'visualizar':          'preview',
   'baixar':              'download',
   'ocr-pdf':             'ocr-pdf',
+  'editar-pdf':          'edit-pdf',
+  'tarjar-pdf':          'redact-pdf',
 }
 
 export const enToPt = Object.fromEntries(
@@ -209,7 +263,16 @@ export const routeTranslations = {
   'excel-to-pdf':   { en: 'excel-to-pdf',   ja: 'excel-to-pdf',   de: 'excel-in-pdf',        fr: 'excel-en-pdf',      es: 'excel-a-pdf',      it: 'excel-in-pdf',      id: 'excel-ke-pdf',      pt: 'excel-para-pdf'      },
   'webp-to-png':    { en: 'webp-to-png',    ja: 'webp-to-png',    de: 'webp-in-png',         fr: 'webp-en-png',       es: 'webp-a-png',       it: 'webp-in-png',       id: 'webp-ke-png',       pt: 'webp-para-png'       },
   'png-to-webp':    { en: 'png-to-webp',    ja: 'png-to-webp',    de: 'png-in-webp',         fr: 'png-en-webp',       es: 'png-a-webp',       it: 'png-in-webp',       id: 'png-ke-webp',       pt: 'png-para-webp'       },
+  'heic-to-jpg':    { en: 'heic-to-jpg',   ja: 'heic-to-jpg',    de: 'heic-zu-jpg',         fr: 'heic-en-jpg',       es: 'heic-a-jpg',       it: 'heic-in-jpg',       id: 'heic-ke-jpg',       pt: 'heic-para-jpg'       },
+  'heic-to-png':    { en: 'heic-to-png',   ja: 'heic-to-png',    de: 'heic-zu-png',         fr: 'heic-en-png',       es: 'heic-a-png',       it: 'heic-in-png',       id: 'heic-ke-png',       pt: 'heic-para-png'       },
+  'rotate-pdf':     { en: 'rotate-pdf',   ja: 'rotate-pdf',     de: 'pdf-drehen',           fr: 'pivoter-pdf',       es: 'rotar-pdf',        it: 'ruota-pdf',         id: 'putar-pdf',         pt: 'girar-pdf'           },
+  'protect-pdf':    { en: 'protect-pdf',  ja: 'protect-pdf',    de: 'pdf-schuetzen',        fr: 'proteger-pdf',      es: 'proteger-pdf',     it: 'proteggi-pdf',      id: 'lindungi-pdf',      pt: 'proteger-pdf'        },
+  'redact-pdf':     { en: 'redact-pdf',   ja: 'redact-pdf',     de: 'pdf-schwaerzen',       fr: 'caviarder-pdf',     es: 'censurar-pdf',     it: 'oscura-pdf',        id: 'sensor-pdf',        pt: 'tarjar-pdf'          },
+  'edit-pdf':       { en: 'edit-pdf',     ja: 'edit-pdf',       de: 'pdf-bearbeiten',       fr: 'modifier-pdf',      es: 'editar-pdf',       it: 'modifica-pdf',      id: 'edit-pdf',          pt: 'editar-pdf'          },
   'compress-image': { en: 'compress-image', ja: 'compress-image', de: 'bild-komprimieren',   fr: 'compresser-image',  es: 'comprimir-imagen', it: 'comprimi-immagine', id: 'kompres-gambar',    pt: 'comprimir-imagem'    },
+  'compress-image-to-50kb': { en: 'compress-image-to-50kb', ja: 'compress-image-to-50kb', de: 'bild-auf-50kb-komprimieren', fr: 'compresser-image-a-50ko', es: 'comprimir-imagen-a-50kb', it: 'comprimi-immagine-a-50kb', id: 'kompres-gambar-ke-50kb', pt: 'comprimir-imagem-para-50kb' },
+  'compress-image-to-100kb': { en: 'compress-image-to-100kb', ja: 'compress-image-to-100kb', de: 'bild-auf-100kb-komprimieren', fr: 'compresser-image-a-100ko', es: 'comprimir-imagen-a-100kb', it: 'comprimi-immagine-a-100kb', id: 'kompres-gambar-ke-100kb', pt: 'comprimir-imagem-para-100kb' },
+  'compress-image-to-20kb': { en: 'compress-image-to-20kb', ja: 'compress-image-to-20kb', de: 'bild-auf-20kb-komprimieren', fr: 'compresser-image-a-20ko', es: 'comprimir-imagen-a-20kb', it: 'comprimi-immagine-a-20kb', id: 'kompres-gambar-ke-20kb', pt: 'comprimir-imagem-para-20kb' },
   'about':          { en: 'about',          ja: 'about',          de: 'ueber-uns',           fr: 'a-propos',          es: 'sobre-nosotros',   it: 'chi-siamo',         id: 'tentang-kami',      pt: 'sobre-nos'           },
   'contact':        { en: 'contact',        ja: 'contact',        de: 'kontakt',             fr: 'contact',           es: 'contacto',         it: 'contatti',          id: 'kontak',            pt: 'contato'             },
   'privacy':        { en: 'privacy',        ja: 'privacy',        de: 'datenschutz',         fr: 'confidentialite',   es: 'privacidad',       it: 'privacy',           id: 'privasi',           pt: 'privacidade'         },

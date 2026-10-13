@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "OCR PDF Online Gratuito — Estrarre Testo da PDF Scansionato | SmallPDF.us",
-    "description": "Trasforma qualsiasi PDF scansionato o basato su immagini in un documento completamente ricercabile. Supporta 100+ lingue, output in PDF ricercabile o Word. Nessuna installazione.",
+    "title": "OCR PDF gratis – estrai testo da scansioni | SmallPDF.us",
+    "description": "Trasforma PDF scansionati o basati su immagini in documenti ricercabili. Oltre 100 lingue, output in PDF ricercabile o Word. Nessuna installazione.",
     "keywords": "OCR PDF, estrarre testo da PDF, PDF scansionato in testo, OCR PDF online, rendere PDF ricercabile, strumento OCR gratuito, estrazione testo PDF, riconoscimento ottico caratteri PDF"
   },
   "hero": {
@@ -32,8 +32,8 @@
     "sectionSubtitle": "Costruito su anni di esperienza nell'elaborazione dei documenti, il nostro pipeline OCR è stato progettato da zero per accuratezza, privacy e varietà reale di documenti.",
     "items": [
       {
-        "title": "Accuratezza dei caratteri 98–99%",
-        "desc": "Il riconoscimento multipasso gestisce font misti, pagine ruotate, scansioni degradate e layout multicolonna. Documenti sorgente puliti a 300+ DPI raggiungono costantemente un'accuratezza quasi umana."
+        "title": "Alta accuratezza dei caratteri",
+        "desc": "Il riconoscimento multipasso gestisce font misti, pagine ruotate, scansioni degradate e layout multicolonna. Documenti sorgente puliti a 300+ DPI producono costantemente risultati nitidi e molto accurati."
       },
       {
         "title": "100+ lingue rilevate automaticamente",
@@ -108,6 +108,20 @@
       }
     ]
   },
+  "diveTitle": "Cosa succede davvero quando esegui l'OCR",
+  "diveSubtitle": "I dettagli che contano una volta superate le basi.",
+  "dive1Title": "Rilevamento di testo nativo vs. scansionato",
+  "dive1Desc": "Alcuni PDF contengono già testo nativo selezionabile — in quel caso l'OCR non è necessario. Il nostro strumento rileva ed elabora solo le immagini scansionate, lasciando intatte le pagine che già contengono testo digitale.",
+  "dive2Title": "Cosa influisce sulla precisione del riconoscimento",
+  "dive2Desc": "La precisione dell'OCR dipende dalla qualità della scansione: una risoluzione (DPI) più alta è meglio, meno inclinazione della pagina è meglio, un contrasto maggiore tra testo e sfondo è meglio. Scansioni di bassa qualità, bassa risoluzione o pagine fotografate storte possono causare più errori di riconoscimento.",
+  "dive3Title": "Elaborazione di documenti multilingue",
+  "dive3Desc": "Puoi elaborare documenti con lingue miste all'interno dello stesso documento, ma per risultati ottimali consigliamo di specificare la lingua dominante usata nel documento. I caratteri che non corrispondono alla lingua specificata hanno più probabilità di essere riconosciuti in modo errato.",
+  "dive4Title": "PDF ricercabile vs. file di testo estratto",
+  "dive4Desc": "Puoi scegliere tra due formati di output: un PDF ricercabile che sovrappone un livello di testo invisibile sull'aspetto originale, oppure un file di testo semplice contenente solo il testo riconosciuto. Scegli il primo per archiviare il documento, il secondo per riutilizzare il testo.",
+  "dive5Title": "Limiti con la scrittura a mano",
+  "dive5Desc": "L'OCR è ottimizzato per riconoscere testo stampato. La scrittura a mano, in particolare corsiva o disordinata, è significativamente meno precisa del testo stampato — anche uno stampatello ben formato può dare risultati variabili.",
+  "dive6Title": "Una nota su tabelle e dati strutturati",
+  "dive6Desc": "L'OCR riconosce il testo ma non preserva in modo affidabile la struttura di righe/colonne delle tabelle. Se lo scopo principale del tuo documento è l'estrazione di dati tabellari, il nostro strumento dedicato Da PDF a Excel è più adatto a ricostruire la struttura reale della tabella.",
   "faq": {
     "sectionTitle": "Domande frequenti",
     "sectionSubtitle": "Tutto quello che devi sapere sull'OCR PDF su SmallPDF.us",
@@ -122,7 +136,7 @@
       },
       {
         "q": "Quanto è accurato l'OCR?",
-        "a": "Per scansioni pulite e ad alta risoluzione a 300 DPI o superiori, il nostro motore raggiunge regolarmente una precisione dei caratteri del 98–99% su documenti standard con script latino. L'accuratezza varia naturalmente con la qualità della scansione: immagini sfocate, a basso contrasto o molto distorte otterranno punteggi più bassi. Il testo scritto a mano è parzialmente supportato ma è significativamente più difficile del testo stampato."
+        "a": "Per scansioni pulite e ad alta risoluzione a 300 DPI o superiori, il nostro motore raggiunge una precisione dei caratteri molto elevata su documenti standard con script latino. L'accuratezza varia naturalmente con la qualità della scansione: immagini sfocate, a basso contrasto o molto distorte otterranno punteggi più bassi. Il testo scritto a mano è parzialmente supportato ma è significativamente più difficile del testo stampato."
       },
       {
         "q": "Il mio PDF è mantenuto privato e sicuro?",
@@ -156,7 +170,7 @@
   },
   "cta": {
     "heading": "Pronto a rendere il tuo PDF ricercabile?",
-    "subtitle": "Inserisci qualsiasi PDF scansionato e ottieni un documento completamente indicizzato e copiabile in secondi. Gratuito per sempre, nessuna registrazione richiesta.",
+    "subtitle": "Trascina qualsiasi PDF scansionato e ottieni in pochi secondi un documento ricercabile e copiabile. Gratis per iniziare, facile da usare.",
     "button": "Inizia l'OCR ora — È gratuito"
   },
   "preview": {
@@ -175,7 +189,7 @@
     "receiveProOnly": "Esportazione Word e TXT (solo Pro)",
     "runOcrButton": "Esegui OCR — Estrai testo",
     "securePrivate": "Sicuro e privato",
-    "autoDeleted": "Auto-eliminato in 2 ore",
+    "autoDeleted": "Auto-eliminato in 1 ora",
     "pleaseWait": "Attendere — non chiudere questa scheda",
     "ocrFailed": "OCR fallito",
     "tryAgain": "Riprova",
@@ -191,7 +205,7 @@
     "sidebarSecurityTitle": "Sicurezza",
     "sidebarSecurityItems": [
       "Crittografia SSL a 256 bit",
-      "Auto-eliminato in 2 ore",
+      "Auto-eliminato in 1 ora",
       "Nessun dato archiviato o venduto",
       "Scarica ed elimina in qualsiasi momento"
     ],
@@ -237,11 +251,15 @@
     "downloadDocx": "Scarica Word (.docx)",
     "downloadTxt": "Scarica testo semplice (.txt)",
     "secureDownload": "Download sicuro",
-    "autoDeleted": "File auto-eliminati in 2 ore",
+    "autoDeleted": "File auto-eliminati in 1 ora",
     "imagePdfTitle": "Rilevato PDF scansionato / basato su immagini",
     "imagePdfDesc": "Questo PDF contiene immagini anziché testo digitale, quindi non è stato possibile estrarre automaticamente il testo. Il PDF scaricato contiene una pagina esplicativa.",
     "imagePdfUpgrade": "Passa a Pro",
     "imagePdfUpgradeSuffix": "per il supporto avanzato del motore OCR sui documenti scansionati.",
+    "alreadySearchableTitle": "Il tuo PDF conteneva già testo selezionabile",
+    "alreadySearchableDesc": "Non è stato necessario l’OCR: puoi già cercare e copiare il testo. Il file non è stato modificato.",
+    "noTextTitle": "Non è stato possibile riconoscere alcun testo",
+    "noTextDesc": "Prova con una scansione più nitida: pagine dritte, buon contrasto e almeno 300 DPI. La scrittura a mano non è supportata.",
     "proUpsellTitle": "Vuoi di più dall'OCR?",
     "proUpsellDesc": "Passa a Pro per pagine illimitate, OCR batch, esportazione Word e TXT, file da 100 MB ed elaborazione prioritaria.",
     "proUpsellLink": "Passa a Pro",

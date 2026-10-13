@@ -1,12 +1,18 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import { Upload, ImageIcon, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, FileImage } from "lucide-react"
+
+// Picked files stay in memory (object URLs), not base64 in sessionStorage —
+// that hit the ~5 MB quota and silently failed for images/PDFs over ~3.7 MB.
+export const webpToPngStore = { files: [] }
 
 export default function WebpToPng() {
 const router = useLocalizedRouter()
@@ -30,15 +36,12 @@ const router = useLocalizedRouter()
 
   const validateFile = (file) => {
     const validTypes = ["image/webp"]
-    const maxSize = 50 * 1024 * 1024
 
     if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith(".webp")) {
       return { valid: false, error: t("webpToPng.errorWebpOnly") }
     }
 
-    if (file.size > maxSize) {
-      return { valid: false, error: t("webpToPng.errorMaxSize") }
-    }
+    // Size is enforced by useFileSizeGuard (plan-aware); a fixed free-plan cap here blocked paid users.
 
     return { valid: true }
   }
@@ -76,20 +79,10 @@ const router = useLocalizedRouter()
       setError("")
 
       try {
-        const fileDataArray = await Promise.all(
-          validFiles.map(async (f) => {
-            return new Promise((resolve, reject) => {
-              const reader = new FileReader()
-              reader.onload = (e) => {
-                resolve({ id: f.id, name: f.name, size: f.size, type: f.file.type, data: e.target.result })
-              }
-              reader.onerror = reject
-              reader.readAsDataURL(f.file)
-            })
-          }),
-        )
-
-        sessionStorage.setItem("uploadedWebpFiles", JSON.stringify(fileDataArray))
+        webpToPngStore.files = validFiles.map((f) => ({
+          id: f.id, name: f.name, size: f.size, type: f.file.type, file: f.file,
+          data: URL.createObjectURL(f.file), // preview thumbnail + upload source
+        }))
 
         setTimeout(() => {
           router.push("/webp-to-png/preview")
@@ -149,7 +142,7 @@ const router = useLocalizedRouter()
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "featureList": ["Convert up to 20 WEBP images", "Lossless quality conversion", "Universal PNG compatibility", "Batch processing support", "Secure encryption", "Free forever"]
+        "featureList": ["Convert up to 20 WEBP images", "Lossless quality conversion", "Universal PNG compatibility", "Batch processing support", "Secure encryption", "Free plan available"]
       },
       {
         "@type": "FAQPage",
@@ -164,7 +157,7 @@ const router = useLocalizedRouter()
         "name": "How to Convert WEBP to PNG",
         "description": "Step-by-step guide to converting WEBP images to PNG format",
         "step": [
-          { "@type": "HowToStep", "name": "Upload WEBP Images", "text": "Select your WEBP files from your device. You can upload up to 20 images at once for batch conversion.", "position": 1 },
+          { "@type": "HowToStep", "name": "Upload WEBP Images", "text": "Select your WEBP files from your device. On the free plan, you can upload up to 2 images at once for batch conversion (up to 5MB each).", "position": 1 },
           { "@type": "HowToStep", "name": "Preview and Confirm", "text": "Review your uploaded images. Remove any you don't want to convert before proceeding.", "position": 2 },
           { "@type": "HowToStep", "name": "Download PNG Files", "text": "Download your converted PNG images individually or get all files in a single ZIP archive.", "position": 3 }
         ]
@@ -177,6 +170,7 @@ const router = useLocalizedRouter()
       <SEOHead
         title={t("webpToPng.pageTitle")}
         description={t("webpToPng.pageDescription")}
+        keywords="webp to png, convert webp to png, webp converter, webp to png free, image converter online, webp image to png"
         ogImage="/og-webp-to-png.jpg"
         structuredData={structuredData}
       />
@@ -185,17 +179,18 @@ const router = useLocalizedRouter()
         title="WEBP to PNG - Convert WEBP Images Online"
         description="Convert WEBP images to PNG format instantly."
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+                    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
           .font-body { font-family: 'DM Sans', sans-serif; }
-          @keyframes blob {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(20px, -30px) scale(1.05); }
-            66% { transform: translate(-15px, 15px) scale(0.95); }
-          }
-          .animate-blob { animation: blob 8s ease-in-out infinite; }
-          .animation-delay-2000 { animation-delay: 2s; }
+          
+
           @keyframes loading-bar {
             0% { width: 0%; }
             50% { width: 70%; }
@@ -222,11 +217,11 @@ const router = useLocalizedRouter()
         </div>
 
         {/* Upload Section */}
-        <div className="bg-gradient-to-br from-teal-50 via-emerald-50 to-teal-50 py-8 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-teal-50 via-emerald-50 to-teal-50 py-8 px-4">
           <div className="absolute top-0 left-0 w-64 h-64 bg-teal-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-8 right-20 w-64 h-64 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-teal-200 p-6">
               {isProcessing ? (
                 <div className="py-10 text-center">
@@ -266,9 +261,9 @@ const router = useLocalizedRouter()
                       onChange={handleFileChange}
                     />
 
-                    <div className="p-10 text-center">
+                    <div className="p-6 sm:p-10 text-center">
                       <div className="mb-3">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-teal-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                           <FileImage className="w-8 h-8 text-white animate-bounce-slow" />
                         </div>
                       </div>
@@ -276,14 +271,14 @@ const router = useLocalizedRouter()
                       <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                         {dragActive ? t("webpToPng.uploadDropActive") : t("webpToPng.uploadDropIdle")}
                       </h3>
-                      <p className="font-body text-sm text-slate-500 mb-4">
+                      <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                         {t("webpToPng.uploadSubtitle")}
                       </p>
 
                       <button
                         type="button"
                         onClick={handleButtonClick}
-                        className="inline-flex items-center gap-2 bg-teal-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-teal-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                       >
                         <Upload className="w-5 h-5" />
                         <span>{t("webpToPng.uploadButton")}</span>
@@ -317,12 +312,6 @@ const router = useLocalizedRouter()
                 </div>
               )}
 
-              {!isProcessing && (
-                <p className="text-center font-body text-sm text-slate-600 mt-5">
-                  Up to <span className="font-bold text-teal-600">50MB</span> {t("webpToPng.uploadLimitPerFile")} |{" "}
-                  <span className="font-bold text-teal-600">20 files</span> {t("webpToPng.uploadLimitMaximum")}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -382,6 +371,31 @@ const router = useLocalizedRouter()
                   </div>
                   <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
                   <p className="font-body text-sm text-slate-600">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("webpToPng.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("webpToPng.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("webpToPng.dive1Title"), t("webpToPng.dive1Desc")],
+                [t("webpToPng.dive2Title"), t("webpToPng.dive2Desc")],
+                [t("webpToPng.dive3Title"), t("webpToPng.dive3Desc")],
+                [t("webpToPng.dive4Title"), t("webpToPng.dive4Desc")],
+                [t("webpToPng.dive5Title"), t("webpToPng.dive5Desc")],
+                [t("webpToPng.dive6Title"), t("webpToPng.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
@@ -454,6 +468,7 @@ const router = useLocalizedRouter()
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["webpToPng"]) },
+    revalidate: 86400,
   }
 }

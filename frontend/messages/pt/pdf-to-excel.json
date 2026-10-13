@@ -1,11 +1,11 @@
 {
   "seo": {
     "title": "Converter PDF para Excel – Grátis Online PDF para XLSX | SmallPDF.us",
-    "description": "Converta PDF para planilhas Excel gratuitamente. Extraia tabelas e dados de arquivos PDF para o formato XLSX editável. Conversor online rápido, preciso e seguro com suporte a OCR."
+    "description": "Converta PDF em planilhas Excel gratuitamente. Extraia tabelas e dados para XLSX editável. Rápido, preciso e seguro, com suporte a OCR."
   },
   "heroTitle": "PDF para Excel",
   "heroTitleHighlight": "Conversor Gratuito",
-  "heroSubtitle": "Extraia tabelas e dados de arquivos PDF para planilhas Excel editáveis. Rápido, preciso e totalmente gratuito no SmallPDF.us",
+  "heroSubtitle": "Extraia tabelas e dados de arquivos PDF para planilhas Excel editáveis. Rápido, preciso e fácil de usar.",
   "uploadDragText": "Selecione o PDF para converter",
   "uploadDragActive": "Solte seu PDF aqui!",
   "uploadSubtext": "Arraste e solte seu PDF ou clique para procurar",
@@ -71,9 +71,9 @@
   "faq6Question": "Posso converter vários arquivos PDF de uma vez?",
   "faq6Answer": "Sim! Você pode enviar e converter até 10 arquivos PDF simultaneamente. Cada arquivo será convertido em uma planilha Excel separada.",
   "ctaTitle": "Pronto para converter seu PDF?",
-  "ctaSubtitle": "Junte-se a milhões de usuários que confiam no SmallPDF.us para conversões precisas de PDF para Excel.",
+  "ctaSubtitle": "Junte-se a usuários do mundo todo que usam o SmallPDF.us para conversões rápidas e precisas de PDF para Excel.",
   "ctaButton": "Enviar PDF agora",
-  "ctaNote": "Sem cadastro • 100% Gratuito • Seguro e Privado",
+  "ctaNote": "Rápido • Seguro • Privado",
   "relatedToolsTitle": "Ferramentas PDF relacionadas",
   "relatedToolsSubtitle": "Explore mais ferramentas para trabalhar com seus arquivos PDF",
   "tool1": "Excel para PDF",

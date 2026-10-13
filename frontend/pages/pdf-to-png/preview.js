@@ -3,8 +3,11 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
-import { ArrowLeft, Sparkles, Shield, Zap, Clock, ImageIcon, Check, Download, AlertCircle } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { ArrowLeft, ImageIcon, Check, Download, AlertCircle } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewPDFtoPNG() {
   const router = useLocalizedRouter()
@@ -17,6 +20,10 @@ export default function PreviewPDFtoPNG() {
   const [stage, setStage] = useState("")
   const [mounted, setMounted] = useState(false)
   const [downloadError, setDownloadError] = useState("")
+  // Backend origin for the page images (dev: :5011, prod: same origin).
+  const apiBase = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+    ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011")
+    : ""
 
   // ✅ FIX: Use a ref for router inside useEffect to avoid infinite re-render loop.
   // useLocalizedRouter() returns a new object each render, so putting it in the
@@ -97,7 +104,7 @@ export default function PreviewPDFtoPNG() {
       setStage(t('pdfToPng.previewStageComplete') || "Complete!")
 
       setTimeout(() => {
-        router.push(`/pdf-to-png/download?jobId=${conversionResult.jobId}`)
+        goToDownload(router, `/pdf-to-png/download?jobId=${conversionResult.jobId}`)
       }, 500)
     } catch (error) {
       console.error("Error preparing download:", error)
@@ -184,7 +191,7 @@ export default function PreviewPDFtoPNG() {
 
         {/* Main Content */}
         <div className="bg-blue-50 min-h-screen py-6 px-4">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
               {/* Main Card */}
               <div className="lg:col-span-3">
@@ -232,12 +239,22 @@ export default function PreviewPDFtoPNG() {
                             >
                               {/* Preview */}
                               <div className="aspect-[3/4] bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+                                {page.url ? (
+                                  // Real page preview (was only a generic PNG icon for every page).
+                                  <img
+                                    src={page.url.startsWith("http") ? page.url : `${apiBase}${page.url}`}
+                                    alt={`${t('pdfToPng.previewPageLabel')} ${page.id}`}
+                                    loading="lazy"
+                                    className="w-full h-full object-contain bg-white"
+                                  />
+                                ) : (
                                 <div className="text-center">
                                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
                                     <ImageIcon className="w-6 h-6 text-white" />
                                   </div>
                                   <span className="text-xs font-medium text-slate-500">PNG</span>
                                 </div>
+                                )}
                               </div>
 
                               {/* Selection Indicator */}
@@ -336,56 +353,29 @@ export default function PreviewPDFtoPNG() {
 
               {/* Sidebar */}
               <div className="space-y-4">
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-blue-200">
-                  <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pdfToPng.previewWhatYouGet')}</h3>
-                  <div className="space-y-2.5">
-                    {[
-                      { icon: Sparkles, text: t('pdfToPng.previewHighQuality'), color: "text-blue-600 bg-blue-100" },
-                      { icon: Shield, text: t('pdfToPng.previewSecure'), color: "text-emerald-600 bg-emerald-100" },
-                      { icon: Zap, text: t('pdfToPng.previewInstant'), color: "text-amber-600 bg-amber-100" },
-                      { icon: Clock, text: t('pdfToPng.previewAutoDelete'), color: "text-slate-600 bg-slate-100" },
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-2.5">
-                        <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                        >
-                          <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                        </div>
-                        <span className="font-body text-xs text-slate-700">{item.text}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-xl p-4 shadow-sm border border-blue-200">
-                  <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pdfToPng.previewConversionProcess')}</h3>
-                  <div className="space-y-2">
-                    {[
-                      { num: "1", text: t('pdfToPng.previewStep1'), color: "bg-blue-600" },
-                      { num: "2", text: t('pdfToPng.previewStep2'), color: "bg-indigo-600" },
-                      { num: "3", text: t('pdfToPng.previewStep3'), color: "bg-blue-700" },
-                    ].map((step, i) => (
-                      <div key={i} className="flex items-center gap-2.5">
-                        <div
-                          className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                        >
-                          {step.num}
-                        </div>
-                        <span className="font-body text-xs text-slate-700">{step.text}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Sidebar Ad */}
-                <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-blue-200">
-                  <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <div className="bg-white rounded-xl p-3 shadow-sm border border-blue-200">
+                  <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                   <AdSenseUnit adSlot="1617102171" />
                 </div>
+
+                {/* Sidebar Ad 2 */}
+                <div className="bg-white rounded-xl p-3 shadow-sm border border-blue-200">
+                  <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                  <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+                </div>
+
               </div>
             </div>
           </div>
         </div>
       </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pdfToPng"]) },
+    revalidate: 86400,
+  }
 }

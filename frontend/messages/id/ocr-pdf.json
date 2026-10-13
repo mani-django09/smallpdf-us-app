@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "OCR PDF Online Gratis — Ekstrak Teks dari PDF Hasil Scan | SmallPDF.us",
-    "description": "Ubah PDF hasil scan atau berbasis gambar menjadi dokumen yang sepenuhnya dapat dicari. Mendukung 100+ bahasa, output PDF yang dapat dicari atau Word. Tanpa instalasi.",
+    "title": "OCR PDF Gratis – Ekstrak Teks dari Hasil Scan | SmallPDF.us",
+    "description": "Ubah PDF hasil scan menjadi dokumen yang dapat dicari. Mendukung 100+ bahasa, output PDF yang dapat dicari atau Word. Tanpa instalasi.",
     "keywords": "OCR PDF, ekstrak teks dari PDF, PDF scan ke teks, OCR PDF online, buat PDF bisa dicari, alat OCR gratis, ekstraksi teks PDF, pengenalan karakter optik PDF"
   },
   "hero": {
@@ -32,8 +32,8 @@
     "sectionSubtitle": "Dibangun berdasarkan pengalaman bertahun-tahun dalam pemrosesan dokumen, pipeline OCR kami dirancang dari awal untuk akurasi, privasi, dan variasi dokumen dunia nyata.",
     "items": [
       {
-        "title": "Akurasi Karakter 98–99%",
-        "desc": "Pengenalan multi-pass menangani font campuran, halaman yang diputar, scan yang rusak, dan tata letak multi-kolom. Dokumen sumber bersih di 300 DPI+ secara konsisten mencapai akurasi mendekati manusia."
+        "title": "Akurasi Karakter Tinggi",
+        "desc": "Pengenalan multi-pass menangani font campuran, halaman yang diputar, scan yang rusak, dan tata letak multi-kolom. Dokumen sumber bersih di 300 DPI+ secara konsisten menghasilkan hasil yang tajam dan sangat akurat."
       },
       {
         "title": "100+ Bahasa Terdeteksi Otomatis",
@@ -108,6 +108,20 @@
       }
     ]
   },
+  "diveTitle": "Apa yang sebenarnya terjadi saat menjalankan OCR",
+  "diveSubtitle": "Detail yang penting setelah melampaui dasar-dasarnya.",
+  "dive1Title": "Deteksi teks asli vs. hasil pindai",
+  "dive1Desc": "Beberapa PDF sudah berisi teks asli yang dapat dipilih — dalam kasus itu OCR tidak diperlukan. Alat kami hanya mendeteksi dan memproses gambar hasil pindai, membiarkan halaman yang sudah berisi teks digital tidak berubah.",
+  "dive2Title": "Apa yang memengaruhi akurasi pengenalan",
+  "dive2Desc": "Akurasi OCR bergantung pada kualitas pindaian: resolusi (DPI) lebih tinggi lebih baik, kemiringan halaman lebih sedikit lebih baik, kontras yang lebih tinggi antara teks dan latar belakang lebih baik. Pindaian berkualitas rendah, resolusi rendah, atau halaman yang difoto miring dapat menyebabkan lebih banyak kesalahan pengenalan.",
+  "dive3Title": "Memproses dokumen multibahasa",
+  "dive3Desc": "Anda dapat memproses dokumen dengan bahasa campuran dalam satu dokumen yang sama, tetapi untuk hasil terbaik kami menyarankan untuk menentukan bahasa dominan yang digunakan dalam dokumen. Karakter yang tidak cocok dengan bahasa yang ditentukan lebih mungkin dikenali secara salah.",
+  "dive4Title": "PDF yang dapat dicari vs. file teks yang diekstrak",
+  "dive4Desc": "Anda dapat memilih di antara dua format output: PDF yang dapat dicari yang melapiskan lapisan teks tak terlihat di atas tampilan aslinya, atau file teks biasa yang hanya berisi teks yang dikenali. Pilih yang pertama untuk mengarsipkan dokumen, yang kedua untuk menggunakan kembali teksnya.",
+  "dive5Title": "Keterbatasan dengan tulisan tangan",
+  "dive5Desc": "OCR dioptimalkan untuk mengenali teks cetak. Tulisan tangan, terutama huruf sambung atau tulisan yang berantakan, jauh lebih tidak akurat dibandingkan teks cetak — bahkan huruf balok yang rapi pun dapat memberikan hasil yang bervariasi.",
+  "dive6Title": "Catatan tentang tabel dan data terstruktur",
+  "dive6Desc": "OCR mengenali teks tetapi tidak secara andal mempertahankan struktur baris/kolom tabel. Jika tujuan utama dokumen Anda adalah mengekstrak data tabular, alat khusus PDF ke Excel kami lebih cocok untuk merekonstruksi struktur tabel yang sebenarnya.",
   "faq": {
     "sectionTitle": "Pertanyaan yang Sering Diajukan",
     "sectionSubtitle": "Semua yang perlu Anda ketahui tentang OCR PDF di SmallPDF.us",
@@ -122,7 +136,7 @@
       },
       {
         "q": "Seberapa akurat OCR-nya?",
-        "a": "Untuk scan bersih dan resolusi tinggi di 300 DPI atau lebih, mesin kami secara rutin mencapai akurasi karakter 98–99% pada dokumen skrip Latin standar. Akurasi secara alami bervariasi dengan kualitas scan: gambar buram, kontras rendah, atau sangat terdistorsi akan mendapat skor lebih rendah. Teks tulisan tangan sebagian didukung tetapi jauh lebih sulit dari teks cetak."
+        "a": "Untuk scan bersih dan resolusi tinggi di 300 DPI atau lebih, mesin kami mencapai akurasi karakter yang sangat tinggi pada dokumen skrip Latin standar. Akurasi secara alami bervariasi dengan kualitas scan: gambar buram, kontras rendah, atau sangat terdistorsi akan mendapat skor lebih rendah. Teks tulisan tangan sebagian didukung tetapi jauh lebih sulit dari teks cetak."
       },
       {
         "q": "Apakah PDF saya tetap pribadi dan aman?",
@@ -156,7 +170,7 @@
   },
   "cta": {
     "heading": "Siap Membuat PDF Anda Dapat Dicari?",
-    "subtitle": "Masukkan PDF scan apapun dan dapatkan dokumen yang sepenuhnya diindeks dan dapat disalin dalam hitungan detik. Gratis selamanya, tanpa pendaftaran.",
+    "subtitle": "Letakkan PDF hasil scan apa pun dan dapatkan dokumen yang bisa dicari dan disalin dalam hitungan detik. Gratis untuk memulai, mudah digunakan.",
     "button": "Mulai OCR Sekarang — Gratis"
   },
   "preview": {
@@ -175,7 +189,7 @@
     "receiveProOnly": "Ekspor Word dan TXT (hanya Pro)",
     "runOcrButton": "Jalankan OCR — Ekstrak Teks",
     "securePrivate": "Aman & pribadi",
-    "autoDeleted": "Terhapus otomatis dalam 2 jam",
+    "autoDeleted": "Terhapus otomatis dalam 1 jam",
     "pleaseWait": "Harap tunggu — jangan tutup tab ini",
     "ocrFailed": "OCR Gagal",
     "tryAgain": "Coba Lagi",
@@ -191,7 +205,7 @@
     "sidebarSecurityTitle": "Keamanan",
     "sidebarSecurityItems": [
       "Enkripsi SSL 256-bit",
-      "Terhapus otomatis dalam 2 jam",
+      "Terhapus otomatis dalam 1 jam",
       "Tidak ada data yang disimpan atau dijual",
       "Unduh & hapus kapan saja"
     ],
@@ -237,11 +251,15 @@
     "downloadDocx": "Unduh Word (.docx)",
     "downloadTxt": "Unduh Teks Biasa (.txt)",
     "secureDownload": "Unduhan aman",
-    "autoDeleted": "File terhapus otomatis dalam 2 jam",
+    "autoDeleted": "File terhapus otomatis dalam 1 jam",
     "imagePdfTitle": "PDF hasil scan / berbasis gambar terdeteksi",
     "imagePdfDesc": "PDF ini berisi gambar, bukan teks digital, sehingga tidak ada teks yang dapat diekstrak secara otomatis. PDF yang diunduh berisi halaman penjelasan.",
     "imagePdfUpgrade": "Tingkatkan ke Pro",
     "imagePdfUpgradeSuffix": "untuk dukungan mesin OCR tingkat lanjut pada dokumen yang di-scan.",
+    "alreadySearchableTitle": "PDF Anda sudah memiliki teks yang bisa dipilih",
+    "alreadySearchableDesc": "OCR tidak diperlukan — teksnya sudah bisa dicari dan disalin. File Anda tidak diubah.",
+    "noTextTitle": "Tidak ada teks yang dapat dikenali",
+    "noTextDesc": "Coba hasil pindai yang lebih jelas: halaman lurus, kontras baik, dan minimal 300 DPI. Tulisan tangan tidak didukung.",
     "proUpsellTitle": "Ingin lebih dari OCR?",
     "proUpsellDesc": "Tingkatkan ke Pro untuk halaman tak terbatas, OCR batch, ekspor Word & TXT, file 100 MB, dan pemrosesan prioritas.",
     "proUpsellLink": "Tingkatkan ke Pro",

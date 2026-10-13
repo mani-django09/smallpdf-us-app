@@ -1,13 +1,11 @@
 {
   "seo": {
     "title": "PDF in Word umwandeln – kostenlos & ohne Anmeldung | SmallPDF.us",
-    "description": "PDF-Dateien online in bearbeitbare Word-Dokumente (.docx) umwandeln – kostenlos, blitzschnell und ohne Software-Installation. Layout, Bilder und Formatierung bleiben erhalten."
+    "description": "PDF online in bearbeitbare Word-Dokumente (.docx) umwandeln — kostenlos und ohne Installation. Layout, Bilder und Formatierung bleiben erhalten."
   },
-
   "heroTitle": "PDF in Word umwandeln",
   "heroTitleHighlight": "kostenlos & sofort",
   "heroSubtitle": "Wandle deine PDF-Dateien in vollständig bearbeitbare Word-Dokumente um – ohne Qualitätsverlust, ohne Anmeldung. Einfach hochladen und in Sekunden herunterladen.",
-
   "dropTitle": "PDF-Dateien hier ablegen",
   "dropActive": "Jetzt loslassen – wir kümmern uns darum!",
   "dropSubtitle": "oder klicke auf die Schaltfläche, um Dateien von deinem Gerät auszuwählen",
@@ -23,77 +21,69 @@
   "addMoreDocuments": "Weitere Dokumente hinzufügen",
   "convertButton_singular": "{{count}} PDF jetzt konvertieren",
   "convertButton_plural": "{{count}} PDFs jetzt konvertieren",
-
   "preparingTitle": "Dokumente werden vorbereitet …",
   "preparingSubtitle_singular": "{{count}} Datei wird verarbeitet",
   "preparingSubtitle_plural": "{{count}} Dateien werden verarbeitet",
-
   "previewPageLabel": "Seite",
   "previewShowing": "Vorschau: erste {{count}} Seiten",
   "previewTruncated": "Weitere Seiten nicht angezeigt",
-
   "errorInvalidType": "Bitte nur PDF-Dateien hochladen (.pdf).",
   "errorMaxSize": "Diese Datei ist zu groß. Erlaubt sind maximal 50 MB.",
   "errorNoFiles": "Bitte wähle mindestens eine PDF-Datei aus.",
   "errorProcessing": "Beim Verarbeiten der Dateien ist ein Fehler aufgetreten. Bitte versuche es erneut.",
   "errorPreviewLoading": "Die Vorschau wird noch geladen – bitte einen Moment warten.",
   "errorPreviewFailed": "Vorschau konnte nicht geladen werden. Die Datei ist möglicherweise beschädigt.",
-
   "featuresTitle": "Warum SmallPDF.us für die Konvertierung nutzen?",
   "featuresSubtitle": "Unsere Technologie analysiert jedes PDF bis ins Detail und liefert dir ein Word-Dokument, das dem Original so nah wie möglich kommt.",
-
   "feature1Title": "Präzise Texterkennung",
   "feature1Desc": "Wir extrahieren Text zeichengenau – Absätze, Spalten, Überschriften und Listen werden exakt so übernommen, wie sie im Original erscheinen.",
-
   "feature2Title": "Blitzschnelle Konvertierung",
   "feature2Desc": "Selbst mehrseitige PDFs sind in wenigen Sekunden konvertiert. Kein Warten, kein Einfrieren des Browsers – alles läuft im Hintergrund ab.",
-
   "feature3Title": "Sicher & vertraulich",
-  "feature3Desc": "Deine Dateien werden ausschließlich für die Konvertierung verwendet und nach einer Stunde automatisch von unseren Servern gelöscht.",
-
+  "feature3Desc": "Deine Dateien werden ausschließlich für die Konvertierung verwendet und nach 1 Stunde automatisch von unseren Servern gelöscht.",
   "feature4Title": "Bilder & Grafiken erhalten",
   "feature4Desc": "Eingebettete Bilder, Logos und Diagramme werden direkt in das Word-Dokument übernommen – an exakt derselben Position wie im Original.",
-
   "feature5Title": "Mobil & überall nutzbar",
   "feature5Desc": "Ob iPhone, Android oder Tablet – der PDF-zu-Word-Konverter läuft in jedem modernen Browser, ohne App-Download.",
-
   "feature6Title": "Keine Installation nötig",
   "feature6Desc": "Kein Software-Download, kein Konto, keine Kreditkarte. Einfach die Webseite öffnen und sofort loslegen.",
-
   "stepsTitle": "So einfach funktioniert's",
   "stepsSubtitle": "In drei klaren Schritten von der PDF-Datei zum fertigen Word-Dokument",
-
   "step1Title": "PDF hochladen",
   "step1Desc": "Wähle eine oder mehrere PDF-Dateien von deinem Gerät aus – per Drag & Drop oder Dateiauswahl. Bis zu 10 Dateien gleichzeitig, je max. 50 MB.",
-
   "step2Title": "Automatische Verarbeitung",
   "step2Desc": "Unsere Technologie erkennt Textblöcke, Formatierungen, Bilder und Tabellen und baut daraus ein strukturiertes Word-Dokument auf.",
-
   "step3Title": "Word-Datei herunterladen",
   "step3Desc": "Dein vollständig bearbeitbares .docx-Dokument steht sofort zum Download bereit. Öffne es in Word, Google Docs oder LibreOffice.",
-
+  "diveTitle": "Was bei der Umwandlung in Word tatsächlich passiert",
+  "diveSubtitle": "Details, die über die Grundlagen hinaus wichtig werden.",
+  "dive1Title": "Bleibt die Formatierung wirklich erhalten?",
+  "dive1Desc": "Einfache Dokumente — Absätze, Überschriften, einfache Tabellen — werden fast perfekt konvertiert. Komplexe Layouts mit überlappenden Textfeldern, ungewöhnlichen Schriftersetzungen oder aufwendigen Design-Elementen verschieben sich manchmal leicht, da Words Layout-Engine und das feste PDF-Layout unterschiedlich funktionieren.",
+  "dive2Title": "Gescannte PDFs benötigen zuerst OCR",
+  "dive2Desc": "Ein gescanntes PDF ist nur ein Bild einer Seite, ohne zugrunde liegenden Text zum Extrahieren — eine direkte Konvertierung ergibt ein leeres oder reines Bilddokument. Unser Konverter führt bei gescannten Seiten automatisch zuerst OCR durch, sodass die entstehende Word-Datei echten, editierbaren Text statt eines Bildes enthält.",
+  "dive3Title": "Was Sie danach leicht bearbeiten können und was nicht",
+  "dive3Desc": "Absatztext, Überschriften und einfache Tabellen werden zu vollständig editierbarem Word-Inhalt. Komplexe Grafiken, als Bild eingebettete Diagramme und präzise pixelgenaue Positionierung aus designlastigen PDFs werden oft als Bilder statt als editierbare Objekte konvertiert — sie werden korrekt angezeigt, müssen zum Ändern aber ersetzt werden.",
+  "dive4Title": "Mehrspaltige Layouts und Formulare",
+  "dive4Desc": "Mehrspaltiger Text, etwa in einem Newsletter oder einer wissenschaftlichen Arbeit, wird wo möglich in Words eigene Spaltenformatierung umgewandelt und behält das visuelle Layout bei. Interaktive PDF-Formularfelder werden optisch übernommen, aber die Ausfüllbarkeit selbst geht nicht mit über — Sie sehen die Feldumrisse als normale Elemente.",
+  "dive5Title": "Schriften, die Ihr Computer nicht hat",
+  "dive5Desc": "Verwendet das Original-PDF eine Schrift, die auf Ihrem System nicht installiert ist, ersetzt Word sie beim Öffnen durch die nächstliegende verfügbare Schrift, was Zeilenumbrüche und Abstände leicht verschieben kann. Das vorherige Einbetten der Schrift im PDF liefert, wenn möglich, die genaueste Ersetzung.",
+  "dive6Title": "PDF zu Word vs. direkte Konvertierung zu Google Docs",
+  "dive6Desc": "Erst zu Word (.docx) zu konvertieren und dann in Google Docs hochzuladen bewahrt meist mehr Formatierung als manche direkten PDF-Import-Funktionen anderer Tools, da .docx ein Format ist, das sowohl Word als auch Docs nativ lesen. Ein zusätzlicher Schritt, aber meist der zuverlässigere Weg, wenn Docs Ihr Ziel ist.",
   "faqTitle": "Häufig gestellte Fragen",
   "faqSubtitle": "Alles, was du zur PDF-zu-Word-Konvertierung wissen möchtest",
-
   "faq1Question": "Wie genau ist die Konvertierung von PDF zu Word?",
   "faq1Answer": "Die Genauigkeit hängt vom PDF-Typ ab. Bei Text-basierten PDFs (z. B. aus Word oder InDesign exportiert) ist das Ergebnis sehr präzise – Formatierung, Absätze und Schriftarten werden übernommen. Bei gescannten PDFs ohne eingebetteten Text kann das Ergebnis variieren, da ein OCR-Schritt notwendig ist.",
-
   "faq2Question": "Bleibt das Layout meines Dokuments erhalten?",
   "faq2Answer": "Ja, wir versuchen das Original-Layout so vollständig wie möglich zu rekonstruieren. Textspalten, Überschriften, Listen und eingebettete Bilder werden dabei berücksichtigt. Komplexe Layouts wie mehrspaltige Magazine können gelegentlich Abweichungen aufweisen.",
-
   "faq3Question": "Sind meine PDF-Dateien sicher?",
-  "faq3Answer": "Absolut. Alle Uploads laufen über eine verschlüsselte HTTPS-Verbindung. Deine Dateien werden niemals dauerhaft gespeichert oder an Dritte weitergegeben – nach einer Stunde werden sie automatisch von unseren Servern gelöscht.",
-
+  "faq3Answer": "Absolut. Alle Uploads laufen über eine verschlüsselte HTTPS-Verbindung. Deine Dateien werden niemals dauerhaft gespeichert oder an Dritte weitergegeben – nach 1 Stunde werden sie automatisch von unseren Servern gelöscht.",
   "faq4Question": "Wie viele PDFs kann ich gleichzeitig konvertieren?",
   "faq4Answer": "Du kannst bis zu 10 PDF-Dateien in einem Durchgang hochladen und konvertieren. Jede Datei darf bis zu 50 MB groß sein. Die Stapelverarbeitung spart dir viel Zeit, wenn du mehrere Dokumente auf einmal umwandeln möchtest.",
-
   "faq5Question": "In welche Formate kann ich die Word-Datei danach weiter konvertieren?",
   "faq5Answer": "Das heruntergeladene .docx-Dokument lässt sich mit Microsoft Word, Google Docs oder LibreOffice direkt bearbeiten und in weitere Formate exportieren – z. B. als PDF, ODT oder TXT. Du hast volle Kontrolle über das Dokument.",
-
   "ctaTitle": "Bereit, deine PDFs zu bearbeiten?",
   "ctaSubtitle": "Konvertiere deine PDF-Dateien kostenlos in Word – kein Konto, keine Software, sofort einsatzbereit.",
   "ctaButton": "Jetzt PDF in Word umwandeln",
-
   "preview": {
     "layoutTitle": "PDF in Word konvertieren – Vorschau",
     "layoutDesc": "Überprüfe deine Dateien und starte die Konvertierung zu Word.",
@@ -136,7 +126,6 @@
     "convertingText_plural": "{{count}} Dateien werden konvertiert – bitte nicht schließen.",
     "conversionFailed": "Konvertierung fehlgeschlagen"
   },
-
   "download": {
     "layoutTitle": "Word-Dokument herunterladen | SmallPDF.us",
     "layoutDesc": "Deine PDF wurde erfolgreich in ein bearbeitbares Word-Dokument umgewandelt. Jetzt herunterladen.",
@@ -189,7 +178,7 @@
     "downloadWindow": "Download-Zeitfenster",
     "autoDeletePrivacy": "Automatische Löschung zum Datenschutz",
     "timeRemaining": "Verbleibende Zeit",
-    "autoDeleteNotice": "Aus Datenschutzgründen werden deine Dateien nach 60 Minuten automatisch von unseren Servern gelöscht. Lade das Dokument rechtzeitig herunter.",
+    "autoDeleteNotice": "Aus Datenschutzgründen werden deine Dateien nach 1 Stunde automatisch von unseren Servern gelöscht. Lade das Dokument rechtzeitig herunter.",
     "privacyTitle": "Deine Daten sind sicher",
     "privacySubtitle": "Wir schützen deine Privatsphäre",
     "security1": "Verschlüsselter Upload über HTTPS/SSL",

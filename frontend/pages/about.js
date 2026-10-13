@@ -1,123 +1,50 @@
 import { useState, useEffect, memo } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
+import { getPageMessages } from '../lib/i18nLoader'
 import {
-  Shield, Zap, Users, Globe, Award, Heart, Code,
+  Shield, Zap, Users, Globe, Heart,
   Briefcase, GraduationCap, Star, CheckCircle,
-  TrendingUp, Lock, FileText, Clock, Target,
+  Lock, FileText, Clock, Target,
   Lightbulb, Server, ArrowRight, Mail,
 } from "lucide-react"
 
 // ─── Team data ────────────────────────────────────────────────────────────────
-// Manikant uses the real uploaded photo; others use Unsplash
 const team = [
   {
-    name: "Manikant Yadav",
-    role: "Founder & CEO",
-    education: "M.S. Computer Science, IIT Delhi",
-    experience: "12 yrs · Ex-Google, document infrastructure",
-    bio: "Manikant built SmallPDF.us from scratch after spending a decade in Big Tech watching people overpay for tools that should be free. He leads product vision, engineering culture, and long-term company strategy.",
-    expertise: ["PDF Architecture", "Scalable Systems", "Product Strategy"],
-    // File must be at: public/team/manikant.png
+    name: "Manikant Kumar",
+    role: "Founder & Developer",
+    education: "Computer Science",
+    experience: "Full-stack developer · PDF tools & document processing",
+    bio: "Manikant built SmallPDF.us from scratch after getting frustrated with PDF tools that lock basic features behind paywalls or require creating an account just to merge two files. He handles everything — from backend processing to frontend UX.",
+    expertise: ["PDF Processing", "Next.js / Node.js", "Product Design"],
     photo: "/team/manikant.png",
     isFounder: true,
     accentColor: "from-blue-600 to-blue-800",
     badgeColor: "bg-blue-50 text-blue-700 border border-blue-100",
   },
-  {
-    name: "Priya Nair",
-    role: "Chief Technology Officer",
-    education: "B.Tech CS, IIT Bombay",
-    experience: "11 yrs · Cloud infrastructure & security",
-    bio: "Priya architected the zero-data-retention pipeline that processes millions of files daily. Her background in privacy engineering means your files are genuinely never kept.",
-    expertise: ["Cloud Security", "Distributed Systems", "GDPR"],
-    photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
-    accentColor: "from-cyan-600 to-cyan-800",
-    badgeColor: "bg-cyan-50 text-cyan-700 border border-cyan-100",
-  },
-  {
-    name: "Marcus Webb",
-    role: "Head of Engineering",
-    education: "B.S. Software Engineering, Carnegie Mellon",
-    experience: "9 yrs · Full-stack, file conversion APIs",
-    bio: "Marcus leads the 12-person eng team. He championed the zero-account philosophy — believing that asking for a login just to convert a PDF is a betrayal of user trust.",
-    expertise: ["React / Next.js", "Node.js", "Conversion APIs"],
-    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-    accentColor: "from-violet-600 to-violet-800",
-    badgeColor: "bg-violet-50 text-violet-700 border border-violet-100",
-  },
-  {
-    name: "Amara Johnson",
-    role: "Head of Product & UX",
-    education: "B.F.A. Interaction Design, RISD",
-    experience: "8 yrs · UX research, product design",
-    bio: "Amara runs hundreds of user tests a year. She cut the average upload-to-download time by 62% by removing every unnecessary step from the conversion flow.",
-    expertise: ["UX Research", "Interaction Design", "Accessibility"],
-    photo: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=face",
-    accentColor: "from-emerald-600 to-emerald-800",
-    badgeColor: "bg-emerald-50 text-emerald-700 border border-emerald-100",
-  },
-  {
-    name: "Sophia Chen",
-    role: "Lead Security Engineer",
-    education: "M.S. Cybersecurity, Stanford University",
-    experience: "10 yrs · Ex-Cloudflare, application security",
-    bio: "Sophia built our multi-layer encryption pipeline and leads bi-annual penetration tests. Previously at Cloudflare protecting infrastructure at internet scale.",
-    expertise: ["Cryptography", "Pen Testing", "ISO 27001"],
-    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
-    accentColor: "from-rose-600 to-red-700",
-    badgeColor: "bg-rose-50 text-rose-700 border border-rose-100",
-  },
-  {
-    name: "Robert Ellison",
-    role: "Chief Privacy & Legal Officer",
-    education: "J.D. Technology Law, Harvard Law School",
-    experience: "18 yrs · Data privacy law, GDPR compliance",
-    bio: "Robert ensures every policy is airtight under GDPR, CCPA, and international privacy law. He personally mandated the 2-hour auto-delete guarantee into our architecture.",
-    expertise: ["GDPR / CCPA", "Data Governance", "Legal Compliance"],
-    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-    accentColor: "from-slate-700 to-slate-900",
-    badgeColor: "bg-slate-50 text-slate-700 border border-slate-100",
-  },
-]
-
-const stats = [
-  { value: "100M+",  label: "Users Served",    icon: Users },
-  { value: "30M+",   label: "Files Processed", icon: FileText },
-  { value: "4.6★",   label: "Avg Rating",      icon: Star },
-  { value: "99.98%", label: "Uptime SLA",       icon: Server },
-  { value: "256-bit",label: "Encryption",       icon: Lock },
-  { value: "2 hrs",  label: "Auto-Delete",      icon: Clock },
-]
-
-const values = [
-  { icon: Heart,     title: "Free, Always",       desc: "No trials. No paywalls. Core tools stay free forever.",                            gradient: "from-rose-500 to-pink-600" },
-  { icon: Shield,    title: "Privacy by Design",  desc: "Files deleted within 2 hours — by architecture, not just policy.",                  gradient: "from-green-500 to-emerald-600" },
-  { icon: Zap,       title: "Radical Simplicity", desc: "No account. No jargon. If a flow takes 3+ clicks, we redesign it.",                 gradient: "from-amber-500 to-yellow-600" },
-  { icon: Globe,     title: "Built for Everyone",  desc: "8 languages, every device. A student in Jakarta or exec in Berlin — it works.",    gradient: "from-blue-500 to-cyan-600" },
-  { icon: Target,    title: "Quality First",       desc: "Every engine benchmarked against 1,000+ real documents before release.",           gradient: "from-violet-500 to-purple-600" },
-  { icon: Lightbulb, title: "User-Led Roadmap",   desc: "Real users vote on features. Your feedback shapes what we ship next.",              gradient: "from-teal-500 to-cyan-600" },
 ]
 
 // milestones are translated inside the component via t() — see milestonesTranslated below
 
-const pressLogos = ["TechCrunch", "Product Hunt", "Forbes", "Wired", "LifeHacker", "MakeUseOf"]
-
-// ─── Founder Card (large, featured) 
+// ─── Founder Card (large, featured)
 const FounderCard = memo(({ member }) => (
   <div className="lg:col-span-3 bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-xl hover:shadow-2xl transition-all duration-500 group">
     <div className={`h-1.5 w-full bg-gradient-to-r ${member.accentColor}`} />
     <div className="grid md:grid-cols-[280px,1fr] gap-0">
       {/* Photo side */}
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 min-h-[280px] md:min-h-0">
-        <img
+        <Image
           src={member.photo}
           alt={`${member.name} — ${member.role}, SmallPDF.us`}
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+          fill
+          sizes="(max-width: 768px) 100vw, 280px"
+          className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
           style={{ maxHeight: "360px" }}
-          loading="eager"
+          priority
           onError={(e) => {
             e.target.style.display = "none"
             e.target.parentElement.style.background = "linear-gradient(135deg, #1e3a5f 0%, #1e5f8f 100%)"
@@ -177,12 +104,13 @@ const TeamCard = memo(({ member, index }) => (
     <div className="p-5">
       {/* Photo + name */}
       <div className="flex items-center gap-3.5 mb-4">
-        <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md ring-2 ring-gray-100">
-          <img
+        <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md ring-2 ring-gray-100">
+          <Image
             src={member.photo}
             alt={`${member.name} — ${member.role} at SmallPDF.us`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
+            fill
+            sizes="64px"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
             onError={(e) => {
               e.target.style.display = "none"
               e.target.parentElement.style.background = "#E5E7EB"
@@ -242,25 +170,14 @@ export default function AboutPage() {
   const founder = team.find((m) => m.isFounder)
   const restTeam = team.filter((m) => !m.isFounder)
 
-  // Translated milestones
-  const milestonesTranslated = [
-    { year: "2018", event: t("about.milestone2018") },
-    { year: "2019", event: t("about.milestone2019") },
-    { year: "2020", event: t("about.milestone2020") },
-    { year: "2021", event: t("about.milestone2021") },
-    { year: "2022", event: t("about.milestone2022") },
-    { year: "2023", event: t("about.milestone2023") },
-    { year: "2024", event: t("about.milestone2024") },
-  ]
-
   // Translated stats labels
   const statsTranslated = [
-    { value: "100M+",  label: t("about.statUsers"),      icon: Users },
-    { value: "30M+",   label: t("about.statFiles"),      icon: FileText },
-    { value: "4.6★",   label: t("about.statRating"),     icon: Star },
-    { value: "99.98%", label: t("about.statUptime"),     icon: Server },
+    { value: "27",     label: t("about.statTools"),      icon: FileText },
+    { value: "8",      label: t("about.statLanguages"),  icon: Users },
     { value: "256-bit",label: t("about.statEncryption"), icon: Lock },
-    { value: "2 hrs",  label: t("about.statAutoDelete"), icon: Clock },
+    { value: "1 hr",   label: t("about.statAutoDelete"), icon: Clock },
+    { value: "2024",   label: t("about.statLaunched"),   icon: Star },
+    { value: "Free",   label: t("about.statPrice"),      icon: Server },
   ]
 
   // Translated values
@@ -278,7 +195,7 @@ export default function AboutPage() {
       <SEOHead
         title={t("about.pageTitle")}
         description={t("about.pageDescription")}
-        keywords="about smallpdf.us, Manikant Yadav, PDF tools team, privacy PDF, free PDF tools"
+        keywords="about smallpdf.us, Manikant Kumar, PDF tools team, privacy PDF, free PDF tools"
       />
       <Layout>
 
@@ -346,7 +263,7 @@ export default function AboutPage() {
                   <p>{t("about.missionPara")}</p>
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-2.5">
-                  {["No account required — ever", "Files deleted within 2 hours", "No ads inside conversion flows", "Transparent about how we earn", "GDPR & CCPA compliant", "Available in 8 languages"].map((item) => (
+                  {["Fast, secure processing", "Files deleted within 1 hour", "No ads inside conversion flows", "Transparent about how we earn", "GDPR & CCPA compliant", "Available in 8 languages"].map((item) => (
                     <div key={item} className="flex items-start gap-2">
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span className="text-xs font-medium text-gray-700">{item}</span>
@@ -375,20 +292,13 @@ export default function AboutPage() {
                       { c: "text-slate-400",  t: "  └─ No file content logging" },
                       { c: "text-purple-400", t: "SERVE" },
                       { c: "text-slate-400",  t: "  └─ Signed download URL (15 min)" },
-                      { c: "text-green-400",  t: "AUTO_DELETE  →  2 hours" },
+                      { c: "text-green-400",  t: "AUTO_DELETE  →  1 hour" },
                       { c: "text-cyan-400",   t: "STORED_COPIES →  0" },
                     ].map((line, i) => <div key={i} className={`${line.c} leading-tight`}>{line.t}</div>)}
                   </div>
                   <div className="mt-5 flex items-center gap-2 bg-green-500/10 border border-green-500/25 rounded-lg px-3 py-2">
                     <Shield className="w-4 h-4 text-green-400 flex-shrink-0" />
-                    <span className="text-green-300 text-xs font-bold">Zero data retention — verified by external audit</span>
-                  </div>
-                </div>
-                <div className="absolute -top-4 -right-4 bg-white rounded-xl shadow-xl px-4 py-2.5 border border-gray-100 flex items-center gap-2">
-                  <Award className="w-4 h-4 text-yellow-500" />
-                  <div>
-                    <div className="text-xs font-black text-gray-900">ISO 27001</div>
-                    <div className="text-[10px] text-gray-500">Certified 2022</div>
+                    <span className="text-green-300 text-xs font-bold">Zero data retention — by architecture, not just policy</span>
                   </div>
                 </div>
               </div>
@@ -435,62 +345,14 @@ export default function AboutPage() {
               {founder && <FounderCard member={founder} />}
             </div>
 
-            {/* Rest of team — 2-col then 3-col grid */}
-            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5">
-              {restTeam.map((member, i) => (
-                <TeamCard key={member.name} member={member} index={i} />
-              ))}
-            </div>
-
             <div className="mt-8 text-center">
-              <div className="inline-flex flex-col sm:flex-row items-center gap-4 bg-white border border-gray-200 rounded-2xl px-7 py-4 shadow-sm">
-                <p className="text-sm text-gray-600">{t("about.teamSize")}</p>
+              <div className="inline-flex items-center gap-3 bg-white border border-gray-200 rounded-2xl px-7 py-4 shadow-sm">
+                <p className="text-sm text-gray-600">Solo-built and maintained — every line of code, every tool, every design decision.</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ── TIMELINE  */}
-        <section className="py-14 md:py-20 px-4 bg-white">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-full mb-3">
-                <TrendingUp className="w-3.5 h-3.5" /> {t("about.journeyBadge")}
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black text-gray-900">{t("about.journeyTitle")}</h2>
-            </div>
-            <div className="relative">
-              <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-cyan-500 to-emerald-500" />
-              <div className="space-y-5">
-                {milestonesTranslated.map((m, i) => (
-                  <div key={i} className="flex gap-4 group">
-                    <div className="relative flex-shrink-0 z-10">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white text-[10px] font-black shadow-md ring-4 ring-white group-hover:scale-110 transition-transform">
-                        {m.year.slice(2)}
-                      </div>
-                    </div>
-                    <div className="bg-white border border-gray-100 rounded-xl p-3.5 flex-1 hover:shadow-md hover:border-gray-200 transition-all">
-                      <span className="text-xs font-black text-blue-600 block mb-0.5">{m.year}</span>
-                      <p className="text-xs text-gray-700 leading-relaxed">{m.event}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── PRESS  */}
-        <section className="py-9 px-4 bg-gray-50 border-y border-gray-100">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">{t("about.pressLabel")}</p>
-            <div className="flex flex-wrap justify-center gap-8">
-              {pressLogos.map((name) => (
-                <span key={name} className="text-gray-400 font-black text-lg hover:text-gray-600 transition-colors cursor-default select-none">{name}</span>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* ── TRUST SIGNALS  */}
         <section className="py-14 md:py-20 px-4 bg-white">
@@ -501,10 +363,10 @@ export default function AboutPage() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: Award,       title: "ISO 27001 Certified",    desc: "Independently audited information security management since 2022.", color: "from-yellow-400 to-amber-500" },
-                { icon: Shield,      title: "GDPR & CCPA Compliant",  desc: "Verified by external legal counsel. Full EU & US privacy compliance.",  color: "from-blue-500 to-blue-600" },
-                { icon: Code,        title: "Bi-Annual Pen Tests",    desc: "Third-party penetration testing — reports available on request.",        color: "from-violet-500 to-purple-600" },
-                { icon: CheckCircle, title: "Zero Security Incidents", desc: "No data breaches in 6 years of operation. Ever.",                      color: "from-green-500 to-emerald-600" },
+                { icon: Shield,      title: "256-bit SSL Encryption",  desc: "All file transfers are encrypted in transit. Your data is protected end-to-end.", color: "from-blue-500 to-blue-600" },
+                { icon: Clock,       title: "1-Hour Auto Delete",      desc: "Every uploaded file is permanently deleted from our servers within 1 hour.", color: "from-amber-500 to-orange-500" },
+                { icon: Lock,        title: "Zero Data Retention",     desc: "We don't store, analyze, or share your files. No copies are ever kept.", color: "from-violet-500 to-purple-600" },
+                { icon: CheckCircle, title: "GDPR Compliant",          desc: "Built with privacy by design. Compliant with GDPR and international privacy standards.", color: "from-green-500 to-emerald-600" },
               ].map((item, i) => (
                 <div key={i} className="bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:border-gray-200 transition-all group text-center">
                   <div className={`w-12 h-12 bg-gradient-to-br ${item.color} rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md group-hover:scale-110 transition-transform`}>
@@ -537,4 +399,11 @@ export default function AboutPage() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["about"]) },
+    revalidate: 86400,
+  }
 }

@@ -3,11 +3,9 @@
     "title": "Konversi PDF ke Word Gratis – Tanpa Daftar | SmallPDF.us",
     "description": "Ubah file PDF menjadi dokumen Word yang bisa diedit (.docx) secara online dan gratis. Layout, gambar, dan format tetap terjaga. Cepat, aman, tanpa install software."
   },
-
   "heroTitle": "Konversi PDF ke Word",
   "heroTitleHighlight": "gratis dan dalam hitungan detik",
   "heroSubtitle": "Ubah file PDF kamu menjadi dokumen Word yang sepenuhnya bisa diedit — tanpa kehilangan kualitas, tanpa perlu daftar akun. Unggah file dan unduh hasilnya dalam sekejap.",
-
   "dropTitle": "Seret file PDF kamu ke sini",
   "dropActive": "Lepaskan sekarang — kami yang urus!",
   "dropSubtitle": "atau klik untuk memilih file dari perangkatmu",
@@ -23,77 +21,69 @@
   "addMoreDocuments": "Tambah dokumen lainnya",
   "convertButton_singular": "Konversi {{count}} PDF ke Word",
   "convertButton_plural": "Konversi {{count}} PDF ke Word",
-
   "preparingTitle": "Sedang mempersiapkan dokumen…",
   "preparingSubtitle_singular": "{{count}} file sedang diproses",
   "preparingSubtitle_plural": "{{count}} file sedang diproses",
-
   "previewPageLabel": "Halaman",
   "previewShowing": "Pratinjau: {{count}} halaman pertama",
   "previewTruncated": "Halaman lainnya tidak ditampilkan",
-
   "errorInvalidType": "Mohon unggah hanya file PDF (.pdf).",
   "errorMaxSize": "File ini terlalu besar. Batas maksimalnya adalah 50 MB per file.",
   "errorNoFiles": "Pilih minimal satu file PDF untuk melanjutkan.",
   "errorProcessing": "Terjadi kesalahan saat memproses file. Silakan coba lagi.",
   "errorPreviewLoading": "Pratinjau masih loading, mohon tunggu sebentar.",
   "errorPreviewFailed": "Gagal memuat pratinjau. File mungkin rusak atau tidak valid.",
-
   "featuresTitle": "Kenapa Pilih SmallPDF.us?",
   "featuresSubtitle": "Teknologi kami menganalisis setiap PDF secara mendalam untuk menghasilkan dokumen Word yang semirip mungkin dengan aslinya.",
-
   "feature1Title": "Pengenalan Teks yang Akurat",
   "feature1Desc": "Setiap paragraf, judul, daftar, dan kolom diekstrak dengan presisi tinggi. Teks di Word hasil konversi mencerminkan isi PDF asli secara setia.",
-
   "feature2Title": "Konversi Super Cepat",
   "feature2Desc": "Bahkan PDF dengan puluhan halaman pun bisa dikonversi dalam beberapa detik. Tidak perlu menunggu lama — semua berjalan di latar belakang.",
-
   "feature3Title": "Data Kamu Tetap Aman",
   "feature3Desc": "File kamu hanya digunakan untuk proses konversi, lalu dihapus otomatis dari server kami setelah satu jam. Kami tidak pernah menyimpan atau mengakses isinya.",
-
   "feature4Title": "Gambar & Grafik Tetap Terjaga",
   "feature4Desc": "Gambar yang disematkan, logo, dan diagram dipindahkan ke dokumen Word tepat di posisi yang sama seperti di PDF aslinya.",
-
   "feature5Title": "Bisa Dipakai di HP dan Tablet",
   "feature5Desc": "Baik di iPhone, Android, maupun tablet, alat kami berjalan di browser modern mana pun tanpa perlu menginstal aplikasi apa pun.",
-
   "feature6Title": "Tanpa Perlu Install Apapun",
   "feature6Desc": "Tidak ada software yang perlu diunduh, tidak perlu buat akun, tidak butuh kartu kredit. Buka situsnya dan langsung mulai konversi.",
-
   "stepsTitle": "Cara Kerjanya",
   "stepsSubtitle": "Tiga langkah mudah untuk mengubah PDF menjadi dokumen Word yang bisa diedit",
-
   "step1Title": "Unggah PDF Kamu",
   "step1Desc": "Seret satu atau beberapa file PDF ke area unggah atau klik untuk memilihnya. Hingga 10 file berukuran 50 MB masing-masing dalam satu kali proses.",
-
   "step2Title": "Pemrosesan Otomatis",
   "step2Desc": "Sistem kami mengidentifikasi blok teks, tata letak, gambar, dan tabel untuk merekonstruksi dokumen Word yang terstruktur dengan baik.",
-
   "step3Title": "Unduh File Word Kamu",
   "step3Desc": "File .docx yang sepenuhnya bisa diedit siap dalam hitungan detik. Buka di Microsoft Word, Google Docs, atau LibreOffice.",
-
+  "diveTitle": "Apa yang sebenarnya terjadi saat mengonversi ke Word",
+  "diveSubtitle": "Detail yang penting setelah melampaui dasar-dasarnya.",
+  "dive1Title": "Apakah format benar-benar bertahan setelah konversi?",
+  "dive1Desc": "Dokumen sederhana — paragraf, judul, tabel dasar — dikonversi hampir sempurna. Tata letak kompleks dengan kotak teks yang tumpang tindih, penggantian font yang tidak biasa, atau elemen desain khusus yang berat terkadang bergeser sedikit, karena mesin tata letak Word dan tata letak tetap PDF bekerja secara berbeda.",
+  "dive2Title": "PDF hasil pindai memerlukan OCR terlebih dahulu",
+  "dive2Desc": "PDF hasil pindai hanyalah gambar dari sebuah halaman, tanpa teks yang mendasarinya untuk diekstrak — mengonversinya langsung menghasilkan dokumen kosong atau hanya berupa gambar. Konverter kami secara otomatis menjalankan OCR pada halaman hasil pindai terlebih dahulu, sehingga file Word yang dihasilkan memiliki teks asli yang dapat diedit, bukan gambar.",
+  "dive3Title": "Apa yang bisa dan tidak bisa dengan mudah diedit setelahnya",
+  "dive3Desc": "Teks paragraf, judul, dan tabel sederhana menjadi konten Word yang sepenuhnya dapat diedit. Grafik kompleks, bagan yang disematkan sebagai gambar, dan penempatan presisi tingkat piksel dari PDF dengan desain berat sering dikonversi sebagai gambar, bukan objek yang dapat diedit — tampil dengan benar tetapi perlu diganti untuk diubah.",
+  "dive4Title": "Tata letak multi-kolom dan formulir",
+  "dive4Desc": "Teks multi-kolom, seperti buletin atau makalah akademik, dikonversi ke format kolom Word sendiri bila memungkinkan, mempertahankan tata letak visual. Bidang formulir PDF interaktif dikonversi sesuai tampilan visualnya, tetapi fungsi yang dapat diisi tidak ikut terbawa — Anda akan melihat garis luar bidang sebagai elemen biasa.",
+  "dive5Title": "Font yang tidak dimiliki komputer Anda",
+  "dive5Desc": "Jika PDF asli menggunakan font yang tidak terpasang di sistem Anda, Word akan menggantinya dengan font terdekat yang tersedia saat Anda membuka file, yang dapat sedikit menggeser jeda baris dan spasi. Menyematkan font di PDF terlebih dahulu, jika memungkinkan, memberikan penggantian paling akurat.",
+  "dive6Title": "PDF ke Word vs. konversi langsung ke Google Docs",
+  "dive6Desc": "Mengonversi ke Word (.docx) terlebih dahulu lalu mengunggahnya ke Google Docs umumnya mempertahankan lebih banyak format dibandingkan beberapa fitur impor PDF langsung di alat lain, karena .docx adalah format yang dibaca secara native oleh Word maupun Docs. Ini langkah tambahan, tetapi biasanya jalur yang lebih andal jika Docs adalah tujuan Anda.",
   "faqTitle": "Pertanyaan yang Sering Diajukan",
   "faqSubtitle": "Semua yang perlu kamu tahu tentang konversi PDF ke Word",
-
   "faq1Question": "Seberapa akurat hasil konversi PDF ke Word?",
   "faq1Answer": "Akurasinya bergantung pada jenis PDF. Untuk PDF yang dibuat secara digital (diekspor dari Word, InDesign, dll.), hasilnya sangat akurat — teks, format, dan struktur terjaga. Untuk PDF hasil scan tanpa teks tertanam, kualitasnya bisa bervariasi karena diperlukan proses OCR (pengenalan karakter optis).",
-
   "faq2Question": "Apakah tata letak dokumen tetap dipertahankan?",
   "faq2Answer": "Ya, kami berusaha semaksimal mungkin untuk mereproduksi tata letak asli. Kolom, judul, daftar, dan gambar yang disematkan semuanya dipertimbangkan. Tata letak yang sangat kompleks, seperti majalah multi-kolom, mungkin sedikit berbeda.",
-
   "faq3Question": "Apakah file PDF saya aman?",
   "faq3Answer": "Tentu saja. Semua transfer dienkripsi melalui HTTPS/SSL. File kamu tidak pernah disimpan secara permanen atau diteruskan ke pihak ketiga — file dihapus otomatis dari server kami setelah satu jam.",
-
   "faq4Question": "Berapa banyak file PDF yang bisa dikonversi sekaligus?",
   "faq4Answer": "Kamu bisa mengunggah hingga 10 file PDF sekaligus, masing-masing berukuran maksimal 50 MB. Konversi batch sangat berguna jika kamu punya banyak dokumen yang perlu diproses sekaligus.",
-
   "faq5Question": "Bisakah saya mengonversi file Word kembali ke PDF setelah itu?",
   "faq5Answer": "Tentu bisa. File .docx yang diunduh bisa dibuka dan diedit di Microsoft Word, Google Docs, atau LibreOffice, lalu diekspor kembali sebagai PDF atau format lain (ODT, TXT…). Kamu punya kendali penuh atas dokumennya.",
-
   "ctaTitle": "Siap Mengedit PDF Kamu?",
   "ctaSubtitle": "Konversi PDF ke Word secara gratis — tanpa akun, tanpa software, siap dalam hitungan detik.",
   "ctaButton": "Konversi PDF ke Word Sekarang",
-
   "preview": {
     "layoutTitle": "Konversi PDF ke Word — Pratinjau",
     "layoutDesc": "Periksa file kamu dan mulai konversi ke Word.",
@@ -136,7 +126,6 @@
     "convertingText_plural": "{{count}} file sedang dikonversi — jangan tutup tab ini.",
     "conversionFailed": "Konversi gagal"
   },
-
   "download": {
     "layoutTitle": "Unduh Dokumen Word | SmallPDF.us",
     "layoutDesc": "PDF kamu berhasil dikonversi menjadi dokumen Word yang bisa diedit. Unduh sekarang.",
@@ -189,7 +178,7 @@
     "downloadWindow": "Jendela unduhan",
     "autoDeletePrivacy": "Penghapusan otomatis untuk melindungi privasimu",
     "timeRemaining": "Waktu tersisa",
-    "autoDeleteNotice": "Demi privasimu, file akan otomatis dihapus dari server kami dalam 60 menit. Pastikan kamu mengunduh dokumennya sebelum waktu habis.",
+    "autoDeleteNotice": "Demi privasimu, file akan otomatis dihapus dari server kami dalam 1 jam. Pastikan kamu mengunduh dokumennya sebelum waktu habis.",
     "privacyTitle": "Data kamu terlindungi",
     "privacySubtitle": "Privasimu adalah prioritas kami",
     "security1": "Transfer terenkripsi melalui HTTPS/SSL",

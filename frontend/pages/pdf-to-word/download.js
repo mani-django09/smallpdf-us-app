@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef } from "react"
+﻿import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "@/lib/useLocalizedRouter"
 import Layout from "@/components/Layout"
+import UpgradeUpsell from "@/components/UpgradeUpsell"
+import EmailCapture from "@/components/EmailCapture"
 import SEOHead from "@/components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   Download,
   FileText,
@@ -20,13 +23,17 @@ import {
   Layers,
   FilePlus,
   FileOutput,
+  Printer,
+  Trash2,
   Zap,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
+import { printBlob, printFile, filenameFromDisposition } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import RelatedTools from "../../components/RelatedTools"
+import AdLabel from "../../components/AdLabel"
+
 
 // Get API URL from environment or default to relative path
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""
@@ -50,6 +57,8 @@ export default function DownloadPdfToWord() {
   // The server renders "60:00" and the client starts the real timer only after mount.
   const [mounted, setMounted] = useState(false)
   const [useCount, setUseCount] = useState(0)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
 
   // Upsell — auth + india detection
   const { user } = useAuth()
@@ -87,6 +96,8 @@ export default function DownloadPdfToWord() {
 
     try {
       const downloadUrl = `${API_BASE_URL}/api/download-word/${jobId}`
+      console.log("Downloading from:", downloadUrl)
+
       const response = await fetch(downloadUrl)
 
       if (!response.ok) {
@@ -101,6 +112,7 @@ export default function DownloadPdfToWord() {
       }
 
       const blob = await response.blob()
+      setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement("a")
       link.href = url
@@ -108,16 +120,7 @@ export default function DownloadPdfToWord() {
       const contentDisposition = response.headers.get("content-disposition")
       let filename = `converted-document-${jobId}.docx`
 
-      if (contentDisposition) {
-        // Handle both encoded and plain filenames
-        const encodedMatch = contentDisposition.match(/filename\*=UTF-8''([^;\n]*)/)
-        const plainMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)
-        if (encodedMatch && encodedMatch[1]) {
-          filename = decodeURIComponent(encodedMatch[1])
-        } else if (plainMatch && plainMatch[1]) {
-          filename = plainMatch[1].replace(/['"]/g, "")
-        }
-      }
+      filename = filenameFromDisposition(contentDisposition, filename)
 
       link.download = filename
       document.body.appendChild(link)
@@ -173,6 +176,32 @@ export default function DownloadPdfToWord() {
     }
   }
 
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        printBlob(downloadedBlob)
+      } else {
+        const { hostname, protocol } = window.location
+        const API_URL = (hostname === 'localhost' || hostname === '127.0.0.1')
+          ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011')
+          : `${protocol}//${hostname}`
+        await printFile(`${API_URL}/api/download-word/${jobId}`)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("uploadedPdfFiles")
+    sessionStorage.removeItem("pdfWordConvertResult")
+    router.push("/pdf-to-word")
+  }
+
   if (!convertResult && !jobId) {
     return (
       <Layout>
@@ -197,7 +226,11 @@ export default function DownloadPdfToWord() {
       title={t("pdfToWordDownload.layoutTitle")}
       description={t("pdfToWordDownload.layoutDesc")}
     >
-      <SEOHead noIndex={true} />
+      <SEOHead
+        title={t("pdfToWordDownload.layoutTitle")}
+        description={t("pdfToWordDownload.layoutDesc")}
+        noIndex={true}
+      />
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -214,12 +247,14 @@ export default function DownloadPdfToWord() {
         .animate-bounce-gentle { animation: bounce-gentle 2s ease-in-out infinite; }
       `}</style>
 
+
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
         </div>
       </div>
+
       {/* Success Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-blue-600 to-blue-700">
         <div className="absolute inset-0 opacity-10">
@@ -380,6 +415,21 @@ export default function DownloadPdfToWord() {
                       <Share2 className="w-4 h-4" />
                     </button>
                     <button
+                      onClick={handlePrint}
+                      disabled={printing}
+                      title={t("fileActions.print")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700 disabled:opacity-60"
+                    >
+                      {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      title={t("fileActions.delete")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center gap-2 text-red-600"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={handleCopyLink}
                       className="py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700"
                       title="Copy link"
@@ -387,28 +437,10 @@ export default function DownloadPdfToWord() {
                       {copied ? <CheckCircle className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
-                  {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-                  {mounted && !isPaidUser && useCount >= 1 && (
-                    <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                        <Zap className="w-5 h-5 text-white" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-slate-800 leading-tight">Unlimited files, bigger uploads, zero ads</p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          {isIndia ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking' : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                        </p>
-                      </div>
-                      <Link
-                        href="/pricing"
-                        className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-                      >
-                        <Zap className="w-3.5 h-3.5" />
-                        Upgrade
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  )}
+                  {/* ── Upgrade upsell ── */}
+                  <UpgradeUpsell className="mt-4" />
+
+                  <EmailCapture className="mt-3" />
                 </div>
               </div>
 
@@ -458,6 +490,12 @@ export default function DownloadPdfToWord() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Mid-content Ad */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+                <AdSenseUnit adSlot="pdf-word-dl-mid" size="leaderboard" />
               </div>
 
               {/* More Tools */}
@@ -514,120 +552,30 @@ export default function DownloadPdfToWord() {
 
             {/* Sidebar */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Conversion Summary */}
-              <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-100 bg-slate-50">
-                  <h3 className="font-display text-base font-semibold text-slate-900">
-                    {t("pdfToWordDownload.conversionSummary")}
-                  </h3>
-                </div>
-                <div className="p-5 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">
-                      {t("pdfToWordDownload.filesConverted")}
-                    </span>
-                    <span className="font-display font-semibold text-slate-900">{fileCount}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">
-                      {t("pdfToWordDownload.outputFormat")}
-                    </span>
-                    <span className="font-display font-semibold text-blue-600">DOCX</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">
-                      {t("pdfToWordDownload.editCapability")}
-                    </span>
-                    <span className="font-display font-semibold text-slate-900">
-                      {t("pdfToWordDownload.editCapabilityValue")}
-                    </span>
-                  </div>
-                  <div className="pt-3 border-t border-slate-100">
-                    <div className="flex justify-between items-center">
-                      <span className="font-body text-sm text-slate-600">{t("pdfToWordDownload.status")}</span>
-                      <span className="inline-flex items-center gap-1.5 text-green-600 font-medium text-sm">
-                        <CheckCircle className="w-4 h-4" />
-                        {t("pdfToWordDownload.statusComplete")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* File Expiry Timer */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <Timer className="w-5 h-5 text-amber-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-sm font-semibold text-slate-900">
-                      {t("pdfToWordDownload.downloadWindow")}
-                    </h3>
-                    <p className="font-body text-xs text-slate-500">{t("pdfToWordDownload.autoDeletePrivacy")}</p>
-                  </div>
-                </div>
-                <div className="bg-slate-50 rounded-lg p-3">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-body text-xs text-slate-600">{t("pdfToWordDownload.timeRemaining")}</span>
-                    {/* FIX #7: Guarded by mounted — prevents hydration mismatch */}
-                    <span className="font-display font-semibold text-amber-600 text-sm">
-                      {mounted ? formatTime(countdown) : "60:00"}
-                    </span>
-                  </div>
-                  <div className="bg-slate-200 rounded-full h-1.5 overflow-hidden">
-                    {/* FIX #7: Also guard width calculation */}
-                    <div
-                      className="bg-gradient-to-r from-amber-500 to-amber-600 h-full transition-all duration-1000"
-                      style={{ width: mounted ? `${(countdown / 3600) * 100}%` : "100%" }}
-                    ></div>
-                  </div>
-                </div>
-                <p className="font-body text-xs text-slate-500 mt-3 leading-relaxed">
-                  {t("pdfToWordDownload.autoDeleteNotice")}
-                </p>
-              </div>
-
-              {/* Security Info */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-sm font-semibold text-slate-900">
-                      {t("pdfToWordDownload.privacyTitle")}
-                    </h3>
-                    <p className="font-body text-xs text-slate-500">{t("pdfToWordDownload.privacySubtitle")}</p>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  {[
-                    t("pdfToWordDownload.security1"),
-                    t("pdfToWordDownload.security2"),
-                    t("pdfToWordDownload.security3"),
-                    t("pdfToWordDownload.security4"),
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 text-green-600 flex-shrink-0" />
-                      <span className="font-body text-xs text-slate-600">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               {/* Sidebar Ad */}
-              <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
                 <AdSenseUnit adSlot="7489539676" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+                <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-
-      {/* Related Tools — shown after download to encourage next action */}
-      <RelatedTools current="pdf-to-word" />
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pdfToWordDownload"]) },
+    revalidate: 86400,
+  }
 }

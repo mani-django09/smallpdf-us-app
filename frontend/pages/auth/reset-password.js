@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Head from 'next/head'
 import { useAuth } from '../../context/AuthContext'
 import { useTranslations } from '../../lib/i18n'
+import { getPageMessages } from '../../lib/i18nLoader'
 
 export default function ResetPasswordPage() {
   const router = useRouter()
@@ -112,4 +113,11 @@ const styles = {
   input: { border: '1.5px solid #d1d5db', borderRadius: 8, padding: '10px 14px', fontSize: 15, outline: 'none', color: '#111827' },
   btn: { background: '#DC2626', color: '#fff', border: 'none', borderRadius: 8, padding: '12px', fontSize: 15, fontWeight: 600, cursor: 'pointer', width: '100%' },
   errorBox: { background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', borderRadius: 8, padding: '12px 14px', fontSize: 14, marginBottom: 4 },
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["auth"]) },
+    revalidate: 86400,
+  }
 }

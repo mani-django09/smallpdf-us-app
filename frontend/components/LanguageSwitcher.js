@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Globe, Loader2 } from 'lucide-react'
+import { Globe, Loader2, ChevronDown } from 'lucide-react'
 import { localePath } from '../lib/route-translations'
 
 export default function LanguageSwitcher() {
@@ -40,18 +40,19 @@ export default function LanguageSwitcher() {
   return (
     <div className="relative group">
       <button
-        className="flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+        className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
         aria-label="Switch language"
         disabled={switching}
       >
         {switching
-          ? <Loader2 className="w-4 h-4 text-gray-500 animate-spin" />
-          : <Globe className="w-4 h-4 text-gray-700" />
+          ? <Loader2 className="w-4 h-4 animate-spin" />
+          : <Globe className="w-4 h-4" />
         }
-        <span className="text-sm font-semibold text-gray-700">{currentLanguage.flag} {currentLanguage.name}</span>
+        <span className="text-[15px] font-medium">{currentLanguage.name}</span>
+        <ChevronDown className="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-hover:rotate-180" aria-hidden="true" />
       </button>
 
-      <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
+      <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-2xl shadow-2xl shadow-slate-900/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
         {languages.map((lang) => (
           <button
             key={lang.code}
@@ -63,7 +64,6 @@ export default function LanguageSwitcher() {
                 : 'text-gray-700 hover:bg-red-50 hover:text-red-600'
             }`}
           >
-            <span className="text-base">{lang.flag}</span>
             <span>{lang.name}</span>
             {locale === lang.code && (
               <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-500" />

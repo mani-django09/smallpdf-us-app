@@ -1,0 +1,78 @@
+{
+  "pageTitle": "PDF API — PDFの結合・変換・圧縮・保護 | SmallPDF.us",
+  "pageDescription": "シンプルで高速なPDF REST API。結合、分割、回転、圧縮、パスワード保護、PDF⇄Word・JPG・PNG変換。無料枠あり、cURL・Node.js・Pythonのコードサンプル付き。",
+  "heroBadge": "開発者向け API · v1",
+  "heroTitle": "開発者のために作られたPDF API",
+  "heroDesc": "タスクごとにシンプルなRESTエンドポイントを1つ。PDFの結合・変換・圧縮・保護をどの言語からでも — SDKなし、サーバー不要、PDFライブラリ不要。",
+  "heroCtaPrimary": "無料APIキーを取得",
+  "heroCtaSecondary": "クイックスタート",
+  "trust": {
+    "endpoints": { "title": "11エンドポイント", "desc": "PDF・Word・画像" },
+    "noSdk": { "title": "SDKなし", "desc": "シンプルなHTTP + multipart" },
+    "private": { "title": "プライベート", "desc": "スキャン後自動削除" },
+    "anyLang": { "title": "あらゆる言語", "desc": "cURL、Node、Python…" }
+  },
+  "toc": {
+    "label": "ドキュメント",
+    "quickstart": "クイックスタート",
+    "authentication": "認証",
+    "baseUrl": "ベースURL・レスポンス",
+    "endpoints": "エンドポイント",
+    "quota": "プランとクォータ",
+    "errors": "エラーコード",
+    "apiKeys": "APIキー管理"
+  },
+  "sections": {
+    "quickstart": "クイックスタート",
+    "authentication": "認証",
+    "baseUrl": "ベースURL・レスポンス",
+    "endpoints": "エンドポイント",
+    "quota": "プランとクォータ",
+    "errors": "ステータスコード・エラーコード",
+    "cta": "今すぐ開発を始める"
+  },
+  "steps": {
+    "getKey": { "title": "1. キーを取得", "desc": "ダッシュボードでサインインしてキーを作成。" },
+    "callEndpoint": { "title": "2. エンドポイントを呼び出す", "desc": "multipart/form-dataでファイルをPOST。" },
+    "getResult": { "title": "3. 結果を取得", "desc": "処理済みファイルがすぐにストリームで返される。" }
+  },
+  "auth": {
+    "desc": "すべてのリクエストにシークレットキーを",
+    "desc2": "ヘッダーに含めてください。",
+    "dashboard": "ダッシュボード",
+    "warning": "キーはサーバーサイドで管理 — クライアントコードに公開しないでください。"
+  },
+  "baseUrl": {
+    "desc": "すべてのエンドポイントは",
+    "desc2": "以下に",
+    "bullet1": "成功時は処理済みファイルがボディで直接返されます。",
+    "bullet2": "エラー時はJSONボディが返されます:",
+    "bullet3": "すべてのレスポンスには",
+    "bullet4": "アップロードはマルウェアスキャン後、処理完了直後にサーバーから削除されます。"
+  },
+  "params": {
+    "label": "パラメータ",
+    "required": "必須",
+    "optional": "任意",
+    "returns": "返り値"
+  },
+  "categories": {
+    "organize": "整理",
+    "convert": "変換",
+    "optimize": "最適化",
+    "secure": "セキュリティ"
+  },
+  "quota": {
+    "cols": { "plan": "プラン", "calls": "API呼び出し", "price": "価格" },
+    "note": "クォータは毎月1日（UTC）にリセット。成功した呼び出しのみカウント。",
+    "pricing": "詳細な料金を見る"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "コード", "meaning": "意味" }
+  },
+  "cta": {
+    "title": "今すぐ開発を始める",
+    "desc": "無料APIキーを作成して1分以内に最初のリクエストを送信。",
+    "button": "APIキーを取得"
+  }
+}

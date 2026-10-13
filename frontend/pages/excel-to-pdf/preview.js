@@ -3,22 +3,23 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   FileSpreadsheet,
   ArrowLeft,
   CheckCircle2,
-  Shield,
-  Zap,
-  Clock,
   Play,
-  FileText,
   Settings,
   AlignLeft,
   AlignCenter,
 } from "lucide-react"
 import { excelToPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -40,6 +41,8 @@ export default function PreviewExcelToPDF() {
   const [stage, setStage] = useState("")
   const [orientation, setOrientation] = useState("portrait")
   const [fitToPage, setFitToPage] = useState(true)
+  const [error, setError] = useState("")
+  const { handleApiError, PremiumGateModal } = useFileSizeGuard("excel-to-pdf")
 
   const routerRef = useRef(router)
   useEffect(() => { routerRef.current = router })
@@ -71,10 +74,12 @@ export default function PreviewExcelToPDF() {
     ]
 
     setStage(stages[0].text)
+    setError("")
 
     let currentStage = 0
+    let stopped = false
     const updateProgress = () => {
-      if (currentStage < stages.length) {
+      if (!stopped && currentStage < stages.length) {
         setProgress(stages[currentStage].progress)
         setStage(stages[currentStage].text)
         currentStage++
@@ -96,21 +101,18 @@ export default function PreviewExcelToPDF() {
         body: formData,
       })
 
-      // Safe JSON parse — server may return HTML on 500
-      let result
-      const contentType = convertResponse.headers.get('content-type') || ''
-      if (contentType.includes('application/json')) {
-        result = await convertResponse.json()
-      } else {
-        const text = await convertResponse.text()
-        console.error('Non-JSON response:', text.substring(0, 200))
-        throw new Error(`Server error ${convertResponse.status}: Check LibreOffice is installed`)
+      // Safe JSON parse — a proxy error page (413/502) is HTML
+      const result = await convertResponse.json().catch(() => ({}))
+
+      // Limit modals take over — put the page back so the user can continue.
+      if (handleDailyLimitError(convertResponse.status, result) || handleApiError(convertResponse, result)) {
+        stopped = true; setConverting(false); setProgress(0); setStage(""); return
       }
 
-      setProgress(100)
-      setStage(t("excelToPdf.stages.complete"))
-
       if (convertResponse.ok && (result.downloadUrl || (result.files && result.files.length > 0))) {
+        stopped = true
+        setProgress(100)
+        setStage(t("excelToPdf.stages.complete"))
         // Use downloadUrl if present, otherwise build from jobId as fallback
         const rawUrl = result.downloadUrl || `/api/download-excel-pdf/${result.jobId}`
 
@@ -134,17 +136,18 @@ export default function PreviewExcelToPDF() {
           fileSize: result.fileSize || (result.files && result.files[0] && result.files[0].fileSize),
         }))
         setTimeout(() => {
-          router.push(`/excel-to-pdf/download`)
+          goToDownload(router, `/excel-to-pdf/download`)
         }, 500)
       } else {
+        // Shown on the page (was a technical alert() mentioning LibreOffice, or
+        // nothing at all when the response wasn't JSON).
         console.error("Conversion failed:", result.error || result)
-        alert(`${t("excelToPdf.stages.failed")}: ${result.error || result.details || "Unknown error. Make sure LibreOffice is installed on the server."}`)
-        setConverting(false)
-        setProgress(0)
-        setStage("")
+        throw new Error(result.message || t("excelToPdf.errorGeneric"))
       }
     } catch (error) {
       console.error("Error:", error)
+      stopped = true
+      setError(error?.message && error.message !== "Failed to fetch" ? error.message : t("excelToPdf.errorGeneric"))
       setConverting(false)
       setProgress(0)
       setStage("")
@@ -238,7 +241,7 @@ export default function PreviewExcelToPDF() {
             {/* File Info Bar */}
             <div className="bg-gradient-to-r from-slate-800 to-slate-900 px-5 py-3.5 flex items-center gap-3">
               <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <FileSpreadsheet className="w-4.5 h-4.5 text-white" />
+                <FileSpreadsheet className="w-[18px] h-[18px] text-white" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-display text-sm font-semibold text-white truncate">{fileData.name}</p>
@@ -316,15 +319,20 @@ export default function PreviewExcelToPDF() {
                         </p>
                         <p className="font-body text-xs text-slate-500">{t("excelToPdf.fitToPageDesc")}</p>
                       </div>
+                      {/* translate-x-4.5 doesn't exist in Tailwind 3.3, so the knob never moved */}
                       <button
+                        type="button"
+                        role="switch"
+                        aria-checked={fitToPage}
+                        aria-label={t("excelToPdf.fitToPage")}
                         onClick={() => setFitToPage(!fitToPage)}
-                        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
+                        className={`relative inline-flex h-5 w-9 min-h-0 flex-shrink-0 items-center rounded-full transition-colors ${
                           fitToPage ? "bg-emerald-600" : "bg-slate-300"
                         }`}
                       >
                         <span
                           className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
-                            fitToPage ? "translate-x-4.5" : "translate-x-0.5"
+                            fitToPage ? "translate-x-[18px]" : "translate-x-0.5"
                           }`}
                         />
                       </button>
@@ -341,6 +349,12 @@ export default function PreviewExcelToPDF() {
                     </h3>
                     <p className="font-body text-sm text-slate-600">{t("excelToPdf.sheetsReady")}</p>
                   </div>
+
+                  {error && (
+                    <div role="alert" className="mb-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg p-3">
+                      {error}
+                    </div>
+                  )}
 
                   {/* Convert Button */}
                   <button
@@ -394,6 +408,10 @@ export default function PreviewExcelToPDF() {
                       {t("excelToPdf.convertingFile")}
                     </p>
                   </div>
+
+                  <div className="flex justify-center mt-3">
+                    <LoadingPromo />
+                  </div>
                 </div>
               )}
             </div>
@@ -401,75 +419,30 @@ export default function PreviewExcelToPDF() {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            {/* What You Get */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-              <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">
-                {t("excelToPdf.whatYouGet")}
-              </h3>
-              <div className="space-y-2.5">
-                {[
-                  { icon: FileText, text: t("excelToPdf.formattingPreserved"), color: "text-emerald-600 bg-emerald-100" },
-                  { icon: Shield, text: t("excelToPdf.secureHandling"), color: "text-blue-600 bg-blue-100" },
-                  { icon: Zap, text: t("excelToPdf.rapidProcessing"), color: "text-yellow-600 bg-yellow-100" },
-                  { icon: Clock, text: t("excelToPdf.autoCleanup"), color: "text-purple-600 bg-purple-100" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                    >
-                      <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                    </div>
-                    <span className="font-body text-xs text-slate-700">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Process Steps */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-              <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">
-                {t("excelToPdf.conversionProcess")}
-              </h3>
-              <div className="space-y-2">
-                {[
-                  { num: "1", text: t("excelToPdf.parseExcel"), color: "bg-emerald-600" },
-                  { num: "2", text: t("excelToPdf.renderSheets"), color: "bg-green-600" },
-                  { num: "3", text: t("excelToPdf.buildPdf"), color: "bg-teal-600" },
-                ].map((step, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div
-                      className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                    >
-                      {step.num}
-                    </div>
-                    <span className="font-body text-xs text-slate-700">{step.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Output Info */}
-            <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-4 border border-emerald-200">
-              <h3 className="font-display text-sm font-semibold text-slate-900 mb-2">
-                {t("excelToPdf.outputFormat")}
-              </h3>
-              <div className="space-y-1.5 text-xs text-slate-600">
-                <p>{t("excelToPdf.allSheetsIncluded")}</p>
-                <p>{t("excelToPdf.formatsRetained")}</p>
-                <p>{t("excelToPdf.chartsConverted")}</p>
-                <p>{t("excelToPdf.universalCompat")}</p>
-              </div>
-            </div>
-
             {/* Sidebar Ad */}
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
               <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
             </div>
+
+            {/* Sidebar Ad 2 */}
+            <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+              <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+            </div>
+
           </div>
         </div>
       </div>
       {DailyLimitGate}
+      {PremiumGateModal}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["excelToPdf"]) },
+    revalidate: 86400,
+  }
 }

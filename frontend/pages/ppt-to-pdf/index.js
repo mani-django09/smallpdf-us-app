@@ -1,9 +1,11 @@
-import { useState, useRef, useCallback } from "react"
+﻿import { useState, useRef, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
@@ -29,6 +31,9 @@ import {
   Trash2,
 } from "lucide-react"
 
+// In-memory hand-off of the selected File objects to the preview page.
+export const pptToPdfStore = { files: [] }
+
 export default function PptToPdf() {
 const router = useLocalizedRouter()
   const { t } = useTranslations()
@@ -40,7 +45,6 @@ const router = useLocalizedRouter()
   const [error, setError] = useState("")
   const [openFaq, setOpenFaq] = useState(null)
 
-  const MAX_FILE_SIZE = 100 * 1024 * 1024 // 100MB
   const MAX_FILES = 10
   const ACCEPTED_EXTENSIONS = [".ppt", ".pptx", ".odp"]
   const ACCEPTED_TYPES = [
@@ -56,9 +60,8 @@ const router = useLocalizedRouter()
       return { valid: false, error: `${file.name}: ${t('pptToPdf.errorInvalidType')}` }
     }
 
-    if (file.size > MAX_FILE_SIZE) {
-      return { valid: false, error: `${file.name}: ${t('pptToPdf.errorMaxSize')}` }
-    }
+    // Size is checked by checkFiles() against the user's real plan — this
+    // fixed 5 MB check also blocked Starter/Pro users.
 
     return { valid: true }
   }
@@ -137,24 +140,10 @@ const router = useLocalizedRouter()
   const handleConvert = async () => {
     if (files.length === 0) return
 
-    const filesData = await Promise.all(
-      files.map(async (f) => {
-        const base64 = await new Promise((resolve) => {
-          const reader = new FileReader()
-          reader.onload = () => resolve(reader.result)
-          reader.readAsDataURL(f.file)
-        })
-        return {
-          id: f.id,
-          name: f.name,
-          size: f.size,
-          type: f.type,
-          data: base64,
-        }
-      }),
-    )
-
-    sessionStorage.setItem("uploadedPptFiles", JSON.stringify(filesData))
+    // Hand the File objects over in memory. Base64 copies in sessionStorage hit
+    // the ~5 MB quota for anything over ~3.7 MB (most presentations), setItem
+    // threw and "Convert" silently did nothing.
+    pptToPdfStore.files = files.map((f) => ({ id: f.id, name: f.name, size: f.size, type: f.type, file: f.file }))
     router.push("/ppt-to-pdf/preview")
   }
 
@@ -265,11 +254,18 @@ const router = useLocalizedRouter()
 
   return (
     <Layout>
+      {/* Header Ad */}
+      <div className="bg-white px-4 pt-5">
+        <div className="max-w-4xl mx-auto">
+          <AdSenseUnit size="leaderboard" />
+        </div>
+      </div>
+
       <SEOHead
         title={t('pptToPdf.pageTitle')}
         description={t('pptToPdf.pageDescription')}
         keywords="ppt to pdf, pptx to pdf, powerpoint to pdf, convert ppt to pdf, presentation to pdf, ppt converter, powerpoint converter, free ppt to pdf, online ppt to pdf, pptx converter"
-        ogImage="/images/ppt-to-pdf-og.png"
+        ogImage="/og-ppt-to-pdf.jpg"
         structuredData={structuredData}
       />
 
@@ -281,24 +277,8 @@ const router = useLocalizedRouter()
         .font-body {
           font-family: "DM Sans", sans-serif;
         }
-        @keyframes blob {
-          0%,
-          100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(20px, -30px) scale(1.05);
-          }
-          66% {
-            transform: translate(-15px, 15px) scale(0.95);
-          }
-        }
-        .animate-blob {
-          animation: blob 8s ease-in-out infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
+        
+
         @keyframes bounce-slow {
           0%,
           100% {
@@ -327,11 +307,11 @@ const router = useLocalizedRouter()
       </div>
 
       {/* Upload Section */}
-      <div className="bg-gradient-to-br from-orange-50 via-red-50 to-orange-50 py-8 px-4 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-orange-50 via-red-50 to-orange-50 py-8 px-4">
         <div className="absolute top-0 left-0 w-64 h-64 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
         <div className="absolute -bottom-8 right-20 w-64 h-64 bg-red-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-        <div className="max-w-2xl mx-auto relative z-10">
+        <div className="max-w-2xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl border border-orange-200 p-6">
             {files.length > 0 ? (
               <>
@@ -426,9 +406,9 @@ const router = useLocalizedRouter()
                     onChange={handleFileSelect}
                   />
 
-                  <div className="p-10 text-center">
+                  <div className="p-6 sm:p-10 text-center">
                     <div className="mb-3">
-                      <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                      <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-orange-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                         <Presentation className="w-8 h-8 text-white animate-bounce-slow" />
                       </div>
                     </div>
@@ -436,14 +416,14 @@ const router = useLocalizedRouter()
                     <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                       {isDragging ? t('pptToPdf.dropHere') : t('pptToPdf.uploadDropTitle')}
                     </h3>
-                    <p className="font-body text-sm text-slate-500 mb-4">
+                    <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                       {t('pptToPdf.uploadDropSubtitle')}
                     </p>
 
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
-                      className="inline-flex items-center gap-2 bg-orange-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                      className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-orange-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
                       <Upload className="w-5 h-5" />
                       <span>{t('pptToPdf.chooseButton')}</span>
@@ -683,6 +663,31 @@ const router = useLocalizedRouter()
         </div>
       </section>
 
+      {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+      <section className="py-16 sm:py-20 bg-white border-t border-slate-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-slate-900 mb-4">{t('pptToPdf.diveTitle')}</h2>
+            <p className="font-body text-lg text-slate-600">{t('pptToPdf.diveSubtitle')}</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              [t('pptToPdf.dive1Title'), t('pptToPdf.dive1Desc')],
+              [t('pptToPdf.dive2Title'), t('pptToPdf.dive2Desc')],
+              [t('pptToPdf.dive3Title'), t('pptToPdf.dive3Desc')],
+              [t('pptToPdf.dive4Title'), t('pptToPdf.dive4Desc')],
+              [t('pptToPdf.dive5Title'), t('pptToPdf.dive5Desc')],
+              [t('pptToPdf.dive6Title'), t('pptToPdf.dive6Desc')],
+            ].map(([title, desc], i) => (
+              <div key={i} className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="py-16 sm:py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -784,6 +789,7 @@ const router = useLocalizedRouter()
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["pptToPdf"]) },
+    revalidate: 86400,
   }
 }

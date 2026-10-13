@@ -1,4 +1,14 @@
 import { useState, useEffect } from "react"
+import { formatIST, formatISTDate, timeAgo, nowIST } from "../../lib/adminTime"
+import { Sidebar, TopBar, NAV } from "../../components/admin/AdminNav"
+import OverviewPanel from "../../components/admin/OverviewPanel"
+import AnalyticsPanel from "../../components/admin/AnalyticsPanel"
+import RevenuePanel from "../../components/admin/RevenuePanel"
+import HealthPanel from "../../components/admin/HealthPanel"
+import SourcesPanel from "../../components/admin/SourcesPanel"
+import UserDrawer from "../../components/admin/UserDrawer"
+import { ADMIN_DARK_CSS } from "../../components/admin/adminTheme"
+import { downloadCsv } from "../../components/admin/adminUi"
 import {
   Activity,
   Download,
@@ -36,6 +46,12 @@ import {
   Star,
 } from "lucide-react"
 
+// Traffic-source chip colours for the Recent Activity table (matches the Traffic sources tab)
+const SOURCE_CHIP = {
+  direct: 'bg-slate-100 text-slate-600', organic: 'bg-emerald-50 text-emerald-700', social: 'bg-pink-50 text-pink-700',
+  ai: 'bg-violet-50 text-violet-700', referral: 'bg-amber-50 text-amber-700', paid: 'bg-red-50 text-red-700', campaign: 'bg-cyan-50 text-cyan-700',
+}
+
 const API = typeof window !== "undefined"
   ? (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
       ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011")
@@ -47,7 +63,20 @@ export default function EnhancedAdminDashboard() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [token, setToken] = useState(null)
-  const [activeTab, setActiveTab] = useState("analytics") // "analytics" | "users"
+  // "overview" | "charts" | "sources" | "revenue" | "health" | "users" | "logs"
+  const [activeTab, setActiveTab] = useState("overview")
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [dark, setDark] = useState(false)
+  const [userDrawerId, setUserDrawerId] = useState(null)
+  const [panelKey, setPanelKey] = useState(0) // bump to re-fetch every panel
+  useEffect(() => {
+    try {
+      const t = localStorage.getItem("adminTab"); if (t && NAV.some((n) => n.id === t)) setActiveTab(t)
+      setDark(localStorage.getItem("adminTheme") === "dark")
+    } catch (_) {}
+  }, [])
+  const selectTab = (id) => { setActiveTab(id); try { localStorage.setItem("adminTab", id) } catch (_) {}; window.scrollTo({ top: 0 }) }
+  const toggleDark = () => setDark((d) => { try { localStorage.setItem("adminTheme", d ? "light" : "dark") } catch (_) {}; return !d })
   const [stats, setStats] = useState(null)
   const [activityLogs, setActivityLogs] = useState([])
   const [loading, setLoading] = useState(false)
@@ -123,6 +152,17 @@ export default function EnhancedAdminDashboard() {
     localStorage.removeItem('adminToken')
   }
 
+  // Admin tokens expire (12h). Any admin call answered with 401 means the
+  // session is over — drop back to the login form instead of failing silently.
+  const adminFetch = async (url, options) => {
+    const res = await fetch(url, options)
+    if (res.status === 401) {
+      handleLogout()
+      setError("Session expired — please log in again.")
+    }
+    return res
+  }
+
   const handleBlogAdminClick = () => {
     if (token) {
       localStorage.setItem('adminToken', token)
@@ -132,7 +172,7 @@ export default function EnhancedAdminDashboard() {
 
   const fetchDashboardData = async (authToken) => {
     try {
-      const statsResponse = await fetch(`${API}/api/admin/stats`, {
+      const statsResponse = await adminFetch(`${API}/api/admin/stats`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
 
@@ -161,7 +201,7 @@ export default function EnhancedAdminDashboard() {
         ...filters,
       })
 
-      const response = await fetch(`${API}/api/admin/activity?${queryParams}`, {
+      const response = await adminFetch(`${API}/api/admin/activity?${queryParams}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
 
@@ -183,7 +223,7 @@ export default function EnhancedAdminDashboard() {
 
   const fetchIPDetails = async (ipAddress) => {
     try {
-      const response = await fetch(`${API}/api/admin/ip/${ipAddress}`, {
+      const response = await adminFetch(`${API}/api/admin/ip/${ipAddress}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -199,7 +239,7 @@ export default function EnhancedAdminDashboard() {
 
   const toggleIPBlock = async (ipAddress, currentlyBlocked) => {
     try {
-      const response = await fetch(`${API}/api/admin/ip/${ipAddress}/block`, {
+      const response = await adminFetch(`${API}/api/admin/ip/${ipAddress}/block`, {
         method: "POST",
         headers: { 
           Authorization: `Bearer ${token}`,
@@ -222,7 +262,7 @@ export default function EnhancedAdminDashboard() {
   // ── Users tab helpers ───────────────────────────────────────────────────────
   const fetchUserStats = async (authToken) => {
     try {
-      const res = await fetch(`${API}/api/admin/users/stats`, {
+      const res = await adminFetch(`${API}/api/admin/users/stats`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       if (res.ok) setUserStats(await res.json())
@@ -233,7 +273,7 @@ export default function EnhancedAdminDashboard() {
     setUsersLoading(true)
     try {
       const params = new URLSearchParams({ page, limit: 20, ...filters })
-      const res = await fetch(`${API}/api/admin/users?${params}`, {
+      const res = await adminFetch(`${API}/api/admin/users?${params}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       if (res.ok) {
@@ -249,7 +289,7 @@ export default function EnhancedAdminDashboard() {
 
   const toggleUserBan = async (userId, currentlyBanned) => {
     try {
-      await fetch(`${API}/api/admin/users/${userId}/ban`, {
+      await adminFetch(`${API}/api/admin/users/${userId}/ban`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ banned: !currentlyBanned }),
@@ -261,7 +301,7 @@ export default function EnhancedAdminDashboard() {
 
   const changeUserPlan = async (userId, plan) => {
     try {
-      await fetch(`${API}/api/admin/users/${userId}/plan`, {
+      await adminFetch(`${API}/api/admin/users/${userId}/plan`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         body: JSON.stringify({ plan }),
@@ -272,33 +312,37 @@ export default function EnhancedAdminDashboard() {
     } catch (err) { console.error("changeUserPlan:", err) }
   }
 
-  const refreshData = () => {
-    if (token) {
-      fetchDashboardData(token)
-      fetchUserStats(token)
-      fetchUsers(token, usersPage, userFilters)
+  const [refreshing, setRefreshing] = useState(false)
+  const refreshData = async () => {
+    setRefreshing(true)
+    setPanelKey((k) => k + 1)
+    try {
+      await Promise.all([
+        fetchDashboardData(token),
+        fetchUserStats(token),
+        fetchUsers(token, usersPage, userFilters),
+      ])
+    } finally {
+      setRefreshing(false)
     }
   }
 
-  const formatDate = (timestamp) => {
-  if (!timestamp) return 'N/A'
-  
-  const date = new Date(timestamp)
-  
-  if (isNaN(date.getTime())) return 'Invalid Date'
-  
-  // Always show full timestamp in IST
-  return date.toLocaleString('en-IN', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: true,
-    timeZone: 'Asia/Kolkata'
-  })
-}
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchDashboardData(token)
+      fetchUserStats(token)
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [isAuthenticated, token])
+
+  // All admin times are IST. Bare DB timestamps are UTC — see lib/adminTime.js
+  const formatDate = (timestamp) => formatIST(timestamp)
+  const [clock, setClock] = useState("")
+  useEffect(() => {
+    setClock(nowIST())
+    const t = setInterval(() => setClock(nowIST()), 1000)
+    return () => clearInterval(t)
+  }, [])
   const getStatusColor = (status) => {
     switch (status) {
       case "success":
@@ -314,6 +358,11 @@ export default function EnhancedAdminDashboard() {
         return "bg-slate-100 text-slate-800 border-slate-200"
     }
   }
+  // An upload row is logged once with status "processing" and never updated —
+  // the outcome is a separate conversion row. Showing it as a yellow
+  // "processing" badge forever read like a stuck/failed job, so label it
+  // "uploaded" (neutral) instead.
+  const shownStatus = (row) => (row.type === "upload" && row.status === "processing" ? "uploaded" : row.status)
 
   const getTypeIcon = (type) => {
     switch (type) {
@@ -440,68 +489,21 @@ export default function EnhancedAdminDashboard() {
 
   // Dashboard
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-lg font-bold text-slate-900">Enhanced Admin Dashboard</h1>
-                <p className="text-xs text-slate-500">Real-time Analytics & Monitoring</p>
-              </div>
-            </div>
+    <div className={`min-h-screen bg-slate-50 ${dark ? "admin-dark" : ""}`}>
+      <style dangerouslySetInnerHTML={{ __html: ADMIN_DARK_CSS }} />
+      <Sidebar api={API} token={token} onUnauthorized={handleLogout} active={activeTab} onSelect={selectTab}
+        open={sidebarOpen} onClose={() => setSidebarOpen(false)} onBlog={handleBlogAdminClick} userCount={usersTotal || ""} />
+      <div className="lg:pl-64">
+        <TopBar api={API} token={token} onUnauthorized={handleLogout} title={NAV.find((n) => n.id === activeTab)?.label || "Dashboard"} clock={clock}
+          dark={dark} onToggleDark={toggleDark} onRefresh={refreshData} refreshing={refreshing} onLogout={handleLogout}
+          onMenu={() => setSidebarOpen(true)} onGoHealth={() => selectTab("health")} />
 
-            <div className="flex items-center gap-3">
-              {/* Tab switcher */}
-              <div className="flex bg-slate-100 rounded-lg p-1">
-                <button
-                  onClick={() => setActiveTab("analytics")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === "analytics" ? "bg-white shadow text-slate-900" : "text-slate-500 hover:text-slate-700"}`}
-                >
-                  <BarChart3 className="w-4 h-4" />
-                  Analytics
-                </button>
-                <button
-                  onClick={() => setActiveTab("users")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all ${activeTab === "users" ? "bg-white shadow text-slate-900" : "text-slate-500 hover:text-slate-700"}`}
-                >
-                  <Users className="w-4 h-4" />
-                  Users
-                  {userStats && <span className="ml-1 bg-blue-100 text-blue-700 text-xs px-1.5 py-0.5 rounded-full">{userStats.total}</span>}
-                </button>
-              </div>
-
-              <button
-                onClick={handleBlogAdminClick}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:shadow-lg transition-all"
-              >
-                <FileText className="w-4 h-4" />
-                <span className="text-sm font-medium">Blog Admin</span>
-              </button>
-              <button
-                onClick={refreshData}
-                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-                title="Refresh"
-              >
-                <RefreshCw className="w-5 h-5 text-slate-600" />
-              </button>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 rounded-lg transition-colors"
-              >
-                <LogOut className="w-4 h-4" />
-                <span className="text-sm font-medium">Logout</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {activeTab === "overview" && <OverviewPanel key={panelKey} api={API} token={token} onUnauthorized={handleLogout} goTo={selectTab} />}
+        {activeTab === "charts" && <AnalyticsPanel key={panelKey} api={API} token={token} onUnauthorized={handleLogout} />}
+        {activeTab === "sources" && <SourcesPanel key={panelKey} api={API} token={token} onUnauthorized={handleLogout} />}
+        {activeTab === "revenue" && <RevenuePanel key={panelKey} api={API} token={token} onUnauthorized={handleLogout} openUser={setUserDrawerId} />}
+        {activeTab === "health" && <HealthPanel key={panelKey} api={API} token={token} onUnauthorized={handleLogout} />}
 
         {/* ══════════════════ USERS TAB ══════════════════ */}
         {activeTab === "users" && (
@@ -599,6 +601,7 @@ export default function EnhancedAdminDashboard() {
                   <option value="false">Unverified</option>
                 </select>
                 <span className="self-center text-sm text-slate-500 ml-auto">{usersTotal} users</span>
+                <button onClick={() => downloadCsv(API, "/users/export", token, "users.csv").catch(() => alert("Export failed"))} className="px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">Export CSV</button>
               </div>
             </div>
 
@@ -627,7 +630,7 @@ export default function EnhancedAdminDashboard() {
                         <tr key={u.id} className={`hover:bg-slate-50 transition-colors ${u.is_banned ? "bg-red-50" : ""}`}>
                           {/* User name + email */}
                           <td className="px-4 py-3">
-                            <div className="font-medium text-slate-900">{u.name}</div>
+                            <button onClick={() => setUserDrawerId(u.id)} className="font-medium text-slate-900 hover:text-blue-600 text-left" title="Open user details">{u.name}</button>
                             <div className="text-xs text-slate-500 mt-0.5">{u.email}</div>
                           </td>
                           {/* Plan badge */}
@@ -655,7 +658,7 @@ export default function EnhancedAdminDashboard() {
                                     u.effective_plan === "agency"   ? "bg-emerald-100 text-emerald-700 border-emerald-200" :
                                     "bg-slate-100 text-slate-600 border-slate-200"
                                   }`}
-                                  title={u.plan_expires_at ? `Expires: ${new Date(u.plan_expires_at).toLocaleDateString()}` : "Click to change plan"}
+                                  title={u.plan_expires_at ? `Expires: ${formatISTDate(u.plan_expires_at)}` : "Click to change plan"}
                                 >
                                   {(u.effective_plan === "pro" || u.effective_plan === "agency") && <Crown className="w-3 h-3" />}
                                   {u.effective_plan === "expired" ? `${u.plan} ⚠️` : (u.effective_plan || u.plan)}
@@ -663,8 +666,8 @@ export default function EnhancedAdminDashboard() {
                                 {u.plan_expires_at && u.effective_plan !== "free" && (
                                   <span className="text-[10px] text-slate-400 pl-0.5">
                                     {u.effective_plan === "expired"
-                                      ? `Expired ${new Date(u.plan_expires_at).toLocaleDateString()}`
-                                      : `Until ${new Date(u.plan_expires_at).toLocaleDateString()}`}
+                                      ? `Expired ${formatISTDate(u.plan_expires_at)}`
+                                      : `Until ${formatISTDate(u.plan_expires_at)}`}
                                   </span>
                                 )}
                               </div>
@@ -682,9 +685,9 @@ export default function EnhancedAdminDashboard() {
                             <span className="text-xs text-slate-500">{u.is_google ? "🔵 Google" : "📧 Email"}</span>
                           </td>
                           {/* Joined */}
-                          <td className="px-4 py-3 text-xs text-slate-500 whitespace-nowrap">{formatDate(u.created_at)}</td>
+                          <td className="px-4 py-3 text-xs text-slate-500 whitespace-nowrap" title={formatDate(u.created_at)}>{formatDate(u.created_at)}</td>
                           {/* Last login */}
-                          <td className="px-4 py-3 text-xs text-slate-500 whitespace-nowrap">{u.last_login_at ? formatDate(u.last_login_at) : "Never"}</td>
+                          <td className="px-4 py-3 text-xs text-slate-500 whitespace-nowrap" title={u.last_login_at ? formatDate(u.last_login_at) : ""}>{u.last_login_at ? timeAgo(u.last_login_at) : "Never"}</td>
                           {/* Actions */}
                           <td className="px-4 py-3">
                             <button
@@ -726,7 +729,7 @@ export default function EnhancedAdminDashboard() {
         )}
 
         {/* ══════════════════ ANALYTICS TAB ══════════════════ */}
-        {activeTab === "analytics" && (
+        {activeTab === "logs" && (
         <div>
         {/* Quick Stats Overview */}
         <div className="mb-8">
@@ -1146,6 +1149,7 @@ export default function EnhancedAdminDashboard() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Action</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Tool</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">IP Address</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Source</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Browser</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Device</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
@@ -1171,6 +1175,13 @@ export default function EnhancedAdminDashboard() {
                             {log.ip_address || 'Unknown'}
                           </code>
                         </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {log.source ? (
+                            <span title={`${log.source_medium} · landed on ${log.source_landing || '?'}`} className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${SOURCE_CHIP[log.source_medium] || 'bg-sky-50 text-sky-700'}`}>
+                              {log.source.charAt(0).toUpperCase() + log.source.slice(1)}
+                            </span>
+                          ) : <span className="text-xs text-slate-300" title="No visit recorded for this IP in the last 7 days">—</span>}
+                        </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-1 text-xs text-slate-600">
                             <span>{getBrowserIcon(log.browser)}</span>
@@ -1185,9 +1196,9 @@ export default function EnhancedAdminDashboard() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
-                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getStatusColor(log.status)}`}
+                            className={`inline-flex px-2 py-1 text-xs font-medium rounded-full border ${getStatusColor(shownStatus(log))}`}
                           >
-                            {log.status}
+                            {shownStatus(log)}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -1240,6 +1251,8 @@ export default function EnhancedAdminDashboard() {
         )}
       </div>
 
+      </div>{/* /lg:pl-64 */}
+
       {/* Log Detail Modal */}
       {selectedLog && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => setSelectedLog(null)}>
@@ -1266,6 +1279,10 @@ export default function EnhancedAdminDashboard() {
               <div>
                 <p className="text-xs text-slate-500 mb-1">IP Address</p>
                 <code className="text-xs bg-slate-100 px-2 py-1 rounded text-slate-700">{selectedLog.ip_address}</code>
+              </div>
+              <div>
+                <p className="text-xs text-slate-500 mb-1">Came from</p>
+                <p className="text-sm text-slate-700">{selectedLog.source ? `${selectedLog.source} (${selectedLog.source_medium}) · landed on ${selectedLog.source_landing || '?'}` : 'No visit recorded'}</p>
               </div>
               <div>
                 <p className="text-xs text-slate-500 mb-1">Browser</p>
@@ -1357,8 +1374,8 @@ export default function EnhancedAdminDashboard() {
                         <td className="px-4 py-2 text-xs text-slate-700">{activity.type}</td>
                         <td className="px-4 py-2 text-xs text-slate-700">{activity.action}</td>
                         <td className="px-4 py-2">
-                          <span className={`inline-flex px-2 py-0.5 text-xs rounded-full ${getStatusColor(activity.status)}`}>
-                            {activity.status}
+                          <span className={`inline-flex px-2 py-0.5 text-xs rounded-full ${getStatusColor(shownStatus(activity))}`}>
+                            {shownStatus(activity)}
                           </span>
                         </td>
                       </tr>
@@ -1388,6 +1405,10 @@ export default function EnhancedAdminDashboard() {
             </div>
           </div>
         </div>
+      )}
+      {userDrawerId && (
+        <UserDrawer api={API} token={token} userId={userDrawerId} onUnauthorized={handleLogout}
+          onClose={() => setUserDrawerId(null)} onChanged={() => { fetchUsers(token, usersPage, userFilters); fetchUserStats(token) }} />
       )}
     </div>
   )

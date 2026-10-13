@@ -35,7 +35,13 @@
 html,
 body {
   max-width: 100vw;
+  /* `clip` stops sideways scrolling like `hidden`, but — unlike `hidden` — does
+     not turn <body> into its own scroll container. With `hidden` on both html
+     and body, every `position: sticky` element (the site header, editor
+     toolbars, tool-page sidebars) silently stopped sticking. `hidden` stays as
+     the fallback for browsers without `clip`. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -100,14 +106,7 @@ body {
 }
 /* Tool cards: CSS animation (no inline opacity:0 style → no rendered-HTML delta) */
 .tool-card-animate {
-  animation: cardIn 0.45s cubic-bezier(0.22,1,0.36,1) both;
-}
-/* ToolCard — was using opacity:0 inline style (SSR had explicit style attr,
-   JS animation changed it → 20× rendered-HTML delta).
-   Now animation-fill-mode:both handles the initial invisible state via keyframe,
-   no inline opacity attribute in SSR HTML. */
-.tool-card-animate {
-  animation: cardIn 0.5s ease-out both;
+  animation: cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both;
 }
 @keyframes float {
   0%, 100% { transform: translateY(0); }
@@ -189,12 +188,6 @@ body {
 .cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: 0 400px; /* estimated height, avoids scroll jump */
-}
-
-/* ── Font-display swap fallback (ensures text visible during font load) ── */
-/* Applied by _document.js <link> — this locks in the intent via CSS too  */
-@font-face {
-  font-display: swap;
 }
 
 /* ── Smooth scrollbar on desktop, preserve native on mobile ──────────── */
@@ -300,14 +293,5 @@ html.dark .shadow-lg {
   table, figure { page-break-inside: avoid; }
 }
 
-/* ── AdSense — collapse container when no ad fills the slot ───────────── */
-/* Google sets data-ad-status="unfilled" when the auction returns no bid.  */
-/* Without this, an empty <ins> leaves a tall white gap on the page.       */
-ins.adsbygoogle[data-ad-status="unfilled"] {
-  display: none !important;
-}
-/* Also hide the wrapper div when its only child ins is unfilled            */
-ins.adsbygoogle[data-ad-status="unfilled"] + * { display: none; }
-[aria-label="Advertisement"]:has(ins.adsbygoogle[data-ad-status="unfilled"]) {
-  display: none !important;
-}
+/* ── Ad Manager (AdX/GPT) — empty/unfilled slots are collapsed by         */
+/* googletag.pubads().collapseEmptyDivs() set in _app.js. No CSS needed.   */

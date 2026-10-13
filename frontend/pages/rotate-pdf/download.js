@@ -7,14 +7,20 @@ import AdSenseUnit from "../../components/AdSenseUnit"
 import RelatedTools from "../../components/RelatedTools"
 import PrivacyNotice from "../../components/PrivacyNotice"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import { useTranslations } from "../../lib/i18n"
-import { Download, CheckCircle, RotateCw, RefreshCw } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { Download, CheckCircle, RotateCw, RefreshCw, Printer, Trash2 } from "lucide-react"
+import { printBlob, printFile } from "../../lib/fileActions"
+import AdLabel from "../../components/AdLabel"
 
 export default function RotateDownload() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(false)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
   const [done, setDone] = useState(false)
   const [error, setError] = useState("")
 
@@ -37,6 +43,7 @@ export default function RotateDownload() {
       const resp = await fetch(result.downloadUrl)
       if (!resp.ok) throw new Error("Download failed")
       const blob = await resp.blob()
+      setDownloadedBlob(blob)
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url
@@ -49,6 +56,21 @@ export default function RotateDownload() {
     } finally {
       setDownloading(false)
     }
+  }
+
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) { printBlob(downloadedBlob) }
+      else if (result?.downloadUrl) { await printFile(result.downloadUrl) }
+    } catch (err) { console.error("Print error:", err) }
+    finally { setPrinting(false) }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("rotateResult")
+    router.push("/rotate-pdf")
   }
 
   if (!result) {
@@ -69,13 +91,14 @@ export default function RotateDownload() {
 
       <div className="bg-white py-4 px-4 border-b border-slate-200">
         <div className="max-w-6xl mx-auto">
-          <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">Advertisement</p>
-          <div className="flex justify-center"><AdSenseUnit adSlot="8004544994" /></div>
+          <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
+          <div className="flex justify-center"><AdSenseUnit adSlot="8004544994" size="leaderboard" /></div>
         </div>
       </div>
+
       <div className="bg-slate-50 min-h-screen py-10 px-4">
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div className="bg-gradient-to-r from-emerald-500 to-green-500 p-6 text-center">
               <div className="w-14 h-14 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-3">
                 <CheckCircle className="w-8 h-8 text-white" />
@@ -104,6 +127,7 @@ export default function RotateDownload() {
               {/* Upgrade upsell — free users only */}
               <UpgradeUpsell className="mt-4" />
 
+              <EmailCapture className="mt-3" />
               {/* Stats */}
               <div className="grid grid-cols-3 gap-3 mt-6">
                 <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
@@ -120,26 +144,47 @@ export default function RotateDownload() {
                 </div>
               </div>
 
-              <button
-                onClick={() => router.push("/rotate-pdf")}
-                className="w-full mt-4 flex items-center justify-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium py-2"
-              >
-                <RefreshCw className="w-4 h-4" /> {t("rotatePdf.download.rotateAnother")}
-              </button>
+              <div className="mt-4 flex items-center gap-3">
+                <button onClick={() => router.push("/rotate-pdf")}
+                  className="flex-1 flex items-center justify-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium py-2">
+                  <RefreshCw className="w-4 h-4" /> {t("rotatePdf.download.rotateAnother")}
+                </button>
+                <button onClick={handlePrint} disabled={printing} title={t("fileActions.print")}
+                  className="py-2 px-4 rounded-xl text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center text-slate-700 disabled:opacity-60">
+                  {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                </button>
+                <button onClick={handleDelete} title={t("fileActions.delete")}
+                  className="py-2 px-4 rounded-xl text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center text-red-600">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar — 2 ads beside the card instead of stacked below it */}
+          <div className="lg:col-span-1 space-y-4">
+            <div className="bg-white rounded-2xl border border-slate-200 p-3">
+              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
+              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
+            </div>
+            {/* Sidebar Ad 2 */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-3">
+              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
+              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" size="rectangle2" /></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Content ad */}
-      <div className="bg-slate-50 py-6 px-4">
-        <div className="hidden lg:block max-w-3xl mx-auto">
-          <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">Advertisement</p>
-          <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
-        </div>
-      </div>
 
       <RelatedTools current="rotate-pdf" />
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["rotatePdf"]) },
+    revalidate: 86400,
+  }
 }

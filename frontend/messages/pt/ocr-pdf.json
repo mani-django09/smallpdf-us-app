@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "OCR PDF Online Grátis — Extrair Texto de PDF Digitalizado | SmallPDF.us",
-    "description": "Transforme qualquer PDF digitalizado ou baseado em imagens em um documento totalmente pesquisável. Suporta 100+ idiomas, saída em PDF pesquisável ou Word. Sem instalação.",
+    "title": "OCR PDF grátis – texto de PDF digitalizado | SmallPDF.us",
+    "description": "Transforme PDFs digitalizados em documentos pesquisáveis. Mais de 100 idiomas, saída em PDF pesquisável ou Word. Sem instalação.",
     "keywords": "OCR PDF, extrair texto de PDF, PDF digitalizado para texto, OCR PDF online, tornar PDF pesquisável, ferramenta OCR gratuita, extração de texto PDF, reconhecimento óptico de caracteres PDF"
   },
   "hero": {
@@ -32,8 +32,8 @@
     "sectionSubtitle": "Construído sobre anos de experiência em processamento de documentos, nosso pipeline de OCR foi projetado do zero para precisão, privacidade e variedade real de documentos.",
     "items": [
       {
-        "title": "Precisão de caracteres 98–99%",
-        "desc": "O reconhecimento multipassagem lida com fontes mistas, páginas rotacionadas, digitalizações degradadas e layouts multicoluna. Documentos fonte limpos a 300 DPI+ atingem consistentemente precisão quase humana."
+        "title": "Alta precisão de caracteres",
+        "desc": "O reconhecimento multipassagem lida com fontes mistas, páginas rotacionadas, digitalizações degradadas e layouts multicoluna. Documentos fonte limpos a 300 DPI+ produzem consistentemente resultados nítidos e muito precisos."
       },
       {
         "title": "100+ idiomas detectados automaticamente",
@@ -108,6 +108,20 @@
       }
     ]
   },
+  "diveTitle": "O que realmente acontece ao executar o OCR",
+  "diveSubtitle": "Os detalhes que importam depois do básico.",
+  "dive1Title": "Detecção de texto nativo vs. escaneado",
+  "dive1Desc": "Alguns PDFs já contêm texto nativo selecionável — nesse caso, o OCR não é necessário. Nossa ferramenta detecta e processa apenas imagens escaneadas, deixando intactas as páginas que já contêm texto digital.",
+  "dive2Title": "O que afeta a precisão do reconhecimento",
+  "dive2Desc": "A precisão do OCR depende da qualidade da digitalização: uma resolução (DPI) maior é melhor, menos inclinação da página é melhor, maior contraste entre texto e fundo é melhor. Digitalizações de baixa qualidade, baixa resolução ou páginas fotografadas tortas podem causar mais erros de reconhecimento.",
+  "dive3Title": "Processando documentos multilíngues",
+  "dive3Desc": "Você pode processar documentos com idiomas mistos dentro do mesmo documento, mas para melhores resultados recomendamos especificar o idioma predominante usado no documento. Caracteres que não correspondem ao idioma especificado têm mais chances de ser reconhecidos incorretamente.",
+  "dive4Title": "PDF pesquisável vs. arquivo de texto extraído",
+  "dive4Desc": "Você pode escolher entre dois formatos de saída: um PDF pesquisável que sobrepõe uma camada de texto invisível sobre a aparência original, ou um arquivo de texto simples contendo apenas o texto reconhecido. Escolha o primeiro para arquivar o documento, o segundo para reutilizar o texto.",
+  "dive5Title": "Limitações com escrita à mão",
+  "dive5Desc": "O OCR é otimizado para reconhecer texto impresso. A escrita à mão, especialmente cursiva ou desorganizada, é significativamente menos precisa do que o texto impresso — mesmo letra de forma bem feita pode gerar resultados variados.",
+  "dive6Title": "Uma observação sobre tabelas e dados estruturados",
+  "dive6Desc": "O OCR reconhece texto, mas não preserva de forma confiável a estrutura de linhas/colunas de tabelas. Se o objetivo principal do seu documento for extrair dados tabulares, nossa ferramenta dedicada PDF para Excel é mais adequada para reconstruir a estrutura real da tabela.",
   "faq": {
     "sectionTitle": "Perguntas frequentes",
     "sectionSubtitle": "Tudo o que você precisa saber sobre OCR PDF no SmallPDF.us",
@@ -122,7 +136,7 @@
       },
       {
         "q": "Quão preciso é o OCR?",
-        "a": "Para digitalizações limpas e de alta resolução a 300 DPI ou mais, nosso motor rotineiramente atinge 98–99% de precisão de caracteres em documentos de script latino padrão. A precisão varia naturalmente com a qualidade da digitalização: imagens desfocadas, de baixo contraste ou muito distorcidas terão pontuações mais baixas. Texto manuscrito é parcialmente suportado, mas é significativamente mais difícil do que texto impresso."
+        "a": "Para digitalizações limpas e de alta resolução a 300 DPI ou mais, nosso motor atinge uma precisão de caracteres muito alta em documentos de script latino padrão. A precisão varia naturalmente com a qualidade da digitalização: imagens desfocadas, de baixo contraste ou muito distorcidas terão pontuações mais baixas. Texto manuscrito é parcialmente suportado, mas é significativamente mais difícil do que texto impresso."
       },
       {
         "q": "Meu PDF é mantido privado e seguro?",
@@ -156,7 +170,7 @@
   },
   "cta": {
     "heading": "Pronto para tornar seu PDF pesquisável?",
-    "subtitle": "Envie qualquer PDF digitalizado e obtenha um documento totalmente indexado e copiável em segundos. Gratuito para sempre, sem cadastro necessário.",
+    "subtitle": "Solte qualquer PDF digitalizado e receba em segundos um documento pesquisável e copiável. Grátis para começar e fácil de usar.",
     "button": "Iniciar OCR agora — É gratuito"
   },
   "preview": {
@@ -175,7 +189,7 @@
     "receiveProOnly": "Exportação Word e TXT (apenas Pro)",
     "runOcrButton": "Executar OCR — Extrair texto",
     "securePrivate": "Seguro e privado",
-    "autoDeleted": "Excluído automaticamente em 2h",
+    "autoDeleted": "Excluído automaticamente em 1h",
     "pleaseWait": "Aguarde — não feche esta aba",
     "ocrFailed": "OCR falhou",
     "tryAgain": "Tentar novamente",
@@ -191,7 +205,7 @@
     "sidebarSecurityTitle": "Segurança",
     "sidebarSecurityItems": [
       "Criptografia SSL de 256 bits",
-      "Excluído automaticamente em 2 horas",
+      "Excluído automaticamente em 1 hora",
       "Nenhum dado armazenado ou vendido",
       "Baixe e exclua a qualquer momento"
     ],
@@ -237,11 +251,15 @@
     "downloadDocx": "Baixar Word (.docx)",
     "downloadTxt": "Baixar texto simples (.txt)",
     "secureDownload": "Download seguro",
-    "autoDeleted": "Arquivos excluídos automaticamente em 2h",
+    "autoDeleted": "Arquivos excluídos automaticamente em 1h",
     "imagePdfTitle": "PDF digitalizado / baseado em imagens detectado",
     "imagePdfDesc": "Este PDF contém imagens em vez de texto digital, portanto nenhum texto pôde ser extraído automaticamente. O PDF baixado contém uma página explicativa.",
     "imagePdfUpgrade": "Atualizar para Pro",
     "imagePdfUpgradeSuffix": "para suporte avançado do motor OCR em documentos digitalizados.",
+    "alreadySearchableTitle": "Seu PDF já tinha texto selecionável",
+    "alreadySearchableDesc": "Não foi necessário OCR — você já pode pesquisar e copiar o texto. Seu arquivo não foi alterado.",
+    "noTextTitle": "Nenhum texto foi reconhecido",
+    "noTextDesc": "Tente uma digitalização mais nítida: páginas retas, bom contraste e pelo menos 300 DPI. Texto manuscrito não é suportado.",
     "proUpsellTitle": "Quer mais do OCR?",
     "proUpsellDesc": "Atualize para Pro para páginas ilimitadas, OCR em lote, exportação Word e TXT, arquivos de 100 MB e processamento prioritário.",
     "proUpsellLink": "Atualizar para Pro",

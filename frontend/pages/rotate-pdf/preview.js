@@ -7,13 +7,16 @@ import SEOHead from "../../components/SEOHead"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import PrivacyNotice from "../../components/PrivacyNotice"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useAuth } from "../../context/AuthContext"
 import { getApiUrl } from "../../lib/getApiUrl"
 import { usePdfThumbnail } from "../../hooks/usePdfThumbnail"
 import useDailyLimit from '../../hooks/useDailyLimit'
 import {
-  RotateCw, RotateCcw, ArrowLeft, FileText, Play, Sparkles, Shield, Zap, Clock,
+  RotateCw, RotateCcw, ArrowLeft, FileText, Play,
 } from "lucide-react"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function RotatePreview() {
   const router = useLocalizedRouter()
@@ -80,14 +83,20 @@ export default function RotatePreview() {
 
       const resp = await authFetch(`${getApiUrl()}/api/rotate-pdf`, { method: "POST", body: fd })
       const data = await resp.json()
-      if (!resp.ok || !data.success) throw new Error(data.error || t("rotatePdf.errorGeneric"))
+      if (handleDailyLimitError(resp.status, data)) { setProcessing(false); setProgress(0); return }  // daily-limit upgrade modal
+      if (!resp.ok || !data.success) {
+        // Server sends codes (English text is only a fallback) → localized message.
+        if (data.error === "PASSWORD_PROTECTED") throw new Error(t("toolErrors.passwordProtected", { name: data.fileName || rotatePdfStore.name }))
+        if (data.error === "CORRUPT_PDF") throw new Error(t("toolErrors.corrupt", { name: data.fileName || rotatePdfStore.name }))
+        throw new Error(t("rotatePdf.errorGeneric"))
+      }
 
       setProgress(100); setStage(t("rotatePdf.preview.stageComplete"))
       const absoluteUrl = data.downloadUrl.startsWith("http") ? data.downloadUrl : `${getApiUrl()}${data.downloadUrl}`
       sessionStorage.setItem("rotateResult", JSON.stringify({
         downloadUrl: absoluteUrl, convertedName: data.convertedName, pageCount: data.pageCount || pageCount, angle: rotation,
       }))
-      setTimeout(() => router.push("/rotate-pdf/download"), 400)
+      setTimeout(() => goToDownload(router, "/rotate-pdf/download"), 400)
     } catch (e) {
       setError(e.message || t("rotatePdf.errorGeneric"))
       setProcessing(false); setProgress(0); setStage("")
@@ -104,13 +113,6 @@ export default function RotatePreview() {
       </Layout>
     )
   }
-
-  const benefits = [
-    { Icon: Sparkles, text: t("rotatePdf.preview.benefitLossless"), c: "text-violet-600 bg-violet-100" },
-    { Icon: Shield, text: t("rotatePdf.preview.benefitSecure"), c: "text-emerald-600 bg-emerald-100" },
-    { Icon: Zap, text: t("rotatePdf.preview.benefitFast"), c: "text-amber-600 bg-amber-100" },
-    { Icon: Clock, text: t("rotatePdf.preview.benefitAutoDelete"), c: "text-blue-600 bg-blue-100" },
-  ]
 
   return (
     <Layout title={t("rotatePdf.preview.pageTitle")} description={t("rotatePdf.heroSubtitle")}>
@@ -185,25 +187,27 @@ export default function RotatePreview() {
 
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-              <h3 className="text-sm font-semibold text-slate-900 mb-3">{t("rotatePdf.preview.whatYouGet")}</h3>
-              <div className="space-y-2.5">
-                {benefits.map((b, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${b.c.split(" ")[1]}`}><b.Icon className={`w-3.5 h-3.5 ${b.c.split(" ")[0]}`} /></div>
-                    <span className="text-xs text-slate-700">{b.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
               <AdSenseUnit adSlot="1617102171" />
             </div>
+
+            <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+              <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+            </div>
+
           </div>
         </div>
       </div>
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["rotatePdf"]) },
+    revalidate: 86400,
+  }
 }

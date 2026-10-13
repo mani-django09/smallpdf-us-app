@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+
+  <header class="head">
+    <div class="head-top">
+      <span class="brand">Small<b>PDF</b><i>.us</i></span>
+      <a id="open-site" class="head-link" href="#" title="Open smallpdf.us">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"
+             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <path d="M15 3h6v6"/><path d="M10 14L21 3"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" width="15" height="15" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+      </svg>
+      <input id="search" type="search" placeholder="Search tools…" autocomplete="off" spellcheck="false">
+    </div>
+
+    <nav id="filters" class="filters" aria-label="Tool categories"></nav>
+  </header>
+
+  <!-- Only rendered when the active tab is a file we can act on -->
+  <section id="context-card" class="context-card" hidden>
+    <div class="context-head">
+      <span id="context-icon" class="context-icon"></span>
+      <div class="context-text">
+        <span class="context-label">Detected on this page</span>
+        <span id="context-file" class="context-file"></span>
+      </div>
+    </div>
+    <div id="context-actions" class="context-actions"></div>
+  </section>
+
+  <main id="body" class="body">
+    <div id="grid" class="grid"></div>
+    <p id="empty" class="empty" hidden>
+      <span class="empty-mark">🔍</span>
+      No tool matches that
+    </p>
+  </main>
+
+  <footer class="foot">
+    <span id="count" class="count"></span>
+    <span class="hint"><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>↵</kbd> open</span>
+  </footer>
+
+  <script src="tools.js"></script>
+  <script src="icons.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

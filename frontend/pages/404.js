@@ -4,6 +4,7 @@ import { FileSearch, Home, ArrowRight, Merge, Zap, FileText } from 'lucide-react
 import Layout from '../components/Layout'
 import SEOHead from '../components/SEOHead'
 import { useTranslations } from '../lib/i18n'
+import { getPageMessages } from '../lib/i18nLoader'
 
 const QUICK_LINKS = [
   { href: '/merge-pdf',     label: 'Merge PDF',     Icon: Merge    },
@@ -79,4 +80,11 @@ export default function NotFound() {
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, []) },
+    revalidate: 86400,
+  }
 }

@@ -1,11 +1,46 @@
 // pages/account.js
 // User account page - protected, redirect to login if not logged in
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useAuth, withAuth } from '../context/AuthContext'
 import { useTranslations } from '../lib/i18n'
+import { getPageMessages } from '../lib/i18nLoader'
+
+// ── Tool name → human label ──────────────────────────────────────────────────
+const TOOL_LABELS = {
+  'compress-pdf':   '🗜️ Compress PDF',
+  'merge-pdf':      '🔗 Merge PDF',
+  'split-pdf':      '✂️ Split PDF',
+  'unlock-pdf':     '🔓 Unlock PDF',
+  'pdf-to-word':    '📝 PDF to Word',
+  'word-to-pdf':    '📄 Word to PDF',
+  'pdf-to-excel':   '📊 PDF to Excel',
+  'excel-to-pdf':   '📋 Excel to PDF',
+  'pdf-to-jpg':     '🖼️ PDF to JPG',
+  'jpg-to-pdf':     '📄 JPG to PDF',
+  'pdf-to-png':     '🖼️ PDF to PNG',
+  'png-to-pdf':     '📄 PNG to PDF',
+  'compress-image': '📸 Compress Image',
+  'ocr-pdf':        '🔍 OCR PDF',
+  'ppt-to-pdf':     '📊 PPT to PDF',
+  'pdf-to-ppt':     '📊 PDF to PPT',
+  'webp-to-png':    '🖼️ WebP to PNG',
+  'png-to-webp':    '🖼️ PNG to WebP',
+}
+
+function fmtSize(bytes) {
+  if (!bytes) return '—'
+  if (bytes >= 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
+  return (bytes / 1024).toFixed(0) + ' KB'
+}
+
+function fmtDate(iso) {
+  if (!iso) return '—'
+  const d = new Date(iso)
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+}
 
 function AccountPage() {
   const { user, logout, authFetch } = useAuth()
@@ -22,6 +57,32 @@ function AccountPage() {
     setMsg({ type, text })
     setTimeout(() => setMsg({ type: '', text: '' }), 4000)
   }
+
+  // ── History tab state ──────────────────────────────────────────────────────
+  const [history, setHistory]           = useState([])
+  const [historyLoading, setHistoryLoading] = useState(false)
+  const [historyPage, setHistoryPage]   = useState(1)
+  const [historyTotal, setHistoryTotal] = useState(0)
+  const HISTORY_PER_PAGE = 20
+
+  const fetchHistory = useCallback(async (page = 1) => {
+    setHistoryLoading(true)
+    try {
+      const res  = await authFetch(`${API}/api/auth/history?page=${page}&limit=${HISTORY_PER_PAGE}`)
+      const data = await res.json()
+      if (res.ok) {
+        setHistory(data.history || [])
+        setHistoryTotal(data.total || 0)
+        setHistoryPage(page)
+      }
+    } catch (_) {}
+    finally { setHistoryLoading(false) }
+  }, [API, authFetch])
+
+  // Fetch when user switches to History tab
+  useEffect(() => {
+    if (tab === 'history' && history.length === 0) fetchHistory(1)
+  }, [tab]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -68,13 +129,14 @@ function AccountPage() {
     { id: 'profile',  label: t('account.tabProfile')  },
     { id: 'security', label: t('account.tabSecurity') },
     { id: 'plan',     label: t('account.tabPlan')     },
+    { id: 'history',  label: '📋 History'             },
   ]
 
   // proFeatures is an array in the JSON — access directly via messages object
   // t() returns the key string if value isn't a string, so we read it differently
   const proFeatures = (() => {
     const raw = [0,1,2,3,4].map(i => t(`account.proFeatures.${i}`)).filter(v => !v.startsWith('account.'))
-    return raw.length ? raw : ['Unlimited file processing','No file size limits','Priority support','Batch processing','No ads']
+    return raw.length ? raw : ['Unlimited file processing','Files up to 100 MB','Priority support','Batch processing','No ads']
   })()
 
   return (
@@ -109,6 +171,12 @@ function AccountPage() {
                   {item.label}
                 </button>
               ))}
+              <Link href="/account/files" style={{ ...styles.navItem, textDecoration: 'none', display: 'block' }}>
+                📁 My Files
+              </Link>
+              <Link href="/account/api" style={{ ...styles.navItem, textDecoration: 'none', display: 'block' }}>
+                🔑 API Keys
+              </Link>
             </nav>
           </aside>
 
@@ -225,6 +293,106 @@ function AccountPage() {
                 )}
               </div>
             )}
+
+            {/* ── History tab ── */}
+            {tab === 'history' && (
+              <div style={styles.section}>
+                <h2 style={styles.sectionTitle}>Conversion History</h2>
+                <p style={{ color: '#6b7280', fontSize: 14, margin: 0 }}>
+                  Your recent file conversions from this device.
+                </p>
+
+                {historyLoading ? (
+                  <div style={{ textAlign: 'center', padding: '40px 0', color: '#9ca3af' }}>Loading…</div>
+                ) : history.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '40px 0', color: '#9ca3af' }}>
+                    <div style={{ fontSize: 40, marginBottom: 12 }}>📂</div>
+                    <p style={{ fontSize: 15, margin: 0 }}>No conversions yet.</p>
+                    <p style={{ fontSize: 13, marginTop: 6 }}>
+                      <Link href="/" style={{ color: '#DC2626' }}>Try a tool →</Link>
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    {/* Table */}
+                    <div style={{ overflowX: 'auto' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
+                        <thead>
+                          <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                            <th style={styles.th}>Tool</th>
+                            <th style={styles.th}>File</th>
+                            <th style={styles.th}>Size</th>
+                            <th style={styles.th}>Time</th>
+                            <th style={styles.th}>Status</th>
+                            <th style={styles.th}>Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {history.map((row) => (
+                            <tr key={row.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                              <td style={styles.td}>
+                                {TOOL_LABELS[row.tool] || row.tool}
+                              </td>
+                              <td style={{ ...styles.td, maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                {row.filename || '—'}
+                              </td>
+                              <td style={styles.td}>{fmtSize(row.file_size)}</td>
+                              <td style={styles.td}>
+                                {row.processing_time ? row.processing_time + 's' : '—'}
+                              </td>
+                              <td style={styles.td}>
+                                <span style={{
+                                  display: 'inline-block',
+                                  padding: '2px 8px',
+                                  borderRadius: 12,
+                                  fontSize: 12,
+                                  fontWeight: 600,
+                                  background: row.status === 'success' ? '#dcfce7' : '#fee2e2',
+                                  color: row.status === 'success' ? '#16a34a' : '#dc2626',
+                                }}>
+                                  {row.status === 'success' ? '✓ Done' : '✗ Failed'}
+                                </span>
+                              </td>
+                              <td style={{ ...styles.td, color: '#9ca3af', whiteSpace: 'nowrap' }}>
+                                {fmtDate(row.created_at)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Pagination */}
+                    {historyTotal > HISTORY_PER_PAGE && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+                        <span style={{ fontSize: 13, color: '#9ca3af' }}>
+                          {historyTotal} total conversions
+                        </span>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                          <button
+                            onClick={() => fetchHistory(historyPage - 1)}
+                            disabled={historyPage <= 1}
+                            style={{ ...styles.btn, padding: '8px 16px', fontSize: 13, opacity: historyPage <= 1 ? 0.4 : 1 }}
+                          >
+                            ← Prev
+                          </button>
+                          <span style={{ fontSize: 13, color: '#374151', alignSelf: 'center' }}>
+                            Page {historyPage}
+                          </span>
+                          <button
+                            onClick={() => fetchHistory(historyPage + 1)}
+                            disabled={historyPage * HISTORY_PER_PAGE >= historyTotal}
+                            style={{ ...styles.btn, padding: '8px 16px', fontSize: 13, opacity: historyPage * HISTORY_PER_PAGE >= historyTotal ? 0.4 : 1 }}
+                          >
+                            Next →
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </main>
         </div>
       </div>
@@ -255,6 +423,15 @@ const styles = {
   input: { border: '1.5px solid #d1d5db', borderRadius: 8, padding: '10px 14px', fontSize: 15, outline: 'none', color: '#111827' },
   btn: { background: '#DC2626', color: '#fff', border: 'none', borderRadius: 8, padding: '12px 24px', fontSize: 14, fontWeight: 600, cursor: 'pointer', alignSelf: 'flex-start' },
   msgBox: { border: '1px solid', borderRadius: 8, padding: '12px 16px', fontSize: 14, marginBottom: 4 },
+  th: { padding: '10px 12px', textAlign: 'left', fontWeight: 600, color: '#374151', fontSize: 13 },
+  td: { padding: '10px 12px', color: '#374151' },
 }
 
 export default withAuth(AccountPage)
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, []) },
+    revalidate: 86400,
+  }
+}

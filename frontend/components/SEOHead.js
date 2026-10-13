@@ -27,9 +27,19 @@ export default function SEOHead({
   // Pass noIndex={true} on post-processing pages (download, preview) that
   // have no meaningful static content for search engines.
   noIndex = false,
+  // false for single-language content (the blog is English-only): skips the
+  // hreflang cluster instead of advertising "translations" that are the same
+  // English text under /de/, /fr/, ...
+  hreflang = true,
 }) {
   const router = useRouter()
-  const { locale = 'en', pathname } = router
+  const { locale = 'en', query = {} } = router
+  // router.pathname is the route *pattern* (e.g. '/blog/[slug]'); fill in the
+  // dynamic segments or the URLs below come out with a literal "[slug]" in them.
+  const pathname = router.pathname.replace(/\[{1,2}(?:\.\.\.)?([^\]]+)\]{1,2}/g, (_, key) => {
+    const v = query[key]
+    return Array.isArray(v) ? v.join('/') : (v ?? '')
+  })
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us'
 
   const defaultTitle = 'Free PDF Tools — Merge, Split, Compress & Convert | SmallPDF.us'
@@ -96,15 +106,36 @@ export default function SEOHead({
           locale === 'ja'
             ? '無料のオンラインPDF変換・編集ツール。PDFの変換、結合、分割、圧縮を簡単に。'
             : 'Free online PDF conversion and editing tools. Convert, merge, split, and compress PDFs with ease.',
-        sameAs: [
-          'https://twitter.com/smallpdfus',
-          'https://facebook.com/smallpdfus',
-        ],
+        foundingDate: '2024',
+        founder: {
+          '@type': 'Person',
+          '@id': `${baseUrl}/#founder`,
+          name: 'Manikant Kumar',
+          jobTitle: 'Founder & Developer',
+          url: `${baseUrl}/about`,
+        },
+        // Street-level address intentionally omitted from public structured
+        // data (it's a residential address). Country is enough for schema.org.
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'IN',
+        },
         contactPoint: {
           '@type': 'ContactPoint',
           contactType: 'Customer Support',
           email: 'support@smallpdf.us',
+          availableLanguage: ['English', 'Hindi'],
         },
+      },
+      // Person schema for founder — boosts E-E-A-T by identifying the human behind the site
+      {
+        '@type': 'Person',
+        '@id': `${baseUrl}/#founder`,
+        name: 'Manikant Kumar',
+        jobTitle: 'Founder & Developer',
+        worksFor: { '@id': `${baseUrl}/#organization` },
+        url: `${baseUrl}/about`,
+        knowsAbout: ['PDF tools', 'Document processing', 'Web development', 'Node.js', 'Next.js'],
       },
       {
         '@type': 'WebSite',
@@ -128,7 +159,6 @@ export default function SEOHead({
         isPartOf: { '@id': `${baseUrl}/#website` },
         about: { '@id': `${baseUrl}/#organization` },
         datePublished: '2024-01-01T00:00:00+00:00',
-        dateModified: '2026-04-14T00:00:00+00:00',
       },
       {
         '@type': 'SoftwareApplication',
@@ -201,7 +231,10 @@ export default function SEOHead({
             : []),
         ],
       },
-      {
+      // FAQPage only on the homepage — these 4 questions are visible there.
+      // Emitting the same FAQPage on every URL violates Google's "markup must
+      // match visible page content" rule and risks the schema being ignored.
+      ...(cleanPath !== '' ? [] : [{
         '@type': 'FAQPage',
         mainEntity: [
           {
@@ -228,8 +261,8 @@ export default function SEOHead({
               '@type': 'Answer',
               text:
                 locale === 'ja'
-                  ? 'アップロードされたファイルは256ビットSSL暗号化で保護され、処理後2時間以内に自動削除されます。'
-                  : 'Every file is protected with 256-bit SSL encryption during transfer and automatically deleted from our servers within 2 hours after processing.',
+                  ? 'アップロードされたファイルは256ビットSSL暗号化で保護され、処理後1時間以内に自動削除されます。'
+                  : 'Every file is protected with 256-bit SSL encryption during transfer and automatically deleted from our servers within 1 hour after processing.',
             },
           },
           {
@@ -261,7 +294,7 @@ export default function SEOHead({
             },
           },
         ],
-      },
+      }]),
     ],
   }
 
@@ -297,11 +330,11 @@ export default function SEOHead({
       <link rel="canonical" href={canonicalUrl} />
 
       {/* ── hreflang — all 8 supported locales ── */}
-      {alternateUrls.map(({ hrefLang, href }) => (
+      {hreflang && alternateUrls.map(({ hrefLang, href }) => (
         <link key={hrefLang} rel="alternate" hrefLang={hrefLang} href={href} />
       ))}
       {/* x-default points to the English version */}
-      <link rel="alternate" hrefLang="x-default" href={buildLocaleUrl('en')} />
+      {hreflang && <link rel="alternate" hrefLang="x-default" href={buildLocaleUrl('en')} />}
 
       {/* Open Graph */}
       <meta property="og:type" content="website" />
@@ -320,7 +353,6 @@ export default function SEOHead({
       <meta name="twitter:title" content={finalTitle} />
       <meta name="twitter:description" content={finalDescription} />
       <meta name="twitter:image" content={ogImage} />
-      <meta name="twitter:creator" content="@smallpdfus" />
 
       {/* Mobile */}
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />

@@ -3,9 +3,15 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
-import { Presentation, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, FileText, Layers } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { Presentation, ArrowLeft, Shield, Play, Trash2, CheckCircle, FileText } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import { pptToPdfStore } from "./index"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewPptToPdf() {
   const router = useLocalizedRouter()
@@ -16,6 +22,8 @@ export default function PreviewPptToPdf() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
+  const [convertError, setConvertError] = useState("")
+  const { handleApiError, PremiumGateModal } = useFileSizeGuard("ppt-to-pdf")
 
   // FIX: Use a ref for router inside useEffect to avoid infinite re-render loop.
   // useLocalizedRouter() returns a new object each render, so putting it in the
@@ -24,17 +32,11 @@ export default function PreviewPptToPdf() {
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
-    const storedFiles = sessionStorage.getItem("uploadedPptFiles")
-
-    if (storedFiles) {
-      try {
-        const parsed = JSON.parse(storedFiles)
-        setFilesData(parsed)
-        setSelectedFiles(parsed.map((f) => f.id))
-      } catch (err) {
-        console.error("Error parsing file data:", err)
-        routerRef.current.push("/ppt-to-pdf")
-      }
+    // Files come from memory (pptToPdfStore); after a reload they're gone, so
+    // go back to the upload page instead of showing an unconvertible list.
+    if (pptToPdfStore.files.length > 0) {
+      setFilesData(pptToPdfStore.files)
+      setSelectedFiles(pptToPdfStore.files.map((f) => f.id))
     } else {
       routerRef.current.push("/ppt-to-pdf")
     }
@@ -48,7 +50,7 @@ export default function PreviewPptToPdf() {
     const newFiles = filesData.filter((f) => f.id !== id)
     setFilesData(newFiles)
     setSelectedFiles((prev) => prev.filter((fid) => fid !== id))
-    sessionStorage.setItem("uploadedPptFiles", JSON.stringify(newFiles))
+    pptToPdfStore.files = newFiles
 
     if (newFiles.length === 0) {
       routerRef.current.push("/ppt-to-pdf")
@@ -99,6 +101,7 @@ export default function PreviewPptToPdf() {
     if (filesToConvert.length === 0) return
 
     setConverting(true)
+    setConvertError("")
     setProgress(0)
     setStage(t('pptToPdf.stagePreparing'))
 
@@ -112,8 +115,9 @@ export default function PreviewPptToPdf() {
     ]
 
     let currentStage = 0
+    let stopped = false
     const updateProgress = () => {
-      if (currentStage < stages.length) {
+      if (!stopped && currentStage < stages.length) {
         setProgress(stages[currentStage].progress)
         setStage(stages[currentStage].text)
         currentStage++
@@ -126,17 +130,7 @@ export default function PreviewPptToPdf() {
       const formData = new FormData()
 
       for (const fileData of filesToConvert) {
-        try {
-          const response = await fetch(fileData.data)
-          const blob = await response.blob()
-          const file = new File([blob], fileData.name, {
-            type: fileData.type || getMimeType(fileData.name),
-            lastModified: Date.now()
-          })
-          formData.append("files", file)
-        } catch (fileError) {
-          console.error(`Error processing file ${fileData.name}:`, fileError)
-        }
+        formData.append("files", fileData.file, fileData.name)
       }
 
       // FIX: getApiUrl defined inside try block, where it belongs
@@ -154,12 +148,17 @@ export default function PreviewPptToPdf() {
         body: formData,
       })
 
-      const result = await convertResponse.json()
-
-      setProgress(100)
-      setStage(t('pptToPdf.stageComplete'))
+      // A proxy error page (413/502) is HTML, not JSON.
+      const result = await convertResponse.json().catch(() => ({}))
+      // Limit modals take over — put the page back so the user can continue.
+      if (handleDailyLimitError(convertResponse.status, result) || handleApiError(convertResponse, result)) {
+        stopped = true; setConverting(false); setProgress(0); setStage(""); return
+      }
 
       if (convertResponse.ok) {
+        stopped = true
+        setProgress(100)
+        setStage(t('pptToPdf.stageComplete'))
         sessionStorage.setItem(
           "pptConvertResult",
           JSON.stringify({
@@ -169,16 +168,19 @@ export default function PreviewPptToPdf() {
           }),
         )
         setTimeout(() => {
-          routerRef.current.push(`/ppt-to-pdf/download?jobId=${result.jobId}`)
+          goToDownload(routerRef.current, `/ppt-to-pdf/download?jobId=${result.jobId}`)
         }, 500)
       } else {
-        alert("Conversion failed: " + (result.error || "Unknown error"))
-        setConverting(false)
+        // Inline (these were English alert() pop-ups).
+        stopped = true
+        setConvertError(result.message || ("Conversion failed: " + (result.error || convertResponse.status)))
+        setConverting(false); setProgress(0); setStage("")
       }
     } catch (error) {
       console.error("Error:", error)
-      alert("Failed to convert files: " + error.message)
-      setConverting(false)
+      stopped = true
+      setConvertError("Failed to convert files: " + error.message)
+      setConverting(false); setProgress(0); setStage("")
     }
   }
 
@@ -349,8 +351,17 @@ export default function PreviewPptToPdf() {
                       <p className="font-body text-xs text-slate-500 text-center">
                         {t('pptToPdf.convertingWait')}
                       </p>
+                      <div className="flex justify-center">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   ) : (
+                    <>
+                    {convertError && (
+                      <div role="alert" className="mb-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg p-3">
+                        {convertError}
+                      </div>
+                    )}
                     <button
                       onClick={handleConvert}
                       disabled={selectedCount === 0}
@@ -365,6 +376,7 @@ export default function PreviewPptToPdf() {
                         {t('pptToPdf.convertButton')} {selectedCount} {t('pptToPdf.presentationUnit')}
                       </span>
                     </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -401,80 +413,31 @@ export default function PreviewPptToPdf() {
 
             {/* Right Sidebar */}
             <div className="lg:col-span-4 xl:col-span-3 space-y-6">
-              {/* Conversion Info */}
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h3 className="font-display text-lg font-semibold text-slate-900 mb-4">{t('pptToPdf.conversionDetailsHeading')}</h3>
-                
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-slate-100">
-                    <span className="font-body text-sm text-slate-600">{t('pptToPdf.inputFormatLabel')}</span>
-                    <span className="font-display font-semibold text-orange-600">PPT/PPTX</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-slate-100">
-                    <span className="font-body text-sm text-slate-600">{t('pptToPdf.outputFormatLabel')}</span>
-                    <span className="font-display font-semibold text-red-600">PDF</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-slate-100">
-                    <span className="font-body text-sm text-slate-600">{t('pptToPdf.filesSelectedLabel')}</span>
-                    <span className="font-display font-semibold text-slate-900">{selectedCount}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3">
-                    <span className="font-body text-sm text-slate-600">{t('pptToPdf.totalSizeLabel')}</span>
-                    <span className="font-display font-semibold text-slate-900">{formatFileSize(totalSize)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* What You Get */}
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h3 className="font-display text-lg font-semibold text-slate-900 mb-4">{t('pptToPdf.whatYouGet')}</h3>
-                
-                <div className="space-y-3">
-                  {[
-                    { icon: Layers,       text: t('pptToPdf.getFeature1'), color: "text-orange-600" },
-                    { icon: CheckCircle,  text: t('pptToPdf.getFeature2'), color: "text-green-600" },
-                    { icon: Sparkles,     text: t('pptToPdf.getFeature3'), color: "text-purple-600" },
-                    { icon: Zap,          text: t('pptToPdf.getFeature4'), color: "text-amber-500" },
-                  ].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <feature.icon className={`w-5 h-5 ${feature.color}`} />
-                      <span className="font-body text-sm text-slate-700">{feature.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Security */}
-              <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-6 text-white">
-                <div className="flex items-center gap-3 mb-4">
-                  <Shield className="w-8 h-8 text-yellow-300" />
-                  <h3 className="font-display text-lg font-semibold">{t('pptToPdf.dataSafeHeading')}</h3>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    t('pptToPdf.security1'),
-                    t('pptToPdf.security2'),
-                    t('pptToPdf.security3'),
-                    t('pptToPdf.security4'),
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2 font-body text-sm text-orange-100">
-                      <CheckCircle className="w-4 h-4 text-yellow-300 flex-shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
       </div>
       {DailyLimitGate}
+      {PremiumGateModal}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pptToPdf"]) },
+    revalidate: 86400,
+  }
 }

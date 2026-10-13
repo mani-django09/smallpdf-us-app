@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import {
   Download,
@@ -12,6 +14,8 @@ import {
   Sparkles,
   ChevronRight,
   RefreshCw,
+  Printer,
+  Trash2,
   Zap,
   ArrowRight,
 } from "lucide-react"
@@ -19,28 +23,25 @@ import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { printBlob, printFile } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import AdLabel from "../../components/AdLabel"
+
 
 export default function DownloadUnlockPdf() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
   const { user } = useAuth()
-  const isIndia = useIsIndia()
+  const { isIndia } = useIsIndia()
+  const isPaidUser = ['starter', 'pro', 'agency', 'enterprise'].includes(user?.plan)
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(false)
   const [downloadComplete, setDownloadComplete] = useState(false)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
   const [mounted, setMounted] = useState(false)
   const [useCount, setUseCount] = useState(0)
-
-  const isPaidUser = !!(user?.plan && user.plan !== 'free')
-
-  useEffect(() => {
-    setMounted(true)
-    try {
-      const count = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
-      setUseCount(count)
-    } catch {}
-  }, [])
 
   // ✅ FIX: routerRef prevents infinite re-render loop.
   // useLocalizedRouter() returns a new object every render, so using it
@@ -49,6 +50,7 @@ export default function DownloadUnlockPdf() {
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
+    setMounted(true)
     const storedResult = sessionStorage.getItem("unlockPdfResult")
 
     if (storedResult) {
@@ -79,6 +81,7 @@ export default function DownloadUnlockPdf() {
       if (result.fileCount === 1) {
         const response = await fetch(`${API_URL}${result.downloadUrl}`)
         const blob = await response.blob()
+        setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
@@ -92,6 +95,7 @@ export default function DownloadUnlockPdf() {
       } else {
         const response = await fetch(`${API_URL}/api/download-unlocked/${result.jobId}`)
         const blob = await response.blob()
+        setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
@@ -136,6 +140,27 @@ export default function DownloadUnlockPdf() {
     router.push("/unlock-pdf")
   }
 
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        printBlob(downloadedBlob)
+      } else {
+        await printFile(result?.downloadUrl)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("unlockPdfResult")
+    router.push("/unlock-pdf")
+  }
+
   const formatFileSize = (bytes) => {
     if (!bytes) return "N/A"
     if (bytes === 0) return "0 B"
@@ -164,18 +189,16 @@ export default function DownloadUnlockPdf() {
 
   return (
     <Layout>
-      <SEOHead noIndex={true} />
+      <SEOHead title="Download Unlocked PDF | SmallPDF.us" description="Download your password-unlocked PDF." noIndex={true} />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
         <div className="max-w-4xl mx-auto">
 
           {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
-        </div>
-      </div>
+          <div className="mb-6">
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          </div>
 
-      {/* Success Header */}
+          {/* Success Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-4 shadow-xl animate-bounce">
               <CheckCircle2 className="w-10 h-10 text-white" />
@@ -310,29 +333,10 @@ export default function DownloadUnlockPdf() {
               </div>
             </div>
           </div>
-          {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-          {mounted && !isPaidUser && useCount >= 1 && (
-            <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-slate-800 leading-tight">Unlimited files, bigger uploads, zero ads</p>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  {isIndia ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking' : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                </p>
-              </div>
-              <Link
-                href="/pricing"
-                className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-              >
-                <Zap className="w-3.5 h-3.5" />
-                Upgrade
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          )}
+          {/* ── Upgrade upsell ── */}
+          <UpgradeUpsell className="mt-4" />
 
+          <EmailCapture className="mt-3" />
           {/* Features Grid */}
           <div className="grid md:grid-cols-3 gap-4 mb-8">
             <div className="bg-white rounded-xl p-5 border border-slate-200 shadow-md hover:shadow-lg transition-all">
@@ -383,12 +387,37 @@ export default function DownloadUnlockPdf() {
             </button>
 
             <button
+              onClick={handlePrint}
+              disabled={printing}
+              title={t("fileActions.print")}
+              className="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 border-2 border-slate-200 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all shadow-md hover:shadow-lg disabled:opacity-60"
+            >
+              {printing ? <div className="w-5 h-5 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-5 h-5" />}
+              <span>Print</span>
+            </button>
+
+            <button
+              onClick={handleDelete}
+              title={t("fileActions.delete")}
+              className="flex-1 flex items-center justify-center gap-2 bg-red-100 text-red-600 border-2 border-red-200 px-6 py-3 rounded-xl font-bold hover:bg-red-200 transition-all shadow-md hover:shadow-lg"
+            >
+              <Trash2 className="w-5 h-5" />
+              <span>Delete</span>
+            </button>
+
+            <button
               onClick={() => router.push("/")}
               className="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 border-2 border-slate-200 px-6 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all shadow-md hover:shadow-lg"
             >
               <ArrowLeft className="w-5 h-5" />
               <span>{t("unlockPdf.downloadBackHomeBtn")}</span>
             </button>
+          </div>
+
+          {/* Mid-content Ad */}
+          <div className="mt-6 bg-white rounded-2xl p-3 shadow-sm border border-slate-200">
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+            <AdSenseUnit adSlot="unlock-pdf-dl-mid" size="leaderboard" />
           </div>
 
           {/* Related Tools */}
@@ -420,13 +449,27 @@ export default function DownloadUnlockPdf() {
             </div>
           </div>
 
-          {/* Bottom Ad */}
-          <div className="hidden lg:block mt-6 bg-white rounded-2xl p-3 shadow-sm border border-slate-200">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
-            <AdSenseUnit adSlot="7489539676" />
+          {/* Two ads side-by-side so they don't stack into a tall empty gap when unfilled */}
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
+            </div>
+            {/* Sidebar Ad 2 */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-3">
+              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
+              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" size="rectangle2" /></div>
+            </div>
           </div>
         </div>
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["unlockPdf"]) },
+    revalidate: 86400,
+  }
 }

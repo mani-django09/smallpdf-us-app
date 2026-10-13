@@ -1,6 +1,7 @@
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
+import { getPageMessages } from '../lib/i18nLoader'
 import { Shield, Lock, Eye, Trash2, Server, FileText, CheckCircle, ChevronRight, CreditCard } from "lucide-react"
 import { useState, useEffect } from "react"
 
@@ -63,9 +64,11 @@ export default function Privacy() {
 
   return (
     <Layout>
+      {/* Localised: hardcoding English here meant all 8 locale URLs shipped an
+          identical English title + description. */}
       <SEOHead
-        title="Privacy Policy — How SmallPDF.us Protects Your Data"
-        description="SmallPDF.us privacy policy — files encrypted in transit, auto-deleted within 2 hours. No data sold, no account required. GDPR compliant."
+        title={t('privacy.layoutTitle')}
+        description={t('privacy.layoutDescription')}
         keywords="smallpdf privacy policy, data protection, file security, GDPR"
       />
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -332,4 +335,11 @@ function BulletList({ items }) {
       ))}
     </ul>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["privacy"]) },
+    revalidate: 86400,
+  }
 }

@@ -1,4 +1,39 @@
 {
+  "imageEdit": {
+    "rotateLeft": "Rotate left",
+    "rotateRight": "Rotate right",
+    "filter": "Filter",
+    "none": "Original",
+    "grayscale": "Grayscale",
+    "sepia": "Sepia",
+    "bright": "Bright",
+    "contrast": "Contrast",
+    "warm": "Warm",
+    "cool": "Cool",
+    "invert": "Invert"
+  },
+  "toolErrors": {
+    "passwordProtected": "\"{name}\" is protected with an open password. Remove it with our Unlock PDF tool first, then try again.",
+    "alreadyLocked": "\"{name}\" already has an open password. Remove it with our Unlock PDF tool first, then protect it again.",
+    "corrupt": "Could not read \"{name}\". The file may be damaged — try re-saving or re-downloading it.",
+    "unreadableImages": "Could not read: {names}. The image may be damaged or in an unsupported format — save it as JPG or PNG and try again.",
+    "someSkipped": "Your PDF is ready, but these images could not be read and were left out: {names}",
+    "skippedFiles": "Done — but these files could not be read and were left out: {names}",
+    "fileTooLarge": "\"{name}\" is larger than 100 MB, the maximum per file. Please compress or split it first."
+  },
+  "extension": {
+    "oneClick": "Use these tools in one click —",
+    "addToChrome": "Add SmallPDF.us to Chrome",
+    "dismiss": "Dismiss",
+    "freeExtension": "Free extension",
+    "addChromeShort": "Add to Chrome"
+  },
+  "ads": { "label": "Advertisement" },
+  "fileActions": {
+    "print": "Print",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this file and start over?"
+  },
   "common": {
     "siteName": "SmallPDF.us",
     "free": "Free",
@@ -11,6 +46,9 @@
     "splitPdf": "Split PDF",
     "compressPdf": "Compress PDF",
     "unlockPdf": "Unlock PDF",
+    "rotatePdf": "Rotate PDF",
+    "redactPdf": "Redact PDF",
+    "editPdf": "Edit PDF",
     "ocrPdf": "OCR PDF",
     "convert": "Convert",
     "allTools": "All Tools",
@@ -28,7 +66,18 @@
     "excelToPdf": "Excel to PDF",
     "webpToPng": "WebP to PNG",
     "pngToWebp": "PNG to WebP",
-    "compressImage": "Compress Image"
+    "heicToJpg": "HEIC to JPG",
+    "heicToPng": "HEIC to PNG",
+    "compressImage": "Compress Image",
+    "compressImage50kb": "Compress to 50KB",
+    "compressImage100kb": "Compress to 100KB",
+    "compressImage20kb": "Compress to 20KB",
+    "protectPdf": "Protect PDF",
+    "groupOrganize": "Organize",
+    "groupSecure": "Secure & Extract",
+    "groupToPdf": "To PDF",
+    "groupFromPdf": "From PDF",
+    "groupImages": "Images"
   },
   "layout": {
     "logIn": "Log In",
@@ -37,7 +86,8 @@
     "logOut": "Log Out"
   },
   "footer": {
-    "description": "Your trusted online PDF toolkit. Fast, secure, and 100% free.",
+    "moreFreeTools": "More Free Tools",
+    "description": "27 PDF and image tools. Quick to use, free to start — files auto-deleted in 1 hour.",
     "pdfTools": "PDF Tools",
     "convert": "Convert",
     "company": "Company",
@@ -48,12 +98,12 @@
     "terms": "Terms of Service",
     "refund": "Refund Policy",
     "copyright": "© 2026 SmallPDF.us - All rights reserved",
-    "madeWith": "Made with ❤ for PDF lovers everywhere"
+    "madeWith": "Built by Manikant Kumar · New Delhi, India · 2024"
   },
   "seo": {
     "home": {
-      "title": "Free PDF Tools - Convert, Compress, Merge PDFs Online | SmallPDF.us",
-      "description": "Professional PDF tools 100% free forever. Convert PDF to Word, compress PDFs, merge files, and more. No signup required. Bank-grade security with auto-delete.",
+      "title": "Free PDF Tools — Convert, Compress & Merge | SmallPDF.us",
+      "description": "27 free PDF and image tools. Convert, compress, merge and split in seconds — free to start. Files encrypted in transit and auto-deleted within 1 hour.",
       "keywords": "free pdf tools, pdf converter, compress pdf, merge pdf, pdf to word, word to pdf, split pdf, pdf editor online"
     }
   },
@@ -70,13 +120,36 @@
     "fileType": "File Type",
     "fileSize": "File Size",
     "securityNotice": "Security Notice",
-    "securityText": "This file will be automatically deleted from our servers in 2 hours for your privacy and security.",
+    "securityText": "This file will be automatically deleted from our servers in 1 hour for your privacy and security.",
     "errorHeading": "Download Error",
     "errorMessage": "The file you are trying to download could not be found or has expired.",
     "backHome": "Back to Home",
     "anotherConversion": "Convert Another File"
   },
   "account": {
+    "files": {
+      "pageTitle": "My Files",
+      "subtitle": "Files you process while signed in are kept here temporarily, then auto-deleted.",
+      "refresh": "Refresh",
+      "retention": "For your privacy, files are automatically deleted after {duration}.",
+      "hour1": "1 hour",
+      "hours24": "24 hours",
+      "hours48": "48 hours",
+      "upgradeText": "Upgrade to keep them for up to 48 hours.",
+      "loading": "Loading your files…",
+      "emptyTitle": "No files yet",
+      "emptyDesc": "Process a PDF while signed in and it will show up here.",
+      "browseTools": "Browse tools",
+      "download": "Download",
+      "delete": "Delete",
+      "deleteConfirm": "Delete \"{name}\"? This cannot be undone.",
+      "errorLoad": "Could not load your files",
+      "errorDownload": "Download failed — the file may have expired.",
+      "errorDelete": "Delete failed",
+      "expired": "Expired",
+      "leftHours": "{h}h {m}m left",
+      "leftMinutes": "{m}m left"
+    },
     "pageTitle": "My Account – SmallPDF.us",
     "logOut": "Log out",
     "tabProfile": "👤 Profile",
@@ -100,10 +173,45 @@
     "planFreeDesc": "Basic access with limited features",
     "planPaidDesc": "Full access to all tools",
     "upgradeToPro": "Upgrade to Pro",
-    "proFeatures": ["Unlimited file processing", "No file size limits", "Priority support", "Batch processing", "No ads"],
+    "proFeatures": [
+      "Unlimited file processing",
+      "Files up to 100 MB",
+      "Priority support",
+      "Batch processing",
+      "No ads"
+    ],
     "upgradeBtn": "Upgrade to Pro — Coming Soon",
     "planBadgeFree": "Free",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"
+  },
+  "navDesc": {
+    "mergePdf": "Combine PDFs into one",
+    "splitPdf": "Extract or split pages",
+    "rotatePdf": "Turn pages the right way",
+    "compressPdf": "Reduce PDF file size",
+    "protectPdf": "Add a password",
+    "unlockPdf": "Remove PDF password",
+    "redactPdf": "Black out sensitive info",
+    "editPdf": "Whiteout and retype text",
+    "ocrPdf": "Extract text from scans",
+    "wordToPdf": "DOC & DOCX to PDF",
+    "excelToPdf": "XLS & XLSX to PDF",
+    "pptToPdf": "PPT & PPTX to PDF",
+    "jpgToPdf": "Images into one PDF",
+    "pngToPdf": "PNG images to PDF",
+    "pdfToWord": "Editable DOCX output",
+    "pdfToExcel": "Extract tables to XLSX",
+    "pdfToPpt": "Slides from your PDF",
+    "pdfToJpg": "Pages as JPG images",
+    "pdfToPng": "Pages as PNG images",
+    "compressImage": "Shrink JPG, PNG & WebP",
+    "compressImage50kb": "For exam & form photos",
+    "compressImage100kb": "For exam & form photos",
+    "compressImage20kb": "For signature uploads",
+    "heicToJpg": "iPhone photos to JPG",
+    "heicToPng": "iPhone photos to PNG",
+    "webpToPng": "WebP images to PNG",
+    "pngToWebp": "PNG to smaller WebP"
   }
 }

@@ -8,6 +8,7 @@ import Link from "next/link"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { useAuth } from "../../context/AuthContext"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   ScanText, ArrowLeft, Download, FileText, CheckCircle2,
   AlertCircle, Crown, ArrowRight, Clock, Zap,
@@ -26,10 +27,10 @@ const STAGES_EN = [
 
 export default function OcrPdfProcess() {
   const router  = useLocalizedRouter()
-  const { user } = useAuth()
+  const { user, authFetch } = useAuth()
   const { t } = useTranslations()
   const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
-  const isPro   = user?.plan === "pro" || user?.plan === "enterprise"
+  const isPro   = ["starter", "pro", "agency", "enterprise"].includes(user?.plan)
 
   const [status,   setStatus]   = useState("processing")
   const [progress, setProgress] = useState(0)
@@ -77,17 +78,16 @@ export default function OcrPdfProcess() {
           ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011")
           : `${window.location.protocol}//${window.location.hostname}`
 
-      const res = await fetch(`${API_URL}/api/ocr-pdf`, {
+      const res = await authFetch(`${API_URL}/api/ocr-pdf`, {
         method: "POST",
         body: formData,
-        headers: user?.token ? { Authorization: `Bearer ${user.token}` } : {},
       })
 
       clearInterval(tick)
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
-        throw new Error(data.error || `Server error ${res.status}`)
+        throw new Error(data.message || data.error || `Server error ${res.status}`)
       }
 
       const data = await res.json()
@@ -247,4 +247,11 @@ export default function OcrPdfProcess() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["ocrPdf"]) },
+    revalidate: 86400,
+  }
 }

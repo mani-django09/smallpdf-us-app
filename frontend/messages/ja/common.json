@@ -1,4 +1,39 @@
 {
+  "imageEdit": {
+    "rotateLeft": "左に回転",
+    "rotateRight": "右に回転",
+    "filter": "フィルター",
+    "none": "オリジナル",
+    "grayscale": "グレースケール",
+    "sepia": "セピア",
+    "bright": "明るく",
+    "contrast": "コントラスト",
+    "warm": "暖色",
+    "cool": "寒色",
+    "invert": "反転"
+  },
+  "toolErrors": {
+    "passwordProtected": "「{name}」は開くためのパスワードで保護されています。先に「PDFロック解除」ツールでパスワードを解除してから、もう一度お試しください。",
+    "alreadyLocked": "「{name}」にはすでに開くためのパスワードが設定されています。先に「PDFロック解除」ツールで解除してから、もう一度保護してください。",
+    "corrupt": "「{name}」を読み込めませんでした。ファイルが破損している可能性があります。保存し直すか、再度ダウンロードしてください。",
+    "unreadableImages": "読み込めませんでした：{names}。画像が破損しているか、対応していない形式の可能性があります。JPGまたはPNGで保存してからもう一度お試しください。",
+    "someSkipped": "PDFは作成されましたが、次の画像は読み込めなかったため除外されました：{names}",
+    "skippedFiles": "完了しましたが、次のファイルは読み込めなかったため除外されました：{names}",
+    "fileTooLarge": "「{name}」は1ファイルあたりの上限100MBを超えています。先に圧縮または分割してください。"
+  },
+  "extension": {
+    "oneClick": "ワンクリックでツールを使う —",
+    "addToChrome": "SmallPDF.usをChromeに追加",
+    "dismiss": "閉じる",
+    "freeExtension": "無料の拡張機能",
+    "addChromeShort": "Chromeに追加"
+  },
+  "ads": { "label": "広告" },
+  "fileActions": {
+    "print": "印刷",
+    "delete": "削除",
+    "deleteConfirm": "このファイルを削除して最初からやり直しますか？"
+  },
   "common": {
     "siteName": "SmallPDF.us",
     "free": "無料",
@@ -11,6 +46,9 @@
     "splitPdf": "PDFを分割",
     "compressPdf": "PDFを圧縮",
     "unlockPdf": "PDFのロック解除",
+    "rotatePdf": "PDFを回転",
+    "redactPdf": "PDFを墨消し",
+    "editPdf": "PDFを編集",
     "ocrPdf": "OCR PDF",
     "convert": "変換",
     "allTools": "全ツール",
@@ -28,7 +66,18 @@
     "pptToPdf": "PPTをPDFに",
     "pngToWebp": "PNGをWebPに",
     "webpToPng": "WebPをPNGに",
-    "compressImage": "画像を圧縮"
+    "heicToJpg": "HEICをJPGに",
+    "heicToPng": "HEICをPNGに",
+    "compressImage": "画像を圧縮",
+    "compressImage50kb": "50KBに圧縮",
+    "compressImage100kb": "100KBに圧縮",
+    "compressImage20kb": "20KBに圧縮",
+    "protectPdf": "PDFを保護",
+    "groupOrganize": "整理",
+    "groupSecure": "保護・抽出",
+    "groupToPdf": "PDFへ変換",
+    "groupFromPdf": "PDFから変換",
+    "groupImages": "画像"
   },
   "layout": {
     "logIn": "ログイン",
@@ -37,7 +86,8 @@
     "logOut": "ログアウト"
   },
   "footer": {
-    "description": "信頼できるオンラインPDFツールキット。高速・安全・100%無料。",
+    "moreFreeTools": "その他の無料ツール",
+    "description": "27種類のPDF・画像ツール。すぐに使えて無料で始められます。ファイルは1時間後に自動削除。",
     "pdfTools": "PDFツール",
     "convert": "変換",
     "company": "会社情報",
@@ -53,7 +103,7 @@
   "seo": {
     "home": {
       "title": "無料PDFツール - PDFの変換・圧縮・結合 | SmallPDF.us",
-      "description": "プロフェッショナルなPDFツールが永久無料。PDFをWordに変換、PDFを圧縮・結合など。登録不要、自動削除機能付き。",
+      "description": "27種類の無料PDF・画像ツール。変換・圧縮・結合・分割を数秒で。無料で始められ、ファイルは暗号化して転送、1時間以内に自動削除されます。",
       "keywords": "無料PDFツール, PDF変換, PDF圧縮, PDF結合, PDFをWordに, WordをPDFに, PDF分割, オンラインPDF"
     }
   },
@@ -70,13 +120,36 @@
     "fileType": "ファイルタイプ",
     "fileSize": "ファイルサイズ",
     "securityNotice": "セキュリティについて",
-    "securityText": "プライバシー保護のため、このファイルは2時間後にサーバーから自動削除されます。",
+    "securityText": "プライバシー保護のため、このファイルは1時間後にサーバーから自動削除されます。",
     "errorHeading": "ダウンロードエラー",
     "errorMessage": "ダウンロードしようとしているファイルが見つからないか、期限切れです。",
     "backHome": "ホームに戻る",
     "anotherConversion": "別のファイルを変換"
   },
   "account": {
+    "files": {
+      "pageTitle": "マイファイル",
+      "subtitle": "ログイン中に処理したファイルは一時的にここに保存され、その後自動的に削除されます。",
+      "refresh": "更新",
+      "retention": "プライバシー保護のため、ファイルは{duration}後に自動的に削除されます。",
+      "hour1": "1時間",
+      "hours24": "24時間",
+      "hours48": "48時間",
+      "upgradeText": "アップグレードすると最大48時間保存できます。",
+      "loading": "ファイルを読み込み中…",
+      "emptyTitle": "まだファイルがありません",
+      "emptyDesc": "ログインした状態でPDFを処理すると、ここに表示されます。",
+      "browseTools": "ツールを見る",
+      "download": "ダウンロード",
+      "delete": "削除",
+      "deleteConfirm": "「{name}」を削除しますか？この操作は元に戻せません。",
+      "errorLoad": "ファイルを読み込めませんでした",
+      "errorDownload": "ダウンロードに失敗しました。ファイルの有効期限が切れている可能性があります。",
+      "errorDelete": "削除に失敗しました",
+      "expired": "期限切れ",
+      "leftHours": "残り{h}時間{m}分",
+      "leftMinutes": "残り{m}分"
+    },
     "pageTitle": "マイアカウント – SmallPDF.us",
     "logOut": "ログアウト",
     "tabProfile": "👤 プロフィール",
@@ -102,7 +175,7 @@
     "upgradeToPro": "Proにアップグレード",
     "proFeatures": [
       "無制限のファイル処理",
-      "ファイルサイズ制限なし",
+      "最大100MBのファイル",
       "優先サポート",
       "バッチ処理",
       "広告なし"
@@ -111,5 +184,34 @@
     "planBadgeFree": "無料",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"
+  },
+  "navDesc": {
+    "mergePdf": "複数のPDFを1つに",
+    "splitPdf": "ページを抽出・分割",
+    "rotatePdf": "ページの向きを直す",
+    "compressPdf": "PDFのサイズを縮小",
+    "protectPdf": "パスワードを設定",
+    "unlockPdf": "パスワードを解除",
+    "redactPdf": "機密情報を黒塗り",
+    "editPdf": "覆って新しいテキストを入力",
+    "ocrPdf": "スキャンから文字抽出",
+    "wordToPdf": "DOC・DOCXをPDFに",
+    "excelToPdf": "XLS・XLSXをPDFに",
+    "pptToPdf": "PPT・PPTXをPDFに",
+    "jpgToPdf": "画像を1つのPDFに",
+    "pngToPdf": "PNG画像をPDFに",
+    "pdfToWord": "編集可能なDOCXに",
+    "pdfToExcel": "表をXLSXに抽出",
+    "pdfToPpt": "PDFからスライドに",
+    "pdfToJpg": "ページをJPG画像に",
+    "pdfToPng": "ページをPNG画像に",
+    "compressImage": "JPG・PNG・WebPを圧縮",
+    "compressImage50kb": "試験・書類用の写真に",
+    "compressImage100kb": "試験・書類用の写真に",
+    "compressImage20kb": "署名アップロード用に",
+    "heicToJpg": "iPhone写真をJPGに",
+    "heicToPng": "iPhone写真をPNGに",
+    "webpToPng": "WebP画像をPNGに",
+    "pngToWebp": "PNGを軽いWebPに"
   }
 }

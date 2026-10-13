@@ -11,6 +11,73 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
 // ── Token key — single source of truth ───────────────────────────────────────
 const TOKEN_KEY = 'auth_token'
 
+// Read the `plan` claim from a JWT without verifying it (display/sync only —
+// the server still verifies every token).
+function tokenPlan(token) {
+  try {
+    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
+    return JSON.parse(atob(b64)).plan
+  } catch {
+    return undefined
+  }
+}
+
+// ── Attach the login token to every request to OUR API ──────────────────────
+// ~20 tool pages call the API with a bare fetch(), so the server's plan-aware
+// limiters (fileSizeLimiter, batchLimiter, dailyConversionLimiter — all read the
+// JWT) treated paying users as guests: 3 conversions/day and free size limits,
+// and their files never reached "My Files". Patching fetch once fixes every page.
+// Only same-site /api/ URLs get the header, and never one that already set it.
+function isOwnApi(url) {
+  try {
+    const u = new URL(url, window.location.href)
+    if (!u.pathname.startsWith('/api/')) return false
+    if (u.origin === window.location.origin) return true
+    const devApi = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
+    const local = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    return local && u.origin === new URL(devApi).origin
+  } catch {
+    return false
+  }
+}
+
+// Random per-browser id (not tied to the person or the account). Sent as
+// X-Client-Id on our own API calls; see dailyConversionLimiter on the server.
+const CLIENT_ID_KEY = 'sp_client_id'
+export function getClientId() {
+  try {
+    let id = localStorage.getItem(CLIENT_ID_KEY)
+    if (!id) {
+      id = (window.crypto?.randomUUID?.() || `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`).toLowerCase()
+      localStorage.setItem(CLIENT_ID_KEY, id)
+    }
+    return id
+  } catch {
+    return null
+  }
+}
+
+if (typeof window !== 'undefined' && !window.__spAuthFetch) {
+  window.__spAuthFetch = true
+  const nativeFetch = window.fetch.bind(window)
+  window.fetch = (input, init) => {
+    try {
+      const url = typeof input === 'string' ? input : input instanceof URL ? input.href : null
+      if (url && isOwnApi(url)) {
+        const token = localStorage.getItem(TOKEN_KEY)
+        const headers = new Headers((init && init.headers) || undefined)
+        // Browser id for the daily free-use counter, so the 5/day allowance is
+        // shared between "not logged in" and "logged in" on the same browser.
+        const cid = getClientId()
+        if (cid && !headers.has('X-Client-Id')) headers.set('X-Client-Id', cid)
+        if (token && !headers.has('Authorization')) headers.set('Authorization', `Bearer ${token}`)
+        return nativeFetch(input, { ...(init || {}), headers })
+      }
+    } catch {}
+    return nativeFetch(input, init)
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user,    setUser]    = useState(null)
   const [loading, setLoading] = useState(true)
@@ -34,6 +101,20 @@ export function AuthProvider({ children }) {
       if (res.ok) {
         const data = await res.json()
         setUser(data.user)
+        // The upload limiters trust the `plan` claim inside the JWT. If the
+        // plan changed since this token was issued (paid on another device,
+        // subscription lapsed), swap in a fresh token so limits match the plan.
+        if (tokenPlan(token) !== data.user?.plan) {
+          const r = await fetch(`${API_BASE}/api/auth/refresh-token`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+          }).catch(() => null)
+          if (r?.ok) {
+            const fresh = await r.json()
+            if (fresh.token) localStorage.setItem(TOKEN_KEY, fresh.token)
+            if (fresh.user) setUser(fresh.user)
+          }
+        }
       } else {
         localStorage.removeItem(TOKEN_KEY)
       }
@@ -44,10 +125,26 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  // Refresh user from server — called after Stripe checkout to update plan
+  // Refresh user + JWT from server — called after checkout success to update plan.
+  // Uses /refresh-token (not /me) because fileSizeLimiter/dailyConversionLimiter
+  // read `plan` off the JWT itself for speed — without a fresh token the user's
+  // upload limits stay stuck at whatever plan was active when they last logged in.
   const refreshUser = useCallback(async () => {
     const token = localStorage.getItem(TOKEN_KEY)
     if (!token) return
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/refresh-token`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (res.ok) {
+        const data = await res.json()
+        localStorage.setItem(TOKEN_KEY, data.token)
+        setUser(data.user)
+        return data.user
+      }
+    } catch {}
+    // Fallback — at least keep the displayed user data current
     await fetchMe(token)
   }, [fetchMe])
 
@@ -59,6 +156,13 @@ export function AuthProvider({ children }) {
     })
     const data = await res.json()
     if (!res.ok) throw new Error(data.error || 'Signup failed')
+    // Signup now returns a token immediately (before email verification) so the
+    // user's free-account daily quota (5/day) applies right away instead of
+    // leaving them on the guest quota (3/day) until they verify + log in.
+    if (data.token) {
+      localStorage.setItem(TOKEN_KEY, data.token)
+      setUser(data.user)
+    }
     return data
   }, [])
 

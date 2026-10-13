@@ -1,4 +1,39 @@
 {
+  "imageEdit": {
+    "rotateLeft": "Putar ke kiri",
+    "rotateRight": "Putar ke kanan",
+    "filter": "Filter",
+    "none": "Asli",
+    "grayscale": "Skala abu-abu",
+    "sepia": "Sepia",
+    "bright": "Terang",
+    "contrast": "Kontras",
+    "warm": "Hangat",
+    "cool": "Sejuk",
+    "invert": "Balik warna"
+  },
+  "toolErrors": {
+    "passwordProtected": "\"{name}\" dilindungi kata sandi pembuka. Hapus dulu dengan alat Buka Kunci PDF kami, lalu coba lagi.",
+    "alreadyLocked": "\"{name}\" sudah memiliki kata sandi pembuka. Hapus dulu dengan alat Buka Kunci PDF kami, lalu lindungi lagi.",
+    "corrupt": "Tidak dapat membaca \"{name}\". File mungkin rusak — coba simpan ulang atau unduh ulang.",
+    "unreadableImages": "Tidak dapat dibaca: {names}. Gambar mungkin rusak atau formatnya tidak didukung — simpan sebagai JPG atau PNG lalu coba lagi.",
+    "someSkipped": "PDF Anda sudah siap, tetapi gambar berikut tidak dapat dibaca dan dilewati: {names}",
+    "skippedFiles": "Selesai — tetapi file berikut tidak dapat dibaca dan dilewati: {names}",
+    "fileTooLarge": "\"{name}\" lebih dari 100 MB, batas maksimum per file. Kompres atau pisahkan dulu."
+  },
+  "extension": {
+    "oneClick": "Gunakan alat ini dalam satu klik —",
+    "addToChrome": "Tambahkan SmallPDF.us ke Chrome",
+    "dismiss": "Tutup",
+    "freeExtension": "Ekstensi gratis",
+    "addChromeShort": "Tambahkan ke Chrome"
+  },
+  "ads": { "label": "Iklan" },
+  "fileActions": {
+    "print": "Cetak",
+    "delete": "Hapus",
+    "deleteConfirm": "Hapus file ini dan mulai lagi?"
+  },
   "common": {
     "siteName": "SmallPDF.us",
     "free": "Gratis",
@@ -11,6 +46,9 @@
     "splitPdf": "Pisah PDF",
     "compressPdf": "Kompres PDF",
     "unlockPdf": "Buka Kunci PDF",
+    "rotatePdf": "Putar PDF",
+    "redactPdf": "Sensor PDF",
+    "editPdf": "Edit PDF",
     "ocrPdf": "OCR PDF",
     "convert": "Konversi",
     "allTools": "Semua Alat",
@@ -28,7 +66,18 @@
     "pptToPdf": "PPT ke PDF",
     "pngToWebp": "PNG ke WebP",
     "webpToPng": "WebP ke PNG",
-    "compressImage": "Kompres Gambar"
+    "heicToJpg": "HEIC ke JPG",
+    "heicToPng": "HEIC ke PNG",
+    "compressImage": "Kompres Gambar",
+    "compressImage50kb": "Kompres ke 50KB",
+    "compressImage100kb": "Kompres ke 100KB",
+    "compressImage20kb": "Kompres ke 20KB",
+    "protectPdf": "Lindungi PDF",
+    "groupOrganize": "Atur",
+    "groupSecure": "Amankan & Ekstrak",
+    "groupToPdf": "Ke PDF",
+    "groupFromPdf": "Dari PDF",
+    "groupImages": "Gambar"
   },
   "layout": {
     "logIn": "Masuk",
@@ -37,7 +86,8 @@
     "logOut": "Keluar"
   },
   "footer": {
-    "description": "Kotak alat PDF online terpercaya Anda. Cepat, aman, dan 100% gratis.",
+    "moreFreeTools": "Alat gratis lainnya",
+    "description": "27 alat PDF dan gambar. Cepat digunakan, gratis untuk memulai — file dihapus otomatis dalam 1 jam.",
     "pdfTools": "Alat PDF",
     "convert": "Konversi",
     "company": "Perusahaan",
@@ -52,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Alat PDF Gratis - Konversi, Kompres, Gabung PDF Online | SmallPDF.us",
-      "description": "Alat PDF profesional 100% gratis selamanya. Konversi PDF ke Word, kompres PDF, gabung file, dan lainnya. Tanpa daftar. Keamanan tinggi dengan hapus otomatis.",
+      "title": "Alat PDF Gratis – Konversi, Kompres, Gabung | SmallPDF.us",
+      "description": "27 alat PDF dan gambar gratis: konversi, kompres, gabung, dan pisah dalam hitungan detik. Transfer terenkripsi, file dihapus otomatis dalam 1 jam.",
       "keywords": "alat pdf gratis, konversi pdf, kompres pdf, gabung pdf, pdf ke word, word ke pdf, pisah pdf, editor pdf online"
     }
   },
@@ -70,13 +120,36 @@
     "fileType": "Jenis File",
     "fileSize": "Ukuran File",
     "securityNotice": "Pemberitahuan Keamanan",
-    "securityText": "File ini akan otomatis dihapus dari server kami dalam 2 jam demi privasi dan keamanan kamu.",
+    "securityText": "File ini akan otomatis dihapus dari server kami dalam 1 jam demi privasi dan keamanan kamu.",
     "errorHeading": "Kesalahan Unduhan",
     "errorMessage": "File yang ingin kamu unduh tidak ditemukan atau telah kedaluwarsa.",
     "backHome": "Kembali ke Beranda",
     "anotherConversion": "Konversi File Lain"
   },
   "account": {
+    "files": {
+      "pageTitle": "File Saya",
+      "subtitle": "File yang Anda proses saat masuk disimpan di sini sementara, lalu dihapus otomatis.",
+      "refresh": "Muat ulang",
+      "retention": "Demi privasi Anda, file dihapus otomatis setelah {duration}.",
+      "hour1": "1 jam",
+      "hours24": "24 jam",
+      "hours48": "48 jam",
+      "upgradeText": "Upgrade untuk menyimpannya hingga 48 jam.",
+      "loading": "Memuat file Anda…",
+      "emptyTitle": "Belum ada file",
+      "emptyDesc": "Proses PDF saat Anda masuk dan file akan muncul di sini.",
+      "browseTools": "Lihat alat",
+      "download": "Unduh",
+      "delete": "Hapus",
+      "deleteConfirm": "Hapus \"{name}\"? Tindakan ini tidak dapat dibatalkan.",
+      "errorLoad": "File Anda tidak dapat dimuat",
+      "errorDownload": "Unduhan gagal — file mungkin sudah kedaluwarsa.",
+      "errorDelete": "Gagal menghapus",
+      "expired": "Kedaluwarsa",
+      "leftHours": "sisa {h} j {m} m",
+      "leftMinutes": "sisa {m} m"
+    },
     "pageTitle": "Akun Saya – SmallPDF.us",
     "logOut": "Keluar",
     "tabProfile": "👤 Profil",
@@ -102,7 +175,7 @@
     "upgradeToPro": "Upgrade ke Pro",
     "proFeatures": [
       "Pemrosesan file tak terbatas",
-      "Tanpa batas ukuran file",
+      "File hingga 100 MB",
       "Dukungan prioritas",
       "Pemrosesan batch",
       "Tanpa iklan"
@@ -111,5 +184,34 @@
     "planBadgeFree": "Gratis",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"
+  },
+  "navDesc": {
+    "mergePdf": "Gabung PDF jadi satu",
+    "splitPdf": "Ekstrak atau pisah halaman",
+    "rotatePdf": "Putar halaman dengan benar",
+    "compressPdf": "Perkecil ukuran PDF",
+    "protectPdf": "Tambahkan kata sandi",
+    "unlockPdf": "Hapus kata sandi PDF",
+    "redactPdf": "Sensor info sensitif",
+    "editPdf": "Tutup dan ketik ulang teks",
+    "ocrPdf": "Ekstrak teks dari pindaian",
+    "wordToPdf": "DOC & DOCX ke PDF",
+    "excelToPdf": "XLS & XLSX ke PDF",
+    "pptToPdf": "PPT & PPTX ke PDF",
+    "jpgToPdf": "Gambar jadi satu PDF",
+    "pngToPdf": "Gambar PNG ke PDF",
+    "pdfToWord": "DOCX yang bisa diedit",
+    "pdfToExcel": "Ekstrak tabel ke XLSX",
+    "pdfToPpt": "Slide dari PDF Anda",
+    "pdfToJpg": "Halaman jadi gambar JPG",
+    "pdfToPng": "Halaman jadi gambar PNG",
+    "compressImage": "Perkecil JPG, PNG & WebP",
+    "compressImage50kb": "Untuk foto ujian dan formulir",
+    "compressImage100kb": "Untuk foto ujian dan formulir",
+    "compressImage20kb": "Untuk unggahan tanda tangan",
+    "heicToJpg": "Foto iPhone ke JPG",
+    "heicToPng": "Foto iPhone ke PNG",
+    "webpToPng": "Gambar WebP ke PNG",
+    "pngToWebp": "PNG ke WebP lebih kecil"
   }
 }

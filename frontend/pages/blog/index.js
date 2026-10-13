@@ -1,20 +1,35 @@
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import Layout from "../../components/Layout"
+import SEOHead from "../../components/SEOHead"
 import { Calendar, User, Eye, ArrowRight, Search, Tag, Folder } from "lucide-react"
 import { getApiUrl } from "../../lib/getApiUrl"
+import { getPageMessages } from "../../lib/i18nLoader"
 
-export default function Blog() {
-  const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [categories, setCategories] = useState([])
-  const [tags, setTags] = useState([])
+// Blog featured images are uploaded files served by nginx from backend/uploads/
+// (not a Next.js-known route), so next/image's local-path resolution can't
+// reach them — force the "remote image" code path with an absolute URL, which
+// goes through images.domains instead.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us'
+function toAbsoluteImageUrl(src) {
+  if (!src) return src
+  return src.startsWith('http') ? src : `${SITE_URL}${src}`
+}
+
+export default function Blog({ initialPosts = [], initialCategories = [], initialTags = [], initialTotalPages = 1 }) {
+  const [posts, setPosts] = useState(initialPosts)
+  const [loading, setLoading] = useState(false)
+  const [categories, setCategories] = useState(initialCategories)
+  const [tags, setTags] = useState(initialTags)
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedTag, setSelectedTag] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(initialTotalPages)
 
   useEffect(() => {
+    // Only refetch when user changes filters/page (not on initial mount — SSR already loaded page 1)
+    if (currentPage === 1 && !selectedCategory && !selectedTag) return
     fetchPosts()
   }, [currentPage, selectedCategory, selectedTag])
 
@@ -63,7 +78,14 @@ export default function Blog() {
   }
 
   return (
-    <Layout title="Blog - SmallPDF.us" description="Tips, tricks, and guides for PDF tools">
+    <>
+      <SEOHead
+        title="Blog — PDF Tips, Guides & How-Tos | SmallPDF.us"
+        description="Learn how to compress, merge, split, convert PDFs and more. Step-by-step guides, tips and tricks for PDF tools from SmallPDF.us."
+        canonical="https://smallpdf.us/blog/"
+        hreflang={false}
+      />
+    <Layout>
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
       `}</style>
@@ -182,10 +204,12 @@ export default function Blog() {
                   {/* Featured Image */}
                   {post.featuredImage && (
                     <div className="relative h-48 overflow-hidden bg-slate-100">
-                      <img
-                        src={post.featuredImage}
+                      <Image
+                        src={toAbsoluteImageUrl(post.featuredImage)}
                         alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1 bg-gradient-to-r from-red-600 to-orange-600 text-white text-xs font-semibold rounded-full">
@@ -273,5 +297,36 @@ export default function Blog() {
         )}
       </div>
     </Layout>
+    </>
   )
+}
+
+export async function getServerSideProps({ locale }) {
+  // Layout renders nav/login/etc via t('nav.*') / t('layout.*') — those live in
+  // common.json, which getPageMessages always loads regardless of the namespace
+  // list. Without this, TranslationsProvider gets messages=undefined and every
+  // t() call on this page falls back to printing the raw key (e.g. "nav.pricing").
+  const messages = getPageMessages(locale, [])
+
+  try {
+    const apiUrl = getApiUrl()
+    const res    = await fetch(`${apiUrl}/api/blog/posts?page=1&limit=9`)
+    const data   = await res.json()
+
+    if (!data.success) {
+      return { props: { messages, initialPosts: [], initialCategories: [], initialTags: [], initialTotalPages: 1 } }
+    }
+
+    return {
+      props: {
+        messages,
+        initialPosts:      data.posts         || [],
+        initialCategories: data.categories    || [],
+        initialTags:       data.tags          || [],
+        initialTotalPages: data.pagination?.totalPages || 1,
+      },
+    }
+  } catch {
+    return { props: { messages, initialPosts: [], initialCategories: [], initialTags: [], initialTotalPages: 1 } }
+  }
 }

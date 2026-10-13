@@ -1,13 +1,11 @@
 {
   "seo": {
     "title": "Converti PDF in Word gratis – Senza registrazione | SmallPDF.us",
-    "description": "Converti file PDF in documenti Word modificabili (.docx) online, gratuitamente. Layout, immagini e formattazione preservati. Veloce, sicuro, senza software da installare."
+    "description": "Converti PDF in documenti Word modificabili (.docx) online e gratis. Layout, immagini e formattazione preservati. Veloce e sicuro."
   },
-
   "heroTitle": "Converti PDF in Word",
   "heroTitleHighlight": "gratis e in pochi secondi",
   "heroSubtitle": "Trasforma i tuoi PDF in documenti Word completamente modificabili – senza perdita di qualità, senza registrazione. Carica il file e scarica il risultato in pochi istanti.",
-
   "dropTitle": "Trascina qui i tuoi file PDF",
   "dropActive": "Rilascia il file – ci pensiamo noi!",
   "dropSubtitle": "oppure clicca per sfogliare i file sul tuo dispositivo",
@@ -23,77 +21,69 @@
   "addMoreDocuments": "Aggiungi altri documenti",
   "convertButton_singular": "Converti {{count}} PDF in Word",
   "convertButton_plural": "Converti {{count}} PDF in Word",
-
   "preparingTitle": "Preparazione dei documenti …",
   "preparingSubtitle_singular": "{{count}} file in elaborazione",
   "preparingSubtitle_plural": "{{count}} file in elaborazione",
-
   "previewPageLabel": "Pagina",
   "previewShowing": "Anteprima: prime {{count}} pagine",
   "previewTruncated": "Pagine aggiuntive non visualizzate",
-
   "errorInvalidType": "Carica solo file PDF (.pdf).",
   "errorMaxSize": "Il file è troppo grande. Il limite è 50 MB per file.",
   "errorNoFiles": "Seleziona almeno un file PDF per continuare.",
   "errorProcessing": "Si è verificato un errore durante l'elaborazione. Riprova.",
   "errorPreviewLoading": "L'anteprima è in caricamento, attendi un momento.",
   "errorPreviewFailed": "Impossibile caricare l'anteprima. Il file potrebbe essere danneggiato.",
-
   "featuresTitle": "Perché scegliere SmallPDF.us?",
   "featuresSubtitle": "La nostra tecnologia analizza ogni PDF in dettaglio per produrre un documento Word il più fedele possibile all'originale.",
-
   "feature1Title": "Riconoscimento testo preciso",
   "feature1Desc": "Ogni paragrafo, titolo, elenco e colonna viene estratto con precisione. Il testo nel file Word finale rispecchia fedelmente il contenuto del PDF originale.",
-
   "feature2Title": "Conversione ultra-veloce",
   "feature2Desc": "Anche i PDF con decine di pagine vengono convertiti in pochi secondi. Nessuna attesa frustrante: tutto avviene in background mentre tu aspetti.",
-
   "feature3Title": "Privacy garantita",
   "feature3Desc": "I tuoi file vengono utilizzati solo per la conversione e vengono eliminati automaticamente dai nostri server dopo un'ora. Non li conserviamo mai.",
-
   "feature4Title": "Immagini e grafici preservati",
   "feature4Desc": "Le immagini incorporate, i loghi e i diagrammi vengono trasferiti nel documento Word nella stessa posizione del PDF originale.",
-
   "feature5Title": "Funziona su mobile e tablet",
   "feature5Desc": "Che tu sia su iPhone, Android o tablet, il nostro strumento funziona in qualsiasi browser moderno, senza app da installare.",
-
   "feature6Title": "Nessuna installazione richiesta",
   "feature6Desc": "Nessun software da scaricare, nessun account, nessuna carta di credito. Apri il sito e inizia subito a convertire.",
-
   "stepsTitle": "Come funziona",
   "stepsSubtitle": "Tre semplici passi per trasformare il tuo PDF in un documento Word modificabile",
-
   "step1Title": "Carica il tuo PDF",
   "step1Desc": "Trascina uno o più file PDF nell'area di caricamento o clicca per sfogliarli. Fino a 10 file da 50 MB ciascuno in un'unica operazione.",
-
   "step2Title": "Elaborazione automatica",
   "step2Desc": "Il nostro sistema identifica i blocchi di testo, il layout, le immagini e le tabelle per ricostruire un documento Word strutturato.",
-
   "step3Title": "Scarica il tuo Word",
   "step3Desc": "Il tuo file .docx completamente modificabile è pronto in secondi. Aprilo in Microsoft Word, Google Docs o LibreOffice.",
-
+  "diveTitle": "Cosa succede davvero quando converti in Word",
+  "diveSubtitle": "I dettagli che contano una volta superate le basi.",
+  "dive1Title": "La formattazione sopravvive davvero alla conversione?",
+  "dive1Desc": "I documenti semplici — paragrafi, titoli, tabelle di base — si convertono quasi perfettamente. I layout complessi con caselle di testo sovrapposte, sostituzioni di font insolite o elementi di design personalizzati pesanti a volte si spostano leggermente, poiché il motore di layout di Word e il layout fisso di un PDF funzionano in modo diverso.",
+  "dive2Title": "I PDF scansionati hanno bisogno prima dell'OCR",
+  "dive2Desc": "Un PDF scansionato è solo l'immagine di una pagina, senza testo sottostante da estrarre — convertirlo direttamente dà un documento vuoto o solo di immagini. Il nostro convertitore esegue automaticamente prima l'OCR sulle pagine scansionate, così il file Word risultante ha testo reale e modificabile invece di un'immagine.",
+  "dive3Title": "Cosa puoi modificare facilmente dopo e cosa no",
+  "dive3Desc": "Il testo dei paragrafi, i titoli e le tabelle semplici diventano contenuto Word completamente modificabile. Grafica complessa, diagrammi incorporati come immagini e posizionamento preciso a livello di pixel da PDF molto curati nel design spesso si convertono come immagini anziché oggetti modificabili — vengono visualizzati correttamente ma vanno sostituiti per essere cambiati.",
+  "dive4Title": "Layout multi-colonna e moduli",
+  "dive4Desc": "Il testo multi-colonna, come una newsletter o un articolo accademico, si converte nella formattazione a colonne propria di Word quando possibile, preservando il layout visivo. I campi modulo PDF interattivi si convertono nel loro aspetto visivo, ma la funzionalità compilabile non viene trasferita — vedrai i contorni dei campi come elementi normali.",
+  "dive5Title": "Font che il tuo computer non ha",
+  "dive5Desc": "Se il PDF originale usa un font non installato sul tuo sistema, Word lo sostituisce con il font disponibile più simile all'apertura del file, il che può spostare leggermente le interruzioni di riga e la spaziatura. Incorporare il font nel PDF in anticipo, quando possibile, offre la sostituzione più accurata.",
+  "dive6Title": "PDF in Word vs. conversione diretta in Google Documenti",
+  "dive6Desc": "Convertire prima in Word (.docx) e poi caricare su Google Documenti generalmente preserva più formattazione rispetto ad alcune funzioni di importazione PDF diretta di altri strumenti, poiché .docx è un formato che sia Word che Documenti leggono nativamente. È un passaggio in più, ma di solito il percorso più affidabile se Documenti è la tua destinazione.",
   "faqTitle": "Domande frequenti",
   "faqSubtitle": "Tutto quello che devi sapere sulla conversione da PDF a Word",
-
   "faq1Question": "Quanto è precisa la conversione da PDF a Word?",
   "faq1Answer": "Dipende dal tipo di PDF. Per i PDF digitali (esportati da Word, InDesign, ecc.), la conversione è molto fedele: testo, formattazione e struttura vengono preservati. Per i PDF scansionati senza testo incorporato, la qualità può variare perché è necessario un passaggio OCR.",
-
   "faq2Question": "Il layout del documento viene conservato?",
   "faq2Answer": "Sì, facciamo tutto il possibile per riprodurre fedelmente il layout originale. Colonne, titoli, elenchi e immagini incorporate vengono presi in considerazione. I layout molto complessi possono presentare lievi differenze.",
-
   "faq3Question": "I miei file PDF sono al sicuro?",
   "faq3Answer": "Assolutamente. Tutti i trasferimenti sono cifrati tramite HTTPS/SSL. I tuoi file non vengono mai conservati in modo permanente né trasmessi a terzi – vengono eliminati automaticamente dai nostri server dopo un'ora.",
-
   "faq4Question": "Quanti file PDF posso convertire contemporaneamente?",
   "faq4Answer": "Puoi caricare fino a 10 file PDF in una sola volta, ognuno con una dimensione massima di 50 MB. La conversione in batch è perfetta se hai più documenti da elaborare in una volta sola.",
-
   "faq5Question": "Posso riconvertire il file Word in PDF dopo?",
   "faq5Answer": "Certo. Il file .docx scaricato può essere aperto e modificato in Microsoft Word, Google Docs o LibreOffice, quindi esportato nuovamente in PDF o in altri formati. Hai il pieno controllo sul tuo documento.",
-
   "ctaTitle": "Pronto a modificare i tuoi PDF?",
   "ctaSubtitle": "Converti i tuoi PDF in Word gratuitamente – nessun account, nessun software, pronto in pochi secondi.",
   "ctaButton": "Converti il mio PDF in Word",
-
   "preview": {
     "layoutTitle": "Converti PDF in Word – Anteprima",
     "layoutDesc": "Controlla i tuoi file e avvia la conversione in Word.",
@@ -136,7 +126,6 @@
     "convertingText_plural": "{{count}} file in conversione – non chiudere questa scheda.",
     "conversionFailed": "Conversione non riuscita"
   },
-
   "download": {
     "layoutTitle": "Scarica il tuo documento Word | SmallPDF.us",
     "layoutDesc": "Il tuo PDF è stato convertito con successo in un documento Word modificabile. Scaricalo ora.",
@@ -189,7 +178,7 @@
     "downloadWindow": "Finestra di download",
     "autoDeletePrivacy": "Eliminazione automatica per proteggere la tua privacy",
     "timeRemaining": "Tempo rimanente",
-    "autoDeleteNotice": "Per la tua privacy, i file verranno eliminati automaticamente dai nostri server dopo 60 minuti. Ricorda di scaricare il documento prima che scada.",
+    "autoDeleteNotice": "Per la tua privacy, i file verranno eliminati automaticamente dai nostri server dopo 1 ora. Ricorda di scaricare il documento prima che scada.",
     "privacyTitle": "I tuoi dati sono al sicuro",
     "privacySubtitle": "La tua privacy è la nostra priorità",
     "security1": "Trasferimento cifrato tramite HTTPS/SSL",

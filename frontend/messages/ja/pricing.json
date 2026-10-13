@@ -1,6 +1,6 @@
 {
   "pageTitle": "料金プラン — SmallPDF.us",
-  "metaDescription": "Starter · Pro · Agency — 月払いまたは年払い。すべてのPDF・画像ツール、無制限のファイルサイズ、広告なし。",
+  "metaDescription": "Starter・Pro — 月額または年額。すべてのPDFツール、最大100MBのファイル、広告なし。",
   "badge": "シンプルな料金、驚きなし",
   "hero": {
     "title": "あなたに合ったプランを選ぼう",
@@ -27,11 +27,6 @@
       "cta": "プロを始める",
       "badge": "最も人気"
     },
-    "agency": {
-      "name": "エージェンシー",
-      "description": "チーム・代理店向け",
-      "cta": "エージェンシーを始める"
-    },
     "free": {
       "name": "無料",
       "description": "たまに使う方向け",
@@ -40,8 +35,8 @@
   },
   "features": {
     "allTools": "すべてのPDF・画像ツール",
-    "upTo200MB": "1ファイル最大200MB",
-    "officeUpTo50MB": "Officeファイル変換 — 最大50MB",
+    "upTo200MB": "1ファイル最大100MB（結合は200MB）",
+    "officeUpTo50MB": "Officeファイル変換 — 最大20MB",
     "standardProcessing": "標準処理",
     "retain24h": "ファイル保持24時間",
     "adFree": "広告なし",
@@ -49,22 +44,22 @@
     "priorityProcessing": "優先処理",
     "apiAccess": "APIアクセス",
     "everythingInStarter": "スターターの全機能",
-    "unlimitedFileSize": "無制限ファイルサイズ — 全ツール",
-    "officeUnlimited": "Officeファイル変換 — 無制限",
+    "unlimitedFileSize": "最大100MBのファイル — 全ツール",
+    "officeUnlimited": "Office変換 — 最大100MB",
     "priorityQueue": "優先処理キュー",
     "retain48h": "ファイル保持48時間",
     "batch20": "バッチ最大20ファイル",
     "emailSupport": "メールサポート",
     "everythingInPro": "プロの全機能",
     "dedicatedProcessing": "専用処理",
-    "retain72h": "ファイル保持72時間",
+    "retain72h": "ファイル保持71時間",
     "batch50": "バッチ最大50ファイル",
     "fullApiWebhooks": "フルAPIアクセス + Webhook",
     "teamSeats": "チーム管理（5シート）",
     "priorityPhoneEmail": "優先電話・メールサポート",
     "customInvoicing": "カスタム請求書対応",
-    "upTo100MB": "1ファイル最大100MB",
-    "officeUpTo15MB": "Officeファイル変換 — 最大15MB",
+    "upTo100MB": "1ファイル最大5〜25MB",
+    "officeUpTo15MB": "Officeファイル変換 — 最大5MB",
     "retain1h": "1時間後にファイル削除",
     "adsShown": "広告あり"
   },
@@ -72,19 +67,32 @@
   "perMonth": "/月",
   "freeBanner": {
     "title": "無料プラン — 常に利用可能",
-    "subtitle": "全ツール · 100MB制限 · 1時間保持 · 広告あり",
+    "subtitle": "1日5回まで無料 · 全ツール · 5〜25MB制限 · 1時間保持 · 広告あり",
     "signupLink": "無料登録 →"
   },
   "trustBadges": {
-    "ssl": { "title": "SSL暗号化", "subtitle": "すべての通信を保護" },
-    "autoDelete": { "title": "自動削除", "subtitle": "スケジュールに従いファイルを削除" },
-    "fast": { "title": "高速処理", "subtitle": "有料プランは優先キュー" },
-    "noFees": { "title": "隠れた料金なし", "subtitle": "いつでも即座にキャンセル可能" }
+    "ssl": {
+      "title": "SSL暗号化",
+      "subtitle": "すべての通信を保護"
+    },
+    "autoDelete": {
+      "title": "自動削除",
+      "subtitle": "スケジュールに従いファイルを削除"
+    },
+    "fast": {
+      "title": "高速処理",
+      "subtitle": "有料プランは優先キュー"
+    },
+    "noFees": {
+      "title": "隠れた料金なし",
+      "subtitle": "いつでも即座にキャンセル可能"
+    }
   },
   "compareTable": {
     "title": "機能比較一覧",
     "featureCol": "機能",
     "rows": {
+      "dailyUses": "1日の無料利用回数",
       "pdfToolSize": "PDFツール ファイルサイズ",
       "officeConversions": "Office変換",
       "imageTools": "画像ツール",
@@ -98,6 +106,7 @@
       "phoneSupport": "電話サポート"
     },
     "values": {
+      "fivePerDay": "1日5回",
       "standard": "標準",
       "priority": "優先",
       "dedicated": "専用",
@@ -143,7 +152,7 @@
       },
       {
         "q": "返金ポリシーはありますか？",
-        "a": "はい — 最初の請求から7日以内にご満足いただけない場合、全額返金いたします。理由は問いません。"
+        "a": "はい — 最初の請求から14日以内にご満足いただけない場合、全額返金いたします。理由は問いません。"
       },
       {
         "q": "エージェンシープランは複数のユーザーに対応していますか？",
@@ -153,10 +162,10 @@
   },
   "bottomCta": {
     "title": "アップグレードの準備はできましたか？",
-    "subtitle": "毎日SmallPDF.usを使っている何千ものプロフェッショナルに加わりましょう。いつでもキャンセル可能。",
+    "subtitle": "世界中のプロフェッショナルがSmallPDF.usを利用しています。いつでもキャンセル可能。",
     "proBtnMonthly": "プロを始める — $19/月",
     "proBtnYearly": "プロを始める — $190/年",
-    "agencyBtn": "エージェンシーを始める — $49/月"
+    "starterBtn": "スターターを始める — $9/月"
   },
   "notices": {
     "checkoutCancelled": "チェックアウトがキャンセルされました — 請求はありません。",

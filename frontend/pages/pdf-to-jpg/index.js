@@ -1,9 +1,11 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
@@ -20,6 +22,9 @@ import {
   Camera,
   Layers,
 } from "lucide-react"
+
+// Picked file stays in memory for the preview page (see note in handler).
+export const pdfToJpgStore = { file: null }
 
 export default function PDFToJPG() {
   const router = useLocalizedRouter()
@@ -44,17 +49,13 @@ export default function PDFToJPG() {
 
   const validateFile = (file) => {
     const validTypes = ["application/pdf"]
-    const maxSize = 100 * 1024 * 1024
 
-    if (!validTypes.includes(file.type)) {
+    if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith(".pdf")) {
       setError(t('pdfToJpg.errorInvalidType'))
       return false
     }
 
-    if (file.size > maxSize) {
-      setError(t('pdfToJpg.errorMaxSize'))
-      return false
-    }
+    // Size is enforced by useFileSizeGuard (plan-aware); a fixed free-plan cap here blocked paid users.
 
     return true
   }
@@ -99,34 +100,26 @@ export default function PDFToJPG() {
     setFile(fileToConvert)
     setIsProcessing(true)
 
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      try {
-        const fileData = {
-          name: fileToConvert.name,
-          size: fileToConvert.size,
-          type: fileToConvert.type,
-          lastModified: fileToConvert.lastModified,
-          data: e.target.result,
-        }
-        sessionStorage.setItem("uploadedPDFFile", JSON.stringify(fileData))
-
-        setTimeout(() => {
-          router.push("/pdf-to-jpg/preview")
-        }, 800)
-      } catch (err) {
-        console.error("Error storing file:", err)
-        setError("Failed to process file. Please try again.")
-        setIsProcessing(false)
-        setFile(null)
+    // Keep the File in memory (object URL) instead of base64 in sessionStorage,
+    // which hit the ~5 MB quota and failed for PDFs over ~3.7 MB.
+    try {
+      pdfToJpgStore.file = {
+        name: fileToConvert.name,
+        size: fileToConvert.size,
+        type: fileToConvert.type,
+        lastModified: fileToConvert.lastModified,
+        file: fileToConvert,
+        data: URL.createObjectURL(fileToConvert),
       }
-    }
-    reader.onerror = () => {
-      setError("Failed to read file. Please try again.")
+      setTimeout(() => {
+        router.push("/pdf-to-jpg/preview")
+      }, 800)
+    } catch (err) {
+      console.error("Error storing file:", err)
+      setError("Failed to process file. Please try again.")
       setIsProcessing(false)
       setFile(null)
     }
-    reader.readAsDataURL(fileToConvert)
   }
 
   const toggleFaq = (index) => {
@@ -233,6 +226,13 @@ export default function PDFToJPG() {
 
   return (
     <Layout>
+      {/* Header Ad */}
+      <div className="bg-white px-4 pt-5">
+        <div className="max-w-4xl mx-auto">
+          <AdSenseUnit size="leaderboard" />
+        </div>
+      </div>
+
       {/*
         SEOHead must be inside Layout so Next.js <Head> merging works correctly.
         It handles: self-referencing canonical per locale, all 8 hreflang tags,
@@ -248,31 +248,14 @@ export default function PDFToJPG() {
         structuredData={toolStructuredData}
       />
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display {
+                    .font-display {
             font-family: 'Plus Jakarta Sans', sans-serif;
           }
           .font-body {
             font-family: 'DM Sans', sans-serif;
           }
-          @keyframes blob {
-            0%,
-            100% {
-              transform: translate(0, 0) scale(1);
-            }
-            33% {
-              transform: translate(20px, -30px) scale(1.05);
-            }
-            66% {
-              transform: translate(-15px, 15px) scale(0.95);
-            }
-          }
-          .animate-blob {
-            animation: blob 8s ease-in-out infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
+          
+
           @keyframes loading-bar {
             0% {
               width: 0%;
@@ -525,6 +508,31 @@ export default function PDFToJPG() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t('pdfToJpg.diveTitle')}</h2>
+              <p className="font-body text-slate-600">{t('pdfToJpg.diveSubtitle')}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t('pdfToJpg.dive1Title'), t('pdfToJpg.dive1Desc')],
+                [t('pdfToJpg.dive2Title'), t('pdfToJpg.dive2Desc')],
+                [t('pdfToJpg.dive3Title'), t('pdfToJpg.dive3Desc')],
+                [t('pdfToJpg.dive4Title'), t('pdfToJpg.dive4Desc')],
+                [t('pdfToJpg.dive5Title'), t('pdfToJpg.dive5Desc')],
+                [t('pdfToJpg.dive6Title'), t('pdfToJpg.dive6Desc')],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto">
@@ -615,6 +623,7 @@ export default function PDFToJPG() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["pdfToJpg"]) },
+    revalidate: 86400,
   }
 }

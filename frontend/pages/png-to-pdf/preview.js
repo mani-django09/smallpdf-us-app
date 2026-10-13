@@ -3,9 +3,16 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
-import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, AlertCircle } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { FileText, ArrowLeft, Play, Trash2, AlertCircle } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
+import ThumbEditControls from "../../components/ThumbEditControls"
+import { bakeImageTransform, filterCssById, hasTransform } from "../../lib/imageEdit"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { pngToPdfStore } from "./index"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewPngToPdf() {
   const router = useLocalizedRouter()
@@ -18,6 +25,20 @@ export default function PreviewPngToPdf() {
   const [stage, setStage] = useState("")
   const [draggedIndex, setDraggedIndex] = useState(null)
   const [convertError, setConvertError] = useState("")
+  // Per-image edits (rotation degrees + filter id), keyed by file id.
+  const [transforms, setTransforms] = useState({})
+
+  const getTransform = (id) => transforms[id] || { rotation: 0, filterId: "none" }
+  const rotateFile = (id, delta) =>
+    setTransforms((prev) => {
+      const cur = prev[id] || { rotation: 0, filterId: "none" }
+      return { ...prev, [id]: { ...cur, rotation: cur.rotation + delta } }
+    })
+  const setFileFilter = (id, filterId) =>
+    setTransforms((prev) => {
+      const cur = prev[id] || { rotation: 0, filterId: "none" }
+      return { ...prev, [id]: { ...cur, filterId } }
+    })
 
   // ✅ FIX: Use a ref for router inside useEffect to avoid infinite re-render loop.
   // useLocalizedRouter() returns a new object each render, so putting it in the
@@ -26,16 +47,15 @@ export default function PreviewPngToPdf() {
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
-    const storedFiles = sessionStorage.getItem("uploadedPngFiles")
     const storedSettings = sessionStorage.getItem("pdfSettings")
 
-    if (storedFiles) {
+    // Files come from memory; after a reload they're gone → back to upload.
+    if (pngToPdfStore.files.length > 0) {
+      setFilesData(pngToPdfStore.files)
       try {
-        setFilesData(JSON.parse(storedFiles))
         if (storedSettings) setSettings(JSON.parse(storedSettings))
       } catch (err) {
-        console.error("Error parsing data:", err)
-        routerRef.current.push("/png-to-pdf")
+        console.error("Error parsing settings:", err)
       }
     } else {
       routerRef.current.push("/png-to-pdf")
@@ -47,7 +67,7 @@ export default function PreviewPngToPdf() {
     const [removed] = newFiles.splice(fromIndex, 1)
     newFiles.splice(toIndex, 0, removed)
     setFilesData(newFiles)
-    sessionStorage.setItem("uploadedPngFiles", JSON.stringify(newFiles))
+    pngToPdfStore.files = newFiles
   }
 
   const handleDragStart = (e, index) => {
@@ -69,7 +89,7 @@ export default function PreviewPngToPdf() {
   const removeFile = (id) => {
     const newFiles = filesData.filter((f) => f.id !== id)
     setFilesData(newFiles)
-    sessionStorage.setItem("uploadedPngFiles", JSON.stringify(newFiles))
+    pngToPdfStore.files = newFiles
 
     if (newFiles.length === 0) {
       router.push("/png-to-pdf")
@@ -115,10 +135,22 @@ export default function PreviewPngToPdf() {
       const formData = new FormData()
 
       for (const fileData of filesData) {
-        const response = await fetch(fileData.data)
-        const blob = await response.blob()
-        const file = new File([blob], fileData.name, { type: fileData.type })
-        formData.append("files", file)
+        const { rotation, filterId } = getTransform(fileData.id)
+        if (hasTransform(rotation, filterId)) {
+          const { file } = await bakeImageTransform({
+            src: fileData.data,
+            fileName: fileData.name,
+            rotation,
+            filterId,
+            mimeType: fileData.type,
+          })
+          formData.append("files", file)
+        } else {
+          const response = await fetch(fileData.data)
+          const blob = await response.blob()
+          const file = new File([blob], fileData.name, { type: fileData.type })
+          formData.append("files", file)
+        }
       }
 
       formData.append("pageSize", settings.pageSize)
@@ -132,6 +164,7 @@ export default function PreviewPngToPdf() {
       })
 
       const result = await convertResponse.json()
+      if (handleDailyLimitError(convertResponse.status, result)) return  // daily-limit upgrade modal
 
       setProgress(100)
       setStage(t('pngToPdf.previewComplete') || "Complete!")
@@ -142,6 +175,8 @@ export default function PreviewPngToPdf() {
           ? result.downloadUrl
           : `${API_URL}${result.downloadUrl}`
 
+        // Some images were unreadable — the PDF has the rest; say which.
+        if (result.skipped?.length) alert(t("toolErrors.someSkipped", { names: result.skipped.join(", ") }))
         sessionStorage.setItem(
           "pngToPdfResult",
           JSON.stringify({
@@ -152,11 +187,16 @@ export default function PreviewPngToPdf() {
           }),
         )
         setTimeout(() => {
-          router.push(`/png-to-pdf/download?file=${encodeURIComponent(absoluteDownloadUrl)}`)
+          goToDownload(router, `/png-to-pdf/download?file=${encodeURIComponent(absoluteDownloadUrl)}`)
         }, 500)
       } else {
-        // Show inline — no alert(), uses t(), doesn't block the UI
-        setConvertError((t('pngToPdf.previewConversionFailed') || "Conversion failed: ") + result.error)
+        // Show inline — no alert(), uses t(), doesn't block the UI. Codes → localized
+        // text (the raw code, e.g. "UNREADABLE_IMAGES", used to be shown).
+        setConvertError(
+          result.error === "UNREADABLE_IMAGES" ? t("toolErrors.unreadableImages", { names: (result.files || []).join(", ") })
+          : result.error === "FILE_TOO_LARGE" ? t("toolErrors.fileTooLarge", { name: filesData.find((f) => f.size > 100 * 1024 * 1024)?.name || "" })
+          : t('pngToPdf.previewErrorRetry')
+        )
         setConverting(false)
       }
     } catch (error) {
@@ -282,7 +322,11 @@ export default function PreviewPngToPdf() {
                                 <img
                                   src={f.data || "/placeholder.svg"}
                                   alt={f.name}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-cover transition-transform"
+                                  style={{
+                                    transform: `rotate(${getTransform(f.id).rotation}deg)`,
+                                    filter: filterCssById(getTransform(f.id).filterId),
+                                  }}
                                 />
                               </div>
                               <div className="absolute top-1 left-1 w-5 h-5 bg-slate-800 rounded-full flex items-center justify-center text-white text-xs font-bold">
@@ -294,6 +338,13 @@ export default function PreviewPngToPdf() {
                               >
                                 <Trash2 className="w-3 h-3 text-red-500" />
                               </button>
+                              <ThumbEditControls
+                                rotation={getTransform(f.id).rotation}
+                                filterId={getTransform(f.id).filterId}
+                                onRotate={(d) => rotateFile(f.id, d)}
+                                onFilter={(fid) => setFileFilter(f.id, fid)}
+                                className="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              />
                             </div>
                           ))}
                         </div>
@@ -397,6 +448,10 @@ export default function PreviewPngToPdf() {
                           {t('pngToPdf.previewCreatingFrom') || `Creating PDF from ${filesData.length} image${filesData.length > 1 ? "s" : ""}...`}
                         </p>
                       </div>
+
+                      <div className="flex justify-center mt-3">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -405,48 +460,18 @@ export default function PreviewPngToPdf() {
 
             {/* Sidebar */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pngToPdf.previewWhatYouGet')}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t('pngToPdf.previewHighQuality'), color: "text-slate-700 bg-slate-100" },
-                    { icon: Shield, text: t('pngToPdf.previewSecure'), color: "text-slate-600 bg-slate-100" },
-                    { icon: Zap, text: t('pngToPdf.previewFast'), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t('pngToPdf.previewAutoDelete'), color: "text-slate-600 bg-slate-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}>
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pngToPdf.previewStepsTitle')}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t('pngToPdf.previewStep1'), color: "bg-slate-600" },
-                    { num: "2", text: t('pngToPdf.previewStep2'), color: "bg-slate-700" },
-                    { num: "3", text: t('pngToPdf.previewStep3'), color: "bg-slate-800" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -454,4 +479,11 @@ export default function PreviewPngToPdf() {
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pngToPdf"]) },
+    revalidate: 86400,
+  }
 }

@@ -3,12 +3,14 @@ import Link from "next/link"
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
+import { getPageMessages } from '../lib/i18nLoader'
 import { getLocalizedRoute } from "../lib/route-translations"
 import AdSenseUnit from "../components/AdSenseUnit"
+import HeroUpload from "../components/HeroUpload"
 import {
   FileText, Merge, Scissors, Gauge, FileImage, ArrowRight, Check, Upload,
-  Download, Lock, Zap, ChevronRight, Shield, Clock, Users, ChevronDown,
-  Star, Presentation, Table, Sparkles, Crown, Award, ScanText, RotateCw
+  Lock, Zap, ChevronRight, Shield, Clock, Users, ChevronDown,
+  Star, Presentation, Table, Sparkles, Crown, Award, ScanText, RotateCw, EyeOff, PenLine
 } from "lucide-react"
 
 function L(locale, map) { return map[locale] ?? map.en ?? '' }
@@ -40,7 +42,14 @@ const ToolCard = memo(({ tool, index, locale }) => {
           <tool.Icon className="w-5 h-5 text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-gray-900 truncate tracking-tight">{tool.name}</h3>
+          <div className="flex items-center gap-1.5">
+            <h3 className="text-sm font-semibold text-gray-900 truncate tracking-tight">{tool.name}</h3>
+            {tool.isNew && (
+              <span className="flex-shrink-0 inline-flex items-center rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-700">
+                New
+              </span>
+            )}
+          </div>
           <p className="text-[11px] text-gray-500 truncate mt-0.5">{tool.shortDesc}</p>
         </div>
         <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-gray-500 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
@@ -49,6 +58,29 @@ const ToolCard = memo(({ tool, index, locale }) => {
   )
 })
 ToolCard.displayName = 'ToolCard'
+
+const FeaturedToolCard = memo(({ tool, locale }) => {
+  const localizedSlug = ['ja','de','fr','es','it','id','pt'].includes(locale) ? getLocalizedRoute(tool.href.replace(/^\//, ''), locale) : tool.href.replace(/^\//, '')
+  const fullHref = locale && locale !== 'en' ? `/${locale}/${localizedSlug}` : (localizedSlug ? `/${localizedSlug}` : '/')
+  return (
+    <Link href={fullHref} locale={false}
+      className="group relative flex flex-col rounded-2xl p-5 bg-white border border-emerald-100 hover:border-emerald-300 hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_12px_30px_rgba(16,185,129,0.12)]">
+      <span className="absolute top-4 right-4 inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-emerald-700">
+        {tool.badgeText}
+      </span>
+      <div className={`w-12 h-12 bg-gradient-to-br ${tool.gradient} rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 mb-4`}>
+        <tool.Icon className="w-6 h-6 text-white" />
+      </div>
+      <h3 className="text-base font-bold text-gray-900 tracking-tight mb-1">{tool.name}</h3>
+      <p className="text-sm text-gray-500 leading-snug mb-4 flex-1">{tool.longDesc}</p>
+      <span className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 group-hover:gap-2 transition-all">
+        {tool.ctaText}
+        <ChevronRight className="w-4 h-4" />
+      </span>
+    </Link>
+  )
+})
+FeaturedToolCard.displayName = 'FeaturedToolCard'
 
 const FAQItem = memo(({ question, answer, isOpen, onToggle }) => (
   <div className={`rounded-2xl border transition-all duration-300 ${isOpen ? 'bg-white border-gray-200 shadow-sm' : 'bg-white/60 border-gray-100 hover:border-gray-200'}`}>
@@ -91,23 +123,75 @@ export default function HomePage() {
     { name: t('nav.pngToPdf'), shortDesc: L(locale, { ja: 'PNGをPDF形式に', de: 'PNG in PDF-Format', fr: 'PNG au format PDF', es: 'PNG a formato PDF', en: 'PNG to PDF format', it: 'PNG in formato PDF', id: 'PNG ke format PDF', pt: 'PNG para formato PDF' }), href: "/png-to-pdf", Icon: FileImage, gradient: "from-cyan-500 to-teal-500" },
     { name: t('nav.pdfToPng'), shortDesc: L(locale, { ja: 'PNGとしてエクスポート', de: 'Als PNG exportieren', fr: 'Exporter en PNG', es: 'Exportar como PNG', en: 'Export as PNG', it: 'Esporta come PNG', id: 'Ekspor sebagai PNG', pt: 'Exportar como PNG' }), href: "/pdf-to-png", Icon: FileImage, gradient: "from-violet-500 to-purple-500" },
     { name: t('nav.compressImage'), shortDesc: L(locale, { ja: '画像を最適化', de: 'Bilder optimieren', fr: 'Optimiser les images', es: 'Optimizar imágenes', en: 'Optimize images', it: 'Ottimizza immagini', id: 'Optimalkan gambar', pt: 'Otimizar imagens' }), href: "/compress-image", Icon: FileImage, gradient: "from-fuchsia-500 to-sky-500" },
+    { name: t('nav.compressImage20kb'), shortDesc: L(locale, { ja: '正確に20KBに', de: 'Genau auf 20 KB', fr: 'Exactement 20 Ko', es: 'Exactamente 20 KB', en: 'Hit an exact 20KB target', it: 'Esattamente 20 KB', id: 'Tepat 20KB', pt: 'Exatamente 20KB' }), href: "/compress-image-to-20kb", Icon: Gauge, gradient: "from-blue-500 to-indigo-500" },
+    { name: t('nav.compressImage50kb'), shortDesc: L(locale, { ja: '正確に50KBに', de: 'Genau auf 50 KB', fr: 'Exactement 50 Ko', es: 'Exactamente 50 KB', en: 'Hit an exact 50KB target', it: 'Esattamente 50 KB', id: 'Tepat 50KB', pt: 'Exatamente 50KB' }), href: "/compress-image-to-50kb", Icon: Gauge, gradient: "from-indigo-500 to-blue-600" },
+    { name: t('nav.compressImage100kb'), shortDesc: L(locale, { ja: '正確に100KBに', de: 'Genau auf 100 KB', fr: 'Exactement 100 Ko', es: 'Exactamente 100 KB', en: 'Hit an exact 100KB target', it: 'Esattamente 100 KB', id: 'Tepat 100KB', pt: 'Exatamente 100KB' }), href: "/compress-image-to-100kb", Icon: Gauge, gradient: "from-blue-600 to-sky-500" },
     { name: t('nav.webpToPng'), shortDesc: L(locale, { ja: 'WebP変換', de: 'WebP-Konvertierung', fr: 'Conversion WebP', es: 'Conversión WebP', en: 'WebP conversion', it: 'Conversione WebP', id: 'Konversi WebP', pt: 'Conversão WebP' }), href: "/webp-to-png", Icon: FileImage, gradient: "from-teal-500 to-emerald-500" },
     { name: t('nav.pngToWebp'), shortDesc: L(locale, { ja: 'WebPに変換', de: 'In WebP konvertieren', fr: 'Convertir en WebP', es: 'Convertir a WebP', en: 'Convert to WebP', it: 'Converti in WebP', id: 'Konversi ke WebP', pt: 'Converter para WebP' }), href: "/png-to-webp", Icon: FileImage, gradient: "from-lime-500 to-green-500" },
+    { name: t('nav.heicToJpg'), shortDesc: L(locale, { ja: 'iPhoneの写真を変換', de: 'iPhone-Fotos konvertieren', fr: 'Convertir les photos iPhone', es: 'Convertir fotos de iPhone', en: 'Convert iPhone photos', it: 'Converti foto iPhone', id: 'Konversi foto iPhone', pt: 'Converter fotos do iPhone' }), href: "/heic-to-jpg", Icon: FileImage, gradient: "from-orange-500 to-amber-500" },
+    { name: t('nav.heicToPng'), shortDesc: L(locale, { ja: 'HEICをPNGに変換', de: 'iPhone-Fotos verlustfrei', fr: 'HEIC en PNG sans perte', es: 'HEIC a PNG sin pérdida', en: 'Lossless HEIC conversion', it: 'HEIC in PNG lossless', id: 'Konversi HEIC lossless', pt: 'HEIC para PNG sem perda' }), href: "/heic-to-png", Icon: FileImage, gradient: "from-teal-500 to-cyan-500" },
     { name: t('nav.unlockPdf'), shortDesc: L(locale, { ja: 'パスワード保護を解除', de: 'Passwortschutz entfernen', fr: 'Supprimer la protection', es: 'Eliminar protección', en: 'Remove password protection', it: 'Rimuovi protezione password', id: 'Hapus proteksi kata sandi', pt: 'Remover proteção por senha' }), href: "/unlock-pdf", Icon: Lock, gradient: "from-amber-500 to-orange-500" },
     { name: t('nav.rotatePdf'), shortDesc: L(locale, { ja: 'PDFページを回転', de: 'PDF-Seiten drehen', fr: 'Pivoter les pages PDF', es: 'Rotar páginas PDF', en: 'Rotate PDF pages', it: 'Ruota le pagine PDF', id: 'Putar halaman PDF', pt: 'Girar páginas PDF' }), href: "/rotate-pdf", Icon: RotateCw, gradient: "from-indigo-500 to-blue-500" },
     { name: "Protect PDF", shortDesc: L(locale, { ja: 'パスワードで保護', de: 'Mit Passwort schützen', fr: 'Protéger par mot de passe', es: 'Proteger con contraseña', en: 'Password-protect PDF', it: 'Proteggi con password', id: 'Lindungi dengan kata sandi', pt: 'Proteger com senha' }), href: "/protect-pdf", Icon: Lock, gradient: "from-emerald-500 to-teal-500" },
-    { name: "OCR PDF", shortDesc: L(locale, { ja: 'PDFからテキストを抽出', de: 'Text aus PDF extrahieren', fr: 'Extraire le texte du PDF', es: 'Extraer texto del PDF', en: 'Extract text from PDF', it: 'Estrai testo dal PDF', id: 'Ekstrak teks dari PDF', pt: 'Extrair texto do PDF' }), href: "/ocr-pdf", Icon: ScanText, gradient: "from-violet-500 to-purple-500" },
+    { name: t('nav.redactPdf'), shortDesc: L(locale, { ja: '機密情報を完全に削除', de: 'Inhalte dauerhaft schwärzen', fr: 'Masquer définitivement', es: 'Ocultar de forma permanente', en: 'Permanently black out content', it: 'Oscura in modo permanente', id: 'Hapus konten permanen', pt: 'Ocultar permanentemente' }), href: "/redact-pdf", Icon: EyeOff, gradient: "from-slate-600 to-slate-800", isNew: true },
+    { name: "OCR PDF", shortDesc: L(locale, { ja: 'PDFからテキストを抽出', de: 'Text aus PDF extrahieren', fr: 'Extraire le texte du PDF', es: 'Extraer texto del PDF', en: 'Extract text from PDF', it: 'Estrai testo dal PDF', id: 'Ekstrak teks dari PDF', pt: 'Extrair texto do PDF' }), href: "/ocr-pdf", Icon: ScanText, gradient: "from-violet-500 to-purple-500", isNew: true },
+    { name: t('nav.editPdf'), shortDesc: L(locale, { ja: '覆って新しいテキストを入力', de: 'Überdecken und neu eintippen', fr: 'Recouvrir et retaper du texte', es: 'Cubrir y reescribir texto', en: 'Whiteout and retype text', it: 'Copri e riscrivi il testo', id: 'Tutup dan ketik ulang teks', pt: 'Cobrir e reescrever texto' }), href: "/edit-pdf", Icon: PenLine, gradient: "from-blue-600 to-slate-900", isNew: true },
+  ]
+
+  const ctaText = L(locale, { ja: '試してみる', de: 'Jetzt testen', fr: 'Essayer', es: 'Probar ahora', en: 'Try it free', it: 'Provalo ora', id: 'Coba sekarang', pt: 'Experimentar' })
+  const badgeText = L(locale, { ja: '新機能', de: 'Neu', fr: 'Nouveau', es: 'Nuevo', en: 'New', it: 'Novità', id: 'Baru', pt: 'Novo' })
+
+  const featuredTools = [
+    {
+      name: t('nav.editPdf'), href: "/edit-pdf", Icon: PenLine, gradient: "from-blue-600 to-slate-900",
+      longDesc: L(locale, {
+        ja: 'PDF内の任意のテキストをクリックして直接打ち直せます。実際のテキスト編集で、画像化されません。',
+        de: 'Klicke auf jeden Text in deinem PDF und tippe ihn direkt neu — echte Textbearbeitung, kein Bild.',
+        fr: 'Cliquez sur n\'importe quel texte de votre PDF et retapez-le directement — vraie modification, pas une image.',
+        es: 'Haz clic en cualquier texto de tu PDF y reescríbelo directamente — edición real, no una imagen.',
+        en: 'Click any text in your PDF and retype it directly — real text editing, not a flattened image.',
+        it: 'Clicca su qualsiasi testo del tuo PDF e riscrivilo direttamente — modifica reale, non un\'immagine.',
+        id: 'Klik teks mana pun di PDF-mu dan ketik ulang langsung — pengeditan teks sungguhan, bukan gambar.',
+        pt: 'Clique em qualquer texto do seu PDF e reescreva direto — edição real, não uma imagem.',
+      }), ctaText, badgeText,
+    },
+    {
+      name: t('nav.redactPdf'), href: "/redact-pdf", Icon: EyeOff, gradient: "from-slate-600 to-slate-800",
+      longDesc: L(locale, {
+        ja: '機密情報を永久に削除。カバーするだけでなく、実際にPDFから取り除きます。',
+        de: 'Vertrauliche Inhalte dauerhaft entfernen — nicht nur überdeckt, sondern wirklich aus dem PDF gelöscht.',
+        fr: 'Supprimez définitivement les infos sensibles — pas seulement masquées, vraiment retirées du PDF.',
+        es: 'Elimina información sensible de forma permanente — no solo se cubre, se quita realmente del PDF.',
+        en: 'Permanently remove sensitive info — not just covered up, actually stripped from the PDF.',
+        it: 'Rimuovi le informazioni sensibili in modo permanente — non solo coperte, davvero eliminate dal PDF.',
+        id: 'Hapus info sensitif secara permanen — bukan hanya ditutup, benar-benar dihapus dari PDF.',
+        pt: 'Remova informações sensíveis permanentemente — não só cobertas, realmente removidas do PDF.',
+      }), ctaText, badgeText,
+    },
+    {
+      name: "OCR PDF", href: "/ocr-pdf", Icon: ScanText, gradient: "from-violet-500 to-purple-500",
+      longDesc: L(locale, {
+        ja: 'スキャンしたPDFを検索・コピー可能なテキストに変換します。',
+        de: 'Verwandle gescannte PDFs in durchsuchbaren, kopierbaren Text.',
+        fr: 'Transformez un PDF scanné en texte consultable et copiable.',
+        es: 'Convierte un PDF escaneado en texto que puedes buscar y copiar.',
+        en: 'Turn a scanned PDF into text you can actually search and copy.',
+        it: 'Trasforma un PDF scansionato in testo ricercabile e copiabile.',
+        id: 'Ubah PDF hasil pindaian menjadi teks yang bisa dicari dan disalin.',
+        pt: 'Transforme um PDF digitalizado em texto pesquisável e copiável.',
+      }), ctaText, badgeText,
+    },
   ]
 
   // FAQs - Dynamic based on locale
   const faqs = locale === 'ja' ? [
     {
       question: "このウェブサイトは本当に無料ですか？",
-      answer: "はい、完全無料です！試用期間や有料プラン、隠れた費用は一切ありません。PDFツールは誰でもアクセスできるべきだと考えています。そのため、無制限にファイルの結合、分割、圧縮、変換が可能です。最小限の広告でサービスを維持していますが、作業を妨げるポップアップは表示されません。"
+      answer: "はい。すべてのツールを無料で使え、支払いなしですぐに始められます。無料プランには1日の利用回数とファイルサイズの上限があります。大きなファイル、バッチ処理、広告なしの環境が必要な場合は、StarterプランとProプランをご利用ください。無料プランは少数の広告で運営しています。"
     },
     {
       question: "アップロードしたファイルのセキュリティは？",
-      answer: "プライバシーを真剣に考えています。ファイルをアップロードすると、転送中に業界標準の256ビットSSL暗号化で即座に保護されます。つまり、処理中にドキュメントを誰も傍受したり覗いたりすることはできません。変換や編集が完了すると、ダウンロードできる時間だけサーバーに保存されます。最大2時間後に完全に削除されます。コピーは保管せず、コンテンツを分析せず、第三者と共有することも一切ありません。"
+      answer: "プライバシーを真剣に考えています。ファイルをアップロードすると、転送中に業界標準の256ビットSSL暗号化で即座に保護されます。つまり、処理中にドキュメントを誰も傍受したり覗いたりすることはできません。変換や編集が完了すると、ダウンロードできる時間だけサーバーに保存されます。最大1時間後に完全に削除されます。コピーは保管せず、コンテンツを分析せず、第三者と共有することも一切ありません。"
     },
     {
       question: "どのファイル形式をサポートしていますか？",
@@ -115,7 +199,7 @@ export default function HomePage() {
     },
     {
       question: "アカウントを作成する必要がありますか？",
-      answer: "いいえ、全く必要ありません。登録、ログイン画面、パスワードリセット、受信トレイを埋める確認メールは一切ありません。できるだけシンプルに構築しました。サイトにアクセスし、ツールを選択し、ファイルをドロップすれば完了です。メールアドレス、電話番号、その他の個人情報は一切求めません。面倒な手続きやフォームへの入力なしに、すべての機能にフルアクセスできます。"
+      answer: "いいえ。アカウントを作成しなくても、すべてのツールをお使いいただけます。無料アカウントを作ると1日の上限が増え、最近のファイル履歴も確認できます。有料プランではより大きなファイルとバッチ処理が使えます。"
     },
     {
       question: "スマートフォンやタブレットで使用できますか？",
@@ -124,11 +208,11 @@ export default function HomePage() {
   ] : locale === 'de' ? [
     {
       question: "Ist diese Website wirklich kostenlos?",
-      answer: "Absolut! Alles hier ist für immer kostenlos. Es gibt keine Testphasen, keine Premium-Pläne und keine versteckten Gebühren. Wir sind der Meinung, dass PDF-Tools für jeden zugänglich sein sollten. Deshalb können Sie so viele Dateien zusammenführen, aufteilen, komprimieren und konvertieren, wie Sie möchten, ohne je einen Cent zu bezahlen. Wir finanzieren uns durch minimale Werbung, die Ihre Arbeit nicht unterbricht."
+      answer: "Ja — alle Tools lassen sich kostenlos nutzen, und Sie können sofort ohne Bezahlung loslegen. Der kostenlose Plan hat ein Tageslimit und Dateigrößengrenzen; für größere Dateien, Stapelverarbeitung oder ein werbefreies Erlebnis gibt es die Pläne Starter und Pro. Den kostenlosen Plan finanzieren wir über wenige Anzeigen."
     },
     {
       question: "Wie sicher sind meine Dateien beim Hochladen?",
-      answer: "Wir nehmen Ihre Privatsphäre sehr ernst. Wenn Sie eine Datei hochladen, wird sie sofort mit dem branchenüblichen 256-Bit-SSL-Schutz während der Übertragung verschlüsselt. Das bedeutet, dass niemand Ihre Dokumente abfangen oder einsehen kann, während sie verarbeitet werden. Sobald wir Ihre Datei konvertiert oder bearbeitet haben, verbleibt sie nur so lange auf unserem Server, bis Sie sie heruntergeladen haben. Nach maximal zwei Stunden wird sie dauerhaft gelöscht. Wir speichern keine Kopien, analysieren keine Inhalte und teilen nichts mit Dritten."
+      answer: "Wir nehmen Ihre Privatsphäre sehr ernst. Wenn Sie eine Datei hochladen, wird sie sofort mit dem branchenüblichen 256-Bit-SSL-Schutz während der Übertragung verschlüsselt. Das bedeutet, dass niemand Ihre Dokumente abfangen oder einsehen kann, während sie verarbeitet werden. Sobald wir Ihre Datei konvertiert oder bearbeitet haben, verbleibt sie nur so lange auf unserem Server, bis Sie sie heruntergeladen haben. Nach maximal einer Stunde wird sie dauerhaft gelöscht. Wir speichern keine Kopien, analysieren keine Inhalte und teilen nichts mit Dritten."
     },
     {
       question: "Welche Dateiformate werden unterstützt?",
@@ -136,7 +220,7 @@ export default function HomePage() {
     },
     {
       question: "Muss ich ein Konto erstellen?",
-      answer: "Nein, überhaupt nicht. Keine Registrierung, keine Anmeldebildschirme, keine Passwort-Resets, keine Bestätigungs-E-Mails. Wir haben das so einfach wie möglich gestaltet: Sie besuchen die Seite, wählen ein Tool, laden Ihre Datei hoch – fertig. Wir fragen weder nach Ihrer E-Mail-Adresse noch nach Ihrer Telefonnummer oder anderen persönlichen Daten. Sie erhalten vollen Zugang zu allen Funktionen ohne lästige Formulare."
+      answer: "Nein — alle Tools funktionieren ohne Konto. Mit einem kostenlosen Konto erhalten Sie ein höheres Tageslimit und einen Verlauf Ihrer letzten Dateien; bezahlte Pläne bieten größere Dateien und Stapelverarbeitung."
     },
     {
       question: "Kann ich die Website auf meinem Smartphone oder Tablet nutzen?",
@@ -145,11 +229,11 @@ export default function HomePage() {
   ] : locale === 'fr' ? [
     {
       question: "Ce site est-il vraiment gratuit ?",
-      answer: "Absolument ! Tout ici est gratuit pour toujours. Pas de périodes d'essai, pas de plans premium, pas de frais cachés. Nous pensons que les outils PDF devraient être accessibles à tous. C'est pourquoi vous pouvez fusionner, diviser, compresser et convertir autant de fichiers que vous voulez sans jamais sortir votre portefeuille. Nous maintenons le service avec quelques publicités minimales qui n'interrompront pas votre travail."
+      answer: "Oui — tous les outils sont utilisables gratuitement et vous pouvez commencer tout de suite sans payer. Le forfait gratuit a une limite quotidienne et des tailles de fichier maximales ; pour des fichiers plus lourds, le traitement par lots ou une expérience sans publicité, les forfaits Starter et Pro sont disponibles. Le forfait gratuit est financé par quelques publicités."
     },
     {
       question: "Mes fichiers sont-ils sécurisés lors du téléchargement ?",
-      answer: "Nous prenons votre vie privée très au sérieux. Lorsque vous téléchargez un fichier, il est immédiatement crypté avec une protection SSL 256 bits standard lors du transfert. Cela signifie que personne ne peut intercepter ou consulter vos documents pendant leur traitement. Une fois que nous avons terminé la conversion ou l'édition de votre fichier, il reste sur notre serveur juste le temps que vous le téléchargiez. Après deux heures maximum, il est définitivement supprimé."
+      answer: "Nous prenons votre vie privée très au sérieux. Lorsque vous téléchargez un fichier, il est immédiatement crypté avec une protection SSL 256 bits standard lors du transfert. Cela signifie que personne ne peut intercepter ou consulter vos documents pendant leur traitement. Une fois que nous avons terminé la conversion ou l'édition de votre fichier, il reste sur notre serveur juste le temps que vous le téléchargiez. Après une heure maximum, il est définitivement supprimé."
     },
     {
       question: "Quels formats de fichiers sont pris en charge ?",
@@ -157,7 +241,7 @@ export default function HomePage() {
     },
     {
       question: "Dois-je créer un compte ?",
-      answer: "Non, pas du tout. Pas d'inscription, pas d'écrans de connexion, pas de réinitialisations de mot de passe, pas d'e-mails de vérification. Nous avons construit cela pour être aussi simple que possible : vous arrivez, choisissez un outil, déposez votre fichier, et c'est parti. Nous ne demandons ni votre e-mail, ni votre numéro de téléphone, ni aucune autre information personnelle."
+      answer: "Non — tous les outils fonctionnent sans compte. Un compte gratuit vous donne une limite quotidienne plus élevée et l'historique de vos fichiers récents ; les forfaits payants ajoutent des fichiers plus lourds et le traitement par lots."
     },
     {
       question: "Puis-je l'utiliser sur mon téléphone ou ma tablette ?",
@@ -166,11 +250,11 @@ export default function HomePage() {
   ] : locale === 'es' ? [
     {
       question: "¿Es realmente gratuito este sitio?",
-      answer: "¡Absolutamente! Todo aquí es gratuito para siempre. No hay períodos de prueba, planes premium ni cargos ocultos. Creemos que las herramientas PDF deben ser accesibles para todos. Por eso puedes fusionar, dividir, comprimir y convertir tantos archivos como quieras sin nunca llegar a tu cartera. Nos mantenemos con algunos anuncios mínimos que no interrumpirán tu trabajo."
+      answer: "Sí: todas las herramientas se pueden usar gratis y puedes empezar ya mismo sin pagar. El plan gratuito tiene un límite diario y tamaños máximos de archivo; si necesitas archivos más grandes, procesamiento por lotes o una experiencia sin anuncios, están los planes Starter y Pro. Mantenemos el plan gratuito con unos pocos anuncios."
     },
     {
       question: "¿Son seguros mis archivos cuando los subo?",
-      answer: "Nos tomamos tu privacidad muy en serio. Cuando subes un archivo, se cifra inmediatamente con protección SSL de 256 bits estándar de la industria durante la transferencia. Una vez que terminamos de convertir o editar tu archivo, permanece en nuestro servidor solo el tiempo suficiente para que lo descargues. Después de dos horas como máximo, se elimina permanentemente."
+      answer: "Nos tomamos tu privacidad muy en serio. Cuando subes un archivo, se cifra inmediatamente con protección SSL de 256 bits estándar de la industria durante la transferencia. Una vez que terminamos de convertir o editar tu archivo, permanece en nuestro servidor solo el tiempo suficiente para que lo descargues. Después de una hora como máximo, se elimina permanentemente."
     },
     {
       question: "¿Qué formatos de archivo son compatibles?",
@@ -178,7 +262,7 @@ export default function HomePage() {
     },
     {
       question: "¿Necesito crear una cuenta?",
-      answer: "No, para nada. Sin registro, sin pantallas de inicio de sesión, sin restablecimiento de contraseñas, sin correos de verificación. Lo construimos para ser lo más simple posible: llegas, eliges una herramienta, sueltas tu archivo y listo. No pedimos tu correo electrónico, número de teléfono ni ningún otro dato personal."
+      answer: "No: puedes usar todas las herramientas sin crear una cuenta. Una cuenta gratuita te da un límite diario más alto y el historial de tus archivos recientes, y los planes de pago añaden archivos más grandes y procesamiento por lotes."
     },
     {
       question: "¿Puedo usarlo en mi teléfono o tableta?",
@@ -187,11 +271,11 @@ export default function HomePage() {
   ] : locale === 'it' ? [
     {
       question: "Il vostro sito è davvero gratuito?",
-      answer: "Assolutamente sì! Tutto qui è gratuito per sempre. Non ci sono periodi di prova, piani premium o addebiti a sorpresa. Crediamo che gli strumenti PDF debbano essere accessibili a tutti. Ecco perché puoi unire, dividere, comprimere e convertire quanti file vuoi senza mai mettere mano al portafoglio. Manteniamo il sito attivo con qualche inserzione minimale, ma non interromperanno il tuo lavoro né ti bombarderanno di pop-up."
+      answer: "Sì: tutti gli strumenti si possono usare gratis e puoi iniziare subito senza pagare. Il piano gratuito ha un limite giornaliero e dimensioni massime dei file; se ti servono file più grandi, elaborazione batch o un'esperienza senza pubblicità, ci sono i piani Starter e Pro. Manteniamo il piano gratuito con pochi annunci."
     },
     {
       question: "I miei file sono sicuri quando li carico?",
-      answer: "Prendiamo la tua privacy molto sul serio. Quando carichi un file, viene immediatamente crittografato con la protezione SSL a 256 bit standard del settore durante il trasferimento. Ciò significa che nessuno può intercettare o spiare i tuoi documenti mentre vengono elaborati. Una volta completata la conversione, il file rimane sul nostro server solo il tempo necessario per scaricarlo. Dopo un massimo di due ore, viene eliminato definitivamente. Non conserviamo copie, non analizziamo il contenuto e non condividiamo nulla con terze parti."
+      answer: "Prendiamo la tua privacy molto sul serio. Quando carichi un file, viene immediatamente crittografato con la protezione SSL a 256 bit standard del settore durante il trasferimento. Ciò significa che nessuno può intercettare o spiare i tuoi documenti mentre vengono elaborati. Una volta completata la conversione, il file rimane sul nostro server solo il tempo necessario per scaricarlo. Dopo un massimo di un'ora, viene eliminato definitivamente. Non conserviamo copie, non analizziamo il contenuto e non condividiamo nulla con terze parti."
     },
     {
       question: "Quali formati di file sono supportati?",
@@ -199,7 +283,7 @@ export default function HomePage() {
     },
     {
       question: "Devo creare un account?",
-      answer: "No, assolutamente no. Nessuna registrazione, nessuna schermata di accesso, nessun reset della password, nessuna e-mail di verifica che intasa la posta. Abbiamo costruito tutto per essere il più semplice possibile: arrivi, scegli uno strumento, trascini il file e sei pronto. Non chiederemo la tua e-mail, il numero di telefono o qualsiasi altro dato personale. Hai accesso completo a ogni singola funzione senza dover saltare ostacoli o compilare moduli."
+      answer: "No: puoi usare tutti gli strumenti senza creare un account. Un account gratuito ti offre un limite giornaliero più alto e la cronologia dei file recenti; i piani a pagamento aggiungono file più grandi ed elaborazione batch."
     },
     {
       question: "Posso usarlo sul telefono o sul tablet?",
@@ -208,11 +292,11 @@ export default function HomePage() {
   ] : locale === 'id' ? [
     {
       question: "Apakah situs ini benar-benar gratis?",
-      answer: "Tentu saja! Semua di sini gratis selamanya. Tidak ada masa percobaan, tidak ada paket premium, dan tidak ada biaya tersembunyi. Kami percaya bahwa alat PDF harus dapat diakses oleh semua orang. Itulah mengapa Anda dapat menggabungkan, memisahkan, mengompres, dan mengkonversi file sebanyak yang Anda inginkan tanpa harus mengeluarkan dompet. Kami mempertahankan layanan dengan beberapa iklan minimal yang tidak akan mengganggu pekerjaan Anda."
+      answer: "Ya — semua alat bisa digunakan secara gratis dan Anda bisa langsung mulai tanpa membayar. Paket gratis memiliki batas harian dan batas ukuran file; jika butuh file lebih besar, pemrosesan batch, atau pengalaman tanpa iklan, tersedia paket Starter dan Pro. Paket gratis kami didukung oleh sedikit iklan."
     },
     {
       question: "Apakah file saya aman saat diunggah?",
-      answer: "Kami sangat serius soal privasi Anda. Saat Anda mengunggah file, file tersebut langsung dienkripsi dengan perlindungan SSL 256-bit standar industri selama transfer. Artinya tidak ada yang bisa mencegat atau mengintip dokumen Anda saat sedang diproses. Setelah kami selesai mengkonversi atau mengedit file Anda, file tersebut hanya ada di server kami selama cukup untuk Anda unduh. Setelah maksimal dua jam, file tersebut dihapus secara permanen. Kami tidak menyimpan salinan, tidak menganalisis konten, dan tidak membagikan apapun kepada pihak ketiga."
+      answer: "Kami sangat serius soal privasi Anda. Saat Anda mengunggah file, file tersebut langsung dienkripsi dengan perlindungan SSL 256-bit standar industri selama transfer. Artinya tidak ada yang bisa mencegat atau mengintip dokumen Anda saat sedang diproses. Setelah kami selesai mengkonversi atau mengedit file Anda, file tersebut hanya ada di server kami selama cukup untuk Anda unduh. Setelah maksimal satu jam, file tersebut dihapus secara permanen. Kami tidak menyimpan salinan, tidak menganalisis konten, dan tidak membagikan apapun kepada pihak ketiga."
     },
     {
       question: "Format file apa yang didukung?",
@@ -220,7 +304,7 @@ export default function HomePage() {
     },
     {
       question: "Apakah saya perlu membuat akun?",
-      answer: "Tidak, sama sekali tidak perlu. Tidak ada pendaftaran, tidak ada layar login, tidak ada reset kata sandi, tidak ada email verifikasi yang memenuhi kotak masuk. Kami membangun ini agar sesederhana mungkin: Anda datang, pilih alat, jatuhkan file Anda, dan selesai. Kami tidak akan meminta email, nomor telepon, atau informasi pribadi lainnya. Anda mendapatkan akses penuh ke setiap fitur tanpa harus melewati rintangan atau mengisi formulir."
+      answer: "Tidak — semua alat bisa digunakan tanpa membuat akun. Akun gratis memberi Anda batas harian yang lebih tinggi dan riwayat file terbaru, sedangkan paket berbayar menambahkan file lebih besar dan pemrosesan batch."
     },
     {
       question: "Bisakah saya menggunakannya di ponsel atau tablet?",
@@ -229,11 +313,11 @@ export default function HomePage() {
   ] : locale === 'pt' ? [
     {
       question: "Este site é realmente gratuito?",
-      answer: "Com certeza! Tudo aqui é gratuito para sempre. Sem períodos de teste, sem planos premium, sem cobranças surpresa. Acreditamos que ferramentas PDF devem ser acessíveis a todos. Por isso, você pode mesclar, dividir, comprimir e converter quantos arquivos quiser sem nunca precisar pagar nada. Nos mantemos com alguns anúncios mínimos que não vão interromper seu trabalho."
+      answer: "Sim — todas as ferramentas podem ser usadas grátis e você pode começar agora mesmo, sem pagar. O plano gratuito tem um limite diário e tamanhos máximos de arquivo; se você precisar de arquivos maiores, processamento em lote ou uma experiência sem anúncios, existem os planos Starter e Pro. Mantemos o plano gratuito com poucos anúncios."
     },
     {
       question: "Meus arquivos ficam seguros quando os envio?",
-      answer: "Levamos sua privacidade muito a sério. Quando você faz upload de um arquivo, ele é imediatamente criptografado com proteção SSL de 256 bits padrão do setor durante a transferência. Isso significa que ninguém pode interceptar ou espiar seus documentos enquanto eles estão sendo processados. Após concluirmos a conversão ou edição do seu arquivo, ele fica em nosso servidor apenas pelo tempo suficiente para você baixá-lo. Após no máximo duas horas, ele é excluído permanentemente. Não guardamos cópias, não analisamos o conteúdo e não compartilhamos nada com terceiros."
+      answer: "Levamos sua privacidade muito a sério. Quando você faz upload de um arquivo, ele é imediatamente criptografado com proteção SSL de 256 bits padrão do setor durante a transferência. Isso significa que ninguém pode interceptar ou espiar seus documentos enquanto eles estão sendo processados. Após concluirmos a conversão ou edição do seu arquivo, ele fica em nosso servidor apenas pelo tempo suficiente para você baixá-lo. Após no máximo uma hora, ele é excluído permanentemente. Não guardamos cópias, não analisamos o conteúdo e não compartilhamos nada com terceiros."
     },
     {
       question: "Quais formatos de arquivo são suportados?",
@@ -241,7 +325,7 @@ export default function HomePage() {
     },
     {
       question: "Preciso criar uma conta?",
-      answer: "Não, de jeito nenhum. Sem cadastro, sem telas de login, sem redefinição de senha, sem e-mails de verificação lotando sua caixa de entrada. Construímos isso para ser o mais simples possível: você chega, escolhe uma ferramenta, joga o arquivo lá e pronto. Não pedimos seu e-mail, número de telefone ou qualquer outro dado pessoal. Você tem acesso total a todos os recursos sem precisar pular obstáculos ou preencher formulários."
+      answer: "Não — você pode usar todas as ferramentas sem criar conta. Uma conta gratuita dá um limite diário maior e o histórico dos seus arquivos recentes, e os planos pagos adicionam arquivos maiores e processamento em lote."
     },
     {
       question: "Posso usar no meu celular ou tablet?",
@@ -250,11 +334,11 @@ export default function HomePage() {
   ] : [
     {
       question: "Is your website really free to use?",
-      answer: "SmallPDF.us offers a free plan with access to all core PDF and image tools. Free users get standard file size limits and 1-hour file retention. For larger files, priority processing, and an ad-free experience, our Starter and Pro plans are available at affordable prices. No hidden charges — cancel anytime."
+      answer: "Yes — every tool can be used for free, and you can start right away without paying. The free plan has a daily limit and file-size limits; if you need bigger files, batch processing or an ad-free experience, the Starter and Pro plans are available. We keep the free plan running with a small number of ads."
     },
     {
       question: "How secure are my files when I upload them?",
-      answer: "We take your privacy seriously. When you upload a file, it's immediately encrypted with industry-standard 256-bit SSL protection during transfer. This means nobody can intercept or peek at your documents while they're being processed. Once we finish converting or editing your file, it sits on our server just long enough for you to download it. After two hours maximum, it's permanently deleted. We don't keep copies, we don't analyze content, and we definitely don't share anything with third parties. Your files are yours alone."
+      answer: "We take your privacy seriously. When you upload a file, it's immediately encrypted with industry-standard 256-bit SSL protection during transfer. This means nobody can intercept or peek at your documents while they're being processed. Once we finish converting or editing your file, it sits on our server just long enough for you to download it. After one hour maximum, it's permanently deleted. We don't keep copies, we don't analyze content, and we definitely don't share anything with third parties. Your files are yours alone."
     },
     {
       question: "What file formats does this support?",
@@ -262,7 +346,7 @@ export default function HomePage() {
     },
     {
       question: "Do I need to create an account?",
-      answer: "Nope, not at all. No registration, no login screens, no password resets, no verification emails cluttering your inbox. We built this to be as simple as possible: you show up, pick a tool, drop in your file, and you're off to the races. We won't ask for your email, phone number, or any other personal details. You get full access to every single feature without jumping through hoops or filling out forms. It's honestly the way web tools should work."
+      answer: "No — you can use every tool without creating an account. A free account gives you a higher daily limit and a history of your recent files, and paid plans add bigger files and batch processing."
     },
     {
       question: "Can I use this on my phone or tablet?",
@@ -270,15 +354,16 @@ export default function HomePage() {
     }
   ]
 
-  const premFeatures = locale === 'ja' ? ["無制限のファイルサイズとバッチ処理","スキャンしたドキュメント用の高度なOCR","デスクトップおよびモバイルアプリが含まれます"] : locale === 'de' ? ["Unbegrenzte Dateigröße und Stapelverarbeitung","Erweitertes OCR für gescannte Dokumente","Desktop- und Mobile-Apps inklusive"] : locale === 'fr' ? ["Taille illimitée et traitement par lots","OCR avancé pour documents numérisés","Applications bureau et mobile incluses"] : locale === 'es' ? ["Tamaño ilimitado y procesamiento por lotes","OCR avanzado para documentos escaneados","Apps de escritorio y móvil incluidas"] : locale === 'it' ? ["Dimensione illimitata ed elaborazione batch","OCR avanzato per documenti scansionati","App desktop e mobile incluse"] : locale === 'id' ? ["Ukuran file tak terbatas dan pemrosesan batch","OCR canggih untuk dokumen yang dipindai","Aplikasi desktop dan mobile termasuk"] : locale === 'pt' ? ["Tamanho ilimitado e processamento em lote","OCR avançado para documentos digitalizados","Apps para desktop e mobile incluídos"] : ["Unlimited file size and batch processing","Advanced OCR for scanned documents","Desktop and mobile apps included"]
+  const premFeatures = locale === 'ja' ? ["最大100MBのファイルとバッチ処理","スキャンしたドキュメント用の高度なOCR","広告なしの体験"] : locale === 'de' ? ["Dateien bis 100 MB und Stapelverarbeitung","Erweitertes OCR für gescannte Dokumente","Werbefreies Erlebnis"] : locale === 'fr' ? ["Fichiers jusqu'à 100 Mo et traitement par lots","OCR avancé pour documents numérisés","Expérience sans publicité"] : locale === 'es' ? ["Archivos de hasta 100 MB y procesamiento por lotes","OCR avanzado para documentos escaneados","Experiencia sin anuncios"] : locale === 'it' ? ["File fino a 100 MB ed elaborazione batch","OCR avanzato per documenti scansionati","Esperienza senza pubblicità"] : locale === 'id' ? ["File hingga 100 MB dan pemrosesan batch","OCR canggih untuk dokumen yang dipindai","Pengalaman bebas iklan"] : locale === 'pt' ? ["Arquivos de até 100 MB e processamento em lote","OCR avançado para documentos digitalizados","Experiência sem anúncios"] : ["Files up to 100 MB and batch processing","Advanced OCR for scanned documents","Ad-free experience"]
 
-  const premIncludes = locale === 'ja' ? ["無制限の変換","ファイルサイズ制限なし","バッチ処理","広告なしの体験","優先サポート"] : locale === 'de' ? ["Unbegrenzte Konvertierungen","Keine Dateigrößenbeschränkungen","Stapelverarbeitung","Werbefreies Erlebnis","Vorrangiger Support"] : locale === 'fr' ? ["Conversions illimitées","Aucune limite de taille","Traitement par lots","Sans publicité","Support prioritaire"] : locale === 'es' ? ["Conversiones ilimitadas","Sin límites de tamaño","Procesamiento por lotes","Sin anuncios","Soporte prioritario"] : locale === 'it' ? ["Conversioni illimitate","Nessun limite dimensione","Elaborazione batch","Senza pubblicità","Supporto prioritario"] : locale === 'id' ? ["Konversi tak terbatas","Tanpa batasan ukuran","Pemrosesan batch","Bebas iklan","Dukungan prioritas"] : locale === 'pt' ? ["Conversões ilimitadas","Sem limites de tamanho","Processamento em lote","Sem anúncios","Suporte prioritário"] : ["Unlimited conversions","No file size limits","Batch processing","Ad-free experience","Priority support"]
+  const premIncludes = locale === 'ja' ? ["無制限の変換","最大100MBのファイル","バッチ処理","広告なしの体験","優先サポート"] : locale === 'de' ? ["Unbegrenzte Konvertierungen","Dateien bis 100 MB","Stapelverarbeitung","Werbefreies Erlebnis","Vorrangiger Support"] : locale === 'fr' ? ["Conversions illimitées","Fichiers jusqu'à 100 Mo","Traitement par lots","Sans publicité","Support prioritaire"] : locale === 'es' ? ["Conversiones ilimitadas","Archivos de hasta 100 MB","Procesamiento por lotes","Sin anuncios","Soporte prioritario"] : locale === 'it' ? ["Conversioni illimitate","File fino a 100 MB","Elaborazione batch","Senza pubblicità","Supporto prioritario"] : locale === 'id' ? ["Konversi tak terbatas","File hingga 100 MB","Pemrosesan batch","Bebas iklan","Dukungan prioritas"] : locale === 'pt' ? ["Conversões ilimitadas","Arquivos de até 100 MB","Processamento em lote","Sem anúncios","Suporte prioritário"] : ["Unlimited conversions","Files up to 100 MB","Batch processing","Ad-free experience","Priority support"]
 
   return (
     <>
       <SEOHead title={t('seo.home.title')} description={t('seo.home.description')} keywords={t('seo.home.keywords')} pathname="" locale={locale} />
       <Layout>
-        {/* ══ HERO ══ */}
+        {/* ══ HERO ══ (the leaderboard ad sits after the hero, so the headline
+            and upload are the first thing on screen) */}
         <section className="relative overflow-hidden" style={{ fontFamily: "'Sora','Instrument Sans',system-ui,sans-serif" }}>
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="orb1 absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-blue-100/60 via-cyan-50/40 to-transparent blur-3xl" />
@@ -290,14 +375,10 @@ export default function HomePage() {
           <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-12 md:pt-20 md:pb-16">
             <div className="grid lg:grid-cols-[1.1fr,0.9fr] gap-10 lg:gap-16 items-center">
               <div className="hero-content-animate">
-                <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 mb-6 bg-gray-950 text-white shadow-lg">
-                  <Sparkles className="w-3.5 h-3.5 text-sky-400" />
-                  <span className="text-[11px] font-semibold tracking-wide">{L(locale, { ja: '世界中で1億人以上の満足したユーザー', de: '50M+ Nutzer weltweit', fr: '50M+ utilisateurs dans le monde', es: '50M+ usuarios en todo el mundo', en: '50M+ Happy Users Worldwide', it: '50M+ utenti nel mondo', id: '100 Juta+ Pengguna di Dunia', pt: '50M+ Usuários no Mundo' })}</span>
-                </div>
                 <h1 className="text-[2.5rem] sm:text-5xl md:text-[3.5rem] font-extrabold text-gray-950 mb-5 leading-[1.08] tracking-tight">
-                  {L(locale, { ja: 'プロフェッショナルなPDFツール', de: 'Professionelle PDF-Tools', fr: 'Outils PDF professionnels', es: 'Herramientas PDF profesionales', en: 'Professional PDF tools', it: 'Strumenti PDF professionali', id: 'Alat PDF profesional', pt: 'Ferramentas PDF profissionais' })}
+                  {L(locale, { ja: 'PDFツールを', de: 'PDF-Tools,', fr: 'Des outils PDF', es: 'Herramientas PDF', en: 'PDF tools that', it: 'Strumenti PDF', id: 'Alat PDF yang', pt: 'Ferramentas PDF que' })}
                   <span className="block mt-1 bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 bg-clip-text text-transparent">
-                    {L(locale, { ja: 'プロフェッショナル・ツールスイート', de: 'Professionelle Tool-Suite', fr: 'Suite d\'outils professionnels', es: 'Suite de herramientas profesionales', en: 'Professional Tool Suite', it: 'Suite di strumenti professionali', id: 'Suite Alat Profesional', pt: 'Suite de Ferramentas Profissionais' })}
+                    {L(locale, { ja: '無料で、すぐに使える', de: 'kostenlos & sofort', fr: 'gratuits & instantanés', es: 'gratis e instantáneas', en: 'actually just work', it: 'gratuiti & veloci', id: 'gratis & instan', pt: 'grátis & instantâneas' })}
                   </span>
                 </h1>
                 <p className="text-base sm:text-lg text-gray-600 mb-5 leading-relaxed max-w-lg" style={{ fontFamily:"'Instrument Sans',system-ui,sans-serif" }}>
@@ -305,9 +386,9 @@ export default function HomePage() {
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {[
-                    { icon: Shield, text: L(locale, { ja: '銀行レベルの暗号化', de: 'Banktaugliche Verschlüsselung', fr: 'Cryptage bancaire', es: 'Cifrado bancario', en: 'Bank-grade encryption', it: 'Crittografia bancaria', id: 'Enkripsi level bank', pt: 'Criptografia bancária' }) },
+                    { icon: Shield, text: L(locale, { ja: '256ビットSSL暗号化', de: '256-Bit-SSL-Verschlüsselung', fr: 'Chiffrement SSL 256 bits', es: 'Cifrado SSL 256 bits', en: '256-bit SSL encryption', it: 'Crittografia SSL 256 bit', id: 'Enkripsi SSL 256-bit', pt: 'Criptografia SSL 256 bits' }) },
                     { icon: Zap, text: L(locale, { ja: '超高速', de: 'Blitzschnell', fr: 'Ultra rapide', es: 'Ultra rápido', en: 'Lightning fast', it: 'Velocissimo', id: 'Sangat cepat', pt: 'Extremamente rápido' }) },
-                    { icon: Clock, text: L(locale, { ja: '2時間で自動削除', de: 'Auto-Löschung 2 Std.', fr: 'Suppression auto 2h', es: 'Eliminación auto 2h', en: 'Auto-delete in 2hrs', it: 'Eliminazione auto 2h', id: 'Hapus otomatis 2 jam', pt: 'Exclusão auto 2h' }) }
+                    { icon: Clock, text: L(locale, { ja: '1時間で自動削除', de: 'Auto-Löschung 1 Std.', fr: 'Suppression auto 1h', es: 'Eliminación auto 1h', en: 'Auto-delete in 1hr', it: 'Eliminazione auto 1h', id: 'Hapus otomatis 1 jam', pt: 'Exclusão auto 1h' }) }
                   ].map((p, i) => (
                     <div key={i} className="flex items-center gap-1.5 bg-white rounded-full px-3 py-1.5 border border-gray-200/60 text-xs font-medium text-gray-700">
                       <p.icon className="w-3.5 h-3.5 text-gray-500" /><span>{p.text}</span>
@@ -323,12 +404,20 @@ export default function HomePage() {
                     <span>{L(locale, { ja: 'すべてのツール', de: 'Alle Tools', fr: 'Tous les outils', es: 'Todas las herramientas', en: 'View All Tools', it: 'Tutti gli strumenti', id: 'Semua Alat', pt: 'Todas as Ferramentas' })}</span>
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </Link>
+                  <Link href="/pricing" className="inline-flex items-center gap-1.5 text-gray-500 font-medium px-3 py-3.5 hover:text-gray-800 transition-all text-sm">
+                    <span>{t('nav.pricing')}</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+                {/* Mobile/tablet upload (the desktop one lives in the hero card) */}
+                <div className="lg:hidden mb-8">
+                  <HeroUpload compact />
                 </div>
                 <div className="flex items-center gap-8 pt-6 border-t border-gray-200/60">
                   {[
-                    { value:"30M+", label: L(locale, { ja:'ファイル', de:'Dateien', fr:'Fichiers', es:'Archivos', en:'Files', it:'File', id:'File', pt:'Arquivos' }) },
-                    { value:"50M+", label: L(locale, { ja:'ユーザー', de:'Nutzer', fr:'Utilisateurs', es:'Usuarios', en:'Users', it:'Utenti', id:'Pengguna', pt:'Usuários' }) },
-                    { value:"4.6", label: L(locale, { ja:'評価', de:'Bewertung', fr:'Évaluation', es:'Calificación', en:'Rating', it:'Valutazione', id:'Penilaian', pt:'Avaliação' }) }
+                    { value:"27", label: L(locale, { ja:'ツール', de:'Tools', fr:'Outils', es:'Herramientas', en:'Tools', it:'Strumenti', id:'Alat', pt:'Ferramentas' }) },
+                    { value:"8", label: L(locale, { ja:'言語', de:'Sprachen', fr:'Langues', es:'Idiomas', en:'Languages', it:'Lingue', id:'Bahasa', pt:'Idiomas' }) },
+                    { value:"Free", label: L(locale, { ja:'プラン', de:'Plan', fr:'Forfait', es:'Plan', it:'Piano', id:'Paket', pt:'Plano', en:'Plan' }) }
                   ].map((s,i)=>(
                     <div key={i}><div className="text-xl font-extrabold text-gray-950 leading-none tracking-tight">{s.value}</div><div className="text-[10px] font-medium text-gray-500 mt-1 uppercase tracking-wider">{s.label}</div></div>
                   ))}
@@ -338,29 +427,32 @@ export default function HomePage() {
               {/* Hero Visual */}
               <div className="hidden lg:flex items-center justify-center hero-visual-animate">
                 <div className="relative w-full max-w-md">
-                  <div className="relative bg-white rounded-3xl shadow-2xl shadow-gray-200/60 border border-gray-100 p-7 mx-auto" style={{ animation:'float 6s ease-in-out infinite' }}>
-                    <div className="flex items-center gap-2 mb-5">
-                      <div className="w-3 h-3 rounded-full bg-red-400" /><div className="w-3 h-3 rounded-full bg-yellow-400" /><div className="w-3 h-3 rounded-full bg-green-400" />
-                      <div className="flex-1" /><div className="px-3 py-1 rounded-md bg-gray-50 text-[10px] font-semibold text-gray-500">smallpdf.us</div>
+                  <div className="relative bg-white rounded-3xl shadow-2xl shadow-gray-200/60 border border-gray-100 p-6 mx-auto" style={{ animation:'float 6s ease-in-out infinite' }}>
+                    {/* Tool header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">smallpdf.us</span>
+                      <span className="text-[10px] bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded-full border border-emerald-200">Free</span>
                     </div>
-                    <div className="bg-gradient-to-br from-blue-500 to-sky-400 rounded-2xl p-5 mb-4 relative overflow-hidden">
-                      <div className="absolute top-3 right-3 px-2 py-0.5 bg-white/20 rounded text-[10px] font-bold text-white">PDF</div>
-                      <div className="space-y-2.5">
-                        <div className="h-3 bg-white/90 rounded-full w-3/4" /><div className="h-2 bg-white/60 rounded-full w-full" /><div className="h-2 bg-white/60 rounded-full w-5/6" /><div className="h-2 bg-white/60 rounded-full w-4/6" /><div className="mt-4 h-20 bg-white/25 rounded-xl" />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {[{l:L(locale,{ja:'変換',de:'Konvertieren',fr:'Convertir',es:'Convertir',en:'Convert',it:'Converti',id:'Konversi',pt:'Converter'}),c:'bg-blue-500'},{l:L(locale,{ja:'圧縮',de:'Komprimieren',fr:'Compresser',es:'Comprimir',en:'Compress',it:'Comprimi',id:'Kompres',pt:'Comprimir'}),c:'bg-cyan-500'},{l:L(locale,{ja:'結合',de:'Zusammenführen',fr:'Fusionner',es:'Combinar',en:'Merge',it:'Unisci',id:'Gabung',pt:'Mesclar'}),c:'bg-emerald-500'}].map((a,i)=>(
-                        <div key={i} className={`flex-1 ${a.c} rounded-lg py-2 text-center text-[11px] font-semibold text-white shadow-sm`}>{a.l}</div>
+                    {/* Drop zone — real: routes the file to the matching tool */}
+                    <HeroUpload />
+                    {/* Recent files */}
+                    <div className="space-y-2">
+                      {[{name:'Q3-report-final-v2.pdf',size:'2.4 MB',done:true},{name:'contract-draft3.docx',size:'340 KB',done:true}].map((f,i)=>(
+                        <div key={i} className="flex items-center gap-2.5 bg-gray-50 rounded-lg px-3 py-2">
+                          <FileText className="w-3.5 h-3.5 text-red-500 flex-shrink-0" />
+                          <span className="text-[11px] font-medium text-gray-700 flex-1 truncate">{f.name}</span>
+                          <span className="text-[10px] text-gray-400">{f.size}</span>
+                          {f.done && <Check className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />}
+                        </div>
                       ))}
                     </div>
                   </div>
                   <div className="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-2" style={{ animation:'float 4s ease-in-out infinite',animationDelay:'1s' }}>
                     <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center"><Check className="w-3.5 h-3.5 text-white" /></div>
-                    <span className="text-xs font-semibold text-gray-800">{L(locale,{ja:'変換完了',de:'Konvertiert',fr:'Converti',es:'Convertido',en:'Converted',it:'Convertito',id:'Terkonversi',pt:'Convertido'})}</span>
+                    <span className="text-xs font-semibold text-gray-800">{L(locale,{ja:'変換完了',de:'Fertig',fr:'Terminé',es:'Listo',en:'Done — download ready',it:'Pronto',id:'Selesai',pt:'Pronto'})}</span>
                   </div>
                   <div className="absolute -bottom-3 -left-6 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-2" style={{ animation:'float 5s ease-in-out infinite',animationDelay:'2s' }}>
-                    <Shield className="w-4 h-4 text-green-600" /><span className="text-xs font-semibold text-gray-800">SSL 256-bit</span>
+                    <Clock className="w-4 h-4 text-blue-500" /><span className="text-xs font-semibold text-gray-800">{L(locale,{ja:'1時間後に削除',de:'Gelöscht in 1 Std.',fr:'Supprimé dans 1h',es:'Borrado en 1h',en:'Deleted in 1 hr',it:'Eliminato in 1h',id:'Dihapus dalam 1 jam',pt:'Excluído em 1h'})}</span>
                   </div>
                 </div>
               </div>
@@ -377,6 +469,29 @@ export default function HomePage() {
             <AdSenseUnit size="leaderboard" className="rounded-xl overflow-hidden" />
           </div>
         </div>
+
+        {/* ══ FEATURED / NEW TOOLS ══
+            Surfaces the 3 newest tools (low discovery/traffic so far) more
+            prominently than their small grid-card badge alone. */}
+        <section className="relative py-12 px-4 bg-emerald-50/40">
+          <div className="max-w-6xl mx-auto">
+            <Reveal><div className="text-center mb-8">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-emerald-700 mb-3">
+                <Sparkles className="w-3.5 h-3.5" />
+                {L(locale, { ja: '新機能', de: 'Neu bei uns', fr: 'Nouveau chez nous', es: 'Recién llegado', en: 'Just launched', it: 'Appena lanciato', id: 'Baru diluncurkan', pt: 'Recém-lançado' })}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2 tracking-tight">
+                {L(locale, { ja: 'まだ試していないツールはありますか？', de: 'Diese Tools noch nicht ausprobiert?', fr: 'Vous n\'avez pas encore essayé ces outils ?', es: '¿Aún no has probado estas herramientas?', en: 'Tools you might have missed', it: 'Strumenti che potresti aver perso', id: 'Alat yang mungkin terlewat', pt: 'Ferramentas que você pode ter perdido' })}
+              </h2>
+              <p className="text-sm sm:text-base text-gray-500 max-w-lg mx-auto">
+                {L(locale, { ja: '同じ無料・安全な処理で、新しくできることが増えました。', de: 'Gleiche kostenlose, sichere Verarbeitung — jetzt mit mehr Möglichkeiten.', fr: 'Même traitement gratuit et sécurisé — avec encore plus de possibilités.', es: 'El mismo procesamiento gratis y seguro — ahora con más posibilidades.', en: 'Same free, secure processing — now with a lot more you can do.', it: 'La stessa elaborazione gratuita e sicura — ora con molto di più.', id: 'Pemrosesan gratis dan aman yang sama — kini dengan lebih banyak kemampuan.', pt: 'O mesmo processamento grátis e seguro — agora com muito mais possibilidades.' })}
+              </p>
+            </div></Reveal>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {featuredTools.map((tool) => <FeaturedToolCard key={tool.href} tool={tool} locale={locale} />)}
+            </div>
+          </div>
+        </section>
 
         {/* ══ TOOLS ══ */}
         <section id="tools" className="relative py-14 md:py-16 px-4">
@@ -421,49 +536,16 @@ export default function HomePage() {
 
         <div className="section-line max-w-5xl mx-auto" />
 
-        {/* ══ HOW IT WORKS ══ */}
-        <section className="relative py-14 md:py-16 px-4">
-          <div className="max-w-5xl mx-auto">
-            <Reveal><div className="text-center mb-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2 tracking-tight">{L(locale, { ja:'シンプルな3ステップ', de:'Einfach wie 1-2-3', fr:'Simple comme 1-2-3', es:'Simple como 1-2-3', en:'Simple as 1-2-3', it:'Semplice come 1-2-3', id:'Semudah 1-2-3', pt:'Simples como 1-2-3' })}</h2>
-              <p className="text-sm sm:text-base text-gray-500">{L(locale, { ja: '複雑な手順は不要。アップロード、処理、ダウンロード。', de: 'Keine komplizierten Schritte. Einfach hochladen, verarbeiten und herunterladen.', fr: "Pas d\'étapes compliquées. Téléchargez, traitez et téléchargez.", es: 'Sin pasos complicados. Solo sube, procesa y descarga.', en: 'No complicated steps. Just upload, process, and download.', it: 'Nessun passaggio complicato. Carica, elabora e scarica.', id: 'Tidak ada langkah rumit. Cukup unggah, proses, dan unduh.', pt: 'Sem passos complicados. Basta enviar, processar e baixar.' })}</p>
-            </div></Reveal>
-            <div className="relative">
-              <div className="hidden md:block absolute top-7 left-[16.66%] right-[16.66%] h-[2px] bg-gradient-to-r from-blue-200 via-cyan-200 to-emerald-200 z-0" />
-              <div className="grid md:grid-cols-3 gap-5">
-              {[
-                { num: "01", Icon: Upload, title: L(locale, { ja: 'ファイルをアップロード', de: 'Datei hochladen', fr: 'Télécharger votre fichier', es: 'Subir tu archivo', en: 'Upload Your File', it: 'Carica il tuo file', id: 'Unggah File Anda', pt: 'Envie Seu Arquivo' }), desc: L(locale, { ja: 'デバイスから任意のドキュメントを選択', de: 'Beliebiges Dokument von Ihrem Gerät auswählen', fr: "Sélectionnez n'importe quel document depuis votre appareil", es: 'Selecciona cualquier documento desde tu dispositivo', en: 'Select any document from your device', it: 'Seleziona qualsiasi documento dal tuo dispositivo', id: 'Pilih dokumen apa pun dari perangkat Anda', pt: 'Selecione qualquer documento do seu dispositivo' }), color: "text-blue-500", gradient: "from-blue-500 to-cyan-500" },
-                { num: "02", Icon: Zap, title: L(locale, { ja: '即座に処理', de: 'Sofortige Verarbeitung', fr: 'Traitement instantané', es: 'Procesamiento instantáneo', en: 'Instant Processing', it: 'Elaborazione istantanea', id: 'Pemrosesan Instan', pt: 'Processamento Instantâneo' }), desc: L(locale, { ja: 'サーバーが魔法をかけます', de: 'Unsere Server erledigen die Arbeit', fr: 'Nos serveurs font leur magie', es: 'Nuestros servidores hacen su magia', en: 'Our servers work their magic', it: 'I nostri server fanno la loro magia', id: 'Server kami bekerja dengan cepat', pt: 'Nossos servidores fazem a mágica' }), color: "text-cyan-500", gradient: "from-cyan-500 to-blue-500" },
-                { num: "03", Icon: Download, title: L(locale, { ja: '結果をダウンロード', de: 'Ergebnis herunterladen', fr: 'Télécharger le résultat', es: 'Descargar el resultado', en: 'Download Result', it: 'Scarica il risultato', id: 'Unduh Hasil', pt: 'Baixar Resultado' }), desc: L(locale, { ja: '変換されたファイルをすぐに取得', de: 'Konvertierte Datei sofort erhalten', fr: 'Obtenez votre fichier converti immédiatement', es: 'Obtén tu archivo convertido inmediatamente', en: 'Get your converted file immediately', it: 'Ottieni il tuo file convertito immediatamente', id: 'Dapatkan file yang dikonversi segera', pt: 'Obtenha seu arquivo convertido imediatamente' }), color: "text-emerald-500", gradient: "from-green-500 to-emerald-500" },
-              ].map((step,i)=>(
-                <Reveal key={i} delay={i*100}>
-                  <div className="group text-center relative z-10">
-                    <div className={`w-14 h-14 mx-auto mb-5 bg-gradient-to-br ${step.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300 relative ring-4 ring-white`}>
-                      <step.Icon className="w-7 h-7 text-white" />
-                      <div className={`absolute -top-2 -right-2 w-7 h-7 bg-gradient-to-br ${step.gradient} rounded-full flex items-center justify-center text-white font-extrabold text-xs shadow-md border-2 border-white`}>{step.num}</div>
-                    </div>
-                    <h3 className="text-base font-bold text-gray-950 mb-1.5">{step.title}</h3>
-                    <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto">{step.desc}</p>
-                  </div>
-                </Reveal>
-              ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="section-line max-w-5xl mx-auto" />
-
         {/* ══ WHY SMALLPDF ══ */}
         <section className="relative py-14 md:py-16 px-4">
           <div className="max-w-5xl mx-auto">
             <Reveal><div className="text-center mb-10">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2 tracking-tight">{L(locale, { ja: 'なぜSmallPDF.us？', de: 'Warum SmallPDF.us?', fr: 'Pourquoi SmallPDF.us ?', es: '¿Por qué SmallPDF.us?', en: 'Why SmallPDF.us?', it: 'Perché SmallPDF.us?', id: 'Mengapa SmallPDF.us?', pt: 'Por que SmallPDF.us?' })}</h2>
-              <p className="text-sm sm:text-base text-gray-500">{L(locale, { ja: 'プロ品質のツール、シンプルな料金体系。', de: 'Professionelle Tools, einfache Preisgestaltung.', fr: 'Outils professionnels, tarification simple.', es: 'Herramientas profesionales, precios simples.', en: 'Professional-grade tools, simple pricing.', it: 'Strumenti professionali, prezzi semplici.', id: 'Alat berkualitas profesional, harga sederhana.', pt: 'Ferramentas profissionais, preços simples.' })}</p>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-2 tracking-tight">{L(locale, { ja: 'ログイン不要。想定外の制限なし。余計なものなし。', de: 'Kein Login. Keine versteckten Limits. Kein Unsinn.', fr: 'Sans login. Sans limite cachée. Sans chichi.', es: 'Sin login. Sin límites ocultos. Sin rodeos.', en: 'No login. No surprise limits. No BS.', it: 'Nessun login. Nessun limite nascosto. Niente scuse.', id: 'Tanpa login. Tanpa batas mengejutkan. Tanpa omong kosong.', pt: 'Sem login. Sem limites surpresa. Sem enrolação.' })}</h2>
+              <p className="text-sm sm:text-base text-gray-500">{L(locale, { ja: '他のPDFツールが面倒にしていることを、シンプルに。', de: 'Was andere PDF-Tools kompliziert machen, machen wir einfach.', fr: "Ce que les autres outils PDF compliquent, nous le simplifions.", es: 'Lo que otras herramientas PDF complican, nosotros lo simplificamos.', en: "What other PDF tools make complicated, we just make work.", it: 'Ciò che altri strumenti PDF complicano, noi lo rendiamo semplice.', id: 'Yang dipersulit alat PDF lain, kami buat mudah.', pt: 'O que outras ferramentas PDF complicam, nós simplificamos.' })}</p>
             </div></Reveal>
             <div className="grid md:grid-cols-3 gap-4">
               {[
-                { icon: Shield, title: L(locale, { ja: '銀行レベルのセキュリティ', de: 'Banktaugliche Sicherheit', fr: 'Sécurité niveau bancaire', es: 'Seguridad de nivel bancario', en: 'Bank-Level Security', it: 'Sicurezza di livello bancario', id: 'Keamanan Level Bank', pt: 'Segurança de Nível Bancário' }), desc: L(locale, { ja: '256ビット暗号化。ファイルは処理後に自動削除。', de: '256-Bit-Verschlüsselung. Dateien werden nach der Verarbeitung automatisch gelöscht.', fr: 'Cryptage 256 bits. Fichiers supprimés automatiquement après traitement.', es: 'Cifrado de 256 bits. Los archivos se eliminan automáticamente después del procesamiento.', en: '256-bit encryption. Files auto-delete after processing.', it: "Crittografia a 256 bit. I file vengono eliminati automaticamente dopo l'elaborazione.", id: 'Enkripsi 256-bit. File dihapus otomatis setelah diproses.', pt: 'Criptografia de 256 bits. Os arquivos são excluídos automaticamente após o processamento.' }), gradient: "from-emerald-500 to-green-600", bg: "from-emerald-50 to-green-50" },
+                { icon: Shield, title: L(locale, { ja: '256ビットSSL暗号化', de: '256-Bit-SSL-Verschlüsselung', fr: 'Chiffrement SSL 256 bits', es: 'Cifrado SSL de 256 bits', en: '256-bit SSL Encryption', it: 'Crittografia SSL a 256 bit', id: 'Enkripsi SSL 256-bit', pt: 'Criptografia SSL de 256 bits' }), desc: L(locale, { ja: '256ビット暗号化。ファイルは処理後に自動削除。', de: '256-Bit-Verschlüsselung. Dateien werden nach der Verarbeitung automatisch gelöscht.', fr: 'Cryptage 256 bits. Fichiers supprimés automatiquement après traitement.', es: 'Cifrado de 256 bits. Los archivos se eliminan automáticamente después del procesamiento.', en: '256-bit encryption. Files auto-deleted within 1 hour, no exceptions.', it: "Crittografia a 256 bit. I file vengono eliminati automaticamente dopo l'elaborazione.", id: 'Enkripsi 256-bit. File dihapus otomatis setelah diproses.', pt: 'Criptografia de 256 bits. Os arquivos são excluídos automaticamente após o processamento.' }), gradient: "from-emerald-500 to-green-600", bg: "from-emerald-50 to-green-50" },
                 { icon: Zap, title: L(locale, { ja: '超高速', de: 'Blitzschnell', fr: 'Ultra rapide', es: 'Ultra rápido', en: 'Lightning Fast', it: 'Velocissimo', id: 'Sangat Cepat', pt: 'Extremamente Rápido' }), desc: L(locale, { ja: '最適化されたサーバーで数秒でファイルを処理。', de: 'Dateien in Sekunden mit optimierten Servern verarbeiten.', fr: 'Traitement des fichiers en quelques secondes avec des serveurs optimisés.', es: 'Procesa archivos en segundos con servidores optimizados.', en: 'Process files in seconds with optimized servers.', it: 'Elabora i file in pochi secondi con server ottimizzati.', id: 'Proses file dalam hitungan detik dengan server yang dioptimalkan.', pt: 'Processe arquivos em segundos com servidores otimizados.' }), gradient: "from-amber-500 to-orange-500", bg: "from-amber-50 to-yellow-50" },
                 { icon: Award, title: L(locale, { ja: '常に無料で開始', de: 'Kostenlos starten', fr: 'Commencez gratuitement', es: 'Comienza gratis', en: 'Free to Start', it: 'Inizia gratuitamente', id: 'Mulai Gratis', pt: 'Comece Grátis' }), desc: L(locale, { ja: '隠れた費用なし。プレミアムプランでさらに強力に。', de: 'Keine versteckten Kosten. Premium-Pläne für mehr Leistung.', fr: 'Aucuns frais cachés. Passez en Premium pour plus de puissance.', es: 'Sin tarifas ocultas. Planes Premium para mayor rendimiento.', en: 'No hidden fees. Upgrade to Premium for more power.', it: 'Nessun costo nascosto. Passa a Premium per più potenza.', id: 'Tidak ada biaya tersembunyi. Upgrade ke Premium untuk lebih banyak fitur.', pt: 'Sem taxas ocultas. Faça upgrade para Premium para mais recursos.' }), gradient: "from-blue-500 to-sky-500", bg: "from-blue-50 to-sky-50" },
               ].map((f, i) => (
@@ -507,17 +589,17 @@ export default function HomePage() {
                     <Check className="w-3.5 h-3.5 text-emerald-600" /><span className="text-[11px] font-bold text-gray-700">GDPR</span>
                   </div>
                   <div className="absolute top-1/2 -translate-y-1/2 -right-10 bg-white rounded-xl shadow-lg border border-gray-100 px-3 py-2 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-blue-500" /><span className="text-[11px] font-bold text-gray-700">2H</span>
+                    <Clock className="w-3.5 h-3.5 text-blue-500" /><span className="text-[11px] font-bold text-gray-700">1H</span>
                   </div>
                 </div>
               </div></Reveal>
               <Reveal delay={120}><div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-3 tracking-tight">{L(locale, { ja: 'プライバシーは私たちの最優先事項', de: 'Ihre Privatsphäre hat oberste Priorität', fr: 'Votre confidentialité est notre priorité', es: 'Tu privacidad es nuestra prioridad', en: 'Your Privacy is Our Priority', it: 'La tua privacy è la nostra priorità', id: 'Privasi Anda adalah Prioritas Kami', pt: 'Sua Privacidade é Nossa Prioridade' })}</h2>
-                <p className="text-sm sm:text-base text-gray-500 mb-6 leading-relaxed">{L(locale, { ja: 'セキュリティを真剣に考えています。すべてのファイルは、アップロードから削除まで、エンタープライズグレードの暗号化で保護されます。', de: 'Wir nehmen Sicherheit ernst. Jede Datei wird mit unternehmenstauglicher Verschlüsselung vom Upload bis zur Löschung geschützt.', fr: 'Nous prenons la sécurité au sérieux. Chaque fichier est protégé par un cryptage de niveau entreprise du téléchargement à la suppression.', es: 'Nos tomamos la seguridad en serio. Cada archivo está protegido con cifrado de nivel empresarial desde la carga hasta la eliminación.', en: 'We take security seriously. Every file is protected with enterprise-grade encryption from upload to deletion.', it: "Prendiamo la sicurezza sul serio. Ogni file è protetto con crittografia di livello enterprise dal caricamento all'eliminazione.", id: 'Kami serius soal keamanan. Setiap file dilindungi dengan enkripsi tingkat enterprise dari unggahan hingga penghapusan.', pt: 'Levamos a segurança a sério. Cada arquivo é protegido com criptografia de nível empresarial do upload à exclusão.' })}</p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mb-3 tracking-tight">{L(locale, { ja: 'ファイルは1時間後に消える。設計によって。', de: 'Weg nach 1 Stunde — so ist es gebaut.', fr: 'Disparu en 1 heure — par conception.', es: 'Borrado en 1 hora — por diseño, no promesas.', en: 'Gone in 1 hour. By design, not policy.', it: 'Sparito in 1 ora — per progetto, non per parole.', id: 'Hilang dalam 1 jam. Dirancang begitu, bukan janji.', pt: 'Excluído em 1 hora. Por design, não só promessa.' })}</h2>
+                <p className="text-sm sm:text-base text-gray-500 mb-6 leading-relaxed">{L(locale, { ja: 'アップロードしたファイルは256ビットSSLで転送され、独立したコンテナで処理され、1時間以内に完全削除されます。コピーは残りません。例外もありません。', de: 'Jede Datei wird per 256-Bit-SSL übertragen, in einem isolierten Container verarbeitet und innerhalb von 1 Stunde vollständig gelöscht. Keine Kopien. Keine Ausnahmen.', fr: 'Chaque fichier est chiffré en transit via SSL 256 bits, traité dans un conteneur isolé et définitivement supprimé en 1 heure. Aucune copie. Aucune exception.', es: 'Cada archivo se transfiere con SSL de 256 bits, se procesa en un contenedor aislado y se elimina permanentemente en 1 hora. Sin copias. Sin excepciones.', en: 'Every file is transferred over 256-bit SSL, processed in an isolated container, and permanently deleted within 1 hour. No copies. No exceptions.', it: "Ogni file viene trasferito via SSL a 256 bit, elaborato in un container isolato ed eliminato definitivamente entro 1 ora. Nessuna copia. Nessuna eccezione.", id: 'Setiap file ditransfer lewat SSL 256-bit, diproses di container terisolasi, dan dihapus permanen dalam 1 jam. Tidak ada salinan. Tidak ada pengecualian.', pt: 'Cada arquivo é transferido por SSL de 256 bits, processado em um container isolado e excluído permanentemente em 1 hora. Sem cópias. Sem exceções.' })}</p>
                 <div className="space-y-3">
                   {[
                     { icon: Shield, title: L(locale, { ja: '256ビットSSL暗号化', de: '256-Bit-SSL-Verschlüsselung', fr: 'Chiffrement SSL 256 bits', es: 'Cifrado SSL de 256 bits', en: '256-bit SSL Encryption', it: 'Crittografia SSL a 256 bit', id: 'Enkripsi SSL 256-bit', pt: 'Criptografia SSL de 256 bits' }), desc: L(locale, { ja: '軍事レベルの暗号化が転送中のファイルを保護', de: 'Militärtaugliche Verschlüsselung schützt Ihre Dateien bei der Übertragung', fr: 'Le chiffrement de niveau militaire protège vos fichiers pendant le transfert', es: 'El cifrado de nivel militar protege sus archivos durante la transferencia', en: 'Military-grade encryption protects your files during transfer', it: 'La crittografia di livello militare protegge i tuoi file durante il trasferimento', id: 'Enkripsi tingkat militer melindungi file Anda saat transfer', pt: 'Criptografia de nível militar protege seus arquivos durante a transferência' }), color: 'from-green-500 to-emerald-600' },
-                    { icon: Clock, title: L(locale, { ja: '2時間で自動削除', de: 'Auto-Löschung nach 2 Stunden', fr: 'Suppression automatique en 2 heures', es: 'Eliminación automática en 2 horas', en: 'Auto-Delete in 2 Hours', it: 'Eliminazione automatica in 2 ore', id: 'Hapus Otomatis dalam 2 Jam', pt: 'Exclusão Automática em 2 Horas' }), desc: L(locale, { ja: 'ファイルはサーバーから自動的に完全に削除されます', de: 'Dateien werden automatisch dauerhaft von unseren Servern gelöscht', fr: 'Les fichiers sont définitivement supprimés de nos serveurs automatiquement', es: 'Los archivos se eliminan permanentemente de nuestros servidores automáticamente', en: 'Files are permanently removed from our servers automatically', it: 'I file vengono rimossi definitivamente dai nostri server automaticamente', id: 'File dihapus secara permanen dari server kami secara otomatis', pt: 'Os arquivos são removidos permanentemente de nossos servidores automaticamente' }), color: 'from-blue-500 to-sky-600' },
+                    { icon: Clock, title: L(locale, { ja: '1時間で自動削除', de: 'Auto-Löschung nach 1 Stunde', fr: 'Suppression automatique en 1 heure', es: 'Eliminación automática en 1 hora', en: 'Auto-Delete in 1 Hour', it: 'Eliminazione automatica in 1 ora', id: 'Hapus Otomatis dalam 1 Jam', pt: 'Exclusão Automática em 1 Hora' }), desc: L(locale, { ja: 'ファイルはサーバーから自動的に完全に削除されます', de: 'Dateien werden automatisch dauerhaft von unseren Servern gelöscht', fr: 'Les fichiers sont définitivement supprimés de nos serveurs automatiquement', es: 'Los archivos se eliminan permanentemente de nuestros servidores automáticamente', en: 'Files are permanently removed from our servers automatically', it: 'I file vengono rimossi definitivamente dai nostri server automaticamente', id: 'File dihapus secara permanen dari server kami secara otomatis', pt: 'Os arquivos são removidos permanentemente de nossos servidores automaticamente' }), color: 'from-blue-500 to-sky-600' },
                     { icon: Lock, title: L(locale, { ja: 'データ収集ゼロ', de: 'Keine Datenerhebung', fr: 'Zéro collecte de données', es: 'Cero recopilación de datos', en: 'Zero Data Collection', it: 'Zero raccolta dati', id: 'Nol Pengumpulan Data', pt: 'Zero Coleta de Dados' }), desc: L(locale, { ja: 'ドキュメントを保存、分析、共有することは一切ありません', de: 'Wir speichern, analysieren oder teilen Ihre Dokumente nicht', fr: "Nous ne stockons, n'analysons ni ne partageons vos documents avec personne", es: 'No almacenamos, analizamos ni compartimos sus documentos con nadie', en: "We don't store, analyze, or share your documents with anyone", it: 'Non archiviamo, analizziamo né condividiamo i tuoi documenti con nessuno', id: 'Kami tidak menyimpan, menganalisis, atau membagikan dokumen Anda kepada siapa pun', pt: 'Não armazenamos, analisamos nem compartilhamos seus documentos com ninguém' }), color: 'from-blue-500 to-cyan-600' },
                     { icon: Users, title: L(locale, { ja: 'GDPR準拠', de: 'DSGVO-konform', fr: 'Conforme RGPD', es: 'Cumplimiento GDPR', en: 'GDPR Compliant', it: 'Conforme al GDPR', id: 'Patuh GDPR', pt: 'Conforme com o GDPR' }), desc: L(locale, { ja: '国際的なプライバシー規制に完全準拠', de: 'Vollständige Einhaltung internationaler Datenschutzvorschriften', fr: 'Conformité totale aux réglementations internationales', es: 'Pleno cumplimiento de las regulaciones internacionales de privacidad', en: 'Full compliance with international privacy regulations', it: 'Piena conformità alle normative internazionali sulla privacy', id: 'Kepatuhan penuh terhadap peraturan privasi internasional', pt: 'Total conformidade com as regulamentações internacionais de privacidade' }), color: 'from-purple-500 to-violet-600' }
                   ].map((item,i)=>(
@@ -617,19 +699,7 @@ export default function HomePage() {
                         Che tu sia uno studente che assembla documenti di ricerca a mezzanotte, un professionista che gestisce contratti e fatture, o semplicemente qualcuno che ha bisogno di firmare e inviare rapidamente un documento, questi strumenti sono progettati per farti risparmiare tempo. Abbiamo perfezionato ogni funzione basandoci sul feedback reale degli utenti, e continuiamo a migliorare perché il tuo tempo è la cosa più importante.
                       </p>
                     </>
-                  ) : locale === 'id' ? (
-                    <>
-                      <p>
-                        PDF bisa sangat menjengkelkan untuk ditangani. Kita semua pernah mengalaminya: mencoba menggabungkan beberapa file saat deadline mendekat, berjuang memperkecil dokumen besar agar bisa dikirim lewat email, atau ingin mengonversi PDF ke Word tanpa format yang berantakan. Terdengar familiar?
-                      </p>
-                      <p>
-                        Itulah mengapa kami membuat situs ini. Kami ingin membangun sesuatu yang berbeda, sesuatu yang benar-benar berfungsi sesuai harapan. Tidak ada menu membingungkan yang terkubur tiga klik lebih dalam, tidak ada paywall kejutan yang muncul tepat saat Anda membutuhkannya, dan tidak ada paksaan untuk membuat akun lain hanya untuk mengubah ukuran gambar atau menggabungkan dua file.
-                      </p>
-                      <p>
-                        Baik Anda mahasiswa yang menyusun makalah penelitian tengah malam, profesional yang menangani kontrak dan faktur, atau seseorang yang perlu menandatangani dan mengirim dokumen dengan cepat — alat-alat ini dirancang untuk menghemat waktu Anda. Kami terus menyempurnakan setiap fitur berdasarkan masukan pengguna nyata, karena waktu Anda adalah hal yang paling berharga.
-                      </p>
-                    </>
-  ) : locale === 'pt' ? (
+                  ) : locale === 'pt' ? (
                     <>
                       <p>
                         PDFs podem ser incrivelmente frustrantes. Já passamos por isso: desesperadamente tentando combinar vários arquivos enquanto um prazo se aproxima, lutando para reduzir um documento enorme para poder enviá-lo por e-mail, ou querendo converter um PDF para Word sem que a formatação vire um caos total. Parece familiar?
@@ -644,13 +714,13 @@ export default function HomePage() {
                   ) : (
                     <>
                       <p>
-                        Look, PDFs can be incredibly frustrating to deal with. We've all been there: frantically trying to combine multiple files while a deadline looms overhead, struggling to shrink a massive document so it'll actually send through email, or desperately wanting to convert a PDF to Word without the formatting turning into absolute chaos. Sound familiar?
+                        PDFs have always frustrated me. Trying to merge files before a deadline, shrinking a document so it'll actually go through email, converting a PDF to Word without the formatting turning into chaos — I kept running into the same walls. Every tool either wanted money, an account, or both.
                       </p>
                       <p>
-                        That frustration is exactly why we created this site. We wanted to build something different, something that actually works the way you'd expect it to. No confusing menus buried three clicks deep, no surprise paywalls popping up right when you need something, and absolutely no forcing you to create yet another account just to resize an image or merge two files.
+                        So I built this. No menus buried three clicks deep, no surprise paywalls, no "please create an account" just to resize an image. I wanted something that actually works the way you'd expect — you open it, you use it, you leave. That's it.
                       </p>
                       <p>
-                        Whether you're a student pulling together research papers at midnight, a professional handling contracts and invoices, or just someone who needs to quickly sign and send a document, these tools are designed to save you time and spare you the headache. We've refined every feature based on real user feedback, and we keep improving because your time matters more than anything else.
+                        I'm Manikant, a developer from New Delhi, India. I built and maintain every tool on this site myself. If something's broken or you need a feature, you can reach me directly — there's no support team, just me.
                       </p>
                     </>
                   )}
@@ -660,9 +730,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        <div className="section-line max-w-5xl mx-auto" />
-
-        
         <div className="section-line max-w-5xl mx-auto" />
 
         {/* ══ FAQ ══ */}
@@ -689,7 +756,7 @@ export default function HomePage() {
                     <Crown className="w-3.5 h-3.5 text-yellow-400" />
                     <span className="text-[11px] font-semibold text-white/90">{L(locale,{ja:'プレミアム機能',de:'Premium-Funktionen',fr:'Fonctionnalités Premium',es:'Funciones Premium',en:'Premium Features',it:'Funzioni Premium',id:'Fitur Premium',pt:'Recursos Premium'})}</span>
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-5 tracking-tight leading-tight">{L(locale,{ja:'PDFツールの全機能を解放',de:'Volle Leistung freischalten',fr:'Débloquez toute la puissance',es:'Desbloquea todo el poder',en:'Unlock the full power of PDF tools',it:'Sblocca tutta la potenza',id:'Buka kekuatan penuh',pt:'Libere todo o poder'})}</h2>
+                  <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-5 tracking-tight leading-tight">{L(locale,{ja:'もっと使いたい？60秒でアップグレード。',de:'Mehr brauchen? Upgrade in 60 Sekunden.',fr:'Besoin de plus ? Passez à la version Pro en 60 sec.',es:'¿Necesitas más? Mejora en 60 segundos.',en:'Need more? Upgrade takes 60 seconds.',it:'Ne hai bisogno di più? Upgrade in 60 secondi.',id:'Butuh lebih? Upgrade dalam 60 detik.',pt:'Precisa de mais? Upgrade em 60 segundos.'})}</h2>
                   <div className="space-y-3 mb-6">
                     {premFeatures.map((f,i)=>(
                       <div key={i} className="flex items-center gap-2.5"><div className="w-5 h-5 bg-emerald-500 rounded-md flex items-center justify-center flex-shrink-0"><Check className="w-3 h-3 text-white" /></div><p className="font-medium text-sm text-white/80">{f}</p></div>
@@ -714,4 +781,11 @@ export default function HomePage() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, []) },
+    revalidate: 86400,
+  }
 }

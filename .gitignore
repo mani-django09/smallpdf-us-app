@@ -16,9 +16,26 @@ backend/eng.traineddata
 *.node
 .DS_Store
 Thumbs.db
+.deploy-staging/
 
 # Local SQLite database (users, logs, rate limits) — never commit
 backend/*.sqlite
 backend/*.sqlite-journal
 backend/*.sqlite-wal
 backend/*.sqlite-shm
+
+# inputs of failed conversions kept 24h for diagnosis (middleware/failedInputs.js)
+backend/failed-inputs/
+
+# user files produced by the tools — never commit
+backend/compressed/
+backend/converted/
+backend/unlocked/
+backend/downloads/
+backend/temp/
+backend/lo-profiles/
+__pycache__/
+*.pyc
+# local Claude Code settings (machine-specific, may contain command history)
+.claude/settings.local.json
+.claude/launch.json

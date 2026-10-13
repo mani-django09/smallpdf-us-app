@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   Download,
   FileText,
@@ -18,13 +21,15 @@ import {
   Timer,
   Minimize2,
   TrendingDown,
+  Printer,
+  Trash2,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import RelatedTools from "../../components/RelatedTools"
-import PrivacyNotice from "../../components/PrivacyNotice"
+import { printBlob, printFile } from "../../lib/fileActions"
+import AdLabel from "../../components/AdLabel"
 
 export default function DownloadCompressPdf() {
   const router = useLocalizedRouter()
@@ -41,6 +46,10 @@ export default function DownloadCompressPdf() {
   const [countdown, setCountdown] = useState(3600)
   const [mounted, setMounted] = useState(false)
   const [useCount, setUseCount] = useState(0)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
+  const [expired, setExpired] = useState(false)
+  const [downloadError, setDownloadError] = useState("")
 
   // Upsell — auth + india detection
   const { user } = useAuth()
@@ -49,6 +58,9 @@ export default function DownloadCompressPdf() {
 
   useEffect(() => {
     setMounted(true)
+    // On a reload / shared link the query is empty until the router is ready;
+    // redirecting before that sent every refresh back to the upload page.
+    if (!router.isReady) return
     const result = sessionStorage.getItem("pdfCompressResult")
     if (result) {
       setCompressResult(JSON.parse(result))
@@ -73,6 +85,13 @@ export default function DownloadCompressPdf() {
     } else {
       routerRef.current.push("/compress-pdf")
     }
+  }, [jobId, router.isReady]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Files are deleted 1 h after the job was created (jobId starts with its
+  // timestamp) — not 1 h after this page was opened or reloaded.
+  useEffect(() => {
+    const ts = parseInt(String(jobId || "").split("-")[0], 10)
+    if (ts > 1e12) setCountdown(Math.max(0, Math.floor(3600 - (Date.now() - ts) / 1000)))
   }, [jobId])
 
   useEffect(() => {
@@ -109,21 +128,18 @@ export default function DownloadCompressPdf() {
 
       const downloadUrl = `${API_URL}/api/download-compressed/${jobId}`
       const response = await fetch(downloadUrl)
+      if (response.status === 404) { setExpired(true); return }
       if (!response.ok) throw new Error("Download failed")
 
       const blob = await response.blob()
+      setDownloadedBlob(blob)  // reuse for print
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement("a")
       link.href = url
 
-      const contentDisposition = response.headers.get("content-disposition")
-      let filename = `compressed-pdf-${jobId}.pdf`
-      if (contentDisposition) {
-        const match = contentDisposition.match(/filename="?(.+)"?/)
-        if (match) filename = match[1]
-      }
-
-      link.download = filename
+      // The old /filename="?(.+)"?/ grabbed the closing quote and the whole
+      // `; filename*=UTF-8''…` part, so files saved with a mangled name.
+      link.download = displayName
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -142,7 +158,7 @@ export default function DownloadCompressPdf() {
       }
     } catch (error) {
       console.error("Download error:", error)
-      alert(t('compressPdf.download.errorFailed'))
+      setDownloadError(t('compressPdf.download.errorFailed'))
     } finally {
       setDownloading(false)
     }
@@ -178,6 +194,33 @@ export default function DownloadCompressPdf() {
     }
   }
 
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        printBlob(downloadedBlob)
+      } else {
+        const { hostname, protocol } = window.location
+        const API_URL = (hostname === 'localhost' || hostname === '127.0.0.1')
+          ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011')
+          : `${protocol}//${hostname}`
+        await printFile(`${API_URL}/api/download-compressed/${compressResult?.jobId}`)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("uploadedPdfFiles")
+    sessionStorage.removeItem("pdfCompressResult")
+    sessionStorage.removeItem("compressionLevel")
+    router.push("/compress-pdf")
+  }
+
   if (!compressResult && !jobId) {
     return (
       <Layout>
@@ -200,6 +243,14 @@ export default function DownloadCompressPdf() {
   }
 
   const fileCount = compressResult?.fileCount || 1
+  // Show the name the file will actually download as (the backend keeps the
+  // original name). fileName comes from the preview page; the compress-meta
+  // fallback (refresh / shared link) has the stored "<ts>-compressed-" name.
+  const displayName = fileCount > 1
+    ? 'compressed-pdfs.zip'
+    : (compressResult?.fileName
+      || compressResult?.files?.[0]?.filename?.replace(/^\d+-compressed-/, '')
+      || 'compressed-document.pdf')
   const originalSize = compressResult?.totalOriginalSize || 0
   const compressedSize = compressResult?.compressedSize || 0
   const savings = originalSize > 0 ? Math.round((1 - compressedSize / originalSize) * 100) : 0
@@ -233,12 +284,14 @@ export default function DownloadCompressPdf() {
         .btn-shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
       `}</style>
 
+
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
           <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
+
       {/* Success Header */}
       <div className="relative overflow-hidden bg-rose-600">
         <div className="absolute inset-0 opacity-10">
@@ -307,7 +360,7 @@ export default function DownloadCompressPdf() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h2 className="font-display text-lg sm:text-xl font-semibold text-white truncate">
-                        {fileCount > 1 ? `compressed-pdfs.zip` : `compressed-document.pdf`}
+                        {displayName}
                       </h2>
                       <div className="flex items-center gap-3 mt-1.5">
                         <span className="inline-flex items-center gap-1.5 bg-rose-500/20 text-rose-300 px-2.5 py-0.5 rounded-full text-xs font-medium">
@@ -349,6 +402,45 @@ export default function DownloadCompressPdf() {
                     )}
                   </button>
 
+                  {(expired || downloadError) && (
+                    <div role="alert" className="mt-4 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-800">
+                      <p>{expired ? t('compressPdf.download.errorExpired') : downloadError}</p>
+                      {expired && (
+                        <button onClick={handleCompressAnother} className="mt-2 font-semibold underline">
+                          {t('compressPdf.download.compressMore')}
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Before → after */}
+                  {originalSize > 0 && compressedSize > 0 && (
+                    <div className="mt-6 rounded-xl border border-slate-200 p-4">
+                      <div className="flex items-end justify-between gap-3 mb-3">
+                        <div className="min-w-0">
+                          <div className="text-xs text-slate-500">{t('compressPdf.download.originalSize')}</div>
+                          <div className="font-display text-lg font-bold text-slate-400 line-through decoration-2">{formatFileSize(originalSize)}</div>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-slate-400 mb-1.5 flex-shrink-0" />
+                        <div className="min-w-0 text-right">
+                          <div className="text-xs text-slate-500">{t('compressPdf.download.compressedSize')}</div>
+                          <div className={`font-display text-2xl font-bold ${alreadyOptimized ? 'text-emerald-600' : 'text-rose-600'}`}>{formatFileSize(compressedSize)}</div>
+                        </div>
+                      </div>
+                      <div className="h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${alreadyOptimized ? 'bg-emerald-500' : 'bg-rose-500'}`}
+                          style={{ width: `${Math.max(3, Math.min(100, (compressedSize / originalSize) * 100))}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-600 mt-2">
+                        {alreadyOptimized
+                          ? t('compressPdf.download.alreadyOptimizedDesc')
+                          : t('compressPdf.download.savedBytes', { size: formatFileSize(originalSize - compressedSize) })}
+                      </p>
+                    </div>
+                  )}
+
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-3 mt-6">
                     <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
@@ -357,7 +449,7 @@ export default function DownloadCompressPdf() {
                     </div>
                     <div className={`text-center p-4 rounded-xl border ${alreadyOptimized ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100'}`}>
                       <div className={`font-display text-2xl sm:text-3xl font-bold ${alreadyOptimized ? 'text-emerald-600' : 'text-rose-600'}`}>{savingsDisplay}%</div>
-                      <div className="font-body text-xs text-slate-500 mt-1">{alreadyOptimized ? 'Optimized' : t('compressPdf.download.smaller')}</div>
+                      <div className="font-body text-xs text-slate-500 mt-1">{alreadyOptimized ? t('compressPdf.download.alreadyOptimized') : t('compressPdf.download.smaller')}</div>
                     </div>
                     <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
                       <div className="font-display text-2xl sm:text-3xl font-bold text-slate-900">{t('compressPdf.download.format')}</div>
@@ -381,41 +473,31 @@ export default function DownloadCompressPdf() {
                       <Share2 className="w-4 h-4" />
                     </button>
                     <button
+                      onClick={handlePrint}
+                      disabled={printing}
+                      title={t("fileActions.print")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700 disabled:opacity-60"
+                    >
+                      {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      title={t("fileActions.delete")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center gap-2 text-red-600"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={handleCopyLink}
                       className="py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700"
                     >
                       {copied ? <CheckCircle className="w-4 h-4 text-rose-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
-                  {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-                  {mounted && !isPaidUser && useCount >= 1 && (
-                    <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-                      {/* Icon */}
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                        <Zap className="w-5 h-5 text-white" />
-                      </div>
-                      {/* Text */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-slate-800 leading-tight">
-                          Unlimited files, bigger uploads, zero ads
-                        </p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          {isIndia
-                            ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking'
-                            : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                        </p>
-                      </div>
-                      {/* CTA */}
-                      <Link
-                        href="/pricing"
-                        className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-                      >
-                        <Zap className="w-3.5 h-3.5" />
-                        Upgrade
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  )}
+                  {/* ── Upgrade upsell ── */}
+                  <UpgradeUpsell className="mt-4" />
+
+                  <EmailCapture className="mt-3" />
                 </div>
               </div>
 
@@ -425,7 +507,7 @@ export default function DownloadCompressPdf() {
                   {
                     icon: TrendingDown,
                     title: t('compressPdf.download.sizeReduced'),
-                    desc: alreadyOptimized ? 'File already optimized' : `${savingsDisplay}% ${t('compressPdf.download.smaller')}`,
+                    desc: alreadyOptimized ? t('compressPdf.download.alreadyOptimized') : `${savingsDisplay}% ${t('compressPdf.download.smaller')}`,
                     color: "bg-rose-600",
                   },
                   { icon: Zap,       title: t('compressPdf.download.fastProcessing'),  desc: t('compressPdf.download.fastProcessingDesc'),    color: "bg-amber-500" },
@@ -482,92 +564,40 @@ export default function DownloadCompressPdf() {
                   </div>
                 </div>
               </div>
+              {/* Mid-content Ad */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+                <AdSenseUnit adSlot="compress-pdf-dl-mid" size="leaderboard" />
+              </div>
+
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Summary */}
-              <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-slate-100 bg-slate-50">
-                  <h3 className="font-display text-base font-semibold text-slate-900">{t('compressPdf.download.compressionSummary')}</h3>
-                </div>
-                <div className="p-5 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('compressPdf.download.filesCompressed')}</span>
-                    <span className="font-display font-semibold text-slate-900">{fileCount}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('compressPdf.download.originalSize')}</span>
-                    <span className="font-display font-semibold text-slate-900">{formatFileSize(originalSize)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('compressPdf.download.compressedSize')}</span>
-                    <span className="font-display font-semibold text-rose-600">{formatFileSize(compressedSize)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t('compressPdf.download.compressionLevel')}</span>
-                    <span className="font-display font-semibold text-slate-900">
-                      {compressionLabels[compressResult?.compressionLevel] || t('compressPdf.download.balanced')}
-                    </span>
-                  </div>
-                  <div className="pt-3 border-t border-slate-100">
-                    <div className="flex justify-between items-center">
-                      <span className="font-body text-sm text-slate-600">{t('compressPdf.download.status')}</span>
-                      <span className="inline-flex items-center gap-1.5 text-rose-600 font-medium text-sm">
-                        <CheckCircle className="w-4 h-4" />
-                        {t('compressPdf.download.statusComplete')}
-                      </span>
-                    </div>
-                  </div>
-                  {alreadyOptimized && (
-                    <div className="mt-3 p-3 bg-emerald-50 rounded-lg border border-emerald-100">
-                      <p className="text-xs text-emerald-700 font-medium">✅ This PDF is already well-optimized. Text-only PDFs have minimal compression potential.</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* File Expiry */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <Timer className="w-5 h-5 text-amber-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-sm font-semibold text-slate-900">{t('compressPdf.download.fileExpiry')}</h3>
-                    <p className="font-body text-xs text-slate-500">{t('compressPdf.download.autoDeleteSecurity')}</p>
-                  </div>
-                </div>
-                <div className="bg-slate-50 rounded-lg p-3">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-body text-xs text-slate-600">{t('compressPdf.download.timeRemaining')}</span>
-                    <span className="font-display font-semibold text-slate-900">{formatTime(countdown)}</span>
-                  </div>
-                  <div className="bg-slate-200 rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className="bg-amber-500 h-full transition-all duration-1000"
-                      style={{ width: `${(countdown / 3600) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
 
               {/* Sidebar Ad */}
-              <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
                 <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+                <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
       </div>
-
-      <div className="max-w-3xl mx-auto px-4 pb-8">
-        <PrivacyNotice minutes={60} />
-      </div>
-
-      {/* Related Tools — shown after download to encourage next action */}
-      <RelatedTools current="compress-pdf" />
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["compressPdf"]) },
+    revalidate: 86400,
+  }
 }

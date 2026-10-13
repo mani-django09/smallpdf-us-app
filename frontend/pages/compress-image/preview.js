@@ -3,12 +3,26 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
-import { Minimize2, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, Settings } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { Minimize2, ArrowLeft, Play, Trash2, CheckCircle, Settings, Target } from "lucide-react"
+import ThumbEditControls from "../../components/ThumbEditControls"
+import { bakeImageTransform, filterCssById, hasTransform } from "../../lib/imageEdit"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewCompressImage() {
   const router = useLocalizedRouter()
+  // Keep the branded URL when arriving via the /compress-image-to-50kb landing
+  // page — it reuses this preview/download page via a next.config.js rewrite
+  // alias rather than a separate copy.
+  // Checking asPath for a literal English slug doesn't work once translated
+  // (e.g. German asPath is /de/bild-auf-50kb-komprimieren/vorschau, which
+  // doesn't contain "compress-image-to-50kb"), so a session flag set by the
+  // landing page (storing its own base path) is used instead —
+  // locale-independent and works for any /compress-image-to-*kb variant.
+  const toolBase = (typeof window !== "undefined" && sessionStorage.getItem("compressImageLandingBase")) || "/compress-image"
   const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { t } = useTranslations()
   const [filesData, setFilesData] = useState([])
@@ -17,7 +31,29 @@ export default function PreviewCompressImage() {
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
   const [compressionLevel, setCompressionLevel] = useState("balanced")
+  // Size targeting: "quality" uses the preset tiles below; "target" lets the
+  // user pick/type an exact KB ceiling (e.g. for a form upload with a 100KB cap).
+  const [sizeMode, setSizeMode] = useState("target")
+  // Landing pages like /compress-image-to-50kb pre-seed this via sessionStorage
+  // so the target-size preset matches what the user searched for/clicked.
+  // The initializer must stay side-effect free: React may call it twice (Strict
+  // Mode), and removing the key inside it made the 2nd call fall back to 100 —
+  // the 50 KB / 20 KB landing pages then opened with "≤100KB" selected.
+  const [targetSizeKB, setTargetSizeKB] = useState(() => {
+    if (typeof window === "undefined") return 100
+    const parsed = parseInt(sessionStorage.getItem("compressImageDefaultTargetKB"), 10)
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 100
+  })
+  useEffect(() => {
+    // Consume the landing-page preset once the page has mounted.
+    try { sessionStorage.removeItem("compressImageDefaultTargetKB") } catch (_) {}
+  }, [])
+  const [customTargetInput, setCustomTargetInput] = useState("")
   const [error, setError] = useState("")
+  const [transforms, setTransforms] = useState({})
+  const getTransform = (id) => transforms[id] || { rotation: 0, filterId: "none" }
+  const rotateFile = (id, delta) => setTransforms(prev => { const c = prev[id] || { rotation: 0, filterId: "none" }; return { ...prev, [id]: { ...c, rotation: c.rotation + delta } } })
+  const setFileFilter = (id, filterId) => setTransforms(prev => { const c = prev[id] || { rotation: 0, filterId: "none" }; return { ...prev, [id]: { ...c, filterId } } })
 
   // ✅ routerRef prevents infinite re-render loop.
   // useLocalizedRouter() returns a new object every render, so using it
@@ -36,10 +72,10 @@ export default function PreviewCompressImage() {
         setSelectedFiles(parsed.map((f) => f.id))
       } catch (err) {
         console.error("Error parsing file data:", err)
-        routerRef.current.push("/compress-image")
+        routerRef.current.push(toolBase)
       }
     } else {
-      routerRef.current.push("/compress-image")
+      routerRef.current.push(toolBase)
     }
   }, []) // ✅ Empty deps — runs once on mount only
 
@@ -57,7 +93,7 @@ export default function PreviewCompressImage() {
       window.__compressFiles = window.__compressFiles.filter((wf) => wf.id !== id)
     }
     if (newFiles.length === 0) {
-      router.push("/compress-image")
+      router.push(toolBase)
     }
   }
 
@@ -105,7 +141,11 @@ export default function PreviewCompressImage() {
 
     try {
       const formData = new FormData()
-      formData.append("quality", compressionLevel)
+      if (sizeMode === "target" && targetSizeKB > 0) {
+        formData.append("targetSizeKB", String(targetSizeKB))
+      } else {
+        formData.append("quality", compressionLevel)
+      }
 
       // ✅ FIXED: Use real File objects from window.__compressFiles if available.
       // This avoids re-fetching from base64 which caused sessionStorage overflow errors.
@@ -116,7 +156,16 @@ export default function PreviewCompressImage() {
         // Try to get original File object from window global (set in index.js)
         const match = windowFiles.find((wf) => wf.id === fileData.id)
 
-        if (match && match.file instanceof File) {
+        const { rotation, filterId } = getTransform(fileData.id)
+        const needsBake = hasTransform(rotation, filterId)
+        const src = fileData.preview || fileData.data
+
+        if (needsBake && src) {
+          try {
+            const { file } = await bakeImageTransform({ src, fileName: fileData.name, rotation, filterId, mimeType: fileData.type })
+            formData.append("files", file); filesAttached++
+          } catch (bakeErr) { console.warn(`Bake failed for ${fileData.name}:`, bakeErr) }
+        } else if (match && match.file instanceof File) {
           // ✅ Best path: use the actual File object directly
           formData.append("files", match.file)
           filesAttached++
@@ -157,7 +206,9 @@ export default function PreviewCompressImage() {
         body: formData,
       })
 
-      const result = await compressResponse.json()
+      // A proxy error page (413/502) is HTML, not JSON.
+      const result = await compressResponse.json().catch(() => ({}))
+      if (handleDailyLimitError(compressResponse.status, result)) { setCompressing(false); setProgress(0); return }  // daily-limit upgrade modal
 
       setProgress(100)
       setStage(t("compressImage.previewStageComplete"))
@@ -169,15 +220,15 @@ export default function PreviewCompressImage() {
             ...result,
             fileCount: filesToCompress.length,
             totalSize: filesToCompress.reduce((acc, f) => acc + f.size, 0),
-            compressionLevel: compressionLevel,
+            compressionLevel: sizeMode === "target" ? "target" : compressionLevel,
           })
         )
         setTimeout(() => {
-          router.push(`/compress-image/download?jobId=${result.jobId}`)
+          goToDownload(router, `${toolBase}/download?jobId=${result.jobId}`)
         }, 500)
       } else {
         // Server returned an error response
-        const errMsg = result.error || result.details || "Compression failed. Please try again."
+        const errMsg = result.message || (typeof result.error === 'string' && /s/.test(result.error) ? result.error : '') || t("compressImage.previewErrorRetry")
         setError(errMsg)
         setCompressing(false)
         setProgress(0)
@@ -218,6 +269,11 @@ export default function PreviewCompressImage() {
     },
   ]
 
+  // Common upload-form / email-attachment caps — covers the sizes people
+  // actually get asked for (passport photo forms, government portals, etc.)
+  const targetSizePresets = [20, 50, 100, 200, 500]
+  const isCustomTarget = !targetSizePresets.includes(targetSizeKB)
+
   if (filesData.length === 0) {
     return (
       <Layout>
@@ -255,7 +311,7 @@ export default function PreviewCompressImage() {
 
           {/* Back button */}
           <button
-            onClick={() => router.push("/compress-image")}
+            onClick={() => router.push(toolBase)}
             className="flex items-center gap-2 text-slate-600 hover:text-slate-900 font-medium text-sm mb-6 transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -275,44 +331,110 @@ export default function PreviewCompressImage() {
                       {t("compressImage.previewTitle")}
                     </h1>
                     <p className="font-body text-xs text-slate-500">
-                      {t("compressImage.previewSubtitle").replace("{count}", filesData.length).replace("{size}", (totalSize / 1024).toFixed(1))}
+                      {t("compressImage.previewSubtitle")
+                        .replace("{count}", filesData.length)
+                        .replace("{plural}", filesData.length > 1 ? "s" : "")
+                        .replace("{size}", (totalSize / 1024).toFixed(1))}
                     </p>
                   </div>
                 </div>
 
                 {!compressing ? (
                   <>
-                    {/* Compression Level Selector */}
+                    {/* Compression mode: quality preset vs. exact target size */}
                     <div className="mb-5">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Settings className="w-4 h-4 text-slate-500" />
-                        <span className="font-display text-sm font-semibold text-slate-700">
+                      <div className="inline-flex items-center gap-1 bg-slate-100 rounded-full p-1 mb-4">
+                        <button
+                          onClick={() => setSizeMode("quality")}
+                          className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                            sizeMode === "quality" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                          }`}
+                        >
                           {t("compressImage.previewQualityTitle")}
-                        </span>
+                        </button>
+                        <button
+                          onClick={() => setSizeMode("target")}
+                          className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all inline-flex items-center gap-1.5 ${
+                            sizeMode === "target" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                          }`}
+                        >
+                          <Target className="w-3.5 h-3.5" />
+                          {t("compressImage.previewTargetSize")}
+                        </button>
                       </div>
-                      <div className="grid grid-cols-3 gap-2">
-                        {compressionOptions.map((option) => (
-                          <button
-                            key={option.value}
-                            onClick={() => setCompressionLevel(option.value)}
-                            className={`p-3 rounded-xl border-2 text-left transition-all ${
-                              compressionLevel === option.value
-                                ? "border-purple-500 bg-purple-50"
-                                : "border-slate-200 hover:border-slate-300 bg-white"
-                            }`}
-                          >
-                            <div className="font-display text-sm font-bold text-slate-900">{option.label}</div>
-                            <div className="font-body text-xs text-slate-500 mt-0.5">{option.desc}</div>
-                            <div
-                              className={`font-display text-xs font-bold mt-1 ${
-                                compressionLevel === option.value ? "text-purple-600" : "text-slate-400"
+
+                      {sizeMode === "quality" ? (
+                        <div className="grid grid-cols-3 gap-2">
+                          {compressionOptions.map((option) => (
+                            <button
+                              key={option.value}
+                              onClick={() => setCompressionLevel(option.value)}
+                              className={`p-3 rounded-xl border-2 text-left transition-all ${
+                                compressionLevel === option.value
+                                  ? "border-purple-500 bg-purple-50"
+                                  : "border-slate-200 hover:border-slate-300 bg-white"
                               }`}
                             >
-                              {option.reduction}
+                              <div className="font-display text-sm font-bold text-slate-900">{option.label}</div>
+                              <div className="font-body text-xs text-slate-500 mt-0.5">{option.desc}</div>
+                              <div
+                                className={`font-display text-xs font-bold mt-1 ${
+                                  compressionLevel === option.value ? "text-purple-600" : "text-slate-400"
+                                }`}
+                              >
+                                {option.reduction}
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-xs text-slate-500 mb-3">
+                            {t("compressImage.previewTargetHint")}
+                          </p>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {targetSizePresets.map((kb) => (
+                              <button
+                                key={kb}
+                                onClick={() => { setTargetSizeKB(kb); setCustomTargetInput("") }}
+                                className={`px-4 py-2 rounded-xl border-2 font-display text-sm font-bold transition-all ${
+                                  !isCustomTarget && targetSizeKB === kb
+                                    ? "border-purple-500 bg-purple-50 text-purple-700"
+                                    : "border-slate-200 hover:border-slate-300 bg-white text-slate-700"
+                                }`}
+                              >
+                                {kb} KB
+                              </button>
+                            ))}
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-medium text-slate-500">{t("compressImage.previewCustom")}</span>
+                            <div className="relative">
+                              <input
+                                type="number"
+                                min="5"
+                                max="10000"
+                                placeholder={t("compressImage.previewCustomPlaceholder")}
+                                value={customTargetInput}
+                                onChange={(e) => {
+                                  const v = e.target.value
+                                  setCustomTargetInput(v)
+                                  const n = parseInt(v, 10)
+                                  if (Number.isFinite(n) && n > 0) setTargetSizeKB(n)
+                                }}
+                                className={`w-28 pl-3 pr-9 py-1.5 rounded-lg border-2 text-sm font-semibold outline-none transition-all ${
+                                  isCustomTarget
+                                    ? "border-purple-500 bg-purple-50 text-purple-700"
+                                    : "border-slate-200 focus:border-purple-400 text-slate-700"
+                                }`}
+                              />
+                              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-medium pointer-events-none">
+                                KB
+                              </span>
                             </div>
-                          </button>
-                        ))}
-                      </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     {/* File list */}
@@ -352,16 +474,25 @@ export default function PreviewCompressImage() {
                                 <img
                                   src={f.preview || f.data || "/placeholder.svg"}
                                   alt={f.name}
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    e.target.src = "/placeholder.svg"
-                                  }}
+                                  className="w-full h-full object-cover transition-transform"
+                                  style={{ transform: `rotate(${getTransform(f.id).rotation}deg)`, filter: filterCssById(getTransform(f.id).filterId) }}
+                                  // Swap to the fallback only once: re-setting the same src on
+                                  // every error re-requested it forever (40k+ requests/day
+                                  // back when /placeholder.svg was missing).
+                                  onError={(e) => { if (!e.currentTarget.src.endsWith("/placeholder.svg")) e.currentTarget.src = "/placeholder.svg" }}
                                 />
                                 {selectedFiles.includes(f.id) && (
                                   <div className="absolute top-1 right-1 w-5 h-5 bg-purple-600 rounded-full flex items-center justify-center">
                                     <CheckCircle className="w-3.5 h-3.5 text-white" />
                                   </div>
                                 )}
+                                <ThumbEditControls
+                                  rotation={getTransform(f.id).rotation}
+                                  filterId={getTransform(f.id).filterId}
+                                  onRotate={(d) => { rotateFile(f.id, d) }}
+                                  onFilter={(fid) => setFileFilter(f.id, fid)}
+                                  className="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                />
                               </div>
                               <p className="text-xs font-medium text-slate-900 truncate">{f.name}</p>
                               <p className="text-xs text-slate-500">{(f.size / 1024).toFixed(1)} KB</p>
@@ -414,9 +545,13 @@ export default function PreviewCompressImage() {
                       </div>
                       <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-100">
                         <div className="font-display text-lg font-bold text-slate-900">
-                          {compressionOptions.find((o) => o.value === compressionLevel)?.reduction}
+                          {sizeMode === "target"
+                            ? `≤${targetSizeKB}KB`
+                            : compressionOptions.find((o) => o.value === compressionLevel)?.reduction}
                         </div>
-                        <div className="font-body text-xs text-slate-500">{t("compressImage.previewReduction")}</div>
+                        <div className="font-body text-xs text-slate-500">
+                          {sizeMode === "target" ? "Target" : t("compressImage.previewReduction")}
+                        </div>
                       </div>
                     </div>
                   </>
@@ -455,54 +590,18 @@ export default function PreviewCompressImage() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">
-                  {t("compressImage.previewWhatYouGet")}
-                </h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t("compressImage.previewBenefit1"), color: "text-purple-600 bg-purple-100" },
-                    { icon: Shield, text: t("compressImage.previewBenefit2"), color: "text-slate-600 bg-slate-100" },
-                    { icon: Zap, text: t("compressImage.previewBenefit3"), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t("compressImage.previewBenefit4"), color: "text-slate-600 bg-slate-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}>
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">
-                  {t("compressImage.previewStepsTitle")}
-                </h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t("compressImage.previewStep1"), color: "bg-purple-600" },
-                    { num: "2", text: t("compressImage.previewStep2"), color: "bg-slate-600" },
-                    { num: "3", text: t("compressImage.previewStep3"), color: "bg-slate-800" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -510,4 +609,11 @@ export default function PreviewCompressImage() {
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["compressImage"]) },
+    revalidate: 86400,
+  }
 }

@@ -1,6 +1,6 @@
 {
   "pageTitle": "Preise — SmallPDF.us",
-  "metaDescription": "Starter · Pro · Agency — monatliche oder jährliche Abrechnung. Alle PDF-Tools, unbegrenzte Dateigrößen, keine Werbung.",
+  "metaDescription": "Starter · Pro — monatliche oder jährliche Abrechnung. Alle PDF-Tools, Dateien bis 100 MB, keine Werbung.",
   "badge": "Einfache Preise, keine Überraschungen",
   "hero": {
     "title": "Wähle den passenden Plan",
@@ -27,11 +27,6 @@
       "cta": "Pro holen",
       "badge": "Beliebteste Wahl"
     },
-    "agency": {
-      "name": "Agency",
-      "description": "Für Teams & Agenturen",
-      "cta": "Agency holen"
-    },
     "free": {
       "name": "Kostenlos",
       "description": "Für gelegentliche Nutzung",
@@ -40,8 +35,8 @@
   },
   "features": {
     "allTools": "Alle PDF- & Bildwerkzeuge",
-    "upTo200MB": "Bis zu 200 MB pro Datei",
-    "officeUpTo50MB": "Office-Konvertierungen — bis zu 50 MB",
+    "upTo200MB": "Bis zu 100 MB pro Datei (200 MB beim Zusammenführen)",
+    "officeUpTo50MB": "Office-Konvertierungen — bis zu 20 MB",
     "standardProcessing": "Standardverarbeitung",
     "retain24h": "Dateien 24 Stunden gespeichert",
     "adFree": "Werbefreies Erlebnis",
@@ -49,8 +44,8 @@
     "priorityProcessing": "Prioritätsverarbeitung",
     "apiAccess": "API-Zugang",
     "everythingInStarter": "Alles aus Starter",
-    "unlimitedFileSize": "Unbegrenzte Dateigröße — alle Tools",
-    "officeUnlimited": "Office-Konvertierungen — unbegrenzt",
+    "unlimitedFileSize": "Dateien bis 100 MB — alle Tools",
+    "officeUnlimited": "Office-Konvertierungen — bis zu 100 MB",
     "priorityQueue": "Prioritäts-Warteschlange",
     "retain48h": "Dateien 48 Stunden gespeichert",
     "batch20": "Bis zu 20 Dateien pro Batch",
@@ -63,8 +58,8 @@
     "teamSeats": "Teamverwaltung (5 Plätze)",
     "priorityPhoneEmail": "Prioritäts-Telefon- & E-Mail-Support",
     "customInvoicing": "Individuelle Rechnungsstellung möglich",
-    "upTo100MB": "Bis zu 100 MB pro Datei",
-    "officeUpTo15MB": "Office-Konvertierungen — bis zu 15 MB",
+    "upTo100MB": "Bis zu 5–25 MB pro Datei",
+    "officeUpTo15MB": "Office-Konvertierungen — bis zu 5 MB",
     "retain1h": "Dateien nach 1 Stunde gelöscht",
     "adsShown": "Werbung wird angezeigt"
   },
@@ -72,19 +67,32 @@
   "perMonth": "/Monat",
   "freeBanner": {
     "title": "Kostenloser Plan — immer verfügbar",
-    "subtitle": "Alle Tools · 100 MB Limit · 1 Stunde Aufbewahrung · Werbung",
+    "subtitle": "5 kostenlose Nutzungen pro Tag · Alle Tools · 5–25 MB Limit · 1 Stunde Aufbewahrung · Werbung",
     "signupLink": "Kostenlos registrieren →"
   },
   "trustBadges": {
-    "ssl": { "title": "SSL-verschlüsselt", "subtitle": "Alle Übertragungen gesichert" },
-    "autoDelete": { "title": "Automatisch gelöscht", "subtitle": "Dateien planmäßig entfernt" },
-    "fast": { "title": "Schnelle Verarbeitung", "subtitle": "Prioritätswarteschlange für bezahlte Pläne" },
-    "noFees": { "title": "Keine versteckten Gebühren", "subtitle": "Jederzeit sofort kündbar" }
+    "ssl": {
+      "title": "SSL-verschlüsselt",
+      "subtitle": "Alle Übertragungen gesichert"
+    },
+    "autoDelete": {
+      "title": "Automatisch gelöscht",
+      "subtitle": "Dateien planmäßig entfernt"
+    },
+    "fast": {
+      "title": "Schnelle Verarbeitung",
+      "subtitle": "Prioritätswarteschlange für bezahlte Pläne"
+    },
+    "noFees": {
+      "title": "Keine versteckten Gebühren",
+      "subtitle": "Jederzeit sofort kündbar"
+    }
   },
   "compareTable": {
     "title": "Vollständiger Funktionsvergleich",
     "featureCol": "Funktion",
     "rows": {
+      "dailyUses": "Kostenlose Nutzungen pro Tag",
       "pdfToolSize": "PDF-Tool Dateigröße",
       "officeConversions": "Office-Konvertierungen",
       "imageTools": "Bildwerkzeuge",
@@ -98,6 +106,7 @@
       "phoneSupport": "Telefon-Support"
     },
     "values": {
+      "fivePerDay": "5 pro Tag",
       "standard": "Standard",
       "priority": "Priorität",
       "dedicated": "Dediziert",
@@ -143,7 +152,7 @@
       },
       {
         "q": "Gibt es eine Rückerstattungsrichtlinie?",
-        "a": "Ja — wenn du nicht zufrieden bist innerhalb von 7 Tagen nach deiner ersten Zahlung, kontaktiere uns für eine vollständige Rückerstattung. Keine Fragen gestellt."
+        "a": "Ja — wenn du nicht zufrieden bist innerhalb von 14 Tagen nach deiner ersten Zahlung, kontaktiere uns für eine vollständige Rückerstattung. Keine Fragen gestellt."
       },
       {
         "q": "Unterstützt der Agency-Plan mehrere Benutzer?",
@@ -153,10 +162,10 @@
   },
   "bottomCta": {
     "title": "Bereit für ein Upgrade?",
-    "subtitle": "Schließe dich Tausenden von Profis an, die SmallPDF.us täglich nutzen. Jederzeit kündbar.",
+    "subtitle": "Schließe dich Profis weltweit an, die SmallPDF.us nutzen. Jederzeit kündbar.",
     "proBtnMonthly": "Pro holen — $19/Monat",
     "proBtnYearly": "Pro holen — $190/Jahr",
-    "agencyBtn": "Agency holen — $49/Monat"
+    "starterBtn": "Starter holen — $9/Monat"
   },
   "notices": {
     "checkoutCancelled": "Checkout abgebrochen — es wurde keine Zahlung vorgenommen.",

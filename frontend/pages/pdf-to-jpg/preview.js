@@ -4,20 +4,21 @@ import { getApiUrl } from "../../lib/getApiUrl"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   ImageIcon,
   ArrowLeft,
   CheckCircle2,
-  Shield,
-  Zap,
-  Clock,
   Play,
   FileImage,
   Settings,
-  Palette,
 } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { pdfToJpgStore } from "./index"
+import { goToDownload } from "../../lib/fullPageNav"
 
 
 export default function PreviewPDFToJPG() {
@@ -32,16 +33,9 @@ export default function PreviewPDFToJPG() {
   const [convertError, setConvertError] = useState("")
 
   useEffect(() => {
-    const storedFile = sessionStorage.getItem("uploadedPDFFile")
-
-    if (storedFile) {
-      try {
-        const parsed = JSON.parse(storedFile)
-        setFileData(parsed)
-      } catch (err) {
-        console.error("Error parsing file data:", err)
-        router.push("/pdf-to-jpg")
-      }
+    // File comes from memory; after a reload it's gone → back to upload.
+    if (pdfToJpgStore.file) {
+      setFileData(pdfToJpgStore.file)
     } else {
       router.push("/pdf-to-jpg")
     }
@@ -91,6 +85,7 @@ export default function PreviewPDFToJPG() {
       })
 
       const result = await convertResponse.json()
+      if (handleDailyLimitError(convertResponse.status, result)) return  // daily-limit upgrade modal
 
       setProgress(100)
       setStage(t('pdfToJpg.stageComplete'))
@@ -98,11 +93,11 @@ export default function PreviewPDFToJPG() {
       if (convertResponse.ok) {
         sessionStorage.setItem("jpgConversionResult", JSON.stringify(result))
         setTimeout(() => {
-          router.push(`/pdf-to-jpg/download?file=${encodeURIComponent(result.downloadUrl)}`)
+          goToDownload(router, `/pdf-to-jpg/download?file=${encodeURIComponent(result.downloadUrl)}`)
         }, 500)
       } else {
         // Show error inline instead of alert()
-        setConvertError(t('pdfToJpg.conversionFailed') + (result.error || ''))
+        setConvertError(result.error === 'PASSWORD_PROTECTED' ? t('toolErrors.passwordProtected', { name: fileData.name }) : result.error === 'CORRUPT_PDF' ? t('toolErrors.corrupt', { name: fileData.name }) : result.error === 'FILE_TOO_LARGE' ? t('toolErrors.fileTooLarge', { name: fileData.name }) : t('pdfToJpg.conversionFailed') + (result.error || ''))
         setConverting(false)
       }
     } catch (error) {
@@ -181,7 +176,7 @@ export default function PreviewPDFToJPG() {
 
       {/* Main Content */}
       <div className="bg-slate-50 min-h-screen py-6 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Main Card */}
             <div className="lg:col-span-2">
@@ -317,6 +312,10 @@ export default function PreviewPDFToJPG() {
                           {t('pdfToJpg.extractingImages')}
                         </p>
                       </div>
+
+                      <div className="flex justify-center mt-3">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -327,61 +326,14 @@ export default function PreviewPDFToJPG() {
             <div className="space-y-4">
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
-              {/* Features */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pdfToJpg.whatYouGet')}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Palette, text: t('pdfToJpg.vividColor'), color: "text-amber-600 bg-amber-100" },
-                    { icon: Shield, text: t('pdfToJpg.secureHandling'), color: "text-emerald-600 bg-emerald-100" },
-                    { icon: Zap, text: t('pdfToJpg.rapidProcessing'), color: "text-yellow-600 bg-yellow-100" },
-                    { icon: Clock, text: t('pdfToJpg.autoCleanup'), color: "text-blue-600 bg-blue-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                      >
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
-              {/* Process Steps */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pdfToJpg.extractionProcess')}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t('pdfToJpg.parsePdf'), color: "bg-amber-600" },
-                    { num: "2", text: t('pdfToJpg.renderPages'), color: "bg-orange-600" },
-                    { num: "3", text: t('pdfToJpg.downloadJpg'), color: "bg-emerald-600" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Output Info */}
-              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl p-4 border border-amber-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-2">{t('pdfToJpg.outputFormat')}</h3>
-                <div className="space-y-1.5 text-xs text-slate-600">
-                  <p>{t('pdfToJpg.individualJpg')}</p>
-                  <p>{t('pdfToJpg.zipArchive')}</p>
-                  <p>{t('pdfToJpg.optimizedSizes')}</p>
-                  <p>{t('pdfToJpg.universalCompat')}</p>
-                </div>
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
               </div>
             </div>
           </div>
@@ -390,4 +342,11 @@ export default function PreviewPDFToJPG() {
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pdfToJpg"]) },
+    revalidate: 86400,
+  }
 }

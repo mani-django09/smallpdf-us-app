@@ -1,0 +1,78 @@
+{
+  "pageTitle": "PDF API — PDFs zusammenführen, konvertieren, komprimieren & schützen | SmallPDF.us",
+  "pageDescription": "Eine einfache, schnelle REST-API für PDFs: zusammenführen, aufteilen, drehen, komprimieren, passwortschützen und PDF⇄Word, JPG, PNG konvertieren. Kostenlose Stufe, Code-Beispiele in cURL, Node.js & Python.",
+  "heroBadge": "Entwickler API · v1",
+  "heroTitle": "Die PDF-API für Entwickler",
+  "heroDesc": "Ein einfacher REST-Endpunkt pro Aufgabe. PDFs zusammenführen, konvertieren, komprimieren und schützen — aus jeder Sprache, ohne SDK, ohne Server.",
+  "heroCtaPrimary": "Kostenlosen API-Schlüssel holen",
+  "heroCtaSecondary": "Schnellstart",
+  "trust": {
+    "endpoints": { "title": "11 Endpunkte", "desc": "PDF, Word & Bilder" },
+    "noSdk": { "title": "Kein SDK", "desc": "Einfaches HTTP + multipart" },
+    "private": { "title": "Privat", "desc": "Gescannt & automatisch gelöscht" },
+    "anyLang": { "title": "Jede Sprache", "desc": "cURL, Node, Python…" }
+  },
+  "toc": {
+    "label": "Dokumentation",
+    "quickstart": "Schnellstart",
+    "authentication": "Authentifizierung",
+    "baseUrl": "Basis-URL & Antworten",
+    "endpoints": "Endpunkte",
+    "quota": "Pläne & Kontingent",
+    "errors": "Fehlercodes",
+    "apiKeys": "Ihre API-Schlüssel"
+  },
+  "sections": {
+    "quickstart": "Schnellstart",
+    "authentication": "Authentifizierung",
+    "baseUrl": "Basis-URL & Antworten",
+    "endpoints": "Endpunkte",
+    "quota": "Pläne & Kontingent",
+    "errors": "Status- & Fehlercodes",
+    "cta": "Heute mit der Entwicklung beginnen"
+  },
+  "steps": {
+    "getKey": { "title": "1. Schlüssel holen", "desc": "Anmelden und Schlüssel im Dashboard erstellen." },
+    "callEndpoint": { "title": "2. Endpunkt aufrufen", "desc": "Datei als multipart/form-data POSTen." },
+    "getResult": { "title": "3. Ergebnis erhalten", "desc": "Die verarbeitete Datei wird sofort zurückgestreamt." }
+  },
+  "auth": {
+    "desc": "Jede Anfrage muss Ihren geheimen Schlüssel im",
+    "desc2": "-Header enthalten. Schlüssel verwalten Sie in Ihrem",
+    "dashboard": "Dashboard",
+    "warning": "Schlüssel serverseitig aufbewahren — niemals im Client-Code exponieren."
+  },
+  "baseUrl": {
+    "desc": "Alle Endpunkte sind",
+    "desc2": "unter:",
+    "bullet1": "Bei Erfolg wird die verarbeitete Datei direkt im Body zurückgegeben.",
+    "bullet2": "Bei Fehler wird ein JSON-Body zurückgegeben:",
+    "bullet3": "Jede Antwort enthält",
+    "bullet4": "Uploads werden auf Malware gescannt und sofort nach der Verarbeitung von unseren Servern gelöscht."
+  },
+  "params": {
+    "label": "Parameter",
+    "required": "erforderlich",
+    "optional": "optional",
+    "returns": "Rückgabe"
+  },
+  "categories": {
+    "organize": "Organisieren",
+    "convert": "Konvertieren",
+    "optimize": "Optimieren",
+    "secure": "Schützen"
+  },
+  "quota": {
+    "cols": { "plan": "Plan", "calls": "API-Aufrufe", "price": "Preis" },
+    "note": "Kontingent wird am 1. jedes Monats (UTC) zurückgesetzt. Nur erfolgreiche Aufrufe zählen.",
+    "pricing": "Vollständige Preise ansehen"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "Code", "meaning": "Bedeutung" }
+  },
+  "cta": {
+    "title": "Heute mit der Entwicklung beginnen",
+    "desc": "Kostenlosen API-Schlüssel erstellen und in unter einer Minute den ersten Aufruf tätigen.",
+    "button": "API-Schlüssel holen"
+  }
+}

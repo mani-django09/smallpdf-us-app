@@ -1,14 +1,16 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Image } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 
-// In-memory file store — avoids sessionStorage quota errors with large images.
+// In-memory file store - avoids sessionStorage quota errors with large images.
 // Survives Next.js client-side navigation within the same tab.
 export const jpgFileStore = {
   files: [],
@@ -60,7 +62,7 @@ const router = useLocalizedRouter()
     // Freemium size gate
     if (!checkFiles(newFiles)) return
 
-    // Batch count gate — shows upgrade modal if over plan limit
+    // Batch count gate - shows upgrade modal if over plan limit
     if (!checkBatch(newFiles)) return
 
     const validFiles = []
@@ -87,7 +89,7 @@ const router = useLocalizedRouter()
       setError("")
 
       try {
-        // Store raw File objects in memory — no base64, no sessionStorage quota issues
+        // Store raw File objects in memory - no base64, no sessionStorage quota issues
       jpgFileStore.set(validFiles)
 
         setTimeout(() => {
@@ -218,13 +220,17 @@ const router = useLocalizedRouter()
         title={t("jpgToPdf.index.heroTitle")}
         description={t("jpgToPdf.index.heroSubtitle")}
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+                    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
           .font-body { font-family: 'DM Sans', sans-serif; }
-          @keyframes blob { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(20px, -30px) scale(1.05); } 66% { transform: translate(-15px, 15px) scale(0.95); } }
-          .animate-blob { animation: blob 8s ease-in-out infinite; }
-          .animation-delay-2000 { animation-delay: 2s; }
+
           @keyframes loading-bar { 0% { width: 0%; } 50% { width: 70%; } 100% { width: 100%; } }
           .animate-loading-bar { animation: loading-bar 2s ease-in-out infinite; }
           @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
@@ -263,11 +269,11 @@ const router = useLocalizedRouter()
         </div>
 
         {/* Upload Section */}
-        <div className="bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50 py-8 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50 py-8 px-4">
           <div className="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-8 right-20 w-64 h-64 bg-slate-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6">
               {isProcessing ? (
                 <div className="py-10 text-center">
@@ -308,9 +314,9 @@ const router = useLocalizedRouter()
                       aria-label="Upload JPG or JPEG files"
                     />
 
-                    <div className="p-10 text-center">
+                    <div className="p-6 sm:p-10 text-center">
                       <div className="mb-3">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                           <Image className="w-8 h-8 text-white animate-bounce-slow" />
                         </div>
                       </div>
@@ -318,14 +324,14 @@ const router = useLocalizedRouter()
                       <h2 className="font-display text-xl font-bold text-slate-900 mb-2">
                         {dragActive ? t("jpgToPdf.index.dropActive") : t("jpgToPdf.index.dropTitle")}
                       </h2>
-                      <p className="font-body text-sm text-slate-500 mb-4">
+                      <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                         {t("jpgToPdf.index.dropSubtitle")}
                       </p>
 
                       <button
                         type="button"
                         onClick={handleButtonClick}
-                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                         aria-label="Select JPG or JPEG files for conversion"
                       >
                         <Upload className="w-5 h-5" />
@@ -444,6 +450,31 @@ const router = useLocalizedRouter()
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("jpgToPdf.index.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("jpgToPdf.index.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("jpgToPdf.index.dive1Title"), t("jpgToPdf.index.dive1Desc")],
+                [t("jpgToPdf.index.dive2Title"), t("jpgToPdf.index.dive2Desc")],
+                [t("jpgToPdf.index.dive3Title"), t("jpgToPdf.index.dive3Desc")],
+                [t("jpgToPdf.index.dive4Title"), t("jpgToPdf.index.dive4Desc")],
+                [t("jpgToPdf.index.dive5Title"), t("jpgToPdf.index.dive5Desc")],
+                [t("jpgToPdf.index.dive6Title"), t("jpgToPdf.index.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section - Rich SEO content */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-3xl mx-auto">
@@ -518,7 +549,7 @@ const router = useLocalizedRouter()
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-12 px-4 relative overflow-hidden">
+        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-12 px-4">
           <div className="absolute inset-0 opacity-10">
             <div
               className="absolute inset-0"
@@ -529,7 +560,7 @@ const router = useLocalizedRouter()
             ></div>
           </div>
 
-          <div className="max-w-3xl mx-auto text-center relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
               {t("jpgToPdf.index.ctaTitle")}
             </h2>
@@ -549,10 +580,10 @@ const router = useLocalizedRouter()
         <RelatedTools current="jpg-to-pdf" />
       </Layout>
 
-      {/* Freemium gate modal — renders only when file size limit is exceeded */}
+      {/* Freemium gate modal - renders only when file size limit is exceeded */}
       {PremiumGateModal}
 
-      {/* Batch limit modal — renders when file count exceeds plan limit */}
+      {/* Batch limit modal - renders when file count exceeds plan limit */}
       {BatchGateModal}
     </>
   )
@@ -560,6 +591,7 @@ const router = useLocalizedRouter()
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["jpgToPdf"]) },
+    revalidate: 86400,
   }
 }

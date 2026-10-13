@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import AdSenseUnit from "../../components/AdSenseUnit"
 import {
   Download,
@@ -18,11 +21,15 @@ import {
   ArrowRight,
   Lock,
   Timer,
+  Printer,
+  Trash2,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import RelatedTools from "../../components/RelatedTools"
+import { printBlob, printFile, filenameFromDisposition } from "../../lib/fileActions"
+import AdLabel from "../../components/AdLabel"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -48,6 +55,8 @@ export default function DownloadJpgToPdf() {
   const [countdown, setCountdown] = useState(3600)
   const [mounted, setMounted] = useState(false)
   const [useCount, setUseCount] = useState(0)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
 
   // Upsell — auth + india detection
   const { user } = useAuth()
@@ -107,6 +116,7 @@ export default function DownloadJpgToPdf() {
     }
 
     const blob = await response.blob()
+    setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement("a")
     link.href = url
@@ -115,12 +125,7 @@ export default function DownloadJpgToPdf() {
     const contentDisposition = response.headers.get("content-disposition")
     let filename = "converted-images.pdf"
     
-    if (contentDisposition) {
-      const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)
-      if (filenameMatch && filenameMatch[1]) {
-        filename = filenameMatch[1].replace(/['"]/g, '')
-      }
-    }
+    filename = filenameFromDisposition(contentDisposition, filename)
 
     link.download = filename
     document.body.appendChild(link)
@@ -158,6 +163,35 @@ export default function DownloadJpgToPdf() {
     navigator.clipboard.writeText(fullUrl)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  const handlePrint = async () => {
+    if (!convertResult?.jobId) return
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        // Reuse already-fetched blob — backend deletes file after first download
+        printBlob(downloadedBlob)
+      } else {
+        // User clicked Print before Download — try to fetch directly
+        const { hostname, protocol } = window.location
+        const API_URL = (hostname === 'localhost' || hostname === '127.0.0.1')
+          ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011')
+          : `${protocol}//${hostname}`
+        await printFile(`${API_URL}/api/download-jpg-pdf/${convertResult.jobId}`)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("jpgConvertResult")
+    sessionStorage.removeItem("uploadedJpgFiles")
+    router.push("/jpg-to-pdf")
   }
 
   const handleShare = async () => {
@@ -226,6 +260,7 @@ export default function DownloadJpgToPdf() {
           <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
+
       {/* Success Header */}
       <div className="relative overflow-hidden bg-orange-600">
         <div className="absolute inset-0 opacity-10">
@@ -363,46 +398,38 @@ export default function DownloadJpgToPdf() {
                     </button>
                     <button
                       onClick={handleShare}
+                      title="Share"
                       className="py-3 px-4 rounded-xl font-medium text-sm bg-orange-100 hover:bg-orange-200 transition-colors flex items-center justify-center gap-2 text-slate-700"
                     >
                       <Share2 className="w-4 h-4" />
                     </button>
                     <button
+                      onClick={handlePrint}
+                      disabled={printing}
+                      title={t("fileActions.print")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-orange-100 hover:bg-orange-200 transition-colors flex items-center justify-center gap-2 text-slate-700 disabled:opacity-60"
+                    >
+                      {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      title={t("fileActions.delete")}
+                      className="py-3 px-4 rounded-xl font-medium text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center gap-2 text-red-600"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={handleCopyLink}
+                      title="Copy link"
                       className="py-3 px-4 rounded-xl font-medium text-sm bg-orange-100 hover:bg-orange-200 transition-colors flex items-center justify-center gap-2 text-slate-700"
                     >
                       {copied ? <CheckCircle className="w-4 h-4 text-orange-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
-                  {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-                  {mounted && !isPaidUser && useCount >= 1 && (
-                    <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-                      {/* Icon */}
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                        <Zap className="w-5 h-5 text-white" />
-                      </div>
-                      {/* Text */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-slate-800 leading-tight">
-                          Unlimited files, bigger uploads, zero ads
-                        </p>
-                        <p className="text-xs text-slate-500 mt-0.5">
-                          {isIndia
-                            ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking'
-                            : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                        </p>
-                      </div>
-                      {/* CTA */}
-                      <Link
-                        href="/pricing"
-                        className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-                      >
-                        <Zap className="w-3.5 h-3.5" />
-                        Upgrade
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  )}
+                  {/* ── Upgrade upsell ── */}
+                  <UpgradeUpsell className="mt-4" />
+
+                  <EmailCapture className="mt-3" />
                 </div>
               </div>
 
@@ -464,93 +491,29 @@ export default function DownloadJpgToPdf() {
                   </div>
                 </div>
               </div>
+              {/* Mid-content Ad */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+                <AdSenseUnit adSlot="jpg-to-pdf-dl-mid" size="leaderboard" />
+              </div>
+
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Summary */}
-              <div className="bg-white rounded-2xl border border-orange-200 overflow-hidden">
-                <div className="px-5 py-4 border-b border-orange-100 bg-orange-50">
-                  <h3 className="font-display text-base font-semibold text-slate-900">{t("jpgToPdf.download.summaryTitle")}</h3>
-                </div>
-                <div className="p-5 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t("jpgToPdf.download.imagesConverted")}</span>
-                    <span className="font-display font-semibold text-slate-900">{fileCount}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t("jpgToPdf.download.outputFormat")}</span>
-                    <span className="font-display font-semibold text-orange-600">PDF</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="font-body text-sm text-slate-600">{t("jpgToPdf.download.pages")}</span>
-                    <span className="font-display font-semibold text-slate-900">{fileCount}</span>
-                  </div>
-                  <div className="pt-3 border-t border-orange-100">
-                    <div className="flex justify-between items-center">
-                      <span className="font-body text-sm text-slate-600">{t("jpgToPdf.download.status")}</span>
-                      <span className="inline-flex items-center gap-1.5 text-orange-600 font-medium text-sm">
-                        <CheckCircle className="w-4 h-4" />
-                        {t("jpgToPdf.download.statusComplete")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* File Expiry */}
-              <div className="bg-white rounded-2xl border border-orange-200 p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <Timer className="w-5 h-5 text-amber-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-sm font-semibold text-slate-900">{t("jpgToPdf.download.fileExpiry")}</h3>
-                    <p className="font-body text-xs text-slate-500">{t("jpgToPdf.download.autoDelete")}</p>
-                  </div>
-                </div>
-                <div className="bg-orange-50 rounded-lg p-3">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-body text-xs text-slate-600">{t("jpgToPdf.download.timeRemaining")}</span>
-                    <span className="font-display font-semibold text-slate-900">{formatTime(countdown)}</span>
-                  </div>
-                  <div className="bg-orange-200 rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className="bg-orange-600 h-full transition-all duration-1000"
-                      style={{ width: `${(countdown / 3600) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Security Info */}
-              <div className="bg-white rounded-2xl border border-orange-200 p-5">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-slate-600" />
-                  </div>
-                  <h3 className="font-display text-sm font-semibold text-slate-900">{t("jpgToPdf.download.privacyTitle")}</h3>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    t("jpgToPdf.download.security1"),
-                    t("jpgToPdf.download.security2"),
-                    t("jpgToPdf.download.security3"),
-                    t("jpgToPdf.download.security4"),
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <CheckCircle className="w-4 h-4 text-orange-600 flex-shrink-0 mt-0.5" />
-                      <span className="font-body text-xs text-slate-600">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
                 <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+                <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -560,4 +523,11 @@ export default function DownloadJpgToPdf() {
       <RelatedTools current="jpg-to-pdf" />
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["jpgToPdf"]) },
+    revalidate: 86400,
+  }
 }

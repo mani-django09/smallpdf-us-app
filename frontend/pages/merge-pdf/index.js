@@ -1,9 +1,11 @@
-import { useState, useCallback, useEffect } from "react"
+﻿import { useState, useCallback, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
@@ -17,6 +19,10 @@ import {
   ChevronDown,
   Layers,
 } from "lucide-react"
+
+// In-memory store — File objects survive client-side navigation within the same tab.
+// Avoids sessionStorage base64 bloat that causes QuotaExceededError on large PDFs.
+export const mergePdfStore = { files: [] }
 
 export default function MergePDF() {
 const router = useLocalizedRouter()
@@ -40,15 +46,15 @@ const router = useLocalizedRouter()
 
   const validateFile = (file) => {
     const validTypes = ["application/pdf"]
-    const maxSize = 100 * 1024 * 1024
 
-    if (!validTypes.includes(file.type)) {
+    // Some browsers/OSes (Android pickers, Windows w/o a PDF app) give PDFs an
+    // empty or generic MIME type — accept by extension too.
+    if (!validTypes.includes(file.type) && !/\.pdf$/i.test(file.name)) {
       return { valid: false, error: t("mergePdf.errorInvalidType") }
     }
 
-    if (file.size > maxSize) {
-      return { valid: false, error: t("mergePdf.errorMaxSize") }
-    }
+    // Size is checked by useFileSizeGuard (plan-aware); a fixed 25 MB cap here
+    // blocked paid users who are allowed 200 MB.
 
     return { valid: true }
   }
@@ -85,36 +91,14 @@ const router = useLocalizedRouter()
       setIsProcessing(true)
       setError("")
 
-      try {
-        const fileDataArray = await Promise.all(
-          validFiles.map(async (f) => {
-            return new Promise((resolve, reject) => {
-              const reader = new FileReader()
-              reader.onload = (e) => {
-                resolve({
-                  id: f.id,
-                  name: f.name,
-                  size: f.size,
-                  type: f.file.type,
-                  data: e.target.result,
-                })
-              }
-              reader.onerror = reject
-              reader.readAsDataURL(f.file)
-            })
-          }),
-        )
+      // Store File objects in memory — no base64 conversion, no sessionStorage size limit
+      mergePdfStore.files = validFiles
+      // Set a lightweight flag so preview.js knows files are ready
+      sessionStorage.setItem("mergePdfReady", "1")
 
-        sessionStorage.setItem("uploadedPDFs", JSON.stringify(fileDataArray))
-
-        setTimeout(() => {
-          router.push("/merge-pdf/preview")
-        }, 600)
-      } catch (err) {
-        console.error("Error processing files:", err)
-        setError(t("mergePdf.errorProcessing"))
-        setIsProcessing(false)
-      }
+      setTimeout(() => {
+        router.push("/merge-pdf/preview")
+      }, 600)
     }
   }
 
@@ -239,6 +223,7 @@ const router = useLocalizedRouter()
       <SEOHead
         title={t("mergePdf.seoTitle")}
         description={t("mergePdf.seoDescription")}
+        keywords="merge pdf, combine pdf files, pdf merger online, join pdf, merge pdf free, combine pdfs, merge pdf documents"
         ogImage="/og-merge-pdf.jpg"
         structuredData={structuredData}
       />
@@ -247,84 +232,47 @@ const router = useLocalizedRouter()
         title={t("mergePdf.heroTitle")}
         description={t("mergePdf.heroSubtitle")}
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-          }
-          .font-body {
-            font-family: 'DM Sans', sans-serif;
-          }
-          @keyframes blob {
-            0%,
-            100% {
-              transform: translate(0, 0) scale(1);
-            }
-            33% {
-              transform: translate(20px, -30px) scale(1.05);
-            }
-            66% {
-              transform: translate(-15px, 15px) scale(0.95);
-            }
-          }
-          .animate-blob {
-            animation: blob 8s ease-in-out infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
+          .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+          .font-body    { font-family: 'DM Sans', sans-serif; }
           @keyframes loading-bar {
-            0% {
-              width: 0%;
-            }
-            50% {
-              width: 70%;
-            }
-            100% {
-              width: 100%;
-            }
+            0%   { width: 0%; }
+            50%  { width: 70%; }
+            100% { width: 100%; }
           }
-          .animate-loading-bar {
-            animation: loading-bar 2s ease-in-out infinite;
-          }
+          .animate-loading-bar { animation: loading-bar 2s ease-in-out infinite; }
           @keyframes bounce-slow {
-            0%,
-            100% {
-              transform: translateY(0);
-            }
-            50% {
-              transform: translateY(-4px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-4px); }
           }
-          .animate-bounce-slow {
-            animation: bounce-slow 2s ease-in-out infinite;
-          }
+          .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
         `}</style>
 
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-white via-blue-50 to-indigo-50 border-b border-blue-200">
-          <div className="max-w-4xl mx-auto px-4 pt-4 pb-4 text-center">
-            <h1 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+        <div className="bg-white border-b border-gray-100">
+          <div className="max-w-4xl mx-auto px-4 pt-6 pb-5 text-center">
+            <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-950 mb-3">
               {t("mergePdf.heroTitle")}
             </h1>
-
-            <p className="font-body text-base text-slate-600 max-w-2xl mx-auto mb-2">
+            <p className="font-body text-base text-gray-500 max-w-2xl mx-auto mb-2">
               {t("mergePdf.heroSubtitle")}
             </p>
           </div>
         </div>
 
-        {/* Upload Section with Sidebar Ads */}
-        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 py-8 px-4 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-          <div className="absolute -bottom-8 right-20 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="grid grid-cols-1 gap-6">
-
+        {/* Upload Section */}
+        <div className="bg-gray-50 py-8 px-4">
+          <div className="max-w-3xl mx-auto">
               {/* Main Upload Area */}
-              <div className="w-full max-w-3xl mx-auto">
-                <div className="bg-white rounded-2xl shadow-xl border border-blue-200 p-6">
+              <div className="w-full">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
                   {isProcessing ? (
                     <div className="py-10 text-center">
                       <div className="relative w-16 h-16 mx-auto mb-5">
@@ -350,10 +298,9 @@ const router = useLocalizedRouter()
                         onDrop={handleDrop}
                         className={`relative rounded-xl transition-all duration-300 ${
                           dragActive
-                            ? "border-4 border-blue-500 bg-blue-50 scale-102 shadow-lg"
-                            : "border-3 border-dashed border-blue-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
+                            ? "border-2 border-blue-500 bg-blue-50 shadow-lg"
+                            : "border-2 border-dashed border-gray-300 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md"
                         }`}
-                        style={{ borderWidth: dragActive ? "4px" : "3px" }}
                       >
                         <input
                           type="file"
@@ -364,9 +311,9 @@ const router = useLocalizedRouter()
                           onChange={handleFileChange}
                         />
 
-                        <div className="p-10 text-center">
+                        <div className="p-6 sm:p-10 text-center">
                           <div className="mb-3">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                            <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                               <Layers className="w-8 h-8 text-white animate-bounce-slow" />
                             </div>
                           </div>
@@ -374,14 +321,14 @@ const router = useLocalizedRouter()
                           <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                             {dragActive ? t("mergePdf.dropActive") : t("mergePdf.uploadPrompt")}
                           </h3>
-                          <p className="font-body text-sm text-slate-500 mb-4">
+                          <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                             {t("mergePdf.dragHint")}
                           </p>
 
                           <button
                             type="button"
                             onClick={handleButtonClick}
-                            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                           >
                             <Upload className="w-5 h-5" />
                             <span>{t("mergePdf.chooseButton")}</span>
@@ -415,14 +362,8 @@ const router = useLocalizedRouter()
                     </div>
                   )}
 
-                  {!isProcessing && (
-                    <p className="text-center font-body text-sm text-slate-600 mt-5">
-                      {t("mergePdf.fileLimitHint")}
-                    </p>
-                  )}
                 </div>
               </div>
-            </div>
           </div>
         </div>
 
@@ -595,6 +536,31 @@ const router = useLocalizedRouter()
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-white py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("mergePdf.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("mergePdf.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("mergePdf.dive1Title"), t("mergePdf.dive1Desc")],
+                [t("mergePdf.dive2Title"), t("mergePdf.dive2Desc")],
+                [t("mergePdf.dive3Title"), t("mergePdf.dive3Desc")],
+                [t("mergePdf.dive4Title"), t("mergePdf.dive4Desc")],
+                [t("mergePdf.dive5Title"), t("mergePdf.dive5Desc")],
+                [t("mergePdf.dive6Title"), t("mergePdf.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-blue-50 rounded-2xl p-6 border border-blue-100">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-blue-50 py-12 px-4">
           <div className="max-w-4xl mx-auto">
@@ -677,6 +643,7 @@ const router = useLocalizedRouter()
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["mergePdf"]) },
+    revalidate: 86400,
   }
 }

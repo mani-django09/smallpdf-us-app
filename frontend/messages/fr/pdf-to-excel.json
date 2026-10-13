@@ -1,11 +1,11 @@
 {
   "seo": {
-    "title": "Convertir PDF en Excel – Gratuit en ligne PDF vers XLSX | SmallPDF.us",
-    "description": "Convertissez des PDF en tableaux Excel gratuitement. Extrayez les données et tableaux de vos PDF vers un format XLSX modifiable. Rapide, précis et sécurisé avec support OCR."
+    "title": "Convertir PDF en Excel – gratuit en ligne | SmallPDF.us",
+    "description": "Convertissez des PDF en tableaux Excel gratuitement. Extrayez tableaux et données vers un XLSX modifiable. Rapide, précis et sécurisé, avec OCR."
   },
   "heroTitle": "PDF en Excel",
   "heroTitleHighlight": "Convertisseur Gratuit",
-  "heroSubtitle": "Extrayez les tableaux et données de vos PDF vers des feuilles de calcul Excel modifiables. Rapide, précis et totalement gratuit sur SmallPDF.us",
+  "heroSubtitle": "Extrayez tableaux et données de vos PDF vers des feuilles Excel modifiables. Rapide, précis et simple à utiliser.",
   "uploadDragText": "Sélectionner un PDF à convertir",
   "uploadDragActive": "Déposez votre PDF ici !",
   "uploadSubtext": "Glissez-déposez votre PDF ou cliquez pour parcourir",
@@ -71,9 +71,9 @@
   "faq6Question": "Puis-je convertir plusieurs fichiers PDF à la fois ?",
   "faq6Answer": "Oui ! Vous pouvez téléverser et convertir jusqu'à 10 fichiers PDF simultanément. Chaque fichier sera converti en une feuille de calcul Excel séparée.",
   "ctaTitle": "Prêt à convertir votre PDF ?",
-  "ctaSubtitle": "Rejoignez des millions d'utilisateurs qui font confiance à SmallPDF.us pour des conversions PDF en Excel précises.",
+  "ctaSubtitle": "Rejoignez les utilisateurs du monde entier qui utilisent SmallPDF.us pour des conversions PDF en Excel rapides et précises.",
   "ctaButton": "Importer le PDF maintenant",
-  "ctaNote": "Sans inscription • 100 % Gratuit • Sécurisé et Privé",
+  "ctaNote": "Rapide • Sécurisé • Confidentiel",
   "relatedToolsTitle": "Outils PDF associés",
   "relatedToolsSubtitle": "Explorez d'autres outils pour travailler avec vos fichiers PDF",
   "tool1": "Excel en PDF",

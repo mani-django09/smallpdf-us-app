@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   Download,
   CheckCircle2,
@@ -19,12 +22,14 @@ import {
   Archive,
   Zap,
   ArrowRight,
+  Trash2,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import RelatedTools from "../../components/RelatedTools"
+import { printBlob, printFile } from "../../lib/fileActions"
+import AdLabel from "../../components/AdLabel"
 
 // Inline translations for strings not yet in JSON files
 // Covers all 8 supported locales — no new JSON keys needed
@@ -75,6 +80,8 @@ export default function DownloadExcelToPDF() {
   const isIndia = useIsIndia()
   const [mounted, setMounted] = useState(false)
   const [useCount, setUseCount] = useState(0)
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
   const isPaidUser = !!(user?.plan && user.plan !== 'free')
 
   const [result, setResult] = useState(null)
@@ -128,6 +135,7 @@ export default function DownloadExcelToPDF() {
             return `${API_URL}${result.downloadUrl}`
           })()
 
+      console.log('Downloading from:', downloadUrl)
       const response = await fetch(downloadUrl)
 
       if (!response.ok) {
@@ -135,6 +143,7 @@ export default function DownloadExcelToPDF() {
       }
 
       const blob = await response.blob()
+      setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url
@@ -173,6 +182,28 @@ export default function DownloadExcelToPDF() {
   }
 
   const handleConvertAnother = () => {
+    sessionStorage.removeItem("excelToPdfResult")
+    sessionStorage.removeItem("uploadedExcelFile")
+    router.push("/excel-to-pdf")
+  }
+
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        printBlob(downloadedBlob)
+      } else {
+        await printFile(result?.downloadUrl)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
     sessionStorage.removeItem("excelToPdfResult")
     sessionStorage.removeItem("uploadedExcelFile")
     router.push("/excel-to-pdf")
@@ -230,12 +261,6 @@ export default function DownloadExcelToPDF() {
         .animate-checkmark { animation: checkmark 0.5s ease-out forwards; }
       `}</style>
 
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
-        </div>
-      </div>
       {/* Success Header */}
       <div className="bg-gradient-to-r from-emerald-600 to-teal-600 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -260,6 +285,14 @@ export default function DownloadExcelToPDF() {
               <p className="font-body text-sm text-white/80">{t("excelToPdf.pdfReady")}</p>
             </div>
           </div>
+        </div>
+      </div>
+
+
+      {/* Header Ad */}
+      <div className="bg-slate-50 px-4 pt-6">
+        <div className="max-w-6xl mx-auto">
+          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
         </div>
       </div>
 
@@ -386,32 +419,33 @@ export default function DownloadExcelToPDF() {
                   <span>{t("excelToPdf.autoDelete")}</span>
                 </div>
               </div>
+
+              {/* Print + Delete actions */}
+              <div className="flex items-center gap-3 mt-4">
+                <button
+                  onClick={handlePrint}
+                  disabled={printing}
+                  title={t("fileActions.print")}
+                  className="flex-1 py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700 disabled:opacity-60"
+                >
+                  {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                  <span>Print</span>
+                </button>
+                <button
+                  onClick={handleDelete}
+                  title={t("fileActions.delete")}
+                  className="py-3 px-4 rounded-xl font-medium text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center gap-2 text-red-600"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-          {mounted && !isPaidUser && useCount >= 1 && (
-            <div className="mt-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-slate-800 leading-tight">Unlimited files, bigger uploads, zero ads</p>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  {isIndia ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking' : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                </p>
-              </div>
-              <Link
-                href="/pricing"
-                className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-              >
-                <Zap className="w-3.5 h-3.5" />
-                Upgrade
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          )}
+          {/* ── Upgrade upsell ── */}
+          <UpgradeUpsell className="mt-4" />
 
+          <EmailCapture className="mt-3" />
           {/* Convert Another */}
           <div className="text-center">
             <button
@@ -443,6 +477,12 @@ export default function DownloadExcelToPDF() {
             </div>
           </div>
 
+          {/* Mid-content Ad */}
+          <div className="mt-6 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+            <AdSenseUnit adSlot="excel-to-pdf-dl-mid" size="leaderboard" />
+          </div>
+
           {/* Debug Info (remove in production) */}
           {process.env.NODE_ENV === "development" && (
             <div className="mt-4 p-4 bg-gray-100 rounded-lg text-xs font-mono">
@@ -460,28 +500,29 @@ export default function DownloadExcelToPDF() {
           <div className="lg:w-72 xl:w-80 flex-shrink-0 space-y-4">
 
             {/* Sidebar Ad */}
-            <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
+            <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
               <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
             </div>
 
-            {/* Quick Tips */}
-            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-200">
-              <h3 className="font-display text-sm font-semibold text-slate-900 mb-2">💡 Quick Tips</h3>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li className="flex items-start gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" /><span>Your PDF preserves all sheets, charts and formatting</span></li>
-                <li className="flex items-start gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" /><span>File is automatically deleted after 1 hour</span></li>
-                <li className="flex items-start gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" /><span>Need to compress? Use our PDF compressor after downloading</span></li>
-              </ul>
+            {/* Sidebar Ad 2 */}
+            <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
+              <AdSenseUnit adSlot="7489539676" size="rectangle2" />
             </div>
+
           </div>{/* end sidebar */}
 
           </div>{/* end two-col flex */}
         </div>
       </div>
-
-      {/* Related Tools — shown after download to encourage next action */}
-      <RelatedTools current="excel-to-pdf" />
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["excelToPdf"]) },
+    revalidate: 86400,
+  }
 }

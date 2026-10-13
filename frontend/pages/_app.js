@@ -2,12 +2,80 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
 import { pageview } from '../lib/analytics'
+import { getApiUrl } from '../lib/getApiUrl'
 import ThemeProvider from '../components/ThemeProvider'
+import ClarityLoader from '../components/ClarityLoader'
 import { AuthProvider } from '../context/AuthContext'
+import { TranslationsProvider } from '../lib/i18n'
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
+
+  // ── Google Ad Manager (AdX) — load GPT + out-of-page slots once ─────────────
+  // Switched primary demand to direct AdSense (see _document.js). AdX is mostly
+  // paused, EXCEPT the sidebar rectangle units (AdSenseUnit size="rectangle"/
+  // "rectangle2" on download/preview pages) — those are re-enabled on purpose,
+  // so gpt.js still needs to load. Out-of-page Interstitial + sticky Anchor
+  // stay off. To pause sidebar ads too, set GPT_SIDEBAR_ADS_ENABLED = false
+  // (that alone also stops gpt.js from loading at all).
+  const GPT_SIDEBAR_ADS_ENABLED = true
+  const GPT_OUT_OF_PAGE_ENABLED = false // Interstitial + Anchor — stays paused
+  useEffect(() => {
+    if (!GPT_SIDEBAR_ADS_ENABLED) return
+    if (router.pathname.startsWith('/admin')) return   // no ads on admin
+    if (typeof window === 'undefined') return
+    if (document.getElementById('gpt-js')) return       // already loaded
+
+    window.googletag = window.googletag || { cmd: [] }
+
+    const s = document.createElement('script')
+    s.id = 'gpt-js'
+    s.async = true
+    s.src = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js'
+    document.head.appendChild(s)
+
+    window.googletag.cmd.push(function () {
+      const pubads = window.googletag.pubads()
+
+      let interstitial, anchor
+      if (GPT_OUT_OF_PAGE_ENABLED) {
+        const OOP = window.googletag.enums.OutOfPageFormat
+        // Interstitial (full-screen, shows on navigation)
+        interstitial = window.googletag.defineOutOfPageSlot('/23028515350/Interstitial', OOP.INTERSTITIAL)
+        if (interstitial) interstitial.addService(pubads)
+
+        // Sticky bottom anchor
+        anchor = window.googletag.defineOutOfPageSlot('/23028515350/Anchor', OOP.BOTTOM_ANCHOR)
+        if (anchor) anchor.addService(pubads)
+      }
+
+      pubads.enableSingleRequest()
+      pubads.collapseEmptyDivs()
+      pubads.setTargeting('site', 'smallpdfus')
+      pubads.setTargeting('lang', document.documentElement.lang || 'en')
+
+      window.googletag.enableServices()
+
+      if (interstitial) window.googletag.display(interstitial)
+      if (anchor)       window.googletag.display(anchor)
+    })
+  }, [])
+
+  // ── Traffic source beacon: once per browser tab session, tell the server where this visit came
+  // from (document.referrer + utm_* in the landing URL). Powers the admin 'Traffic sources' tab.
+  useEffect(() => {
+    try {
+      if (router.pathname.startsWith('/admin') || sessionStorage.getItem('sp_visit')) return
+      const sid = Math.random().toString(36).slice(2) + Date.now().toString(36)
+      sessionStorage.setItem('sp_visit', sid)
+      fetch(`${getApiUrl()}/api/track/visit`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+        body: JSON.stringify({ s: sid, u: window.location.href, r: document.referrer || '' }),
+      }).catch(() => {})
+    } catch { /* never break the page for analytics */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     // Track initial page load
@@ -54,10 +122,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {/* Google Analytics — lazyOnload: fires after page idle so it does NOT
-          block the main thread (was afterInteractive = ran during hydration,
-          contributing ~200-400ms to TBT). Analytics accuracy is unchanged;
-          events are queued via dataLayer and flushed once gtag loads. */}
+      {/* Google Analytics — lazyOnload (known-good, confirmed tracking). */}
       <Script
         strategy="lazyOnload"
         src={`https://www.googletagmanager.com/gtag/js?id=G-603K8BH9MK`}
@@ -79,22 +144,17 @@ function MyApp({ Component, pageProps }) {
         }}
       />
 
-      {/* Google AdSense loader — lazyOnload defers the heavy ad script until the page
-          is idle, improving TBT/LCP. Ad units (AdSenseUnit) queue their push and fire
-          once this loads, so deferring is safe. */}
-      <Script
-        id="adsbygoogle-init"
-        strategy="lazyOnload"
-        crossOrigin="anonymous"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6913093595582462"
-      />
+      {/* Ads: Google Ad Manager (AdX) via GPT — loaded in the effect above */}
 
       {/* Theme Provider - Prevents hydration errors */}
-      <AuthProvider>
-        <ThemeProvider>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </AuthProvider>
+      <TranslationsProvider messages={pageProps.messages}>
+        <AuthProvider>
+          <ThemeProvider>
+            <Component {...pageProps} />
+            <ClarityLoader />
+          </ThemeProvider>
+        </AuthProvider>
+      </TranslationsProvider>
     </>
   )
 }

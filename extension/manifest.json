@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "SmallPDF.us — Free PDF & Image Tools",
+  "version": "1.0.0",
+  "description": "Merge, split, compress and convert PDFs and images in one click. 27 free tools, straight from your toolbar.",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SmallPDF.us — PDF Tools",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://smallpdf.us/*"
+  ]
+}

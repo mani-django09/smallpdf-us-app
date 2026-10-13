@@ -1,12 +1,19 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { Upload, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Unlock } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
+
+// Picked File objects live in memory for the preview page. They used to be
+// base64'd into sessionStorage, which silently failed (quota ~5 MB) for PDFs
+// over ~3.7 MB — i.e. most bank statements.
+export const unlockPdfStore = { files: [] }
 
 export default function UnlockPdf() {
   const router = useLocalizedRouter()
@@ -30,7 +37,6 @@ export default function UnlockPdf() {
 
   const validateFile = (file) => {
     const validTypes = ["application/pdf"]
-    const maxSize = 100 * 1024 * 1024
 
     const ext = file.name.toLowerCase()
     const hasValidExtension = ext.endsWith('.pdf')
@@ -40,9 +46,8 @@ export default function UnlockPdf() {
       return { valid: false, error: t("unlockPdf.errorInvalidType") }
     }
 
-    if (file.size > maxSize) {
-      return { valid: false, error: t("unlockPdf.errorMaxSize") }
-    }
+    // Size is checked by useFileSizeGuard (plan-aware); a fixed 10 MB cap here
+    // blocked paid users who are allowed 100 MB+.
 
     return { valid: true }
   }
@@ -80,26 +85,7 @@ export default function UnlockPdf() {
       setError("")
 
       try {
-        const fileDataArray = await Promise.all(
-          validFiles.map(async (f) => {
-            return new Promise((resolve, reject) => {
-              const reader = new FileReader()
-              reader.onload = (e) => {
-                resolve({
-                  id: f.id,
-                  name: f.name,
-                  size: f.size,
-                  type: f.file.type,
-                  data: e.target.result,
-                })
-              }
-              reader.onerror = reject
-              reader.readAsDataURL(f.file)
-            })
-          }),
-        )
-
-        sessionStorage.setItem("uploadedUnlockPdfFiles", JSON.stringify(fileDataArray))
+        unlockPdfStore.files = validFiles.map((f) => ({ id: f.id, name: f.name, size: f.size, file: f.file }))
 
         setTimeout(() => {
           router.push("/unlock-pdf/preview")
@@ -206,16 +192,34 @@ export default function UnlockPdf() {
           "acceptedAnswer": { "@type": "Answer", "text": faq.answer },
         })),
       },
+      {
+        "@type": "HowTo",
+        "name": t("unlockPdf.stepsTitle"),
+        "description": t("unlockPdf.pageDescription"),
+        "step": steps.map((s) => ({
+          "@type": "HowToStep",
+          "position": Number(s.step),
+          "name": s.title,
+          "text": s.desc,
+        })),
+      },
     ],
   }
 
   return (
     <Layout>
+      {/* Header Ad */}
+      <div className="bg-white px-4 pt-5">
+        <div className="max-w-4xl mx-auto">
+          <AdSenseUnit size="leaderboard" />
+        </div>
+      </div>
+
       <SEOHead
         title={t("unlockPdf.pageTitle")}
         description={t("unlockPdf.pageDescription")}
         keywords={t("unlockPdf.pageKeywords")}
-        ogImage="/images/unlock-pdf-og.png"
+        ogImage="/og-unlock-pdf.jpg"
         structuredData={structuredData}
       />
         {/* Compact Hero + Upload Section */}
@@ -233,11 +237,6 @@ export default function UnlockPdf() {
           <div className="max-w-4xl mx-auto relative z-10">
             {/* Compact Header */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-md mb-3">
-                <Unlock className="w-4 h-4 text-amber-600" />
-                <span className="text-sm font-semibold text-slate-700">{t("unlockPdf.heroBadge")}</span>
-              </div>
-
               <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 leading-tight">
                 {t("unlockPdf.heroTitle")}
               </h1>
@@ -317,9 +316,6 @@ export default function UnlockPdf() {
                       <span>{t("unlockPdf.uploadButton")}</span>
                     </button>
 
-                    <p className="text-xs text-slate-500 mt-4">
-                      {t("unlockPdf.uploadLimit")}
-                    </p>
                   </>
                 )}
               </div>
@@ -398,6 +394,31 @@ export default function UnlockPdf() {
                       </svg>
                     </div>
                   )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("unlockPdf.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("unlockPdf.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("unlockPdf.dive1Title"), t("unlockPdf.dive1Desc")],
+                [t("unlockPdf.dive2Title"), t("unlockPdf.dive2Desc")],
+                [t("unlockPdf.dive3Title"), t("unlockPdf.dive3Desc")],
+                [t("unlockPdf.dive4Title"), t("unlockPdf.dive4Desc")],
+                [t("unlockPdf.dive5Title"), t("unlockPdf.dive5Desc")],
+                [t("unlockPdf.dive6Title"), t("unlockPdf.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
@@ -485,6 +506,7 @@ export default function UnlockPdf() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["unlockPdf"]) },
+    revalidate: 86400,
   }
 }

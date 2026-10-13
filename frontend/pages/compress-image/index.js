@@ -4,11 +4,12 @@ import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import { Upload, AlertCircle, ChevronDown, Trash2, Minimize2 } from "lucide-react"
-import UpgradeBanner from "../../components/UpgradeBanner"
+import AdLabel from "../../components/AdLabel"
 
 export default function CompressImage() {
   const router = useLocalizedRouter()
@@ -33,13 +34,10 @@ export default function CompressImage() {
 
   const validateFile = (file) => {
     const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"]
-    const maxSize = 50 * 1024 * 1024 // 50MB
     if (!validTypes.includes(file.type)) {
       return { valid: false, error: t("compressImage.errorInvalidType") }
     }
-    if (file.size > maxSize) {
-      return { valid: false, error: t("compressImage.errorMaxSize") }
-    }
+    // Size: checkFiles() applies the real plan limit (Pro allows 100 MB, not 15)
     return { valid: true }
   }
 
@@ -119,6 +117,10 @@ export default function CompressImage() {
       }))
 
       sessionStorage.setItem("uploadedCompressImages", JSON.stringify(fileMetadata))
+      // Clear any stale flag from an earlier /compress-image-to-*kb landing
+      // page visit in this tab session, so preview/download don't wrongly
+      // stay "branded".
+      sessionStorage.removeItem("compressImageLandingBase")
 
       // ✅ Store actual File objects in window global — survives same-tab navigation
       // This avoids the base64 → sessionStorage overflow that caused the error
@@ -163,12 +165,12 @@ export default function CompressImage() {
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "featureList": [
-          "Compress up to 20 images",
+          "Compress up to 2 images free (10 on Starter)",
           "50-80% file size reduction",
           "Supports JPG, PNG, WEBP",
           "Batch processing",
           "No quality loss",
-          "Free forever",
+          "Free plan available",
         ],
       },
       {
@@ -187,7 +189,7 @@ export default function CompressImage() {
           {
             "@type": "HowToStep",
             "name": "Upload Images",
-            "text": "Upload your JPG, PNG, or WEBP files. Add up to 20 images for batch compression.",
+            "text": "Upload your JPG, PNG, or WEBP files. On the free plan, add up to 2 images for batch compression (up to 15MB each).",
             "position": 1,
           },
           {
@@ -240,41 +242,44 @@ export default function CompressImage() {
         {files.length === 0 ? (
           // ── Empty state: drag & drop zone ──
           <div className="max-w-3xl mx-auto px-4 pb-10">
-            <div
-              className={`border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 cursor-pointer ${
-                dragActive
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-blue-300 bg-white hover:border-blue-400 hover:bg-blue-50"
-              }`}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-              onClick={handleButtonClick}
-            >
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Upload className="w-8 h-8 text-blue-600" />
-              </div>
-              <h2 className="font-display text-xl font-bold text-slate-900 mb-2">
-                {t("compressImage.dropzoneTitle")}
-              </h2>
-              <p className="font-body text-sm text-slate-500 mb-4">
-                {t("compressImage.dropzoneSubtitle")}
-              </p>
-              <button
-                type="button"
-                className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-md"
+            <div className="bg-white rounded-2xl shadow-xl p-6 border-2 border-slate-100">
+              <div
+                className={`relative border-2 border-dashed rounded-xl p-6 sm:p-12 text-center transition-all duration-300 cursor-pointer ${
+                  dragActive
+                    ? "border-blue-500 bg-blue-50"
+                    : "border-slate-300 bg-slate-50 hover:border-blue-400 hover:bg-blue-50/40"
+                }`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+                onClick={handleButtonClick}
               >
-                {t("compressImage.chooseFilesButton")}
-              </button>
-              <input
-                id="file-upload"
-                type="file"
-                multiple
-                accept="image/jpeg,image/jpg,image/png,image/webp"
-                onChange={handleFileChange}
-                className="hidden"
-              />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center mb-3 sm:mb-4 shadow-lg">
+                  <Minimize2 className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="font-display text-xl font-bold text-slate-900 mb-2">
+                  {t("compressImage.dropzoneTitle")}
+                </h2>
+                <p className="font-body text-sm text-slate-500 mb-3 sm:mb-5">
+                  {t("compressImage.dropzoneSubtitle")}
+                </p>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-3 rounded-xl font-bold text-sm hover:from-blue-700 hover:to-blue-900 transition-all shadow-lg"
+                >
+                  <Upload className="w-4 h-4" />
+                  {t("compressImage.chooseFilesButton")}
+                </button>
+                <input
+                  id="file-upload"
+                  type="file"
+                  multiple
+                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
             </div>
 
             {error && (
@@ -460,6 +465,31 @@ export default function CompressImage() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-blue-50/40 py-12 px-4 border-t border-blue-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("compressImage.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("compressImage.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("compressImage.dive1Title"), t("compressImage.dive1Desc")],
+                [t("compressImage.dive2Title"), t("compressImage.dive2Desc")],
+                [t("compressImage.dive3Title"), t("compressImage.dive3Desc")],
+                [t("compressImage.dive4Title"), t("compressImage.dive4Desc")],
+                [t("compressImage.dive5Title"), t("compressImage.dive5Desc")],
+                [t("compressImage.dive6Title"), t("compressImage.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-blue-100 shadow-sm">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto">
@@ -513,6 +543,13 @@ export default function CompressImage() {
                 {t("compressImage.seo3Title")}
               </h3>
               <p className="font-body text-slate-700">{t("compressImage.seo3P")}</p>
+              <p className="font-body text-slate-700 mt-4">
+                Need a specific file size for a form or exam upload? Try our{" "}
+                <a href="/compress-image-to-50kb" className="text-blue-600 font-semibold hover:underline">
+                  compress image to 50KB
+                </a>{" "}
+                tool, built for exam and application uploads with strict size limits.
+              </p>
             </div>
           </div>
         </div>
@@ -538,7 +575,7 @@ export default function CompressImage() {
         {/* Bottom Ad */}
         <div className="bg-white px-4 py-6">
           <div className="hidden lg:block max-w-4xl mx-auto">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
             <AdSenseUnit adSlot="1617102171" />
           </div>
         </div>
@@ -546,14 +583,13 @@ export default function CompressImage() {
       </Layout>
       {PremiumGateModal}
       {BatchGateModal}
-      <UpgradeBanner toolName="compress-image" trigger="idle" />
     </>
   )
 }
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["compressImage"]) },
     revalidate: 86400,
   }
 }

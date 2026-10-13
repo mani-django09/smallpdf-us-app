@@ -3,11 +3,17 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
+import ThumbEditControls from "../../components/ThumbEditControls"
+import { bakeImageTransform, filterCssById, hasTransform } from "../../lib/imageEdit"
 
 import { jpgFileStore } from "./index"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewJpgToPdf() {
   const router = useLocalizedRouter()
@@ -18,6 +24,24 @@ export default function PreviewJpgToPdf() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
+  // Per-image edits (rotation degrees + filter id), keyed by file id.
+  const [transforms, setTransforms] = useState({})
+
+  const getTransform = (id) => transforms[id] || { rotation: 0, filterId: "none" }
+
+  const rotateFile = (id, delta) => {
+    setTransforms((prev) => {
+      const cur = prev[id] || { rotation: 0, filterId: "none" }
+      return { ...prev, [id]: { ...cur, rotation: cur.rotation + delta } }
+    })
+  }
+
+  const setFileFilter = (id, filterId) => {
+    setTransforms((prev) => {
+      const cur = prev[id] || { rotation: 0, filterId: "none" }
+      return { ...prev, [id]: { ...cur, filterId } }
+    })
+  }
 
   useEffect(() => {
     const storedFiles = jpgFileStore.get()
@@ -93,8 +117,21 @@ export default function PreviewJpgToPdf() {
       const formData = new FormData()
 
       for (const fileData of filesToConvert) {
-        // fileData.file is the raw File object — append directly, no canvas needed
-        formData.append('files', fileData.file, fileData.name)
+        const { rotation, filterId } = getTransform(fileData.id)
+        if (hasTransform(rotation, filterId)) {
+          // Bake rotation + filter into a fresh image before upload.
+          const { file } = await bakeImageTransform({
+            src: fileData.data,
+            fileName: fileData.name,
+            rotation,
+            filterId,
+            mimeType: fileData.type,
+          })
+          formData.append('files', file, fileData.name)
+        } else {
+          // fileData.file is the raw File object — append directly, no canvas needed
+          formData.append('files', fileData.file, fileData.name)
+        }
       }
 
       setProgress(95)
@@ -114,7 +151,10 @@ export default function PreviewJpgToPdf() {
         let _dlBody = null; try { _dlBody = await response.clone().json() } catch (_) {}
         if (handleDailyLimitError(response.status, _dlBody)) return
         const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.error || "Failed to convert images")
+        // Specific, localized reasons (was a generic alert for every failure).
+        if (errorData.error === "UNREADABLE_IMAGES") throw new Error(t("toolErrors.unreadableImages", { names: (errorData.files || []).join(", ") }))
+        if (errorData.error === "FILE_TOO_LARGE") throw new Error(t("toolErrors.fileTooLarge", { name: filesToConvert.find((f) => f.size > 100 * 1024 * 1024)?.name || "" }))
+        throw new Error(t("jpgToPdf.index.errorProcessing"))
       }
 
       const result = await response.json()
@@ -123,17 +163,20 @@ export default function PreviewJpgToPdf() {
       setStage(t('jpgToPdf.preview.stages.complete'))
 
       sessionStorage.setItem("jpgConvertResult", JSON.stringify(result))
+      // Some images were unreadable (e.g. damaged) — the PDF has the rest; say which.
+      if (result.skipped?.length) alert(t("toolErrors.someSkipped", { names: result.skipped.join(", ") }))
       jpgFileStore.clear()
 
       setTimeout(() => {
-        router.push(`/jpg-to-pdf/download?jobId=${result.jobId}`)
+        goToDownload(router, `/jpg-to-pdf/download?jobId=${result.jobId}`)
       }, 500)
     } catch (err) {
       console.error("Conversion error:", err)
       setConverting(false)
       setProgress(0)
       setStage("")
-      alert(err.message || "Something went wrong. Please try again.")
+      // Messages above are already localized; anything else (network) → generic.
+      alert(err.message && !/fetch|network/i.test(err.message) ? err.message : t("jpgToPdf.index.errorProcessing"))
     }
   }
 
@@ -227,7 +270,15 @@ export default function PreviewJpgToPdf() {
                         onClick={() => toggleFileSelection(file.id)}
                       >
                         <div className="aspect-square bg-slate-100 relative">
-                          <img src={file.data} alt={file.name} className="w-full h-full object-cover" />
+                          <img
+                            src={file.data}
+                            alt={file.name}
+                            className="w-full h-full object-cover transition-transform"
+                            style={{
+                              transform: `rotate(${getTransform(file.id).rotation}deg)`,
+                              filter: filterCssById(getTransform(file.id).filterId),
+                            }}
+                          />
 
                           {/* Checkbox overlay */}
                           <div className={`absolute top-1 left-1 w-5 h-5 rounded flex items-center justify-center border-2 transition-colors ${
@@ -253,6 +304,15 @@ export default function PreviewJpgToPdf() {
                           <span className="absolute bottom-1 left-1 bg-slate-900/70 text-white text-[10px] px-1.5 py-0.5 rounded leading-none">
                             #{index + 1}
                           </span>
+
+                          {/* Rotate + filter controls */}
+                          <ThumbEditControls
+                            rotation={getTransform(file.id).rotation}
+                            filterId={getTransform(file.id).filterId}
+                            onRotate={(d) => rotateFile(file.id, d)}
+                            onFilter={(fid) => setFileFilter(file.id, fid)}
+                            className="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          />
                         </div>
 
                         {/* Filename */}
@@ -289,6 +349,7 @@ export default function PreviewJpgToPdf() {
                         </div>
                         <p className="text-xs text-slate-500 mt-1 text-center">{progress}%</p>
                       </div>
+                      <LoadingPromo />
                     </div>
                   ) : (
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -323,6 +384,7 @@ export default function PreviewJpgToPdf() {
                   )}
                 </div>
 
+
               </div>{/* end main */}
 
               {/* ── Sidebar ── */}
@@ -330,29 +392,14 @@ export default function PreviewJpgToPdf() {
 
                 {/* Sidebar ad */}
                 <div className="hidden lg:block bg-white rounded-xl border border-slate-200 p-2.5">
-                  <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider">Advertisement</p>
+                  <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider"><AdLabel /></p>
                   <AdSenseUnit adSlot="1617102171" />
                 </div>
 
-                {/* Quick tips — compact */}
-                <div className="bg-blue-50 rounded-xl border border-blue-100 p-3">
-                  <p className="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-blue-500" /> Quick Tips
-                  </p>
-                  <ul className="space-y-1.5 text-xs text-slate-600">
-                    <li className="flex items-start gap-1.5">
-                      <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
-                      Uncheck images to exclude from PDF
-                    </li>
-                    <li className="flex items-start gap-1.5">
-                      <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
-                      Image order = page order in PDF
-                    </li>
-                    <li className="flex items-start gap-1.5">
-                      <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
-                      Files auto-deleted after 1 hour
-                    </li>
-                  </ul>
+                {/* Sidebar ad 2 */}
+                <div className="hidden lg:block bg-white rounded-xl border border-slate-200 p-2.5">
+                  <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider"><AdLabel /></p>
+                  <AdSenseUnit adSlot="7489539676" size="rectangle2" />
                 </div>
 
               </div>{/* end sidebar */}
@@ -364,4 +411,11 @@ export default function PreviewJpgToPdf() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["jpgToPdf"]) },
+    revalidate: 86400,
+  }
 }

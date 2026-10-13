@@ -121,6 +121,19 @@ function btn(text, url) {
   return `<a href="${url}" style="display:inline-block;background:linear-gradient(135deg,#dc2626,#f97316);color:#ffffff;font-size:14px;font-weight:700;padding:12px 28px;border-radius:8px;text-decoration:none;margin:4px 0;">${text}</a>`
 }
 
+// Human-readable payment method for the info boxes. Anything unknown falls
+// back to the gateway name itself rather than claiming "Razorpay".
+function gatewayLabel(gateway) {
+  switch (String(gateway || '').toLowerCase()) {
+    case 'razorpay':      return 'Razorpay (UPI / Card)'
+    case 'paypal':        return 'PayPal'
+    case 'lemonsqueezy':
+    case 'lemon squeezy': return 'Card (Lemon Squeezy)'
+    case 'paddle':        return 'Card / PayPal (Paddle)'
+    default:              return gateway || '-'
+  }
+}
+
 // ── Email Templates ───────────────────────────────────────────────────────────
 
 /**
@@ -144,7 +157,7 @@ async function sendPlanActivatedEmail({ name, email, plan, interval, expiresAt, 
         ['Plan',       `${label} (${interval_label})`],
         ['Status',     '✅ Active'],
         ['Next renewal', expiryStr],
-        ['Payment',    gateway === 'paddle' ? 'Card / PayPal (Paddle)' : 'Razorpay (UPI / Card)'],
+        ['Payment',    gatewayLabel(gateway)],
       ])}
       ${p('You can now enjoy:')}
       <ul style="margin:0 0 20px;padding-left:20px;color:#475569;font-size:14px;line-height:2;">
@@ -181,7 +194,7 @@ async function sendPlanRenewedEmail({ name, email, plan, expiresAt, gateway }) {
         ['Plan',           label],
         ['Status',         '✅ Active'],
         ['Next renewal',   expiryStr],
-        ['Payment',        gateway === 'paddle' ? 'Card / PayPal (Paddle)' : 'Razorpay (UPI / Card)'],
+        ['Payment',        gatewayLabel(gateway)],
       ])}
       <div style="text-align:center;margin:24px 0;">
         ${btn('Go to SmallPDF.us →', SITE)}
@@ -263,7 +276,7 @@ async function sendPaymentFailedEmail({ name, email, plan, gateway }) {
       ${infoBox([
         ['Plan',    label],
         ['Status',  '⚠️ Payment pending retry'],
-        ['Gateway', gateway === 'paddle' ? 'Paddle' : 'Razorpay'],
+        ['Gateway', gatewayLabel(gateway)],
       ])}
       ${p('What to do:')}
       <ul style="margin:0 0 20px;padding-left:20px;color:#475569;font-size:14px;line-height:2;">
@@ -279,10 +292,67 @@ async function sendPaymentFailedEmail({ name, email, plan, gateway }) {
   })
 }
 
+// ── Abandoned checkout — Razorpay subscription created but never authorised ──
+// Sent once, 2h–7d after checkout was started, to users who opened the
+// Razorpay modal/UPI-mandate link but never completed it (see paymentRoutes.js
+// sendAbandonedCheckoutReminders for the eligibility window + dedupe logic).
+async function sendAbandonedCheckoutEmail({ name, email, plan }) {
+  const label = PLAN_LABELS[plan] || plan
+
+  await sendEmail({
+    to:      email,
+    subject: `You're one step away from SmallPDF.us ${label}`,
+    html: wrap(`
+      ${h1('Your upgrade is almost done')}
+      ${p(`Hi ${name || 'there'},`)}
+      ${p(`You started upgrading to the <strong>${label}</strong> plan, but the payment was never completed — often because the UPI approval step in your bank app got missed.`)}
+      ${infoBox([
+        ['Plan',   label],
+        ['Status', '⏳ Awaiting payment authorisation'],
+      ])}
+      ${p('If you paid by UPI, check your banking app for a pending mandate approval. Otherwise, just start again below — it takes under a minute.')}
+      <div style="text-align:center;margin:24px 0;">
+        ${btn('Complete Your Upgrade →', `${SITE}/pricing`)}
+      </div>
+      ${p(`Changed your mind? No action needed — you'll stay on the free plan. Questions? Reply to this email or write to <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a>.`, 'font-size:13px;color:#94a3b8;')}
+    `),
+  })
+}
+
+// ── Free-user nurture — sent once, a few days after signup, to users who ────
+// never upgraded. Shows what paid unlocks instead of a generic "upgrade now".
+async function sendFreeUserNurtureEmail({ name, email, isIndia }) {
+  const starterPrice = isIndia ? '₹399/mo' : '$9/mo'
+  const payment       = isIndia ? 'UPI · Card · Net Banking' : 'Card · PayPal'
+
+  await sendEmail({
+    to:      email,
+    subject: `${name ? name.split(' ')[0] + ', h' : 'H'}ere's what SmallPDF.us Starter unlocks`,
+    html: wrap(`
+      ${h1('Still on the free plan? Here\'s what you\'re missing')}
+      ${p(`Hi ${name || 'there'},`)}
+      ${p(`Thanks for trying SmallPDF.us. The free plan works great for the occasional file — but if you're compressing, converting, or merging often, here's what <strong>Starter</strong> (${starterPrice}) adds:`)}
+      <ul style="margin:0 0 20px;padding-left:20px;color:#475569;font-size:14px;line-height:2;">
+        <li><strong>Bigger files</strong> — up to 20MB per upload instead of 15MB</li>
+        <li><strong>Bigger batches</strong> — process up to 10 files at once instead of 2</li>
+        <li><strong>Zero ads</strong> — a clean, uninterrupted workspace</li>
+        <li><strong>Priority processing</strong> — your files skip the queue</li>
+      </ul>
+      <div style="text-align:center;margin:24px 0;">
+        ${btn('See Plans & Pricing →', `${SITE}/pricing`)}
+      </div>
+      ${p(`Not ready yet? No problem — the free plan isn't going anywhere. Questions? Reply to this email or write to <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a>.`, 'font-size:13px;color:#94a3b8;')}
+      ${p(`Payment: ${payment}`, 'font-size:12px;color:#cbd5e1;')}
+    `),
+  })
+}
+
 module.exports = {
   sendPlanActivatedEmail,
   sendPlanRenewedEmail,
   sendCancellationScheduledEmail,
   sendPlanExpiredEmail,
   sendPaymentFailedEmail,
+  sendAbandonedCheckoutEmail,
+  sendFreeUserNurtureEmail,
 }

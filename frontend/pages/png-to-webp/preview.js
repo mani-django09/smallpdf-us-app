@@ -3,9 +3,16 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
-import { FileImage, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { FileImage, ArrowLeft, Play, Trash2, CheckCircle } from "lucide-react"
+import ThumbEditControls from "../../components/ThumbEditControls"
+import { bakeImageTransform, filterCssById, hasTransform } from "../../lib/imageEdit"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { pngToWebpStore } from "./index"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewPngToWebp() {
   const router = useLocalizedRouter()
@@ -16,6 +23,10 @@ export default function PreviewPngToWebp() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
+  const [transforms, setTransforms] = useState({})
+  const getTransform = (id) => transforms[id] || { rotation: 0, filterId: "none" }
+  const rotateFile = (id, d) => setTransforms(p => { const c = p[id] || { rotation: 0, filterId: "none" }; return { ...p, [id]: { ...c, rotation: c.rotation + d } } })
+  const setFileFilter = (id, fid) => setTransforms(p => { const c = p[id] || { rotation: 0, filterId: "none" }; return { ...p, [id]: { ...c, filterId: fid } } })
 
   // ✅ FIX: Use a ref for router inside useEffect to avoid infinite re-render loop.
   // useLocalizedRouter() returns a new object each render, so putting it in the
@@ -24,17 +35,10 @@ export default function PreviewPngToWebp() {
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
-    const storedFiles = sessionStorage.getItem("uploadedPngFiles")
-
-    if (storedFiles) {
-      try {
-        const parsed = JSON.parse(storedFiles)
-        setFilesData(parsed)
-        setSelectedFiles(parsed.map((f) => f.id))
-      } catch (err) {
-        console.error("Error parsing file data:", err)
-        routerRef.current.push("/png-to-webp")
-      }
+    // Files come from memory; after a reload they're gone → back to upload.
+    if (pngToWebpStore.files.length > 0) {
+      setFilesData(pngToWebpStore.files)
+      setSelectedFiles(pngToWebpStore.files.map((f) => f.id))
     } else {
       routerRef.current.push("/png-to-webp")
     }
@@ -48,7 +52,7 @@ export default function PreviewPngToWebp() {
     const newFiles = filesData.filter((f) => f.id !== id)
     setFilesData(newFiles)
     setSelectedFiles((prev) => prev.filter((fid) => fid !== id))
-    sessionStorage.setItem("uploadedPngFiles", JSON.stringify(newFiles))
+    pngToWebpStore.files = newFiles
 
     if (newFiles.length === 0) {
       router.push("/png-to-webp")
@@ -95,10 +99,16 @@ export default function PreviewPngToWebp() {
       const formData = new FormData()
 
       for (const fileData of filesToConvert) {
-        const response = await fetch(fileData.data)
-        const blob = await response.blob()
-        const file = new File([blob], fileData.name, { type: fileData.type || "image/png" })
-        formData.append("files", file)
+        const { rotation, filterId } = getTransform(fileData.id)
+        if (hasTransform(rotation, filterId)) {
+          const { file } = await bakeImageTransform({ src: fileData.data, fileName: fileData.name, rotation, filterId, mimeType: fileData.type || "image/png" })
+          formData.append("files", file)
+        } else {
+          const response = await fetch(fileData.data)
+          const blob = await response.blob()
+          const file = new File([blob], fileData.name, { type: fileData.type || "image/png" })
+          formData.append("files", file)
+        }
       }
 
       const API_URL = getApiUrl()
@@ -108,24 +118,32 @@ export default function PreviewPngToWebp() {
       })
 
       const result = await convertResponse.json()
+      if (handleDailyLimitError(convertResponse.status, result)) return  // daily-limit upgrade modal
 
       setProgress(100)
       setStage(t('pngToWebp.complete'))
 
       if (convertResponse.ok) {
+        if (result.skipped?.length) alert(t("toolErrors.skippedFiles", { names: result.skipped.join(", ") }))
         sessionStorage.setItem(
           "pngConvertResult",
           JSON.stringify({
             ...result,
-            fileCount: filesToConvert.length,
+            // what the server actually produced (unreadable files are skipped)
+            fileCount: result.fileCount || filesToConvert.length,
             totalSize: filesToConvert.reduce((acc, f) => acc + f.size, 0),
           }),
         )
         setTimeout(() => {
-          router.push(`/png-to-webp/download?jobId=${result.jobId}`)
+          goToDownload(router, `/png-to-webp/download?jobId=${result.jobId}`)
         }, 500)
       } else {
-        alert(t('pngToWebp.errorConversionFailed') || "Conversion failed: " + result.error)
+        // Localized, specific reasons (was a generic "Conversion failed").
+        alert(result.error === "UNREADABLE_IMAGES"
+          ? t("toolErrors.unreadableImages", { names: (result.files || []).join(", ") })
+          : result.error === "FILE_TOO_LARGE"
+            ? t("toolErrors.fileTooLarge", { name: filesToConvert.find((f) => f.size > 100 * 1024 * 1024)?.name || "" })
+            : (t('pngToWebp.errorConversionFailed') || "Conversion failed: " + result.error))
         setConverting(false)
       }
     } catch (error) {
@@ -208,7 +226,7 @@ export default function PreviewPngToWebp() {
 
       {/* Main Content */}
       <div className="bg-slate-50 min-h-screen py-6 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Main Card */}
             <div className="lg:col-span-2">
@@ -271,13 +289,19 @@ export default function PreviewPngToWebp() {
                                   <img
                                     src={f.data || "/placeholder.svg"}
                                     alt={f.name}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover transition-transform"
+                                    style={{ transform: `rotate(${getTransform(f.id).rotation}deg)`, filter: filterCssById(getTransform(f.id).filterId) }}
                                   />
                                   {selectedFiles.includes(f.id) && (
                                     <div className="absolute top-1 right-1 w-5 h-5 bg-emerald-600 rounded-full flex items-center justify-center">
                                       <CheckCircle className="w-3.5 h-3.5 text-white" />
                                     </div>
                                   )}
+                                  <ThumbEditControls
+                                    rotation={getTransform(f.id).rotation} filterId={getTransform(f.id).filterId}
+                                    onRotate={(d) => rotateFile(f.id, d)} onFilter={(fid) => setFileFilter(f.id, fid)}
+                                    className="absolute bottom-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  />
                                 </div>
                                 <p className="text-xs font-medium text-slate-900 truncate">{f.name}</p>
                                 <p className="text-xs text-slate-500">{(f.size / 1024).toFixed(1)} KB</p>
@@ -347,6 +371,10 @@ export default function PreviewPngToWebp() {
                           {t('pngToWebp.convertingImages')} {selectedCount} {t(selectedCount !== 1 ? 'pngToWebp.pngImagesTo' : 'pngToWebp.pngImageTo')}
                         </p>
                       </div>
+
+                      <div className="flex justify-center mt-3">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -355,52 +383,18 @@ export default function PreviewPngToWebp() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pngToWebp.whatYouGet')}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t('pngToWebp.upToSmallerFiles'), color: "text-emerald-600 bg-emerald-100" },
-                    { icon: Shield, text: t('pngToWebp.secureProcessing'), color: "text-slate-600 bg-slate-100" },
-                    { icon: Zap, text: t('pngToWebp.instantConversion'), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t('pngToWebp.autoDeleteInHour'), color: "text-slate-600 bg-slate-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                      >
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('pngToWebp.conversionSteps')}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t('pngToWebp.uploadPngFiles'), color: "bg-emerald-600" },
-                    { num: "2", text: t('pngToWebp.selectAndPreview'), color: "bg-slate-600" },
-                    { num: "3", text: t('pngToWebp.downloadWebpFiles'), color: "bg-slate-800" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -408,4 +402,11 @@ export default function PreviewPngToWebp() {
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pngToWebp"]) },
+    revalidate: 86400,
+  }
 }

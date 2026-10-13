@@ -2,12 +2,17 @@ import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "@/lib/useLocalizedRouter"
 import Layout from "@/components/Layout"
 import SEOHead from "@/components/SEOHead"
-import { FileText, ArrowLeft, CheckCircle2, Sparkles, Shield, Zap, Clock, Play, AlertCircle } from "lucide-react"
+import { FileText, ArrowLeft, CheckCircle2, Play, AlertCircle } from "lucide-react"
 import { useTranslations } from "@/lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 // FIX #8: Import the in-memory file store from the upload page
 import { pendingPdfFiles } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 // Get API URL - use environment variable or empty string for relative URLs
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""
@@ -15,11 +20,14 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""
 export default function PreviewPdfToWord() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
+  const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const [files, setFiles] = useState([])
   const [converting, setConverting] = useState(false)
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [error, setError] = useState("")
+  const [needsOcr, setNeedsOcr] = useState(false)
+  const { handleApiError, PremiumGateModal } = useFileSizeGuard("pdf-to-word")
 
   const routerRef = useRef(router)
   useEffect(() => {
@@ -44,9 +52,10 @@ export default function PreviewPdfToWord() {
           }))
           setFiles(enriched)
         } else {
-          // Fallback: metadata only (e.g. page refresh) — we still have enough info
-          // to show the preview UI; conversion will re-fetch from original file data
-          setFiles(metaArray)
+          // Page was reloaded: only the metadata survived, the File objects are
+          // gone. Showing the list anyway sent an EMPTY upload on "Convert"
+          // ("No PDF files uploaded" — ~45 times in two weeks). Re-select instead.
+          routerRef.current.push("/pdf-to-word")
         }
       } catch (err) {
         console.error("Error parsing file data:", err)
@@ -65,6 +74,7 @@ export default function PreviewPdfToWord() {
     // FIX #6: Actually call setStage() — previously the return value was silently discarded
     setStage(t("pdfToWordPreview.preparingStage"))
     setError("")
+    setNeedsOcr(false)
 
     // Progress animation stages
     const stages = [
@@ -111,7 +121,12 @@ export default function PreviewPdfToWord() {
 
       clearInterval(progressInterval)
 
-      const result = await convertResponse.json()
+      // A proxy error page (413/502) is HTML, not JSON.
+      const result = await convertResponse.json().catch(() => ({}))
+      // Limit modals take over — put the page back so the user can continue.
+      if (handleDailyLimitError(convertResponse.status, result) || handleApiError(convertResponse, result)) {
+        setConverting(false); setProgress(0); setStage(""); return
+      }
 
       if (convertResponse.ok && result.success) {
         setProgress(100)
@@ -122,10 +137,12 @@ export default function PreviewPdfToWord() {
 
         // Navigate to download page
         setTimeout(() => {
-          router.push(`/pdf-to-word/download?jobId=${result.jobId}`)
+          goToDownload(router, `/pdf-to-word/download?jobId=${result.jobId}`)
         }, 500)
       } else {
-        throw new Error(result.error || result.details || "Conversion failed")
+        if (result.code === "NO_EXTRACTABLE_CONTENT") setNeedsOcr(true)
+        // `details` carries the actionable part ("scanned PDF — use OCR first").
+        throw new Error([result.error, result.details].filter(Boolean).join(" ") || t("pdfToWordPreview.conversionFailed"))
       }
     } catch (err) {
       clearInterval(progressInterval)
@@ -221,7 +238,7 @@ export default function PreviewPdfToWord() {
 
       {/* Main Content */}
       <div className="bg-slate-50 min-h-screen py-6 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Main Card */}
             <div className="lg:col-span-2">
@@ -265,6 +282,15 @@ export default function PreviewPdfToWord() {
                           {t("pdfToWordPreview.conversionFailed")}
                         </p>
                         <p className="font-body text-sm text-red-700 mt-1">{error}</p>
+                        {needsOcr && (
+                          <button
+                            type="button"
+                            onClick={() => router.push("/ocr-pdf")}
+                            className="mt-2 text-sm font-semibold text-red-800 underline"
+                          >
+                            OCR PDF →
+                          </button>
+                        )}
                       </div>
                     </div>
                   )}
@@ -357,6 +383,10 @@ export default function PreviewPdfToWord() {
                             : t("pdfToWordPreview.convertingText_singular").replace("{{count}}", files.length)}
                         </p>
                       </div>
+
+                      <div className="flex justify-center mt-3">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -365,62 +395,31 @@ export default function PreviewPdfToWord() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              {/* Features */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">
-                  {t("pdfToWordPreview.whatYouGet")}
-                </h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t("pdfToWordPreview.feat1"), color: "text-violet-600 bg-violet-100" },
-                    { icon: Shield, text: t("pdfToWordPreview.feat2"), color: "text-emerald-600 bg-emerald-100" },
-                    { icon: Zap, text: t("pdfToWordPreview.feat3"), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t("pdfToWordPreview.feat4"), color: "text-blue-600 bg-blue-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                      >
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Process Steps */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">
-                  {t("pdfToWordPreview.conversionProcess")}
-                </h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t("pdfToWordPreview.step1"), color: "bg-blue-600" },
-                    { num: "2", text: t("pdfToWordPreview.step2"), color: "bg-blue-700" },
-                    { num: "3", text: t("pdfToWordPreview.step3"), color: "bg-emerald-600" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
       </div>
+      {DailyLimitGate}
+      {PremiumGateModal}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["pdfToWordPreview"]) },
+    revalidate: 86400,
+  }
 }

@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 const { OAuth2Client } = require('google-auth-library')
-const { dbRun, dbGet } = require('../database')
+const { dbRun, dbGet, dbAll } = require('../database')
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
@@ -81,7 +81,7 @@ router.post('/signup', async (req, res) => {
     const verifyToken = crypto.randomBytes(32).toString('hex')
     const verifyExpires = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
 
-    await dbRun(
+    const { id: newUserId } = await dbRun(
       `INSERT INTO users (name, email, password_hash, email_verify_token, email_verify_expires)
        VALUES (?, ?, ?, ?, ?)`,
       [name.trim(), email.toLowerCase(), passwordHash, verifyToken, verifyExpires]
@@ -102,7 +102,29 @@ router.post('/signup', async (req, res) => {
       }),
     })
 
-    res.status(201).json({ message: 'Account created. Please check your email to verify your account.' })
+    // Welcome email sequence — sent in background (non-blocking)
+    scheduleWelcomeSequence({ name: name.trim(), email: email.toLowerCase() }).catch(() => {})
+
+    // Log the user in immediately so their daily free-conversion quota (5/day)
+    // applies right away — otherwise they'd stay on the guest quota (3/day)
+    // until they verify their email and log in separately.
+    const token = jwt.sign(
+      { id: newUserId, email: email.toLowerCase(), name: name.trim(), plan: 'free' },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    )
+
+    res.status(201).json({
+      message: 'Account created. Please check your email to verify your account.',
+      token,
+      user: {
+        id: newUserId,
+        name: name.trim(),
+        email: email.toLowerCase(),
+        plan: 'free',
+        avatar: null,
+      },
+    })
   } catch (err) {
     console.error('Signup error:', err)
     res.status(500).json({ error: 'Failed to create account. Please try again.' })
@@ -329,6 +351,88 @@ router.get('/me', requireAuth, async (req, res) => {
   }
 })
 
+// ─── POST /api/auth/refresh-token ───────────────────────────────────────────
+// Re-issues a JWT with the user's CURRENT plan from the database.
+// The old JWT is still valid (signature/expiry untouched) but may carry a
+// stale `plan` claim — e.g. right after a payment activates a paid plan, or
+// after a subscription lapses. Middleware like fileSizeLimiter/
+// dailyConversionLimiter reads `plan` straight off the JWT for speed, so
+// callers must swap in this fresh token whenever the plan may have changed
+// (checkout success, cancellation) instead of just re-fetching /me.
+router.post('/refresh-token', requireAuth, async (req, res) => {
+  try {
+    const user = await dbGet(
+      `SELECT id, name, email, plan, plan_expires_at, avatar, created_at, last_login_at FROM users WHERE id = ?`,
+      [req.user.id]
+    )
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    if (user.plan !== 'free' && user.plan_expires_at) {
+      const expiry = new Date(user.plan_expires_at)
+      if (expiry < new Date()) {
+        await dbRun(`UPDATE users SET plan = 'free', plan_expires_at = NULL WHERE id = ?`, [user.id])
+        user.plan            = 'free'
+        user.plan_expires_at = null
+        console.log(`⏰ Plan auto-expired on refresh-token for userId=${user.id}`)
+      }
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email, name: user.name, plan: user.plan },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    )
+
+    res.json({ token, user })
+  } catch (err) {
+    console.error('refresh-token error:', err)
+    res.status(500).json({ error: 'Failed to refresh token' })
+  }
+})
+
+// ─── GET /api/auth/history ─────────────────────────────────────────────────
+// Returns the authenticated user's recent conversion + download activity.
+// Used by the Account > History page.
+router.get('/history', requireAuth, async (req, res) => {
+  try {
+    const page    = Math.max(1, parseInt(req.query.page  || '1'))
+    const limit   = Math.min(50, Math.max(1, parseInt(req.query.limit || '20')))
+    const offset  = (page - 1) * limit
+
+    // We track by ip_address (not user_id) so we join on the IP stored at login time.
+    // For logged-in users, use the request IP as a proxy for their recent activity.
+    const ip = req.clientIP || req.ip || null
+
+    const [rows, countRow] = await Promise.all([
+      dbAll(
+        `SELECT id, action, tool, filename, file_size, processing_time, status, created_at
+         FROM activity_logs
+         WHERE ip_address = ?
+           AND type IN ('conversion','download')
+           AND tool IS NOT NULL
+         ORDER BY created_at DESC
+         LIMIT ? OFFSET ?`,
+        [ip, limit, offset]
+      ),
+      dbGet(
+        `SELECT COUNT(*) as total FROM activity_logs
+         WHERE ip_address = ? AND type IN ('conversion','download') AND tool IS NOT NULL`,
+        [ip]
+      ),
+    ])
+
+    res.json({
+      history:    rows,
+      total:      countRow?.total || 0,
+      page,
+      totalPages: Math.ceil((countRow?.total || 0) / limit),
+    })
+  } catch (err) {
+    console.error('History error:', err)
+    res.status(500).json({ error: 'Failed to fetch history' })
+  }
+})
+
 // ─── PUT /api/auth/update-profile ──────────────────────────────────────────
 router.put('/update-profile', requireAuth, async (req, res) => {
   try {
@@ -424,6 +528,114 @@ router.post('/google', async (req, res) => {
 })
 
 // ─── Email HTML Template ────────────────────────────────────────────────────
+// ─── Welcome Email Sequence ─────────────────────────────────────────────────
+// 2-email onboarding drip — fires after signup in background.
+//   Day 0 (10 min delay) : Welcome + top 3 tools
+//   Day 3               : "Did you know?" feature discovery
+//
+// The old 3rd email (day-7 upgrade nudge) lived here too, but setTimeout()
+// is in-memory — any pm2 restart before it fires (deploys happen often)
+// silently loses it, so it was unreliable. That job is replaced by
+// sendFreeUserNurtureReminders in payments/paymentRoutes.js, which is
+// DB-backed (checks every 6h via setInterval in server.js) and survives
+// restarts, so every free user reliably gets exactly one nurture email.
+//
+// All emails are fire-and-forget (errors logged, never thrown).
+async function scheduleWelcomeSequence({ name, email }) {
+  const firstName = name.split(' ')[0] || name
+  const siteUrl   = process.env.FRONTEND_URL || 'https://smallpdf.us'
+
+  // These timers fire minutes-to-days after signup, so by then the account may
+  // have been deleted/banned, or the address may be a typo that never verified.
+  // Mailing those bounces (hurting sender reputation) and reaches people who
+  // never asked for it. Check the account is still real at send time.
+  //   requireVerified=false → Welcome (10 min; the user may not have clicked
+  //                           the verify link yet, that's fine)
+  //   requireVerified=true  → Day-3 (a still-unverified address by then is
+  //                           almost certainly not a working inbox)
+  async function accountStillEligible({ requireVerified }) {
+    try {
+      const row = await dbGet('SELECT email_verified, is_banned FROM users WHERE email = ?', [email])
+      if (!row || row.is_banned) return false
+      return requireVerified ? !!row.email_verified : true
+    } catch {
+      return false // can't confirm the account exists → don't risk a bounce
+    }
+  }
+
+  // ── Email 1: Welcome (10 min delay so verify email lands first) ──────────
+  setTimeout(async () => {
+    try {
+      if (!(await accountStillEligible({ requireVerified: false }))) return
+      await sendEmail({
+        to: email,
+        subject: `Welcome to SmallPDF.us, ${firstName}! 🎉`,
+        html: emailTemplate({
+          title: `Welcome aboard, ${firstName}!`,
+          body: `
+<p>We're thrilled to have you. Here are the 3 most popular tools to get you started:</p>
+<table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0;">
+  <tr>
+    <td style="padding:12px;background:#fef2f2;border-radius:8px;margin-bottom:8px;">
+      <strong style="color:#DC2626;">📄 PDF to Word</strong><br>
+      <span style="color:#6b7280;font-size:14px;">Convert any PDF to an editable Word document in seconds.</span><br>
+      <a href="${siteUrl}/pdf-to-word/" style="color:#DC2626;font-size:13px;">Try it now →</a>
+    </td>
+  </tr>
+  <tr><td style="height:8px;"></td></tr>
+  <tr>
+    <td style="padding:12px;background:#fef2f2;border-radius:8px;">
+      <strong style="color:#DC2626;">🗜️ Compress PDF</strong><br>
+      <span style="color:#6b7280;font-size:14px;">Reduce PDF size by up to 90% without losing quality.</span><br>
+      <a href="${siteUrl}/compress-pdf/" style="color:#DC2626;font-size:13px;">Try it now →</a>
+    </td>
+  </tr>
+  <tr><td style="height:8px;"></td></tr>
+  <tr>
+    <td style="padding:12px;background:#fef2f2;border-radius:8px;">
+      <strong style="color:#DC2626;">🔗 Merge PDF</strong><br>
+      <span style="color:#6b7280;font-size:14px;">Combine multiple PDFs into one neat document.</span><br>
+      <a href="${siteUrl}/merge-pdf/" style="color:#DC2626;font-size:13px;">Try it now →</a>
+    </td>
+  </tr>
+</table>
+<p style="color:#6b7280;font-size:14px;">All tools are free to use. No software to install, no sign-in needed for guests.</p>`,
+          buttonText: 'Explore All Tools',
+          buttonUrl: `${siteUrl}/`,
+          footer: `You're receiving this because you signed up at SmallPDF.us. <a href="${siteUrl}/account/" style="color:#DC2626;">Manage your account</a>`,
+        }),
+      })
+    } catch (e) { console.error('[welcome-email-1]', e.message) }
+  }, 10 * 60 * 1000) // 10 minutes
+
+  // ── Email 2: Feature discovery (3 days) ──────────────────────────────────
+  setTimeout(async () => {
+    try {
+      if (!(await accountStillEligible({ requireVerified: true }))) return
+      await sendEmail({
+        to: email,
+        subject: `Did you know SmallPDF.us can do this? 🤔`,
+        html: emailTemplate({
+          title: `More tools you might have missed`,
+          body: `
+<p>Hi ${firstName},</p>
+<p>You've already discovered our PDF tools — here are a few more that power users love:</p>
+<ul style="padding-left:20px;color:#374151;line-height:2;">
+  <li><strong>OCR PDF</strong> — Extract text from scanned PDFs (supports 100+ languages)</li>
+  <li><strong>PDF to Excel</strong> — Convert tables in PDFs directly to .xlsx files</li>
+  <li><strong>Unlock PDF</strong> — Remove password protection from any PDF</li>
+  <li><strong>Split PDF</strong> — Extract specific pages from a large document</li>
+</ul>
+<p style="color:#6b7280;font-size:14px;">All of these work right in your browser — no software needed.</p>`,
+          buttonText: 'See All 18 Tools',
+          buttonUrl: `${siteUrl}/`,
+          footer: `You're receiving this because you signed up at SmallPDF.us. <a href="${siteUrl}/account/" style="color:#DC2626;">Manage preferences</a>`,
+        }),
+      })
+    } catch (e) { console.error('[welcome-email-2]', e.message) }
+  }, 3 * 24 * 60 * 60 * 1000) // 3 days
+}
+
 function emailTemplate({ title, body, buttonText, buttonUrl, footer }) {
   return `
 <!DOCTYPE html>

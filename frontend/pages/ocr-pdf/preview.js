@@ -7,13 +7,15 @@ import SEOHead from "../../components/SEOHead"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { useAuth } from "../../context/AuthContext"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
-  ScanText, ArrowLeft, Play, FileText, Shield, Zap, Clock,
-  Crown, CheckCircle2, AlertCircle, Download,
+  ScanText, ArrowLeft, Play, FileText, Shield, Clock,
+  Crown, CheckCircle2, AlertCircle,
 } from "lucide-react"
 import { ocrPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import { goToDownload } from "../../lib/fullPageNav"
 
 
 const STAGES_EN = [
@@ -29,9 +31,10 @@ const STAGES_EN = [
 export default function OcrPdfPreview() {
   const router = useLocalizedRouter()
   const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
-  const { user } = useAuth()
+  const { user, authFetch } = useAuth()
   const { t } = useTranslations()
-  const isPro = user?.plan === "pro" || user?.plan === "enterprise"
+  // Any paid plan gets the paid OCR limits + Word/TXT exports (matches the server)
+  const isPro = ["starter", "pro", "agency", "enterprise"].includes(user?.plan)
 
   const [file, setFile] = useState(null)
   const [status, setStatus] = useState("ready") // ready | processing | error
@@ -87,16 +90,22 @@ export default function OcrPdfPreview() {
           ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011"
           : `${window.location.protocol}//${window.location.hostname}`
 
-      const res = await fetch(`${API_URL}/api/ocr-pdf`, {
+      // authFetch attaches the stored JWT — `user.token` never existed, so paid
+      // users were always treated as free (1 OCR/day, 2 pages).
+      const res = await authFetch(`${API_URL}/api/ocr-pdf`, {
         method: "POST",
         body: formData,
-        headers: user?.token ? { Authorization: `Bearer ${user.token}` } : {},
       })
 
       clearInterval(tick)
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}))
+        if (handleDailyLimitError(res.status, data)) {  // daily-limit upgrade modal
+          setStatus("ready")
+          setProgress(0)
+          return
+        }
         throw new Error(data.message || data.error || `Server error ${res.status}`)
       }
 
@@ -104,7 +113,7 @@ export default function OcrPdfPreview() {
       setProgress(100)
       sessionStorage.setItem("ocrPdfResult", JSON.stringify(data))
       ocrPdfStore.clear()
-      setTimeout(() => router.push("/ocr-pdf/download"), 400)
+      setTimeout(() => goToDownload(router, "/ocr-pdf/download"), 400)
     } catch (err) {
       clearInterval(tick)
       setErrMsg(err.message || "Something went wrong. Please try again.")
@@ -161,6 +170,7 @@ export default function OcrPdfPreview() {
         </div>
 
         {/* Ad */}
+        {/* Ad */}
         <div className="bg-slate-50 px-4 pt-5">
           <div className="max-w-4xl mx-auto">
             <AdSenseUnit adSlot="8004544994" size="leaderboard" />
@@ -169,7 +179,7 @@ export default function OcrPdfPreview() {
 
         {/* Content */}
         <div className="bg-slate-50 min-h-screen py-6 px-4">
-          <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5">
 
             {/* Main card */}
             <div className="lg:col-span-2">
@@ -322,55 +332,11 @@ export default function OcrPdfPreview() {
                 <AdSenseUnit adSlot="1617102171" />
               </div>
 
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-900 mb-3">{t("ocrPdf.preview.sidebarHowTitle")}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { num: "1", color: "bg-violet-600" },
-                    { num: "2", color: "bg-purple-600" },
-                    { num: "3", color: "bg-fuchsia-600" },
-                    { num: "4", color: "bg-emerald-600" },
-                  ].map((s, i) => (
-                    <div key={s.num} className="flex items-center gap-2.5">
-                      <div className={`w-5 h-5 ${s.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>{s.num}</div>
-                      <span className="text-xs text-slate-700">{t(`ocrPdf.preview.sidebarSteps.${i}`)}</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.preview.advertisement")}</p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
               </div>
 
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="text-sm font-semibold text-slate-900 mb-3">{t("ocrPdf.preview.sidebarSecurityTitle")}</h3>
-                <div className="space-y-2">
-                  {[
-                    { icon: Shield,   color: "text-emerald-600 bg-emerald-100" },
-                    { icon: Clock,    color: "text-blue-600 bg-blue-100"       },
-                    { icon: Zap,      color: "text-violet-600 bg-violet-100"   },
-                    { icon: Download, color: "text-amber-600 bg-amber-100"     },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}>
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="text-xs text-slate-700">{t(`ocrPdf.preview.sidebarSecurityItems.${i}`)}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {!isPro && (
-                <div className="bg-gradient-to-br from-violet-600 to-purple-700 rounded-xl p-4 text-white">
-                  <Crown className="w-5 h-5 mb-2 text-violet-200" />
-                  <p className="font-bold text-sm mb-1">{t("ocrPdf.preview.sidebarProTitle")}</p>
-                  <p className="text-xs text-violet-200 mb-3">{t("ocrPdf.preview.sidebarProDesc")}</p>
-                  <a
-                    href="/pricing"
-                    className="block text-center bg-white text-violet-700 font-bold text-xs py-2 rounded-lg hover:bg-violet-50 transition-colors"
-                  >
-                    {t("ocrPdf.preview.sidebarProButton")}
-                  </a>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -378,4 +344,11 @@ export default function OcrPdfPreview() {
       </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["ocrPdf"]) },
+    revalidate: 86400,
+  }
 }

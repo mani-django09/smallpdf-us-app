@@ -27,9 +27,10 @@ if (typeof globalThis.Path2D === 'undefined') {
   const archiver = require("archiver")
   const PDFDocument = require("pdfkit")
   const { PDFDocument: PDFLibDocument } = require("pdf-lib")
-  const sizeOf = require("image-size")
+  const _imageSize = require("image-size")
+  const sizeOf = typeof _imageSize === "function" ? _imageSize : (_imageSize.imageSize || _imageSize.default)
   const sharp = require("sharp")
-  const pdfParse = require('pdf-parse')
+  const heicConvert = require("heic-convert")
   const { Document, Packer, Paragraph, TextRun } = require("docx")
   const crypto = require("crypto")
   const { 
@@ -39,7 +40,8 @@ if (typeof globalThis.Path2D === 'undefined') {
     dbAll, 
     logActivityToDB,
     getActivityLogsFromDB,
-    getStatsFromDB 
+    getStatsFromDB,
+    cleanupOldAnalyticsData
   } = require('./database')
   const { router: authRouter } = require('./auth/authRoutes')
   const { batchLimiter } = require('./middleware/batchLimiter')
@@ -61,9 +63,10 @@ if (typeof globalThis.Path2D === 'undefined') {
     cleanupExpiredRateLimits,
     dailyConversionLimiter,
   } = require('./middleware/sqliteRateStore')
-  const { router: paymentRouter, webhookHandler } = require('./payments/paymentRoutes')
+  const { router: paymentRouter, webhookHandler, sendAbandonedCheckoutReminders, sendFreeUserNurtureReminders } = require('./payments/paymentRoutes')
   const { router: paypalRouter, paypalWebhookHandler } = require('./payments/paypalRoutes')
   const { router: lsRouter, webhookHandler: lsWebhookHandler } = require('./payments/lemonSqueezyRoutes')
+  const { router: appProRouter } = require('./payments/appProRoutes')
   const helmet = require('helmet')
   const rateLimit = require('express-rate-limit')
   // Normalise the client IP for rate-limit keying.
@@ -96,13 +99,21 @@ if (typeof globalThis.Path2D === 'undefined') {
   }
 
   // Admin credentials (CHANGE THESE IN PRODUCTION!)
-  const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "mypdftools"
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "ilovemypdftools@007"
+  // No built-in fallback credentials: a default password in the source code works
+  // for anyone who has seen the code whenever .env is missing. Without both
+  // variables the admin login is simply disabled.
+  const ADMIN_USERNAME = process.env.ADMIN_USERNAME || ""
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || ""
 
 
   // Middleware
   app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3006', 'http://localhost:3002', 'https://smallpdf.us', 'https://www.smallpdf.us'],
+  // localhost origins only on the (Windows) dev machine or when explicitly enabled
+  // — both .env files say NODE_ENV=production. On the live server, credentials:true
+  // + a localhost origin let any page on a visitor's localhost call the live API.
+  origin: (process.platform === 'win32' || process.env.ALLOW_LOCALHOST_ORIGINS === '1')
+    ? ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3006', 'http://localhost:3002', 'https://smallpdf.us', 'https://www.smallpdf.us']
+    : ['https://smallpdf.us', 'https://www.smallpdf.us'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -116,11 +127,40 @@ if (typeof globalThis.Path2D === 'undefined') {
 
   app.use(express.json())
   app.use("/uploads", express.static("uploads"))
+
+  // The routers below are mounted BEFORE the global `/api/` limiter further
+  // down, so their requests never reached it: login/signup/password-reset had
+  // no rate limit at all (unlimited password guessing, and reset/verification
+  // emails could be fired in bulk — burning the SMTP daily quota that real
+  // welcome/payment emails depend on). req.clientIP isn't set yet at this
+  // point, so resolve it here for the key.
+  const authKey = (req) => { req.clientIP = req.clientIP || getClientIP(req); return rateLimitKey(req) }
+  const authAttemptLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false,
+    keyGenerator: authKey, store: new SQLiteRateStore("auth-attempt"),
+    message: { error: "Too many attempts. Please wait 15 minutes and try again." },
+  })
+  const authEmailLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false,
+    keyGenerator: authKey, store: new SQLiteRateStore("auth-email"),
+    message: { error: "Too many requests. Please try again in an hour." },
+  })
+  app.use(["/api/auth/login", "/api/auth/google"], authAttemptLimiter)
+  app.use(["/api/auth/signup", "/api/auth/forgot-password", "/api/auth/resend-verification"], authEmailLimiter)
+
   app.use('/api/auth', authRouter)
   app.use('/api/payments', paymentRouter)
   app.use('/api/paypal', paypalRouter)
   app.use('/api/lemonsqueezy', lsRouter)
   app.use('/api/my-files', myFilesRouter)
+
+  // SnapPDF Android app: exchange an active Play subscription (RevenueCat) for a Pro JWT.
+  const appProLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, max: 30, standardHeaders: true, legacyHeaders: false,
+    keyGenerator: authKey, store: new SQLiteRateStore("app-pro"),
+    message: { error: "Too many requests. Please try again later." },
+  })
+  app.use('/api/app', appProLimiter, express.json({ limit: '4kb' }), appProRouter)
 
   // "My Files" history: ensure the table exists and start the retention sweep
   // (free = 1h, paid = 24h). Sweep also unrefs so it never blocks shutdown.
@@ -134,15 +174,15 @@ if (typeof globalThis.Path2D === 'undefined') {
 // IP DETECTION MIDDLEWARE
 // ============================================
 function getClientIP(req) {
-  let ip =
-    req.headers['cf-connecting-ip'] ||
-    req.headers['x-real-ip'] ||
-    req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
-    req.headers['x-client-ip'] ||
-    req.connection?.remoteAddress ||
-    req.socket?.remoteAddress ||
-    req.ip ||
-    'unknown'
+  // SECURITY: client-supplied headers (CF-Connecting-IP, X-Forwarded-For, …) were
+  // trusted from anyone. A request sent straight to the origin (server IP, not
+  // through Cloudflare) could set any IP per request and so bypass every
+  // IP-based limit — admin-login brute-force protection, daily conversion quota,
+  // rate limits. Only nginx on loopback is trusted: it validates CF-Connecting-IP
+  // against Cloudflare's ranges (real_ip module) and passes the result as X-Real-IP.
+  const peer = String(req.socket?.remoteAddress || '').replace(/^::ffff:/, '')
+  const viaLocalProxy = peer === '127.0.0.1' || peer === '::1'
+  let ip = (viaLocalProxy && req.headers['x-real-ip']) || peer || 'unknown'
 
   // Clean up IPv6 localhost
   if (ip === '::1' || ip === '::ffff:127.0.0.1') return '127.0.0.1'
@@ -181,6 +221,11 @@ const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: rateLimitKey,
+  // Admin dashboard calls are JWT-protected (login has its own limiter); don't let them eat the shared quota
+  skip: (req) => {
+    const u = req.originalUrl
+    return (u.startsWith("/api/admin/") && !u.startsWith("/api/admin/login")) || u.startsWith("/api/blog/admin/")
+  },
   store: new SQLiteRateStore("api"), // persist across restarts / instances
   message: { error: "Too many requests. Please slow down and try again in a few minutes." },
 })
@@ -195,6 +240,66 @@ app.param("jobId", (req, res, next, jobId) => {
   next()
 })
 
+// Email capture — "notify me about new tools" opt-in on download pages.
+// No email service wired up; just stores to email_subscribers for later use/export.
+const subscribeLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,                   // per IP per window — this is a low-value form, not a login
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: rateLimitKey,
+  store: new SQLiteRateStore("subscribe"),
+  message: { error: "Too many attempts. Please try again later." },
+})
+app.post("/api/subscribe", subscribeLimiter, async (req, res) => {
+  try {
+    const email = String(req.body?.email || "").trim().toLowerCase()
+    const sourcePage = String(req.body?.source || "").slice(0, 200)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: "Invalid email address" })
+    }
+    await dbRun(
+      "INSERT OR IGNORE INTO email_subscribers (email, source_page) VALUES (?, ?)",
+      [email, sourcePage || null]
+    )
+    res.json({ success: true })
+  } catch (error) {
+    console.error("Subscribe error:", error.message)
+    res.status(500).json({ error: "Something went wrong. Please try again." })
+  }
+})
+
+  // Upload filenames end up inside shell commands (soffice / gs / qpdf / python,
+  // all run through exec with "..." quoting) and in output paths derived from
+  // file.originalname. Inside double quotes the shell still expands $(...),
+  // backticks and \, and a " ends the argument — so an unsanitized name like
+  // `a$(cmd).pdf` executed commands on the server. Normalise the name ONCE here,
+  // at upload time, and write it back onto file.originalname so every route
+  // (and every path built from it) only ever sees safe characters.
+  // Also repairs multer's latin1 decoding of UTF-8 names ("Ã­" → "í"), which made
+  // LibreOffice's output name differ from the one we looked for.
+  function safeUploadName(name) {
+    let n = String(name || '')
+    try {
+      const utf8 = Buffer.from(n, 'latin1').toString('utf8')
+      if (!utf8.includes('�')) n = utf8
+    } catch (_) {}
+    n = path.basename(n.normalize('NFC'))
+    const ext = path.extname(n).replace(/[^A-Za-z0-9.]/g, '').slice(0, 10)
+    let base = n.slice(0, n.length - path.extname(n).length)
+      .replace(/[^\p{L}\p{M}\p{N} _.()+,@-]/gu, '_')
+      .replace(/_{2,}/g, '_')
+      .replace(/^[\s.\-_]+|[\s.]+$/g, '')
+      .slice(0, 120)
+    // Cap by BYTES too: Linux allows 255 bytes per file name, and routes prepend
+    // "<timestamp>-compressed-" etc. 120 Japanese characters = 360 bytes, which
+    // failed with ENAMETOOLONG.
+    while (Buffer.byteLength(base, 'utf8') > 150) base = Array.from(base).slice(0, -1).join('')
+    if (!base) base = 'file'
+    return base + ext
+  }
+
   // Configure multer for file uploads
   const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -205,7 +310,10 @@ app.param("jobId", (req, res, next, jobId) => {
       cb(null, dir)
     },
     filename: (req, file, cb) => {
-      cb(null, Date.now() + "-" + file.originalname)
+      file.originalname = safeUploadName(file.originalname)
+      // Random part: files in uploads/ are served publicly by nginx, and "<ms>-<name>"
+      // (also reused for pdf-to-jpg output names) could be guessed.
+      cb(null, Date.now() + "-" + require("crypto").randomBytes(6).toString("hex") + "-" + file.originalname)
     },
   })
 
@@ -213,6 +321,9 @@ app.param("jobId", (req, res, next, jobId) => {
     storage,
     limits: { fileSize: 100 * 1024 * 1024 },
   })
+  // Keep the input of FAILED conversions for 24 h (diagnosis) — see middleware/failedInputs.js
+  const { keepInputsOnFailure, sweepFailedInputs } = require("./middleware/failedInputs")
+  keepInputsOnFailure(upload)
 
   // Multer configuration for blog images
   const blogImageStorage = multer.diskStorage({
@@ -225,6 +336,7 @@ app.param("jobId", (req, res, next, jobId) => {
     },
     filename: (req, file, cb) => {
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9)
+      file.originalname = safeUploadName(file.originalname)
       cb(null, uniqueSuffix + "-" + file.originalname)
     },
   })
@@ -323,10 +435,13 @@ const fileValidation = (req, res, next) => {
     // Check file extension - UPDATED WITH EXCEL FORMATS
     const ext = path.extname(file.originalname).toLowerCase()
     const allowedExtensions = [
-      ".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".webp",
+      // .jfif/.jpe are plain JPEGs (Windows names images saved from a browser
+      // ".jfif") — ~45 compress-image uploads a fortnight were rejected here.
+      ".pdf", ".doc", ".docx", ".png", ".jpg", ".jpeg", ".jfif", ".jpe", ".webp",
+      ".heic", ".heif",
       ".xlsx", ".xls", ".ods", ".csv",
       ".pptx", ".ppt", ".odp"
-      
+
     ]
 
     if (!allowedExtensions.includes(ext)) {
@@ -346,6 +461,10 @@ const fileValidation = (req, res, next) => {
       "image/jpeg",
       "image/jpg",
       "image/webp",
+      "image/heic",
+      "image/heif",
+      "image/heic-sequence",
+      "image/heif-sequence",
       "application/vnd.ms-excel",
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.oasis.opendocument.spreadsheet",
@@ -357,7 +476,19 @@ const fileValidation = (req, res, next) => {
 
     ]
 
-    if (!allowedMimeTypes.includes(file.mimetype)) {
+    // Some browsers/OSes send an empty or generic MIME type for HEIC/HEIF.
+    // Trust the extension in that case since it already passed the allow-list above.
+    const isHeicByExt = ext === ".heic" || ext === ".heif"
+    const genericMime = !file.mimetype || file.mimetype === "application/octet-stream"
+    // Same for office files: devices without Office installed send no MIME type
+    // (→ application/octet-stream) for .docx/.xlsx/..., and CSV often arrives as
+    // text/plain. The executable-signature check below still applies.
+    // (.pdf too: Android pickers / Windows without a PDF app send no MIME type.)
+    // (Images too: some browsers/OSes send an empty type for .jpg/.png — the
+    // jpg-to-pdf preview then failed with "File validation failed".)
+    const isOfficeByExt = [".jpg", ".jpeg", ".jfif", ".jpe", ".png", ".webp", ".pdf", ".csv", ".ods", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".odp"].includes(ext)
+    const sheetMimeOk = isOfficeByExt && (genericMime || (ext === ".csv" && file.mimetype === "text/plain"))
+    if (!allowedMimeTypes.includes(file.mimetype) && !(isHeicByExt && genericMime) && !sheetMimeOk) {
       validationErrors.push({
         file: file.originalname,
         error: `Invalid MIME type: ${file.mimetype}`,
@@ -419,7 +550,7 @@ const fileValidation = (req, res, next) => {
 
       // Allow .jpg/.jpeg interchangeably, skip validation for complex formats
       if (detectedType) {
-        const isJpegFile = ext === ".jpg" || ext === ".jpeg"
+        const isJpegFile = ext === ".jpg" || ext === ".jpeg" || ext === ".jfif" || ext === ".jpe"
         const isJpegDetected = detectedType === "jpg" || detectedType === "jpeg"
         const isWebpFile = ext === ".webp"
         const isCsvFile = ext === ".csv"
@@ -472,6 +603,26 @@ const fileValidation = (req, res, next) => {
   next()
 }
   // Admin authentication middleware
+  // Admin sessions are signed JWTs that expire (ADMIN_TOKEN_TTL). The old token
+  // was base64("user:sha256(password)") — a static credential that never
+  // expired, so a leaked copy (browser storage, logs) worked forever.
+  // The signing key is derived from JWT_SECRET *and* the admin password, so
+  // (a) user JWTs can never pass as admin tokens and (b) changing the admin
+  // password instantly invalidates every issued admin token.
+  const adminJwt = require("jsonwebtoken")
+  const ADMIN_TOKEN_TTL = "12h"
+  const ADMIN_TOKEN_AUD = "smallpdf-admin"
+  const adminTokenKey = () =>
+    crypto.createHmac("sha256", process.env.JWT_SECRET || "change-this-secret-in-production")
+      .update("admin-token-v1:" + ADMIN_USERNAME + ":" + ADMIN_PASSWORD)
+      .digest()
+
+  function safeEqual(a, b) {
+    const ha = crypto.createHash("sha256").update(String(a)).digest()
+    const hb = crypto.createHash("sha256").update(String(b)).digest()
+    return crypto.timingSafeEqual(ha, hb)
+  }
+
   function adminAuth(req, res, next) {
     const token = req.headers.authorization?.replace("Bearer ", "")
 
@@ -480,16 +631,14 @@ const fileValidation = (req, res, next) => {
     }
 
     try {
-      const decoded = Buffer.from(token, "base64").toString("utf-8")
-      const [username, passwordHash] = decoded.split(":")
-
-      if (username === ADMIN_USERNAME && passwordHash === hashPassword(ADMIN_PASSWORD)) {
-        next()
-      } else {
-        res.status(401).json({ error: "Invalid credentials" })
-      }
+      const claims = adminJwt.verify(token, adminTokenKey(), { audience: ADMIN_TOKEN_AUD })
+      if (claims.role !== "admin") throw new Error("not an admin token")
+      next()
     } catch (error) {
-      res.status(401).json({ error: "Invalid token" })
+      res.status(401).json({
+        error: error.name === "TokenExpiredError" ? "Session expired — please log in again" : "Invalid token",
+        code: "ADMIN_AUTH",
+      })
     }
   }
 
@@ -532,6 +681,136 @@ const fileValidation = (req, res, next) => {
     }
   }
 
+  // Load a PDF for editing (rotate / split). pdf-lib can't decrypt: with
+  // ignoreEncryption:true it copies still-encrypted streams and the result is a
+  // corrupt file that the route still reports as a success. So encrypted files
+  // are rewritten by qpdf first — permissions-only locks (e-tickets, bank bills)
+  // are removed silently; a real open password → err.code PASSWORD_PROTECTED;
+  // damaged → CORRUPT_PDF. Callers map err.code to a 422.
+  async function loadPdfForEditing(filePath, displayName) {
+    const load = async (p) => { const d = await PDFLibDocument.load(fs.readFileSync(p)); d.getPages(); return d }
+    try {
+      return await load(filePath)
+    } catch (loadErr) {
+      const fixed = filePath + ".fixed.pdf"
+      let qpdfMsg = ""
+      try {
+        await util.promisify(require("child_process").execFile)("qpdf", ["--decrypt", filePath, fixed], { timeout: 90000 })
+      } catch (e) { qpdfMsg = String(e.stderr || e.message || "") /* exit 3 = warnings, output still written */ }
+      let doc = null
+      if (fs.existsSync(fixed) && fs.statSync(fixed).size > 0) { try { doc = await load(fixed) } catch (_) {} }
+      await safeUnlink(fixed)
+      if (doc) return doc
+      const err = new Error(displayName || "PDF")
+      err.code = /encrypt/i.test(loadErr.message) || /password/i.test(qpdfMsg) ? "PASSWORD_PROTECTED" : "CORRUPT_PDF"
+      err.fileName = displayName
+      throw err
+    }
+  }
+
+  // HEIC → JPG/PNG for the heic-to-* tools.
+  //  • heic-decode gives raw RGBA (2–3× faster than heic-convert's own encoder:
+  //    48 MP photo 2.8 s → 1.1 s for JPG, 5.0 s → 1.7 s for PNG).
+  //  • Files named .heic that are really JPEG/PNG/AVIF/WebP (iPhone "share" often
+  //    converts to JPEG but keeps the .HEIC name) go through sharp instead —
+  //    they used to fail with "not a valid HEIC image".
+  //  • Rotation/filter picked on the preview page are applied HERE: browsers other
+  //    than Safari can't decode HEIC, so baking them client-side failed in Chrome.
+  //  • JPG output gets a white background (transparent HEIC came out black).
+  // Returns null when the file can't be decoded at all.
+  const heicDecode = require("heic-decode")
+  const SEPIA = [[0.393, 0.769, 0.189], [0.349, 0.686, 0.168], [0.272, 0.534, 0.131]]
+  const blendMatrix = (m, k) => m.map((row, i) => row.map((v, j) => k * v + (1 - k) * (i === j ? 1 : 0)))
+  async function convertHeicImage(buf, format, transform = {}) {
+    let p = null
+    try {
+      const img = await heicDecode({ buffer: buf })
+      p = sharp(Buffer.from(img.data.buffer, img.data.byteOffset, img.data.byteLength), { raw: { width: img.width, height: img.height, channels: 4 } })
+    } catch (_) {
+      try {
+        await sharp(buf).stats() // full decode — rejects corrupt/truncated data
+        p = sharp(buf).rotate() // honour EXIF orientation of real JPEGs
+      } catch (_) { return null }
+    }
+    const rot = ((Math.round((Number(transform.rotation) || 0) / 90) * 90) % 360 + 360) % 360
+    if (rot) p = p.rotate(rot)
+    // Must match IMAGE_FILTERS in frontend/lib/imageEdit.js
+    switch (transform.filterId) {
+      case "grayscale": p = p.grayscale(); break
+      case "sepia": p = p.recomb(blendMatrix(SEPIA, 0.85)); break
+      case "bright": p = p.modulate({ brightness: 1.25 }); break
+      case "contrast": p = p.linear(1.3, -0.3 * 128); break
+      case "warm": p = p.modulate({ saturation: 1.4 }).recomb(blendMatrix(SEPIA, 0.2)); break
+      case "cool": p = p.modulate({ saturation: 1.15, hue: -12 }); break
+      case "invert": p = p.negate({ alpha: false }); break
+    }
+    if (format === "jpeg") return p.flatten({ background: "#ffffff" }).jpeg({ quality: 92 }).toBuffer()
+    // PNG: keep transparency only when the photo actually has some (smaller files)
+    const out = await p.png().toBuffer()
+    try {
+      if ((await sharp(out).stats()).isOpaque) return sharp(out).removeAlpha().png().toBuffer()
+    } catch (_) {}
+    return out
+  }
+
+  // Decode an uploaded photo for PDFKit (which only reads baseline JPEG/PNG).
+  // Handles: iPhone HEIC saved/renamed as .jpg (sharp's prebuilt libvips can't
+  // decode HEVC → heic-convert), WebP/AVIF inside a .jpg, EXIF orientation, and
+  // corrupt/truncated files (→ null, caller skips the file).
+  async function prepareImageForPdf(filePath) {
+    let buf = fs.readFileSync(filePath)
+    let meta = null
+    try { meta = await sharp(buf).metadata() } catch (_) {}
+    if (!meta || meta.format === "heif") {
+      try {
+        buf = Buffer.from(await heicConvert({ buffer: buf, format: "JPEG", quality: 0.92 }))
+        meta = await sharp(buf).metadata()
+      } catch (_) { if (!meta) return null /* AVIF etc.: sharp can still decode */ }
+    }
+    if (!meta.width || !meta.height) return null
+    try {
+      const needsReencode = !["jpeg", "png"].includes(meta.format) || (meta.orientation && meta.orientation > 1)
+      if (!needsReencode) {
+        await sharp(buf).stats() // full decode: rejects truncated/corrupt data up front
+        return { source: buf, width: meta.width, height: meta.height }
+      }
+      const out = await sharp(buf).rotate().jpeg({ quality: 95 }).toBuffer()
+      const m2 = await sharp(out).metadata()
+      return { source: out, width: m2.width, height: m2.height }
+    } catch (_) { return null }
+  }
+
+  // Largest DPI ≤ requested that keeps every page ≤ ~100 MP and ≤ 14000 px on
+  // its long side. A 36×24 in poster at 600 DPI is 21600×14400 (311 MP) —
+  // Ghostscript failed/timed out on the server and such JPGs don't open in
+  // most viewers anyway. Normal A4/Letter pages are unaffected (600 DPI ≈ 35 MP).
+  async function pdfRasterDpi(pdfPath, dpi) {
+    try {
+      const d = await PDFLibDocument.load(fs.readFileSync(pdfPath), { ignoreEncryption: true, updateMetadata: false })
+      let maxArea = 0, maxSide = 0
+      for (const p of d.getPages()) {
+        const { width, height } = p.getSize()
+        const w = width / 72, h = height / 72
+        maxArea = Math.max(maxArea, w * h)
+        maxSide = Math.max(maxSide, w, h)
+      }
+      if (!maxArea) return dpi
+      const cap = Math.floor(Math.min(Math.sqrt(100e6 / maxArea), 14000 / maxSide))
+      return Math.max(36, Math.min(dpi, cap))
+    } catch (_) { return dpi }
+  }
+
+  // True when the PDF needs an OPEN password (qpdf exit 0). Permissions-only
+  // locks and plain files exit non-zero → false. Used by tools that hand the file
+  // to Ghostscript, which can't open password PDFs and used to fail with a
+  // misleading 500 ("please ensure Ghostscript is installed").
+  async function pdfRequiresPassword(filePath) {
+    try {
+      await util.promisify(require("child_process").execFile)("qpdf", ["--requires-password", filePath], { timeout: 30000 })
+      return true
+    } catch (_) { return false }
+  }
+
   // Run a LibreOffice command with an isolated, per-call user profile so that
   // concurrent conversions don't fight over the same profile lock (a major
   // cause of "soffice exited with code 1" under load). Retries once on failure.
@@ -565,9 +844,34 @@ const fileValidation = (req, res, next) => {
     }
   }
 
+  // Render DPI that keeps one page's bitmap under `maxPixels`. Poster and
+  // engineering-drawing pages at a fixed 200–300 DPI exceeded sharp's input
+  // limit ("Input image exceeds pixel limit") and could exhaust memory.
+  // compress-image: anything over BIG_IMAGE_MAX_PIXELS is downscaled before compressing;
+  // BIG_IMAGE_PIXEL_CAP is the hard ceiling (≈32k×32k) so a decompression bomb can't take the box down.
+  const BIG_IMAGE_MAX_PIXELS = 100e6
+  const BIG_IMAGE_PIXEL_CAP = 1e9
+
+  function safeRenderDpi(widthPt, heightPt, wantDpi, maxPixels = 40e6) {
+    const px = (widthPt / 72 * wantDpi) * (heightPt / 72 * wantDpi)
+    if (!(px > maxPixels)) return wantDpi
+    return Math.max(24, Math.floor(wantDpi * Math.sqrt(maxPixels / px)))
+  }
+
+  // A pdf-lib page's size as DISPLAYED (after /Rotate) — what Ghostscript
+  // renders and what pdf.js shows in the browser.
+  function displaySize(page) {
+    const { width, height } = page.getSize()
+    const rot = ((((page.getRotation().angle || 0) % 360) + 360) % 360)
+    return rot === 90 || rot === 270 ? { width: height, height: width, rot } : { width, height, rot }
+  }
+
   // Find Ghostscript executable
   function getGhostscriptPath() {
     const possiblePaths = [
+      "C:\\Program Files\\gs\\gs10.06.0\\bin\\gswin64c.exe",
+      "C:\\Program Files\\gs\\gs10.05.1\\bin\\gswin64c.exe",
+      "C:\\Program Files\\gs\\gs10.05.0\\bin\\gswin64c.exe",
       "C:\\Program Files\\gs\\gs10.04.0\\bin\\gswin64c.exe",
       "C:\\Program Files\\gs\\gs10.03.1\\bin\\gswin64c.exe",
       "C:\\Program Files\\gs\\gs10.03.0\\bin\\gswin64c.exe",
@@ -625,8 +929,15 @@ const fileValidation = (req, res, next) => {
   app.post("/api/admin/login", adminLoginLimiter, async (req, res) => {
     const { username, password } = req.body
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      const token = Buffer.from(`${username}:${hashPassword(password)}`).toString("base64")
+    // Compare both fields in constant time (and always both) so response
+    // timing doesn't reveal how much of the username/password matched.
+    const userOk = safeEqual(username || "", ADMIN_USERNAME)
+    const passOk = safeEqual(password || "", ADMIN_PASSWORD) && ADMIN_PASSWORD.length >= 8 && !!ADMIN_USERNAME
+    if (userOk && passOk) {
+      const token = adminJwt.sign({ role: "admin", sub: username }, adminTokenKey(), {
+        expiresIn: ADMIN_TOKEN_TTL,
+        audience: ADMIN_TOKEN_AUD,
+      })
 
       await logActivity({
         type: "admin",
@@ -659,6 +970,10 @@ const fileValidation = (req, res, next) => {
 // Add these to your server.js file after the existing admin routes
 
 // Get detailed IP information
+// New dashboard data endpoints (overview / charts / tools / revenue / health / user detail / exports)
+require("./admin/dashboardRoutes")(app, adminAuth)
+{ const vt = require("./admin/visitTracking"); vt.registerVisitBeacon(app); vt.registerSourceRoutes(app, adminAuth) }
+
 app.get("/api/admin/ip/:ipAddress", adminAuth, async (req, res) => {
   try {
     const { ipAddress } = req.params
@@ -729,7 +1044,7 @@ app.get("/api/admin/analytics/range", adminAuth, async (req, res) => {
     
     let query = `
       SELECT 
-        ${groupBy === 'hour' ? "strftime('%Y-%m-%d %H:00', created_at)" : "DATE(created_at)"} as period,
+        ${groupBy === 'hour' ? "strftime('%Y-%m-%d %H:00', created_at, '+330 minutes')" : "DATE(created_at, '+330 minutes')"} as period,
         COUNT(*) as total,
         SUM(CASE WHEN type = 'conversion' THEN 1 ELSE 0 END) as conversions,
         SUM(CASE WHEN type = 'download' THEN 1 ELSE 0 END) as downloads,
@@ -797,12 +1112,12 @@ app.get("/api/admin/tools/:toolName/stats", adminAuth, async (req, res) => {
     // Daily usage (last 30 days)
     const dailyUsage = await dbAll(`
       SELECT 
-        DATE(created_at) as date,
+        DATE(created_at, '+330 minutes') as date,
         COUNT(*) as count
       FROM activity_logs
       WHERE tool = ?
       AND created_at > datetime('now', '-30 days')
-      GROUP BY DATE(created_at)
+      GROUP BY DATE(created_at, '+330 minutes')
       ORDER BY date DESC
     `, [toolName])
     
@@ -914,6 +1229,36 @@ app.get("/api/admin/export/logs", adminAuth, async (req, res) => {
     res.send(csv)
   } catch (error) {
     console.error("Export logs error:", error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// List / export email subscribers captured via the download-page opt-in
+app.get("/api/admin/subscribers", adminAuth, async (req, res) => {
+  try {
+    const subscribers = await dbAll("SELECT * FROM email_subscribers ORDER BY created_at DESC")
+    res.json({ subscribers, total: subscribers.length })
+  } catch (error) {
+    console.error("List subscribers error:", error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
+app.get("/api/admin/subscribers/export", adminAuth, async (req, res) => {
+  try {
+    const subscribers = await dbAll("SELECT * FROM email_subscribers ORDER BY created_at DESC")
+
+    let csv = "ID,Email,Source Page,Created At\n"
+    subscribers.forEach((s) => {
+      const row = [s.id, s.email, s.source_page || "", s.created_at]
+      csv += row.map((field) => `"${String(field).replace(/"/g, '""')}"`).join(",") + "\n"
+    })
+
+    res.setHeader("Content-Type", "text/csv")
+    res.setHeader("Content-Disposition", `attachment; filename="email_subscribers_${Date.now()}.csv"`)
+    res.send(csv)
+  } catch (error) {
+    console.error("Export subscribers error:", error)
     res.status(500).json({ error: error.message })
   }
 })
@@ -1085,6 +1430,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         action,
         status
       })
+      try { await require('./admin/visitTracking').attachSources(result.logs) } catch (_) {}   // traffic source per row
 
       const stats = {
         total: result.total,
@@ -1192,7 +1538,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           SUM(CASE WHEN plan != 'free'   AND (plan_expires_at IS NULL OR plan_expires_at >= datetime('now')) THEN 1 ELSE 0 END) as paid_users,
           SUM(CASE WHEN email_verified = 1 THEN 1 ELSE 0 END) as verified_users,
           SUM(CASE WHEN is_banned = 1 THEN 1 ELSE 0 END) as banned_users,
-          SUM(CASE WHEN date(created_at) = date('now', 'localtime') THEN 1 ELSE 0 END) as new_today,
+          SUM(CASE WHEN date(created_at, '+330 minutes') = date('now', '+330 minutes') THEN 1 ELSE 0 END) as new_today, -- today = IST day
           SUM(CASE WHEN created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) as new_this_week,
           SUM(CASE WHEN created_at >= datetime('now', '-30 days') THEN 1 ELSE 0 END) as new_this_month
         FROM users
@@ -1395,7 +1741,12 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   // Get all blog posts (public)
   app.get("/api/blog/posts", async (req, res) => {
     try {
-      const { page = 1, limit = 10, category, tag, status = "published" } = req.query
+      const { page = 1, category, tag } = req.query
+      const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 10, 1), 100)
+      // Public endpoint: always published only. It used to take ?status= from
+      // the query string, so ?status=draft exposed unpublished posts to anyone.
+      // The admin panel lists drafts via /api/blog/admin/posts instead.
+      const status = "published"
 
       let query = 'SELECT * FROM blog_posts WHERE status = ?'
       const params = [status]
@@ -1452,7 +1803,8 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
     try {
       const { slug } = req.params
       
-      const post = await dbGet('SELECT * FROM blog_posts WHERE slug = ?', [slug])
+      // Drafts must not be readable by slug on the public site.
+      const post = await dbGet("SELECT * FROM blog_posts WHERE slug = ? AND status = 'published'", [slug])
 
       if (!post) {
         return res.status(404).json({ error: "Blog post not found" })
@@ -1693,11 +2045,30 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
     }
   })
   // Word to PDF Conversion
-  app.post("/api/word-to-pdf", upload.single("file"), fileSizeLimiter("word-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+  app.post("/api/word-to-pdf", upload.single("file"), fileSizeLimiter("word-to-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" })
       }
+
+      // A password-protected .docx is not a zip but an encrypted OLE container
+      // (D0 CF 11 E0). LibreOffice can't open it headless, and the user used
+      // to get "Please ensure LibreOffice is installed" — then retried.
+      try {
+        const fd = fs.openSync(req.file.path, "r")
+        const head = Buffer.alloc(4)
+        fs.readSync(fd, head, 0, 4, 0)
+        fs.closeSync(fd)
+        if (/\.docx$/i.test(req.file.originalname) && head.toString("hex") === "d0cf11e0") {
+          await safeUnlink(req.file.path)
+          logActivity({ type: "conversion", action: "word_to_pdf_protected", tool: "word-to-pdf",
+            filename: req.file.originalname, ip: req.clientIP, status: "warning" })
+          return res.status(422).json({
+            error: "PASSWORD_PROTECTED",
+            message: "This document is password-protected. Open it in Word, remove the password (File → Info → Protect Document), save, and upload it again.",
+          })
+        }
+      } catch (_) {}
 
       logActivity({
         type: "upload",
@@ -1725,8 +2096,8 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
 
       try {
         await runLibreOffice(command, {
-          timeout: 60000,
-          maxBuffer: 10 * 1024 * 1024,
+          timeout: 180000,
+          maxBuffer: 100 * 1024 * 1024,
         })
 
         const libreOutputPath = inputPath.replace(/\.(doc|docx)$/i, ".pdf")
@@ -1738,6 +2109,18 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
 
           console.log("Conversion successful:", outputFilename)
           await safeUnlink(inputPath)
+
+          if (req.user) {
+            await recordUserFile({
+              userId: req.user.id,
+              plan: req.user.plan,
+              tool: "word-to-pdf",
+              originalName: req.file.originalname.replace(/\.(doc|docx)$/i, ".pdf"),
+              storedPath: path.resolve(outputPath),
+              downloadUrl: `/uploads/${outputFilename}`,
+              fileSize: fs.statSync(outputPath).size,
+            }).catch(() => {})
+          }
 
           logActivity({
             type: "conversion",
@@ -1775,8 +2158,8 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         })
 
         res.status(500).json({
-          error: "Conversion failed. Please ensure LibreOffice is installed and the document is not corrupted.",
-          details: conversionError.message,
+          error: "CONVERSION_FAILED",
+          message: "We couldn't convert this document. It may be damaged or use an unsupported format — open it in Word, save a new copy as .docx and try again.",
         })
       }
     } catch (error) {
@@ -1817,7 +2200,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
       const pageSize = req.body.pageSize || "a4"
       const orientation = req.body.orientation || "portrait"
 
-      const outputFilename = `images-combined-${Date.now()}.pdf`
+      const outputFilename = `images-combined-${genJobId()}.pdf`
       const outputPath = path.join("./uploads", outputFilename)
 
       const pageSizes = {
@@ -1845,24 +2228,14 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
             throw new Error(`File not found: ${file.path}`)
           }
 
-          let imgWidth, imgHeight
-          
-          try {
-            const metadata = await sharp(file.path).metadata()
-            imgWidth = metadata.width
-            imgHeight = metadata.height
-            console.log(`Sharp metadata for ${file.originalname}: ${imgWidth}x${imgHeight}`)
-          } catch (sharpError) {
-            console.log(`Sharp failed for ${file.originalname}, trying image-size...`)
-            const dimensions = sizeOf(file.path)
-            imgWidth = dimensions.width
-            imgHeight = dimensions.height
-            console.log(`image-size for ${file.originalname}: ${imgWidth}x${imgHeight}`)
-          }
-
-          if (!imgWidth || !imgHeight || imgWidth === 0 || imgHeight === 0) {
-            throw new Error(`Invalid dimensions: ${imgWidth}x${imgHeight}`)
-          }
+          // Decode + validate BEFORE addPage (shared with jpg-to-pdf): HEIC saved
+          // as .jpg, WebP, EXIF rotation; a truncated PNG used to leave a blank
+          // page in the PDF while the response said it was skipped.
+          const prepared = await prepareImageForPdf(file.path)
+          if (!prepared) throw new Error("Unreadable image")
+          let imgWidth = prepared.width
+          let imgHeight = prepared.height
+          const imgSource = prepared.source
 
           let pageWidth, pageHeight
 
@@ -1894,10 +2267,9 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           const x = (pageWidth - scaledWidth) / 2
           const y = (pageHeight - scaledHeight) / 2
 
-          const absolutePath = path.resolve(file.path)
-          console.log(`Adding image to PDF: ${absolutePath}`)
-          
-          doc.image(absolutePath, x, y, { 
+          console.log(`Adding image to PDF: ${file.originalname}`)
+
+          doc.image(imgSource, x, y, { 
             width: scaledWidth, 
             height: scaledHeight,
             fit: [scaledWidth, scaledHeight],
@@ -1929,8 +2301,11 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
           status: "error",
         })
         
-        return res.status(500).json({ 
-          error: "No valid images were processed", 
+        // The images themselves are unreadable → 422 with their names.
+        return res.status(422).json({
+          error: "UNREADABLE_IMAGES",
+          files: errors.map((e) => e.file),
+          message: "No valid images were processed",
           details: errors 
         })
       }
@@ -1986,7 +2361,12 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
         success: true,
         message: `${successCount} image(s) combined into PDF successfully`,
         downloadUrl: `/uploads/${outputFilename}`,
-        convertedName: outputFilename,
+        // Name the download after the user's first image (was "converted-images-<timestamp>.pdf").
+        skipped: errors.length ? errors.map((e) => e.file) : undefined,
+        convertedName: (() => {
+          const first = path.basename(req.files[0].originalname, path.extname(req.files[0].originalname))
+          return req.files.length > 1 ? `${first}-and-more.pdf` : `${first}.pdf`
+        })(),
         pageCount: successCount,
         errors: errors.length > 0 ? errors : undefined,
         fileSize: stats.size,
@@ -2027,7 +2407,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
   // EXCEL TO PDF ENDPOINTS
 
 // Excel to PDF Conversion
-app.post("/api/excel-to-pdf", upload.single("file"), fileSizeLimiter("excel-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+app.post("/api/excel-to-pdf", upload.single("file"), fileSizeLimiter("excel-to-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No Excel file uploaded" })
@@ -2088,67 +2468,90 @@ app.post("/api/excel-to-pdf", upload.single("file"), fileSizeLimiter("excel-to-p
         const pythonBin = process.env.PYTHON_BIN || (process.platform === "win32" ? "python" : "python3")
         const preparedPath = file.path + ".prepared.xlsx"
 
+        // Page setup only — the user's own formatting is left alone. The old
+        // script reset every cell's alignment (wrapped text became one long
+        // line, rotated headers went flat), re-sized every column, forced A4
+        // and printed gridlines over charts and bordered invoices, and ignored
+        // the "Fit to page" option. CSV files are loaded into a workbook here
+        // too, so they get the same page setup and no longer print
+        // LibreOffice's default header (the internal temp file name) + "Page 1".
         const prepScript = `
-import sys
+import sys, csv, datetime
 try:
-    from openpyxl import load_workbook
-    from openpyxl.styles import Alignment
+    from openpyxl import Workbook, load_workbook
     from openpyxl.utils import get_column_letter
-    import re
 
-    wb = load_workbook(sys.argv[1])
+    src, dst, orientation, fit, title = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4] == "1", sys.argv[5]
+
+    def num(v):
+        s = v.strip()
+        if not s or len(s) > 15 or (s[0] == "0" and len(s) > 1 and s[1] != "."):
+            return v  # keep IDs / phone numbers with leading zeros as text
+        try:
+            return int(s)
+        except ValueError:
+            try:
+                return float(s)
+            except ValueError:
+                return v
+
+    if src.lower().endswith(".csv"):
+        raw = open(src, "rb").read()
+        for enc in ("utf-8-sig", "cp1252", "latin-1"):
+            try:
+                text = raw.decode(enc)
+                break
+            except UnicodeDecodeError:
+                continue
+        try:
+            dialect = csv.Sniffer().sniff(text[:20000], delimiters=",;\\t|")
+        except csv.Error:
+            dialect = csv.excel
+        wb = Workbook()
+        ws = wb.active
+        ws.title = (title or "Sheet1")[:31]
+        for row in csv.reader(text.splitlines(), dialect):
+            ws.append([num(v) for v in row])
+        for col in ws.columns:
+            longest = max((len(str(c.value)) for c in col if c.value is not None), default=0)
+            ws.column_dimensions[get_column_letter(col[0].column)].width = min(max(longest + 2, 8), 60)
+    else:
+        wb = load_workbook(src)
 
     for ws in wb.worksheets:
-        # ── 1. Auto-fit every column to its longest content ──────────────────
-        col_widths = {}
+        ws.page_setup.orientation = orientation
+        # No paper size in the file → LibreOffice picked A4 for portrait but
+        # Letter for landscape. Keep a size the user set; otherwise A4.
+        if not ws.page_setup.paperSize:
+            ws.page_setup.paperSize = 9
+        if fit:
+            ws.page_setup.fitToWidth = 1   # every column on one page width
+            ws.page_setup.fitToHeight = 0  # as many pages tall as needed
+            ws.sheet_properties.pageSetUpPr.fitToPage = True
+
+        # Widen (never shrink) columns whose NUMBERS would not fit and print as ###.
+        need = {}
+        has_border = False
         for row in ws.iter_rows():
-            for cell in row:
-                if cell.value is None:
-                    continue
-                val = str(cell.value)
-                # Format numbers properly — avoid scientific notation
-                if isinstance(cell.value, float):
-                    # If it looks like a large integer stored as float, show as int
-                    if cell.value == int(cell.value) and abs(cell.value) < 1e12:
-                        cell.value = int(cell.value)
-                        val = str(cell.value)
-                    else:
-                        val = f"{cell.value:,.2f}"
-                col = cell.column
-                col_widths[col] = max(col_widths.get(col, 0), min(len(val) + 4, 80))
+            for c in row:
+                b = c.border
+                if b and any(getattr(s, "style", None) for s in (b.left, b.right, b.top, b.bottom)):
+                    has_border = True
+                v = c.value
+                if isinstance(v, (int, float)) and not isinstance(v, bool):
+                    need[c.column] = max(need.get(c.column, 0), len(f"{v:,.2f}") + 2)
+                elif isinstance(v, (datetime.date, datetime.datetime)):
+                    need[c.column] = max(need.get(c.column, 0), 12)
+        for col, w in need.items():
+            dim = ws.column_dimensions[get_column_letter(col)]
+            if (dim.width or 8.43) < w:
+                dim.width = min(w, 40)
 
-        for col, width in col_widths.items():
-            ws.column_dimensions[get_column_letter(col)].width = max(width, 8)
+        # Gridlines only for plain tables — never over bordered layouts or charts.
+        if not has_border and not getattr(ws, "_charts", None) and not getattr(ws, "_images", None):
+            ws.print_options.gridLines = True
 
-        # ── 2. Wrap text off, vertical align top ─────────────────────────────
-        for row in ws.iter_rows():
-            for cell in row:
-                existing = cell.alignment
-                cell.alignment = Alignment(
-                    wrap_text=False,
-                    vertical="top",
-                    horizontal=existing.horizontal or "left",
-                )
-
-        # ── 3. Print settings: fit all columns to page width, scale sensibly ─
-        from openpyxl.worksheet.page import PageMargins, PrintPageSetup
-        ws.page_setup.orientation = "${orientation}" == "landscape" and "landscape" or "portrait"
-        ws.page_setup.fitToPage = True
-        ws.page_setup.fitToWidth = 1      # fit all columns on one page width
-        ws.page_setup.fitToHeight = 0     # allow as many rows as needed
-        ws.page_setup.paperSize = 9       # A4
-        ws.sheet_properties.pageSetUpPr.fitToPage = True
-
-        # ── 4. Narrow page margins to give content more space ─────────────────
-        ws.page_margins = PageMargins(
-            left=0.5, right=0.5, top=0.75, bottom=0.75,
-            header=0.3, footer=0.3
-        )
-
-        # ── 5. Gridlines in print ─────────────────────────────────────────────
-        ws.print_options.gridLines = True
-
-    wb.save(sys.argv[2])
+    wb.save(dst)
     print("PREP_OK")
 except ImportError:
     print("PREP_SKIP")  # openpyxl not installed — skip prep, use original
@@ -2160,9 +2563,12 @@ except Exception as e:
 
         let sourceForLibreOffice = file.path
         try {
-          const { stdout: prepOut } = await execPromise(`"${pythonBin}" "${tempScriptPath}" "${file.path}" "${preparedPath}"`, {
-            timeout: 60000, maxBuffer: 10 * 1024 * 1024
-          })
+          // execFile (no shell): the sheet title comes from the user's file name.
+          const { execFile } = require("child_process")
+          // (multer keeps the original extension, so the script can tell CSV apart)
+          const { stdout: prepOut } = await util.promisify(execFile)(pythonBin,
+            [tempScriptPath, file.path, preparedPath, orientation, fitToPage ? "1" : "0", baseName.slice(0, 31)],
+            { timeout: 60000, maxBuffer: 10 * 1024 * 1024 })
           if (prepOut.includes("PREP_OK") && fs.existsSync(preparedPath)) {
             sourceForLibreOffice = preparedPath
             console.log(`[prep] Excel pre-processed successfully`)
@@ -2250,9 +2656,9 @@ except Exception as e:
         status: "error",
       })
       
-      return res.status(500).json({ 
-        error: "No files were converted successfully.",
-        details: "Please ensure LibreOffice is installed and Excel files are not corrupted."
+      return res.status(422).json({
+        error: "CONVERSION_FAILED",
+        message: "We couldn't convert this spreadsheet. It may be damaged or password-protected — open it in Excel, save a new copy and try again.",
       })
     }
 
@@ -2273,13 +2679,28 @@ except Exception as e:
     const destPath = path.join(__dirname, "uploads", destFilename)
     fs.copyFileSync(path.join(convertedDir, singleFile.filename), destPath)
 
-    // Auto-cleanup after 1 hour
-    setTimeout(() => {
-      try {
-        if (fs.existsSync(destPath)) fs.unlinkSync(destPath)
-        if (fs.existsSync(convertedDir)) fs.rmSync(convertedDir, { recursive: true, force: true })
-      } catch (e) {}
-    }, 60 * 60 * 1000)
+    if (req.user) {
+      // Logged-in users get the PDF in "My Files" for their plan's retention
+      // window — the sweep protects recorded files, so no 1 h timer for them.
+      await recordUserFile({
+        userId: req.user.id,
+        plan: req.user.plan,
+        tool: "excel-to-pdf",
+        originalName: singleFile.filename,
+        jobId,
+        storedPath: path.join(convertedDir, singleFile.filename),
+        downloadUrl: `/api/download-excel-pdf/${jobId}`,
+        fileSize: singleFile.fileSize,
+      }).catch(() => {})
+    } else {
+      // Auto-cleanup after 1 hour
+      setTimeout(() => {
+        try {
+          if (fs.existsSync(destPath)) fs.unlinkSync(destPath)
+          if (fs.existsSync(convertedDir)) fs.rmSync(convertedDir, { recursive: true, force: true })
+        } catch (e) {}
+      }, 60 * 60 * 1000)
+    }
 
     res.json({
       success: true,
@@ -2365,7 +2786,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         setTimeout(() => {
           try {
             if (fs.existsSync(convertedDir)) {
-              fs.rmSync(convertedDir, { recursive: true, force: true })
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -2420,7 +2841,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
             fs.unlinkSync(zipPath)
           }
           if (fs.existsSync(convertedDir)) {
-            fs.rmSync(convertedDir, { recursive: true, force: true })
+            // kept so the user can download again — sweepOldFiles() deletes it after 1h
           }
         } catch (cleanupErr) {
           console.log("Cleanup error:", cleanupErr)
@@ -2466,6 +2887,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       const jobId = genJobId()
       const outputDir = "./uploads"
       const convertedFiles = []
+      const failedFiles = []
+      const batchStart = Date.now()
       let totalOriginalSize = 0
       let totalCompressedSize = 0
 
@@ -2473,24 +2896,26 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         const file = req.files[i]
         totalOriginalSize += file.size
 
-        const fileExtension = path.extname(file.originalname).toLowerCase()
-        const outputFilename = `${jobId}-compressed-${i + 1}${fileExtension}`
+        // Always a real .webp (the old code re-saved PNGs as palette-quantised PNG
+        // — and files without a MIME type as JPEG — then named them ".webp").
+        const outputFilename = `${jobId}-compressed-${i + 1}.webp`
         const outputPath = path.join(outputDir, outputFilename)
 
         try {
-          if (file.mimetype === "image/png") {
-            await sharp(file.path)
-              .png({
-                quality: 80,
-                compressionLevel: 9,
-                palette: true,
-              })
-              .toFile(outputPath)
-          } else if (file.mimetype === "image/webp") {
-            await sharp(file.path).webp({ quality: 85, effort: 6 }).toFile(outputPath)
-          } else {
-            await sharp(file.path).jpeg({ quality: 80, progressive: true, mozjpeg: true }).toFile(outputPath)
-          }
+          // PNG graphics/screenshots/logos (≤ 4 MP) → lossless WebP, pixel-identical.
+          // Larger photos → quality 95 (visually identical): lossless on a 12 MP photo
+          // took 16–29 s (a 20-file batch would hit nginx's 60 s proxy timeout) vs
+          // ~2.6 s, and came out 4–5× bigger. Same once the batch has used 45 s.
+          // An already-lossy JPEG source → quality 90. EXIF orientation applied.
+          const meta = await sharp(file.path).metadata()
+          const px = (meta.width || 0) * (meta.height || 0)
+          const lossless = meta.format !== "jpeg" && px <= 4e6 && Date.now() - batchStart < 45000
+          await sharp(file.path)
+            .rotate()
+            .webp(lossless
+              ? { lossless: true, effort: 4 }
+              : { quality: meta.format === "jpeg" ? 90 : 95, alphaQuality: 100, smartSubsample: true, effort: 4 })
+            .toFile(outputPath)
 
           const stats = fs.statSync(outputPath)
           totalCompressedSize += stats.size
@@ -2509,7 +2934,9 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
             fs.unlinkSync(file.path)
           }
         } catch (compError) {
-          console.error(`Error compressing ${file.originalname}:`, compError)
+          console.error(`Error converting ${file.originalname} to WebP:`, compError.message)
+          failedFiles.push(file.originalname)
+          try { if (fs.existsSync(outputPath)) fs.unlinkSync(outputPath) } catch (_) {}
 
           if (fs.existsSync(file.path)) {
             fs.unlinkSync(file.path)
@@ -2527,7 +2954,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           status: "error",
         })
         
-        return res.status(500).json({ error: "No files were compressed successfully" })
+        // Unreadable input, not a server fault → 422 with the file names.
+        return res.status(422).json({ error: "UNREADABLE_IMAGES", files: failedFiles, message: "No files were converted successfully" })
       }
 
       const savedPercentage = Math.round(((totalOriginalSize - totalCompressedSize) / totalOriginalSize) * 100)
@@ -2543,9 +2971,21 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         status: "success",
       })
 
+      // Save download name meta (original name with .webp extension)
+      try {
+        fs.writeFileSync(
+          path.join(outputDir, `${jobId}-names.json`),
+          JSON.stringify(convertedFiles.map(f => ({
+            stored: f.filename,
+            download: path.basename(f.originalName, path.extname(f.originalName)) + ".webp"
+          })))
+        )
+      } catch (_) {}
+
       res.json({
         success: true,
-        message: `${convertedFiles.length} image(s) compressed successfully`,
+        message: `${convertedFiles.length} image(s) converted to WebP successfully`,
+        skipped: failedFiles.length ? failedFiles : undefined,
         jobId: jobId,
         fileCount: convertedFiles.length,
         totalSize: totalOriginalSize,
@@ -2610,7 +3050,17 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
 
       if (compressedFiles.length === 1) {
         const filePath = path.join(uploadDir, compressedFiles[0])
-        
+
+        // Read meta for original download name
+        const metaPath = path.join(uploadDir, `${jobId}-names.json`)
+        let downloadName = `converted-image${path.extname(compressedFiles[0])}`
+        try {
+          if (fs.existsSync(metaPath)) {
+            const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"))
+            downloadName = meta[0]?.download || downloadName
+          }
+        } catch (_) {}
+
         logActivity({
           type: "download",
           action: "file_downloaded",
@@ -2619,11 +3069,10 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           ip: req.clientIP,
           status: "success",
         })
-        
-        return res.download(filePath, `compressed-image${path.extname(compressedFiles[0])}`, (err) => {
-          if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath)
-          }
+
+        return res.download(filePath, downloadName, (err) => {
+          // kept so the user can download again — sweepOldFiles() deletes it after 1h
+          // kept so the user can download again — sweepOldFiles() deletes it after 1h
         })
       }
 
@@ -2639,11 +3088,20 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
 
       archive.pipe(output)
 
+      const usedEntries = new Set()
       for (let i = 0; i < compressedFiles.length; i++) {
         const compressedFilePath = path.join(uploadDir, compressedFiles[i])
         if (fs.existsSync(compressedFilePath)) {
           const ext = path.extname(compressedFiles[i])
-          archive.file(compressedFilePath, { name: `compressed-image-${i + 1}${ext}` })
+          // Original names (photo.webp …) instead of "compressed-image-N"
+          let entry = `compressed-image-${i + 1}${ext}`
+          try {
+            const meta = JSON.parse(fs.readFileSync(path.join(uploadDir, `${jobId}-names.json`), "utf8"))
+            entry = (meta.find((m) => m.stored === compressedFiles[i]) || {}).download || entry
+          } catch (_) {}
+          if (usedEntries.has(entry)) entry = entry.replace(/(\.[^.]+)$/, `-${i + 1}$1`)
+          usedEntries.add(entry)
+          archive.file(compressedFilePath, { name: entry })
         }
       }
 
@@ -2663,14 +3121,14 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         status: "success",
       })
 
-      res.download(zipPath, zipFilename, (err) => {
+      res.download(zipPath, `png-to-webp-${compressedFiles.length}-images.zip`, (err) => {
         if (fs.existsSync(zipPath)) {
           fs.unlinkSync(zipPath)
         }
         for (const compressedFile of compressedFiles) {
           const compressedFilePath = path.join(uploadDir, compressedFile)
           if (fs.existsSync(compressedFilePath)) {
-            fs.unlinkSync(compressedFilePath)
+            // kept so the user can download again — sweepOldFiles() deletes it after 1h
           }
         }
       })
@@ -2717,6 +3175,11 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       }
 
       const compressionLevel = req.body.quality || "balanced"
+      // Target-size mode: user picked an exact KB target instead of a quality
+      // preset (e.g. "under 100KB for a web form upload"). 0/absent disables it
+      // and falls back to the preset-based path below.
+      const targetSizeKB = parseInt(req.body.targetSizeKB, 10)
+      const useTargetSize = Number.isFinite(targetSizeKB) && targetSizeKB > 0
 
       // ENHANCED COMPRESSION SETTINGS - Up to 90% reduction
       // KEY STRATEGY: PNG is lossless — compressing PNG as PNG gives minimal reduction.
@@ -2748,7 +3211,85 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
 
       const compressionSettings = qualitySettings[compressionLevel] || qualitySettings.balanced
 
+      // Binary-search compression to land just under a target file size. Tries
+      // both WebP and JPEG (for JPEG-without-alpha inputs) at each candidate
+      // quality, same trade-off logic as the preset path, so the output format
+      // choice stays consistent. Falls back to progressively smaller dimensions
+      // if even quality=1 still exceeds the target (tiny target vs. large photo).
+      // Output keeps the INPUT format (JPEG→JPEG, PNG→PNG, WebP→WebP). We used
+      // to switch to WebP whenever it was smaller — but the "compress to 50 KB /
+      // 20 KB" pages exist for govt/job form uploads that only accept JPG/PNG.
+      function encodeSameFormat(pipeline, fmt, q) {
+        if (fmt === "png") {
+          // Palette quantisation (like TinyPNG): 60-80% smaller, stays a PNG.
+          const colours = Math.max(8, Math.min(256, Math.round(256 * q / 90)))
+          return pipeline.png({ palette: true, quality: Math.max(10, q), colours, effort: 8, compressionLevel: 9 }).toBuffer()
+        }
+        if (fmt === "webp") return pipeline.webp({ quality: q, effort: 5, smartSubsample: true }).toBuffer()
+        return pipeline.jpeg({ quality: q, progressive: true, mozjpeg: true, chromaSubsampling: q >= 75 ? "4:4:4" : "4:2:0" }).toBuffer()
+      }
+
+      async function compressToTargetSize(image, metadata, targetBytes, { fmt, ext }) {
+        const tryQuality = async (q, dim) => {
+          let pipeline = image.clone()
+          if (dim && (metadata.width > dim || metadata.height > dim)) {
+            pipeline = pipeline.resize(dim, dim, { fit: "inside", withoutEnlargement: true })
+          }
+          return { buf: await encodeSameFormat(pipeline, fmt, q), ext }
+        }
+
+        // Highest quality in [lo, hi] that fits at this size (binary search).
+        const searchQuality = async (dim, lo, hi) => {
+          let best = null
+          for (let i = 0; i < 6 && lo <= hi; i++) {
+            const mid = Math.round((lo + hi) / 2)
+            const candidate = await tryQuality(mid, dim)
+            if (candidate.buf.length <= targetBytes) {
+              if (!best || candidate.buf.length > best.buf.length) best = candidate
+              lo = mid + 1
+            } else {
+              hi = mid - 1
+            }
+          }
+          return best
+        }
+
+        // Keep the picture CLEAN and make it smaller in pixels instead. The old
+        // search pushed JPEG quality down to ~1-5 at full resolution, so a phone
+        // photo "compressed to 50 KB" came out as a blocky 2250×3000 mess —
+        // forms want a sharp, smaller photo, not a huge blurry one.
+        const Q_ANCHOR = 72, QMAX = 92, DIM_MIN = 160
+        const fullDim = Math.min(Math.max(metadata.width, metadata.height), compressionSettings.maxDimension || 4096)
+
+        // 1. Fits at full size with good quality? Then just raise quality.
+        const atFull = await tryQuality(Q_ANCHOR, fullDim)
+        if (atFull.buf.length <= targetBytes) {
+          return (await searchQuality(fullDim, Q_ANCHOR + 1, QMAX)) || atFull
+        }
+
+        // 2. Largest pixel size that fits at good quality (binary search on size),
+        //    then the best quality at that size — uses the target fully instead
+        //    of undershooting it.
+        let lo = DIM_MIN, hi = fullDim - 1, fitDim = 0, fit = null
+        for (let i = 0; i < 9 && lo <= hi; i++) {
+          const mid = Math.round((lo + hi) / 2)
+          const c = await tryQuality(Q_ANCHOR, mid)
+          if (c.buf.length <= targetBytes) { fitDim = mid; fit = c; lo = mid + 1 } else { hi = mid - 1 }
+        }
+        if (fit) return (await searchQuality(fitDim, Q_ANCHOR + 1, QMAX)) || fit
+
+        // 3. Tiny targets (e.g. 10 KB): accept lower quality at a small size.
+        let dim = DIM_MIN
+        let best = await searchQuality(dim, 10, Q_ANCHOR - 1)
+        while (!best && dim > 48) {
+          dim = Math.round(dim * 0.75)
+          best = await searchQuality(dim, 10, Q_ANCHOR - 1)
+        }
+        return best || tryQuality(10, dim)
+      }
+
       const compressedFiles = []
+      const tooBigFiles = []
       let totalOriginalSize = 0
       let totalCompressedSize = 0
 
@@ -2756,54 +3297,71 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         totalOriginalSize += file.size
 
         const baseName = path.basename(file.originalname, path.extname(file.originalname))
-        const isMimeJpeg = file.mimetype === "image/jpeg" || file.mimetype === "image/jpg"
-        const isMimePng  = file.mimetype === "image/png"
 
         try {
-          const image = sharp(file.path)
-          const metadata = await image.metadata()
-          const hasAlpha = metadata.hasAlpha || false
-
-          // Resize very large images — this alone cuts 60-80% for high-res photos
-          let pipeline = image
-          const maxDimension = compressionSettings.maxDimension || 4096
-          if (metadata.width > maxDimension || metadata.height > maxDimension) {
-            pipeline = pipeline.resize(maxDimension, maxDimension, { fit: "inside", withoutEnlargement: true })
+          // .rotate() with no angle = apply the EXIF orientation. sharp strips
+          // EXIF on output, so without it every phone photo shot in portrait
+          // came back sideways.
+          let image = sharp(file.path, { failOn: "none", limitInputPixels: BIG_IMAGE_PIXEL_CAP }).rotate()
+          let metadata = await image.metadata()
+          // Huge canvases (e.g. a 20000×20000 logo PNG — only a few MB on disk) blew sharp's
+          // default 268 MP input limit and the user just got a 500. Shrink them first with a
+          // streaming (sequential) read, which keeps memory low, then compress as usual.
+          if ((metadata.width || 0) * (metadata.height || 0) > BIG_IMAGE_MAX_PIXELS) {
+            const scale = Math.sqrt(BIG_IMAGE_MAX_PIXELS / (metadata.width * metadata.height))
+            const shrunk = file.path + "-shrunk"
+            await sharp(file.path, { failOn: "none", limitInputPixels: BIG_IMAGE_PIXEL_CAP, sequentialRead: true })
+              .rotate()
+              .resize(Math.max(1, Math.floor(metadata.width * scale)), Math.max(1, Math.floor(metadata.height * scale)), { fit: "inside" })
+              .toFormat(metadata.format === "jpeg" ? "jpeg" : "png", metadata.format === "jpeg" ? { quality: 95 } : { compressionLevel: 1 })
+              .toFile(shrunk)
+            fs.renameSync(shrunk, file.path)
+            image = sharp(file.path, { failOn: "none" })
+            metadata = await image.metadata()
           }
+          const fmt = ["jpeg", "png", "webp"].includes(metadata.format) ? metadata.format : (metadata.hasAlpha ? "png" : "jpeg")
+          const sameExt = { jpeg: ".jpg", png: ".png", webp: ".webp" }[fmt]
+          const origExt = path.extname(file.originalname).toLowerCase() || sameExt
+          const keepExt = fmt === "jpeg" && /^\.jpe?g$/.test(origExt) ? origExt : sameExt
 
-          // Step 1: Always generate WebP (best compression ratio, supports alpha)
-          const webpTmpPath = path.join(compressedDir, `${Date.now()}-tmp-${baseName}.webp`)
-          await pipeline.clone().webp(compressionSettings.webp).toFile(webpTmpPath)
-          const webpSize = fs.statSync(webpTmpPath).size
+          let outputBuf, outputExt
 
-          let bestPath = webpTmpPath
-          let bestSize = webpSize
-          let outputExt = ".webp"
-
-          // Step 2: For JPEG inputs without alpha, also try optimized JPEG
-          // and pick whichever is smaller
-          if (isMimeJpeg && !hasAlpha) {
-            const jpegTmpPath = path.join(compressedDir, `${Date.now()}-tmp-${baseName}.jpg`)
-            await pipeline.clone().jpeg(compressionSettings.jpeg).toFile(jpegTmpPath)
-            const jpegSize = fs.statSync(jpegTmpPath).size
-            if (jpegSize < webpSize) {
-              fs.unlinkSync(webpTmpPath)
-              bestPath = jpegTmpPath
-              bestSize = jpegSize
-              outputExt = ".jpg"
+          if (useTargetSize) {
+            const targetBytes = targetSizeKB * 1024
+            if (file.size <= targetBytes) {
+              // Already under the target — don't degrade it.
+              outputBuf = fs.readFileSync(file.path); outputExt = origExt
             } else {
-              fs.unlinkSync(jpegTmpPath)
+              const result = await compressToTargetSize(image, metadata, targetBytes, { fmt, ext: keepExt })
+              outputBuf = result.buf
+              outputExt = result.ext
+            }
+          } else {
+            // Resize very large images — this alone cuts 60-80% for high-res photos
+            let pipeline = image
+            const maxDimension = compressionSettings.maxDimension || 4096
+            if (metadata.width > maxDimension || metadata.height > maxDimension) {
+              pipeline = pipeline.resize(maxDimension, maxDimension, { fit: "inside", withoutEnlargement: true })
+            }
+            const q = fmt === "webp" ? compressionSettings.webp.quality : compressionSettings.jpeg.quality
+            outputBuf = await encodeSameFormat(pipeline.clone(), fmt, q)
+            outputExt = keepExt
+            if (fmt === "png") {
+              // Flat UI screenshots often shrink MORE with lossless max-compression
+              // than with a palette — and lose nothing. Keep whichever is smaller.
+              const lossless = await pipeline.clone().png({ compressionLevel: 9, adaptiveFiltering: true }).toBuffer()
+              if (lossless.length < outputBuf.length) outputBuf = lossless
+            }
+
+            // Never hand back a bigger file (already-optimised inputs).
+            if (outputBuf.length >= file.size) {
+              outputBuf = fs.readFileSync(file.path); outputExt = origExt
             }
           }
-          // For PNG: WebP wins almost always (25-90% smaller than PNG)
-          // For PNG with alpha: WebP handles transparency perfectly
 
-          // Move best output to final filename
           const outputFilename = `${Date.now()}-compressed-${baseName}${outputExt}`
           const outputPath = path.join(compressedDir, outputFilename)
-          fs.renameSync(bestPath, outputPath)
-
-          await new Promise((resolve) => setTimeout(resolve, 50))
+          fs.writeFileSync(outputPath, outputBuf)
 
           const stats = fs.statSync(outputPath)
           totalCompressedSize += stats.size
@@ -2839,6 +3397,10 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           }
         } catch (compError) {
           console.error(`Error compressing ${file.originalname}:`, compError)
+          if (/pixel limit/i.test(compError.message || "")) tooBigFiles.push(file.originalname)
+          // Record WHY (the 500s only ever said "No files compressed").
+          logActivity({ type: "conversion", action: "compress_image_file_failed", tool: "compress-image",
+            filename: file.originalname, fileSize: file.size, error: compError.message, ip: req.clientIP, status: "error" })
 
           try {
             if (fs.existsSync(file.path)) {
@@ -2860,6 +3422,9 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           status: "error",
         })
         
+        if (tooBigFiles.length === req.files.length) {
+          return res.status(422).json({ error: "This image is too large to process (over 1,000 megapixels). Please resize it to a smaller width/height and try again.", code: "IMAGE_TOO_LARGE" })
+        }
         return res.status(500).json({ error: "No files were compressed successfully" })
       }
 
@@ -2885,6 +3450,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         totalCompressedSize: totalCompressedSize,
         compressedSize: totalCompressedSize,
         savedPercentage: savedPercentage,
+        targetSizeKB: useTargetSize ? targetSizeKB : null,
         files: compressedFiles,
       })
     } catch (error) {
@@ -2936,7 +3502,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         return res.status(404).json({ error: "Files not found or expired" })
       }
 
-      const files = fs.readdirSync(compressedDir)
+      // ".meta.json" (compress-pdf's size summary) is not a download.
+      const files = fs.readdirSync(compressedDir).filter((f) => !f.startsWith("."))
 
       if (files.length === 0) {
         return res.status(404).json({ error: "No compressed files available" })
@@ -2966,7 +3533,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           setTimeout(() => {
             try {
               if (fs.existsSync(compressedDir)) {
-                fs.rmSync(compressedDir, { recursive: true, force: true })
+                // kept so the user can download again — sweepOldFiles() deletes it after 1h
               }
             } catch (cleanupErr) {
               console.log("Cleanup error:", cleanupErr)
@@ -3022,7 +3589,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
               fs.unlinkSync(zipPath)
             }
             if (fs.existsSync(compressedDir)) {
-              fs.rmSync(compressedDir, { recursive: true, force: true })
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -3083,7 +3650,10 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           status: "success",
         })
 
-        res.download(filePath, files[0], (err) => {
+        // Strip multer's prefix ("1699999-<12 hex>-report.pdf" → "report.pdf";
+        // older uploads had no hex part)
+        const cleanName = files[0].replace(/^\d+-(?:[0-9a-f]{12}-)?/, "")
+        res.download(filePath, cleanName, (err) => {
           if (err) {
             console.error("Download error:", err)
             if (!res.headersSent) {
@@ -3094,7 +3664,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           setTimeout(() => {
             try {
               if (fs.existsSync(convertedDir)) {
-                fs.rmSync(convertedDir, { recursive: true, force: true })
+                // kept so the user can download again — sweepOldFiles() deletes it after 1h
               }
             } catch (cleanupErr) {
               console.log("Cleanup error:", cleanupErr)
@@ -3149,7 +3719,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
               fs.unlinkSync(zipPath)
             }
             if (fs.existsSync(convertedDir)) {
-              fs.rmSync(convertedDir, { recursive: true, force: true })
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -3198,23 +3768,47 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         const file = req.files[i]
         console.log(`Processing file ${i + 1}/${req.files.length}: ${file.originalname}`)
 
+        // pdf-lib is lenient on load, so a damaged file can "load" and then blow
+        // up in copyPages — touching the page tree here surfaces that early.
+        const loadPdf = async (p) => { const d = await PDFLibDocument.load(fs.readFileSync(p)); d.getPages(); return d }
+        let pdf
         try {
-          const pdfBytes = fs.readFileSync(file.path)
-          const pdf = await PDFLibDocument.load(pdfBytes, { ignoreEncryption: true })
-          const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices())
-          pages.forEach((page) => {
-            mergedPdf.addPage(page)
-          })
-
-          console.log(`Added ${pages.length} pages from ${file.originalname}`)
-        } catch (pdfError) {
-          console.error(`Error processing ${file.originalname}:`, pdfError)
-          throw new Error(`Could not read "${file.originalname}". The file may be corrupted or password-protected. Please check the file and try again.`)
+          pdf = await loadPdf(file.path)
+        } catch (loadErr) {
+          // Encrypted (e-tickets, bank/utility bills often carry a permissions-
+          // only lock) or damaged. pdf-lib can't decrypt, and `ignoreEncryption`
+          // just copies still-encrypted streams — so let qpdf rewrite the file:
+          // --decrypt removes permissions-only encryption (no password needed)
+          // and qpdf's rewrite also repairs broken xref tables.
+          const fixed = file.path + ".fixed.pdf"
+          try {
+            await util.promisify(require("child_process").execFile)("qpdf", ["--decrypt", file.path, fixed], { timeout: 90000 })
+          } catch (_) { /* exit 3 = warnings, output still written */ }
+          if (fs.existsSync(fixed) && fs.statSync(fixed).size > 0) {
+            try { pdf = await loadPdf(fixed) } catch (_) {}
+          }
+          await safeUnlink(fixed)
+          if (!pdf) {
+            const needsPassword = /encrypt/i.test(loadErr.message)
+            const err = new Error(needsPassword
+              ? `"${file.originalname}" is protected with an open password. Remove it with our Unlock PDF tool first, then merge again.`
+              : `Could not read "${file.originalname}". The file may be damaged — try re-saving or re-downloading it.`)
+            err.code = needsPassword ? "PASSWORD_PROTECTED" : "CORRUPT_PDF"
+            err.fileName = file.originalname
+            throw err
+          }
+          console.log(`Decrypted/repaired with qpdf: ${file.originalname}`)
         }
+        const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices())
+        pages.forEach((page) => {
+          mergedPdf.addPage(page)
+        })
+        console.log(`Added ${pages.length} pages from ${file.originalname}`)
       }
 
       const mergedPdfBytes = await mergedPdf.save()
-      const outputFilename = `merged-${Date.now()}.pdf`
+      // Unguessable: uploads/ is public — "merged-<ms>.pdf" could be enumerated by timestamp.
+      const outputFilename = `merged-${genJobId()}.pdf`
       const outputPath = path.join("./uploads", outputFilename)
 
       fs.writeFileSync(outputPath, mergedPdfBytes)
@@ -3278,10 +3872,11 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         tool: "merge-pdf",
         error: error.message,
         ip: req.clientIP,
-        status: "error",
+        status: error.code ? "warning" : "error",
       })
 
-      res.status(500).json({ error: error.message })
+      // Input problems (password / damaged file) are 422 with a readable message.
+      res.status(error.code ? 422 : 500).json({ error: error.code || "MERGE_FAILED", message: error.message, fileName: error.fileName })
     }
   })
 
@@ -3296,12 +3891,16 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         return res.status(400).json({ error: "No PDF file uploaded" })
       }
 
-      const { degrees } = require("pdf-lib")
+      const { degrees, PDFName } = require("pdf-lib")
 
       // Normalise requested angle to one of 0/90/180/270.
       let angle = parseInt(req.body.angle, 10)
       if (isNaN(angle)) angle = 90
       const delta = ((angle % 360) + 360) % 360
+      if (delta % 90 !== 0) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+        return res.status(400).json({ error: "INVALID_ANGLE", message: "Rotation must be a multiple of 90 degrees." })
+      }
 
       // Optional subset of pages (1-based).
       let targetPages = null
@@ -3323,26 +3922,26 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         status: "processing",
       })
 
-      const pdfBytes = fs.readFileSync(req.file.path)
-      let pdf
-      try {
-        pdf = await PDFLibDocument.load(pdfBytes, { ignoreEncryption: true })
-      } catch (e) {
-        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
-        return res.status(400).json({ error: "Could not read the PDF. It may be corrupted or password-protected." })
-      }
+      const pdf = await loadPdfForEditing(req.file.path, req.file.originalname)
 
       const pages = pdf.getPages()
       pages.forEach((page, idx) => {
         if (targetPages && !targetPages.includes(idx + 1)) return
-        const current = page.getRotation().angle || 0
-        page.setRotation(degrees((current + delta) % 360))
+        // /Rotate may be inherited from the page tree; reading only the page's own
+        // value dropped an inherited 90° (rotating such a page gave 90°, not 180°).
+        const inh = page.node.getInheritableAttribute(PDFName.of("Rotate"))
+        const current = inh && typeof inh.asNumber === "function" ? inh.asNumber() : (page.getRotation().angle || 0)
+        page.setRotation(degrees((((current + delta) % 360) + 360) % 360))
       })
 
       const outBytes = await pdf.save()
       const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
-      const outputFilename = `rotated-${Date.now()}-${baseName}.pdf`
-      const outputPath = path.join("./uploads", outputFilename)
+      const outputFilename = `rotated-${baseName}.pdf`
+      // Unique stored name: the bare "rotated-<name>.pdf" was shared by every user
+      // rotating a same-named file (e.g. scan.pdf), so one could download the
+      // other's document. The page names the download from convertedName.
+      const storedFilename = `${genJobId()}-${outputFilename}`
+      const outputPath = path.join("./uploads", storedFilename)
       fs.writeFileSync(outputPath, outBytes)
 
       if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
@@ -3355,7 +3954,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           tool: "rotate-pdf",
           originalName: outputFilename,
           storedPath: path.resolve(outputPath),
-          downloadUrl: `/uploads/${outputFilename}`,
+          downloadUrl: `/uploads/${storedFilename}`,
           fileSize: outBytes.length,
         })
       }
@@ -3373,7 +3972,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       res.json({
         success: true,
         message: "PDF rotated successfully",
-        downloadUrl: `/uploads/${outputFilename}`,
+        downloadUrl: `/uploads/${storedFilename}`,
         convertedName: outputFilename,
         pageCount: pages.length,
         angle: delta,
@@ -3389,8 +3988,697 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         tool: "rotate-pdf",
         error: error.message,
         ip: req.clientIP,
+        status: error.code ? "warning" : "error",
+      })
+      if (error.code) return res.status(422).json({ error: error.code, message: error.message, fileName: error.fileName })
+      res.status(500).json({ error: error.message })
+    }
+  })
+
+
+  // ── Redact PDF ───────────────────────────────────────────────────────────
+  // TRUE redaction: pages with redaction boxes are rasterized to an image and
+  // the boxes are burned onto the pixels — the underlying text is gone, not
+  // just covered, so it cannot be recovered by copy-paste or a PDF editor.
+  // Pages with no boxes are copied through as vector (unchanged, still
+  // searchable/selectable). `boxes` coordinates arrive in the CSS-pixel space
+  // of the canvas the frontend rendered that page at (canvasWidth/canvasHeight
+  // per box) — we rescale to the actual rasterized PNG's pixel size below.
+  app.post("/api/redact-pdf", upload.single("file"), fileSizeLimiter("redact-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No PDF file uploaded" })
+      }
+
+      let boxes = []
+      try {
+        boxes = JSON.parse(req.body.boxes || "[]")
+        if (!Array.isArray(boxes)) boxes = []
+      } catch (_) {
+        boxes = []
+      }
+
+      logActivity({
+        type: "upload",
+        action: "pdf_uploaded_for_redact",
+        tool: "redact-pdf",
+        filename: req.file.originalname,
+        fileSize: req.file.size,
+        ip: req.clientIP,
+        userAgent: req.headers["user-agent"],
+        status: "processing",
+      })
+
+      if (boxes.length === 0) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+        return res.status(400).json({ error: "No redaction areas were selected." })
+      }
+
+      const inputPath = req.file.path
+      const pdfBytes = fs.readFileSync(inputPath)
+
+      let srcDoc
+      try {
+        srcDoc = await PDFLibDocument.load(pdfBytes, { ignoreEncryption: true })
+      } catch (e) {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
+        return res.status(400).json({ error: "Could not read the PDF. It may be corrupted or password-protected." })
+      }
+
+      const pageCount = srcDoc.getPageCount()
+
+      // Group boxes by page (1-based page numbers from the frontend).
+      const boxesByPage = {}
+      for (const b of boxes) {
+        const p = parseInt(b.page, 10)
+        if (!p || p < 1 || p > pageCount) continue
+        if (!boxesByPage[p]) boxesByPage[p] = []
+        boxesByPage[p].push(b)
+      }
+
+      const gsPath = getGhostscriptPath()
+      const jobId = genJobId()
+      const outputDir = path.dirname(inputPath)
+      const REDACT_DPI = 200
+
+      const outDoc = await PDFLibDocument.create()
+
+      // Text layer for redacted (rasterised) pages — see the OCR step below.
+      const REDACT_OCR_MAX_PAGES = 30
+      const REDACT_OCR_BUDGET_MS = 90 * 1000
+      const ocrStart = Date.now()
+      let ocrWorker = null
+      let ocrFont = null
+      let ocrPages = 0
+
+      try {
+      for (let i = 0; i < pageCount; i++) {
+        const pageNum = i + 1
+        const pageBoxes = boxesByPage[pageNum]
+
+        if (!pageBoxes || pageBoxes.length === 0) {
+          // No redactions on this page — copy through unchanged (stays vector/searchable).
+          const [copied] = await outDoc.copyPages(srcDoc, [i])
+          outDoc.addPage(copied)
+          continue
+        }
+
+        // Rasterize ONLY this page at high DPI (lower for poster-sized pages).
+        const disp = displaySize(srcDoc.getPage(i))
+        const dpi = safeRenderDpi(disp.width, disp.height, REDACT_DPI)
+        const rasterPath = path.join(outputDir, `${jobId}-redact-${pageNum}.png`)
+        const gsCommand = `"${gsPath}" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=png16m -r${dpi} -dFirstPage=${pageNum} -dLastPage=${pageNum} -sOutputFile="${rasterPath}" "${inputPath}"`
+        await execPromise(gsCommand, { timeout: 60000, maxBuffer: 50 * 1024 * 1024 })
+
+        if (!fs.existsSync(rasterPath)) {
+          throw new Error(`Failed to rasterize page ${pageNum} for redaction.`)
+        }
+
+        const rasterMeta = await sharp(rasterPath).metadata()
+        const pngW = rasterMeta.width
+        const pngH = rasterMeta.height
+
+        // Burn each box onto the raster as an opaque black rectangle via an SVG overlay.
+        const rects = pageBoxes.map((b) => {
+          const cw = Number(b.canvasWidth)  || pngW
+          const ch = Number(b.canvasHeight) || pngH
+          const scaleX = pngW / cw
+          const scaleY = pngH / ch
+          const rx = Math.max(0, Number(b.x) * scaleX)
+          const ry = Math.max(0, Number(b.y) * scaleY)
+          const rw = Math.min(pngW - rx, Math.max(1, Number(b.width) * scaleX))
+          const rh = Math.min(pngH - ry, Math.max(1, Number(b.height) * scaleY))
+          return `<rect x="${rx}" y="${ry}" width="${rw}" height="${rh}" fill="black"/>`
+        }).join("")
+        const svgOverlay = Buffer.from(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="${pngW}" height="${pngH}">${rects}</svg>`
+        )
+
+        const burnedBuffer = await sharp(rasterPath)
+          .composite([{ input: svgOverlay, top: 0, left: 0 }])
+          .png()
+          .toBuffer()
+
+        try { fs.unlinkSync(rasterPath) } catch (_) {}
+
+        // Embed the burned raster as a full page matching the original page's
+        // DISPLAYED size. Ghostscript renders /Rotate'd pages already turned, so
+        // a 90°/270° page must swap width/height or the image comes out squashed.
+        const { width: pw, height: ph } = disp
+        const embeddedPng = await outDoc.embedPng(burnedBuffer)
+        const newPage = outDoc.addPage([pw, ph])
+        newPage.drawImage(embeddedPng, { x: 0, y: 0, width: pw, height: ph })
+
+        // The rasterised page lost its text layer — OCR the BURNED image and
+        // add the remaining text back invisibly so it stays searchable and
+        // copyable. The redacted areas are already black pixels, so nothing
+        // under a box can come back. Capped so huge jobs don't time out.
+        if (ocrPages < REDACT_OCR_MAX_PAGES && Date.now() - ocrStart < REDACT_OCR_BUDGET_MS) {
+          try {
+            if (!ocrWorker) {
+              ocrWorker = await createWorker("eng")
+              await ocrWorker.setParameters({ tessedit_pageseg_mode: "3" })
+              ocrFont = await outDoc.embedFont(StandardFonts.Helvetica)
+            }
+            const { data } = await ocrWorker.recognize(burnedBuffer, {}, { blocks: true, text: true })
+            const words = ocrWordsFromData(data, pw / pngW)
+            if (words.length) drawInvisibleWords(newPage, ocrFont, words)
+            ocrPages++
+          } catch (ocrErr) {
+            console.warn(`[redact] OCR skipped on page ${pageNum}: ${ocrErr.message}`)
+          }
+        }
+      }
+      } finally {
+        if (ocrWorker) await ocrWorker.terminate().catch(() => {})
+      }
+
+      const outBytes = await outDoc.save()
+      const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
+      const outputFilename = `redacted-${baseName}.pdf`
+      const outputPath = path.join("./uploads", outputFilename)
+      fs.writeFileSync(outputPath, outBytes)
+
+      if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
+
+      if (req.user) {
+        await recordUserFile({
+          userId: req.user.id,
+          plan: req.user.plan,
+          tool: "redact-pdf",
+          originalName: outputFilename,
+          storedPath: path.resolve(outputPath),
+          downloadUrl: `/uploads/${outputFilename}`,
+          fileSize: outBytes.length,
+        })
+      }
+
+      logActivity({
+        type: "conversion",
+        action: "redact_pdf_complete",
+        tool: "redact-pdf",
+        conversionType: "redact-pdf",
+        pageCount,
+        ip: req.clientIP,
+        status: "success",
+      })
+
+      res.json({
+        success: true,
+        message: "PDF redacted successfully",
+        downloadUrl: `/uploads/${outputFilename}`,
+        convertedName: outputFilename,
+        pageCount,
+        redactedPages: Object.keys(boxesByPage).length,
+      })
+    } catch (error) {
+      console.error("Redact PDF Error:", error)
+      if (req.file && fs.existsSync(req.file.path)) {
+        try { fs.unlinkSync(req.file.path) } catch (_) {}
+      }
+      logActivity({
+        type: "conversion",
+        action: "redact_pdf_failed",
+        tool: "redact-pdf",
+        error: error.message,
+        ip: req.clientIP,
         status: "error",
       })
+      res.status(500).json({ error: error.message })
+    }
+  })
+
+
+  // ── Edit PDF ────────────────────────────────────────────────────────────────
+  // Real inline text editing. The client (pages/edit-pdf/preview.js) detects every
+  // text line with PDF.js and sends up only the lines the user actually changed,
+  // each carrying its original bounding box + baseline in render-pixel space.
+  //
+  // For every changed line we:
+  //   1. delete the glyph-showing operators for that line from the page's content
+  //      stream, so the old text is genuinely gone — not merely covered. (Covering
+  //      it with a white box leaves it copy/searchable, which for an invoice or a
+  //      contract is worse than useless.)
+  //   2. redraw the new string as real vector text on the same baseline.
+  // Pages the user never touched are left byte-for-byte alone.
+  //
+  // If the stream surgery can't reach a line (text living inside a Form XObject,
+  // an unusual encoding, a scanned page) we fall back to painting an opaque white
+  // rectangle over it, which is at least visually correct.
+  //
+  // The 14 standard PDF fonts only encode WinAnsi. If an edit needs characters
+  // they can't represent (CJK, Devanagari, emoji, …) that page falls back to the
+  // rasterise + SVG-burn path, which can render anything.
+  app.post("/api/edit-pdf", upload.single("file"), fileSizeLimiter("edit-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
+    try {
+      if (!req.file) return res.status(400).json({ error: "No PDF file uploaded" })
+      const zlib = require("zlib")
+      const {
+        StandardFonts, rgb, PDFName, PDFArray, PDFRawStream, PDFDict, PDFNumber, PDFRef,
+        decodePDFRawStream,
+      } = require("pdf-lib")
+
+      let edits = []
+      try { edits = JSON.parse(req.body.edits || "[]"); if (!Array.isArray(edits)) edits = [] } catch (_) { edits = [] }
+
+      logActivity({ type: "upload", action: "pdf_uploaded_for_edit", tool: "edit-pdf", filename: req.file.originalname, fileSize: req.file.size, ip: req.clientIP, userAgent: req.headers["user-agent"], status: "processing" })
+
+      const inputPath = req.file.path
+      if (edits.length === 0) {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
+        return res.status(400).json({ error: "No edits were made." })
+      }
+
+      // Encrypted files: qpdf-decrypt first (ignoreEncryption:true produced a
+      // corrupt "edited" file); open-password / damaged → coded 422.
+      const srcDoc = await loadPdfForEditing(inputPath, req.file.originalname)
+
+      const pageCount = srcDoc.getPageCount()
+      const editsByPage = {}
+      for (const e of edits) {
+        const p = parseInt(e.page, 10)
+        if (!p || p < 1 || p > pageCount) continue
+        if (!editsByPage[p]) editsByPage[p] = []
+        editsByPage[p].push(e)
+      }
+      if (Object.keys(editsByPage).length === 0) {
+        if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
+        return res.status(400).json({ error: "No valid edits were provided." })
+      }
+
+      // Rotated pages (/Rotate 90/180/270, e.g. landscape scans): the editor sends
+      // coordinates in the DISPLAYED orientation, but everything below works in the
+      // page's unrotated space — added text landed in the wrong place/orientation.
+      // Re-create such a page upright (original drawn as an embedded page, turned
+      // to match what the user saw) so the displayed and page spaces are the same.
+      // Its original text can then only be covered, not removed (it now lives in a
+      // form XObject), and link annotations on that page are not carried over.
+      {
+        const { degrees: pdfDegrees, PDFName: PN } = require("pdf-lib")
+        for (const pStr of Object.keys(editsByPage)) {
+          const idx = parseInt(pStr, 10) - 1
+          const page = srcDoc.getPage(idx)
+          const inh = page.node.getInheritableAttribute(PN.of("Rotate"))
+          const r = ((((inh && typeof inh.asNumber === "function" ? inh.asNumber() : 0) % 360) + 360) % 360)
+          if (!r || r % 90) continue
+          const { width: w0, height: h0 } = page.getSize()
+          const emb = await srcDoc.embedPage(page)
+          const upright = srcDoc.insertPage(idx, r % 180 ? [h0, w0] : [w0, h0])
+          const place = r === 90 ? { x: 0, y: w0, rotate: pdfDegrees(-90) }
+            : r === 180 ? { x: w0, y: h0, rotate: pdfDegrees(180) }
+            : { x: h0, y: 0, rotate: pdfDegrees(90) }
+          upright.drawPage(emb, { ...place, width: w0, height: h0 })
+          srcDoc.removePage(idx + 1)
+        }
+      }
+
+      const hexToRgb = (hex) => {
+        const m = /^#?([0-9a-fA-F]{6})$/.exec(String(hex || "").trim())
+        if (!m) return rgb(0, 0, 0)
+        const n = parseInt(m[1], 16)
+        return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255)
+      }
+
+      const embedFonts = async (doc) => ({
+        sans: await doc.embedFont(StandardFonts.Helvetica),
+        sansB: await doc.embedFont(StandardFonts.HelveticaBold),
+        sansI: await doc.embedFont(StandardFonts.HelveticaOblique),
+        sansBI: await doc.embedFont(StandardFonts.HelveticaBoldOblique),
+        serif: await doc.embedFont(StandardFonts.TimesRoman),
+        serifB: await doc.embedFont(StandardFonts.TimesRomanBold),
+        serifI: await doc.embedFont(StandardFonts.TimesRomanItalic),
+        serifBI: await doc.embedFont(StandardFonts.TimesRomanBoldItalic),
+        mono: await doc.embedFont(StandardFonts.Courier),
+        monoB: await doc.embedFont(StandardFonts.CourierBold),
+        monoI: await doc.embedFont(StandardFonts.CourierOblique),
+        monoBI: await doc.embedFont(StandardFonts.CourierBoldOblique),
+      })
+
+      // Mirrors cssFontStack() in pages/edit-pdf/preview.js so the WYSIWYG
+      // preview and the rendered output agree.
+      const familyOf = (e) => {
+        const f = String(e.fontFamily || "").toLowerCase()
+        if (/mono|courier|consol/.test(f)) return "mono"
+        if (/sans/.test(f)) return "sans"
+        if (/times|georgia|garamond|serif|roman|minion|book|cambria/.test(f)) return "serif"
+        return "sans"
+      }
+      const pickFont = (fonts, e) => {
+        const suffix = e.bold && e.italic ? "BI" : e.bold ? "B" : e.italic ? "I" : ""
+        return fonts[familyOf(e) + suffix] || fonts.sans
+      }
+      const encodable = (font, text) => {
+        try { font.widthOfTextAtSize(String(text || ""), 12); return true } catch (_) { return false }
+      }
+
+      // ── Content-stream tokenizer + text remover ───────────────────────────
+      const CS_WS = new Set([" ", "\n", "\r", "\t", "\f", "\0"])
+      const csIsWS = (c) => CS_WS.has(c)
+      const csIsDelim = (c) => "()<>[]{}/%".includes(c)
+
+      function* csTokens(s) {
+        let i = 0
+        const n = s.length
+        while (i < n) {
+          const start = i
+          const c = s[i]
+          if (csIsWS(c)) { while (i < n && csIsWS(s[i])) i++; yield { t: "ws", raw: s.slice(start, i) }; continue }
+          if (c === "%") { while (i < n && s[i] !== "\n" && s[i] !== "\r") i++; yield { t: "ws", raw: s.slice(start, i) }; continue }
+          if (c === "(") {
+            i++
+            let depth = 1
+            while (i < n && depth > 0) {
+              if (s[i] === "\\") { i += 2; continue }
+              if (s[i] === "(") depth++
+              else if (s[i] === ")") depth--
+              i++
+            }
+            yield { t: "str", raw: s.slice(start, i) }; continue
+          }
+          if (c === "<" && s[i + 1] === "<") { i += 2; yield { t: "other", raw: "<<" }; continue }
+          if (c === ">" && s[i + 1] === ">") { i += 2; yield { t: "other", raw: ">>" }; continue }
+          if (c === "<") { while (i < n && s[i] !== ">") i++; i++; yield { t: "str", raw: s.slice(start, i) }; continue }
+          if (c === "[") { i++; yield { t: "other", raw: "[" }; continue }
+          if (c === "]") { i++; yield { t: "other", raw: "]" }; continue }
+          if (c === "/") { i++; while (i < n && !csIsWS(s[i]) && !csIsDelim(s[i])) i++; yield { t: "other", raw: s.slice(start, i) }; continue }
+          if (/[-+.\d]/.test(c)) {
+            i++
+            while (i < n && /[-+.\deE]/.test(s[i])) i++
+            const raw = s.slice(start, i)
+            const v = parseFloat(raw)
+            yield { t: "num", raw, v: Number.isFinite(v) ? v : 0 }; continue
+          }
+          i++
+          while (i < n && !csIsWS(s[i]) && !csIsDelim(s[i])) i++
+          yield { t: "op", raw: s.slice(start, i) }
+        }
+      }
+
+      const matMul = (a, b) => [
+        a[0] * b[0] + a[1] * b[2],
+        a[0] * b[1] + a[1] * b[3],
+        a[2] * b[0] + a[3] * b[2],
+        a[2] * b[1] + a[3] * b[3],
+        a[4] * b[0] + a[5] * b[2] + b[4],
+        a[4] * b[1] + a[5] * b[3] + b[5],
+      ]
+      const SHOW_OPS = new Set(["Tj", "TJ", "'", '"'])
+
+      // Drops the glyph-showing operators whose text origin lands inside one of
+      // `boxes`. Dropping Tj only affects the text matrix, never the line matrix,
+      // so following lines (positioned with T*/Td/Tm) stay exactly where they were.
+      const stripTextInBoxes = (src, boxes) => {
+        let out = ""
+        let pending = ""
+        let nums = []
+        let ctm = [1, 0, 0, 1, 0, 0]
+        const stack = []
+        let tm = [1, 0, 0, 1, 0, 0]
+        let tlm = [1, 0, 0, 1, 0, 0]
+        let leading = 0
+        const dropped = new Map()
+
+        for (const tk of csTokens(src)) {
+          if (tk.t !== "op") {
+            pending += tk.raw
+            if (tk.t === "num") nums.push(tk.v)
+            continue
+          }
+          const op = tk.raw
+          let drop = false
+
+          switch (op) {
+            case "q": stack.push(ctm.slice()); break
+            case "Q": if (stack.length) ctm = stack.pop(); break
+            case "cm": if (nums.length >= 6) ctm = matMul(nums.slice(-6), ctm); break
+            case "BT": tm = [1, 0, 0, 1, 0, 0]; tlm = tm.slice(); break
+            case "Tm": if (nums.length >= 6) { tlm = nums.slice(-6); tm = tlm.slice() } break
+            case "Td": if (nums.length >= 2) { tlm = matMul([1, 0, 0, 1, nums[nums.length - 2], nums[nums.length - 1]], tlm); tm = tlm.slice() } break
+            case "TD": if (nums.length >= 2) { leading = -nums[nums.length - 1]; tlm = matMul([1, 0, 0, 1, nums[nums.length - 2], nums[nums.length - 1]], tlm); tm = tlm.slice() } break
+            case "T*": tlm = matMul([1, 0, 0, 1, 0, -leading], tlm); tm = tlm.slice(); break
+            case "TL": if (nums.length) leading = nums[nums.length - 1]; break
+            default: break
+          }
+
+          if (SHOW_OPS.has(op)) {
+            if (op === "'" || op === '"') { tlm = matMul([1, 0, 0, 1, 0, -leading], tlm); tm = tlm.slice() }
+            const m = matMul(tm, ctm)
+            const x = m[4], y = m[5]
+            for (const b of boxes) {
+              if (x >= b.x0 - 2 && x <= b.x1 + 2 && Math.abs(y - b.yBase) <= b.yTol) {
+                drop = true
+                dropped.set(b.i, (dropped.get(b.i) || 0) + 1)
+                break
+              }
+            }
+          }
+
+          if (drop) out += " "
+          else out += pending + op
+          pending = ""
+          nums = []
+        }
+        out += pending
+        return { out, dropped }
+      }
+
+      // Rewrites a page's content streams with the in-box text removed.
+      // Returns Map<editIndex, droppedCount>; throws if the page can't be handled.
+      const removeOriginalText = (doc, page, list) => {
+        const { width: pw, height: ph } = page.getSize()
+        const boxes = []
+        list.forEach((e, i) => {
+          if (e.isNew || !(Number(e.width) > 0)) return
+          const cw = Number(e.canvasWidth) || pw
+          const ch = Number(e.canvasHeight) || ph
+          const sx = pw / cw, sy = ph / ch
+          // PDF.js reports a line's x after any leading indent, while the text
+          // operator itself starts at the indent — so we search left as far as
+          // the client says is safe (`leftBound`: the end of whatever else sits
+          // on this baseline, or the page edge). Matching is on the operator's
+          // origin, which for this line always lands at or before its visible end.
+          const lb = Number.isFinite(Number(e.leftBound)) ? Number(e.leftBound) : Number(e.x)
+          boxes.push({
+            i,
+            x0: Math.min(lb, Number(e.x)) * sx,
+            x1: (Number(e.x) + Number(e.width)) * sx,
+            yBase: ph - Number(e.baselineY) * sy,
+            yTol: Math.max(2, Number(e.height) * sy * 0.6),
+          })
+        })
+        if (boxes.length === 0) return new Map()
+
+        const ctx = doc.context
+        const rawContents = page.node.get(PDFName.of("Contents"))
+        let refs = []
+        if (rawContents instanceof PDFArray) refs = rawContents.asArray()
+        else if (rawContents) refs = [rawContents]
+        refs = refs.filter((r) => r instanceof PDFRef)
+        if (refs.length === 0) throw new Error("page has no indirect content stream")
+
+        let combined = ""
+        for (const r of refs) {
+          const st = ctx.lookup(r)
+          if (!(st instanceof PDFRawStream)) throw new Error("unsupported content stream type")
+          combined += Buffer.from(decodePDFRawStream(st).decode()).toString("latin1")
+        }
+
+        const { out, dropped } = stripTextInBoxes(combined, boxes)
+
+        const deflated = zlib.deflateSync(Buffer.from(out, "latin1"))
+        const mkDict = (len, compressed) => {
+          const d = PDFDict.withContext(ctx)
+          d.set(PDFName.of("Length"), PDFNumber.of(len))
+          if (compressed) d.set(PDFName.of("Filter"), PDFName.of("FlateDecode"))
+          return d
+        }
+        ctx.assign(refs[0], PDFRawStream.of(mkDict(deflated.length, true), new Uint8Array(deflated)))
+        for (const r of refs.slice(1)) {
+          ctx.assign(r, PDFRawStream.of(mkDict(0, false), new Uint8Array(0)))
+        }
+        return dropped
+      }
+
+      // Draws the replacement text, plus a white cover only where the original
+      // text could not actually be removed.
+      const applyVectorEdits = (page, list, fonts, dropped) => {
+        const { width: pw, height: ph } = page.getSize()
+        list.forEach((e, i) => {
+          const cw = Number(e.canvasWidth) || pw
+          const ch = Number(e.canvasHeight) || ph
+          const sx = pw / cw
+          const sy = ph / ch
+          const size = Math.max(1, (Number(e.fontSize) || 12) * sy)
+          const text = String(e.text ?? "")
+          const wasRemoved = (dropped.get(i) || 0) > 0
+
+          if (!e.isNew && Number(e.width) > 0 && !wasRemoved) {
+            const pad = Math.max(0.5, size * 0.12)
+            const topPt = ph - Number(e.y) * sy
+            const hPt = Number(e.height) * sy
+            page.drawRectangle({
+              x: Math.max(0, Number(e.x) * sx - pad),
+              y: Math.max(0, topPt - hPt - pad * 0.5),
+              width: Math.max(1, Number(e.width) * sx + pad * 2),
+              height: Math.max(1, hPt + pad),
+              color: rgb(1, 1, 1),
+            })
+          }
+
+          if (!text) return
+          page.drawText(text, {
+            x: Number(e.x) * sx,
+            y: ph - Number(e.baselineY) * sy,
+            size,
+            font: pickFont(fonts, e),
+            color: hexToRgb(e.color),
+          })
+        })
+      }
+
+      const probeFonts = await embedFonts(srcDoc)
+      const rasterPages = new Set()
+      for (const [pStr, list] of Object.entries(editsByPage)) {
+        for (const e of list) {
+          if (!encodable(pickFont(probeFonts, e), e.text)) { rasterPages.add(parseInt(pStr, 10)); break }
+        }
+      }
+
+      let coveredOnly = 0
+      let outBytes
+
+      if (rasterPages.size === 0) {
+        // ── Fast path: everything stays vector, edit the document in place. ──
+        for (const [pStr, list] of Object.entries(editsByPage)) {
+          const page = srcDoc.getPage(parseInt(pStr, 10) - 1)
+          let dropped = new Map()
+          try {
+            dropped = removeOriginalText(srcDoc, page, list)
+          } catch (err) {
+            console.warn(`[edit-pdf] text removal skipped on page ${pStr}: ${err.message}`)
+            dropped = new Map()
+          }
+          list.forEach((e, i) => { if (!e.isNew && Number(e.width) > 0 && !(dropped.get(i) > 0)) coveredOnly++ })
+          applyVectorEdits(page, list, probeFonts, dropped)
+        }
+        outBytes = await srcDoc.save()
+      } else {
+        // ── Mixed path: rasterise only the pages we can't set as vector text. ─
+        const gsPath = getGhostscriptPath()
+        const jobId = genJobId()
+        const outputDir = path.dirname(inputPath)
+        const EDIT_DPI = 200
+        const outDoc = await PDFLibDocument.create()
+        const outFonts = await embedFonts(outDoc)
+
+        const escapeXml = (s) => String(s ?? "").replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" }[c]))
+        const svgFamily = (e) => {
+          const fam = familyOf(e)
+          return fam === "mono" ? "Courier New, monospace" : fam === "serif" ? "Times New Roman, serif" : "Arial, Helvetica, sans-serif"
+        }
+
+        for (let i = 0; i < pageCount; i++) {
+          const pageNum = i + 1
+          const list = editsByPage[pageNum]
+
+          if (!list || list.length === 0) {
+            const [copied] = await outDoc.copyPages(srcDoc, [i])
+            outDoc.addPage(copied)
+            continue
+          }
+
+          if (!rasterPages.has(pageNum)) {
+            // Surgery has to happen on the source page before it's copied over.
+            let dropped = new Map()
+            try {
+              dropped = removeOriginalText(srcDoc, srcDoc.getPage(i), list)
+            } catch (err) {
+              console.warn(`[edit-pdf] text removal skipped on page ${pageNum}: ${err.message}`)
+              dropped = new Map()
+            }
+            list.forEach((e, idx) => { if (!e.isNew && Number(e.width) > 0 && !(dropped.get(idx) > 0)) coveredOnly++ })
+            const [copied] = await outDoc.copyPages(srcDoc, [i])
+            applyVectorEdits(outDoc.addPage(copied), list, outFonts, dropped)
+            continue
+          }
+
+          // Rasterise this page, then burn the cover + new text via an SVG overlay.
+          const disp = displaySize(srcDoc.getPage(i))
+          const dpi = safeRenderDpi(disp.width, disp.height, EDIT_DPI)
+          const rasterPath = path.join(outputDir, `${jobId}-edit-${pageNum}.png`)
+          const gsCommand = `"${gsPath}" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=png16m -r${dpi} -dFirstPage=${pageNum} -dLastPage=${pageNum} -sOutputFile="${rasterPath}" "${inputPath}"`
+          await execPromise(gsCommand, { timeout: 60000, maxBuffer: 50 * 1024 * 1024 })
+          if (!fs.existsSync(rasterPath)) throw new Error(`Failed to render page ${pageNum} for editing.`)
+
+          const rasterMeta = await sharp(rasterPath).metadata()
+          const pngW = rasterMeta.width
+          const pngH = rasterMeta.height
+
+          const svgParts = list.map((e) => {
+            const cw = Number(e.canvasWidth) || pngW
+            const ch = Number(e.canvasHeight) || pngH
+            const sx = pngW / cw
+            const sy = pngH / ch
+            const size = Math.max(1, (Number(e.fontSize) || 12) * sy)
+            const text = String(e.text ?? "")
+
+            let rect = ""
+            if (!e.isNew && Number(e.width) > 0) {
+              const pad = Math.max(1, size * 0.12)
+              rect = `<rect x="${Number(e.x) * sx - pad}" y="${Number(e.y) * sy - pad * 0.5}" width="${Number(e.width) * sx + pad * 2}" height="${Number(e.height) * sy + pad}" fill="white"/>`
+            }
+            if (!text) return rect
+
+            const weight = e.bold ? ' font-weight="bold"' : ""
+            const style = e.italic ? ' font-style="italic"' : ""
+            const label = `<text x="${Number(e.x) * sx}" y="${Number(e.baselineY) * sy}" font-family="${svgFamily(e)}" font-size="${size}"${weight}${style} fill="${/^#[0-9a-fA-F]{6}$/.test(e.color) ? e.color : "#000000"}">${escapeXml(text)}</text>`
+            return rect + label
+          }).join("")
+
+          const svgOverlay = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${pngW}" height="${pngH}">${svgParts}</svg>`)
+          const burned = await sharp(rasterPath).composite([{ input: svgOverlay, top: 0, left: 0 }]).png().toBuffer()
+          try { fs.unlinkSync(rasterPath) } catch (_) {}
+
+          const { width: pw, height: ph } = disp
+          const embeddedPng = await outDoc.embedPng(burned)
+          const newPage = outDoc.addPage([pw, ph])
+          newPage.drawImage(embeddedPng, { x: 0, y: 0, width: pw, height: ph })
+        }
+
+        outBytes = await outDoc.save()
+      }
+
+      const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
+      const outputFilename = `edited-${baseName}.pdf`
+      // Unique stored name (bare "edited-<name>.pdf" was shared between users);
+      // the page names the download from convertedName.
+      const storedFilename = `${genJobId()}-${outputFilename}`
+      const outputPath = path.join("./uploads", storedFilename)
+      fs.writeFileSync(outputPath, outBytes)
+      if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
+
+      if (req.user) {
+        await recordUserFile({ userId: req.user.id, plan: req.user.plan, tool: "edit-pdf", originalName: outputFilename, storedPath: path.resolve(outputPath), downloadUrl: `/uploads/${storedFilename}`, fileSize: outBytes.length })
+      }
+
+      logActivity({ type: "conversion", action: "edit_pdf_complete", tool: "edit-pdf", conversionType: "edit-pdf", pageCount, ip: req.clientIP, status: "success" })
+
+      res.json({
+        success: true,
+        message: "PDF edited successfully",
+        downloadUrl: `/uploads/${storedFilename}`,
+        convertedName: outputFilename,
+        pageCount,
+        editedPages: Object.keys(editsByPage).length,
+        rasterizedPages: rasterPages.size,
+        rasterizedPageNumbers: [...rasterPages].sort((a, b) => a - b),
+        coveredOnly,
+      })
+    } catch (error) {
+      console.error("Edit PDF Error:", error)
+      if (req.file && fs.existsSync(req.file.path)) { try { fs.unlinkSync(req.file.path) } catch (_) {} }
+      logActivity({ type: "conversion", action: "edit_pdf_failed", tool: "edit-pdf", error: error.message, ip: req.clientIP, status: error.code ? "warning" : "error" })
+      if (error.code) return res.status(422).json({ error: error.code, message: error.message, fileName: error.fileName })
       res.status(500).json({ error: error.message })
     }
   })
@@ -3431,8 +4719,11 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
 
       const jobId = genJobId()
       const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
-      const outputFilename = `protected-${jobId}-${baseName}.pdf`
-      const outputPath = path.join("./uploads", outputFilename)
+      const outputFilename = `protected-${baseName}.pdf`
+      // Unique stored name (was shared per filename → users could receive each
+      // other's protected file); the page names the download from convertedName.
+      const storedFilename = `${jobId}-${outputFilename}`
+      const outputPath = path.join("./uploads", storedFilename)
 
       // qpdf --encrypt <user> <owner> 256 -- input output
       // owner password = user password (single password to open).
@@ -3442,9 +4733,15 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         // qpdf exits 3 on warnings but still produces a valid file — only fail if
         // no usable output was created.
         if (!fs.existsSync(outputPath) || fs.statSync(outputPath).size === 0) {
-          console.error("Protect PDF qpdf error:", qErr.message)
+          // Never log qErr.message: it echoes the command line, i.e. the password.
+          console.error("Protect PDF qpdf error:", String(qErr.stderr || "").split(password).join("***").slice(0, 300))
           if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
-          return res.status(500).json({ error: "Could not protect this PDF. It may be corrupted or already encrypted." })
+          const alreadyLocked = /invalid password|encrypted/i.test(String(qErr.stderr || ""))
+          return res.status(422).json({
+            error: alreadyLocked ? "PASSWORD_PROTECTED" : "CORRUPT_PDF",
+            message: alreadyLocked ? "This PDF already has an open password. Remove it with Unlock PDF first, then protect it again." : "Could not read this PDF. The file may be damaged.",
+            fileName: req.file.originalname,
+          })
         }
       }
 
@@ -3460,7 +4757,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           originalName: outputFilename,
           jobId,
           storedPath: path.resolve(outputPath),
-          downloadUrl: `/uploads/${outputFilename}`,
+          downloadUrl: `/uploads/${storedFilename}`,
           fileSize: outBytes,
         })
       }
@@ -3477,7 +4774,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       res.json({
         success: true,
         message: "PDF protected successfully",
-        downloadUrl: `/uploads/${outputFilename}`,
+        downloadUrl: `/uploads/${storedFilename}`,
         convertedName: outputFilename,
       })
     } catch (error) {
@@ -3522,7 +4819,9 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       fs.mkdirSync(compressedDir, { recursive: true })
     }
 
-    const compressionLevel = req.body.level || "balanced"
+    // Whitelisted: this value is placed UNQUOTED into the python command line,
+    // so any other string (e.g. "balanced; <cmd>") would run as shell code.
+    const compressionLevel = ["maximum", "balanced", "extreme"].includes(req.body.level) ? req.body.level : "balanced"
     console.log(`  Level: ${compressionLevel}`)
 
     // ── Python script path (place compress_pdf.py in same folder as server.js) ──
@@ -3542,9 +4841,11 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         pdfSettings: "/ebook", colorDPI: 96, grayDPI: 96, monoDPI: 200,
         jpegQuality: 55, downsampleType: "/Bicubic",
         description: "Balanced", expectedReduction: "50-75%",
+        // No -dPreserveAnnots=false here or in "extreme": it deleted every
+        // hyperlink in the PDF for a negligible size gain.
         extraFlags: ["-dDetectDuplicateImages=true", "-dCompressFonts=true",
           "-dSubsetFonts=true", "-dEmbedAllFonts=false", "-dOptimize=true",
-          "-dPreserveAnnots=false", "-dPreserveHalftoneInfo=false"],
+          "-dPreserveHalftoneInfo=false"],
       },
       extreme: {
         pdfSettings: "/screen", colorDPI: 72, grayDPI: 72, monoDPI: 150,
@@ -3552,7 +4853,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         description: "Extreme Compression", expectedReduction: "70-90%",
         extraFlags: ["-dDetectDuplicateImages=true", "-dCompressFonts=true",
           "-dSubsetFonts=true", "-dEmbedAllFonts=false", "-dOptimize=true",
-          "-dPreserveAnnots=false", "-dPreserveHalftoneInfo=false",
+          "-dPreserveHalftoneInfo=false",
           "-dPreserveOPIComments=false", "-dPreserveOverprintSettings=false",
           "-dUCRandBGInfo=/Remove", "-dMaxSubsetPct=100",
           "-dConvertCMYKImagesToRGB=true", "-dAutoFilterColorImages=false",
@@ -3595,8 +4896,18 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
     }
 
     const compressedFiles = []
+    const corruptFiles = []
     let totalOriginalSize  = 0
     let totalCompressedSize = 0
+
+    // One time budget for the WHOLE request. nginx gives up at 300s
+    // (proxy_read_timeout); the three passes used to be allowed 120+300+120s
+    // per file, so a heavy PDF ended in a 504 even though the earlier, cheaper
+    // passes had already produced a smaller file. Now each pass gets what is
+    // left of ~270s, and a pass with no time left is skipped — the visitor
+    // gets the best result so far instead of a gateway error.
+    const compressDeadline = Date.now() + 270000
+    const passBudget = (capMs) => Math.min(capMs, compressDeadline - Date.now() - 10000)
 
     for (const file of req.files) {
       totalOriginalSize += file.size
@@ -3616,7 +4927,9 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         let pass1OK   = false
         try {
           const pyCmd = `"${pythonCmd}" "${pythonScript}" "${file.path}" "${pass1Path}" ${compressionLevel}`
-          const { stdout } = await execPromise(pyCmd, { timeout: 120000, maxBuffer: 200 * 1024 * 1024 })
+          const t1 = passBudget(120000)
+          if (t1 < 5000) throw new Error("skipped — request time budget used up")
+          const { stdout } = await execPromise(pyCmd, { timeout: t1, maxBuffer: 200 * 1024 * 1024 })
           if (fs.existsSync(pass1Path) && fs.statSync(pass1Path).size > 0) {
             pass1OK   = true
             pass1Size = fs.statSync(pass1Path).size
@@ -3632,9 +4945,23 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         const gsInput   = (pass1OK && pass1Size < file.size) ? pass1Path : file.path
         let pass2OK     = false
         let pass2Size   = Infinity
+        // Ghostscript's pdfwrite flattens fillable form fields into plain page
+        // content, so a compressed form could no longer be filled in. Forms go
+        // through the lossless passes only.
+        let hasForm = false
+        let unreadable = false
         try {
+          const probe = await PDFLibDocument.load(fs.readFileSync(file.path), { ignoreEncryption: true, updateMetadata: false })
+          hasForm = probe.getForm().getFields().length > 0
+        } catch (_) {
+          unreadable = true
+        }
+        if (hasForm) console.log(`     Pass2 GS: skipped — PDF has fillable form fields`)
+        if (!hasForm) try {
           const gsCmd = buildGsCommand(gsInput, pass2Path, settings)
-          await execPromise(gsCmd, { timeout: 300000, maxBuffer: 200 * 1024 * 1024 })
+          const t2 = passBudget(180000)
+          if (t2 < 5000) throw new Error("skipped — request time budget used up")
+          await execPromise(gsCmd, { timeout: t2, maxBuffer: 200 * 1024 * 1024 })
           if (fs.existsSync(pass2Path) && fs.statSync(pass2Path).size > 0) {
             pass2OK   = true
             pass2Size = fs.statSync(pass2Path).size
@@ -3655,7 +4982,9 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         let pass3Size = Infinity
         try {
           const qpdfCmd = `qpdf --compress-streams=y --object-streams=generate --recompress-flate --compression-level=9 --linearize "${qpdfInput.path}" "${pass3Path}"`
-          await execPromise(qpdfCmd, { timeout: 120000, maxBuffer: 200 * 1024 * 1024 })
+          const t3 = passBudget(60000)
+          if (t3 < 5000) throw new Error("skipped — request time budget used up")
+          await execPromise(qpdfCmd, { timeout: t3, maxBuffer: 200 * 1024 * 1024 })
           if (fs.existsSync(pass3Path) && fs.statSync(pass3Path).size > 0) {
             pass3OK   = true
             pass3Size = fs.statSync(pass3Path).size
@@ -3664,6 +4993,16 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         } catch (qpdfErr) {
           console.log(`     Pass3 qpdf: FAILED — ${qpdfErr.message.slice(0, 80)}`)
           console.log(`     💡 Fix: apt-get install -y qpdf`)
+        }
+
+        // Neither qpdf (strict) nor pdf-lib (lenient) could read it → not a
+        // usable PDF. Pass 1 just copies unreadable input and Ghostscript turns
+        // it into a blank page, so their "success" proves nothing. Returning
+        // the original as "already optimized" (the old behaviour) was misleading.
+        if (!pass3OK && unreadable) {
+          const err = new Error("No compression pass could read this PDF")
+          err.corrupt = true
+          throw err
         }
 
         // ── Pick smallest of all passes — never inflate the file ──
@@ -3694,7 +5033,12 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
 
       } catch (fileErr) {
         console.error(`  ❌ ${file.originalname}: ${fileErr.message}`)
-        try {
+        logActivity({ type: "conversion", action: "compress_pdf_file_failed", tool: "compress-pdf",
+          filename: file.originalname, fileSize: file.size, error: fileErr.message, ip: req.clientIP, status: "error" })
+        if (fileErr.corrupt) {
+          corruptFiles.push(file.originalname)
+          totalOriginalSize -= file.size
+        } else try {
           fs.copyFileSync(file.path, finalOutputPath)
           totalCompressedSize += file.size
           compressedFiles.push({
@@ -3715,7 +5059,15 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
 
     if (compressedFiles.length === 0) {
       logActivity({ type: "conversion", action: "compress_pdf_failed", tool: "compress-pdf",
-        error: "No files compressed", ip: req.clientIP, status: "error" })
+        error: corruptFiles.length ? "Damaged PDF" : "No files compressed", ip: req.clientIP, status: "error" })
+      try { fs.rmSync(compressedDir, { recursive: true, force: true }) } catch (_) {}
+      if (corruptFiles.length) {
+        return res.status(422).json({
+          error: "CORRUPT_PDF",
+          message: "This PDF appears to be damaged or is not a valid PDF, so it could not be compressed. Try re-saving or re-downloading it and upload again.",
+          files: corruptFiles,
+        })
+      }
       return res.status(500).json({ error: "No files were compressed. Ensure pikepdf is installed: pip install pikepdf" })
     }
 
@@ -3729,6 +5081,15 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       compressionLevel, ip: req.clientIP, status: "success" })
 
     console.log(`\n📊 SUMMARY: ${compressedFiles.length} files | ${formatFileSize(totalOriginalSize)} → ${formatFileSize(totalCompressedSize)} (${savedPercentage}% saved)\n`)
+
+    // Sizes for the download page when it is reloaded or opened from a shared
+    // link (sessionStorage gone) — compress-meta used to report 0% saved.
+    try {
+      fs.writeFileSync(path.join(compressedDir, ".meta.json"), JSON.stringify({
+        createdAt: Date.now(), compressionLevel, totalOriginalSize, compressedSize: totalCompressedSize,
+        savedPercentage, files: compressedFiles,
+      }))
+    } catch (_) {}
 
     // Attach compressed outputs to the user's "My Files" history when logged in.
     if (req.user) {
@@ -3754,6 +5115,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       savedPercentage, compressionLevel,
       expectedReduction: settings.expectedReduction,
       files: compressedFiles,
+      damagedFiles: corruptFiles,
     })
 
   } catch (error) {
@@ -3777,6 +5139,11 @@ app.get("/api/compress-meta/:jobId", async (req, res) => {
     if (!fs.existsSync(compressedDir)) return res.status(404).json({ error: "Job not found or expired" })
     const files = fs.readdirSync(compressedDir).filter((f) => f.endsWith(".pdf"))
     if (files.length === 0) return res.status(404).json({ error: "No compressed PDFs found" })
+    try {
+      const meta = JSON.parse(fs.readFileSync(path.join(compressedDir, ".meta.json"), "utf8"))
+      return res.json({ success: true, jobId, fileCount: meta.files.length, ...meta,
+        fileName: meta.files.length === 1 ? meta.files[0].originalName : undefined })
+    } catch (_) {} // older jobs without .meta.json → sizes of the stored files only
     let totalSize = 0
     const fileList = files.map((f) => {
       const size = fs.statSync(path.join(compressedDir, f)).size
@@ -3790,12 +5157,494 @@ app.get("/api/compress-meta/:jobId", async (req, res) => {
   }
 })
 
+// ============================================
+// HEIC to JPG endpoint
+// Decodes iPhone/iPad HEIC/HEIF photos to JPG.
+// Uses heic-convert (pure JS, bundles libheif with HEVC decode) because the
+// prebuilt sharp binary only ships AVIF support, not the HEVC codec real HEIC uses.
+// ============================================
+app.post("/api/heic-to-jpg", upload.array("files", 50), fileSizeLimiter("heic-to-jpg"), batchLimiter("heic-to-jpg"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files uploaded" })
+    }
+
+    logActivity({
+      type: "upload",
+      action: "heic_uploaded",
+      tool: "heic-to-jpg",
+      fileCount: req.files.length,
+      ip: req.clientIP,
+      userAgent: req.headers["user-agent"],
+      status: "processing",
+    })
+
+    console.log(`HEIC to JPG - ${req.files.length} file(s) received`)
+
+    const jobId = genJobId()
+    const outputDir = "./uploads"
+    const convertedFiles = []
+    const failedFiles = []
+    let totalOriginalSize = 0
+    let totalConvertedSize = 0
+    // [{ rotation, filterId }, …] in the same order as the uploaded files
+    let transforms = []
+    try { transforms = JSON.parse(req.body.transforms || "[]"); if (!Array.isArray(transforms)) transforms = [] } catch (_) { transforms = [] }
+
+    for (let i = 0; i < req.files.length; i++) {
+      const file = req.files[i]
+      totalOriginalSize += file.size
+
+      const outputFilename = `${jobId}-heicjpg-${i + 1}.jpg`
+      const outputPath = path.join(outputDir, outputFilename)
+      const baseName = path.basename(file.originalname, path.extname(file.originalname))
+
+      try {
+        const inputBuffer = fs.readFileSync(file.path)
+        const outputBuffer = await convertHeicImage(inputBuffer, "jpeg", transforms[i] || {})
+        if (!outputBuffer) throw new Error("Unreadable image")
+
+        fs.writeFileSync(outputPath, outputBuffer)
+
+        const stats = fs.statSync(outputPath)
+        totalConvertedSize += stats.size
+
+        convertedFiles.push({
+          filename: outputFilename,
+          originalName: file.originalname,
+          downloadName: `${baseName}.jpg`,
+          originalSize: file.size,
+          convertedSize: stats.size,
+        })
+
+        console.log(`Converted: ${file.originalname} -> ${outputFilename}`)
+      } catch (convError) {
+        console.error(`Error converting ${file.originalname}:`, convError.message)
+        failedFiles.push(file.originalname)
+      } finally {
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path)
+        }
+      }
+    }
+
+    if (convertedFiles.length === 0) {
+      logActivity({
+        type: "conversion",
+        action: "heic_to_jpg_failed",
+        tool: "heic-to-jpg",
+        error: "No files converted",
+        ip: req.clientIP,
+        status: "error",
+      })
+
+      // Unreadable input, not a server fault → 422 with the file names.
+      return res.status(422).json({ error: "UNREADABLE_IMAGES", files: failedFiles, message: "Could not convert the HEIC file(s). The file may be corrupted or not a valid HEIC image." })
+    }
+
+    logActivity({
+      type: "conversion",
+      action: "heic_to_jpg_complete",
+      tool: "heic-to-jpg",
+      conversionType: "heic-to-jpg",
+      fileCount: convertedFiles.length,
+      ip: req.clientIP,
+      status: "success",
+    })
+
+    // Save download name meta so the download endpoint can send the right filename
+    try {
+      fs.writeFileSync(
+        path.join(outputDir, `${jobId}-names.json`),
+        JSON.stringify(convertedFiles.map(f => ({ stored: f.filename, download: f.downloadName })))
+      )
+    } catch (_) {}
+
+    res.json({
+      success: true,
+      message: `${convertedFiles.length} image(s) converted successfully`,
+      jobId: jobId,
+      fileCount: convertedFiles.length,
+      totalSize: totalOriginalSize,
+      convertedSize: totalConvertedSize,
+      files: convertedFiles,
+      skipped: failedFiles.length ? failedFiles : undefined,
+    })
+  } catch (error) {
+    console.error("HEIC to JPG Error:", error)
+
+    if (req.files) {
+      for (const file of req.files) {
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path)
+        }
+      }
+    }
+
+    logActivity({
+      type: "conversion",
+      action: "heic_to_jpg_failed",
+      tool: "heic-to-jpg",
+      error: error.message,
+      ip: req.clientIP,
+      status: "error",
+    })
+
+    res.status(500).json({
+      error: "Failed to convert HEIC images",
+      details: error.message,
+    })
+  }
+})
+
+// Download endpoint for HEIC to JPG converted files
+app.get("/api/download-heic-jpg/:jobId", async (req, res) => {
+  try {
+    const { jobId } = req.params
+
+    // Guard against path traversal — jobId is server-generated (alphanumeric)
+    if (!/^[A-Za-z0-9_-]+$/.test(jobId)) {
+      return res.status(400).json({ error: "Invalid job id" })
+    }
+
+    const uploadDir = "./uploads"
+    const files = fs.readdirSync(uploadDir)
+    const jpgFiles = files
+      .filter((f) => f.startsWith(`${jobId}-heicjpg-`))
+      .sort((a, b) => {
+        const numA = Number.parseInt(a.match(/-heicjpg-(\d+)/)?.[1] || "0")
+        const numB = Number.parseInt(b.match(/-heicjpg-(\d+)/)?.[1] || "0")
+        return numA - numB
+      })
+
+    if (jpgFiles.length === 0) {
+      logActivity({
+        type: "download",
+        action: "download_failed",
+        jobId: jobId,
+        error: "No files found",
+        ip: req.clientIP,
+        status: "error",
+      })
+
+      return res.status(404).json({ error: "No files found for this job. They may have expired." })
+    }
+
+    // Single file → direct JPG download
+    if (jpgFiles.length === 1) {
+      const filePath = path.join(uploadDir, jpgFiles[0])
+
+      // Read meta for original download name
+      const metaPath = path.join(uploadDir, `${jobId}-names.json`)
+      let downloadName = "converted-image.jpg"
+      try {
+        if (fs.existsSync(metaPath)) {
+          const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"))
+          downloadName = meta[0]?.download || downloadName
+        }
+      } catch (_) {}
+
+      logActivity({
+        type: "download",
+        action: "file_downloaded",
+        jobId: jobId,
+        filename: jpgFiles[0],
+        ip: req.clientIP,
+        status: "success",
+      })
+
+      return res.download(filePath, downloadName, (err) => {
+        // kept so the user can download again — sweepOldFiles() deletes it after 1h
+        // kept so the user can download again — sweepOldFiles() deletes it after 1h
+      })
+    }
+
+    // Multiple files → ZIP archive
+    const zipFilename = `heic-to-jpg-${jobId}-${Date.now()}.zip`
+    // Original photo names (IMG_4346.jpg …) instead of "converted-image-N.jpg"
+    let zipMeta = []
+    try { zipMeta = JSON.parse(fs.readFileSync(path.join(uploadDir, `${jobId}-names.json`), "utf8")) } catch (_) {}
+    const zipUsed = new Set()
+    const zipDownloadName = `heic-to-jpg-${jpgFiles.length}-images.zip`
+    const zipPath = path.join(uploadDir, zipFilename)
+
+    const output = fs.createWriteStream(zipPath)
+    const archive = archiver("zip", { zlib: { level: 9 } })
+
+    archive.on("error", (err) => {
+      throw err
+    })
+
+    archive.pipe(output)
+
+    for (let i = 0; i < jpgFiles.length; i++) {
+      const jpgPath = path.join(uploadDir, jpgFiles[i])
+      if (fs.existsSync(jpgPath)) {
+        let entry = (zipMeta.find((m) => m.stored === jpgFiles[i]) || {}).download || `converted-image-${i + 1}.jpg`
+        if (zipUsed.has(entry)) entry = entry.replace(/\.jpg$/i, `-${i + 1}.jpg`)
+        zipUsed.add(entry)
+        archive.file(jpgPath, { name: entry })
+      }
+    }
+
+    await archive.finalize()
+
+    await new Promise((resolve, reject) => {
+      output.on("close", resolve)
+      output.on("error", reject)
+    })
+
+    logActivity({
+      type: "download",
+      action: "zip_downloaded",
+      jobId: jobId,
+      fileCount: jpgFiles.length,
+      ip: req.clientIP,
+      status: "success",
+    })
+
+    res.download(zipPath, zipDownloadName, (err) => {
+      if (fs.existsSync(zipPath)) {
+        fs.unlinkSync(zipPath)
+      }
+      for (const jpgFile of jpgFiles) {
+        const jpgPath = path.join(uploadDir, jpgFile)
+        if (fs.existsSync(jpgPath)) {
+          // kept so the user can download again — sweepOldFiles() deletes it after 1h
+        }
+      }
+    })
+  } catch (error) {
+    console.error("Download HEIC JPG error:", error)
+
+    logActivity({
+      type: "download",
+      action: "download_failed",
+      jobId: req.params.jobId,
+      error: error.message,
+      ip: req.clientIP,
+      status: "error",
+    })
+
+    res.status(500).json({ error: error.message })
+  }
+})
+
+// ============================================
+// HEIC to PNG endpoint
+// Same heic-convert library, format: "PNG" (lossless)
+// ============================================
+app.post("/api/heic-to-png", upload.array("files", 50), fileSizeLimiter("heic-to-png"), batchLimiter("heic-to-png"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+  try {
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files uploaded" })
+    }
+
+    logActivity({
+      type: "upload",
+      action: "heic_uploaded",
+      tool: "heic-to-png",
+      fileCount: req.files.length,
+      ip: req.clientIP,
+      userAgent: req.headers["user-agent"],
+      status: "processing",
+    })
+
+    console.log(`HEIC to PNG - ${req.files.length} file(s) received`)
+
+    const jobId = genJobId()
+    const outputDir = "./uploads"
+    const convertedFiles = []
+    const failedFiles = []
+    let totalOriginalSize = 0
+    let totalConvertedSize = 0
+    // [{ rotation, filterId }, …] in the same order as the uploaded files
+    let transforms = []
+    try { transforms = JSON.parse(req.body.transforms || "[]"); if (!Array.isArray(transforms)) transforms = [] } catch (_) { transforms = [] }
+
+    for (let i = 0; i < req.files.length; i++) {
+      const file = req.files[i]
+      totalOriginalSize += file.size
+
+      const outputFilename = `${jobId}-heicpng-${i + 1}.png`
+      const outputPath = path.join(outputDir, outputFilename)
+      const baseName = path.basename(file.originalname, path.extname(file.originalname))
+
+      try {
+        const inputBuffer = fs.readFileSync(file.path)
+        const outputBuffer = await convertHeicImage(inputBuffer, "png", transforms[i] || {})
+        if (!outputBuffer) throw new Error("Unreadable image")
+
+        fs.writeFileSync(outputPath, outputBuffer)
+
+        const stats = fs.statSync(outputPath)
+        totalConvertedSize += stats.size
+
+        convertedFiles.push({
+          filename: outputFilename,
+          originalName: file.originalname,
+          downloadName: `${baseName}.png`,
+          originalSize: file.size,
+          convertedSize: stats.size,
+        })
+
+        console.log(`Converted: ${file.originalname} -> ${outputFilename}`)
+      } catch (convError) {
+        console.error(`Error converting ${file.originalname}:`, convError.message)
+        failedFiles.push(file.originalname)
+      } finally {
+        if (fs.existsSync(file.path)) {
+          fs.unlinkSync(file.path)
+        }
+      }
+    }
+
+    if (convertedFiles.length === 0) {
+      logActivity({
+        type: "conversion",
+        action: "heic_to_png_failed",
+        tool: "heic-to-png",
+        error: "No files converted",
+        ip: req.clientIP,
+        status: "error",
+      })
+      // Unreadable input, not a server fault → 422 with the file names.
+      return res.status(422).json({ error: "UNREADABLE_IMAGES", files: failedFiles, message: "Could not convert the HEIC file(s). The file may be corrupted or not a valid HEIC image." })
+    }
+
+    logActivity({
+      type: "conversion",
+      action: "heic_to_png_complete",
+      tool: "heic-to-png",
+      conversionType: "heic-to-png",
+      fileCount: convertedFiles.length,
+      ip: req.clientIP,
+      status: "success",
+    })
+
+    // Save download name meta so the download endpoint can send the right filename
+    try {
+      fs.writeFileSync(
+        path.join(outputDir, `${jobId}-names.json`),
+        JSON.stringify(convertedFiles.map(f => ({ stored: f.filename, download: f.downloadName })))
+      )
+    } catch (_) {}
+
+    res.json({
+      success: true,
+      message: `${convertedFiles.length} image(s) converted successfully`,
+      jobId: jobId,
+      fileCount: convertedFiles.length,
+      totalSize: totalOriginalSize,
+      convertedSize: totalConvertedSize,
+      files: convertedFiles,
+      skipped: failedFiles.length ? failedFiles : undefined,
+    })
+  } catch (error) {
+    console.error("HEIC to PNG Error:", error)
+    if (req.files) {
+      for (const file of req.files) {
+        if (fs.existsSync(file.path)) fs.unlinkSync(file.path)
+      }
+    }
+    logActivity({ type: "conversion", action: "heic_to_png_failed", tool: "heic-to-png", error: error.message, ip: req.clientIP, status: "error" })
+    res.status(500).json({ error: "Failed to convert HEIC images", details: error.message })
+  }
+})
+
+// Download endpoint for HEIC to PNG converted files
+app.get("/api/download-heic-png/:jobId", async (req, res) => {
+  try {
+    const { jobId } = req.params
+    if (!/^[A-Za-z0-9_-]+$/.test(jobId)) {
+      return res.status(400).json({ error: "Invalid job id" })
+    }
+
+    const uploadDir = "./uploads"
+    const files = fs.readdirSync(uploadDir)
+    const pngFiles = files
+      .filter((f) => f.startsWith(`${jobId}-heicpng-`))
+      .sort((a, b) => {
+        const numA = Number.parseInt(a.match(/-heicpng-(\d+)/)?.[1] || "0")
+        const numB = Number.parseInt(b.match(/-heicpng-(\d+)/)?.[1] || "0")
+        return numA - numB
+      })
+
+    if (pngFiles.length === 0) {
+      return res.status(404).json({ error: "No files found for this job. They may have expired." })
+    }
+
+    if (pngFiles.length === 1) {
+      const filePath = path.join(uploadDir, pngFiles[0])
+
+      // Read meta for original download name
+      const metaPath = path.join(uploadDir, `${jobId}-names.json`)
+      let downloadName = "converted-image.png"
+      try {
+        if (fs.existsSync(metaPath)) {
+          const meta = JSON.parse(fs.readFileSync(metaPath, "utf8"))
+          downloadName = meta[0]?.download || downloadName
+        }
+      } catch (_) {}
+
+      logActivity({ type: "download", action: "file_downloaded", jobId, ip: req.clientIP, status: "success" })
+      return res.download(filePath, downloadName, (err) => {
+        // kept so the user can download again — sweepOldFiles() deletes it after 1h
+        // kept so the user can download again — sweepOldFiles() deletes it after 1h
+      })
+    }
+
+    const zipFilename = `heic-to-png-${jobId}-${Date.now()}.zip`
+    // Original photo names (IMG_4346.jpg …) instead of "converted-image-N.png"
+    let zipMeta = []
+    try { zipMeta = JSON.parse(fs.readFileSync(path.join(uploadDir, `${jobId}-names.json`), "utf8")) } catch (_) {}
+    const zipUsed = new Set()
+    const zipDownloadName = `heic-to-png-${pngFiles.length}-images.zip`
+    const zipPath = path.join(uploadDir, zipFilename)
+    const output = fs.createWriteStream(zipPath)
+    const archive = archiver("zip", { zlib: { level: 9 } })
+    archive.on("error", (err) => { throw err })
+    archive.pipe(output)
+
+    for (let i = 0; i < pngFiles.length; i++) {
+      const pngPath = path.join(uploadDir, pngFiles[i])
+      if (fs.existsSync(pngPath)) {
+        let entry = (zipMeta.find((m) => m.stored === pngFiles[i]) || {}).download || `converted-image-${i + 1}.png`
+        if (zipUsed.has(entry)) entry = entry.replace(/\.png$/i, `-${i + 1}.png`)
+        zipUsed.add(entry)
+        archive.file(pngPath, { name: entry })
+      }
+    }
+
+    await archive.finalize()
+    await new Promise((resolve, reject) => { output.on("close", resolve); output.on("error", reject) })
+
+    logActivity({ type: "download", action: "zip_downloaded", jobId, fileCount: pngFiles.length, ip: req.clientIP, status: "success" })
+
+    res.download(zipPath, zipDownloadName, (err) => {
+      if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath)
+      for (const pngFile of pngFiles) {
+        const pngPath = path.join(uploadDir, pngFile)
+        // kept so the user can download again — sweepOldFiles() deletes it after 1h
+      }
+    })
+  } catch (error) {
+    console.error("Download HEIC PNG error:", error)
+    res.status(500).json({ error: error.message })
+  }
+})
+
 //api/pdf-to-jpg endpoint
 
 app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg"), dailyConversionLimiter(), fileValidation, async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" })
+    }
+
+    if (await pdfRequiresPassword(req.file.path)) {
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+      return res.status(422).json({ error: "PASSWORD_PROTECTED", message: req.file.originalname, fileName: req.file.originalname })
     }
 
     logActivity({
@@ -3815,10 +5664,15 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
     const outputDir = path.dirname(inputPath)
     const baseName = path.basename(req.file.filename, path.extname(req.file.filename))
 
+    // multer's stored name is "<timestamp>-<name>"; users must never see that prefix
+    // in the names they download (zip name / entries inside the zip).
+    const cleanBase = path.basename(req.file.originalname, path.extname(req.file.originalname))
+
     const quality = req.body.quality || "standard"
     let dpi = 150
     if (quality === "high") dpi = 300
     if (quality === "maximum") dpi = 600
+    dpi = await pdfRasterDpi(inputPath, dpi)
 
     console.log(`Converting PDF to JPG with DPI: ${dpi}...`)
 
@@ -3876,7 +5730,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           pageCount: 1,
           downloadUrl: `/uploads/${singleFile}`,
           originalName: req.file.originalname,
-          convertedName: singleFile,
+          convertedName: `${cleanBase}.jpg`,
           isZip: false,  // Important: indicate this is NOT a zip
           fileSize: stats.size,
           files: [`/uploads/${singleFile}`],
@@ -3884,7 +5738,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       } 
       // MULTIPLE PAGES - Create ZIP
       else {
-        const zipFilename = `${baseName}-images.zip`
+        const zipFilename = `${baseName}-images.zip` // unique on disk; display name below
         const zipPath = path.join(outputDir, zipFilename)
 
         const output = fs.createWriteStream(zipPath)
@@ -3899,7 +5753,10 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         for (const jpgFile of jpgFiles) {
           const jpgFilePath = path.join(outputDir, jpgFile)
           if (fs.existsSync(jpgFilePath)) {
-            archive.file(jpgFilePath, { name: jpgFile })
+            // Zero-pad the page number so file managers sort page-2 before page-10.
+            const pageNo = jpgFile.match(/-page-(\d+)\.jpg$/)?.[1] || ""
+            const padded = pageNo.padStart(String(jpgFiles.length).length, "0")
+            archive.file(jpgFilePath, { name: `${cleanBase}-page-${padded}.jpg` })
           }
         }
 
@@ -3928,7 +5785,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           pageCount: jpgFiles.length,
           downloadUrl: `/uploads/${zipFilename}`,
           originalName: req.file.originalname,
-          convertedName: zipFilename,
+          convertedName: `${cleanBase}-images.zip`,
           isZip: true,  // Important: indicate this IS a zip
           fileSize: stats.size,
         })
@@ -3939,6 +5796,12 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       if (fs.existsSync(inputPath)) {
         fs.unlinkSync(inputPath)
       }
+      // A timeout / crash part-way leaves the pages already rendered on disk.
+      try {
+        for (const f of fs.readdirSync(outputDir)) {
+          if (f.startsWith(baseName + "-page-") && f.endsWith(".jpg")) fs.unlinkSync(path.join(outputDir, f))
+        }
+      } catch (_) {}
 
       logActivity({
         type: "conversion",
@@ -3950,6 +5813,11 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         status: "error",
       })
 
+      // Nothing rendered → the PDF itself is unreadable (not a server fault). GS
+      // failing outright ("Command failed", e.g. a macOS "._" file) counts too.
+      if (/No JPG files were created|Command failed/.test(conversionError.message)) {
+        return res.status(422).json({ error: "CORRUPT_PDF", message: req.file.originalname, fileName: req.file.originalname })
+      }
       res.status(500).json({
         error: "PDF to JPG conversion failed.",
         details: conversionError.message,
@@ -3978,6 +5846,11 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         return res.status(400).json({ error: "No file uploaded" })
       }
 
+      if (await pdfRequiresPassword(req.file.path)) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
+        return res.status(422).json({ error: "PASSWORD_PROTECTED", message: req.file.originalname, fileName: req.file.originalname })
+      }
+
       logActivity({
         type: "upload",
         action: "pdf_uploaded",
@@ -4001,6 +5874,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       let dpi = 150
       if (quality === "high") dpi = 300
       if (quality === "maximum") dpi = 600
+      dpi = await pdfRasterDpi(inputPath, dpi)
 
       console.log(`Converting PDF to PNG with DPI: ${dpi} (quality=${quality})...`)
 
@@ -4033,6 +5907,19 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         }
 
         console.log(`PDF to PNG - ${pngFiles.length} pages converted`)
+
+        // Readable names for /api/download (single file / zip entries / zip name).
+        // Page numbers are zero-padded so page-2 sorts before page-10.
+        try {
+          const cleanBase = path.basename(req.file.originalname, path.extname(req.file.originalname))
+          const width = String(pngFiles.length).length
+          const meta = pngFiles.map((pf) => {
+            const n = pf.match(/-page-(\d+)\.png$/)?.[1] || "1"
+            return { stored: pf, download: `${cleanBase}-page-${n.padStart(width, "0")}.png` }
+          })
+          fs.writeFileSync(path.join(outputDir, `${jobId}-names.json`), JSON.stringify(meta))
+          fs.writeFileSync(path.join(outputDir, `${jobId}-zipname.txt`), `${cleanBase}-images.zip`)
+        } catch (_) {}
 
         logActivity({
           type: "conversion",
@@ -4071,8 +5958,15 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           status: "error",
         })
 
+        // Nothing rendered: either GS found no pages or exited with an error before
+        // the first page (not a PDF, e.g. a macOS "._" file) → unreadable input.
+        const renderedAny = (() => { try { return fs.readdirSync(outputDir).some((f) => f.startsWith(jobId + "-page-")) } catch (_) { return false } })()
+        try { for (const f of fs.readdirSync(outputDir)) if (f.startsWith(jobId + "-page-")) fs.unlinkSync(path.join(outputDir, f)) } catch (_) {}
+        if (!renderedAny || /No PNG files were created/.test(conversionError.message)) {
+          return res.status(422).json({ error: "CORRUPT_PDF", message: req.file.originalname, fileName: req.file.originalname })
+        }
         res.status(500).json({
-          error: "PDF to PNG conversion failed. Please ensure Ghostscript is installed.",
+          error: "PDF to PNG conversion failed.",
           details: conversionError.message,
         })
       }
@@ -4114,6 +6008,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       const jobId = genJobId()
       const outputDir = "./uploads"
       const convertedFiles = []
+      const webpFailed = []
 
       for (let i = 0; i < req.files.length; i++) {
         const file = req.files[i]
@@ -4121,16 +6016,23 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         const outputPath = path.join(outputDir, outputFilename)
 
         try {
-          await sharp(file.path).png({ quality: 100, compressionLevel: 6 }).toFile(outputPath)
+          // NB: any `quality` option makes sharp write a 256-colour palette PNG —
+          // lossy. Truecolor + alpha only when the image actually has transparency.
+          const outBuf = await sharp(file.path).rotate().png({ compressionLevel: 6 }).toBuffer()
+          let finalBuf = outBuf
+          try { if ((await sharp(outBuf).stats()).isOpaque) finalBuf = await sharp(outBuf).removeAlpha().png({ compressionLevel: 6 }).toBuffer() } catch (_) {}
+          fs.writeFileSync(outputPath, finalBuf)
 
-          convertedFiles.push(outputFilename)
+          convertedFiles.push({ stored: outputFilename, originalName: file.originalname })
           console.log(`Converted: ${file.originalname} -> ${outputFilename}`)
 
           if (fs.existsSync(file.path)) {
             fs.unlinkSync(file.path)
           }
         } catch (convError) {
-          console.error(`Error converting ${file.originalname}:`, convError)
+          console.error(`Error converting ${file.originalname}:`, convError.message)
+          webpFailed.push(file.originalname)
+          try { if (fs.existsSync(file.path)) fs.unlinkSync(file.path) } catch (_) {}
         }
       }
 
@@ -4144,7 +6046,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           status: "error",
         })
         
-        return res.status(500).json({ error: "No files were converted successfully" })
+        return res.status(422).json({ error: "UNREADABLE_IMAGES", files: webpFailed, message: "No files were converted successfully" })
       }
 
       logActivity({
@@ -4158,12 +6060,25 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         status: "success",
       })
 
+      // Save meta for proper download filenames
+      try {
+        fs.writeFileSync(
+          path.join(outputDir, `${jobId}-names.json`),
+          JSON.stringify(convertedFiles.map(f => ({
+            stored: f.stored,
+            download: path.basename(f.originalName, path.extname(f.originalName)) + ".png"
+          })))
+        )
+      } catch (_) {}
+
       res.json({
         success: true,
         message: `${convertedFiles.length} WEBP image(s) converted to PNG successfully`,
         jobId: jobId,
         pageCount: convertedFiles.length,
-        files: convertedFiles.map((f) => `/uploads/${f}`),
+        fileCount: convertedFiles.length, // the page used its own count → a skipped file made it save a lone PNG as ".zip"
+        skipped: webpFailed.length ? webpFailed : undefined,
+        files: convertedFiles.map(f => ({ url: `/uploads/${f.stored}`, originalName: f.originalName })),
       })
     } catch (error) {
       console.error("WEBP to PNG Error:", error)
@@ -4213,13 +6128,29 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
 
       const files = fs.readdirSync(uploadDir)
       
-      const convertedFiles = files
+      let convertedFiles = files
         .filter((f) => f.startsWith(`${jobId}-page-`) && f.endsWith(".png"))
         .sort((a, b) => {
           const numA = parseInt(a.match(/-page-(\d+)/)?.[1] || "0")
           const numB = parseInt(b.match(/-page-(\d+)/)?.[1] || "0")
           return numA - numB
         })
+
+      // Readable names written by the converters (webp-to-png, pdf-to-png).
+      let meta = []
+      try {
+        const mp = path.join(uploadDir, `${jobId}-names.json`)
+        if (fs.existsSync(mp)) meta = JSON.parse(fs.readFileSync(mp, "utf8"))
+      } catch (_) {}
+      const nameFor = (stored, fallback) => (meta.find((m) => m.stored === stored) || {}).download || fallback
+
+      // ?pages=1,3 — the pdf-to-png preview lets the user pick pages, but the
+      // selection used to be ignored and every page was downloaded.
+      if (req.query.pages) {
+        const wanted = new Set(String(req.query.pages).split(",").map((p) => parseInt(p, 10)).filter((p) => p > 0))
+        const picked = convertedFiles.filter((f) => wanted.has(parseInt(f.match(/-page-(\d+)/)?.[1] || "0")))
+        if (picked.length) convertedFiles = picked
+      }
 
       console.log(`Found ${convertedFiles.length} converted files for job ${jobId}`)
 
@@ -4245,7 +6176,9 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       if (convertedFiles.length === 1) {
         const filePath = path.join(uploadDir, convertedFiles[0])
         console.log(`Downloading single file: ${filePath}`)
-        
+
+        const downloadName = nameFor(convertedFiles[0], (meta[0] && meta[0].download) || "converted-image.png")
+
         logActivity({
           type: "download",
           action: "file_downloaded",
@@ -4256,24 +6189,31 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           userAgent: req.headers["user-agent"],
           status: "success",
         })
-        
-        return res.download(filePath, "converted-image.png", (err) => {
+
+        return res.download(filePath, downloadName, (err) => {
           if (err) {
             console.error("Download error:", err)
           }
           setTimeout(() => {
             if (fs.existsSync(filePath)) {
-              fs.unlinkSync(filePath)
-              console.log(`Cleaned up: ${filePath}`)
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
+            // kept so the user can download again — sweepOldFiles() deletes it after 1h
           }, 1000)
         })
       }
 
       console.log(`Creating ZIP archive for ${convertedFiles.length} files`)
       
-      const zipFilename = `converted-images-${jobId}.zip`
+      // Per-request zip path: two quick clicks used to write the same file at once.
+      const zipFilename = `converted-images-${jobId}-${Date.now()}.zip`
       const zipPath = path.join(uploadDir, zipFilename)
+      let zipDownloadName = "converted-images.zip"
+      try {
+        const zp = path.join(uploadDir, `${jobId}-zipname.txt`)
+        if (fs.existsSync(zp)) zipDownloadName = fs.readFileSync(zp, "utf8").trim() || zipDownloadName
+      } catch (_) {}
 
       const output = fs.createWriteStream(zipPath)
       const archive = archiver("zip", { zlib: { level: 9 } })
@@ -4285,10 +6225,14 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
 
       archive.pipe(output)
 
+      const used = new Set()
       for (let i = 0; i < convertedFiles.length; i++) {
         const filePath = path.join(uploadDir, convertedFiles[i])
         if (fs.existsSync(filePath)) {
-          const filename = `converted-image-${i + 1}.png`
+          // Readable, unique entry names (was "converted-image-N.png" for everything).
+          let filename = nameFor(convertedFiles[i], `converted-image-${i + 1}.png`)
+          if (used.has(filename)) filename = filename.replace(/\.png$/i, `-${i + 1}.png`)
+          used.add(filename)
           archive.file(filePath, { name: filename })
           console.log(`Added to ZIP: ${filename}`)
         }
@@ -4316,7 +6260,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         status: "success",
       })
 
-      res.download(zipPath, zipFilename, (err) => {
+      res.download(zipPath, zipDownloadName, (err) => {
         if (err) {
           console.error("ZIP download error:", err)
         }
@@ -4331,8 +6275,8 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
             for (const file of convertedFiles) {
               const filePath = path.join(uploadDir, file)
               if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath)
-                console.log(`Cleaned up: ${filePath}`)
+                // kept so the user can download again — sweepOldFiles() deletes it after 1h
+                // kept so the user can download again — sweepOldFiles() deletes it after 1h
               }
             }
           } catch (cleanupError) {
@@ -4369,7 +6313,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
   // ============================================
 
   // Analyze PDF and generate thumbnails
-  app.post("/api/analyze-pdf", upload.single("file"), fileValidation, async (req, res) => {
+  app.post("/api/analyze-pdf", upload.single("file"), fileSizeLimiter("split-pdf"), fileValidation, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No PDF file uploaded" })
@@ -4397,10 +6341,10 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       }
 
       try {
-        const pdfBytes = fs.readFileSync(inputPath)
-        const pdfDoc = await PDFLibDocument.load(pdfBytes, { ignoreEncryption: true })
+        // Throws PASSWORD_PROTECTED / CORRUPT_PDF (was: garbage "success" for locked files).
+        const pdfDoc = await loadPdfForEditing(inputPath, req.file.originalname)
         const pageCount = pdfDoc.getPageCount()
-        
+
         console.log(`PDF has ${pageCount} pages`)
 
         const gsPath = getGhostscriptPath()
@@ -4430,9 +6374,8 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           console.error("Ghostscript thumbnail generation failed:", gsError)
         }
 
-        const storedPath = path.join(__dirname, "uploads", `${jobId}-original.pdf`)
-        fs.copyFileSync(inputPath, storedPath)
-        
+        // (No "-original.pdf" copy any more: nothing ever read it, it only kept
+        // the user's document on disk.)
         if (fs.existsSync(inputPath)) {
           fs.unlinkSync(inputPath)
         }
@@ -4453,7 +6396,6 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           jobId: jobId,
           pageCount: pageCount,
           thumbnails: thumbnails,
-          originalFile: `${jobId}-original.pdf`,
         })
       } catch (pdfError) {
         console.error("PDF analysis error:", pdfError)
@@ -4472,6 +6414,9 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           status: "error",
         })
 
+        if (pdfError.code) {
+          return res.status(422).json({ error: pdfError.code, message: pdfError.message, fileName: pdfError.fileName })
+        }
         res.status(500).json({
           error: "Failed to analyze PDF",
           details: pdfError.message,
@@ -4494,7 +6439,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
   })
 
   // Split PDF - Extract specific pages
-  app.post("/api/split-pdf", upload.single("file"), fileSizeLimiter("split-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+  app.post("/api/split-pdf", upload.single("file"), fileSizeLimiter("split-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No PDF file uploaded" })
@@ -4517,10 +6462,16 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       try {
         selectedPages = JSON.parse(req.body.pages || "[]")
       } catch (e) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
         return res.status(400).json({ error: "Invalid pages parameter" })
       }
+      // Whole numbers only, no repeats: a crafted list like [1,1,1,…×100000] used
+      // to be copied page by page (CPU/memory abuse) and 1.5 / "x" crashed with a 500.
+      if (!Array.isArray(selectedPages)) selectedPages = []
+      selectedPages = [...new Set(selectedPages.map(Number).filter((p) => Number.isInteger(p) && p >= 1))]
 
       if (selectedPages.length === 0) {
+        if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path)
         return res.status(400).json({ error: "No pages selected for extraction" })
       }
 
@@ -4529,13 +6480,12 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
       const inputPath = req.file.path
       const jobId = genJobId()
       const outputDir = path.join(__dirname, "uploads")
-      const baseName = path.basename(req.file.originalname, ".pdf")
+      const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
       const outputFilename = `${jobId}-split-${baseName}.pdf`
       const outputPath = path.join(outputDir, outputFilename)
 
       try {
-        const pdfBytes = fs.readFileSync(inputPath)
-        const pdfDoc = await PDFLibDocument.load(pdfBytes, { ignoreEncryption: true })
+        const pdfDoc = await loadPdfForEditing(inputPath, req.file.originalname)
         
         const newPdfDoc = await PDFLibDocument.create()
         
@@ -4544,7 +6494,9 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         const validPages = selectedPages.filter(p => p >= 1 && p <= totalPages)
         
         if (validPages.length === 0) {
-          throw new Error("No valid pages to extract")
+          const e = new Error("None of the selected pages exist in this PDF.")
+          e.code = "NO_VALID_PAGES"
+          throw e
         }
         
         const pageIndices = validPages.map(p => p - 1)
@@ -4564,6 +6516,20 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         }
 
         const stats = fs.statSync(outputPath)
+
+        // Attach to the user's "My Files" history when logged in (optionalAuth).
+        if (req.user) {
+          await recordUserFile({
+            userId: req.user.id,
+            plan: req.user.plan,
+            tool: "split-pdf",
+            originalName: `split-${baseName}.pdf`,
+            jobId,
+            storedPath: path.resolve(outputPath),
+            downloadUrl: `/uploads/${outputFilename}`,
+            fileSize: stats.size,
+          })
+        }
 
         logActivity({
           type: "conversion",
@@ -4605,6 +6571,9 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
           status: "error",
         })
 
+        if (splitError.code) {
+          return res.status(splitError.code === "NO_VALID_PAGES" ? 400 : 422).json({ error: splitError.code, message: splitError.message, fileName: splitError.fileName })
+        }
         res.status(500).json({
           error: "Failed to split PDF",
           details: splitError.message,
@@ -4672,7 +6641,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
         setTimeout(() => {
           try {
             if (fs.existsSync(filePath)) {
-              fs.unlinkSync(filePath)
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -4697,7 +6666,7 @@ app.post("/api/pdf-to-jpg", upload.single("file"), fileSizeLimiter("pdf-to-jpg")
 
 
 // ── PDF TO WORD CONVERSION ENDPOINT ──────────────────────────────────────────
-app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to-word"), batchLimiter("pdf-to-word"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to-word"), batchLimiter("pdf-to-word"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -4738,9 +6707,15 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
         continue
       }
 
-      // FIX #3: Sanitize filename — remove special chars that break shell commands
-      const rawBase = path.basename(file.originalname, ".pdf")
-      const baseName = rawBase.replace(/[^\w\s\-\.]/g, "_").trim() || "converted"
+      // originalname is already made shell-safe by safeUploadName(), so keep
+      // non-Latin names (the old [^\w] filter turned "請求書" into "___").
+      // Suffix duplicates so two files with the same name in one batch don't
+      // overwrite each other.
+      const rawBase = path.basename(file.originalname, path.extname(file.originalname))
+      let baseName = rawBase.replace(/["`$\\]/g, "_").trim() || "converted"
+      for (let n = 2; convertedFiles.some((c) => c.filename === `${baseName}.docx`); n++) {
+        baseName = `${rawBase} (${n})`
+      }
       const outputFilename = `${baseName}.docx`
       const outputPath = path.join(convertedDir, outputFilename)
 
@@ -4758,7 +6733,10 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
           const pyCmd = `"${PYTHON_BIN}" "${PYTHON_SCRIPT}" "${safePdfPath}" "${safeDocxPath}"`
 
           const { stdout, stderr } = await execPromise(pyCmd, {
-            timeout: 300000, // 5 min
+            // 3 min, NOT 5: nginx cuts the request at 300s (proxy_read_timeout),
+            // so a 5-minute wait here meant the LibreOffice fallback below
+            // could never answer before the visitor got a gateway error.
+            timeout: 180000,
             maxBuffer: 100 * 1024 * 1024,
           })
 
@@ -4789,12 +6767,14 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
         try {
           console.log(`[LibreOffice] Fallback conversion: ${file.originalname}`)
 
-          // FIX #1: Remove broken --infilter flag and space-quoted filter name.
-          // Simple --convert-to docx works on all LibreOffice versions on Linux/Mac/Windows.
-          const loCmd = `"${libreOfficePath}" --headless --convert-to docx --outdir "${convertedDir}" "${file.path}"`
+          // --infilter=writer_pdf_import is REQUIRED: without it LibreOffice opens a
+          // PDF in Draw, which has no .docx export, and every fallback died with
+          // "Error: no export filter" (so "all engines exhausted" for any PDF the
+          // Python engine could not finish). No spaces/quotes inside the filter name.
+          const loCmd = `"${libreOfficePath}" --headless --infilter=writer_pdf_import --convert-to docx --outdir "${convertedDir}" "${file.path}"`
 
           await runLibreOffice(loCmd, {
-            timeout: 180000,
+            timeout: 100000,
             maxBuffer: 100 * 1024 * 1024,
           })
 
@@ -4912,6 +6892,18 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
       status: "success",
     })
 
+    if (req.user) {
+      for (const cf of convertedFiles) {
+        await recordUserFile({
+          userId: req.user.id, plan: req.user.plan, tool: "pdf-to-word",
+          originalName: cf.filename, jobId,
+          storedPath: path.join(convertedDir, cf.filename),
+          downloadUrl: `/api/download-word/${jobId}`,
+          fileSize: cf.fileSize,
+        }).catch(() => {})
+      }
+    }
+
     res.json({
       success: true,
       message: `${convertedFiles.length} PDF(s) converted to Word`,
@@ -4999,7 +6991,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         setTimeout(() => {
           try {
             if (fs.existsSync(convertedDir)) {
-              fs.rmSync(convertedDir, { recursive: true, force: true })
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -5046,7 +7038,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
       setTimeout(() => {
         try {
           if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath)
-          if (fs.existsSync(convertedDir)) fs.rmSync(convertedDir, { recursive: true, force: true })
+          // kept so the user can download again — sweepOldFiles() deletes it after 1h
         } catch (cleanupErr) {
           console.log("Cleanup error:", cleanupErr)
         }
@@ -5099,6 +7091,12 @@ app.get("/api/download-word/:jobId", async (req, res) => {
       const pageSize = req.body.pageSize || "a4"
       const orientation = req.body.orientation || "auto"
 
+      // Use jobId for internal storage (download endpoint needs to find it),
+      // but set a meaningful convertedName for the browser download
+      const firstBaseName = path.basename(req.files[0].originalname, path.extname(req.files[0].originalname))
+      const convertedName = req.files.length === 1
+        ? `${firstBaseName}.pdf`
+        : `${firstBaseName}-and-more.pdf`
       const outputFilename = `converted-images-${jobId}.pdf`
       const outputPath = path.join("./uploads", outputFilename)
 
@@ -5117,33 +7115,29 @@ app.get("/api/download-word/:jobId", async (req, res) => {
       doc.pipe(writeStream)
 
       let successCount = 0
+      const failedFiles = []
 
       for (let i = 0; i < req.files.length; i++) {
         const file = req.files[i]
 
         const ext = path.extname(file.originalname).toLowerCase()
-        if (!file.mimetype.match(/^image\/(jpeg|jpg)$/i) && ext !== '.jpg' && ext !== '.jpeg') {
+        if (!file.mimetype.match(/^image\/(jpeg|jpg)$/i) && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.jfif' && ext !== '.jpe') {
           console.log(`Skipping non-JPG file: ${file.originalname}`)
           continue
         }
 
         try {
-          let dimensions
-          try {
-            dimensions = sizeOf(file.path)
-          } catch (sizeError) {
-            console.error(`Error getting image dimensions for ${file.originalname}:`, sizeError)
-            const metadata = await sharp(file.path).metadata()
-            dimensions = { width: metadata.width, height: metadata.height }
-          }
-
-          const imgWidth = dimensions.width
-          const imgHeight = dimensions.height
-
-          if (!imgWidth || !imgHeight) {
-            console.error(`Invalid dimensions for ${file.originalname}`)
+          // Decode + validate BEFORE adding a page (a bad image used to leave a
+          // blank page behind, or fail the whole job with a 500).
+          const prepared = await prepareImageForPdf(file.path)
+          if (!prepared) {
+            console.error(`Unreadable image: ${file.originalname}`)
+            failedFiles.push(file.originalname)
             continue
           }
+          let imgWidth = prepared.width
+          let imgHeight = prepared.height
+          let imgSource = prepared.source
 
           let pageWidth, pageHeight
 
@@ -5175,13 +7169,13 @@ app.get("/api/download-word/:jobId", async (req, res) => {
           const x = (pageWidth - scaledWidth) / 2
           const y = (pageHeight - scaledHeight) / 2
 
-          doc.image(file.path, x, y, { width: scaledWidth, height: scaledHeight })
+          doc.image(imgSource, x, y, { width: scaledWidth, height: scaledHeight })
 
           successCount++
           console.log(`Added JPG ${successCount}/${req.files.length}: ${file.originalname}`)
         } catch (imgError) {
           console.error(`Error processing JPG ${file.originalname}:`, imgError)
-          console.error(`Error details:`, imgError.stack)
+          failedFiles.push(file.originalname)
         }
       }
 
@@ -5201,7 +7195,8 @@ app.get("/api/download-word/:jobId", async (req, res) => {
           status: "error",
         })
         
-        return res.status(500).json({ error: "No valid JPG images were processed" })
+        // The images themselves are unreadable (not a server fault) → 422 + names.
+        return res.status(422).json({ error: "UNREADABLE_IMAGES", files: failedFiles, message: "No valid JPG images were processed" })
       }
 
       doc.end()
@@ -5230,12 +7225,21 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         status: "success",
       })
 
+      // Save meta so download endpoint can return proper filename
+      try {
+        fs.writeFileSync(
+          path.join("./uploads", `${jobId}-names.json`),
+          JSON.stringify([{ stored: outputFilename, download: convertedName }])
+        )
+      } catch (_) {}
+
       res.json({
         success: true,
         message: `${successCount} JPG image(s) converted to PDF successfully`,
         jobId: jobId,
         downloadUrl: `/uploads/${outputFilename}`,
-        convertedName: outputFilename,
+        convertedName: convertedName,
+        skipped: failedFiles.length ? failedFiles : undefined,
         pageCount: successCount,
         fileCount: successCount,
       })
@@ -5299,13 +7303,24 @@ app.get("/api/download-word/:jobId", async (req, res) => {
         status: "success",
       })
 
-      res.download(pdfPath, "converted-images.pdf", (err) => {
+      // Read meta for original download name
+      const metaPath2 = path.join(uploadDir, `${jobId}-names.json`)
+      let downloadName2 = "converted-images.pdf"
+      try {
+        if (fs.existsSync(metaPath2)) {
+          const meta = JSON.parse(fs.readFileSync(metaPath2, "utf8"))
+          downloadName2 = meta[0]?.download || downloadName2
+        }
+      } catch (_) {}
+
+      res.download(pdfPath, downloadName2, (err) => {
         if (err) {
           console.error("Download error:", err)
         }
         if (fs.existsSync(pdfPath)) {
-          fs.unlinkSync(pdfPath)
+          // kept so the user can download again — sweepOldFiles() deletes it after 1h
         }
+        // kept so the user can download again — sweepOldFiles() deletes it after 1h
       })
     } catch (error) {
       console.error("Download JPG PDF error:", error)
@@ -5323,7 +7338,7 @@ app.get("/api/download-word/:jobId", async (req, res) => {
     }
   })
 // PDF to Excel Conversion using pdfplumber
-app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-to-excel"), batchLimiter("pdf-to-excel"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-to-excel"), batchLimiter("pdf-to-excel"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -5340,6 +7355,9 @@ app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-t
     })
 
     console.log(`PDF to Excel - ${req.files.length} file(s) received`)
+
+    const noContentFiles = []
+    const failedFiles = []
 
     const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
@@ -5362,7 +7380,10 @@ app.post("/api/pdf-to-excel", upload.array("files", 500), fileSizeLimiter("pdf-t
         continue
       }
 
-      const baseName = path.basename(file.originalname, ext)
+      // Suffix duplicates so same-named PDFs in one batch don't overwrite each other.
+      const rawBase = path.basename(file.originalname, ext)
+      let baseName = rawBase
+      for (let n = 2; fs.existsSync(path.join(convertedDir, `${baseName}.xlsx`)); n++) baseName = `${rawBase} (${n})`
       const outputFilename = `${baseName}.xlsx`
       const expectedOutputPath = path.join(convertedDir, outputFilename)
 
@@ -5425,6 +7446,62 @@ def rects_in_bbox(rects, x0, top, x1, bottom, tol=3):
             if r['x0'] >= x0 - tol and r['x1'] <= x1 + tol
             and r['top'] >= top - tol and r['bottom'] <= bottom + tol]
 
+def fill_behind(rects, x0, top, x1, bottom):
+    """Background of a cell = the smallest filled rect covering its centre.
+    Header rows are often ONE rect spanning every cell, which the old
+    'rect inside the cell' test never matched."""
+    cx, cy = (x0 + x1) / 2, (top + bottom) / 2
+    hits = [r for r in rects if r['x0'] <= cx <= r['x1'] and r['top'] <= cy <= r['bottom']]
+    if not hits:
+        return None
+    return min(hits, key=lambda r: (r['x1'] - r['x0']) * (r['bottom'] - r['top']))
+
+def is_light(hex6):
+    try:
+        r, g, b = int(hex6[0:2], 16), int(hex6[2:4], 16), int(hex6[4:6], 16)
+        return (0.299 * r + 0.587 * g + 0.114 * b) > 200
+    except Exception:
+        return False
+
+def excel_font_name(fontname):
+    """PDF font name (e.g. 'ABCDEF+Carlito-Bold', 'Helvetica') → a font Excel has."""
+    f = (fontname or '').split('+', 1)[-1].lower()
+    for keys, name in (
+        (('calibri', 'carlito'), 'Calibri'), (('cambria', 'caladea'), 'Cambria'),
+        (('arial', 'helvetica', 'liberationsans', 'liberation sans'), 'Arial'),
+        (('times', 'liberationserif', 'liberation serif'), 'Times New Roman'),
+        (('courier', 'liberationmono', 'liberation mono'), 'Courier New'),
+        (('verdana',), 'Verdana'), (('tahoma',), 'Tahoma'), (('georgia',), 'Georgia'),
+        (('segoe',), 'Segoe UI'), (('garamond',), 'Garamond'),
+    ):
+        if any(k in f for k in keys):
+            return name
+    return 'Calibri'
+
+def write_text_line(ws, row, words):
+    """A line of text outside any table (title, address, notes): one cell per
+    phrase, phrases split where the gap is wider than a normal word space."""
+    from openpyxl.styles import Font, Alignment
+    words = sorted(words, key=lambda w: w['x0'])
+    phrases = []
+    for w in words:
+        if phrases and w['x0'] - phrases[-1]['x1'] < max(6, (w.get('size') or 10) * 0.9):
+            phrases[-1]['text'] += ' ' + w['text']
+            phrases[-1]['x1'] = w['x1']
+        else:
+            phrases.append({'text': w['text'], 'x1': w['x1'], 'w': w})
+    for col, ph in enumerate(phrases, 1):
+        safe_cell_write(ws, row, col, ph['text'])
+        w = ph['w']
+        fn, fs = w.get('fontname', ''), w.get('size') or 11
+        color = color_to_hex(w.get('non_stroking_color')) or '000000'
+        if is_light(color):
+            color = '000000'  # no background here — light text would be invisible
+        ws.cell(row=row, column=col).font = Font(
+            name=excel_font_name(fn), bold=is_bold(fn), italic=is_italic(fn),
+            size=max(min(round(fs), 36), 8), color=color)
+        ws.cell(row=row, column=col).alignment = Alignment(vertical='top')
+
 def dominant(lst):
     if not lst:
         return None
@@ -5475,21 +7552,114 @@ def sanitize_excel(val):
     if not isinstance(val, str):
         return val
     # Strip XML-illegal control characters
-    cleaned = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', val)
+    cleaned = re.sub(r'[\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]', '', val)
     # Strip UTF-16 surrogates that openpyxl's XML writer rejects
-    cleaned = re.sub(r'[\ud800-\udfff]', '', cleaned)
+    cleaned = re.sub(r'[\\ud800-\\udfff]', '', cleaned)
     return cleaned or None
 
+
+NUM_RE = re.compile(r'^\\(?-?[$€£₹¥]?\\s?-?\\d{1,3}(?:[,\\s]\\d{3})*(?:\\.\\d+)?\\)?%?$|^\\(?-?[$€£₹¥]?\\s?-?\\d+(?:\\.\\d+)?\\)?%?$')
+
+def to_number(text):
+    """'1,234.56' / '(1,234.56)' / '₹1,200' / '-12' / '12.5%' → number, so Excel
+    can SUM the column. IDs with leading zeros, dates, phone numbers and
+    anything multi-line stay text."""
+    s = text.strip()
+    if not s or '\\n' in s or len(s) > 20 or not NUM_RE.match(s):
+        return None
+    neg = s.startswith('(') and s.endswith(')')
+    core = s.strip('()').replace('$', '').replace('€', '').replace('£', '').replace('₹', '').replace('¥', '')
+    pct = core.endswith('%')
+    core = core.rstrip('%').replace(',', '').replace(' ', '')
+    digits = core.lstrip('-')
+    if len(digits) > 1 and digits[0] == '0' and not digits.startswith('0.'):
+        return None
+    try:
+        v = float(core)
+    except ValueError:
+        return None
+    if neg:
+        v = -v
+    if pct:
+        v = v / 100
+    return int(v) if v == int(v) and '.' not in core and not pct else v
 
 def safe_cell_write(ws, row, col, value):
     """Write a value to an Excel cell, silently skipping illegal values."""
     try:
+        if isinstance(value, str):
+            n = to_number(value)
+            if n is not None:
+                c = ws.cell(row=row, column=col, value=n)
+                if value.strip().endswith('%'):
+                    c.number_format = '0.##%'
+                elif ',' in value:
+                    c.number_format = '#,##0.00' if '.' in value else '#,##0'
+                return
         ws.cell(row=row, column=col, value=sanitize_excel(value) if isinstance(value, str) else value)
     except Exception:
         try:
             ws.cell(row=row, column=col, value=None)  # blank is better than a crash
         except Exception:
             pass
+
+def write_word_layout(ws, words):
+    """Lay words out on a grid by clustering their positions: x-starts within
+    15 pt share a column, tops within 5 pt share a row. Used for text pages
+    without ruled tables and for OCR'd (scanned) pages."""
+    from openpyxl.styles import Font, Alignment
+    x_starts = sorted(set(round(w['x0']) for w in words))
+    col_buckets = []
+    for x in x_starts:
+        if not col_buckets or x - col_buckets[-1] > 15:
+            col_buckets.append(x)
+    y_tops = sorted(set(round(w['top']) for w in words))
+    row_buckets = []
+    for y in y_tops:
+        if not row_buckets or y - row_buckets[-1] > 5:
+            row_buckets.append(y)
+    col_map = {x: min(range(len(col_buckets)), key=lambda i: abs(col_buckets[i] - x)) + 1 for x in x_starts}
+    row_map = {y: min(range(len(row_buckets)), key=lambda i: abs(row_buckets[i] - y)) + 1 for y in y_tops}
+
+    # Join words per cell first, THEN write — so "1,234" + ".56" style splits
+    # become one value before the number conversion runs.
+    cells = {}
+    style = {}
+    for w in sorted(words, key=lambda w: (round(w['top']), w['x0'])):
+        key = (row_map.get(round(w['top']), 1), col_map.get(round(w['x0']), 1))
+        cells[key] = (cells.get(key, '') + ' ' + w['text']).strip()
+        style.setdefault(key, (w.get('fontname', ''), w.get('size', 11)))
+    for (r, c), text in cells.items():
+        safe_cell_write(ws, r, c, text)
+        cell = ws.cell(row=r, column=c)
+        fn, fs = style[(r, c)]
+        cell.font = Font(name=excel_font_name(fn), bold=is_bold(fn), italic=is_italic(fn), size=max(min(round(fs or 11), 36), 10))
+        cell.alignment = Alignment(vertical='top', wrap_text=True)
+
+    for col_cells in ws.columns:
+        max_len = max((len(str(c.value or '')) for c in col_cells), default=0)
+        ws.column_dimensions[col_cells[0].column_letter].width = max(min(max_len + 2, 60), 8)
+
+def convert_ocr_words(words_json, output_xlsx):
+    """Scanned PDF: words come from Tesseract (via the Node route) as
+    [[{text, x0, top}, ...] per page] in PDF points."""
+    import json
+    from openpyxl import Workbook
+    pages = json.load(open(words_json, encoding='utf-8'))
+    wb = Workbook()
+    wb.remove(wb.active)
+    has_content = False
+    for i, words in enumerate(pages, 1):
+        ws = wb.create_sheet(title=f"Page {i}")
+        if words:
+            has_content = True
+            write_word_layout(ws, words)
+    if not has_content:
+        print("NO_TABLES_FOUND")
+        return False
+    wb.save(output_xlsx)
+    print("SUCCESS")
+    return True
 
 def convert_pdf_to_excel(input_pdf, output_xlsx):
     try:
@@ -5499,7 +7669,7 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
         from openpyxl.utils import get_column_letter
 
         print(f"Reading PDF: {input_pdf}")
-        COL_WIDTH_FACTOR = 6.5   # pts -> Excel column width units
+        COL_WIDTH_FACTOR = 5.4   # pts -> Excel column width units (~1 char of 11 pt Calibri)
         ROW_HEIGHT_FACTOR = 0.75 # pts -> Excel row height pts
 
         wb = Workbook()
@@ -5518,15 +7688,19 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
 
                 # ── Try table extraction: prefer line-based, fall back to text-based ──
                 found_tables = []
-                for strategy in [
+                text_based = False
+                for strategy_idx, strategy in enumerate([
                     {"vertical_strategy": "lines",  "horizontal_strategy": "lines",  "snap_tolerance": 3, "join_tolerance": 3, "edge_min_length": 3},
                     {"vertical_strategy": "lines",  "horizontal_strategy": "lines",  "snap_tolerance": 5, "join_tolerance": 5, "edge_min_length": 3},
                     {"vertical_strategy": "text",   "horizontal_strategy": "lines",  "snap_tolerance": 3},
                     {"vertical_strategy": "text",   "horizontal_strategy": "text",   "snap_tolerance": 3},
-                ]:
+                ]):
                     try:
                         found_tables = page.find_tables(strategy)
                         if found_tables:
+                            # Tables guessed from text alignment (no ruling lines)
+                            # get spurious empty rows between every data row.
+                            text_based = strategy_idx >= 2
                             break
                     except Exception:
                         pass
@@ -5534,7 +7708,38 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                 if found_tables:
                     current_xl_row = 1
 
-                    for tbl in found_tables:
+                    # Text OUTSIDE the tables (invoice title, "Billed to", notes,
+                    # totals written as plain text) used to be dropped. Put it
+                    # in reading order with the tables.
+                    boxes = [t.bbox for t in found_tables]
+                    def in_tables(w):
+                        cx, cy = (w['x0'] + w['x1']) / 2, (w['top'] + w['bottom']) / 2
+                        return any(b[0] - 2 <= cx <= b[2] + 2 and b[1] - 2 <= cy <= b[3] + 2 for b in boxes)
+                    try:
+                        loose = [w for w in (page.extract_words(x_tolerance=3, y_tolerance=3,
+                                 extra_attrs=['fontname', 'size', 'non_stroking_color']) or []) if not in_tables(w)]
+                    except Exception:
+                        loose = []
+                    text_lines = []
+                    for w in sorted(loose, key=lambda w: (round(w['top']), w['x0'])):
+                        if text_lines and abs(text_lines[-1][0] - w['top']) <= 3:
+                            text_lines[-1][1].append(w)
+                        else:
+                            text_lines.append([w['top'], [w]])
+                    blocks = [(t.bbox[1], 'table', t) for t in found_tables] + [(top, 'line', ws_) for top, ws_ in text_lines]
+                    blocks.sort(key=lambda b: b[0])
+                    prev_kind = None
+
+                    for _, kind, tbl in blocks:
+                        if kind == 'line':
+                            has_content = True
+                            write_text_line(ws, current_xl_row, tbl)
+                            current_xl_row += 1
+                            prev_kind = 'line'
+                            continue
+                        if prev_kind == 'line':
+                            current_xl_row += 1  # blank row between text and a table
+                        prev_kind = 'table'
                         # Collect all unique x and y boundaries from cells
                         xs = sorted(set(x for cell in tbl.cells for x in (cell[0], cell[2])))
                         ys = sorted(set(y for cell in tbl.cells for y in (cell[1], cell[3])))
@@ -5550,11 +7755,21 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                             w = max((cx1 - cx0) / COL_WIDTH_FACTOR, 6)
                             ws.column_dimensions[col_letter].width = w
 
-                        # Set row heights proportional to PDF heights
-                        for ri, (ry0, ry1) in enumerate(zip(ys[:-1], ys[1:]), 1):
-                            xl_r = current_xl_row + ri - 1
-                            h = max((ry1 - ry0) * ROW_HEIGHT_FACTOR, 12)
-                            ws.row_dimensions[xl_r].height = h
+                        # PDF row band → Excel row. For text-based tables, bands with
+                        # no characters are dropped (they came out as a blank row
+                        # after every data row); ruled tables keep real empty rows.
+                        row_of = {}
+                        next_row = current_xl_row
+                        for ri, (ry0, ry1) in enumerate(zip(ys[:-1], ys[1:])):
+                            if text_based and not any(
+                                ry0 <= (c['top'] + c['bottom']) / 2 <= ry1 and xs[0] <= c['x0'] <= xs[-1]
+                                for c in all_chars if c['text'].strip()
+                            ):
+                                row_of[ri] = None
+                                continue
+                            row_of[ri] = next_row
+                            ws.row_dimensions[next_row].height = max((ry1 - ry0) * ROW_HEIGHT_FACTOR, 12)
+                            next_row += 1
 
                         merged_done = set()
 
@@ -5565,9 +7780,13 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                                 continue
 
                             xl_col = xs.index(cx0) + 1
-                            xl_row = ys.index(cy0) + current_xl_row
+                            first_ri = ys.index(cy0)
+                            xl_row = row_of.get(first_ri)
+                            if xl_row is None:
+                                continue
                             col_span = xs.index(cx1) - xs.index(cx0)
-                            row_span = ys.index(cy1) - ys.index(cy0)
+                            covered = [row_of[r] for r in range(first_ri, ys.index(cy1)) if row_of.get(r) is not None]
+                            row_span = (max(covered) - xl_row + 1) if covered else 1
 
                             if (xl_row, xl_col) in merged_done:
                                 continue
@@ -5592,19 +7811,27 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                             font_size = max(min(round(raw_size), 36), 10)
                             text_hex  = color_to_hex(dominant(colors)) or '000000'
 
+                            # ── Background fill ──
+                            bg_hex = None
+                            bg_rect = fill_behind(all_rects, cx0, cy0, cx1, cy1)
+                            if bg_rect:
+                                bg_hex = color_to_hex(bg_rect.get('non_stroking_color'))
+                                if bg_hex and bg_hex.upper() not in ('FFFFFF', 'FEFEFE', 'FDFDFD'):
+                                    xl_cell.fill = PatternFill(start_color=bg_hex, end_color=bg_hex, fill_type='solid')
+                                else:
+                                    bg_hex = None
+                            # White header text whose dark fill wasn't found would
+                            # be invisible — fall back to black.
+                            if not bg_hex and is_light(text_hex):
+                                text_hex = '000000'
+
                             xl_cell.font = Font(
+                                name=excel_font_name(fontname),
                                 bold=is_bold(fontname),
                                 italic=is_italic(fontname),
                                 size=font_size,
                                 color=text_hex,
                             )
-
-                            # ── Background fill ──
-                            cell_rects = rects_in_bbox(all_rects, cx0, cy0, cx1, cy1)
-                            if cell_rects:
-                                bg_hex = color_to_hex(cell_rects[0].get('non_stroking_color'))
-                                if bg_hex and bg_hex.upper() not in ('FFFFFF', 'FEFEFE', 'FDFDFD'):
-                                    xl_cell.fill = PatternFill(start_color=bg_hex, end_color=bg_hex, fill_type='solid')
 
                             # ── Alignment ──
                             h_align = detect_h_align(cell_chars, cx0, cx1)
@@ -5631,7 +7858,7 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                                     for mc in range(xl_col, end_col + 1):
                                         merged_done.add((mr, mc))
 
-                        current_xl_row += (len(ys) - 1) + 1   # table rows + 1 blank separator
+                        current_xl_row = next_row + 1   # table rows + 1 blank separator
 
                 else:
                     # ── No table lines found: word-position layout ──
@@ -5644,48 +7871,25 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                         continue
 
                     has_content = True
-
-                    # Cluster x-positions into column buckets (tolerance 15 pts)
-                    x_starts = sorted(set(round(w['x0']) for w in words))
-                    col_buckets = []
-                    for x in x_starts:
-                        if not col_buckets or x - col_buckets[-1] > 15:
-                            col_buckets.append(x)
-
-                    # Cluster y-positions into row buckets (tolerance 5 pts)
-                    y_tops = sorted(set(round(w['top']) for w in words))
-                    row_buckets = []
-                    for y in y_tops:
-                        if not row_buckets or y - row_buckets[-1] > 5:
-                            row_buckets.append(y)
-
-                    col_map = {x: min(range(len(col_buckets)), key=lambda i: abs(col_buckets[i] - x)) + 1 for x in x_starts}
-                    row_map = {y: min(range(len(row_buckets)), key=lambda i: abs(row_buckets[i] - y)) + 1 for y in y_tops}
-
-                    for w in words:
-                        xl_col = col_map.get(round(w['x0']), 1)
-                        xl_row = row_map.get(round(w['top']), 1)
-                        cell = ws.cell(row=xl_row, column=xl_col)
-                        existing = cell.value or ''
-                        safe_cell_write(ws, xl_row, xl_col, (existing + ' ' + w['text']).strip())
-
-                        # Rough font styling from pdfplumber word dict (if available)
-                        fn = w.get('fontname', '')
-                        fs = w.get('size', 11)
-                        if fn or fs:
-                            cell.font = Font(bold=is_bold(fn), italic=is_italic(fn),
-                                             size=max(min(round(fs or 11), 36), 10))
-                        cell.alignment = Alignment(vertical='top', wrap_text=True)
-
-                    # Auto column widths for word-layout pages
-                    for col_cells in ws.columns:
-                        max_len = max((len(str(c.value or '')) for c in col_cells), default=0)
-                        col_letter = col_cells[0].column_letter
-                        ws.column_dimensions[col_letter].width = max(min(max_len + 2, 60), 8)
+                    write_word_layout(ws, words)
 
         if not has_content:
             print("NO_TABLES_FOUND")
             return False
+
+        # Numbers are real numbers now, and Excel shows "###" when a number
+        # doesn't fit its column — widen (never shrink) those columns.
+        for sheet in wb.worksheets:
+            need = {}
+            for row in sheet.iter_rows():
+                for c in row:
+                    if isinstance(c.value, (int, float)) and not isinstance(c.value, bool):
+                        size = (c.font.sz or 11) if c.font else 11
+                        need[c.column_letter] = max(need.get(c.column_letter, 0), (len(f"{c.value:,.2f}") + 2) * size / 11)
+            for col, w in need.items():
+                dim = sheet.column_dimensions[col]
+                if (dim.width or 8.43) < w:
+                    dim.width = min(w, 40)
 
         wb.save(output_xlsx)
         print("SUCCESS")
@@ -5696,7 +7900,9 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
         print("Please install required packages: pip install pdfplumber openpyxl")
         return False
     except Exception as e:
-        print(f"ERROR: {e}")
+        # Include the exception class: some (e.g. pdfminer's PDFPasswordIncorrect)
+        # have an empty message, which left a bare "ERROR:" in the log.
+        print(f"ERROR: {type(e).__name__}: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -5706,55 +7912,73 @@ if __name__ == "__main__":
     # Paths come from argv (NOT interpolated into the source) so a filename with
     # odd bytes/quotes can never corrupt this script — that previously produced
     # "SyntaxError: source code cannot contain null bytes" and was an injection risk.
-    result = convert_pdf_to_excel(sys.argv[1], sys.argv[2])
+    if len(sys.argv) > 3:
+        result = convert_ocr_words(sys.argv[3], sys.argv[2])
+    else:
+        result = convert_pdf_to_excel(sys.argv[1], sys.argv[2])
     sys.exit(0 if result else 1)
 `
 
         fs.writeFileSync(scriptPath, pythonScript)
-        console.log(`Python script created: ${scriptPath}`)
 
+        // The script exits 1 for "no content" as well as for errors, and
+        // execPromise rejects on any non-zero exit — so the NO_TABLES_FOUND
+        // branch never ran and every failure (even crashes) was reported as
+        // "scanned PDF". Read stdout whatever the exit code.
+        const { execFile } = require("child_process")
+        const PY_BIN = process.env.PYTHON_BIN || (process.platform === "win32" ? "python" : "python3")
+        const runPy = async (args) => {
+          // UTF-8 stdout: printing a non-Latin file name crashed the script
+          // with "'charmap' codec can't encode characters" on non-UTF-8 locales.
+          const r = await util.promisify(execFile)(PY_BIN, [scriptPath, ...args], {
+            timeout: 180000, maxBuffer: 100 * 1024 * 1024,
+            env: { ...process.env, PYTHONIOENCODING: "utf-8", PYTHONUTF8: "1" },
+          }).catch((e) => e)
+          if (r && r.killed) return "TIMEOUT"
+          return String((r && r.stdout) || "")
+        }
+
+        let stdout = ""
+        let usedOcr = false
         try {
-          const { stdout, stderr } = await execPromise(`python "${scriptPath}" "${inputPath}" "${outputPath}"`, {
-            timeout: 180000,
-            maxBuffer: 100 * 1024 * 1024,
+          stdout = await runPy([inputPath, outputPath])
+
+          // Scanned PDF (no text layer): OCR the pages and lay the recognised
+          // words out on a grid — used to be a flat "not supported" for ~27%
+          // of all PDF→Excel requests.
+          if (stdout.includes("NO_TABLES_FOUND")) {
+            const pages = await ocrPdfWords(file.path, PDF_EXCEL_OCR_MAX_PAGES)
+            if (pages.some((p) => p.length)) {
+              const wordsPath = path.join(tempDir, `words_${jobId}_${i}.json`)
+              fs.writeFileSync(wordsPath, JSON.stringify(pages))
+              try {
+                stdout = await runPy([inputPath, outputPath, wordsPath])
+              } finally {
+                await safeUnlink(wordsPath)
+              }
+              usedOcr = stdout.includes("SUCCESS")
+            }
+          }
+        } finally {
+          await safeUnlink(scriptPath)
+        }
+
+        if (stdout.includes("SUCCESS") && fs.existsSync(expectedOutputPath)) {
+          const stats = fs.statSync(expectedOutputPath)
+          convertedFiles.push({
+            filename: outputFilename,
+            originalName: file.originalname,
+            fileSize: stats.size,
+            originalSize: file.size,
+            ocr: usedOcr,
           })
-
-          console.log(`Python stdout: ${stdout}`)
-          if (stderr) console.log(`Python stderr: ${stderr}`)
-
-          // Cleanup script
-          if (fs.existsSync(scriptPath)) {
-            fs.unlinkSync(scriptPath)
-          }
-
-          if (stdout.includes('SUCCESS') && fs.existsSync(expectedOutputPath)) {
-            const stats = fs.statSync(expectedOutputPath)
-
-            convertedFiles.push({
-              filename: outputFilename,
-              originalName: file.originalname,
-              fileSize: stats.size,
-              originalSize: file.size,
-            })
-
-            console.log(`✓ Successfully converted: ${file.originalname} -> ${outputFilename}`)
-          } else if (stdout.includes('NO_TABLES_FOUND')) {
-            console.log(`⚠ No tables found in: ${file.originalname}`)
-            throw new Error("No extractable tables found in PDF. The PDF may not contain tabular data.")
-          } else if (stdout.includes('IMPORT_ERROR')) {
-            throw new Error("Missing Python packages. Please run: pip install pdfplumber pandas openpyxl")
-          } else {
-            throw new Error("Conversion failed - check Python output")
-          }
-
-        } catch (execError) {
-          console.error(`Python execution error: ${execError.message}`)
-          
-          if (fs.existsSync(scriptPath)) {
-            fs.unlinkSync(scriptPath)
-          }
-          
-          throw execError
+          console.log(`✓ Converted${usedOcr ? " (OCR)" : ""}: ${file.originalname} -> ${outputFilename}`)
+        } else if (stdout.includes("NO_TABLES_FOUND")) {
+          noContentFiles.push(file.originalname)
+          console.log(`⚠ No text found (even with OCR): ${file.originalname}`)
+        } else {
+          failedFiles.push(file.originalname)
+          console.error(`✗ PDF→Excel failed for ${file.originalname}: ${stdout.slice(-400)}`)
         }
 
         // Cleanup original file
@@ -5764,6 +7988,7 @@ if __name__ == "__main__":
 
       } catch (convError) {
         console.error(`✗ Error converting ${file.originalname}:`, convError.message)
+        failedFiles.push(file.originalname)
 
         if (fs.existsSync(file.path)) {
           fs.unlinkSync(file.path)
@@ -5776,22 +8001,28 @@ if __name__ == "__main__":
         fs.rmSync(convertedDir, { recursive: true, force: true })
       }
 
-      // Not a server failure — the input PDF simply had no extractable tabular
-      // text (usually a scanned/image PDF). Log as "warning" so it does not
-      // inflate the error count, and return 422 (unprocessable input).
+      // Only "nothing readable, even after OCR" is the user's input problem
+      // (422, logged as a warning); anything else is our failure (500).
+      const noContent = noContentFiles.length > 0 && failedFiles.length === 0
       logActivity({
         type: "conversion",
-        action: "pdf_to_excel_no_content",
+        action: noContent ? "pdf_to_excel_no_content" : "pdf_to_excel_failed",
         tool: "pdf-to-excel",
-        error: "No extractable tables (likely scanned PDF)",
+        error: noContent ? "No text found, even with OCR" : `Conversion failed: ${failedFiles.join(", ")}`,
         ip: req.clientIP,
-        status: "warning",
+        status: noContent ? "warning" : "error",
       })
 
-      return res.status(422).json({
-        error: "We couldn't find any extractable tables in this PDF.",
-        code: "NO_EXTRACTABLE_CONTENT",
-        details: "This looks like a scanned or image-based PDF. Run it through our OCR PDF tool first to make the text selectable, then convert again."
+      if (noContent) {
+        return res.status(422).json({
+          error: "NO_EXTRACTABLE_CONTENT",
+          code: "NO_EXTRACTABLE_CONTENT",
+          message: "We couldn't find any text in this PDF, even with OCR. It may be blank, a photo, or handwritten.",
+        })
+      }
+      return res.status(500).json({
+        error: "CONVERSION_FAILED",
+        message: "We couldn't convert this PDF. It may be damaged or password-protected — please try another file.",
       })
     }
 
@@ -5806,12 +8037,25 @@ if __name__ == "__main__":
       status: "success",
     })
 
+    if (req.user) {
+      for (const cf of convertedFiles) {
+        await recordUserFile({
+          userId: req.user.id, plan: req.user.plan, tool: "pdf-to-excel",
+          originalName: cf.filename, jobId,
+          storedPath: path.join(convertedDir, cf.filename),
+          downloadUrl: `/api/download-excel/${jobId}`,
+          fileSize: cf.fileSize,
+        }).catch(() => {})
+      }
+    }
+
     res.json({
       success: true,
       message: `${convertedFiles.length} PDF file(s) converted to Excel successfully`,
       jobId: jobId,
       fileCount: convertedFiles.length,
       files: convertedFiles,
+      ocrUsed: convertedFiles.some((f) => f.ocr),
     })
 
   } catch (error) {
@@ -5861,7 +8105,6 @@ app.get("/api/download-excel/:jobId", async (req, res) => {
       const filePath = path.join(convertedDir, files[0])
       
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-      res.setHeader('Content-Disposition', `attachment; filename="${files[0]}"`)
 
       return res.download(filePath, files[0], (err) => {
         if (err) console.error("Download error:", err)
@@ -5869,7 +8112,7 @@ app.get("/api/download-excel/:jobId", async (req, res) => {
         setTimeout(() => {
           try {
             if (fs.existsSync(convertedDir)) {
-              fs.rmSync(convertedDir, { recursive: true, force: true })
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (e) {}
         }, 5000)
@@ -5900,7 +8143,7 @@ app.get("/api/download-excel/:jobId", async (req, res) => {
       setTimeout(() => {
         try {
           if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath)
-          if (fs.existsSync(convertedDir)) fs.rmSync(convertedDir, { recursive: true, force: true })
+          // kept so the user can download again — sweepOldFiles() deletes it after 1h
         } catch (e) {}
       }, 5000)
     })
@@ -5914,7 +8157,7 @@ app.get("/api/download-excel/:jobId", async (req, res) => {
 })
 
 // PPT to PDF Conversion using LibreOffice
-app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-pdf"), batchLimiter("ppt-to-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-pdf"), batchLimiter("ppt-to-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PowerPoint files uploaded" })
@@ -5931,6 +8174,7 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-
     })
 
     console.log(`PPT to PDF - ${req.files.length} file(s) received`)
+    const protectedFiles = []
 
     const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
@@ -5957,9 +8201,27 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-
         continue
       }
 
-      const baseName = path.basename(file.originalname, ext)
+      // Suffix duplicates so same-named files in one batch don't overwrite each other.
+      const rawBase = path.basename(file.originalname, ext)
+      let baseName = rawBase
+      for (let n = 2; fs.existsSync(path.join(convertedDir, `${baseName}.pdf`)); n++) baseName = `${rawBase} (${n})`
       const outputFilename = `${baseName}.pdf`
       const expectedOutputPath = path.join(convertedDir, outputFilename)
+
+      // A password-protected .pptx is an encrypted OLE container (D0 CF 11 E0),
+      // which LibreOffice can't open headless — it used to end in a generic 500.
+      if (ext === ".pptx") {
+        let head = ""
+        try {
+          const fd = fs.openSync(file.path, "r"); const b = Buffer.alloc(4)
+          fs.readSync(fd, b, 0, 4, 0); fs.closeSync(fd); head = b.toString("hex")
+        } catch (_) {}
+        if (head === "d0cf11e0") {
+          protectedFiles.push(file.originalname)
+          await safeUnlink(file.path)
+          continue
+        }
+      }
 
       try {
         console.log(`Converting: ${file.originalname} to PDF...`)
@@ -6032,19 +8294,38 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-
         fs.rmSync(convertedDir, { recursive: true, force: true })
       }
 
+      const allProtected = protectedFiles.length > 0 && protectedFiles.length === req.files.length
       logActivity({
         type: "conversion",
-        action: "ppt_to_pdf_failed",
+        action: allProtected ? "ppt_to_pdf_protected" : "ppt_to_pdf_failed",
         tool: "ppt-to-pdf",
-        error: "No files converted",
+        error: allProtected ? "Password-protected presentation" : "No files converted",
         ip: req.clientIP,
-        status: "error",
+        status: allProtected ? "warning" : "error",
       })
-      
-      return res.status(500).json({ 
-        error: "No files were converted successfully.",
-        details: "Please ensure LibreOffice is installed and PowerPoint files are not corrupted or password-protected."
+
+      if (allProtected) {
+        return res.status(422).json({
+          error: "PASSWORD_PROTECTED",
+          message: "This presentation is password-protected. Open it in PowerPoint, remove the password (File → Info → Protect Presentation), save, and upload it again.",
+        })
+      }
+      return res.status(500).json({
+        error: "CONVERSION_FAILED",
+        message: "We couldn't convert this presentation. It may be damaged — open it in PowerPoint, save a new copy as .pptx and try again.",
       })
+    }
+
+    if (req.user) {
+      for (const cf of convertedFiles) {
+        await recordUserFile({
+          userId: req.user.id, plan: req.user.plan, tool: "ppt-to-pdf",
+          originalName: cf.filename, jobId,
+          storedPath: path.join(convertedDir, cf.filename),
+          downloadUrl: `/api/download-ppt-pdf/${jobId}`,
+          fileSize: cf.fileSize,
+        }).catch(() => {})
+      }
     }
 
     logActivity({
@@ -6131,7 +8412,6 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
       })
 
       res.setHeader('Content-Type', 'application/pdf')
-      res.setHeader('Content-Disposition', `attachment; filename="${files[0]}"`)
 
       return res.download(filePath, files[0], (err) => {
         if (err) {
@@ -6142,8 +8422,8 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
         setTimeout(() => {
           try {
             if (fs.existsSync(convertedDir)) {
-              fs.rmSync(convertedDir, { recursive: true, force: true })
-              console.log(`Cleaned up: ${convertedDir}`)
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -6198,7 +8478,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
             fs.unlinkSync(zipPath)
           }
           if (fs.existsSync(convertedDir)) {
-            fs.rmSync(convertedDir, { recursive: true, force: true })
+            // kept so the user can download again — sweepOldFiles() deletes it after 1h
           }
         } catch (cleanupErr) {
           console.log("Cleanup error:", cleanupErr)
@@ -6223,7 +8503,7 @@ app.get("/api/download-ppt-pdf/:jobId", async (req, res) => {
   }
 })
 // PDF to PowerPoint Conversion using LibreOffice
-app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-ppt"), batchLimiter("pdf-to-ppt"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-ppt"), batchLimiter("pdf-to-ppt"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -6240,6 +8520,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-
     })
 
     console.log(`PDF to PPT - ${req.files.length} file(s) received`)
+    const protectedFiles = []
 
     const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
@@ -6265,9 +8546,21 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-
         continue
       }
 
-      const baseName = path.basename(file.originalname, ext)
+      // Suffix duplicates so same-named PDFs in one batch don't overwrite each other.
+      const rawBase = path.basename(file.originalname, ext)
+      let baseName = rawBase
+      for (let n = 2; fs.existsSync(path.join(convertedDir, `${baseName}.pptx`)); n++) baseName = `${rawBase} (${n})`
       const outputFilename = `${baseName}.pptx`
       const expectedOutputPath = path.join(convertedDir, outputFilename)
+
+      // Encrypted PDF? Only counts as "password-protected" if the conversion
+      // then fails — permissions-only encryption opens fine and converts.
+      let isEncrypted = false
+      try {
+        await PDFLibDocument.load(fs.readFileSync(file.path))
+      } catch (e) {
+        isEncrypted = /encrypt/i.test(e.message)
+      }
 
       try {
         console.log(`Converting: ${file.originalname} to PPTX...`)
@@ -6413,6 +8706,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-
         }
       } catch (convError) {
         console.error(`✗ Error converting ${file.originalname}:`, convError.message)
+        if (isEncrypted) protectedFiles.push(file.originalname)
 
         if (fs.existsSync(file.path)) {
           fs.unlinkSync(file.path)
@@ -6425,19 +8719,38 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-
         fs.rmSync(convertedDir, { recursive: true, force: true })
       }
 
+      const allProtected = protectedFiles.length > 0 && protectedFiles.length === req.files.length
       logActivity({
         type: "conversion",
-        action: "pdf_to_ppt_failed",
+        action: allProtected ? "pdf_to_ppt_protected" : "pdf_to_ppt_failed",
         tool: "pdf-to-ppt",
-        error: "No files converted",
+        error: allProtected ? "Password-protected PDF" : "No files converted",
         ip: req.clientIP,
-        status: "error",
+        status: allProtected ? "warning" : "error",
       })
-      
-      return res.status(500).json({ 
-        error: "No files were converted successfully.",
-        details: "Please ensure LibreOffice is installed and PDF files are not corrupted or password-protected."
+
+      if (allProtected) {
+        return res.status(422).json({
+          error: "PASSWORD_PROTECTED",
+          message: "This PDF is password-protected. Remove the password with our Unlock PDF tool first, then convert it again.",
+        })
+      }
+      return res.status(500).json({
+        error: "CONVERSION_FAILED",
+        message: "We couldn't convert this PDF. It may be damaged — please try another file.",
       })
+    }
+
+    if (req.user) {
+      for (const cf of convertedFiles) {
+        await recordUserFile({
+          userId: req.user.id, plan: req.user.plan, tool: "pdf-to-ppt",
+          originalName: cf.filename, jobId,
+          storedPath: path.join(convertedDir, cf.filename),
+          downloadUrl: `/api/download-ppt/${jobId}`,
+          fileSize: cf.fileSize,
+        }).catch(() => {})
+      }
     }
 
     logActivity({
@@ -6524,7 +8837,6 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
       })
 
       res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation')
-      res.setHeader('Content-Disposition', `attachment; filename="${files[0]}"`)
 
       return res.download(filePath, files[0], (err) => {
         if (err) {
@@ -6535,8 +8847,8 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
         setTimeout(() => {
           try {
             if (fs.existsSync(convertedDir)) {
-              fs.rmSync(convertedDir, { recursive: true, force: true })
-              console.log(`Cleaned up: ${convertedDir}`)
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -6591,7 +8903,7 @@ app.get("/api/download-ppt/:jobId", async (req, res) => {
             fs.unlinkSync(zipPath)
           }
           if (fs.existsSync(convertedDir)) {
-            fs.rmSync(convertedDir, { recursive: true, force: true })
+            // kept so the user can download again — sweepOldFiles() deletes it after 1h
           }
         } catch (cleanupErr) {
           console.log("Cleanup error:", cleanupErr)
@@ -6631,7 +8943,7 @@ async function checkQpdfInstalled() {
 }
 
 // Unlock PDF - Remove password and restrictions while preserving ALL content
-app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pdf"), dailyConversionLimiter(), fileValidation, async (req, res) => {
+app.post("/api/unlock-pdf", upload.array("files", 20), fileSizeLimiter("unlock-pdf"), batchLimiter("unlock-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ error: "No PDF files uploaded" })
@@ -6657,6 +8969,15 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
       }
     } catch (e) {
       console.log("No passwords provided")
+    }
+    // The browser keys passwords by the file's real name, but multer's upload
+    // step rewrote file.originalname through safeUploadName() — key the map
+    // the same way so the lookup below still matches.
+    if (passwords && typeof passwords === "object") {
+      for (const [k, v] of Object.entries(passwords)) {
+        const safeKey = safeUploadName(k)
+        if (!(safeKey in passwords)) passwords[safeKey] = v
+      }
     }
 
     const jobId = genJobId()
@@ -6702,6 +9023,10 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
         const filePassword = passwords[file.originalname] || ""
 
         let unlockSuccess = false
+        // Set when qpdf says the open password is missing/wrong — then the
+        // pdf-lib fallback is pointless (it can't decrypt; with ignoreEncryption
+        // it just copies still-encrypted streams → blank/garbage pages).
+        let passwordProblem = false
 
         // =========================================
         // METHOD 1: QPDF (BEST - Preserves everything perfectly)
@@ -6710,19 +9035,21 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
           try {
             console.log(`   Trying qpdf...`)
             
-            let qpdfCommand
-            if (filePassword) {
-              // With password - decrypt with password
-              qpdfCommand = `qpdf --password="${filePassword}" --decrypt "${file.path}" "${expectedOutputPath}"`
-            } else {
-              // No password - try to decrypt anyway (works for owner-password-only PDFs)
-              qpdfCommand = `qpdf --decrypt "${file.path}" "${expectedOutputPath}"`
+            // No shell: the password is user input, passed as a plain argv
+            // entry (the old shell quoting also broke on Windows). Without a
+            // password, --decrypt still removes owner-only restrictions.
+            const qpdfArgs = filePassword
+              ? [`--password=${filePassword}`, "--decrypt", file.path, expectedOutputPath]
+              : ["--decrypt", file.path, expectedOutputPath]
+            try {
+              await util.promisify(require("child_process").execFile)("qpdf", qpdfArgs, {
+                timeout: 90000,
+                maxBuffer: 200 * 1024 * 1024,
+              })
+            } catch (e) {
+              // Exit code 3 = succeeded with warnings (common on slightly broken files).
+              if (e.code !== 3) throw e
             }
-
-            const result = await execPromise(qpdfCommand, {
-              timeout: 90000,
-              maxBuffer: 200 * 1024 * 1024,
-            })
 
             // Verify output exists and has content
             if (fs.existsSync(expectedOutputPath)) {
@@ -6737,15 +9064,13 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
               }
             }
           } catch (qpdfError) {
-            console.log(`   ❌ qpdf failed: ${qpdfError.message}`)
-            
+            // The error message echoes the full command line — never log the
+            // user's PDF password (these are often bank-statement passwords).
+            const safeMsg = filePassword ? String(qpdfError.message).split(filePassword).join('***') : qpdfError.message
+            console.log(`   ❌ qpdf failed: ${safeMsg}`)
+
             // Check for specific error messages
-            if (qpdfError.message.includes('invalid password')) {
-              errors.push({
-                filename: file.originalname,
-                error: "Wrong password. Please enter the correct password."
-              })
-            }
+            if (qpdfError.message.includes('invalid password')) passwordProblem = true
             
             // Clean up failed output
             if (fs.existsSync(expectedOutputPath)) {
@@ -6757,7 +9082,7 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
         // =========================================
         // METHOD 2: pdf-lib CAREFUL COPY (Good - Preserves content)
         // =========================================
-        if (!unlockSuccess) {
+        if (!unlockSuccess && !passwordProblem) {
           try {
             console.log(`   Trying pdf-lib...`)
             
@@ -6852,13 +9177,8 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
           } catch (pdfLibError) {
             console.log(`   ❌ pdf-lib failed: ${pdfLibError.message}`)
             
-            if (pdfLibError.message.includes('password')) {
-              errors.push({
-                filename: file.originalname,
-                error: "This PDF requires a password. Please enter it."
-              })
-            }
-            
+            if (/password|encrypt/i.test(pdfLibError.message)) passwordProblem = true
+
             if (fs.existsSync(expectedOutputPath)) {
               fs.unlinkSync(expectedOutputPath)
             }
@@ -6879,13 +9199,14 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
 
           console.log(`✅ Successfully unlocked: ${file.originalname}`)
         } else {
-          const errorMsg = filePassword 
-            ? "Failed to unlock. Check your password and try again."
-            : "Failed to unlock. This PDF might need a password."
-          
+          // One error per file, with a code the page can localize.
+          const code = passwordProblem ? (filePassword ? "WRONG_PASSWORD" : "NEEDS_PASSWORD") : "UNREADABLE"
           errors.push({
             filename: file.originalname,
-            error: errorMsg
+            code,
+            error: code === "WRONG_PASSWORD" ? "Wrong password. Please check it and try again."
+              : code === "NEEDS_PASSWORD" ? "This PDF needs its open password. Enter it and try again."
+              : "Could not read this PDF. The file may be damaged."
           })
           
           console.error(`❌ Failed to unlock: ${file.originalname}`)
@@ -6921,14 +9242,15 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
         tool: "unlock-pdf",
         error: "No files unlocked",
         ip: req.clientIP,
-        status: "error",
+        status: errors.length && errors.every(e => e.code !== "UNREADABLE") ? "warning" : "error",
       })
       
       const errorDetails = errors.length > 0 
         ? errors.map(e => `${e.filename}: ${e.error}`).join('; ')
         : 'Could not unlock any files. Check passwords and try again.'
       
-      return res.status(500).json({ 
+      // User-input problem (password / damaged file), not a server fault.
+      return res.status(422).json({ 
         error: "No files were unlocked.",
         details: errorDetails,
         errors: errors
@@ -6951,15 +9273,32 @@ app.post("/api/unlock-pdf", upload.array("files", 5), fileSizeLimiter("unlock-pd
     // If single file, return direct download URL
     if (unlockedFiles.length === 1) {
       const singleFile = unlockedFiles[0]
-      const uploadPath = path.join(__dirname, "uploads", singleFile.filename)
+      // jobId prefix: the bare "unlocked-<name>.pdf" was shared by everyone who
+      // unlocked a same-named file (e.g. statement.pdf), so one user's download
+      // could serve another user's document. The page names the download from
+      // unlockedName, so the stored name can be unique.
+      const storedName = `${jobId}-${singleFile.filename}`
+      const uploadPath = path.join(__dirname, "uploads", storedName)
       fs.copyFileSync(path.join(unlockedDir, singleFile.filename), uploadPath)
+
+      if (req.user) {
+        await recordUserFile({
+          userId: req.user.id,
+          plan: req.user.plan,
+          tool: "unlock-pdf",
+          originalName: singleFile.filename,
+          storedPath: path.resolve(uploadPath),
+          downloadUrl: `/uploads/${storedName}`,
+          fileSize: singleFile.fileSize,
+        })
+      }
       
       res.json({
         success: true,
         message: "PDF unlocked - all restrictions removed",
         jobId: jobId,
         fileCount: 1,
-        downloadUrl: `/uploads/${singleFile.filename}`,
+        downloadUrl: `/uploads/${storedName}`,
         files: unlockedFiles,
         errors: errors.length > 0 ? errors : undefined
       })
@@ -7039,7 +9378,6 @@ app.get("/api/download-unlocked/:jobId", async (req, res) => {
       })
 
       res.setHeader('Content-Type', 'application/pdf')
-      res.setHeader('Content-Disposition', `attachment; filename="${files[0]}"`)
 
       return res.download(filePath, files[0], (err) => {
         if (err) {
@@ -7049,7 +9387,7 @@ app.get("/api/download-unlocked/:jobId", async (req, res) => {
         setTimeout(() => {
           try {
             if (fs.existsSync(unlockedDir)) {
-              fs.rmSync(unlockedDir, { recursive: true, force: true })
+              // kept so the user can download again — sweepOldFiles() deletes it after 1h
             }
           } catch (cleanupErr) {
             console.log("Cleanup error:", cleanupErr)
@@ -7104,7 +9442,7 @@ app.get("/api/download-unlocked/:jobId", async (req, res) => {
             fs.unlinkSync(zipPath)
           }
           if (fs.existsSync(unlockedDir)) {
-            fs.rmSync(unlockedDir, { recursive: true, force: true })
+            // kept so the user can download again — sweepOldFiles() deletes it after 1h
           }
         } catch (cleanupErr) {
           console.log("Cleanup error:", cleanupErr)
@@ -7131,7 +9469,14 @@ app.get("/api/download-unlocked/:jobId", async (req, res) => {
 
 const nodemailer = require("nodemailer")
 
-app.post("/api/contact", async (req, res) => {
+// Every submission sends an email — cap it so the form can't be used to burn
+// the SMTP quota or flood the inbox.
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false,
+  keyGenerator: rateLimitKey, store: new SQLiteRateStore("contact"),
+  message: { error: "Too many messages. Please try again in an hour." },
+})
+app.post("/api/contact", contactLimiter, async (req, res) => {
   try {
     const { name, email, subject, message } = req.body
 
@@ -7208,17 +9553,132 @@ app.post("/api/contact", async (req, res) => {
 // ─── OCR PDF ────────────────────────────────────────────────────────────────
 
 const { createWorker } = require('tesseract.js')
-const { fromPath }     = require('pdf2pic')
+const { PDFParse }     = require('pdf-parse')
 const {
   PDFDocument: PDFLibOut,
   StandardFonts,
-  rgb,
+  PDFOperator,
+  PDFOperatorNames,
+  PDFNumber,
+  TextRenderingMode,
+  pushGraphicsState,
+  popGraphicsState,
+  setTextRenderingMode,
+  degrees,
 } = require('pdf-lib')
 
-// Windows: point pdf2pic at the real gm.exe (PowerShell aliases 'gm' to Get-Member)
-if (process.platform === 'win32') {
-  process.env.GM_PATH = 'C:\\Program Files\\GraphicsMagick-1.3.46-Q16\\gm.exe'
+// Tesseract result (recognize(img, {}, { blocks: true })) → words in DISPLAY
+// points (origin top-left). Every word sits on its LINE's baseline at a size
+// taken from the line height, so words with descenders (y, p, g) don't drop.
+// Shared by OCR PDF and Redact PDF (which re-adds text to rasterised pages).
+function ocrWordsFromData(data, pxToPt) {
+  const words = []
+  const lines = (data.blocks || []).flatMap((b) => b.paragraphs || []).flatMap((p) => p.lines || [])
+  for (const line of lines) {
+    const bl = line.baseline
+    const hasBl = bl && bl.x1 > bl.x0
+    for (const w of line.words || []) {
+      if (!w.text || !w.text.trim() || w.confidence <= 30) continue
+      const cx = (w.bbox.x0 + w.bbox.x1) / 2
+      const baseY = hasBl ? bl.y0 + ((bl.y1 - bl.y0) * (cx - bl.x0)) / (bl.x1 - bl.x0) : w.bbox.y1
+      const top = Math.min(line.bbox.y0, w.bbox.y0)
+      words.push({
+        text: w.text.trim(),
+        x0: w.bbox.x0 * pxToPt, x1: w.bbox.x1 * pxToPt,
+        base: baseY * pxToPt,
+        size: (Math.max(1, baseY - top) / 0.75) * pxToPt,
+      })
+    }
+  }
+  return words
 }
+
+// PDF→Excel fallback for scanned PDFs: OCR up to `maxPages` pages and return,
+// per page, the words as { text, x0, top } in points (top-left origin) — the
+// shape pdfplumber's extract_words() gives the Excel layout code.
+const PDF_EXCEL_OCR_MAX_PAGES = 20
+async function ocrPdfWords(pdfPath, maxPages) {
+  let doc
+  try {
+    doc = await PDFLibOut.load(fs.readFileSync(pdfPath), { ignoreEncryption: true })
+  } catch (_) {
+    return []
+  }
+  const n = Math.min(doc.getPageCount(), maxPages)
+  const gsPath = getGhostscriptPath()
+  const pages = []
+  const worker = await createWorker('eng')
+  try {
+    await worker.setParameters({ tessedit_pageseg_mode: '3' })
+    for (let i = 0; i < n; i++) {
+      const disp = displaySize(doc.getPage(i))
+      const dpi = safeRenderDpi(disp.width, disp.height, 300, 35e6)
+      const png = path.join(path.dirname(pdfPath), `${genJobId()}-xocr-${i + 1}.png`)
+      try {
+        await execPromise(
+          `"${gsPath}" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pnggray -r${dpi} -dFirstPage=${i + 1} -dLastPage=${i + 1} -sOutputFile="${png}" "${pdfPath}"`,
+          { timeout: 90000, maxBuffer: 50 * 1024 * 1024 }
+        )
+        const { data } = await worker.recognize(png, {}, { blocks: true })
+        // Join words that sit on the same line with a normal word gap into one
+        // phrase — otherwise "Customer: Ravi Sharma" lands in three columns.
+        // A wide gap (a real column break) still starts a new cell.
+        const phrases = []
+        for (const w of ocrWordsFromData(data, 72 / dpi)) {
+          const last = phrases[phrases.length - 1]
+          const sameLine = last && Math.abs(last.base - w.base) < w.size * 0.35
+          if (sameLine && w.x0 - last.x1 < w.size * 0.9) {
+            last.text += ' ' + w.text
+            last.x1 = w.x1
+          } else {
+            phrases.push({ ...w })
+          }
+        }
+        pages.push(phrases.map((w) => ({ text: w.text, x0: w.x0, top: w.base - w.size * 0.8 })))
+      } catch (e) {
+        console.warn(`[pdf-to-excel OCR] page ${i + 1}: ${e.message}`)
+        pages.push([])
+      } finally {
+        try { fs.unlinkSync(png) } catch (_) {}
+      }
+    }
+  } finally {
+    await worker.terminate().catch(() => {})
+  }
+  return pages
+}
+
+// Draw OCR words as an invisible text layer (render mode 3, like Acrobat /
+// ocrmypdf) so the page becomes searchable and selectable. Each word is
+// stretched to its scanned width so selection highlights line up; display
+// coordinates are mapped back into the page's unrotated space.
+function drawInvisibleWords(page, font, words) {
+  const { width: pw, height: ph } = page.getSize()
+  const { x: mx, y: my } = page.getMediaBox()
+  const { rot } = displaySize(page)
+  page.pushOperators(pushGraphicsState(), setTextRenderingMode(TextRenderingMode.Invisible))
+  for (const w of words) {
+    const bw = w.x1 - w.x0
+    if (bw <= 0) continue
+    const size = Math.max(2, Math.min(w.size, 144))
+    let natural
+    try { natural = font.widthOfTextAtSize(w.text, size) } catch (_) { continue } // glyph outside WinAnsi
+    if (!(natural > 0)) continue
+    const scale = Math.max(10, Math.min(1000, (bw / natural) * 100))
+    const dx = w.x0, dy = w.base
+    let x, y, angle
+    if (rot === 90)       { x = dy;      y = dx;      angle = 90 }
+    else if (rot === 180) { x = pw - dx; y = dy;      angle = 180 }
+    else if (rot === 270) { x = pw - dy; y = ph - dx; angle = 270 }
+    else                  { x = dx;      y = ph - dy; angle = 0 }
+    try {
+      page.pushOperators(PDFOperator.of(PDFOperatorNames.SetTextHorizontalScaling, [PDFNumber.of(scale)]))
+      page.drawText(w.text, { x: mx + x, y: my + y, size, font, rotate: degrees(angle) })
+    } catch (_) {}
+  }
+  page.pushOperators(popGraphicsState())
+}
+
 
 // ── Daily OCR quota for free/guest users is now persisted in SQLite ──────────
 // (ocrCheckDaily / ocrIncrementDaily imported from middleware/sqliteRateStore.js).
@@ -7230,23 +9690,22 @@ app.post('/api/ocr-pdf',
   fileSizeLimiter('ocr-pdf'),
   batchLimiter('ocr-pdf'),
   dailyConversionLimiter(),
+  fileValidation,
+  virusScan,
+  optionalAuth,
   async (req, res) => {
     const startTime = Date.now()
     const file = req.file
     if (!file) return res.status(400).json({ error: 'No file uploaded' })
 
     // ── Auth ────────────────────────────────────────────────────────────────
-    const jwt = require('jsonwebtoken')
-    const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production'
-    let user = null
-    try {
-      const hdr = req.headers.authorization
-      if (hdr?.startsWith('Bearer '))
-        user = jwt.verify(hdr.replace('Bearer ', '').trim(), JWT_SECRET)
-    } catch (_) {}
+    // optionalAuth reads the plan from the DB (so a lapsed plan counts as free)
+    const user = req.user || null
     // Desktop app: treat as Pro (no limits)
     const isDesktop = process.env.ELECTRON_APP === '1' || process.env.DESKTOP_FREE === '1'
-    const isPro = isDesktop || user?.plan === 'pro' || user?.plan === 'enterprise'
+    // Every paid plan gets the paid OCR limits — /pricing promises Starter
+    // "100 MB · 10 files" for OCR, and fileSizeLimiter already allows it.
+    const isPro = isDesktop || ['starter', 'pro', 'agency', 'enterprise'].includes(user?.plan)
 
     const filePath  = file.path
     const tmpFiles  = [] // temp page PNGs — deleted after OCR
@@ -7278,13 +9737,36 @@ app.post('/api/ocr-pdf',
         })
       }
 
-      // ── Get page count via pdf-lib ────────────────────────────────────────
-      const pdfBuffer = fs.readFileSync(filePath)
-      let totalPages  = 1
+      // ── Load once: page count, sizes, rotation ───────────────────────────
+      let pdfBuffer = fs.readFileSync(filePath)
+      let srcDoc
+      let totalPages
+      // getPageCount() is part of the check: a PDF with a broken page tree loads
+      // fine and only throws here ("Expected instance of PDFDict…"), which used
+      // to escape as a 500 "OCR processing failed".
+      const loadSrc = async () => {
+        srcDoc = await PDFLibOut.load(pdfBuffer, { ignoreEncryption: true })
+        totalPages = srcDoc.getPageCount()
+      }
       try {
-        const srcDoc = await PDFLibOut.load(pdfBuffer, { ignoreEncryption: true })
-        totalPages   = srcDoc.getPageCount()
-      } catch (_) {}
+        await loadSrc()
+      } catch (_) {
+        // Damaged structure: let qpdf rebuild the file once, then retry.
+        const fixed = filePath + '.fixed.pdf'
+        tmpFiles.push(fixed)
+        try {
+          await util.promisify(require('child_process').execFile)('qpdf', [filePath, fixed], { timeout: 90000 })
+            .catch(() => { /* exit 3 = warnings, output is still written */ })
+          if (!fs.existsSync(fixed) || fs.statSync(fixed).size === 0) throw new Error('qpdf produced nothing')
+          fs.copyFileSync(fixed, filePath)
+          pdfBuffer = fs.readFileSync(filePath)
+          await loadSrc()
+          console.log('[OCR] damaged PDF repaired with qpdf')
+        } catch (_e) {
+          cleanup()
+          return res.status(400).json({ error: 'INVALID_PDF', message: 'Could not read the PDF. It may be corrupted or password-protected.' })
+        }
+      }
 
       // Free plan: max 2 pages
       if (totalPages > 2 && !isPro) {
@@ -7295,74 +9777,70 @@ app.post('/api/ocr-pdf',
         })
       }
 
-      const processedPages = isPro ? totalPages : Math.min(totalPages, 2)
+      const processedPages = totalPages
 
-      // ── STEP 1: Try pdf-parse — instant for digital/text PDFs ────────────
-      let extractedText = ''
-      let ocrPageData   = [] // [{words:[{text,bbox}]}] from Tesseract (per page)
-
+      // ── STEP 1: per-page existing text (digital pages need no OCR) ───────
+      // pdf-parse v2 exports a PDFParse class; the old `pdfParse(buffer)` call
+      // threw "not a function" and was silently swallowed, so every PDF went
+      // through Tesseract.
+      let pageTexts = new Array(processedPages).fill('')
       try {
-        const parsed = await pdfParse(pdfBuffer)
-        extractedText = (parsed.text || '').trim()
-        if (extractedText) {
-          console.log(`[OCR] Digital PDF — pdf-parse extracted ${extractedText.length} chars`)
+        const parser = new PDFParse({ data: new Uint8Array(pdfBuffer) })
+        const parsed = await parser.getText()
+        await parser.destroy().catch(() => {})
+        for (const p of parsed.pages || []) {
+          if (p.num >= 1 && p.num <= processedPages) pageTexts[p.num - 1] = (p.text || '').trim()
         }
-      } catch (_) {}
-
-      // ── STEP 2: No text → render pages as images → Tesseract OCR ─────────
-      if (!extractedText) {
-        console.log(`[OCR] Scanned PDF — running Tesseract on ${processedPages} page(s)`)
-
-        const converter = fromPath(filePath, {
-          density:      300,   // 300 DPI for best OCR accuracy
-          saveFilename: `ocr-page-${Date.now()}`,
-          savePath:     path.resolve('./uploads'),
-          format:       'png',
-          width:        2480,  // A4 @ 300 DPI
-          height:       3508,
-        })
-
-        // createWorker with word-level bounding boxes so we can
-        // position the invisible text precisely over each word
-        const worker = await createWorker('eng')
-        await worker.setParameters({
-          tessedit_pageseg_mode: '1', // Automatic page segmentation with OSD
-        })
-
-        const pageTexts = []
-
-        for (let p = 1; p <= processedPages; p++) {
-          try {
-            console.log(`[OCR] Page ${p}/${processedPages}…`)
-            const output = await converter(p, { responseType: 'image' })
-            tmpFiles.push(output.path)
-
-            // Get full data including word-level bboxes
-            const { data } = await worker.recognize(output.path)
-
-            // Store per-page word data for precise text overlay later
-            ocrPageData.push({
-              imgWidth:  data.width,
-              imgHeight: data.height,
-              words: (data.words || []).map(w => ({
-                text: w.text,
-                conf: w.confidence,
-                bbox: w.bbox, // {x0,y0,x1,y1} in image pixels
-              })).filter(w => w.text.trim() && w.conf > 30), // skip low-confidence garbage
-            })
-
-            pageTexts.push(data.text.trim())
-            console.log(`[OCR] Page ${p} — ${data.words?.length || 0} words`)
-          } catch (pageErr) {
-            console.error(`[OCR] Page ${p} failed:`, pageErr.message)
-            ocrPageData.push({ imgWidth: 2480, imgHeight: 3508, words: [] })
-            pageTexts.push('')
-          }
-        }
-
-        await worker.terminate()
-        extractedText = pageTexts.join('\f')
+      } catch (e) {
+        console.warn('[OCR] text extraction skipped:', e.message)
       }
+      // A page with only a stamp / page number is still a scan.
+      const needsOcr = pageTexts.map((txt) => txt.replace(/\s+/g, '').length < 20)
+      const ocrCount = needsOcr.filter(Boolean).length
+
+      // ── STEP 2: OCR the pages that have no text layer ─────────────────────
+      const ocrWords = new Array(processedPages).fill(null) // [{text,x0,x1,base,size}] in display points
+      if (ocrCount > 0) {
+        console.log(`[OCR] ${ocrCount}/${processedPages} page(s) need OCR`)
+        const gsPath = getGhostscriptPath()
+        const worker = await createWorker('eng')
+        try {
+          // Fully automatic segmentation without OSD — mode 1 needs osd.traineddata,
+          // which isn't installed ("osd language failed to load" on every page).
+          await worker.setParameters({ tessedit_pageseg_mode: '3' })
+          for (let i = 0; i < processedPages; i++) {
+            if (!needsOcr[i]) continue
+            const disp = displaySize(srcDoc.getPage(i))
+            const dpi = safeRenderDpi(disp.width, disp.height, 300, 35e6)
+            const pngPath = path.join(path.dirname(filePath), `${genJobId()}-ocr-${i + 1}.png`)
+            tmpFiles.push(pngPath)
+            try {
+              // Rendered at the page's own aspect ratio (pdf2pic forced every
+              // page to 2480x3508, stretching landscape pages).
+              await execPromise(
+                `"${gsPath}" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=pnggray -r${dpi} -dFirstPage=${i + 1} -dLastPage=${i + 1} -sOutputFile="${pngPath}" "${filePath}"`,
+                { timeout: 90000, maxBuffer: 50 * 1024 * 1024 }
+              )
+              // tesseract.js v5+ only returns word boxes when blocks are requested;
+              // without this every page came back with 0 words and the output
+              // PDF had no text layer at all.
+              const { data } = await worker.recognize(pngPath, {}, { blocks: true, text: true })
+              const words = ocrWordsFromData(data, 72 / dpi)
+              ocrWords[i] = words
+              pageTexts[i] = (data.text || '').trim()
+              console.log(`[OCR] Page ${i + 1} — ${words.length} words @${dpi}dpi`)
+            } catch (pageErr) {
+              console.error(`[OCR] Page ${i + 1} failed:`, pageErr.message)
+            } finally {
+              try { fs.unlinkSync(pngPath) } catch (_) {}
+            }
+          }
+        } finally {
+          await worker.terminate().catch(() => {})
+        }
+      }
+
+      const extractedText = pageTexts.join('\f')
 
       if (!isPro) await ocrIncrementDaily(req.clientIP)
 
@@ -7372,91 +9850,22 @@ app.post('/api/ocr-pdf',
       console.log(`[OCR] ${wordCount} words total across ${processedPages} page(s)`)
 
       // ── STEP 3: Build the output PDF ──────────────────────────────────────
-      // We copy the EXACT original PDF pages into a new doc (preserves 100%
-      // of the original visual layout — fonts, borders, tables, images, colours).
-      // Then we overlay the OCR text invisibly so the PDF becomes searchable.
-
-      const pdfOutPath = path.join(outDir, `ocr-${timestamp}.pdf`)
-
-      // Load source doc for page copying
-      const srcDoc  = await PDFLibOut.load(pdfBuffer, { ignoreEncryption: true })
-      const outDoc  = await PDFLibOut.create()
-      const font    = await outDoc.embedFont(StandardFonts.Helvetica)
-
-      // Copy the exact original pages
-      const pageIndices  = Array.from({ length: processedPages }, (_, i) => i)
-      const copiedPages  = await outDoc.copyPages(srcDoc, pageIndices)
+      // The original pages are kept byte-for-byte (fonts, images, layout); an
+      // invisible text layer (render mode 3, like Acrobat/ocrmypdf) is added on
+      // OCR'd pages so they become searchable and selectable. Pages that
+      // already had text are left untouched — overlaying them duplicated every
+      // line in search results and copy/paste.
+      // Unguessable (uploads/ is public; OCR inputs are often ID documents).
+      const pdfOutPath = path.join(outDir, `ocr-${genJobId()}.pdf`)
+      const font = await srcDoc.embedFont(StandardFonts.Helvetica)
 
       for (let i = 0; i < processedPages; i++) {
-        const page        = outDoc.addPage(copiedPages[i])
-        const { width, height } = page.getSize() // real PDF page dimensions in pts
-
-        // ── Overlay invisible OCR text ──────────────────────────────────────
-        // Two strategies depending on whether we have word-level bbox data:
-
-        if (ocrPageData.length > 0 && ocrPageData[i]) {
-          // Strategy A: word-by-word precise positioning (scanned PDFs)
-          // Map each word's image-pixel bbox → PDF point coordinates
-          const { imgWidth, imgHeight, words } = ocrPageData[i]
-          const scaleX = width  / imgWidth
-          const scaleY = height / imgHeight
-
-          for (const word of words) {
-            const { text, bbox } = word
-            if (!text.trim()) continue
-
-            // Convert image pixel coords to PDF points
-            // PDF origin is bottom-left; image origin is top-left → flip Y
-            const x      = bbox.x0 * scaleX
-            const yTop   = bbox.y0 * scaleY
-            const yBot   = bbox.y1 * scaleY
-            const boxH   = yBot - yTop
-            const pdfY   = height - yBot  // flip: PDF Y from bottom
-
-            // Font size scaled to match the word's bounding box height
-            const fontSize = Math.max(4, Math.min(boxH * 0.85, 72))
-
-            try {
-              page.drawText(text, {
-                x,
-                y:       Math.max(1, pdfY),
-                size:    fontSize,
-                font,
-                color:   rgb(1, 1, 1), // white — invisible over any bg
-                opacity: 0.01,         // near-zero: hidden but selectable in PDF viewers
-              })
-            } catch (_) {}
-          }
-
-        } else {
-          // Strategy B: line-by-line for digital PDFs (pdf-parse output)
-          // No bbox data — distribute lines evenly across the page height
-          const pageTexts = extractedText.split('\f')
-          const lines     = (pageTexts[i] || '').split('\n').filter(l => l.trim())
-          if (!lines.length) continue
-
-          const lineHeight = Math.min(16, (height - 80) / lines.length)
-          const fontSize   = Math.max(5, lineHeight * 0.72)
-          let y = height - 40
-
-          for (const line of lines) {
-            if (y < 10) break
-            try {
-              page.drawText(line.trim(), {
-                x:       40,
-                y,
-                size:    fontSize,
-                font,
-                color:   rgb(1, 1, 1),
-                opacity: 0.01,
-              })
-            } catch (_) {}
-            y -= lineHeight
-          }
-        }
+        const words = ocrWords[i]
+        if (!words || !words.length) continue
+        drawInvisibleWords(srcDoc.getPage(i), font, words)
       }
 
-      const pdfBytes = await outDoc.save()
+      const pdfBytes = await srcDoc.save()
       fs.writeFileSync(pdfOutPath, pdfBytes)
 
       const result = {
@@ -7465,6 +9874,8 @@ app.post('/api/ocr-pdf',
         wordCount,
         originalName: file.originalname,
         isImagePdf:   false,
+        ocrPages:     ocrWords.filter((w) => w && w.length).length,
+        alreadySearchable: ocrCount === 0,
       }
 
       // ── DOCX (Pro only) ──────────────────────────────────────────────────
@@ -7499,9 +9910,23 @@ app.post('/api/ocr-pdf',
         duration:  Date.now() - startTime,
       })
 
-      // Auto-delete output files after 2 hours
+      // Logged-in users get the PDF in "My Files" (kept for their plan's
+      // retention window, cleaned up by the sweep instead of the 1 h timer).
+      if (user?.id) {
+        await recordUserFile({
+          userId: user.id,
+          plan: user.plan,
+          tool: 'ocr-pdf',
+          originalName: `${path.basename(file.originalname, path.extname(file.originalname))}-ocr.pdf`,
+          storedPath: path.resolve(pdfOutPath),
+          downloadUrl: result.pdfUrl,
+          fileSize: pdfBytes.length,
+        }).catch(() => {})
+      }
+
+      // Auto-delete output files after 1 hour
       const filesToDelete = [
-        pdfOutPath,
+        !user?.id && pdfOutPath,
         result.docxUrl && path.join('.', result.docxUrl),
         result.txtUrl  && path.join('.', result.txtUrl),
       ].filter(Boolean)
@@ -7509,7 +9934,7 @@ app.post('/api/ocr-pdf',
         filesToDelete.forEach(f => {
           try { if (fs.existsSync(f)) fs.unlinkSync(f) } catch (_) {}
         })
-      }, 2 * 60 * 60 * 1000)
+      }, 60 * 60 * 1000)
 
       return res.json(result)
 
@@ -7559,11 +9984,20 @@ app.post('/api/ocr-pdf',
   // Per-request setTimeout cleanup is lost if the server restarts/crashes mid-job,
   // leaving files behind that slowly fill the disk. This sweeps the work dirs on a
   // schedule, deleting anything older than maxAge. uploads/blog is preserved.
-  function sweepOldFiles() {
+  async function sweepOldFiles() {
     const ONE_HOUR = 60 * 60 * 1000
     const cutoff = Date.now() - ONE_HOUR
     const dirs = ["uploads", "converted", "compressed", "downloads", "temp", "unlocked"]
     let removed = 0
+    // "My Files" keeps paid users' outputs for 24h by pointing at the files in
+    // these dirs — don't sweep anything an unexpired user_files row still uses
+    // (myFiles.js deletes those itself when their own window ends).
+    let keep = []
+    try {
+      const rows = await dbAll("SELECT stored_path FROM user_files WHERE expires_at > ?", [Date.now()])
+      keep = rows.map((r) => path.resolve(r.stored_path))
+    } catch (_) { /* table missing → nothing to protect */ }
+    const isKept = (p) => { const abs = path.resolve(p); return keep.some((k) => k === abs || k.startsWith(abs + path.sep)) }
     for (const d of dirs) {
       const dirPath = path.join(__dirname, d)
       if (!fs.existsSync(dirPath)) continue
@@ -7574,7 +10008,7 @@ app.post('/api/ocr-pdf',
         const entryPath = path.join(dirPath, entry)
         try {
           const stat = fs.statSync(entryPath)
-          if (stat.mtimeMs < cutoff) {
+          if (stat.mtimeMs < cutoff && !isKept(entryPath)) {
             fs.rmSync(entryPath, { recursive: true, force: true })
             removed++
           }
@@ -7588,16 +10022,55 @@ app.post('/api/ocr-pdf',
   sweepOldFiles()
   setInterval(sweepOldFiles, 30 * 60 * 1000)
 
+  // Inputs of failed conversions: kept 24 h, then removed (startup + hourly)
+  sweepFailedInputs()
+  setInterval(sweepFailedInputs, 60 * 60 * 1000)
+
   // Prune expired rows from the persistent rate-limit table (startup + hourly)
   cleanupExpiredRateLimits()
   setInterval(cleanupExpiredRateLimits, 60 * 60 * 1000)
 
+  // Prune activity_logs/ip_analytics rows older than 90 days (startup + daily)
+  // so both tables — and the admin dashboard queries that scan them — don't
+  // grow unbounded forever.
+  cleanupOldAnalyticsData()
+  setInterval(cleanupOldAnalyticsData, 24 * 60 * 60 * 1000)
+
+  // Nudge users who started Razorpay checkout but never finished UPI auth
+  // (startup + hourly — each user is only ever emailed once per subscription)
+  sendAbandonedCheckoutReminders()
+  setInterval(sendAbandonedCheckoutReminders, 60 * 60 * 1000)
+
+  // Nurture still-free users 3-7 days after signup with what paid unlocks
+  // (startup + every 6h — each user is only ever emailed once, ever)
+  sendFreeUserNurtureReminders()
+  setInterval(sendFreeUserNurtureReminders, 6 * 60 * 60 * 1000)
+
+  // Upload errors from multer (e.g. a single file over the 100 MB hard cap that
+  // even Pro has) reached Express's default handler → HTML "Internal Server
+  // Error". Answer with JSON the tool pages understand.
+  app.use((err, req, res, next) => {
+    if (err && err.name === "MulterError") {
+      const tooBig = err.code === "LIMIT_FILE_SIZE"
+      return res.status(tooBig ? 413 : 400).json({
+        error: tooBig ? "FILE_TOO_LARGE" : "UPLOAD_ERROR",
+        limitMB: tooBig ? 100 : undefined,
+        message: tooBig ? "Each file can be at most 100 MB." : err.message,
+      })
+    }
+    return next(err)
+  })
+
   // Start server
-  app.listen(PORT, () => {
-    console.log(`✓ Server running on port ${PORT}`)
+  // Loopback only: nginx proxies /api/ to localhost. Listening on all interfaces
+  // let anyone reach the API directly on http://<server-ip>:<PORT>, bypassing
+  // Cloudflare and nginx (rate limits, bot rules, TLS). BIND_HOST overrides.
+  const BIND_HOST = process.env.BIND_HOST || "127.0.0.1"
+  app.listen(PORT, BIND_HOST, () => {
+    console.log(`✓ Server running on ${BIND_HOST}:${PORT}`)
     console.log(`✓ Health check: http://localhost:${PORT}/api/health`)
     console.log(`✓ Admin panel: Login at /api/admin/login`)
     console.log(`✓ Blog system: http://localhost:${PORT}/api/blog/posts`)
     console.log(`✓ Auth routes: /api/auth/signup | /api/auth/login`)
-    console.log(`✓ Default admin credentials: ${ADMIN_USERNAME} / ${ADMIN_PASSWORD}`)
+    // (The admin username/password used to be printed here — into pm2 log files.)
   })

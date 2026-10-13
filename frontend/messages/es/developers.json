@@ -1,0 +1,78 @@
+{
+  "pageTitle": "API PDF — Combinar, Convertir, Comprimir y Proteger PDFs | SmallPDF.us",
+  "pageDescription": "Una API REST simple y rápida para PDFs: combinar, dividir, rotar, comprimir, proteger con contraseña y convertir PDF⇄Word, JPG, PNG. Nivel gratuito, ejemplos de código en cURL, Node.js y Python.",
+  "heroBadge": "API para Desarrolladores · v1",
+  "heroTitle": "La API de PDF creada para desarrolladores",
+  "heroDesc": "Un endpoint REST simple por tarea. Combina, convierte, comprime y protege PDFs desde cualquier lenguaje — sin SDK, sin servidores, sin librerías PDF.",
+  "heroCtaPrimary": "Obtén tu clave API gratuita",
+  "heroCtaSecondary": "Inicio rápido",
+  "trust": {
+    "endpoints": { "title": "11 endpoints", "desc": "PDF, Word e imágenes" },
+    "noSdk": { "title": "Sin SDK", "desc": "HTTP simple + multipart" },
+    "private": { "title": "Privado", "desc": "Escaneado y eliminado auto." },
+    "anyLang": { "title": "Cualquier lenguaje", "desc": "cURL, Node, Python…" }
+  },
+  "toc": {
+    "label": "Documentación",
+    "quickstart": "Inicio rápido",
+    "authentication": "Autenticación",
+    "baseUrl": "URL base y respuestas",
+    "endpoints": "Endpoints",
+    "quota": "Planes y cuota",
+    "errors": "Códigos de error",
+    "apiKeys": "Tus claves API"
+  },
+  "sections": {
+    "quickstart": "Inicio rápido",
+    "authentication": "Autenticación",
+    "baseUrl": "URL base y respuestas",
+    "endpoints": "Endpoints",
+    "quota": "Planes y cuota",
+    "errors": "Códigos de estado y error",
+    "cta": "Empieza a desarrollar hoy"
+  },
+  "steps": {
+    "getKey": { "title": "1. Obtén una clave", "desc": "Inicia sesión y crea una clave en tu panel." },
+    "callEndpoint": { "title": "2. Llama a un endpoint", "desc": "Envía tu archivo como multipart/form-data." },
+    "getResult": { "title": "3. Obtén el resultado", "desc": "El archivo procesado se devuelve al instante." }
+  },
+  "auth": {
+    "desc": "Cada solicitud debe incluir tu clave secreta en el encabezado",
+    "desc2": ". Crea y gestiona claves en tu",
+    "dashboard": "panel",
+    "warning": "Mantén las claves en el servidor — nunca las expongas en el código del cliente."
+  },
+  "baseUrl": {
+    "desc": "Todos los endpoints son",
+    "desc2": "bajo:",
+    "bullet1": "En caso de éxito, el archivo procesado se devuelve directamente en el cuerpo.",
+    "bullet2": "En caso de error, se devuelve un cuerpo JSON:",
+    "bullet3": "Cada respuesta incluye",
+    "bullet4": "Los archivos subidos se analizan en busca de malware y se eliminan de nuestros servidores inmediatamente después del procesamiento."
+  },
+  "params": {
+    "label": "Parámetros",
+    "required": "requerido",
+    "optional": "opcional",
+    "returns": "Devuelve"
+  },
+  "categories": {
+    "organize": "Organizar",
+    "convert": "Convertir",
+    "optimize": "Optimizar",
+    "secure": "Proteger"
+  },
+  "quota": {
+    "cols": { "plan": "Plan", "calls": "Llamadas API", "price": "Precio" },
+    "note": "La cuota se restablece el 1 de cada mes (UTC). Solo se cuentan las llamadas exitosas.",
+    "pricing": "Ver precios completos"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "Código", "meaning": "Significado" }
+  },
+  "cta": {
+    "title": "Empieza a desarrollar hoy",
+    "desc": "Crea una clave API gratuita y realiza tu primera llamada en menos de un minuto.",
+    "button": "Obtener tu clave API"
+  }
+}

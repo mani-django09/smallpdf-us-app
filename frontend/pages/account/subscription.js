@@ -1,4 +1,4 @@
-// pages/account/subscription.js — Razorpay subscription management
+// pages/account/subscription.js — subscription management (Razorpay, Lemon Squeezy, PayPal)
 
 import { useEffect, useState } from 'react'
 import Head from 'next/head'
@@ -12,6 +12,7 @@ import Layout from '../../components/Layout'
 import { useAuth } from '../../context/AuthContext'
 import { useSubscription } from '../../hooks/useSubscription'
 import { useTranslations } from '../../lib/i18n'
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useRouter } from 'next/router'
 
 function fmt(isoDate) {
@@ -36,6 +37,12 @@ function StatusBadge({ status, t }) {
     halted:        { bg: 'bg-red-100',   text: 'text-red-700',    labelKey: 'statusHalted'    },
     cancelled:     { bg: 'bg-gray-100',  text: 'text-gray-600',   labelKey: 'statusCancelled' },
     completed:     { bg: 'bg-gray-100',  text: 'text-gray-600',   labelKey: 'statusCompleted' },
+    // Lemon Squeezy statuses
+    on_trial:      { bg: 'bg-green-100', text: 'text-green-700',  labelKey: 'statusActive'    },
+    past_due:      { bg: 'bg-red-100',   text: 'text-red-700',    labelKey: 'statusHalted'    },
+    unpaid:        { bg: 'bg-red-100',   text: 'text-red-700',    labelKey: 'statusHalted'    },
+    paused:        { bg: 'bg-amber-100', text: 'text-amber-700',  labelKey: 'statusPending'   },
+    expired:       { bg: 'bg-gray-100',  text: 'text-gray-600',   labelKey: 'statusCompleted' },
   }
   const s = map[status] || map.cancelled
   return (
@@ -47,18 +54,19 @@ function StatusBadge({ status, t }) {
 
 export default function SubscriptionPage() {
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const { status, loading, error, cancelSubscription, fetchStatus } = useSubscription()
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
+  const L = (map) => map[locale] ?? map.en
   const [cancelConfirm, setCancelConfirm] = useState(false)
   const [cancelMsg,     setCancelMsg]     = useState('')
   const [cancelLoading, setCancelLoading] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && !user) {
+    if (typeof window !== 'undefined' && !authLoading && !user) {
       router.push('/auth/login?redirect=/account/subscription')
     }
-  }, [user, router])
+  }, [user, authLoading, router])
 
   if (!user) return null
 
@@ -180,9 +188,31 @@ export default function SubscriptionPage() {
               </div>
               <div className="flex justify-between text-sm">
                 <dt className="text-gray-500">{t('auth.subscription.paymentProcessor')}</dt>
-                <dd className="font-medium text-gray-800">Razorpay</dd>
+                <dd className="font-medium text-gray-800">
+                  {{ lemonsqueezy: 'Lemon Squeezy', paypal: 'PayPal' }[status?.gateway] || 'Razorpay'}
+                </dd>
               </div>
             </dl>
+
+            {/* Lemon Squeezy hosts card updates, invoices and resume/cancel itself */}
+            {(status?.updatePaymentUrl || status?.portalUrl) && (
+              <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                {status.updatePaymentUrl && (
+                  <a href={status.updatePaymentUrl} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5">
+                    <CreditCard className="w-3.5 h-3.5" />
+                    {L({ en: 'Update payment method', ja: '支払い方法を更新', de: 'Zahlungsmethode ändern', fr: 'Modifier le moyen de paiement', es: 'Actualizar método de pago', it: 'Aggiorna metodo di pagamento', id: 'Perbarui metode pembayaran', pt: 'Atualizar forma de pagamento' })}
+                  </a>
+                )}
+                {status.portalUrl && (
+                  <a href={status.portalUrl} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5">
+                    <Receipt className="w-3.5 h-3.5" />
+                    {L({ en: 'Invoices & billing', ja: '請求書と請求', de: 'Rechnungen & Abrechnung', fr: 'Factures et facturation', es: 'Facturas y facturación', it: 'Fatture e fatturazione', id: 'Faktur & tagihan', pt: 'Faturas e cobrança' })}
+                  </a>
+                )}
+              </div>
+            )}
 
             {isPaid && !sub.cancelAtPeriodEnd && (
               <div className="mt-5 pt-4 border-t border-gray-100">
@@ -265,4 +295,11 @@ export default function SubscriptionPage() {
       </div>
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["auth"]) },
+    revalidate: 86400,
+  }
 }

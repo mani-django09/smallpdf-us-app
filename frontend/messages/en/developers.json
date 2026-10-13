@@ -1,0 +1,78 @@
+{
+  "pageTitle": "PDF API — Merge, Convert, Compress & Protect PDFs | SmallPDF.us",
+  "pageDescription": "A simple, fast REST API for PDF: merge, split, rotate, compress, password-protect, and convert PDF ⇄ Word, JPG, PNG. Free tier, code samples in cURL, Node.js & Python.",
+  "heroBadge": "Developer API · v1",
+  "heroTitle": "The PDF API built for developers",
+  "heroDesc": "One simple REST endpoint per task. Merge, convert, compress and protect PDFs from any language — no SDK, no servers, no PDF libraries to wrestle with.",
+  "heroCtaPrimary": "Get your free API key",
+  "heroCtaSecondary": "Quick start",
+  "trust": {
+    "endpoints": { "title": "11 endpoints", "desc": "PDF, Word & images" },
+    "noSdk": { "title": "No SDK", "desc": "Plain HTTP + multipart" },
+    "private": { "title": "Private", "desc": "Scanned & auto-deleted" },
+    "anyLang": { "title": "Any language", "desc": "cURL, Node, Python…" }
+  },
+  "toc": {
+    "label": "Documentation",
+    "quickstart": "Quick start",
+    "authentication": "Authentication",
+    "baseUrl": "Base URL & responses",
+    "endpoints": "Endpoints",
+    "quota": "Plans & quota",
+    "errors": "Error codes",
+    "apiKeys": "Your API keys"
+  },
+  "sections": {
+    "quickstart": "Quick start",
+    "authentication": "Authentication",
+    "baseUrl": "Base URL & responses",
+    "endpoints": "Endpoints",
+    "quota": "Plans & quota",
+    "errors": "Status & error codes",
+    "cta": "Start building today"
+  },
+  "steps": {
+    "getKey": { "title": "1. Get a key", "desc": "Sign in and create a key in your dashboard." },
+    "callEndpoint": { "title": "2. Call an endpoint", "desc": "POST your file as multipart/form-data." },
+    "getResult": { "title": "3. Get the result", "desc": "The processed file streams back instantly." }
+  },
+  "auth": {
+    "desc": "Every request must include your secret key in the",
+    "desc2": "header. Create and manage keys in your",
+    "dashboard": "dashboard",
+    "warning": "Keep keys server-side — never expose them in client code."
+  },
+  "baseUrl": {
+    "desc": "All endpoints are",
+    "desc2": "under:",
+    "bullet1": "On success the processed file is returned directly in the body.",
+    "bullet2": "On error a JSON body is returned:",
+    "bullet3": "Every response includes",
+    "bullet4": "Uploads are scanned for malware and deleted from our servers immediately after processing."
+  },
+  "params": {
+    "label": "Parameters",
+    "required": "required",
+    "optional": "optional",
+    "returns": "Returns"
+  },
+  "categories": {
+    "organize": "Organize",
+    "convert": "Convert",
+    "optimize": "Optimize",
+    "secure": "Secure"
+  },
+  "quota": {
+    "cols": { "plan": "Plan", "calls": "API calls", "price": "Price" },
+    "note": "Quota resets on the 1st of each month (UTC). Only successful calls count.",
+    "pricing": "See full pricing"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "Code", "meaning": "Meaning" }
+  },
+  "cta": {
+    "title": "Start building today",
+    "desc": "Create a free API key and make your first call in under a minute.",
+    "button": "Get your API key"
+  }
+}

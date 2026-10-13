@@ -2,11 +2,16 @@ import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import { FileText, ArrowLeft, CheckCircle2, Sparkles, Shield, Zap, Clock, Play } from "lucide-react"
+import { FileText, ArrowLeft, CheckCircle2, Play } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { wordToPdfStore } from "../word-to-pdf"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -26,6 +31,8 @@ export default function PreviewWordToPDF() {
   const [converting, setConverting] = useState(false)
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
+  const [error, setError] = useState("")
+  const { handleApiError, PremiumGateModal } = useFileSizeGuard("word-to-pdf")
 
   const routerRef = useRef(router)
   useEffect(() => { routerRef.current = router })
@@ -56,8 +63,10 @@ export default function PreviewWordToPDF() {
     ]
 
     let currentStage = 0
+    let stopped = false
+    setError("")
     const updateProgress = () => {
-      if (currentStage < stages.length) {
+      if (!stopped && currentStage < stages.length) {
         setProgress(stages[currentStage].progress)
         setStage(stages[currentStage].text)
         currentStage++
@@ -77,12 +86,18 @@ export default function PreviewWordToPDF() {
         body: formData,
       })
 
-      const result = await convertResponse.json()
-      
-      setProgress(100)
-      setStage(t("wordToPdf.preview.stages.complete"))
+      // A proxy error page (413/502) is HTML, not JSON.
+      const result = await convertResponse.json().catch(() => ({}))
+      // Limit modals take over — put the page back so the user can continue
+      // (the spinner used to keep spinning behind the modal).
+      if (handleDailyLimitError(convertResponse.status, result) || handleApiError(convertResponse, result)) {
+        stopped = true; setConverting(false); setProgress(0); setStage(""); return
+      }
 
-      if (convertResponse.ok) {
+      if (convertResponse.ok && result.downloadUrl) {
+        stopped = true
+        setProgress(100)
+        setStage(t("wordToPdf.preview.stages.complete"))
         // Make downloadUrl absolute so it works in dev (port 5011) and prod (same-origin)
         const absoluteDownloadUrl = result.downloadUrl.startsWith('http')
           ? result.downloadUrl
@@ -93,16 +108,21 @@ export default function PreviewWordToPDF() {
           downloadUrl: absoluteDownloadUrl,
         }))
         setTimeout(() => {
-          router.push(`/word-to-pdf/download?file=${encodeURIComponent(absoluteDownloadUrl)}`)
+          goToDownload(router, `/word-to-pdf/download?file=${encodeURIComponent(absoluteDownloadUrl)}`)
         }, 500)
       } else {
+        // Failures used to just stop the spinner with no message at all.
         console.error("Conversion failed:", result.error)
+        stopped = true
+        setError(result.message || t("wordToPdf.preview.errorGeneric"))
         setConverting(false)
         setProgress(0)
         setStage("")
       }
     } catch (error) {
       console.error("Error:", error)
+      stopped = true
+      setError(t("wordToPdf.preview.errorGeneric"))
       setConverting(false)
       setProgress(0)
       setStage("")
@@ -183,7 +203,7 @@ export default function PreviewWordToPDF() {
 
       {/* Main Content */}
       <div className="bg-slate-50 min-h-screen py-6 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Main Card */}
             <div className="lg:col-span-2">
@@ -225,6 +245,12 @@ export default function PreviewWordToPDF() {
                           {t("wordToPdf.preview.validatedSubtitle")}
                         </p>
                       </div>
+
+                      {error && (
+                        <div role="alert" className="mb-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg p-3">
+                          {error}
+                        </div>
+                      )}
 
                       {/* Convert Button */}
                       <button
@@ -274,6 +300,10 @@ export default function PreviewWordToPDF() {
                           {t("wordToPdf.preview.pleaseWait")}
                         </p>
                       </div>
+
+                      <div className="flex justify-center mt-3">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -282,56 +312,32 @@ export default function PreviewWordToPDF() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              {/* Features */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t("wordToPdf.preview.whatYouGet")}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t("wordToPdf.preview.feat1"), color: "text-violet-600 bg-violet-100" },
-                    { icon: Shield, text: t("wordToPdf.preview.feat2"), color: "text-emerald-600 bg-emerald-100" },
-                    { icon: Zap, text: t("wordToPdf.preview.feat3"), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t("wordToPdf.preview.feat4"), color: "text-blue-600 bg-blue-100" }
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(' ')[1]}`}>
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(' ')[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Process Steps */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t("wordToPdf.preview.conversionProcess")}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t("wordToPdf.preview.step1"), color: "bg-red-600" },
-                    { num: "2", text: t("wordToPdf.preview.step2"), color: "bg-rose-600" },
-                    { num: "3", text: t("wordToPdf.preview.step3"), color: "bg-emerald-600" }
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
       </div>
       {DailyLimitGate}
+      {PremiumGateModal}
     </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["wordToPdf"]) },
+    revalidate: 86400,
+  }
 }

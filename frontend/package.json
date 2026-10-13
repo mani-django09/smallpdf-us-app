@@ -8,15 +8,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "next-sitemap",
+    "postbuild": "node gen-sitemap.js",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "lucide-react": "^0.294.0",
-    "next": "^14.0.4",
+    "next": "^14.2.35",
     "next-intl": "^3.26.5",
-    "pdfjs-dist": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "redis": "^4.6.10",

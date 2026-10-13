@@ -3,10 +3,13 @@ import { useLocalizedRouter } from "@/lib/useLocalizedRouter"
 import Layout from "@/components/Layout"
 import SEOHead from "@/components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
-import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Scissors, CheckCircle, Eye, X } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { FileText, ArrowLeft, Sparkles, Scissors, CheckCircle, Eye, X } from "lucide-react"
 import { splitPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewSplitPdf() {
   const router = useLocalizedRouter()
@@ -17,6 +20,7 @@ export default function PreviewSplitPdf() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [previewModal, setPreviewModal] = useState({ open: false, page: null })
+  const [splitError, setSplitError] = useState("")
 
   const routerRef = useRef(router)
   useEffect(() => { routerRef.current = router })
@@ -32,6 +36,7 @@ export default function PreviewSplitPdf() {
   const handleSplit = async () => {
     if (!fileData) return
 
+    setSplitError("")
     setSplitting(true)
     setProgress(0)
     setStage(t("splitPdf.previewStageInit"))
@@ -56,21 +61,8 @@ export default function PreviewSplitPdf() {
     updateProgress()
 
     try {
-      // Convert base64 data URL → Blob without fetch() (fetch of data: URLs is unreliable)
-      function dataURLtoBlob(dataURL) {
-        const parts = dataURL.split(',')
-        const mime = parts[0].match(/:(.*?);/)[1]
-        const binary = atob(parts[1])
-        const bytes = new Uint8Array(binary.length)
-        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
-        return new Blob([bytes], { type: mime })
-      }
-
-      const blob = dataURLtoBlob(fileData.data)
-      const file = new File([blob], fileData.name, { type: fileData.type || "application/pdf" })
-
       const formData = new FormData()
-      formData.append("file", file)
+      formData.append("file", fileData.file, fileData.name)
       formData.append("pages", JSON.stringify(fileData.selectedPages))
 
       // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
@@ -84,6 +76,7 @@ export default function PreviewSplitPdf() {
       })
 
       const result = await splitResponse.json()
+      if (handleDailyLimitError(splitResponse.status, result)) return  // daily-limit upgrade modal
 
       setProgress(100)
       setStage(t("splitPdf.previewStageComplete"))
@@ -99,16 +92,21 @@ export default function PreviewSplitPdf() {
           }),
         )
         setTimeout(() => {
-          router.push(`/split-pdf/download?jobId=${result.jobId}`)
+          goToDownload(router, `/split-pdf/download?jobId=${result.jobId}`)
         }, 600)
       } else {
         console.error("Split failed:", result.error)
+        // Was silent: the progress bar just vanished and the user saw nothing.
+        if (result.error === "PASSWORD_PROTECTED") setSplitError(t("toolErrors.passwordProtected", { name: fileData.name }))
+        else if (result.error === "CORRUPT_PDF") setSplitError(t("toolErrors.corrupt", { name: fileData.name }))
+        else setSplitError(t("splitPdf.errorProcessFailed"))
         setSplitting(false)
         setProgress(0)
         setStage("")
       }
     } catch (error) {
       console.error("Error:", error)
+      setSplitError(t("splitPdf.errorProcessFailed"))
       setSplitting(false)
       setProgress(0)
       setStage("")
@@ -222,7 +220,7 @@ export default function PreviewSplitPdf() {
 
       {/* Main Content */}
       <div className="bg-slate-50 min-h-screen py-6 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Main Card */}
             <div className="lg:col-span-2">
@@ -317,6 +315,8 @@ export default function PreviewSplitPdf() {
                         </div>
                       </div>
 
+                      {splitError && <p className="mb-3 text-sm text-red-700 font-medium">{splitError}</p>}
+
                       {/* Split Button */}
                       <button
                         onClick={handleSplit}
@@ -396,60 +396,18 @@ export default function PreviewSplitPdf() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              {/* What You'll Get */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t("splitPdf.previewWhatYouGet")}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t("splitPdf.previewBenefit1"), color: "text-purple-600 bg-purple-100" },
-                    { icon: Shield, text: t("splitPdf.previewBenefit2"), color: "text-slate-600 bg-slate-100" },
-                    { icon: Zap, text: t("splitPdf.previewBenefit3"), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t("splitPdf.previewBenefit4"), color: "text-slate-600 bg-slate-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}>
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Process Steps */}
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t("splitPdf.previewProcessTitle")}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t("splitPdf.previewStep1"), done: true },
-                    { num: "2", text: t("splitPdf.previewStep2"), done: true },
-                    { num: "3", text: t("splitPdf.previewStep3"), done: false },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div className={`w-5 h-5 ${step.done ? "bg-purple-600" : splitting ? "bg-purple-600 animate-pulse" : "bg-slate-400"} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
-                        {step.done ? <CheckCircle className="w-3 h-3" /> : step.num}
-                      </div>
-                      <span className={`font-body text-xs ${step.done ? "text-slate-900 font-medium" : "text-slate-600"}`}>
-                        {step.text}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tip */}
-              <div className="bg-gradient-to-br from-purple-50 to-slate-50 rounded-xl p-4 border border-purple-100">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-2">{t("splitPdf.previewTipTitle")}</h3>
-                <p className="font-body text-xs text-slate-600 leading-relaxed">
-                  {t("splitPdf.previewTipDesc")}
-                </p>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -458,4 +416,11 @@ export default function PreviewSplitPdf() {
     </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["splitPdf"]) },
+    revalidate: 86400,
+  }
 }

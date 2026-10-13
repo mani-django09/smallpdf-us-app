@@ -13,6 +13,20 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
     console.error('Error opening database:', err.message);
   } else {
     console.log('✓ Connected to SQLite database');
+    // WAL mode lets reads and writes happen concurrently instead of the
+    // default rollback-journal mode, which locks the whole file per write —
+    // every conversion/download logs a row, so this matters under concurrent load.
+    db.run('PRAGMA journal_mode = WAL', (walErr) => {
+      if (walErr) console.error('Error enabling WAL mode:', walErr.message);
+      else console.log('✓ WAL mode enabled');
+    });
+    // NORMAL is the standard pairing with WAL — still safe (no corruption risk
+    // from app/OS crashes, only from an actual power loss), and faster than
+    // the default FULL because it skips an fsync on every transaction commit.
+    db.run('PRAGMA synchronous = NORMAL', (syncErr) => {
+      if (syncErr) console.error('Error setting synchronous mode:', syncErr.message);
+      else console.log('✓ synchronous = NORMAL');
+    });
     initializeDatabase();
   }
 });
@@ -190,6 +204,24 @@ function initializeDatabase() {
       }
     });
     db.run('CREATE INDEX IF NOT EXISTS idx_rate_limits_expires ON rate_limits(expires_at)');
+
+    // Email subscribers — simple opt-in capture (download pages: "notify me about
+    // new tools"). No email service wired up yet; stored here for later export/use.
+    db.run(`
+      CREATE TABLE IF NOT EXISTS email_subscribers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        source_page TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `, (err) => {
+      if (err) {
+        console.error('Error creating email_subscribers table:', err.message);
+      } else {
+        console.log('✓ Email subscribers table ready');
+      }
+    });
+    db.run('CREATE INDEX IF NOT EXISTS idx_email_subscribers_email ON email_subscribers(email)');
 
     // Create indexes for better performance
     db.run('CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug)');
@@ -692,6 +724,29 @@ async function toggleIPBlock(ipAddress, blocked) {
   }
 }
 
+// Prune old activity_logs and ip_analytics rows so both tables — and the
+// admin dashboard queries that scan them — don't grow unbounded forever.
+// Blocked IPs are kept regardless of last_seen; everything else past the
+// retention window is deleted. Call on a schedule (see server.js).
+async function cleanupOldAnalyticsData(retentionDays = 90) {
+  try {
+    const cutoff = new Date(Date.now() - retentionDays * 24 * 60 * 60 * 1000).toISOString();
+    const logs = await dbRun('DELETE FROM activity_logs WHERE created_at < ?', [cutoff]);
+    const ips = await dbRun(
+      'DELETE FROM ip_analytics WHERE last_seen < ? AND blocked = 0',
+      [cutoff]
+    );
+    const removed = (logs.changes || 0) + (ips.changes || 0);
+    if (removed > 0) {
+      console.log(`🧹 Analytics cleanup: removed ${logs.changes || 0} activity_logs + ${ips.changes || 0} ip_analytics row(s) older than ${retentionDays}d`);
+    }
+    return { activityLogsRemoved: logs.changes || 0, ipAnalyticsRemoved: ips.changes || 0 };
+  } catch (error) {
+    console.error('Error cleaning up old analytics data:', error.message);
+    return { activityLogsRemoved: 0, ipAnalyticsRemoved: 0 };
+  }
+}
+
 // Export database and helper functions
 module.exports = {
   db,
@@ -703,4 +758,5 @@ module.exports = {
   getStatsFromDB,
   getIPDetails,
   toggleIPBlock,
+  cleanupOldAnalyticsData,
 };

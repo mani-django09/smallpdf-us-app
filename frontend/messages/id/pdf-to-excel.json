@@ -1,11 +1,11 @@
 {
   "seo": {
     "title": "Konversi PDF ke Excel – Gratis Online PDF ke XLSX | SmallPDF.us",
-    "description": "Konversi PDF ke spreadsheet Excel secara gratis. Ekstrak tabel dan data dari file PDF ke format XLSX yang dapat diedit. Konverter online cepat, akurat, aman, dengan dukungan OCR."
+    "description": "Konversi PDF ke spreadsheet Excel secara gratis. Ekstrak tabel dan data ke XLSX yang dapat diedit. Cepat, akurat, aman, dengan dukungan OCR."
   },
   "heroTitle": "PDF ke Excel",
   "heroTitleHighlight": "Konverter Gratis",
-  "heroSubtitle": "Ekstrak tabel dan data dari file PDF menjadi spreadsheet Excel yang dapat diedit. Cepat, akurat, dan sepenuhnya gratis di SmallPDF.us",
+  "heroSubtitle": "Ekstrak tabel dan data dari file PDF ke spreadsheet Excel yang dapat diedit. Cepat, akurat, dan mudah digunakan.",
   "uploadDragText": "Pilih PDF untuk dikonversi",
   "uploadDragActive": "Lepaskan PDF Anda di sini!",
   "uploadSubtext": "Seret & lepas PDF Anda atau klik untuk mencari file",
@@ -71,9 +71,9 @@
   "faq6Question": "Bisakah saya mengonversi beberapa file PDF sekaligus?",
   "faq6Answer": "Ya! Anda dapat mengunggah dan mengonversi hingga 10 file PDF secara bersamaan. Setiap file akan dikonversi menjadi spreadsheet Excel terpisah.",
   "ctaTitle": "Siap mengonversi PDF Anda?",
-  "ctaSubtitle": "Bergabunglah dengan jutaan pengguna yang mempercayai SmallPDF.us untuk konversi PDF ke Excel yang akurat.",
+  "ctaSubtitle": "Bergabunglah dengan pengguna di seluruh dunia yang menggunakan SmallPDF.us untuk konversi PDF ke Excel yang cepat dan akurat.",
   "ctaButton": "Unggah PDF sekarang",
-  "ctaNote": "Tidak perlu daftar • 100% Gratis • Aman & Privat",
+  "ctaNote": "Cepat • Aman • Privat",
   "relatedToolsTitle": "Alat PDF terkait",
   "relatedToolsSubtitle": "Jelajahi lebih banyak alat untuk bekerja dengan file PDF Anda",
   "tool1": "Excel ke PDF",

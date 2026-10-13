@@ -1,12 +1,18 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import { Upload, ImageIcon, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, FileImage } from "lucide-react"
+
+// Picked files stay in memory (object URLs), not base64 in sessionStorage —
+// that hit the ~5 MB quota and silently failed for images/PDFs over ~3.7 MB.
+export const pngToWebpStore = { files: [] }
 
 export default function PngToWebp() {
 const router = useLocalizedRouter()
@@ -30,15 +36,12 @@ const router = useLocalizedRouter()
 
   const validateFile = (file) => {
     const validTypes = ["image/png"]
-    const maxSize = 50 * 1024 * 1024
 
     if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith(".png")) {
       return { valid: false, error: t('pngToWebp.errorInvalidType') }
     }
 
-    if (file.size > maxSize) {
-      return { valid: false, error: t('pngToWebp.errorMaxSize') }
-    }
+    // Size is enforced by useFileSizeGuard (plan-aware); a fixed free-plan cap here blocked paid users.
 
     return { valid: true }
   }
@@ -72,26 +75,10 @@ const router = useLocalizedRouter()
       setIsProcessing(true)
 
       try {
-        const fileDataArray = await Promise.all(
-          validFiles.map(async (f) => {
-            return new Promise((resolve, reject) => {
-              const reader = new FileReader()
-              reader.onload = (e) => {
-                resolve({
-                  id: f.id,
-                  name: f.name,
-                  size: f.size,
-                  type: f.file.type,
-                  data: e.target.result,
-                })
-              }
-              reader.onerror = reject
-              reader.readAsDataURL(f.file)
-            })
-          }),
-        )
-
-        sessionStorage.setItem("uploadedPngFiles", JSON.stringify(fileDataArray))
+        pngToWebpStore.files = validFiles.map((f) => ({
+          id: f.id, name: f.name, size: f.size, type: f.file.type, file: f.file,
+          data: URL.createObjectURL(f.file), // preview thumbnail + upload source
+        }))
 
         setTimeout(() => {
           router.push("/png-to-webp/preview")
@@ -176,7 +163,7 @@ const router = useLocalizedRouter()
           "Preserves transparency",
           "Batch processing",
           "Original quality maintained",
-          "Free forever"
+          "Free plan available"
         ]
       },
       {
@@ -198,7 +185,7 @@ const router = useLocalizedRouter()
           {
             "@type": "HowToStep",
             "name": "Upload PNG Images",
-            "text": "Select PNG files from your device. You can upload up to 20 images at once for batch conversion.",
+            "text": "Select PNG files from your device. On the free plan, you can upload up to 2 images at once for batch conversion (up to 5MB each).",
             "position": 1
           },
           {
@@ -232,32 +219,22 @@ const router = useLocalizedRouter()
         title={t('pngToWebp.layoutTitle')}
         description={t('pngToWebp.layoutDescription')}
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display {
+                    .font-display {
             font-family: 'Plus Jakarta Sans', sans-serif;
           }
           .font-body {
             font-family: 'DM Sans', sans-serif;
           }
-          @keyframes blob {
-            0%,
-            100% {
-              transform: translate(0, 0) scale(1);
-            }
-            33% {
-              transform: translate(20px, -30px) scale(1.05);
-            }
-            66% {
-              transform: translate(-15px, 15px) scale(0.95);
-            }
-          }
-          .animate-blob {
-            animation: blob 8s ease-in-out infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
+          
+
           @keyframes loading-bar {
             0% {
               width: 0%;
@@ -300,11 +277,11 @@ const router = useLocalizedRouter()
         </div>
 
         {/* Upload Section */}
-        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 py-8 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 py-8 px-4">
           <div className="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-8 right-20 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-blue-200 p-6">
               {isProcessing ? (
                 <div className="py-10 text-center">
@@ -344,9 +321,9 @@ const router = useLocalizedRouter()
                       onChange={handleFileChange}
                     />
 
-                    <div className="p-10 text-center">
+                    <div className="p-6 sm:p-10 text-center">
                       <div className="mb-3">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                           <FileImage className="w-8 h-8 text-white animate-bounce-slow" />
                         </div>
                       </div>
@@ -354,14 +331,14 @@ const router = useLocalizedRouter()
                       <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                         {dragActive ? t('pngToWebp.dropYourPngFiles') : t('pngToWebp.selectPngImages')}
                       </h3>
-                      <p className="font-body text-sm text-slate-500 mb-4">
+                      <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                         {t('pngToWebp.dragAndDrop')}
                       </p>
 
                       <button
                         type="button"
                         onClick={handleButtonClick}
-                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                       >
                         <Upload className="w-5 h-5" />
                         <span>{t('pngToWebp.choosePngFiles')}</span>
@@ -395,12 +372,6 @@ const router = useLocalizedRouter()
                 </div>
               )}
 
-              {!isProcessing && (
-                <p className="text-center font-body text-sm text-slate-600 mt-5">
-                  {t('pngToWebp.upTo')} <span className="font-bold text-blue-600">{t('pngToWebp.fileSizeLimit')}</span> {t('pngToWebp.perFile')} |{" "}
-                  <span className="font-bold text-blue-600">{t('pngToWebp.maxImages')}</span> {t('pngToWebp.maximum')}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -512,6 +483,31 @@ const router = useLocalizedRouter()
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t('pngToWebp.diveTitle')}</h2>
+              <p className="font-body text-slate-600">{t('pngToWebp.diveSubtitle')}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t('pngToWebp.dive1Title'), t('pngToWebp.dive1Desc')],
+                [t('pngToWebp.dive2Title'), t('pngToWebp.dive2Desc')],
+                [t('pngToWebp.dive3Title'), t('pngToWebp.dive3Desc')],
+                [t('pngToWebp.dive4Title'), t('pngToWebp.dive4Desc')],
+                [t('pngToWebp.dive5Title'), t('pngToWebp.dive5Desc')],
+                [t('pngToWebp.dive6Title'), t('pngToWebp.dive6Desc')],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto">
@@ -603,6 +599,7 @@ const router = useLocalizedRouter()
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["pngToWebp"]) },
+    revalidate: 86400,
   }
 }

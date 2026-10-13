@@ -40,7 +40,7 @@ const TOOL_LABELS = {
 const TRIGGER_COPY = {
   fileSize: {
     headline: 'Need larger file support?',
-    sub:      'Pro users get unlimited file sizes — no restrictions.',
+    sub:      'Pro users get files up to 100 MB and batch processing.',
   },
   batch: {
     headline: 'Process more files at once',
@@ -137,7 +137,7 @@ export default function UpgradeBanner({ toolName, trigger = 'idle', show: showPr
 
         {/* Pro pill badges */}
         <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0">
-          {['Unlimited size', 'No ads', 'Batch'].map((feat) => (
+          {['Bigger files', 'No ads', 'Batch'].map((feat) => (
             <span
               key={feat}
               className="text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100 px-2 py-0.5 rounded-full"

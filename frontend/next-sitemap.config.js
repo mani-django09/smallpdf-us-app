@@ -29,6 +29,12 @@ const TOOLS = [
   { en: 'compress-image', de: 'bild-komprimieren',    fr: 'compresser-image',   es: 'comprimir-imagen',   it: 'comprimi-immagine',  id: 'kompres-gambar',  pt: 'comprimir-imagem'  },
   // OCR PDF — same slug in all locales (no translated slug)
   { en: 'ocr-pdf',        de: 'ocr-pdf',              fr: 'ocr-pdf',            es: 'ocr-pdf',            it: 'ocr-pdf',            id: 'ocr-pdf',         pt: 'ocr-pdf'           },
+  // Rotate PDF — same slug in all locales (no translated slug yet)
+  { en: 'rotate-pdf',     de: 'rotate-pdf',           fr: 'rotate-pdf',         es: 'rotate-pdf',         it: 'rotate-pdf',         id: 'rotate-pdf',      pt: 'rotate-pdf'        },
+  // Protect PDF — same slug in all locales (no translated slug yet)
+  { en: 'protect-pdf',    de: 'protect-pdf',          fr: 'protect-pdf',        es: 'protect-pdf',        it: 'protect-pdf',        id: 'protect-pdf',     pt: 'protect-pdf'       },
+  // Redact PDF — same slug in all locales (no translated slug yet)
+  { en: 'redact-pdf',     de: 'redact-pdf',           fr: 'redact-pdf',         es: 'redact-pdf',         it: 'redact-pdf',         id: 'redact-pdf',      pt: 'redact-pdf'        },
 ]
 
 // ── Static pages (non-tool) ───────────────────────────────────────────────────
@@ -39,6 +45,10 @@ const STATIC_PAGES = [
   },
   {
     en: 'pricing', priority: 0.8, changefreq: 'weekly',
+    de: null, fr: null, es: null, it: null, id: null, pt: null,
+  },
+  {
+    en: 'developers', priority: 0.7, changefreq: 'weekly',
     de: null, fr: null, es: null, it: null, id: null, pt: null,
   },
   {
@@ -85,6 +95,8 @@ module.exports = {
   generateRobotsTxt: false,    // robots.txt is managed manually
   trailingSlash:     true,
   outDir:            'public',
+  sitemapSize:       50000,    // max URLs per file before splitting
+  autoLastmod:       true,     // auto-set lastmod to today
 
   // Exclude everything auto-scanned — we control the sitemap via additionalPaths
   exclude: ['*'],

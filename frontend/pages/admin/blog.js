@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
+import { formatISTDate } from "../../lib/adminTime"
 import Layout from "../../components/Layout"
 import { getApiUrl } from "../../lib/getApiUrl"
+import { getPageMessages } from "../../lib/i18nLoader"
 import {
   FileText,
   Upload,
@@ -64,11 +66,22 @@ export default function AdminBlog() {
     }
   }, [formData.title])
 
+  // Admin tokens expire after 12h. Always send the newest one (logging in
+  // again at /admin in another tab refreshes localStorage), and on expiry keep
+  // the editor contents instead of throwing the user out mid-post.
+  const currentToken = () => localStorage.getItem("adminToken") || token
+  const SESSION_EXPIRED = "Session expired. Log in again at /admin in a new tab, then click Save again — your post is kept here."
+
   const fetchPosts = async (authToken) => {
     try {
       const response = await fetch(`${getApiUrl()}/api/blog/admin/posts`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
+      if (response.status === 401) {
+        localStorage.removeItem("adminToken")
+        setIsAuthenticated(false)
+        return
+      }
       const data = await response.json()
       if (data.success) {
         setPosts(data.posts)
@@ -124,15 +137,19 @@ export default function AdminBlog() {
 
       const response = await fetch(url, {
         method: method,
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${currentToken()}` },
         body: formDataToSend,
       })
+      if (response.status === 401) {
+        setMessage({ type: "error", text: SESSION_EXPIRED })
+        return
+      }
 
       const data = await response.json()
 
       if (response.ok) {
         setMessage({ type: "success", text: data.message })
-        fetchPosts(token)
+        fetchPosts(currentToken())
         resetForm()
         setShowEditor(false)
       } else {
@@ -166,14 +183,18 @@ export default function AdminBlog() {
     try {
       const response = await fetch(`${getApiUrl()}/api/blog/delete/${id}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${currentToken()}` },
       })
+      if (response.status === 401) {
+        setMessage({ type: "error", text: SESSION_EXPIRED })
+        return
+      }
 
       const data = await response.json()
 
       if (response.ok) {
         setMessage({ type: "success", text: "Post deleted successfully" })
-        fetchPosts(token)
+        fetchPosts(currentToken())
       } else {
         setMessage({ type: "error", text: data.error })
       }
@@ -510,7 +531,7 @@ export default function AdminBlog() {
                         </td>
                         <td className="px-6 py-4 text-sm text-slate-600">{post.views}</td>
                         <td className="px-6 py-4 text-sm text-slate-600">
-                          {new Date(post.created_at).toLocaleDateString()}
+                          {formatISTDate(post.created_at)}
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
@@ -554,4 +575,9 @@ export default function AdminBlog() {
       </div>
     </Layout>
   )
+}
+
+// Layout (nav/footer) needs the common messages; without this the header shows raw keys.
+export async function getStaticProps({ locale }) {
+  return { props: { messages: getPageMessages(locale, []) } }
 }

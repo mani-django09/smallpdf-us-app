@@ -2,22 +2,22 @@ import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
+import { getPageMessages } from "../../lib/i18nLoader"
 import {
   FileText,
   ArrowLeft,
-  Sparkles,
-  Shield,
-  Zap,
-  Clock,
   Play,
   Trash2,
-  CheckCircle,
-  Table,
   FileSpreadsheet,
 } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import LoadingPromo from "../../components/LoadingPromo"
 import { getApiUrl } from "../../lib/getApiUrl"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import { pdfToExcelStore } from "./index"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 
 // ── i18n translations ──────────────────────────────────────────────────────────
@@ -302,22 +302,20 @@ export default function PreviewPdfToExcel() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
+  const [error, setError] = useState("")
+  const { handleApiError, PremiumGateModal } = useFileSizeGuard("pdf-to-excel")
 
   const routerRef = useRef(router)
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
-    const storedFiles = sessionStorage.getItem("uploadedPdfFilesForExcel")
-
-    if (storedFiles) {
-      try {
-        const parsed = JSON.parse(storedFiles)
-        setFilesData(parsed)
-        setSelectedFiles(parsed.map((f) => f.id))
-      } catch (err) {
-        console.error("Error parsing file data:", err)
-        routerRef.current.push("/pdf-to-excel")
-      }
+    // Files live in memory (pdfToExcelStore) — the old base64-in-sessionStorage
+    // copy overflowed the ~5 MB quota for PDFs over ~3.7 MB, so "Convert" on
+    // the upload page silently did nothing. After a reload the files are gone,
+    // so go back to the upload page instead of showing an unconvertible list.
+    if (pdfToExcelStore.files.length > 0) {
+      setFilesData(pdfToExcelStore.files)
+      setSelectedFiles(pdfToExcelStore.files.map((f) => f.id))
     } else {
       routerRef.current.push("/pdf-to-excel")
     }
@@ -333,7 +331,7 @@ export default function PreviewPdfToExcel() {
     const newFiles = filesData.filter((f) => f.id !== id)
     setFilesData(newFiles)
     setSelectedFiles((prev) => prev.filter((fid) => fid !== id))
-    sessionStorage.setItem("uploadedPdfFilesForExcel", JSON.stringify(newFiles))
+    pdfToExcelStore.files = newFiles
 
     if (newFiles.length === 0) {
       router.push("/pdf-to-excel")
@@ -352,6 +350,7 @@ export default function PreviewPdfToExcel() {
     if (filesToConvert.length === 0) return
 
     setConverting(true)
+    setError("")
     setProgress(0)
     setStage(t.previewStage1)
 
@@ -365,8 +364,9 @@ export default function PreviewPdfToExcel() {
     ]
 
     let currentStage = 0
+    let stopped = false
     const updateProgress = () => {
-      if (currentStage < stages.length) {
+      if (!stopped && currentStage < stages.length) {
         setProgress(stages[currentStage].progress)
         setStage(stages[currentStage].text)
         currentStage++
@@ -379,19 +379,7 @@ export default function PreviewPdfToExcel() {
       const formData = new FormData()
 
       for (const fileData of filesToConvert) {
-        try {
-          const response = await fetch(fileData.data)
-          const blob = await response.blob()
-
-          const file = new File([blob], fileData.name, {
-            type: fileData.type || "application/pdf",
-            lastModified: Date.now(),
-          })
-
-          formData.append("files", file)
-        } catch (fileError) {
-          console.error(`Error processing file ${fileData.name}:`, fileError)
-        }
+        formData.append("files", fileData.file, fileData.name)
       }
 
       const apiUrl = getApiUrl()
@@ -400,12 +388,17 @@ export default function PreviewPdfToExcel() {
         body: formData,
       })
 
-      const result = await convertResponse.json()
-
-      setProgress(100)
-      setStage(t.previewStageComplete)
+      // A proxy error page (413/502) is HTML, not JSON.
+      const result = await convertResponse.json().catch(() => ({}))
+      // Limit modals take over — put the page back so the user can continue.
+      if (handleDailyLimitError(convertResponse.status, result) || handleApiError(convertResponse, result)) {
+        stopped = true; setConverting(false); setProgress(0); setStage(""); return
+      }
 
       if (convertResponse.ok) {
+        stopped = true
+        setProgress(100)
+        setStage(t.previewStageComplete)
         sessionStorage.setItem(
           "pdfToExcelConvertResult",
           JSON.stringify({
@@ -415,28 +408,20 @@ export default function PreviewPdfToExcel() {
           }),
         )
         setTimeout(() => {
-          router.push(`/pdf-to-excel/download?jobId=${result.jobId}`)
+          goToDownload(router, `/pdf-to-excel/download?jobId=${result.jobId}`)
         }, 500)
       } else {
+        // Shown on the page (these used to be English alert() pop-ups).
         console.error("Conversion failed:", result)
-        // Give a clear, actionable message for known failure reasons
-        const code = result?.error || ""
-        let msg = t.conversionFailedAlert + (result.error || "Unknown error")
-        if (code === "FILE_SIZE_LIMIT_EXCEEDED") {
-          msg = `File too large for your current plan (limit: ${result.limitMB} MB). Please upgrade or use a smaller file.`
-        } else if (convertResponse.status === 500) {
-          msg = "Conversion failed — this PDF may be scanned, encrypted, or have an unsupported layout. Try a different file."
-        }
-        alert(msg)
-        setConverting(false)
+        stopped = true
+        setError(result.message || (t.conversionFailedAlert + (result.error || convertResponse.status)))
+        setConverting(false); setProgress(0); setStage("")
       }
     } catch (error) {
       console.error("Error:", error)
-      const msg = error.message?.includes("NetworkError") || error.message?.includes("fetch")
-        ? "Network error — please check your connection and try again."
-        : (t.conversionErrorAlert || "Conversion error: ") + error.message
-      alert(msg)
-      setConverting(false)
+      stopped = true
+      setError((t.conversionErrorAlert || "Conversion error: ") + (error.message || ""))
+      setConverting(false); setProgress(0); setStage("")
     }
   }
 
@@ -595,8 +580,17 @@ export default function PreviewPdfToExcel() {
                         ></div>
                       </div>
                       <p className="font-body text-xs text-slate-500 text-center">{t.previewWaitText}</p>
+                      <div className="flex justify-center">
+                        <LoadingPromo />
+                      </div>
                     </div>
                   ) : (
+                    <>
+                    {error && (
+                      <div role="alert" className="mb-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg p-3">
+                        {error}
+                      </div>
+                    )}
                     <button
                       onClick={handleConvert}
                       disabled={selectedCount === 0}
@@ -613,6 +607,7 @@ export default function PreviewPdfToExcel() {
                           .replace("{plural}", selectedCount !== 1 ? "s" : "")}
                       </span>
                     </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -620,84 +615,35 @@ export default function PreviewPdfToExcel() {
 
             {/* Sidebar */}
             <div className="space-y-6">
-              {/* Conversion Info */}
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h3 className="font-display text-lg font-semibold text-slate-900 mb-4">
-                  {t.previewConversionDetailsTitle}
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between py-3 border-b border-slate-100">
-                    <span className="font-body text-sm text-slate-600">{t.previewInputFormat}</span>
-                    <span className="font-display font-semibold text-red-600">PDF</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-slate-100">
-                    <span className="font-body text-sm text-slate-600">{t.previewOutputFormat}</span>
-                    <span className="font-display font-semibold text-green-600">XLSX</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3 border-b border-slate-100">
-                    <span className="font-body text-sm text-slate-600">{t.previewFilesSelected}</span>
-                    <span className="font-display font-semibold text-slate-900">{selectedCount}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-3">
-                    <span className="font-body text-sm text-slate-600">{t.previewTotalSize}</span>
-                    <span className="font-display font-semibold text-slate-900">{formatFileSize(totalSize)}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div className="bg-white rounded-2xl shadow-lg p-6">
-                <h3 className="font-display text-lg font-semibold text-slate-900 mb-4">
-                  {t.previewWhatYouGetTitle}
-                </h3>
-
-                <div className="space-y-3">
-                  {[
-                    { icon: Table,       text: t.previewWhatYouGet1, color: "text-green-600" },
-                    { icon: CheckCircle, text: t.previewWhatYouGet2, color: "text-blue-600" },
-                    { icon: Sparkles,    text: t.previewWhatYouGet3, color: "text-purple-600" },
-                    { icon: Zap,         text: t.previewWhatYouGet4, color: "text-amber-500" },
-                  ].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <feature.icon className={`w-5 h-5 ${feature.color}`} />
-                      <span className="font-body text-sm text-slate-700">{feature.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Security */}
-              <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white">
-                <div className="flex items-center gap-3 mb-4">
-                  <Shield className="w-8 h-8 text-green-300" />
-                  <h3 className="font-display text-lg font-semibold">{t.previewSecurityTitle}</h3>
-                </div>
-                <ul className="space-y-2">
-                  {[
-                    t.previewSecurity1,
-                    t.previewSecurity2,
-                    t.previewSecurity3,
-                    t.previewSecurity4,
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2 font-body text-sm text-blue-100">
-                      <CheckCircle className="w-4 h-4 text-green-300 flex-shrink-0" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
       </div>
       {DailyLimitGate}
+      {PremiumGateModal}
     </Layout>
   )
+}
+
+// Layout renders nav/login/etc via t('nav.*') / t('layout.*') — those live in
+// common.json, which getPageMessages always loads regardless of the namespace
+// list. Without this, TranslationsProvider gets messages=undefined and every
+// t() call on this page falls back to printing the raw key (e.g. "nav.pricing").
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, []) },
+    revalidate: 86400,
+  }
 }

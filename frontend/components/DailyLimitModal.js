@@ -1,7 +1,7 @@
 // components/DailyLimitModal.js
 // Shown when a free/guest user hits the daily conversion limit.
-// Guest:   "Create a free account for 5/day"
-// Free:    "Upgrade to Pro for unlimited"
+// Guests and free accounts get the same 5 uses/day, so both see the same
+// "Upgrade to Pro for unlimited" message (signing up no longer adds uses).
 
 import Link from "next/link"
 import { Zap, Clock, ArrowRight, X, Flame } from "lucide-react"
@@ -47,20 +47,9 @@ export default function DailyLimitModal({ isOpen, onClose, isGuest = false, limi
 
           {/* Body */}
           <p className="text-sm text-gray-600 leading-relaxed mb-5">
-            {isGuest ? (
-              <>
-                You've used your <span className="font-bold text-gray-900">{limit} free conversions</span> for today.{" "}
-                Create a <span className="font-bold text-gray-900">free account</span> to get{" "}
-                <span className="font-bold text-orange-600">5 conversions/day</span>, or upgrade to{" "}
-                <span className="font-bold text-orange-600">Pro</span> for truly unlimited conversions.
-              </>
-            ) : (
-              <>
-                You've used your <span className="font-bold text-gray-900">{limit} free conversions</span> for today.{" "}
-                Upgrade to <span className="font-bold text-orange-600">Pro</span> for{" "}
-                <span className="font-bold text-gray-900">unlimited</span> conversions with no daily caps.
-              </>
-            )}
+            You've used your <span className="font-bold text-gray-900">{limit} free conversions</span> for today.{" "}
+            Upgrade to <span className="font-bold text-orange-600">Pro</span> for{" "}
+            <span className="font-bold text-gray-900">unlimited</span> conversions with no daily caps.
           </p>
 
           {/* Plan benefits */}
@@ -97,16 +86,6 @@ export default function DailyLimitModal({ isOpen, onClose, isGuest = false, limi
               Upgrade to Pro
               <ArrowRight className="w-4 h-4" />
             </Link>
-
-            {isGuest && (
-              <Link
-                href="/auth/signup"
-                onClick={onClose}
-                className="flex items-center justify-center gap-2 w-full border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-semibold py-2.5 rounded-xl transition-all text-sm hover:bg-gray-50"
-              >
-                Create free account (5/day)
-              </Link>
-            )}
 
             <button
               onClick={onClose}

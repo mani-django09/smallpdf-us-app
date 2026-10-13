@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "PDF OCR Online Kostenlos — Text aus gescanntem PDF extrahieren | SmallPDF.us",
-    "description": "Wandeln Sie gescannte oder bildbasierte PDFs in vollständig durchsuchbare Dokumente um. Unterstützt 100+ Sprachen, gibt durchsuchbares PDF oder Word aus. Keine Installation nötig.",
+    "title": "PDF OCR kostenlos – Text aus Scans extrahieren | SmallPDF.us",
+    "description": "Gescannte oder bildbasierte PDFs in durchsuchbare Dokumente umwandeln. Über 100 Sprachen, Ausgabe als durchsuchbares PDF oder Word. Ohne Installation.",
     "keywords": "OCR PDF, Text aus PDF extrahieren, gescanntes PDF in Text, PDF OCR online, PDF durchsuchbar machen, OCR-Tool kostenlos, PDF Textextraktion, optische Zeichenerkennung PDF"
   },
   "hero": {
@@ -32,8 +32,8 @@
     "sectionSubtitle": "Aufgebaut auf jahrelanger Dokumentenverarbeitungserfahrung wurde unsere OCR-Pipeline von Grund auf für Genauigkeit, Datenschutz und reale Dokumentenvielfalt entwickelt.",
     "items": [
       {
-        "title": "98–99 % Zeichengenauigkeit",
-        "desc": "Mehrstufige Erkennung verarbeitet gemischte Schriften, gedrehte Seiten, beschädigte Scans und mehrspaltige Layouts. Saubere 300-DPI+-Dokumente erreichen konstant nahezu menschliche Genauigkeit."
+        "title": "Hohe Zeichengenauigkeit",
+        "desc": "Mehrstufige Erkennung verarbeitet gemischte Schriften, gedrehte Seiten, beschädigte Scans und mehrspaltige Layouts. Saubere 300-DPI+-Dokumente liefern konstant scharfe, sehr genaue Ergebnisse."
       },
       {
         "title": "100+ Sprachen automatisch erkannt",
@@ -108,6 +108,20 @@
       }
     ]
   },
+  "diveTitle": "Was beim Ausführen von OCR tatsächlich passiert",
+  "diveSubtitle": "Details, die über die Grundlagen hinaus wichtig werden.",
+  "dive1Title": "Erkennung von nativem vs. gescanntem Text",
+  "dive1Desc": "Manche PDFs enthalten bereits auswählbaren, nativen Text — dann ist keine OCR nötig. Unser Tool erkennt und verarbeitet nur gescannte Bilder, lässt Seiten mit bereits vorhandenem digitalem Text unverändert.",
+  "dive2Title": "Was die Erkennungsgenauigkeit beeinflusst",
+  "dive2Desc": "Die OCR-Genauigkeit hängt von der Scanqualität ab: höhere Auflösung (DPI) ist besser, weniger Schräglage der Seite ist besser, höherer Kontrast zwischen Text und Hintergrund ist besser. Scans von niedriger Qualität, niedriger Auflösung oder schräg fotografierte Seiten können zu mehr Erkennungsfehlern führen.",
+  "dive3Title": "Dokumente mit mehreren Sprachen verarbeiten",
+  "dive3Desc": "Sie können Dokumente mit gemischten Sprachen im selben Dokument verarbeiten, aber für die besten Ergebnisse empfehlen wir, die dominierende im Dokument verwendete Sprache anzugeben. Zeichen, die nicht zur angegebenen Sprache passen, werden mit höherer Wahrscheinlichkeit falsch erkannt.",
+  "dive4Title": "Durchsuchbares PDF vs. extrahierte Textdatei",
+  "dive4Desc": "Sie können zwischen zwei Ausgabeformaten wählen: ein durchsuchbares PDF, das eine unsichtbare Textebene über dem ursprünglichen Aussehen legt, oder eine reine Textdatei mit nur dem erkannten Text. Wählen Sie ersteres, um das Dokument zu archivieren, letzteres, um den Text weiterzuverwenden.",
+  "dive5Title": "Einschränkungen bei Handschrift",
+  "dive5Desc": "OCR ist für die Erkennung von gedrucktem Text optimiert. Handschrift, besonders Schreibschrift oder unordentliche Handschrift, ist deutlich weniger genau als gedruckter Text — selbst ordentlich geschriebene Blockschrift kann zu gemischten Ergebnissen führen.",
+  "dive6Title": "Hinweis zu Tabellen und strukturierten Daten",
+  "dive6Desc": "OCR erkennt Text, bewahrt aber nicht zuverlässig die Zeilen-/Spaltenstruktur von Tabellen. Wenn der Hauptzweck Ihres Dokuments die Extraktion von Tabellendaten ist, eignet sich unser dediziertes Tool PDF zu Excel besser, um die tatsächliche Tabellenstruktur zu rekonstruieren.",
   "faq": {
     "sectionTitle": "Häufig gestellte Fragen",
     "sectionSubtitle": "Alles, was Sie über OCR PDF auf SmallPDF.us wissen müssen",
@@ -122,7 +136,7 @@
       },
       {
         "q": "Wie genau ist die OCR?",
-        "a": "Für saubere, hochauflösende Scans bei 300 DPI oder mehr erreicht unsere Engine routinemäßig 98–99 % Zeichengenauigkeit bei standardmäßigen lateinschriftlichen Dokumenten. Die Genauigkeit variiert naturgemäß mit der Scanqualität: unscharfe, kontrastarme oder stark verzerrte Bilder erzielen niedrigere Werte. Handgeschriebener Text wird teilweise unterstützt, ist aber deutlich schwieriger als gedruckter Text."
+        "a": "Für saubere, hochauflösende Scans bei 300 DPI oder mehr erreicht unsere Engine eine sehr hohe Zeichengenauigkeit bei standardmäßigen lateinschriftlichen Dokumenten. Die Genauigkeit variiert naturgemäß mit der Scanqualität: unscharfe, kontrastarme oder stark verzerrte Bilder erzielen niedrigere Werte. Handgeschriebener Text wird teilweise unterstützt, ist aber deutlich schwieriger als gedruckter Text."
       },
       {
         "q": "Ist mein PDF sicher und privat?",
@@ -156,7 +170,7 @@
   },
   "cta": {
     "heading": "Bereit, Ihr PDF durchsuchbar zu machen?",
-    "subtitle": "Legen Sie ein gescanntes PDF ein und erhalten Sie in Sekunden ein vollständig indiziertes, kopierbares Dokument. Dauerhaft kostenlos, keine Anmeldung erforderlich.",
+    "subtitle": "Legen Sie ein gescanntes PDF ab und erhalten Sie in Sekunden ein durchsuchbares, kopierbares Dokument. Kostenlos starten, einfach zu bedienen.",
     "button": "OCR jetzt starten — Kostenlos"
   },
   "preview": {
@@ -175,7 +189,7 @@
     "receiveProOnly": "Word- und TXT-Export (nur Pro)",
     "runOcrButton": "OCR ausführen — Text extrahieren",
     "securePrivate": "Sicher & privat",
-    "autoDeleted": "Automatisch in 2 Std. gelöscht",
+    "autoDeleted": "Automatisch in 1 Std. gelöscht",
     "pleaseWait": "Bitte warten — schließen Sie diesen Tab nicht",
     "ocrFailed": "OCR fehlgeschlagen",
     "tryAgain": "Erneut versuchen",
@@ -191,7 +205,7 @@
     "sidebarSecurityTitle": "Sicherheit",
     "sidebarSecurityItems": [
       "256-Bit-SSL-Verschlüsselung",
-      "Automatisch in 2 Stunden gelöscht",
+      "Automatisch in 1 Stunde gelöscht",
       "Keine Datenspeicherung oder -verkauf",
       "Jederzeit herunterladen & löschen"
     ],
@@ -237,11 +251,15 @@
     "downloadDocx": "Word (.docx) herunterladen",
     "downloadTxt": "Nur-Text (.txt) herunterladen",
     "secureDownload": "Sicherer Download",
-    "autoDeleted": "Dateien werden in 2 Std. automatisch gelöscht",
+    "autoDeleted": "Dateien werden in 1 Std. automatisch gelöscht",
     "imagePdfTitle": "Gescanntes / bildbasiertes PDF erkannt",
     "imagePdfDesc": "Dieses PDF enthält Bilder statt digitalem Text, daher konnte kein Text automatisch extrahiert werden. Das heruntergeladene PDF enthält eine Erläuterungsseite.",
     "imagePdfUpgrade": "Auf Pro upgraden",
     "imagePdfUpgradeSuffix": "für erweiterten OCR-Engine-Support bei gescannten Dokumenten.",
+    "alreadySearchableTitle": "Ihr PDF enthielt bereits auswählbaren Text",
+    "alreadySearchableDesc": "Keine OCR nötig – der Text lässt sich bereits durchsuchen und kopieren. Ihre Datei ist unverändert.",
+    "noTextTitle": "Es konnte kein Text erkannt werden",
+    "noTextDesc": "Versuchen Sie einen klareren Scan: gerade Seiten, guter Kontrast und mindestens 300 DPI. Handschrift wird nicht unterstützt.",
     "proUpsellTitle": "Mehr aus OCR herausholen?",
     "proUpsellDesc": "Upgraden Sie auf Pro für unbegrenzte Seiten, Batch-OCR, Word- & TXT-Export, 100-MB-Dateien und Prioritätsverarbeitung.",
     "proUpsellLink": "Auf Pro upgraden",

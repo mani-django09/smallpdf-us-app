@@ -1,4 +1,39 @@
 {
+  "imageEdit": {
+    "rotateLeft": "Girar a la izquierda",
+    "rotateRight": "Girar a la derecha",
+    "filter": "Filtro",
+    "none": "Original",
+    "grayscale": "Escala de grises",
+    "sepia": "Sepia",
+    "bright": "Brillante",
+    "contrast": "Contraste",
+    "warm": "Cálido",
+    "cool": "Frío",
+    "invert": "Invertir"
+  },
+  "toolErrors": {
+    "passwordProtected": "\"{name}\" está protegido con una contraseña de apertura. Quítala primero con nuestra herramienta Desbloquear PDF y vuelve a intentarlo.",
+    "alreadyLocked": "\"{name}\" ya tiene una contraseña de apertura. Quítala primero con nuestra herramienta Desbloquear PDF y vuelve a protegerlo.",
+    "corrupt": "No se pudo leer \"{name}\". Es posible que el archivo esté dañado: vuelve a guardarlo o descargarlo.",
+    "unreadableImages": "No se pudo leer: {names}. La imagen puede estar dañada o en un formato no compatible: guárdala como JPG o PNG e inténtalo de nuevo.",
+    "someSkipped": "Tu PDF está listo, pero estas imágenes no se pudieron leer y se omitieron: {names}",
+    "skippedFiles": "Listo, pero estos archivos no se pudieron leer y se omitieron: {names}",
+    "fileTooLarge": "\"{name}\" supera los 100 MB, el máximo por archivo. Comprímelo o divídelo primero."
+  },
+  "extension": {
+    "oneClick": "Usa estas herramientas con un clic —",
+    "addToChrome": "Añadir SmallPDF.us a Chrome",
+    "dismiss": "Cerrar",
+    "freeExtension": "Extensión gratuita",
+    "addChromeShort": "Añadir a Chrome"
+  },
+  "ads": { "label": "Publicidad" },
+  "fileActions": {
+    "print": "Imprimir",
+    "delete": "Eliminar",
+    "deleteConfirm": "¿Eliminar este archivo y empezar de nuevo?"
+  },
   "common": {
     "siteName": "SmallPDF.us",
     "free": "Gratis",
@@ -11,6 +46,9 @@
     "splitPdf": "Dividir PDF",
     "compressPdf": "Comprimir PDF",
     "unlockPdf": "Desbloquear PDF",
+    "rotatePdf": "Rotar PDF",
+    "redactPdf": "Censurar PDF",
+    "editPdf": "Editar PDF",
     "ocrPdf": "OCR PDF",
     "convert": "Convertir",
     "allTools": "Todas las herramientas",
@@ -28,7 +66,18 @@
     "pptToPdf": "PowerPoint a PDF",
     "webpToPng": "WebP a PNG",
     "pngToWebp": "PNG a WebP",
-    "compressImage": "Comprimir imagen"
+    "heicToJpg": "HEIC a JPG",
+    "heicToPng": "HEIC a PNG",
+    "compressImage": "Comprimir imagen",
+    "compressImage50kb": "Comprimir a 50KB",
+    "compressImage100kb": "Comprimir a 100KB",
+    "compressImage20kb": "Comprimir a 20KB",
+    "protectPdf": "Proteger PDF",
+    "groupOrganize": "Organizar",
+    "groupSecure": "Proteger y extraer",
+    "groupToPdf": "A PDF",
+    "groupFromPdf": "Desde PDF",
+    "groupImages": "Imágenes"
   },
   "layout": {
     "logIn": "Iniciar sesión",
@@ -37,7 +86,8 @@
     "logOut": "Cerrar sesión"
   },
   "footer": {
-    "description": "Tu kit de herramientas PDF en línea. Rápido, seguro y 100% gratuito.",
+    "moreFreeTools": "Más herramientas gratuitas",
+    "description": "27 herramientas de PDF e imagen. Rápidas de usar y gratis para empezar: los archivos se eliminan automáticamente en 1 hora.",
     "pdfTools": "Herramientas PDF",
     "convert": "Convertir",
     "company": "Empresa",
@@ -52,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "SmallPDF.us — Herramientas PDF Gratis | Convertir, Comprimir, Combinar PDF",
-      "description": "Herramientas PDF 100% gratuitas. Convierte PDF a Word, JPG, Excel, comprime, divide y combina PDFs en segundos. Sin registro, sin límites.",
+      "title": "Herramientas PDF gratis – convertir, comprimir | SmallPDF.us",
+      "description": "27 herramientas gratis de PDF e imagen: convierte, comprime, combina y divide en segundos. Transferencia cifrada y borrado automático en 1 hora.",
       "keywords": "herramientas pdf gratis, comprimir pdf, convertir pdf, combinar pdf, dividir pdf, pdf a word, pdf a jpg, pdf en línea gratis"
     }
   },
@@ -70,13 +120,36 @@
     "fileType": "Tipo de archivo",
     "fileSize": "Tamaño del archivo",
     "securityNotice": "Aviso de seguridad",
-    "securityText": "Este archivo se eliminará automáticamente de nuestros servidores en 2 horas.",
+    "securityText": "Este archivo se eliminará automáticamente de nuestros servidores en 1 hora.",
     "errorHeading": "Error de descarga",
     "errorMessage": "El archivo no se encontró o ha expirado.",
     "backHome": "Volver al inicio",
     "anotherConversion": "Convertir otro archivo"
   },
   "account": {
+    "files": {
+      "pageTitle": "Mis archivos",
+      "subtitle": "Los archivos que procesas con la sesión iniciada se guardan aquí temporalmente y luego se eliminan automáticamente.",
+      "refresh": "Actualizar",
+      "retention": "Para proteger tu privacidad, los archivos se eliminan automáticamente después de {duration}.",
+      "hour1": "1 hora",
+      "hours24": "24 horas",
+      "hours48": "48 horas",
+      "upgradeText": "Mejora tu plan para conservarlos hasta 48 horas.",
+      "loading": "Cargando tus archivos…",
+      "emptyTitle": "Aún no hay archivos",
+      "emptyDesc": "Procesa un PDF con la sesión iniciada y aparecerá aquí.",
+      "browseTools": "Ver herramientas",
+      "download": "Descargar",
+      "delete": "Eliminar",
+      "deleteConfirm": "¿Eliminar «{name}»? Esta acción no se puede deshacer.",
+      "errorLoad": "No se pudieron cargar tus archivos",
+      "errorDownload": "La descarga falló: es posible que el archivo haya caducado.",
+      "errorDelete": "No se pudo eliminar",
+      "expired": "Caducado",
+      "leftHours": "quedan {h} h {m} min",
+      "leftMinutes": "quedan {m} min"
+    },
     "pageTitle": "Mi cuenta – SmallPDF.us",
     "logOut": "Cerrar sesión",
     "tabProfile": "👤 Perfil",
@@ -104,10 +177,41 @@
     "planBadgeFree": "Gratis",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise",
-    "proFeatures0": "Procesamiento de archivos ilimitado",
-    "proFeatures1": "Sin límites de tamaño de archivo",
-    "proFeatures2": "Soporte prioritario",
-    "proFeatures3": "Procesamiento por lotes",
-    "proFeatures4": "Sin anuncios"
+    "proFeatures": [
+      "Procesamiento de archivos ilimitado",
+      "Archivos de hasta 100 MB",
+      "Soporte prioritario",
+      "Procesamiento por lotes",
+      "Sin anuncios"
+    ]
+  },
+  "navDesc": {
+    "mergePdf": "Unir varios PDF en uno",
+    "splitPdf": "Extraer o dividir páginas",
+    "rotatePdf": "Girar las páginas",
+    "compressPdf": "Reducir el tamaño del PDF",
+    "protectPdf": "Añadir una contraseña",
+    "unlockPdf": "Quitar la contraseña",
+    "redactPdf": "Tachar datos sensibles",
+    "editPdf": "Cubrir y reescribir texto",
+    "ocrPdf": "Extraer texto de escaneos",
+    "wordToPdf": "DOC y DOCX a PDF",
+    "excelToPdf": "XLS y XLSX a PDF",
+    "pptToPdf": "PPT y PPTX a PDF",
+    "jpgToPdf": "Imágenes en un PDF",
+    "pngToPdf": "Imágenes PNG a PDF",
+    "pdfToWord": "DOCX editable",
+    "pdfToExcel": "Extraer tablas a XLSX",
+    "pdfToPpt": "Diapositivas desde el PDF",
+    "pdfToJpg": "Páginas como JPG",
+    "pdfToPng": "Páginas como PNG",
+    "compressImage": "Comprimir JPG, PNG y WebP",
+    "compressImage50kb": "Para fotos de exámenes",
+    "compressImage100kb": "Para fotos de exámenes",
+    "compressImage20kb": "Para firmas digitales",
+    "heicToJpg": "Fotos de iPhone a JPG",
+    "heicToPng": "Fotos de iPhone a PNG",
+    "webpToPng": "Imágenes WebP a PNG",
+    "pngToWebp": "PNG a WebP más ligero"
   }
 }

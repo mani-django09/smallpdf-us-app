@@ -3,12 +3,15 @@ import { mergePdfStore } from "./index"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Layers, GripVertical, Trash2 } from "lucide-react"
+import { FileText, ArrowLeft, Play, Layers, GripVertical, Trash2 } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useAuth } from "../../context/AuthContext"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import { usePdfThumbnail } from "../../hooks/usePdfThumbnail"
 import useDailyLimit from "../../hooks/useDailyLimit"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -22,6 +25,32 @@ const INLINE_T = {
     en: "Total: {size} MB", ja: "合計: {size} MB", de: "Gesamt: {size} MB",
     fr: "Total : {size} Mo", es: "Total: {size} MB", it: "Totale: {size} MB",
     id: "Total: {size} MB", pt: "Total: {size} MB",
+  },
+  errPassword: {
+    en: "\"{name}\" is protected with an open password. Remove it with our Unlock PDF tool first, then merge again.",
+    de: "„{name}“ ist mit einem Öffnungspasswort geschützt. Entfernen Sie es zuerst mit unserem Tool „PDF entsperren“ und führen Sie die Dateien dann erneut zusammen.",
+    fr: "« {name} » est protégé par un mot de passe d'ouverture. Supprimez-le d'abord avec notre outil Déverrouiller un PDF, puis fusionnez à nouveau.",
+    es: "\"{name}\" está protegido con una contraseña de apertura. Quítala primero con nuestra herramienta Desbloquear PDF y vuelve a unir los archivos.",
+    it: "\"{name}\" è protetto da una password di apertura. Rimuovila prima con il nostro strumento Sblocca PDF, poi unisci di nuovo.",
+    id: "\"{name}\" dilindungi kata sandi pembuka. Hapus dulu dengan alat Buka Kunci PDF kami, lalu gabungkan lagi.",
+    pt: "\"{name}\" está protegido por uma senha de abertura. Remova-a primeiro com nossa ferramenta Desbloquear PDF e depois junte novamente.",
+    ja: "「{name}」は開くためのパスワードで保護されています。先に「PDFロック解除」ツールでパスワードを解除してから、もう一度結合してください。",
+  },
+  errCorrupt: {
+    en: "Could not read \"{name}\". The file may be damaged — try re-saving or re-downloading it.",
+    de: "„{name}“ konnte nicht gelesen werden. Die Datei ist möglicherweise beschädigt – speichern oder laden Sie sie erneut herunter.",
+    fr: "Impossible de lire « {name} ». Le fichier est peut-être endommagé : réenregistrez-le ou téléchargez-le à nouveau.",
+    es: "No se pudo leer \"{name}\". Es posible que el archivo esté dañado: vuelve a guardarlo o descargarlo.",
+    it: "Impossibile leggere \"{name}\". Il file potrebbe essere danneggiato: salvalo o scaricalo di nuovo.",
+    id: "Tidak dapat membaca \"{name}\". File mungkin rusak — coba simpan ulang atau unduh ulang.",
+    pt: "Não foi possível ler \"{name}\". O arquivo pode estar danificado — tente salvá-lo ou baixá-lo novamente.",
+    ja: "「{name}」を読み込めませんでした。ファイルが破損している可能性があります。保存し直すか、再度ダウンロードしてください。",
+  },
+  errGeneric: {
+    en: "Merging failed. Please try again in a moment.", de: "Zusammenführen fehlgeschlagen. Bitte versuchen Sie es gleich noch einmal.",
+    fr: "La fusion a échoué. Veuillez réessayer dans un instant.", es: "No se pudo unir. Inténtalo de nuevo en un momento.",
+    it: "Unione non riuscita. Riprova tra un momento.", id: "Penggabungan gagal. Silakan coba lagi sebentar lagi.",
+    pt: "Falha ao juntar. Tente novamente em instantes.", ja: "結合に失敗しました。しばらくしてからもう一度お試しください。",
   },
   loading: {
     en: "Loading...", ja: "読み込み中...", de: "Wird geladen...",
@@ -184,18 +213,18 @@ export default function PreviewMergePDF() {
           errorText = await mergeResponse.text()
         }
         if (handleDailyLimitError(mergeResponse.status, body)) return  // daily limit modal
-        if (body) errorText = JSON.stringify(body)
-        if (errorText.includes('<!DOCTYPE') || errorText.includes('<html')) {
-          throw new Error(`Server error: API returned HTML instead of JSON. Check that backend is running on port 5011`)
-        }
-        throw new Error(`Merge failed: ${mergeResponse.status} - ${errorText}`)
+        console.error('Merge failed:', mergeResponse.status, body || errorText.slice(0, 300))
+        // Show a readable, localized message — this used to dump the raw JSON body.
+        if (body?.error === 'PASSWORD_PROTECTED') throw new Error(ti('errPassword', { name: body.fileName || '' }))
+        if (body?.error === 'CORRUPT_PDF') throw new Error(ti('errCorrupt', { name: body.fileName || '' }))
+        throw new Error(body?.message && mergeResponse.status < 500 ? body.message : ti('errGeneric'))
       }
 
       const contentType = mergeResponse.headers.get("content-type")
       if (!contentType || !contentType.includes("application/json")) {
         const text = await mergeResponse.text()
         console.error('Non-JSON response:', text.substring(0, 200))
-        throw new Error(`Server returned non-JSON response. Check backend server.`)
+        throw new Error(ti('errGeneric'))
       }
 
       const result = await mergeResponse.json()
@@ -223,7 +252,7 @@ export default function PreviewMergePDF() {
       )
       
       setTimeout(() => {
-        router.push(`/merge-pdf/download?file=${encodeURIComponent(absoluteDownloadUrl)}`)
+        goToDownload(router, `/merge-pdf/download?file=${encodeURIComponent(absoluteDownloadUrl)}`)
       }, 500)
     } catch (error) {
       console.error("❌ Merge error:", error)
@@ -468,52 +497,18 @@ export default function PreviewMergePDF() {
 
             {/* Right Sidebar */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('mergePdf.preview.whatYouGet')}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    { icon: Sparkles, text: t('mergePdf.preview.losslessQuality'), color: "text-violet-600 bg-violet-100" },
-                    { icon: Shield, text: t('mergePdf.preview.secureProcessing'), color: "text-emerald-600 bg-emerald-100" },
-                    { icon: Zap, text: t('mergePdf.preview.fastMerging'), color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock, text: t('mergePdf.preview.autoDelete'), color: "text-blue-600 bg-blue-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                      >
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('mergePdf.preview.mergeProcess')}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t('mergePdf.preview.processStep1'), color: "bg-indigo-600" },
-                    { num: "2", text: t('mergePdf.preview.processStep2'), color: "bg-purple-600" },
-                    { num: "3", text: t('mergePdf.preview.processStep3'), color: "bg-emerald-600" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
-              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+              <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -521,4 +516,11 @@ export default function PreviewMergePDF() {
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["mergePdf"]) },
+    revalidate: 86400,
+  }
 }

@@ -1,4 +1,4 @@
-// pages/ocr-pdf/index.js
+﻿// pages/ocr-pdf/index.js
 // OCR PDF — Extract searchable text from scanned/image-based PDFs.
 // Free: 10 MB · 2 pages · 1 OCR/day · Standard speed
 // Pro : 100 MB+ · Unlimited pages · Batch OCR · Word/TXT export · Priority queue
@@ -7,6 +7,7 @@ import { useState, useCallback } from "react"
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield,
@@ -18,6 +19,7 @@ import { useBatchGuard } from "../../hooks/useBatchGuard"
 import { useAuth } from "../../context/AuthContext"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 
 // ── In-memory file store — survives client-side Next.js navigation ────────────
 export const ocrPdfStore = {
@@ -39,7 +41,7 @@ export default function OcrPdf() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [openFaq,      setOpenFaq]      = useState(null)
 
-  const isPro = user?.plan === "pro" || user?.plan === "enterprise"
+  const isPro = ["starter", "pro", "agency", "enterprise"].includes(user?.plan)
 
   const handleDrag = useCallback((e) => {
     e.preventDefault()
@@ -91,6 +93,15 @@ export default function OcrPdf() {
         a: t(`ocrPdf.faq.items.${i}.a`),
       }))
 
+  // HowTo steps from translations (array, with numeric-index fallback)
+  const howSteps = t("ocrPdf.howItWorks.steps")
+  const ocrSteps = Array.isArray(howSteps)
+    ? howSteps
+    : [0, 1, 2].map((i) => ({
+        title: t(`ocrPdf.howItWorks.steps.${i}.title`),
+        desc: t(`ocrPdf.howItWorks.steps.${i}.desc`),
+      }))
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -115,6 +126,17 @@ export default function OcrPdf() {
           acceptedAnswer: { "@type": "Answer", text: f.a },
         })),
       },
+      {
+        "@type": "HowTo",
+        name: t("ocrPdf.howItWorks.sectionTitle"),
+        description: t("ocrPdf.howItWorks.sectionSubtitle"),
+        step: ocrSteps.map((s, i) => ({
+          "@type": "HowToStep",
+          position: i + 1,
+          name: s.title,
+          text: s.desc,
+        })),
+      },
     ],
   }
 
@@ -124,13 +146,20 @@ export default function OcrPdf() {
         title={t("ocrPdf.seo.title")}
         description={t("ocrPdf.seo.description")}
         keywords={t("ocrPdf.seo.keywords")}
+        ogImage="/og-ocr-pdf.jpg"
         structuredData={structuredData}
       />
 
       <Layout>
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+                    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
           .font-body    { font-family: 'DM Sans', sans-serif; }
           @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
           .animate-float { animation: float 3s ease-in-out infinite; }
@@ -153,11 +182,11 @@ export default function OcrPdf() {
         </div>
 
         {/* UPLOAD */}
-        <div className="bg-gradient-to-br from-violet-50 via-slate-50 to-purple-50 py-10 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-violet-50 via-slate-50 to-purple-50 py-10 px-4">
           <div className="absolute top-0 left-10 w-72 h-72 bg-violet-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none" />
           <div className="absolute bottom-0 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 pointer-events-none" />
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-violet-100 p-6">
 
               {isProcessing ? (
@@ -188,18 +217,18 @@ export default function OcrPdf() {
                   onClick={() => document.getElementById("ocr-file-upload").click()}
                 >
                   <input type="file" id="ocr-file-upload" className="hidden" accept=".pdf,application/pdf" multiple onChange={handleFileChange} />
-                  <div className="p-10 text-center">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-violet-600 rounded-2xl mb-4 shadow-lg animate-float">
+                  <div className="p-6 sm:p-10 text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-violet-600 rounded-2xl mb-3 sm:mb-4 shadow-lg animate-float">
                       <ScanText className="w-8 h-8 text-white" />
                     </div>
                     <h2 className="font-display text-xl font-bold text-slate-900 mb-2">
                       {dragActive ? t("ocrPdf.upload.dropActive") : t("ocrPdf.upload.heading")}
                     </h2>
-                    <p className="font-body text-sm text-slate-500 mb-5">{t("ocrPdf.upload.subheading")}</p>
+                    <p className="font-body text-sm text-slate-500 mb-3 sm:mb-5">{t("ocrPdf.upload.subheading")}</p>
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); document.getElementById("ocr-file-upload").click() }}
-                      className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-xl font-bold text-base transition-all shadow-lg hover:shadow-violet-300/50 hover:scale-105"
+                      className="inline-flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base transition-all shadow-lg hover:shadow-violet-300/50 hover:scale-105"
                     >
                       <Upload className="w-5 h-5" />
                       {t("ocrPdf.upload.button")}
@@ -303,6 +332,31 @@ export default function OcrPdf() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-14 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("ocrPdf.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("ocrPdf.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("ocrPdf.dive1Title"), t("ocrPdf.dive1Desc")],
+                [t("ocrPdf.dive2Title"), t("ocrPdf.dive2Desc")],
+                [t("ocrPdf.dive3Title"), t("ocrPdf.dive3Desc")],
+                [t("ocrPdf.dive4Title"), t("ocrPdf.dive4Desc")],
+                [t("ocrPdf.dive5Title"), t("ocrPdf.dive5Desc")],
+                [t("ocrPdf.dive6Title"), t("ocrPdf.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ */}
         <div className="bg-white py-14 px-4">
           <div className="max-w-3xl mx-auto">
@@ -369,6 +423,7 @@ export default function OcrPdf() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["ocrPdf"]) },
+    revalidate: 86400,
   }
 }

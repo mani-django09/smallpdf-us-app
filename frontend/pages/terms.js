@@ -1,5 +1,7 @@
 import Layout from "../components/Layout"
+import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
+import { getPageMessages } from '../lib/i18nLoader'
 import { FileText, Shield, AlertCircle, CheckCircle, ChevronRight, Lock, Server, Scale, Mail, CreditCard } from "lucide-react"
 import { useState, useEffect } from "react"
 
@@ -41,7 +43,7 @@ export default function Terms() {
 
   const highlights = [
     { icon: CheckCircle, text: t('terms.highlight1') || "Free to use — no hidden fees",      color: "from-emerald-500 to-green-600",  border: "border-emerald-100" },
-    { icon: Lock,        text: t('terms.highlight2') || "Files deleted within 2 hours",      color: "from-blue-500 to-blue-600",      border: "border-blue-100" },
+    { icon: Lock,        text: t('terms.highlight2') || "Files deleted within 1 hour",      color: "from-blue-500 to-blue-600",      border: "border-blue-100" },
     { icon: Shield,      text: t('terms.highlight3') || "Your content stays yours — always", color: "from-violet-500 to-purple-600",  border: "border-violet-100" },
   ]
 
@@ -50,6 +52,13 @@ export default function Terms() {
       title={t('terms.layoutTitle')}
       description={t('terms.layoutDescription')}
     >
+      {/* Without this the page shipped with no <title>, meta description,
+          canonical or hreflang at all — invisible/ambiguous to search engines. */}
+      <SEOHead
+        title={t('terms.layoutTitle')}
+        description={t('terms.layoutDescription')}
+        keywords="smallpdf terms of service, terms and conditions, usage policy"
+      />
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
 
         {/* ── COMPACT HERO ─────────────────────────────────────────── */}
@@ -69,7 +78,7 @@ export default function Terms() {
               Plain and simple. By using SmallPDF.us you agree to these terms.
             </p>
             <p className="text-slate-400 text-xs max-w-xl mx-auto mt-2">
-              Operated by: <span className="text-slate-300 font-semibold">Manikant Kumar (Individual)</span> — Balahpur, District Lakhisarai, Bihar 811310, India
+              Operated by: <span className="text-slate-300 font-semibold">Manikant Kumar (Individual)</span> — District Lakhisarai, Bihar 811310, India
             </p>
           </div>
         </div>
@@ -237,7 +246,7 @@ export default function Terms() {
                   <div className="mt-4 bg-gray-50 border border-gray-200 rounded-xl p-4">
                     <p className="text-xs font-black text-gray-500 uppercase tracking-wider mb-1">Legal Operator</p>
                     <p className="text-sm font-bold text-gray-900">Manikant Kumar (Individual)</p>
-                    <p className="text-sm text-gray-600">Balahpur, District Lakhisarai, Bihar 811310, India</p>
+                    <p className="text-sm text-gray-600">District Lakhisarai, Bihar 811310, India</p>
                   </div>
                 </section>
 
@@ -330,4 +339,11 @@ function SectionHeading({ num, title, icon: Icon, color, gradient }) {
       <h2 className="text-lg font-black text-gray-900">{title}</h2>
     </div>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["terms"]) },
+    revalidate: 86400,
+  }
 }

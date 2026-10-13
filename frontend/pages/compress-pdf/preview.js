@@ -3,11 +3,14 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from '../../lib/i18n'
-import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle, Minimize2 } from "lucide-react"
+import { getPageMessages } from '../../lib/i18nLoader'
+import { FileText, ArrowLeft, Play, Trash2, CheckCircle, Minimize2 } from "lucide-react"
 import { compressPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import useDailyLimit from "../../hooks/useDailyLimit"
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
 function getApiUrl() {
@@ -17,6 +20,33 @@ function getApiUrl() {
     return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5011'
   }
   return `${protocol}//${hostname}`
+}
+
+// POST with real upload progress (fetch can't report it). XHR bypasses the
+// global fetch wrapper in AuthContext, so the login token is attached here.
+function uploadWithProgress(url, formData, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open("POST", url)
+    try {
+      const token = localStorage.getItem("auth_token")
+      if (token) xhr.setRequestHeader("Authorization", `Bearer ${token}`)
+      // Same browser id the fetch wrapper sends (AuthContext) — XHR bypasses it.
+      const cid = localStorage.getItem("sp_client_id")
+      if (cid) xhr.setRequestHeader("X-Client-Id", cid)
+    } catch (_) {}
+    xhr.upload.onprogress = (e) => { if (e.lengthComputable) onProgress(e.loaded / e.total) }
+    xhr.upload.onload = () => onProgress(1)
+    xhr.onload = () => {
+      let body = null
+      try { body = JSON.parse(xhr.responseText) } catch (_) {}
+      resolve({ status: xhr.status, body })
+    }
+    const fail = () => { const err = new Error("network"); err.network = true; reject(err) }
+    xhr.onerror = fail
+    xhr.ontimeout = fail
+    xhr.send(formData)
+  })
 }
 
 export default function PreviewCompressPdf() {
@@ -30,6 +60,7 @@ export default function PreviewCompressPdf() {
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
   const [compressionLevel, setCompressionLevel] = useState("balanced")
+  const [error, setError] = useState("")
 
   const routerRef = useRef(router)
   useEffect(() => { routerRef.current = router })
@@ -75,27 +106,30 @@ export default function PreviewCompressPdf() {
   if (filesToCompress.length === 0) return
 
   setCompressing(true)
+  setError("")
   setProgress(0)
-  setStage(t('compressPdf.preview.stages.preparing'))
+  setStage(t('compressPdf.preview.stages.uploading'))
 
-  const stages = [
-    { progress: 15, text: t('compressPdf.preview.stages.uploading'), delay: 400 },
-    { progress: 35, text: t('compressPdf.preview.stages.analyzing'), delay: 500 },
-    { progress: 55, text: t('compressPdf.preview.stages.optimizing'), delay: 700 },
-    { progress: 75, text: t('compressPdf.preview.stages.compressing'), delay: 500 },
-    { progress: 90, text: t('compressPdf.preview.stages.finalizing'), delay: 300 },
+  // Upload progress is real (0–70%); after that the server is working, so the
+  // bar creeps towards 95% while the stage text moves through the steps.
+  let creep = null
+  const serverStages = [
+    t('compressPdf.preview.stages.analyzing'),
+    t('compressPdf.preview.stages.optimizing'),
+    t('compressPdf.preview.stages.compressing'),
+    t('compressPdf.preview.stages.finalizing'),
   ]
-
-  let currentStage = 0
-  const updateProgress = () => {
-    if (currentStage < stages.length) {
-      setProgress(stages[currentStage].progress)
-      setStage(stages[currentStage].text)
-      currentStage++
-      setTimeout(updateProgress, stages[currentStage - 1].delay)
-    }
+  const startServerPhase = () => {
+    if (creep) return
+    let p = 70, i = 0
+    setProgress(p); setStage(serverStages[0])
+    creep = setInterval(() => {
+      p = Math.min(95, p + (p < 85 ? 3 : 1))
+      i = Math.min(serverStages.length - 1, Math.floor((p - 70) / 7))
+      setProgress(p); setStage(serverStages[i])
+    }, 800)
   }
-  updateProgress()
+  const stop = () => { if (creep) clearInterval(creep); creep = null }
 
   try {
     const formData = new FormData()
@@ -106,22 +140,26 @@ export default function PreviewCompressPdf() {
     }
     formData.append("level", compressionLevel)
 
-    const API_URL = getApiUrl()
-    const response = await fetch(`${API_URL}/api/compress-pdf-batch`, {
-      method: "POST",
-      body: formData,
+    const { status, body } = await uploadWithProgress(`${getApiUrl()}/api/compress-pdf-batch`, formData, (frac) => {
+      if (frac >= 1) startServerPhase()
+      else setProgress(Math.round(frac * 70))
     })
+    stop()
 
-    if (!response.ok) {
-      let body = null
-      try { body = await response.clone().json() } catch (_) {}
-      if (handleDailyLimitError(response.status, body)) return  // daily limit modal
-      if (handleApiError(response, body)) return                 // file-size modal
-      const errText = body ? JSON.stringify(body) : await response.text()
-      throw new Error(errText || `Server error: ${response.status}`)
+    if (status < 200 || status >= 300) {
+      // Limit modals take over — put the page back so the user can continue.
+      if (handleDailyLimitError(status, body) || handleApiError({ status }, body)) {
+        setCompressing(false); setProgress(0); setStage("")
+        return
+      }
+      if (status === 413) throw new Error(t('compressPdf.preview.errorTooLarge'))
+      if (body?.error === "CORRUPT_PDF") throw new Error(t('compressPdf.preview.errorCorrupt'))
+      // `error` is sometimes a code (FILE_SIZE_LIMIT_EXCEEDED), sometimes a sentence.
+      const readable = body?.message || (typeof body?.error === "string" && /\s/.test(body.error) ? body.error : "")
+      throw new Error(readable || t('compressPdf.preview.errorFailed'))
     }
 
-    const result = await response.json()
+    const result = body
 
     setProgress(100)
     setStage(t('compressPdf.preview.stages.complete'))
@@ -131,16 +169,21 @@ export default function PreviewCompressPdf() {
       JSON.stringify({
         ...result,
         fileCount: filesToCompress.length,
+        fileName: filesToCompress[0]?.name,
         totalOriginalSize: filesToCompress.reduce((acc, f) => acc + f.size, 0),
         compressionLevel,
       }),
     )
     
     setTimeout(() => {
-      router.push(`/compress-pdf/download?jobId=${result.jobId}`)
+      goToDownload(router, `/compress-pdf/download?jobId=${result.jobId}`)
     }, 500)
   } catch (error) {
+    stop()
     console.error("Compression Error:", error)
+    // Previously the spinner just vanished with no message, so people kept
+    // clicking Compress (13 retries in a minute seen in the logs).
+    setError(error?.network ? t('compressPdf.preview.errorNetwork') : (error?.message || t('compressPdf.preview.errorFailed')))
     setCompressing(false)
     setProgress(0)
     setStage("")
@@ -262,7 +305,7 @@ export default function PreviewCompressPdf() {
 
       {/* Main Content */}
       <div className="bg-slate-50 min-h-screen py-6 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Main Card */}
             <div className="lg:col-span-2">
@@ -368,7 +411,8 @@ export default function PreviewCompressPdf() {
                                   e.stopPropagation()
                                   removeFile(f.id)
                                 }}
-                                className="p-1.5 bg-white rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                                aria-label="Remove"
+                                className="p-1.5 bg-white rounded-full shadow-sm opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity"
                               >
                                 <Trash2 className="w-4 h-4 text-red-500" />
                               </button>
@@ -376,6 +420,12 @@ export default function PreviewCompressPdf() {
                           ))}
                         </div>
                       </div>
+
+                      {error && (
+                        <div role="alert" className="mb-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg p-3">
+                          {error}
+                        </div>
+                      )}
 
                       {/* Compress Button */}
                       <button
@@ -439,56 +489,18 @@ export default function PreviewCompressPdf() {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('compressPdf.preview.whatYouGet')}</h3>
-                <div className="space-y-2.5">
-                  {[
-                    {
-                      icon: Sparkles,
-                      text: `${compressionLabels[compressionLevel].reduction} ${t('compressPdf.preview.estSmaller')}`,
-                      color: "text-rose-600 bg-rose-100",
-                    },
-                    { icon: Shield, text: t('compressPdf.preview.secureProcessing'), color: "text-slate-600 bg-slate-100" },
-                    { icon: Zap,    text: t('compressPdf.preview.fastCompression'),  color: "text-amber-600 bg-amber-100" },
-                    { icon: Clock,  text: t('compressPdf.preview.autoDelete'),        color: "text-slate-600 bg-slate-100" },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center ${item.color.split(" ")[1]}`}
-                      >
-                        <item.icon className={`w-3.5 h-3.5 ${item.color.split(" ")[0]}`} />
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{item.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-                <h3 className="font-display text-sm font-semibold text-slate-900 mb-3">{t('compressPdf.preview.compressionSteps')}</h3>
-                <div className="space-y-2">
-                  {[
-                    { num: "1", text: t('compressPdf.preview.step1'), color: "bg-rose-600" },
-                    { num: "2", text: t('compressPdf.preview.step2'), color: "bg-slate-600" },
-                    { num: "3", text: t('compressPdf.preview.step3'), color: "bg-slate-800" },
-                  ].map((step, i) => (
-                    <div key={i} className="flex items-center gap-2.5">
-                      <div
-                        className={`w-5 h-5 ${step.color} rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}
-                      >
-                        {step.num}
-                      </div>
-                      <span className="font-body text-xs text-slate-700">{step.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Sidebar Ad */}
-              <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body">Advertisement</p>
+              <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
                 <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
               </div>
+
+              {/* Sidebar Ad 2 */}
+              <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              </div>
+
             </div>
           </div>
         </div>
@@ -497,4 +509,11 @@ export default function PreviewCompressPdf() {
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["compressPdf"]) },
+    revalidate: 86400,
+  }
 }

@@ -1,12 +1,12 @@
 {
   "seo": {
-    "title": "Convert PDF to Word Free – No Sign Up Required | SmallPDF.us",
+    "title": "Convert PDF to Word Free – Fast & Secure | SmallPDF.us",
     "description": "Convert PDF files to fully editable Word documents (.docx) online for free. Layout, images and formatting preserved. Fast, secure, no software to install."
   },
 
   "heroTitle": "Convert PDF to Word",
   "heroTitleHighlight": "Free & in Seconds",
-  "heroSubtitle": "Turn your PDF files into fully editable Word documents — no quality loss, no account needed. Upload your file and download the result in moments.",
+  "heroSubtitle": "Turn your PDF files into fully editable Word documents — no quality loss. Upload your file and download the result in moments.",
 
   "dropTitle": "Drop your PDF files here",
   "dropActive": "Release now — we've got it!",
@@ -15,7 +15,7 @@
   "pdfFormat": "PDF format only",
   "encryptedTransfer": "SSL encrypted transfer",
   "quickResults": "Results in seconds",
-  "maxSizeNote": "Max file size: 50 MB · Up to 10 files at once",
+  "maxSizeNote": "Max file size: 5 MB free (20 MB on Starter)",
   "yourDocuments": "{{count}} document(s) selected",
   "clearAll": "Clear all",
   "page": "page",
@@ -33,7 +33,7 @@
   "previewTruncated": "Additional pages not shown",
 
   "errorInvalidType": "Please upload PDF files only (.pdf).",
-  "errorMaxSize": "This file is too large. The limit is 50 MB per file.",
+  "errorMaxSize": "This file is too large. The limit is 5 MB per file on the free plan.",
   "errorNoFiles": "Please select at least one PDF file to continue.",
   "errorProcessing": "Something went wrong while processing your files. Please try again.",
   "errorPreviewLoading": "The preview is still loading — hang tight for a moment.",
@@ -58,13 +58,13 @@
   "feature5Desc": "Whether you're on iPhone, Android, or a tablet, our tool runs in any modern browser — no app download, no fuss.",
 
   "feature6Title": "Zero Installation Required",
-  "feature6Desc": "No software to download, no account to create, no credit card needed. Open the site and start converting right now.",
+  "feature6Desc": "No software to download, no credit card needed. Open the site and start converting right now.",
 
   "stepsTitle": "How It Works",
   "stepsSubtitle": "Three simple steps to turn your PDF into an editable Word document",
 
   "step1Title": "Upload Your PDF",
-  "step1Desc": "Drag and drop one or more PDF files into the upload area, or click to browse your device. Up to 10 files at 50 MB each in a single go.",
+  "step1Desc": "Drag and drop your PDF into the upload area, or click to browse your device. Free plan: 1 file up to 5 MB. Starter: up to 10 files at 20 MB each in a single go.",
 
   "step2Title": "Automatic Processing",
   "step2Desc": "Our system identifies text blocks, layout, images, and tables to rebuild a cleanly structured Word document that's ready to edit.",
@@ -72,6 +72,20 @@
   "step3Title": "Download Your Word File",
   "step3Desc": "Your fully editable .docx file is ready in seconds. Open it in Microsoft Word, Google Docs, or LibreOffice — it's all yours.",
 
+  "diveTitle": "What actually happens when you convert to Word",
+  "diveSubtitle": "The details that matter once you go beyond the basics.",
+  "dive1Title": "Does formatting really survive conversion?",
+  "dive1Desc": "Simple documents — paragraphs, headings, basic tables — convert almost perfectly. Complex layouts with overlapping text boxes, unusual font substitutions, or heavy custom design elements sometimes shift slightly, since Word's layout engine and a PDF's fixed layout work differently.",
+  "dive2Title": "Scanned PDFs need OCR first",
+  "dive2Desc": "A scanned PDF is just an image of a page, with no underlying text to extract — converting it directly gives you an empty or image-only document. Our converter automatically runs OCR on scanned pages first, so the resulting Word file has real, editable text instead of a picture.",
+  "dive3Title": "What you can and can't easily edit afterward",
+  "dive3Desc": "Paragraph text, headings, and simple tables become fully editable Word content. Complex graphics, charts embedded as images, and precise pixel-level positioning from design-heavy PDFs often convert as images rather than editable objects — they display correctly but need to be replaced to change.",
+  "dive4Title": "Multi-column layouts and forms",
+  "dive4Desc": "Multi-column text, like a newsletter or academic paper, converts into Word's own column formatting where possible, preserving the visual layout. Interactive PDF form fields convert to their visual appearance, but the fillable functionality doesn't carry over — you'll see the field outlines as regular elements.",
+  "dive5Title": "Fonts your computer doesn't have",
+  "dive5Desc": "If the original PDF uses a font that isn't installed on your system, Word substitutes it with the closest available font when you open the file, which can shift line breaks and spacing slightly. Embedding the font in the PDF beforehand, when possible, gives the most accurate substitution.",
+  "dive6Title": "PDF to Word vs. converting straight to Google Docs",
+  "dive6Desc": "Converting to Word (.docx) first and then uploading to Google Docs generally preserves more formatting than some direct PDF-import features in other tools, since .docx is a format both Word and Docs read natively. It's an extra step, but usually the more reliable path if Docs is your destination.",
   "faqTitle": "Frequently Asked Questions",
   "faqSubtitle": "Everything you need to know about converting PDF to Word",
 
@@ -85,13 +99,13 @@
   "faq3Answer": "Absolutely. All transfers are encrypted via HTTPS/SSL. Your files are never stored permanently or shared with any third party — they're automatically deleted from our servers after one hour.",
 
   "faq4Question": "How many PDF files can I convert at once?",
-  "faq4Answer": "You can upload up to 10 PDF files at a time, each up to 50 MB. Batch conversion is a huge time-saver when you have a stack of documents to process in one go.",
+  "faq4Answer": "On the free plan you convert one PDF at a time, up to 5 MB. Starter unlocks batch conversion — up to 10 files at a time, each up to 20 MB — a huge time-saver when you have a stack of documents to process in one go.",
 
   "faq5Question": "Can I convert the Word file back to PDF afterward?",
   "faq5Answer": "Of course. The downloaded .docx file can be opened and edited in Microsoft Word, Google Docs, or LibreOffice, then exported back to PDF or other formats like ODT or TXT. You have complete control over the document.",
 
   "ctaTitle": "Ready to Edit Your PDFs?",
-  "ctaSubtitle": "Convert your PDF files to Word for free — no account, no software, ready in seconds.",
+  "ctaSubtitle": "Convert your PDF files to Word for free — no software to install, ready in seconds.",
   "ctaButton": "Convert My PDF to Word",
 
   "preview": {
@@ -119,7 +133,7 @@
     "feat1": "Fully editable .docx document",
     "feat2": "Auto-deleted after 1 hour",
     "feat3": "Conversion in under 10 seconds",
-    "feat4": "Free with no sign up",
+    "feat4": "Free and easy to use",
     "conversionProcess": "Conversion steps",
     "step1": "Analyze PDF and detect structure",
     "step2": "Extract text, images and formatting",
@@ -189,7 +203,7 @@
     "downloadWindow": "Download window",
     "autoDeletePrivacy": "Auto-deleted to protect your privacy",
     "timeRemaining": "Time remaining",
-    "autoDeleteNotice": "To protect your privacy, your files will be automatically deleted from our servers in 60 minutes. Make sure to download your document before it expires.",
+    "autoDeleteNotice": "To protect your privacy, your files will be automatically deleted from our servers in 1 hour. Make sure to download your document before it expires.",
     "privacyTitle": "Your Data is Safe",
     "privacySubtitle": "We take your privacy seriously",
     "security1": "Encrypted upload via HTTPS/SSL",

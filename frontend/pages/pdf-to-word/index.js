@@ -1,10 +1,12 @@
-import { useState, useCallback, useEffect, useRef } from "react"
+﻿import { useState, useCallback, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "@/components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "@/components/SEOHead"
 import { Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Trash2, FileType, Eye, X } from "lucide-react"
 import { useTranslations } from "@/lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 
@@ -71,16 +73,13 @@ export default function PdfToWord() {
 
   const validateFile = (file) => {
     const validTypes = ["application/pdf"]
-    const maxSize = 50 * 1024 * 1024
 
     if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith(".pdf")) {
       return { valid: false, error: t("pdfToWord.errorInvalidType") }
     }
 
-    if (file.size > maxSize) {
-      return { valid: false, error: t("pdfToWord.errorMaxSize") }
-    }
-
+    // Size is checked by checkFiles() against the user's real plan — a fixed
+    // 5 MB check here also blocked Starter/Pro users (20 MB / 100 MB).
     return { valid: true }
   }
 
@@ -92,7 +91,7 @@ export default function PdfToWord() {
 
     try {
       const arrayBuffer = await file.arrayBuffer()
-      const loadingTask = pdfjs.getDocument({ data: arrayBuffer })
+      const loadingTask = pdfjs.getDocument({ data: arrayBuffer, isEvalSupported: false /* CVE-2024-4367: no eval of font code from untrusted PDFs */ })
       const pdf = await loadingTask.promise
       const page = await pdf.getPage(1)
 
@@ -190,7 +189,7 @@ export default function PdfToWord() {
 
     try {
       const arrayBuffer = await fileData.file.arrayBuffer()
-      const loadingTask = pdfjs.getDocument({ data: arrayBuffer })
+      const loadingTask = pdfjs.getDocument({ data: arrayBuffer, isEvalSupported: false /* CVE-2024-4367: no eval of font code from untrusted PDFs */ })
       const pdf = await loadingTask.promise
       const pages = []
 
@@ -315,7 +314,7 @@ export default function PdfToWord() {
           "Preserves formatting and images",
           "Batch processing support",
           "Fully editable output",
-          "Free forever",
+          "Free plan available",
         ],
       },
       {
@@ -337,7 +336,7 @@ export default function PdfToWord() {
           {
             "@type": "HowToStep",
             name: "Upload PDF Documents",
-            text: "Select one or more PDF files from your device. You can upload up to 10 documents at once, each up to 50MB.",
+            text: "Select a PDF file from your device. On the free plan you can convert one file at a time, up to 5MB (up to 10 files at 20MB each on Starter).",
             position: 1,
           },
           {
@@ -371,13 +370,17 @@ export default function PdfToWord() {
         title={t("pdfToWord.heroTitle")}
         description={t("pdfToWord.heroSubtitle")}
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+                    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
           .font-body { font-family: 'DM Sans', sans-serif; }
-          @keyframes blob { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(20px, -30px) scale(1.05); } 66% { transform: translate(-15px, 15px) scale(0.95); } }
-          .animate-blob { animation: blob 8s ease-in-out infinite; }
-          .animation-delay-2000 { animation-delay: 2s; }
+
           @keyframes loading-bar { 0% { width: 0%; } 50% { width: 70%; } 100% { width: 100%; } }
           .animate-loading-bar { animation: loading-bar 2s ease-in-out infinite; }
           @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
@@ -459,11 +462,11 @@ export default function PdfToWord() {
         </div>
 
         {/* Upload Section */}
-        <div className="bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50 py-8 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-50 via-slate-100 to-blue-50 py-8 px-4">
           <div className="absolute top-0 left-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-8 right-20 w-64 h-64 bg-slate-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6">
               {isProcessing ? (
                 <div className="py-10 text-center">
@@ -508,7 +511,7 @@ export default function PdfToWord() {
                             key={f.id}
                             className="relative group bg-slate-50 border border-slate-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
                           >
-                            <div className="aspect-[3/4] bg-white relative overflow-hidden">
+                            <div className="aspect-[3/4] bg-white">
                               {f.thumbnail ? (
                                 <img
                                   src={f.thumbnail}
@@ -578,9 +581,9 @@ export default function PdfToWord() {
                         onChange={handleFileChange}
                       />
 
-                      <div className="p-10 text-center">
+                      <div className="p-6 sm:p-10 text-center">
                         <div className="mb-3">
-                          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                             <FileType className="w-8 h-8 text-white animate-bounce-slow" />
                           </div>
                         </div>
@@ -588,14 +591,14 @@ export default function PdfToWord() {
                         <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                           {dragActive ? t("pdfToWord.dropActive") : t("pdfToWord.dropTitle")}
                         </h3>
-                        <p className="font-body text-sm text-slate-500 mb-4">
+                        <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                           {t("pdfToWord.dropSubtitle")}
                         </p>
 
                         <button
                           type="button"
                           onClick={handleButtonClick}
-                          className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                          className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                         >
                           <Upload className="w-5 h-5" />
                           <span>{t("pdfToWord.selectFiles")}</span>
@@ -787,6 +790,31 @@ export default function PdfToWord() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("pdfToWord.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("pdfToWord.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("pdfToWord.dive1Title"), t("pdfToWord.dive1Desc")],
+                [t("pdfToWord.dive2Title"), t("pdfToWord.dive2Desc")],
+                [t("pdfToWord.dive3Title"), t("pdfToWord.dive3Desc")],
+                [t("pdfToWord.dive4Title"), t("pdfToWord.dive4Desc")],
+                [t("pdfToWord.dive5Title"), t("pdfToWord.dive5Desc")],
+                [t("pdfToWord.dive6Title"), t("pdfToWord.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-3xl mx-auto">
@@ -830,7 +858,7 @@ export default function PdfToWord() {
         </div>
 
         {/* CTA Section */}
-        <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-12 px-4 relative overflow-hidden">
+        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 py-12 px-4">
           <div className="absolute inset-0 opacity-10">
             <div
               className="absolute inset-0"
@@ -841,7 +869,7 @@ export default function PdfToWord() {
             ></div>
           </div>
 
-          <div className="max-w-3xl mx-auto text-center relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
               {t("pdfToWord.ctaTitle")}
             </h2>
@@ -867,6 +895,7 @@ export default function PdfToWord() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["pdfToWord"]) },
+    revalidate: 86400,
   }
 }

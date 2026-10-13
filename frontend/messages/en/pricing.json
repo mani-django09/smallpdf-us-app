@@ -1,6 +1,6 @@
 {
   "pageTitle": "Pricing — SmallPDF.us",
-  "metaDescription": "Starter · Pro · Agency — monthly or yearly billing. All PDF tools, unlimited file sizes, no ads.",
+  "metaDescription": "Starter · Pro — monthly or yearly billing. All PDF tools, files up to 100 MB, no ads.",
   "badge": "Simple pricing, no surprises",
   "hero": {
     "title": "Pick the plan that fits you",
@@ -27,11 +27,6 @@
       "cta": "Get Pro",
       "badge": "Most Popular"
     },
-    "agency": {
-      "name": "Agency",
-      "description": "For teams & agencies",
-      "cta": "Get Agency"
-    },
     "free": {
       "name": "Free",
       "description": "For occasional use",
@@ -40,7 +35,7 @@
   },
   "features": {
     "allTools": "All PDF & image tools",
-    "upTo200MB": "Up to 100 MB per file",
+    "upTo200MB": "Up to 100 MB per file (200 MB merge)",
     "officeUpTo50MB": "Office conversions — up to 20 MB",
     "standardProcessing": "Standard processing",
     "retain24h": "Files retained 24 hours",
@@ -49,8 +44,8 @@
     "priorityProcessing": "Priority processing",
     "apiAccess": "API access",
     "everythingInStarter": "Everything in Starter",
-    "unlimitedFileSize": "Unlimited file size — all tools",
-    "officeUnlimited": "Office conversions — unlimited",
+    "unlimitedFileSize": "Files up to 100 MB — all tools",
+    "officeUnlimited": "Office conversions — up to 100 MB",
     "priorityQueue": "Priority processing queue",
     "retain48h": "Files retained 48 hours",
     "batch20": "Up to 20 files per batch",
@@ -63,7 +58,7 @@
     "teamSeats": "Team management (5 seats)",
     "priorityPhoneEmail": "Priority phone & email support",
     "customInvoicing": "Custom invoicing available",
-    "upTo100MB": "Up to 10–20 MB per file",
+    "upTo100MB": "Up to 5–25 MB per file",
     "officeUpTo15MB": "Office conversions — up to 5 MB",
     "retain1h": "Files deleted after 1 hour",
     "adsShown": "Ads shown"
@@ -72,7 +67,7 @@
   "perMonth": "/mo",
   "freeBanner": {
     "title": "Free Plan — always available",
-    "subtitle": "All tools · 10–20 MB limit · 1-hour retention · Ads shown",
+    "subtitle": "5 free uses per day · All tools · 5–25 MB limit · 1-hour retention · Ads shown",
     "signupLink": "Sign up free →"
   },
   "trustBadges": {
@@ -85,6 +80,7 @@
     "title": "Full feature comparison",
     "featureCol": "Feature",
     "rows": {
+      "dailyUses": "Free uses per day",
       "pdfToolSize": "PDF tool file size",
       "officeConversions": "Office conversions",
       "imageTools": "Image tools",
@@ -98,6 +94,7 @@
       "phoneSupport": "Phone support"
     },
     "values": {
+      "fivePerDay": "5 per day",
       "standard": "Standard",
       "priority": "Priority",
       "dedicated": "Dedicated",
@@ -143,20 +140,16 @@
       },
       {
         "q": "Is there a refund policy?",
-        "a": "Yes — if you're not satisfied within 7 days of your first charge, contact us for a full refund. No questions asked."
-      },
-      {
-        "q": "Does the Agency plan support multiple users?",
-        "a": "Yes — Agency includes 5 team seats. Each seat gets its own login with shared billing under one account. Need more? Contact us."
+        "a": "Yes — if you're not satisfied within 14 days of your first charge, contact us for a full refund. No questions asked."
       }
     ]
   },
   "bottomCta": {
     "title": "Ready to upgrade?",
-    "subtitle": "Join thousands of professionals using SmallPDF.us every day. Cancel anytime.",
+    "subtitle": "Join professionals worldwide using SmallPDF.us. Cancel anytime.",
     "proBtnMonthly": "Get Pro — $19/mo",
     "proBtnYearly": "Get Pro — $190/yr",
-    "agencyBtn": "Get Agency — $49/mo"
+    "starterBtn": "Get Starter — $9/mo"
   },
   "notices": {
     "checkoutCancelled": "Checkout cancelled — no charge was made.",

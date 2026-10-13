@@ -3,44 +3,43 @@
 
 import { useState, useEffect } from "react"
 import Layout from "../../components/Layout"
+import UpgradeUpsell from "../../components/UpgradeUpsell"
+import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import {
   Download, CheckCircle2, FileText, ArrowLeft, Shield, Clock,
-  Crown, ArrowRight, RefreshCw, AlertCircle, Zap,
+  Crown, ArrowRight, RefreshCw, AlertCircle, Printer, Trash2, Zap,
 } from "lucide-react"
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
+import { printBlob, printFile } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import RelatedTools from "../../components/RelatedTools"
+import AdLabel from "../../components/AdLabel"
+
 
 export default function OcrPdfDownload() {
   const router = useLocalizedRouter()
   const { user } = useAuth()
+  const { isIndia } = useIsIndia()
   const { t } = useTranslations()
-  const isPro = user?.plan === "pro" || user?.plan === "enterprise"
-
-  const isIndia = useIsIndia()
-  const [mounted, setMounted] = useState(false)
-  const [useCount, setUseCount] = useState(0)
-  const isPaidUser = !!(user?.plan && user.plan !== 'free')
+  const isPro = ["starter", "pro", "agency", "enterprise"].includes(user?.plan)
+  const isPaidUser = ['starter', 'pro', 'agency', 'enterprise'].includes(user?.plan)
 
   const [result, setResult] = useState(null)
   const [downloading, setDownloading] = useState(null)
   const [downloaded, setDownloaded] = useState({})
   const [error, setError] = useState("")
+  const [printing, setPrinting] = useState(false)
+  const [downloadedBlob, setDownloadedBlob] = useState(null)
+  const [mounted, setMounted] = useState(false)
+  const [useCount, setUseCount] = useState(0)
 
   useEffect(() => {
     setMounted(true)
-    try {
-      const count = parseInt(localStorage.getItem('smpdf_use_count') || '0', 10)
-      setUseCount(count)
-    } catch {}
-  }, [])
-
-  useEffect(() => {
     const stored = sessionStorage.getItem("ocrPdfResult")
     if (stored) {
       try { setResult(JSON.parse(stored)) }
@@ -64,6 +63,7 @@ export default function OcrPdfDownload() {
       const res = await fetch(`${API_URL}${urlPath}`)
       if (!res.ok) throw new Error(`Download failed (${res.status})`)
       const blob = await res.blob()
+      if (key === "pdf") setDownloadedBlob(blob)  // reuse the PDF for print
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url
@@ -94,6 +94,32 @@ export default function OcrPdfDownload() {
     router.push("/ocr-pdf")
   }
 
+  const handlePrint = async () => {
+    setPrinting(true)
+    try {
+      if (downloadedBlob) {
+        printBlob(downloadedBlob)
+      } else {
+        const API_URL =
+          typeof window !== "undefined" &&
+          (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+            ? process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011"
+            : `${window.location.protocol}//${window.location.hostname}`
+        await printFile(`${API_URL}${result?.pdfUrl}`)
+      }
+    } catch (err) {
+      console.error("Print error:", err)
+    } finally {
+      setPrinting(false)
+    }
+  }
+
+  const handleDelete = () => {
+    if (!window.confirm(t("fileActions.deleteConfirm"))) return
+    sessionStorage.removeItem("ocrPdfResult")
+    router.push("/ocr-pdf")
+  }
+
   const baseName = result?.originalName?.replace(/\.pdf$/i, "") || "document"
 
   if (!result) {
@@ -113,12 +139,6 @@ export default function OcrPdfDownload() {
   return (
     <>
       <SEOHead title={t("ocrPdf.download.pageTitle")} noIndex={true} />
-      {/* Header Ad */}
-      <div className="bg-slate-50 px-4 pt-6">
-        <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
-        </div>
-      </div>
       <Layout>
         {/* Success header */}
         <div className="bg-gradient-to-r from-violet-600 to-purple-600 relative overflow-hidden">
@@ -134,17 +154,19 @@ export default function OcrPdfDownload() {
               <div>
                 <h1 className="text-xl sm:text-2xl font-bold text-white">{t("ocrPdf.download.successTitle")}</h1>
                 <p className="text-sm text-white/80">
-                  {result.pageCount} {t("ocrPdf.download.pagesProcessed")}
-                  {result.wordCount ? ` · ~${result.wordCount.toLocaleString()} ${t("ocrPdf.download.wordsExtracted")}` : ""}
+                  {t("ocrPdf.download.pagesProcessed", { count: result.pageCount, plural: result.pageCount === 1 ? "" : "s" })}
+                  {result.wordCount ? ` · ${t("ocrPdf.download.wordsExtracted", { count: result.wordCount.toLocaleString() })}` : ""}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
+
         {/* Ad */}
         <div className="bg-slate-50 px-4 pt-6">
           <div className="max-w-3xl mx-auto">
+            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
         </div>
 
@@ -176,6 +198,26 @@ export default function OcrPdfDownload() {
               </div>
             )}
 
+            {result.alreadySearchable && (
+              <div className="mb-6 bg-sky-50 border border-sky-200 rounded-xl p-4 flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-sky-900 text-sm">{t("ocrPdf.download.alreadySearchableTitle")}</p>
+                  <p className="text-xs text-sky-800 mt-1">{t("ocrPdf.download.alreadySearchableDesc")}</p>
+                </div>
+              </div>
+            )}
+
+            {result.alreadySearchable === false && result.ocrPages === 0 && (
+              <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-amber-900 text-sm">{t("ocrPdf.download.noTextTitle")}</p>
+                  <p className="text-xs text-amber-700 mt-1">{t("ocrPdf.download.noTextDesc")}</p>
+                </div>
+              </div>
+            )}
+
             {/* Download card */}
             <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden mb-6">
               <div className="bg-gradient-to-r from-slate-800 to-slate-900 p-5">
@@ -186,11 +228,11 @@ export default function OcrPdfDownload() {
                   <div className="flex-1 min-w-0">
                     <p className="text-base font-semibold text-white truncate">{result.originalName || "document.pdf"}</p>
                     <div className="flex items-center gap-3 text-sm text-slate-400 mt-1">
-                      <span>{result.pageCount} {t("ocrPdf.download.pagesProcessed")}</span>
+                      <span>{t("ocrPdf.download.pagesProcessed", { count: result.pageCount, plural: result.pageCount === 1 ? "" : "s" })}</span>
                       {result.wordCount > 0 && (
                         <>
                           <span className="w-1 h-1 bg-slate-500 rounded-full" />
-                          <span>~{result.wordCount.toLocaleString()} {t("ocrPdf.download.wordsExtracted")}</span>
+                          <span>{t("ocrPdf.download.wordsExtracted", { count: result.wordCount.toLocaleString() })}</span>
                         </>
                       )}
                     </div>
@@ -274,32 +316,39 @@ export default function OcrPdfDownload() {
                   <span className="w-1 h-1 bg-slate-300 rounded-full" />
                   <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-blue-600" /> {t("ocrPdf.download.autoDeleted")}</span>
                 </div>
+
+                {/* Print + Delete actions */}
+                <div className="flex items-center gap-3 mt-4">
+                  <button
+                    onClick={handlePrint}
+                    disabled={printing}
+                    title={t("fileActions.print")}
+                    className="flex-1 py-3 px-4 rounded-xl font-medium text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 text-slate-700 disabled:opacity-60"
+                  >
+                    {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
+                    <span>Print</span>
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    title={t("fileActions.delete")}
+                    className="py-3 px-4 rounded-xl font-medium text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center gap-2 text-red-600"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* ── Inline Upsell Card ── shown to free users after 1st download */}
-            {mounted && !isPaidUser && useCount >= 1 && (
-              <div className="mb-4 rounded-2xl border border-orange-100 bg-gradient-to-br from-orange-50 via-amber-50 to-white p-4 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-md shadow-orange-200">
-                  <Zap className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-slate-800 leading-tight">Unlimited files, bigger uploads, zero ads</p>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    {isIndia ? 'Starter plan · ₹399/mo · UPI · Card · Net Banking' : 'Starter plan · $9/mo · Card · PayPal · Cancel anytime'}
-                  </p>
-                </div>
-                <Link
-                  href="/pricing"
-                  className="flex-shrink-0 inline-flex items-center gap-1.5 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-md shadow-orange-200 whitespace-nowrap"
-                >
-                  <Zap className="w-3.5 h-3.5" />
-                  Upgrade
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
+            {/* Mid-content Ad */}
+            <div className="my-6 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.download.advertisement")}</p>
+              <AdSenseUnit adSlot="ocr-pdf-dl-mid" size="leaderboard" />
+            </div>
 
+            {/* ── Upgrade upsell ── */}
+            <UpgradeUpsell className="mb-4" />
+
+            <EmailCapture className="mt-3" />
             {!isPro && (
               <div className="bg-white border border-violet-200 rounded-2xl p-5 mb-6">
                 <div className="flex items-center gap-2 mb-2">
@@ -323,16 +372,28 @@ export default function OcrPdfDownload() {
               </button>
             </div>
 
-            <div className="hidden lg:block mt-8 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.download.advertisement")}</p>
-              <AdSenseUnit adSlot="7489539676" />
+            {/* Two ads side-by-side so they don't stack into a tall empty gap when unfilled */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.download.advertisement")}</p>
+                <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
+              </div>
+              {/* Sidebar Ad 2 */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-3">
+                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
+                <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" size="rectangle2" /></div>
+              </div>
             </div>
           </div>
         </div>
-  
-      {/* Related Tools — shown after download to encourage next action */}
-      <RelatedTools current="ocr-pdf" />
-    </Layout>
+      </Layout>
     </>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["ocrPdf"]) },
+    revalidate: 86400,
+  }
 }

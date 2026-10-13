@@ -1,6 +1,6 @@
 {
   "pageTitle": "Preços — SmallPDF.us",
-  "metaDescription": "Starter · Pro · Agency — cobrança mensal ou anual. Todas as ferramentas PDF, tamanhos de arquivo ilimitados, sem anúncios.",
+  "metaDescription": "Starter · Pro — cobrança mensal ou anual. Todas as ferramentas de PDF, arquivos de até 100 MB, sem anúncios.",
   "badge": "Preços simples, sem surpresas",
   "hero": {
     "title": "Escolha o plano ideal para você",
@@ -27,11 +27,6 @@
       "cta": "Obter Pro",
       "badge": "Mais Popular"
     },
-    "agency": {
-      "name": "Agency",
-      "description": "Para equipes e agências",
-      "cta": "Obter Agency"
-    },
     "free": {
       "name": "Grátis",
       "description": "Para uso ocasional",
@@ -40,8 +35,8 @@
   },
   "features": {
     "allTools": "Todas as ferramentas PDF e imagem",
-    "upTo200MB": "Até 200 MB por arquivo",
-    "officeUpTo50MB": "Conversões Office — até 50 MB",
+    "upTo200MB": "Até 100 MB por arquivo (200 MB para unir)",
+    "officeUpTo50MB": "Conversões Office — até 20 MB",
     "standardProcessing": "Processamento padrão",
     "retain24h": "Arquivos retidos por 24 horas",
     "adFree": "Experiência sem anúncios",
@@ -49,8 +44,8 @@
     "priorityProcessing": "Processamento prioritário",
     "apiAccess": "Acesso à API",
     "everythingInStarter": "Tudo do Starter",
-    "unlimitedFileSize": "Tamanho de arquivo ilimitado — todas as ferramentas",
-    "officeUnlimited": "Conversões Office — ilimitadas",
+    "unlimitedFileSize": "Arquivos de até 100 MB — todas as ferramentas",
+    "officeUnlimited": "Conversões do Office — até 100 MB",
     "priorityQueue": "Fila de processamento prioritário",
     "retain48h": "Arquivos retidos por 48 horas",
     "batch20": "Até 20 arquivos por lote",
@@ -63,8 +58,8 @@
     "teamSeats": "Gerenciamento de equipe (5 vagas)",
     "priorityPhoneEmail": "Suporte prioritário por telefone e e-mail",
     "customInvoicing": "Faturamento personalizado disponível",
-    "upTo100MB": "Até 100 MB por arquivo",
-    "officeUpTo15MB": "Conversões Office — até 15 MB",
+    "upTo100MB": "Até 5–25 MB por arquivo",
+    "officeUpTo15MB": "Conversões Office — até 5 MB",
     "retain1h": "Arquivos excluídos após 1 hora",
     "adsShown": "Anúncios exibidos"
   },
@@ -72,19 +67,32 @@
   "perMonth": "/mês",
   "freeBanner": {
     "title": "Plano Grátis — sempre disponível",
-    "subtitle": "Todas as ferramentas · Limite de 100 MB · Retenção de 1 hora · Anúncios",
+    "subtitle": "5 usos gratuitos por dia · Todas as ferramentas · Limite de 5–25 MB · Retenção de 1 hora · Anúncios",
     "signupLink": "Cadastre-se grátis →"
   },
   "trustBadges": {
-    "ssl": { "title": "Criptografia SSL", "subtitle": "Todas as transferências protegidas" },
-    "autoDelete": { "title": "Excluído automaticamente", "subtitle": "Arquivos removidos conforme agendado" },
-    "fast": { "title": "Processamento rápido", "subtitle": "Fila prioritária para planos pagos" },
-    "noFees": { "title": "Sem taxas ocultas", "subtitle": "Cancele a qualquer momento, instantaneamente" }
+    "ssl": {
+      "title": "Criptografia SSL",
+      "subtitle": "Todas as transferências protegidas"
+    },
+    "autoDelete": {
+      "title": "Excluído automaticamente",
+      "subtitle": "Arquivos removidos conforme agendado"
+    },
+    "fast": {
+      "title": "Processamento rápido",
+      "subtitle": "Fila prioritária para planos pagos"
+    },
+    "noFees": {
+      "title": "Sem taxas ocultas",
+      "subtitle": "Cancele a qualquer momento, instantaneamente"
+    }
   },
   "compareTable": {
     "title": "Comparação completa de recursos",
     "featureCol": "Recurso",
     "rows": {
+      "dailyUses": "Usos gratuitos por dia",
       "pdfToolSize": "Tamanho do arquivo PDF",
       "officeConversions": "Conversões Office",
       "imageTools": "Ferramentas de imagem",
@@ -98,6 +106,7 @@
       "phoneSupport": "Suporte por telefone"
     },
     "values": {
+      "fivePerDay": "5 por dia",
       "standard": "Padrão",
       "priority": "Prioritário",
       "dedicated": "Dedicado",
@@ -143,7 +152,7 @@
       },
       {
         "q": "Existe uma política de reembolso?",
-        "a": "Sim — se você não estiver satisfeito dentro de 7 dias da sua primeira cobrança, entre em contato conosco para reembolso total. Sem perguntas."
+        "a": "Sim — se você não estiver satisfeito dentro de 14 dias da sua primeira cobrança, entre em contato conosco para reembolso total. Sem perguntas."
       },
       {
         "q": "O plano Agency suporta vários usuários?",
@@ -153,10 +162,10 @@
   },
   "bottomCta": {
     "title": "Pronto para fazer upgrade?",
-    "subtitle": "Junte-se a milhares de profissionais que usam SmallPDF.us todos os dias. Cancele a qualquer momento.",
+    "subtitle": "Junte-se a profissionais do mundo todo que usam o SmallPDF.us. Cancele a qualquer momento.",
     "proBtnMonthly": "Obter Pro — $19/mês",
     "proBtnYearly": "Obter Pro — $190/ano",
-    "agencyBtn": "Obter Agency — $49/mês"
+    "starterBtn": "Obter Starter — $9/mês"
   },
   "notices": {
     "checkoutCancelled": "Checkout cancelado — nenhuma cobrança foi feita.",

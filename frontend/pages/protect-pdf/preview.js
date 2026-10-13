@@ -7,11 +7,14 @@ import SEOHead from "../../components/SEOHead"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import PrivacyNotice from "../../components/PrivacyNotice"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useAuth } from "../../context/AuthContext"
 import { getApiUrl } from "../../lib/getApiUrl"
 import { usePdfThumbnail } from "../../hooks/usePdfThumbnail"
-import { Lock, ArrowLeft, FileText, Eye, EyeOff, ShieldCheck, KeyRound, Shield, Clock } from "lucide-react"
+import { Lock, ArrowLeft, FileText, Eye, EyeOff } from "lucide-react"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { goToDownload } from "../../lib/fullPageNav"
 
 function strength(pw) {
   let s = 0
@@ -82,12 +85,17 @@ export default function ProtectPreview() {
       fd.append("password", password)
       const resp = await authFetch(`${getApiUrl()}/api/protect-pdf`, { method: "POST", body: fd })
       const data = await resp.json()
-      if (!resp.ok || !data.success) throw new Error(data.error || t("protectPdf.errorGeneric"))
+      if (handleDailyLimitError(resp.status, data)) { setProcessing(false); setProgress(0); return }  // daily-limit upgrade modal
+      if (!resp.ok || !data.success) {
+        if (data.error === "PASSWORD_PROTECTED") throw new Error(t("toolErrors.alreadyLocked", { name: data.fileName || protectPdfStore.name }))
+        if (data.error === "CORRUPT_PDF") throw new Error(t("toolErrors.corrupt", { name: data.fileName || protectPdfStore.name }))
+        throw new Error(t("protectPdf.errorGeneric"))
+      }
 
       setProgress(100); setStage(t("protectPdf.preview.stageComplete"))
       const absoluteUrl = data.downloadUrl.startsWith("http") ? data.downloadUrl : `${getApiUrl()}${data.downloadUrl}`
       sessionStorage.setItem("protectResult", JSON.stringify({ downloadUrl: absoluteUrl, convertedName: data.convertedName, pageCount: pageCount }))
-      setTimeout(() => router.push("/protect-pdf/download"), 400)
+      setTimeout(() => goToDownload(router, "/protect-pdf/download"), 400)
     } catch (e) {
       setError(e.message || t("protectPdf.errorGeneric"))
       setProcessing(false); setProgress(0); setStage("")
@@ -106,12 +114,6 @@ export default function ProtectPreview() {
   const sLevel = strength(password)
   const sLabels = [t("protectPdf.strengthWeak"), t("protectPdf.strengthWeak"), t("protectPdf.strengthMedium"), t("protectPdf.strengthStrong")]
   const sColors = ["bg-red-400", "bg-red-400", "bg-amber-400", "bg-emerald-500"]
-  const benefits = [
-    { Icon: ShieldCheck, text: t("protectPdf.preview.benefitEncryption"), c: "text-emerald-600 bg-emerald-100" },
-    { Icon: Shield, text: t("protectPdf.preview.benefitSecure"), c: "text-teal-600 bg-teal-100" },
-    { Icon: KeyRound, text: t("protectPdf.preview.benefitNoStore"), c: "text-violet-600 bg-violet-100" },
-    { Icon: Clock, text: t("protectPdf.preview.benefitAutoDelete"), c: "text-blue-600 bg-blue-100" },
-  ]
 
   return (
     <Layout title={t("protectPdf.preview.pageTitle")} description={t("protectPdf.heroSubtitle")}>
@@ -194,25 +196,27 @@ export default function ProtectPreview() {
           </div>
 
           <div className="lg:col-span-4 space-y-4">
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-              <h3 className="text-sm font-semibold text-slate-900 mb-3">{t("protectPdf.preview.whatYouGet")}</h3>
-              <div className="space-y-2.5">
-                {benefits.map((b, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${b.c.split(" ")[1]}`}><b.Icon className={`w-3.5 h-3.5 ${b.c.split(" ")[0]}`} /></div>
-                    <span className="text-xs text-slate-700">{b.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
               <AdSenseUnit adSlot="1617102171" />
             </div>
+
+            <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+              <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+            </div>
+
           </div>
         </div>
       </div>
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["protectPdf"]) },
+    revalidate: 86400,
+  }
 }

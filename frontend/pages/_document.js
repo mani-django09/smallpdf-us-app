@@ -13,17 +13,27 @@ export default function MyDocument({ locale }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
-        {/* Preconnect AdSense domains for faster ad loading */}
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        {/* Preconnect Ad Manager (AdX / GPT) domains — network currently paused, see _app.js */}
+        <link rel="preconnect" href="https://securepubads.g.doubleclick.net" />
         <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-        
+        <link rel="preconnect" href="https://www.googletagservices.com" />
+        {/* Preconnect Google AdSense */}
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+
+        {/* ========================================
+            GOOGLE ADSENSE — loaded on every page
+        ======================================== */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6913093595582462"
+          crossOrigin="anonymous"
+        ></script>
+
         {/* DNS Prefetch for faster lookups */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
-        <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
 
         {/* ========================================
             FAVICON - COMPLETE SET
@@ -41,7 +51,7 @@ export default function MyDocument({ locale }) {
             THEME & BRANDING
         ======================================== */}
         
-        <meta name="theme-color" content="#DC2626" />
+        {/* theme-color is set per-page in SEOHead.js — msapplication tile only here */}
         <meta name="msapplication-TileColor" content="#DC2626" />
         
         {/* ========================================
@@ -69,9 +79,9 @@ export default function MyDocument({ locale }) {
         {/* ========================================
             SEO IMPROVEMENTS
         ======================================== */}
-        {/* Preconnect to Paddle for faster checkout loading */}
-        <link rel="preconnect" href="https://cdn.paddle.com" />
-        <link rel="preconnect" href="https://checkout-service.paddle.com" />
+        {/* Preconnect to PayPal for faster checkout loading */}
+        <link rel="preconnect" href="https://www.paypal.com" />
+        <link rel="preconnect" href="https://api-m.paypal.com" />
 
       </Head>
       <body>

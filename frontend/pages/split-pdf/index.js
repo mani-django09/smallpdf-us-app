@@ -6,6 +6,7 @@ import RelatedTools from '../../components/RelatedTools'
 import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "@/components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import { Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Trash2, Scissors, Eye, X } from "lucide-react"
@@ -43,15 +44,12 @@ export default function SplitPdf() {
 
   const validateFile = (file) => {
     const validTypes = ["application/pdf"]
-    const maxSize = 50 * 1024 * 1024
 
     if (!validTypes.includes(file.type) && !file.name.toLowerCase().endsWith(".pdf")) {
       return { valid: false, error: t("splitPdf.errorInvalidType") }
     }
 
-    if (file.size > maxSize) {
-      return { valid: false, error: t("splitPdf.errorMaxSize") }
-    }
+    // Size is enforced by useFileSizeGuard (plan-aware); a fixed free-plan cap here blocked paid users.
 
     return { valid: true }
   }
@@ -69,8 +67,13 @@ export default function SplitPdf() {
       })
       
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to analyze PDF")
+        const errorData = await response.json().catch(() => ({}))
+        // Password-protected / damaged files get a specific, localized message.
+        if (errorData.error === "PASSWORD_PROTECTED") setError(t("toolErrors.passwordProtected", { name: uploadedFile.name }))
+        else if (errorData.error === "CORRUPT_PDF") setError(t("toolErrors.corrupt", { name: uploadedFile.name }))
+        else setError(t("splitPdf.errorReadFailed"))
+        setLoadingPages(false)
+        return { handled: true }
       }
       
       const result = await response.json()
@@ -102,7 +105,9 @@ export default function SplitPdf() {
     try {
       const analysis = await analyzePdfWithBackend(newFile)
       
-      if (analysis && analysis.pageCount > 0) {
+      if (analysis && analysis.handled) {
+        // error already shown by analyzePdfWithBackend
+      } else if (analysis && analysis.pageCount > 0) {
         setFile({
           file: newFile,
           id: fileId,
@@ -194,41 +199,32 @@ export default function SplitPdf() {
     setIsProcessing(true)
 
     try {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const fileData = {
-          id: file.id,
+      // Keep the File object itself in memory. The old code base64-encoded the whole
+      // PDF (≈2.3× its size in RAM, then decoded again to upload) — heavy or crashing
+      // for the 100 MB files paid plans allow.
+      splitPdfStore.fileData = {
+        id: file.id,
+        name: file.name,
+        size: file.size,
+        type: file.file.type,
+        file: file.file,
+        pageCount: file.pageCount,
+        selectedPages: selectedPages,
+        pageThumbnails: pages.filter(p => selectedPages.includes(p.pageNumber)),
+      }
+
+      try {
+        sessionStorage.setItem("splitPdfFileMeta", JSON.stringify({
           name: file.name,
           size: file.size,
-          type: file.file.type,
-          data: e.target.result,
           pageCount: file.pageCount,
           selectedPages: selectedPages,
-          pageThumbnails: pages.filter(p => selectedPages.includes(p.pageNumber)),
-        }
+        }))
+      } catch (_) {}
 
-        // Store large base64 data in memory (avoids sessionStorage 5MB quota error)
-        splitPdfStore.fileData = fileData
-
-        // Store only lightweight metadata in sessionStorage as a fallback signal
-        try {
-          sessionStorage.setItem("splitPdfFileMeta", JSON.stringify({
-            name: fileData.name,
-            size: fileData.size,
-            pageCount: fileData.pageCount,
-            selectedPages: fileData.selectedPages,
-          }))
-        } catch (_) {}
-
-        setTimeout(() => {
-          router.push("/split-pdf/preview")
-        }, 600)
-      }
-      reader.onerror = () => {
-        setError(t("splitPdf.errorProcessFailed"))
-        setIsProcessing(false)
-      }
-      reader.readAsDataURL(file.file)
+      setTimeout(() => {
+        router.push("/split-pdf/preview")
+      }, 600)
     } catch (err) {
       console.error("Error processing file:", err)
       setError(t("splitPdf.errorGeneral"))
@@ -285,7 +281,7 @@ export default function SplitPdf() {
           "Preserves original quality",
           "No page limit",
           "Secure encryption",
-          "Free forever"
+          "Free plan available"
         ]
       },
       {
@@ -349,31 +345,14 @@ export default function SplitPdf() {
         </div>
 
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display {
+                    .font-display {
             font-family: 'Plus Jakarta Sans', sans-serif;
           }
           .font-body {
             font-family: 'DM Sans', sans-serif;
           }
-          @keyframes blob {
-            0%,
-            100% {
-              transform: translate(0, 0) scale(1);
-            }
-            33% {
-              transform: translate(20px, -30px) scale(1.05);
-            }
-            66% {
-              transform: translate(-15px, 15px) scale(0.95);
-            }
-          }
-          .animate-blob {
-            animation: blob 8s ease-in-out infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
+          
+
           @keyframes loading-bar {
             0% {
               width: 0%;
@@ -463,11 +442,11 @@ export default function SplitPdf() {
         </div>
 
         {/* Upload Section */}
-        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 py-8 px-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 py-8 px-4">
           <div className="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-8 right-20 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto">
             <div className="bg-white rounded-2xl shadow-xl border border-blue-200 p-6">
               {isProcessing ? (
                 <div className="py-10 text-center">
@@ -555,7 +534,7 @@ export default function SplitPdf() {
                             : "border-blue-200 hover:border-blue-300"
                         }`}
                       >
-                        <div className="aspect-[3/4] bg-white relative overflow-hidden">
+                        <div className="aspect-[3/4] bg-white">
                           {page.thumbnail ? (
                             <img
                               src={page.thumbnail}
@@ -646,9 +625,9 @@ export default function SplitPdf() {
                       onChange={handleFileChange}
                     />
 
-                    <div className="p-10 text-center">
+                    <div className="p-6 sm:p-10 text-center">
                       <div className="mb-3">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
+                        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-2xl mb-2 sm:mb-3 shadow-xl transform hover:scale-110 transition-transform duration-300">
                           <Scissors className="w-8 h-8 text-white animate-bounce-slow" />
                         </div>
                       </div>
@@ -656,14 +635,14 @@ export default function SplitPdf() {
                       <h3 className="font-display text-xl font-bold text-slate-900 mb-2">
                         {dragActive ? t("splitPdf.uploadDropActive") : t("splitPdf.uploadDropIdle")}
                       </h3>
-                      <p className="font-body text-sm text-slate-500 mb-4">
+                      <p className="font-body text-sm text-slate-500 mb-3 sm:mb-4">
                         {t("splitPdf.uploadSubtitle")}
                       </p>
 
                       <button
                         type="button"
                         onClick={handleButtonClick}
-                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-base hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                       >
                         <Upload className="w-5 h-5" />
                         <span>{t("splitPdf.uploadButton")}</span>
@@ -812,6 +791,31 @@ export default function SplitPdf() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t("splitPdf.diveTitle")}</h2>
+              <p className="font-body text-slate-600">{t("splitPdf.diveSubtitle")}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t("splitPdf.dive1Title"), t("splitPdf.dive1Desc")],
+                [t("splitPdf.dive2Title"), t("splitPdf.dive2Desc")],
+                [t("splitPdf.dive3Title"), t("splitPdf.dive3Desc")],
+                [t("splitPdf.dive4Title"), t("splitPdf.dive4Desc")],
+                [t("splitPdf.dive5Title"), t("splitPdf.dive5Desc")],
+                [t("splitPdf.dive6Title"), t("splitPdf.dive6Desc")],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto">
@@ -895,7 +899,7 @@ export default function SplitPdf() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["splitPdf"]) },
     revalidate: 86400,
   }
 }

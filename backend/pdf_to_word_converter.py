@@ -253,6 +253,85 @@ def convert_with_pdfplumber_fallback(pdf_path, docx_path):
     return True
 
 
+# Symbol-font bullets come out of PDFs as Private-Use code points (e.g. U+F0B7
+# in "Symbol"/"OpenSymbol"). Word on Windows/Mac usually lacks OpenSymbol, so
+# they rendered as empty boxes — map them to real Unicode characters.
+PUA_MAP = {
+    "": "•",  # • bullet
+    "": "▪",  # ▪ square bullet
+    "": "➢",  # ➢ arrow bullet
+    "": "❖",  # ❖
+    "": "✓",  # ✓
+    "": "◦",  # ◦
+    "": "■",  # ■
+    "": "→",  # →
+}
+SYMBOL_FONTS = {"opensymbol", "symbol", "wingdings", "wingdings 2", "wingdings 3"}
+# Metric-compatible Linux substitutes (what our server embeds when a PDF was
+# made here) → the Office font a Word user actually has installed.
+FONT_MAP = {
+    "carlito": "Calibri", "caladea": "Cambria",
+    "liberation sans": "Arial", "liberation serif": "Times New Roman",
+    "liberation mono": "Courier New", "liberation sans narrow": "Arial Narrow",
+}
+
+
+def polish_docx(docx_path):
+    """Post-process a converted .docx so it looks right in Microsoft Word."""
+    from docx import Document
+    from docx.oxml.ns import qn
+
+    doc = Document(docx_path)
+    changed = False
+
+    def fix_run(run):
+        nonlocal changed
+        text = run.text or ""
+        if any(ch in PUA_MAP for ch in text):
+            run.text = "".join(PUA_MAP.get(ch, ch) for ch in text)
+            run.font.name = "Arial"
+            changed = True
+        rpr = run._element.rPr
+        fonts = rpr.find(qn("w:rFonts")) if rpr is not None else None
+        if fonts is None:
+            return
+        for attr in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
+            name = fonts.get(qn(attr))
+            if not name:
+                continue
+            base = name.split("+", 1)[-1].replace("-", " ").strip()  # drop subset prefix
+            key = base.lower()
+            for suffix in (" bold", " italic", " regular", " bolditalic"):
+                if key.endswith(suffix):
+                    key = key[: -len(suffix)]
+            if key in FONT_MAP:
+                fonts.set(qn(attr), FONT_MAP[key])
+                changed = True
+            elif key in SYMBOL_FONTS and not any(ord(c) >= 0xF000 for c in text):
+                fonts.set(qn(attr), "Arial")
+                changed = True
+
+    def walk(container):
+        for p in container.paragraphs:
+            for r in p.runs:
+                fix_run(r)
+        for t in container.tables:
+            for row in t.rows:
+                for cell in row.cells:
+                    walk(cell)
+
+    walk(doc)
+    for section in doc.sections:
+        for part in (section.header, section.footer):
+            # Reading .paragraphs of a header that doesn't exist makes
+            # python-docx CREATE an empty one — that pushed the body down and
+            # turned a 2-page document into 4. Only touch real headers/footers.
+            if not part.is_linked_to_previous:
+                walk(part)
+    if changed:
+        doc.save(docx_path)
+
+
 def convert_pdf_to_word(pdf_path, docx_path):
     """
     Main conversion function.
@@ -270,6 +349,10 @@ def convert_pdf_to_word(pdf_path, docx_path):
     try:
         convert_with_pdf2docx(pdf_path, docx_path)
         if os.path.exists(docx_path) and os.path.getsize(docx_path) > 1000:
+            try:
+                polish_docx(docx_path)
+            except Exception as e:  # cosmetic step — never fail the conversion
+                print(f"WARNING: polish_docx skipped ({e})", file=sys.stderr)
             print("SUCCESS:pdf2docx")
             return True
     except ImportError:

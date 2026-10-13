@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 import SEOHead from './SEOHead';
 import Link from 'next/link';
+import { trackToolUsage, trackDownload, trackError } from '../lib/analytics';
 import {
   FileText,
   Upload,
@@ -10,7 +11,6 @@ import {
   Loader,
   Shield,
   Zap,
-  Lock,
   X,
   AlertCircle
 } from 'lucide-react';
@@ -99,10 +99,17 @@ export default function ToolPage({
         body: formData,
       });
       const data = await response.json();
-      if (response.ok) setResult(data);
-      else setError(data.error || 'An error occurred during processing');
+      if (response.ok) {
+        setResult(data);
+        trackToolUsage(title);
+      } else {
+        const errMsg = data.error || 'An error occurred during processing';
+        setError(errMsg);
+        trackError(errMsg, title);
+      }
     } catch (err) {
       setError('Failed to process file. Please check your connection and try again.');
+      trackError(err.message, title);
       console.error('Upload error:', err);
     } finally {
       setLoading(false);
@@ -119,9 +126,17 @@ export default function ToolPage({
   // Structured data — aggregateRating intentionally omitted.
   // It must reflect real verified user reviews. Add it back once you have
   // a genuine review collection mechanism (e.g. a verified reviews widget).
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us';
   const toolStructuredData = {
     "@context": "https://schema.org",
     "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
+          { "@type": "ListItem", "position": 2, "name": title, "item": canonicalUrl || siteUrl }
+        ]
+      },
       {
         "@type": "SoftwareApplication",
         "name": title,
@@ -192,9 +207,11 @@ export default function ToolPage({
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
+                  role="region"
+                  aria-label={`File upload area for ${title}. Drag and drop ${acceptedFormats.join(', ')} files here, or click to browse.`}
                   className={`relative border-2 border-dashed rounded-xl p-8 sm:p-12 text-center transition-all cursor-pointer ${
                     dragActive
-                      ? 'border-red-500 bg-red-50'
+                      ? 'border-red-500 bg-red-50 scale-[1.01]'
                       : 'border-gray-300 hover:border-red-400 hover:bg-gray-50'
                   }`}
                 >
@@ -300,6 +317,7 @@ export default function ToolPage({
                 <a
                   href={`${process.env.NEXT_PUBLIC_API_URL || ''}${result.downloadUrl}`}
                   download
+                  onClick={() => trackDownload(result.downloadUrl || title)}
                   className="flex-1 bg-gradient-to-r from-red-600 to-orange-500 text-white py-4 rounded-xl font-bold hover:shadow-xl hover:shadow-red-500/20 transition-all flex items-center justify-center space-x-2 active:scale-[0.98]"
                 >
                   <Download className="w-5 h-5" aria-hidden="true" />
@@ -404,7 +422,7 @@ export default function ToolPage({
                 <div>
                   <p className="font-semibold text-gray-900 text-sm mb-1">100% Secure</p>
                   <p className="text-xs text-gray-600 leading-relaxed">
-                    256-bit SSL encryption. Files auto-deleted after 2 hours.
+                    256-bit SSL encryption. Files auto-deleted after 1 hour.
                   </p>
                 </div>
               </div>
@@ -417,18 +435,6 @@ export default function ToolPage({
                   <p className="font-semibold text-gray-900 text-sm mb-1">Lightning Fast</p>
                   <p className="text-xs text-gray-600 leading-relaxed">
                     Process files in seconds with optimized servers.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Lock className="w-5 h-5 text-blue-600" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm mb-1">No Registration</p>
-                  <p className="text-xs text-gray-600 leading-relaxed">
-                    Completely free forever. No signup required.
                   </p>
                 </div>
               </div>
@@ -471,11 +477,11 @@ export default function ToolPage({
             <div className="space-y-3 text-xs text-gray-600">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
-                <span>No file limits or paywalls</span>
+                <span>Fast &amp; secure processing</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
-                <span>Files deleted after 2 hours</span>
+                <span>Files deleted after 1 hour</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />

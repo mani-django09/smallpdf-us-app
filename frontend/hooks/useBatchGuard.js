@@ -36,6 +36,7 @@ export const BATCH_LIMITS = {
   'merge-pdf':      { free: 2,  starter: 10, pro: 999, ent: 999 }, // Unlimited
   'split-pdf':      { free: 1,  starter: 10, pro: 10,  ent: 10  },
   'compress-pdf':   { free: 2,  starter: 10, pro: 10,  ent: 10  },
+  'unlock-pdf':     { free: 5,  starter: 10, pro: 20,  ent: 20  },
   'word-to-pdf':    { free: 1,  starter: 10, pro: 10,  ent: 10  },
   'ppt-to-pdf':     { free: 1,  starter: 10, pro: 10,  ent: 10  },
   'excel-to-pdf':   { free: 1,  starter: 10, pro: 10,  ent: 10  },
@@ -48,6 +49,8 @@ export const BATCH_LIMITS = {
   'compress-image': { free: 2,  starter: 10, pro: 20,  ent: 20  },
   'webp-to-png':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
   'png-to-webp':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
+  'heic-to-jpg':    { free: 5,  starter: 10, pro: 20,  ent: 20  },
+  'heic-to-png':    { free: 5,  starter: 10, pro: 20,  ent: 20  },
 }
 
 function getAllowedCount(limits, user) {

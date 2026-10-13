@@ -4,13 +4,42 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { FileText, ArrowLeft, Key, Shield, Zap, Clock, Unlock, Trash2, CheckCircle, Lock, AlertTriangle } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import AdSenseUnit from "../../components/AdSenseUnit"
 import useDailyLimit from '../../hooks/useDailyLimit'
+import AdLabel from "../../components/AdLabel"
+import { unlockPdfStore } from "./index"
+import { goToDownload } from "../../lib/fullPageNav"
+
+// Per-file results from the server (error codes → localized text).
+const INLINE_T = {
+  needsPassword: {
+    en: "This PDF needs its open password. Enter it above and try again.",
+    de: "Diese PDF benötigt ihr Öffnungspasswort. Geben Sie es oben ein und versuchen Sie es erneut.",
+    fr: "Ce PDF nécessite son mot de passe d'ouverture. Saisissez-le ci-dessus et réessayez.",
+    es: "Este PDF necesita su contraseña de apertura. Escríbela arriba e inténtalo de nuevo.",
+    it: "Questo PDF richiede la password di apertura. Inseriscila sopra e riprova.",
+    id: "PDF ini memerlukan kata sandi pembuka. Masukkan di atas lalu coba lagi.",
+    pt: "Este PDF precisa da senha de abertura. Digite-a acima e tente novamente.",
+    ja: "このPDFを開くにはパスワードが必要です。上に入力してもう一度お試しください。",
+  },
+  unreadable: {
+    en: "Could not read this PDF. The file may be damaged.",
+    de: "Diese PDF konnte nicht gelesen werden. Die Datei ist möglicherweise beschädigt.",
+    fr: "Impossible de lire ce PDF. Le fichier est peut-être endommagé.",
+    es: "No se pudo leer este PDF. Es posible que el archivo esté dañado.",
+    it: "Impossibile leggere questo PDF. Il file potrebbe essere danneggiato.",
+    id: "Tidak dapat membaca PDF ini. File mungkin rusak.",
+    pt: "Não foi possível ler este PDF. O arquivo pode estar danificado.",
+    ja: "このPDFを読み込めませんでした。ファイルが破損している可能性があります。",
+  },
+}
 
 export default function PreviewUnlockPdf() {
   const router = useLocalizedRouter()
   const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
+  const ti = (key) => INLINE_T[key]?.[locale] ?? INLINE_T[key]?.en ?? key
   const [filesData, setFilesData] = useState([])
   const [unlocking, setUnlocking] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -25,16 +54,10 @@ export default function PreviewUnlockPdf() {
   useEffect(() => { routerRef.current = router })
 
   useEffect(() => {
-    const storedFiles = sessionStorage.getItem("uploadedUnlockPdfFiles")
-
-    if (storedFiles) {
-      try {
-        const parsed = JSON.parse(storedFiles)
-        setFilesData(parsed)
-      } catch (err) {
-        console.error("Error parsing file data:", err)
-        routerRef.current.push("/unlock-pdf")
-      }
+    // Files come from memory (unlockPdfStore); after a reload they're gone, so
+    // go back to the upload page instead of showing an unprocessable list.
+    if (unlockPdfStore.files.length > 0) {
+      setFilesData(unlockPdfStore.files)
     } else {
       routerRef.current.push("/unlock-pdf")
     }
@@ -54,7 +77,7 @@ export default function PreviewUnlockPdf() {
   const removeFile = (id) => {
     const newFiles = filesData.filter((f) => f.id !== id)
     setFilesData(newFiles)
-    sessionStorage.setItem("uploadedUnlockPdfFiles", JSON.stringify(newFiles))
+    unlockPdfStore.files = newFiles
 
     setPasswords((prev) => {
       const newPasswords = { ...prev }
@@ -102,10 +125,7 @@ export default function PreviewUnlockPdf() {
       const formData = new FormData()
 
       for (const fileData of filesData) {
-        const response = await fetch(fileData.data)
-        const blob = await response.blob()
-        const file = new File([blob], fileData.name, { type: "application/pdf" })
-        formData.append("files", file)
+        formData.append("files", fileData.file, fileData.name)
       }
 
       const passwordData = {}
@@ -135,8 +155,22 @@ export default function PreviewUnlockPdf() {
       if (!response.ok) {
         let _dlBody = null; try { _dlBody = await response.clone().json() } catch (_) {}
         if (handleDailyLimitError(response.status, _dlBody)) return
-        const errorData = await response.json()
-        throw new Error(errorData.error || errorData.details || "Unlock failed")
+        // Per-file reasons → show them under each file's password box.
+        const perFile = {}
+        for (const e of _dlBody?.errors || []) {
+          const fd = filesData.find((x) => x.name === e.filename) || (filesData.length === 1 ? filesData[0] : null)
+          if (!fd) continue
+          perFile[fd.id] = e.code === "WRONG_PASSWORD" ? t("unlockPdf.previewPasswordErrorMsg")
+            : e.code === "NEEDS_PASSWORD" ? ti("needsPassword") : ti("unreadable")
+        }
+        if (Object.keys(perFile).length) {
+          setErrors(perFile)
+          setUnlocking(false)
+          setProgress(0)
+          setStage("")
+          return
+        }
+        throw new Error((_dlBody && (_dlBody.details || _dlBody.error)) || "Unlock failed")
       }
 
       const result = await response.json()
@@ -146,10 +180,10 @@ export default function PreviewUnlockPdf() {
       }
 
       sessionStorage.setItem("unlockPdfResult", JSON.stringify(result))
-      sessionStorage.removeItem("uploadedUnlockPdfFiles")
+      unlockPdfStore.files = []
 
       setTimeout(() => {
-        router.push("/unlock-pdf/download")
+        goToDownload(router, "/unlock-pdf/download")
       }, 800)
     } catch (error) {
       console.error("Unlock error:", error)
@@ -180,12 +214,14 @@ export default function PreviewUnlockPdf() {
     <Layout>
       <SEOHead noIndex={true} />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Header Ad */}
           <div className="mb-6">
             <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
 
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 items-start">
+          <div className="min-w-0">
           {/* Header */}
           <div className="mb-6">
             <button
@@ -349,47 +385,31 @@ export default function PreviewUnlockPdf() {
             </div>
           </div>
 
-          {/* Info Boxes */}
-          <div className="grid md:grid-cols-3 gap-4 mt-6">
-            <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <Shield className="w-6 h-6 text-green-600 flex-shrink-0" />
-                <div>
-                  <h4 className="font-bold text-green-900 mb-1">{t("unlockPdf.previewInfoSecureTitle")}</h4>
-                  <p className="text-sm text-green-700">{t("unlockPdf.previewInfoSecureDesc")}</p>
-                </div>
-              </div>
-            </div>
 
-            <div className="bg-amber-50 border-2 border-amber-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <Unlock className="w-6 h-6 text-amber-600 flex-shrink-0" />
-                <div>
-                  <h4 className="font-bold text-amber-900 mb-1">{t("unlockPdf.previewInfoUnlockedTitle")}</h4>
-                  <p className="text-sm text-amber-700">{t("unlockPdf.previewInfoUnlockedDesc")}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
-              <div className="flex items-start gap-3">
-                <CheckCircle className="w-6 h-6 text-blue-600 flex-shrink-0" />
-                <div>
-                  <h4 className="font-bold text-blue-900 mb-1">{t("unlockPdf.previewInfoQualityTitle")}</h4>
-                  <p className="text-sm text-blue-700">{t("unlockPdf.previewInfoQualityDesc")}</p>
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Bottom Ad */}
-          <div className="hidden lg:block mt-6 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">Advertisement</p>
-            <AdSenseUnit adSlot="1617102171" />
+          {/* Sidebar */}
+          <div className="hidden lg:block space-y-4">
+            <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+              <AdSenseUnit adSlot="1617102171" />
+            </div>
+            <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
+              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
+              <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+            </div>
+          </div>
           </div>
         </div>
       </div>
       {DailyLimitGate}
     </Layout>
   )
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: { messages: getPageMessages(locale, ["unlockPdf"]) },
+    revalidate: 86400,
+  }
 }

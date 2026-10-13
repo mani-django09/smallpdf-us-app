@@ -1,8 +1,7 @@
 {
   "heroTitle": "Compress PDF",
   "heroTitleHighlight": "Online Free",
-  "heroSubtitle": "Shrink your PDF files by up to 90% without losing quality. Upload up to 10 files at once — fast, secure, and completely free.",
-
+  "heroSubtitle": "Shrink your PDF files by up to 90% without losing quality. Upload up to 2 files at once on the free plan — fast, secure, and easy to use.",
   "uploadPrompt": "Drop Your PDFs Here",
   "dropActive": "Release to Upload!",
   "dragHint": "Drag and drop your PDF files, or click the button below",
@@ -14,15 +13,12 @@
   "fileLimitMax": "files at once",
   "gettingReady": "Getting Things Ready…",
   "preparingFiles": "Preparing your files for compression",
-
   "unitMB": "MB",
   "unitKB": "KB",
-
   "errorInvalidType": "Please upload a PDF file. Other file types aren't supported.",
-  "errorMaxSize": "File too large. Maximum size is 100MB per file.",
+  "errorMaxSize": "File too large. Maximum size is 20MB per file on the free plan.",
   "errorNoFiles": "Please select at least one PDF file.",
-  "errorTooManyFiles": "You can compress up to 10 files at once.",
-
+  "errorTooManyFiles": "You can compress up to 2 files at once on the free plan.",
   "featuresTitle": "Why Our PDF Compressor Works Better",
   "featuresSubtitle": "No bloated software, no subscriptions. Just upload your PDF and get a smaller file in seconds.",
   "feature1Title": "Smart Image Compression",
@@ -31,16 +27,28 @@
   "feature2Desc": "Choose extreme compression for the smallest file, or balanced mode to keep a great-looking result. Your call.",
   "feature3Title": "Secure & Private",
   "feature3Desc": "Files are encrypted in transit and automatically deleted from our servers within one hour. We never store your documents.",
-
   "stepsTitle": "Compress in Three Steps",
   "stepsSubtitle": "The fastest way to shrink a PDF file.",
   "step1Title": "Upload Your PDFs",
-  "step1Desc": "Select up to 10 PDF files at once. Each can be up to 100MB. Drag and drop or click to browse.",
+  "step1Desc": "Select up to 2 PDF files at once on the free plan, each up to 20MB. Drag and drop or click to browse.",
   "step2Title": "Pick a Compression Level",
   "step2Desc": "Choose Maximum Quality, Balanced, or Extreme Compression. Balanced is the sweet spot for most people.",
   "step3Title": "Download Smaller Files",
   "step3Desc": "Compression takes just a few seconds. Download your optimized PDF files straight away.",
-
+  "diveTitle": "What actually happens when you compress",
+  "diveSubtitle": "The details that matter once you go beyond the basics.",
+  "dive1Title": "Why do PDFs get so large in the first place?",
+  "dive1Desc": "Text and vector graphics take up almost no space — the size is almost always driven by embedded images. A PDF exported from a scanner or a phone photo can easily hit tens of megabytes because each page is a full-resolution image, not compressed text.",
+  "dive2Title": "Lossy vs. lossless — what we actually do",
+  "dive2Desc": "We use lossy compression on embedded images, re-encoding them at a lower quality and resolution, since that's where nearly all the size reduction comes from. Text and vector content are left untouched — they're already compact and compress losslessly by default.",
+  "dive3Title": "Compressing scanned PDFs vs. text PDFs",
+  "dive3Desc": "A scanned PDF, made entirely of images, compresses dramatically — often 70-90% smaller — because there's a lot of image data to optimize. A PDF that's mostly text with a couple of small images has little left to compress, so the reduction will be modest by comparison.",
+  "dive4Title": "When compression won't help much",
+  "dive4Desc": "If a PDF's images were already heavily compressed before being embedded, common with PDFs exported from other online tools, there's not much redundancy left to squeeze out. Re-compressing an already-compressed image mostly just adds generation loss without much size benefit.",
+  "dive5Title": "Does compression affect print quality?",
+  "dive5Desc": "At our standard compression level, the quality loss is tuned to be invisible on screen and in most print output. For documents you plan to print at large sizes or professional quality, it's worth reviewing a page or two before distributing widely.",
+  "dive6Title": "Compressing multiple PDFs at once",
+  "dive6Desc": "You can upload and compress several PDFs in the same batch — each is compressed independently and returned as its own file. Compression ratio varies per file since it depends on each PDF's own image content, not a fixed percentage applied to everything.",
   "faqTitle": "Common Questions",
   "faqSubtitle": "Everything you need to know about compressing PDF files.",
   "faq1Question": "How much can I reduce my PDF file size?",
@@ -48,24 +56,21 @@
   "faq2Question": "Will the compressed PDF look different?",
   "faq2Answer": "In Balanced mode, the difference is barely noticeable — text stays crisp and images look clean. Extreme mode does reduce image quality slightly, but it's a big size win if that's what you need.",
   "faq3Question": "Can I compress more than one PDF at a time?",
-  "faq3Answer": "Yes — upload up to 10 PDFs at once. We process them all together and give you a zip file to download when there's more than one.",
+  "faq3Answer": "Yes — the free plan lets you compress up to 2 PDFs at once. Upgrade to Starter for up to 10 files per batch, or Pro for unlimited batch processing. We process them all together and give you a zip file to download when there's more than one.",
   "faq4Question": "Is there a file size limit?",
-  "faq4Answer": "Each file can be up to 100MB. If yours is bigger, try splitting it first with our PDF splitter tool, then compress the parts.",
+  "faq4Answer": "On the free plan, each file can be up to 20MB (100MB on Starter). If yours is bigger, try splitting it first with our PDF splitter tool, then compress the parts.",
   "faq5Question": "What happens to my files after compression?",
   "faq5Answer": "Everything is deleted within one hour of processing. Your files are encrypted during the upload and transfer. We don't read them, keep them, or share them.",
-
   "seoTitle": "When You Need to Shrink a PDF",
   "seoP1": "Large PDFs are a pain to email, slow to upload, and eat up storage. Whether it's a scanned document, a presentation packed with images, or a form that's ballooned in size — our compressor handles it without you needing to install anything.",
   "seoP2": "You choose how aggressive the compression is. Maximum Quality mode (20–40% reduction) keeps everything looking sharp. Balanced (40–70%) is the go-to for most files. Extreme (70–90%) gives you the smallest possible file when size matters more than perfect image quality.",
   "seoSubtitle": "Works With Any PDF",
-  "seoP3": "Scanned documents, forms, presentations, ebooks, contracts — if it's a PDF, we can compress it. Our tool works across all devices: desktop, tablet, and phone. No app download, no account needed.",
-
+  "seoP3": "Scanned documents, forms, presentations, ebooks, contracts — if it's a PDF, we can compress it. Our tool works across all devices: desktop, tablet, and phone. No app download required.",
   "ctaTitle": "Compress Your PDF Now",
   "ctaSubtitle": "Free, fast, and private. Drop your files and get smaller PDFs in seconds.",
   "ctaButton": "Start Compressing",
-
   "preview": {
-    "changeFiles": "← Change Files",
+    "changeFiles": "Change Files",
     "readyToCompress": "Ready to Compress",
     "chooseCompressionLevel": "Select a compression level and start",
     "chooseLevel": "Choose Compression Level",
@@ -81,6 +86,10 @@
     "estSmaller": "smaller",
     "estTime": "Est. time",
     "percentComplete": "% complete",
+    "errorFailed": "Compression failed. Please try again.",
+    "errorNetwork": "Upload failed — check your connection and try again. If the file is in iCloud or Google Drive, save it to your device first.",
+    "errorTooLarge": "This file is too large to upload (max 100 MB).",
+    "errorCorrupt": "This PDF looks damaged or isn’t a valid PDF, so it can’t be compressed. Try re-saving or re-downloading it, then upload again.",
     "ready": "Ready",
     "whatYouGet": "What You'll Get",
     "secureProcessing": "256-bit SSL encryption",
@@ -118,7 +127,6 @@
       "complete": "Compression complete!"
     }
   },
-
   "download": {
     "compressionComplete": "Compression Complete!",
     "compressedSuccess": "compressed successfully",
@@ -162,6 +170,12 @@
     "statusComplete": "Complete",
     "fileExpiry": "File Expiry",
     "autoDeleteSecurity": "Auto-deletes for privacy",
-    "timeRemaining": "Time remaining"
-  }
+    "timeRemaining": "Time remaining",
+    "errorExpired": "This file has expired and was deleted for your privacy. Please compress it again.",
+    "alreadyOptimized": "Already optimized",
+    "alreadyOptimizedDesc": "This PDF was already well compressed, so we kept the original to protect its quality.",
+    "savedBytes": "You saved {size}"
+  },
+  "metaTitle": "Compress PDF Free — Reduce Size Up to 90% | SmallPDF.us",
+  "metaDescription": "Compress PDF files free online. Reduce PDF size up to 90% without losing quality. Fast, secure batch PDF compressor — no complicated setup."
 }

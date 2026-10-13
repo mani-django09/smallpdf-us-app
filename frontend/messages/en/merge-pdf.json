@@ -1,31 +1,25 @@
 {
   "errorInvalidType": "Please select PDF files only",
-  "errorMaxSize": "File size must be under 100 MB",
+  "errorMaxSize": "File size must be under 25 MB on the free plan",
   "errorMinFiles": "You need at least 2 PDF files to merge them together",
-  "errorTooManyFiles": "You can merge up to 20 files at once",
+  "errorTooManyFiles": "You can merge up to 2 files at once on the free plan",
   "errorProcessing": "Something went wrong while processing your files. Please try again.",
-
   "seoTitle": "Merge PDF Files Free Online — Combine PDFs | SmallPDF.us",
-  "seoDescription": "Merge multiple PDF files into one online for free. Combine PDFs in seconds — no signup, no watermark. Drag, drop, and download your merged PDF instantly.",
+  "seoDescription": "Merge multiple PDF files into one online for free. Combine PDFs in seconds — easy to use, no watermark. Drag, drop, and download your merged PDF instantly.",
   "heroTitle": "Merge PDF Files",
   "heroTitleHighlight": "Online Free",
-  "heroSubtitle": "Combine multiple PDF documents into one file in seconds. Fast, easy, and completely free — no signup required.",
-
+  "heroSubtitle": "Combine multiple PDF documents into one file in seconds. Fast, easy, and secure.",
   "loadingTitle": "Loading Your Files",
   "loadingSubtitle": "Getting everything ready...",
-
   "dropActive": "Drop Your PDFs Here!",
   "uploadPrompt": "Select PDF Files to Merge",
   "dragHint": "Drag and drop your files here or click to browse",
   "chooseButton": "Choose PDFs",
-
   "badgePdfFormat": "PDF Format",
   "badgeSecure": "Secure",
   "badgeInstant": "Instant",
-
-  "fileLimitHint": "Up to 100 MB per file",
-  "fileLimitMax": "20 files maximum",
-
+  "fileLimitHint": "Up to 25 MB in total (free)",
+  "fileLimitMax": "2 files (free) · 200 MB & 10 on Starter",
   "featuresTitle": "Why Use Our PDF Merger",
   "featuresSubtitle": "Combining PDFs shouldn't be complicated. We made it as simple as possible — no hidden settings, no gotchas.",
   "feature1Title": "Dead Simple to Use",
@@ -38,9 +32,8 @@
   "feature4Desc": "Everything is encrypted in transit. We process on secure servers and delete your files after an hour. Nobody can access your documents except you.",
   "feature5Title": "Works on Everything",
   "feature5Desc": "Phone, tablet, laptop, desktop. Windows, Mac, Android, iPhone. If you've got a browser, you can merge PDFs. No app needed.",
-  "feature6Title": "Actually Free",
-  "feature6Desc": "No trial that expires, no premium features locked away, no hidden charges. This is the whole tool, completely free, forever.",
-
+  "feature6Title": "Free to start",
+  "feature6Desc": "No hidden charges. Access core tools on the free plan, or upgrade for larger files and priority processing.",
   "stepsTitle": "Three Quick Steps",
   "stepsSubtitle": "Merge your PDFs in under a minute",
   "step1Title": "Upload Files",
@@ -49,7 +42,6 @@
   "step2Desc": "Drag the files around to put them in whatever order you want. The merged PDF will match this sequence exactly.",
   "step3Title": "Merge & Download",
   "step3Desc": "Hit the merge button, wait a couple seconds, then download your combined PDF. Done.",
-
   "useCasesTitle": "When You Need to Merge PDFs",
   "useCasesSubtitle": "Instead of sending five separate files, send one clean document. People appreciate it.",
   "workTitle": "Work",
@@ -62,11 +54,24 @@
   "personal2": "Keep all your tax documents and receipts in one organized file",
   "personal3": "Combine travel confirmations and tickets before your trip",
   "personal4": "Put together study materials and notes for easier reference",
-
+  "diveTitle": "What actually happens when you merge",
+  "diveSubtitle": "The details that matter once you go beyond the basics.",
+  "dive1Title": "What order will my pages come out in?",
+  "dive1Desc": "Files merge in the exact order you arrange them before clicking merge — drag any file up or down in the list to reorder it. The page order inside each individual file stays untouched; only the order of the files themselves changes.",
+  "dive2Title": "Merging PDFs with different page sizes",
+  "dive2Desc": "A4, Letter, and custom page sizes can all be merged into one file without any resizing or cropping — each page keeps its original dimensions and orientation. The output simply contains pages of mixed sizes back to back, exactly like the sources.",
+  "dive3Title": "Merging password-protected PDFs",
+  "dive3Desc": "A PDF locked with an open password can't be merged until it's unlocked first, since we can't read pages we can't open. Run it through Unlock PDF, then merge — the merged file itself won't carry over the original password.",
+  "dive4Title": "Merging scanned pages with digital documents",
+  "dive4Desc": "There's no technical difference between merging a scanned page and a digitally created one — both are just pages in a PDF. The only thing that changes is searchability: text in digital pages stays selectable, while scanned pages stay as images unless you run OCR separately.",
+  "dive5Title": "Does the merged file size just add up?",
+  "dive5Desc": "Roughly, yes — the merged PDF is close to the sum of the source files, plus a small amount of overhead for the combined document structure. If the sources share embedded fonts or resources, the merged file can occasionally come out slightly smaller than the raw total.",
+  "dive6Title": "What happens to bookmarks and metadata",
+  "dive6Desc": "Each source file's internal bookmarks are preserved and nested under that file's section in the merged PDF, so navigation still works. Document metadata like title and author isn't merged automatically — the combined file inherits it from whichever source is set as the base.",
   "faqTitle": "Common Questions",
   "faqSubtitle": "Quick answers about merging PDFs",
   "faq1Question": "How many PDFs can I merge at once?",
-  "faq1Answer": "Up to 20 files in one go, and each file can be up to 100 MB. Need to merge more? Just do it in batches — merge 20, then merge those results with the next batch.",
+  "faq1Answer": "On the free plan you can merge up to 2 files at a time, up to 25 MB in total. Starter unlocks 10 files at once, up to 200 MB in total. Need more on the free plan? Merge in batches — combine 2, then merge that result with the next file.",
   "faq2Question": "Will the quality get worse when I combine them?",
   "faq2Answer": "Nope. Everything stays exactly as it was. Text looks the same, images are still sharp, formatting doesn't change. We just stick the files together without messing with the content.",
   "faq3Question": "Can I change the order before merging?",
@@ -75,18 +80,17 @@
   "faq4Answer": "Everything is encrypted when you upload. We process files on secure servers and delete both your originals and the merged file after an hour. Nobody can see your documents.",
   "faq5Question": "Do I need to install anything?",
   "faq5Answer": "No. Works right in your browser on any device. Phone, tablet, laptop, whatever. No downloads, no apps, no software to manage.",
-
   "seoSectionTitle": "Why Merge PDFs Together",
   "seoP1": "Multiple PDF files are a pain to deal with. You've got to send them all separately, keep track of which one is which, and hope the person on the other end opens them in the right order. One merged file solves all of that at once.",
   "seoP2": "Think about sending a project proposal. Without merging, you're attaching the main proposal, then the budget as a separate PDF, then the timeline, then maybe some references. That's four files minimum. With merging? One file. Everything's in order, nothing gets lost, looks way more professional.",
   "seoSubtitle": "Who Uses This",
   "seoP3": "Office workers combine monthly reports. Students merge research papers with citations. Freelancers bundle invoices with contracts. Real estate agents put together listing documents. Lawyers assemble case files. Anyone who deals with multiple PDFs regularly ends up needing to merge them at some point.",
-
   "ctaTitle": "Ready to Merge Your PDFs?",
-  "ctaSubtitle": "Join thousands using SmallPDF.us every day. Fast, free, no signup needed.",
+  "ctaSubtitle": "Join users worldwide who use SmallPDF.us. Fast, free, and easy to use.",
   "ctaButton": "Start Merging Now",
-
   "preview": {
+    "pageDescription": "Put your PDF files in order, then merge them into one document.",
+    "pageTitle": "Merge PDF – Arrange & Combine | SmallPDF.us",
     "changeFiles": "Change Files",
     "reviewOrder": "Review order and merge {n} PDFs",
     "documentOrder": "Document Order",
@@ -117,8 +121,9 @@
       "complete": "Merge complete!"
     }
   },
-
   "download": {
+    "pageDescription": "Your merged PDF is ready to download.",
+    "pageTitle": "Download Merged PDF | SmallPDF.us",
     "loadingFile": "Loading your file...",
     "mergedSuccess": "PDFs Merged Successfully!",
     "filesCombined": "files combined into one document",

@@ -1,9 +1,11 @@
-import { useState, useCallback } from "react"
+﻿import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
+import AdSenseUnit from "../../components/AdSenseUnit"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
+import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
@@ -48,19 +50,19 @@ export default function ExcelToPDF() {
     const validTypes = [
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.ms-excel",
+      "application/vnd.oasis.opendocument.spreadsheet",
+      "text/csv",
     ]
-    const maxSize = 50 * 1024 * 1024
 
-    if (!validTypes.includes(file.type) && !file.name.match(/\.(xlsx|xls)$/i)) {
+    // The server also converts ODS and CSV.
+    if (!validTypes.includes(file.type) && !file.name.match(/\.(xlsx|xls|ods|csv)$/i)) {
       setError(t('excelToPdf.errorInvalidType'))
       return false
     }
 
-    if (file.size > maxSize) {
-      setError(t('excelToPdf.errorMaxSize'))
-      return false
-    }
-
+    // No hard-coded 5 MB check here any more: it blocked paid plans (Starter
+    // allows 20 MB, Pro 100 MB). checkFiles() in handleContinue applies the
+    // user's real plan limit and shows the upgrade modal instead.
     return true
   }
 
@@ -176,7 +178,7 @@ export default function ExcelToPDF() {
           "Preserve all formatting",
           "Multiple sheets supported",
           "Charts and graphs included",
-          "Free forever"
+          "Free plan available"
         ]
       },
       {
@@ -232,32 +234,22 @@ export default function ExcelToPDF() {
         title={t('excelToPdf.uploadTitle')}
         description={t('excelToPdf.uploadSubtitle')}
       >
+        {/* Header Ad */}
+        <div className="bg-white px-4 pt-5">
+          <div className="max-w-4xl mx-auto">
+            <AdSenseUnit size="leaderboard" />
+          </div>
+        </div>
+
         <style jsx global>{`
-          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
-          .font-display {
+                    .font-display {
             font-family: 'Plus Jakarta Sans', sans-serif;
           }
           .font-body {
             font-family: 'DM Sans', sans-serif;
           }
-          @keyframes blob {
-            0%,
-            100% {
-              transform: translate(0, 0) scale(1);
-            }
-            33% {
-              transform: translate(20px, -30px) scale(1.05);
-            }
-            66% {
-              transform: translate(-15px, 15px) scale(0.95);
-            }
-          }
-          .animate-blob {
-            animation: blob 8s ease-in-out infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
+          
+
           @keyframes loading-bar {
             0% {
               width: 0%;
@@ -321,7 +313,7 @@ export default function ExcelToPDF() {
               type="file"
               id="file-upload"
               className="hidden"
-              accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+              accept=".xlsx,.xls,.ods,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.oasis.opendocument.spreadsheet,text/csv"
               multiple
               onChange={handleFileChange}
               disabled={isProcessing}
@@ -510,6 +502,31 @@ export default function ExcelToPDF() {
           </div>
         </div>
 
+        {/* Deep-dive — unique, tool-specific content (not shared boilerplate) */}
+        <div className="bg-slate-50 py-12 px-4 border-t border-slate-100">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-10">
+              <h2 className="font-display text-3xl font-bold text-slate-900 mb-3">{t('excelToPdf.diveTitle')}</h2>
+              <p className="font-body text-slate-600">{t('excelToPdf.diveSubtitle')}</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                [t('excelToPdf.dive1Title'), t('excelToPdf.dive1Desc')],
+                [t('excelToPdf.dive2Title'), t('excelToPdf.dive2Desc')],
+                [t('excelToPdf.dive3Title'), t('excelToPdf.dive3Desc')],
+                [t('excelToPdf.dive4Title'), t('excelToPdf.dive4Desc')],
+                [t('excelToPdf.dive5Title'), t('excelToPdf.dive5Desc')],
+                [t('excelToPdf.dive6Title'), t('excelToPdf.dive6Desc')],
+              ].map(([title, desc], i) => (
+                <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                  <h3 className="font-display text-lg font-bold text-slate-900 mb-2">{title}</h3>
+                  <p className="font-body text-sm text-slate-600 leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* FAQ Section */}
         <div className="bg-white py-12 px-4">
           <div className="max-w-4xl mx-auto">
@@ -601,6 +618,7 @@ export default function ExcelToPDF() {
 
 export async function getStaticProps({ locale }) {
   return {
-    props: {},
+    props: { messages: getPageMessages(locale, ["excelToPdf"]) },
+    revalidate: 86400,
   }
 }
