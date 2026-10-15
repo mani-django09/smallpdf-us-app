@@ -432,7 +432,7 @@ export default function ToolPage({
                   <Zap className="w-5 h-5 text-yellow-600" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-sm mb-1">Lightning Fast</p>
+                  <p className="font-semibold text-gray-900 text-sm mb-1">Fast Processing</p>
                   <p className="text-xs text-gray-600 leading-relaxed">
                     Process files in seconds with optimized servers.
                   </p>

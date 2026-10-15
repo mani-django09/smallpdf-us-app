@@ -71,7 +71,7 @@ const translations = {
     feature2Desc: "Keep cell borders, colors, fonts, and number formats intact after conversion.",
     feature3Title: "OCR Support",
     feature3Desc: "Convert scanned PDFs and images to editable Excel using advanced OCR technology.",
-    feature4Title: "Lightning Fast",
+    feature4Title: "Fast Processing",
     feature4Desc: "Convert large PDF files in seconds with our optimized processing engine.",
     feature5Title: "Bank-Level Security",
     feature5Desc:
@@ -129,7 +129,7 @@ const translations = {
       "Yes! You can upload and convert up to 10 PDF files simultaneously. Each file will be converted to a separate Excel spreadsheet.",
     ctaTitle: "Ready to Convert Your PDF?",
     ctaSubtitle:
-      "Join users worldwide who use SmallPDF.us for fast, accurate PDF to Excel conversion.",
+      "Free for 1 file at a time, up to 5MB. Files are deleted after an hour.",
     ctaButton: "Upload PDF Now",
     ctaNote: "Fast • Secure • Private",
     relatedToolsTitle: "Related PDF Tools",

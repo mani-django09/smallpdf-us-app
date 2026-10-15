@@ -8,7 +8,7 @@
     "title": "OCR PDF —",
     "titleHighlight": "Extract Text",
     "titleSuffix": "from Any Scanned Document",
-    "subtitle": "Transform image-based, scanned, or camera-captured PDFs into fully searchable, copy-pasteable documents. 100+ languages. Zero installs. Results in seconds."
+    "subtitle": "Turn image-based, scanned or camera-captured PDFs into searchable, copy-pasteable documents. 100+ languages, with nothing to install."
   },
   "upload": {
     "dropActive": "Drop your PDF here",
@@ -45,11 +45,11 @@
       },
       {
         "title": "Priority Queue for Pro Users",
-        "desc": "Pro users bypass the standard queue entirely. Single-page OCR jobs complete in under 3 seconds; multi-page batches process pages in parallel for near-instant turnaround."
+        "desc": "Pro users bypass the standard queue entirely. Single-page OCR jobs complete in under 3 seconds, and multi-page batches process pages in parallel."
       },
       {
         "title": "Zero-Knowledge Privacy",
-        "desc": "TLS 1.3 in transit, isolated compute containers per job, auto-deletion within 1 hour (free) or 72 hours (paid). We never read, store, or share your document content."
+        "desc": "TLS 1.3 in transit, isolated compute containers per job, auto-deletion within 1 hour (free) or 72 hours (paid). We do not read or share your document content."
       },
       {
         "title": "Word & TXT Export (Pro)",
@@ -59,11 +59,11 @@
   },
   "howItWorks": {
     "sectionTitle": "How It Works — 3 Simple Steps",
-    "sectionSubtitle": "Upload once, get a fully indexed and accessible PDF in seconds.",
+    "sectionSubtitle": "Upload a scan and download a searchable PDF.",
     "steps": [
       {
         "title": "Upload Your Scanned PDF",
-        "desc": "Drag and drop or click to browse. We accept any PDF — contracts, invoices, books, forms, camera shots. Quick and easy.",
+        "desc": "Drag and drop or click to browse. We accept any PDF, including contracts, invoices, books, forms and camera shots.",
         "badge": "Free: 10 MB · 2 pages"
       },
       {
@@ -109,7 +109,7 @@
     ]
   },
   "diveTitle": "What actually happens during OCR",
-  "diveSubtitle": "The details that matter once you go beyond the basics.",
+  "diveSubtitle": "How OCR reads your scan, and what affects accuracy.",
   "dive1Title": "Native text vs. scanned text — how OCR tells the difference",
   "dive1Desc": "A digitally created PDF already has a text layer, so running OCR on it is unnecessary — the tool detects this and can skip pages that already have selectable text. Scanned pages, which are just images with no text layer, are the ones that actually need OCR processing.",
   "dive2Title": "What affects OCR accuracy",
@@ -124,7 +124,7 @@
   "dive6Desc": "OCR recognizes the text within a table, but doesn't automatically reconstruct it as a structured table — the result is a searchable page where the numbers and labels are findable, not necessarily preserved column-and-row structure. For that, a dedicated PDF-to-Excel conversion is a better fit.",
   "faq": {
     "sectionTitle": "Frequently Asked Questions",
-    "sectionSubtitle": "Everything you need to know about OCR PDF on SmallPDF.us",
+    "sectionSubtitle": "Quick answers on limits, privacy and results.",
     "items": [
       {
         "q": "How does OCR work on a PDF?",
@@ -140,7 +140,7 @@
       },
       {
         "q": "Is my PDF kept private and secure?",
-        "a": "Privacy is fundamental to how we built SmallPDF.us. Every upload travels over TLS 1.3 encryption. Your file is processed in an isolated, single-use compute container that is destroyed immediately after your job completes. Free-plan files are permanently deleted within 1 hour; paid-plan files within 24–72 hours. We never read, index, share, sell, or retain your document content. You can verify our Privacy Policy for full details."
+        "a": "Privacy is fundamental to how we built SmallPDF.us. Every upload travels over TLS 1.3 encryption. Your file is processed in an isolated, single-use compute container that is destroyed immediately after your job completes. Free-plan files are permanently deleted within 1 hour; paid-plan files within 72 hours. We do not read, index, share or sell your document content, and we delete it on the schedule above. You can verify our Privacy Policy for full details."
       },
       {
         "q": "What languages does the OCR support?",
@@ -156,7 +156,7 @@
       },
       {
         "q": "Why is OCR limited to 1 per day on the free plan?",
-        "a": "Optical character recognition is computationally intensive — each page requires significant GPU time for preprocessing and inference. We provide 1 free OCR run per day to keep the service fast and reliable for all users. Upgrade to Pro for unlimited OCR runs, priority queue access, larger file support, and batch processing. Most Pro users see OCR complete 3–5× faster than the free tier."
+        "a": "Optical character recognition is computationally intensive — each page requires significant GPU time for preprocessing and inference. We provide 1 free OCR run per day to keep the service fast and reliable for all users. Upgrade to Pro for unlimited OCR runs, priority queue access, larger file support, and batch processing. Pro jobs run in a priority queue."
       }
     ]
   },
@@ -169,8 +169,8 @@
     "p4": "For optimal results, ensure your source document was scanned at 300 DPI or higher with even, shadow-free lighting. Documents at 150 DPI or below, heavy background textures, or extreme skew may produce lower accuracy. In every case, the original visuals in your PDF remain completely untouched — only the invisible, searchable text layer is added on top."
   },
   "cta": {
-    "heading": "Ready to Make Your PDF Searchable?",
-    "subtitle": "Drop in any scanned PDF and get a fully indexed, copy-pasteable document in seconds. Free to start, easy to use.",
+    "heading": "Make Your PDF Searchable",
+    "subtitle": "Upload a scanned PDF and download a searchable, copy-pasteable document. Free to start.",
     "button": "Start OCR Now — It's Free"
   },
   "preview": {
@@ -218,7 +218,7 @@
     "pageTitle": "OCR Processing — SmallPDF.us",
     "backLink": "Back to OCR PDF",
     "processingTitle": "OCR in Progress…",
-    "standardQueue": "Standard queue — upgrade to Pro for 3–5× faster processing",
+    "standardQueue": "Standard queue. Pro uses a priority queue.",
     "doneTitle": "OCR Complete!",
     "pagesProcessed": "{count} page{plural} processed",
     "wordsExtracted": "~{count} words extracted",
