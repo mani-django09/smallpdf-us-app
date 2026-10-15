@@ -55,7 +55,7 @@
   "faq2Q": "Why are PNG files larger than JPG?",
   "faq2A": "PNG is lossless, so it must store all image data without discarding any. JPG achieves smaller sizes by permanently removing some visual information. For sharing on social media or email, JPG is usually fine. For editing, printing, or archiving, PNG is the better choice.",
   "faq3Q": "Will converting HEIC to PNG lose any quality?",
-  "faq3A": "No. PNG is a lossless format, so the conversion preserves 100% of the original image data. The only change is the container format — your colours, sharpness, and detail remain exactly the same.",
+  "faq3A": "No. PNG is a lossless format, so the conversion adds no further quality loss. Only the container format changes, and your colours, sharpness and detail stay as they were in the decoded image.",
   "faq4Q": "How long are my files kept on the server?",
   "faq4A": "Your uploaded HEIC files and converted PNGs are automatically deleted within 1 hour. Once you close the download page, they're gone — we don't keep any copies.",
   "faq5Q": "Is this converter free for commercial use?",

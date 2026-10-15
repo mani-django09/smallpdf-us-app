@@ -84,7 +84,7 @@
   "faq2Q": "How is this different from drawing a black box?",
   "faq2A": "A drawn black box only covers the content visually — the original text is still stored in the PDF and can be extracted. Our tool destroys the actual pixels, so nothing remains underneath.",
   "faq3Q": "Will the rest of my document change?",
-  "faq3A": "Only the pages you redact are converted to images (they stay visually identical). Pages with no redaction boxes are left completely untouched and remain selectable and searchable.",
+  "faq3A": "Only the pages you redact are converted to images (they stay visually identical). Pages with no redaction boxes are left untouched and remain selectable and searchable.",
   "faq4Q": "Is it safe to upload my PDF?",
   "faq4A": "Yes. Files are sent over an encrypted connection, scanned for malware, and automatically deleted from our servers within 1 hour.",
   "faq5Q": "Can I redact a password-protected PDF?",

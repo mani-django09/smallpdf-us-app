@@ -64,7 +64,7 @@
   "faq3Question": "What if I don't know the PDF password?",
   "faq3Answer": "If the PDF requires a password to open (user password) and you don't know it, we cannot unlock it. However, owner-password restrictions (which only limit editing/printing) are removed automatically without a password.",
   "faq4Question": "Will unlocking change the content of my PDF?",
-  "faq4Answer": "No. Unlocking only removes the security restrictions — all text, images, formatting, and pages remain completely intact.",
+  "faq4Answer": "No. Unlocking only removes the security restrictions — all text, images, formatting, and pages remain intact.",
   "faq5Question": "How many PDFs can I unlock at once?",
   "faq5Answer": "On the free plan you can upload and unlock up to 5 PDFs at once — Starter unlocks 10, Pro unlocks 20. Each file can be up to 10 MB on the free plan (100 MB on Starter and Pro). For larger batches, run multiple sessions.",
   "ctaTitle": "Unlock Your PDF",

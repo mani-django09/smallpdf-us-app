@@ -81,7 +81,7 @@
   "faq4Q": "Why should I bother compressing images anyway?",
   "faq4A": "Smaller files mean faster websites, quicker uploads, less storage space eaten up. If you're putting images on a website, compressed versions load way faster. Your visitors won't sit there waiting for huge photos to appear.",
   "faq5Q": "What happens to my images after I compress them?",
-  "faq5A": "We delete everything after an hour. Your originals, the compressed versions, all of it. We encrypt the upload process too, so nobody can peek at your photos while we're working on them.",
+  "faq5A": "We delete everything after an hour. Your originals, the compressed versions, all of it. We encrypt the upload process too, so your photos are protected in transit.",
 
   "seo1Title": "When You Need to Compress Images",
   "seo1P1": "Big image files are a pain. They take forever to upload, eat up storage space, and make websites crawl. If you've ever waited for a webpage to load because some huge photo is taking its sweet time, you know what I'm talking about.",
