@@ -149,7 +149,7 @@
   "privacy1": "Cifrado SSL de 256 bits",
   "privacy2": "Procesamiento aislado en servidor",
   "privacy3": "Eliminación automática tras 1 hora",
-  "privacy4": "Sin recolección de datos",
+  "privacy4": "Archivos no compartidos con terceros",
   "downloadFeature1Title": "Datos editables",
   "downloadFeature1Desc": "Celdas completamente editables",
   "downloadFeature2Title": "Tablas extraídas",

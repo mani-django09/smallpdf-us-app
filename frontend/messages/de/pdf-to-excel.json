@@ -149,7 +149,7 @@
   "privacy1": "256-Bit-SSL-Verschlüsselung",
   "privacy2": "Isolierte Serververarbeitung",
   "privacy3": "Automatische Löschung nach 1 Stunde",
-  "privacy4": "Keine Datenerfassung",
+  "privacy4": "Dateien werden nicht an Dritte weitergegeben",
   "downloadFeature1Title": "Bearbeitbare Daten",
   "downloadFeature1Desc": "Vollständig bearbeitbare Zellen",
   "downloadFeature2Title": "Tabellen extrahiert",

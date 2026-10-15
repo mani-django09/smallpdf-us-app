@@ -149,7 +149,7 @@
   "privacy1": "256ビットSSL暗号化",
   "privacy2": "独立したサーバーで処理",
   "privacy3": "1時間後に自動削除",
-  "privacy4": "データ収集なし",
+  "privacy4": "ファイルは第三者と共有されません",
   "downloadFeature1Title": "編集可能なデータ",
   "downloadFeature1Desc": "完全に編集可能なセル",
   "downloadFeature2Title": "表を抽出済み",
