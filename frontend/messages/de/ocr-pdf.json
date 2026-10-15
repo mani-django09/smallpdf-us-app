@@ -8,7 +8,7 @@
     "title": "OCR PDF —",
     "titleHighlight": "Text extrahieren",
     "titleSuffix": "aus jedem gescannten Dokument",
-    "subtitle": "Wandeln Sie bild- oder scanbasierte PDFs in vollständig durchsuchbare, kopierbare Dokumente um. 100+ Sprachen. Keine Installation. Ergebnis in Sekunden."
+    "subtitle": "Machen Sie aus bildbasierten, gescannten oder mit der Kamera aufgenommenen PDFs durchsuchbare Dokumente, aus denen sich Text kopieren lässt. Über 100 Sprachen, ohne Installation."
   },
   "upload": {
     "dropActive": "PDF hier ablegen",
@@ -45,11 +45,11 @@
       },
       {
         "title": "Prioritätswarteschlange für Pro-Nutzer",
-        "desc": "Pro-Nutzer umgehen die Standardwarteschlange vollständig. Einseitige OCR-Jobs werden in unter 3 Sekunden abgeschlossen; mehrseitige Batches verarbeiten Seiten parallel für nahezu sofortige Ergebnisse."
+        "desc": "Pro-Nutzer umgehen die Standardwarteschlange vollständig. OCR-Aufträge für einzelne Seiten sind in unter 3 Sekunden fertig, und bei mehrseitigen Stapeln werden die Seiten parallel verarbeitet."
       },
       {
         "title": "Zero-Knowledge-Datenschutz",
-        "desc": "TLS 1.3 bei der Übertragung, isolierte Compute-Container pro Job, automatische Löschung innerhalb 1 Stunde (kostenlos) oder 72 Stunden (bezahlt). Wir lesen, speichern oder teilen Ihre Dokumentinhalte niemals."
+        "desc": "TLS 1.3 bei der Übertragung, isolierte Rechencontainer pro Auftrag, automatische Löschung innerhalb von 1 Stunde (kostenlos) oder 72 Stunden (kostenpflichtig). Wir lesen oder teilen den Inhalt Ihrer Dokumente nicht."
       },
       {
         "title": "Word- und TXT-Export (Pro)",
@@ -59,11 +59,11 @@
   },
   "howItWorks": {
     "sectionTitle": "So funktioniert es — 3 einfache Schritte",
-    "sectionSubtitle": "Einmal hochladen, in Sekunden ein vollständig indiziertes und zugängliches PDF erhalten.",
+    "sectionSubtitle": "Laden Sie einen Scan hoch und laden Sie ein durchsuchbares PDF herunter.",
     "steps": [
       {
         "title": "Gescanntes PDF hochladen",
-        "desc": "Ziehen & ablegen oder klicken zum Durchsuchen. Wir akzeptieren jedes PDF — Verträge, Rechnungen, Bücher, Formulare, Kameraaufnahmen. Kein Konto erforderlich.",
+        "desc": "Ziehen Sie die Datei hinein oder klicken Sie zum Durchsuchen. Wir akzeptieren jedes PDF, darunter Verträge, Rechnungen, Bücher, Formulare und Kameraaufnahmen.",
         "badge": "Kostenlos: 10 MB · 2 Seiten"
       },
       {
@@ -109,7 +109,7 @@
     ]
   },
   "diveTitle": "Was beim Ausführen von OCR tatsächlich passiert",
-  "diveSubtitle": "Details, die über die Grundlagen hinaus wichtig werden.",
+  "diveSubtitle": "Wie OCR Ihren Scan liest und was die Genauigkeit beeinflusst.",
   "dive1Title": "Erkennung von nativem vs. gescanntem Text",
   "dive1Desc": "Manche PDFs enthalten bereits auswählbaren, nativen Text — dann ist keine OCR nötig. Unser Tool erkennt und verarbeitet nur gescannte Bilder, lässt Seiten mit bereits vorhandenem digitalem Text unverändert.",
   "dive2Title": "Was die Erkennungsgenauigkeit beeinflusst",
@@ -124,7 +124,7 @@
   "dive6Desc": "OCR erkennt Text, bewahrt aber nicht zuverlässig die Zeilen-/Spaltenstruktur von Tabellen. Wenn der Hauptzweck Ihres Dokuments die Extraktion von Tabellendaten ist, eignet sich unser dediziertes Tool PDF zu Excel besser, um die tatsächliche Tabellenstruktur zu rekonstruieren.",
   "faq": {
     "sectionTitle": "Häufig gestellte Fragen",
-    "sectionSubtitle": "Alles, was Sie über OCR PDF auf SmallPDF.us wissen müssen",
+    "sectionSubtitle": "Kurze Antworten zu Limits, Datenschutz und Ergebnissen.",
     "items": [
       {
         "q": "Wie funktioniert OCR bei einem PDF?",
@@ -140,7 +140,7 @@
       },
       {
         "q": "Ist mein PDF sicher und privat?",
-        "a": "Datenschutz ist grundlegend für die Art, wie wir SmallPDF.us aufgebaut haben. Jeder Upload erfolgt über TLS-1.3-Verschlüsselung. Ihre Datei wird in einem isolierten Einmal-Container verarbeitet, der sofort nach Abschluss Ihres Jobs vernichtet wird. Kostenlose Dateien werden innerhalb von 1 Stunde dauerhaft gelöscht; bezahlte innerhalb von 24–72 Stunden. Wir lesen, indizieren, teilen, verkaufen oder behalten Ihre Dokumentinhalte niemals."
+        "a": "Datenschutz ist für den Aufbau von SmallPDF.us grundlegend. Jeder Upload wird per TLS-1.3-Verschlüsselung übertragen. Ihre Datei wird in einem isolierten Einweg-Rechencontainer verarbeitet, der unmittelbar nach Abschluss Ihres Auftrags zerstört wird. Dateien aus dem kostenlosen Tarif werden innerhalb von 1 Stunde endgültig gelöscht, Dateien aus kostenpflichtigen Tarifen innerhalb von 72 Stunden. Wir lesen, indexieren, teilen oder verkaufen den Inhalt Ihrer Dokumente nicht und löschen ihn nach dem oben genannten Zeitplan. Alle Details finden Sie in unserer Datenschutzerklärung."
       },
       {
         "q": "Welche Sprachen unterstützt die OCR?",
@@ -156,7 +156,7 @@
       },
       {
         "q": "Warum ist OCR im kostenlosen Plan auf 1 pro Tag begrenzt?",
-        "a": "Optische Zeichenerkennung ist rechenintensiv — jede Seite erfordert erhebliche GPU-Zeit für Vorverarbeitung und Inferenz. Wir bieten 1 kostenlosen OCR-Lauf pro Tag an, um den Dienst für alle Nutzer schnell und zuverlässig zu halten. Upgraden Sie auf Pro für unbegrenzte OCR-Läufe, Prioritätswarteschlangenzugang, größere Dateiunterstützung und Batch-Verarbeitung."
+        "a": "Die optische Zeichenerkennung ist rechenintensiv: Jede Seite benötigt für Vorverarbeitung und Inferenz erhebliche GPU-Zeit. Wir bieten pro Tag 1 kostenlosen OCR-Lauf an, um den Dienst für alle Nutzer schnell und zuverlässig zu halten. Upgraden Sie auf Pro für unbegrenzte OCR-Läufe, Zugang zur bevorzugten Warteschlange, Unterstützung größerer Dateien und Stapelverarbeitung. Pro-Aufträge laufen in einer bevorzugten Warteschlange."
       }
     ]
   },
@@ -169,8 +169,8 @@
     "p4": "Für optimale Ergebnisse stellen Sie sicher, dass Ihr Quell-Dokument mit 300 DPI oder mehr mit gleichmäßiger, schattenfreier Beleuchtung gescannt wurde. Dokumente bei 150 DPI oder darunter, schwere Hintergrungtexturen oder extreme Neigung können zu geringerer Genauigkeit führen. In jedem Fall bleiben die ursprünglichen Bilder in Ihrem PDF vollständig unverändert."
   },
   "cta": {
-    "heading": "Bereit, Ihr PDF durchsuchbar zu machen?",
-    "subtitle": "Legen Sie ein gescanntes PDF ab und erhalten Sie in Sekunden ein durchsuchbares, kopierbares Dokument. Kostenlos starten, einfach zu bedienen.",
+    "heading": "PDF durchsuchbar machen",
+    "subtitle": "Laden Sie ein gescanntes PDF hoch und laden Sie ein durchsuchbares Dokument herunter, aus dem sich Text kopieren lässt. Der Einstieg ist kostenlos.",
     "button": "OCR jetzt starten — Kostenlos"
   },
   "preview": {
@@ -218,7 +218,7 @@
     "pageTitle": "OCR-Verarbeitung — SmallPDF.us",
     "backLink": "Zurück zu OCR PDF",
     "processingTitle": "OCR läuft…",
-    "standardQueue": "Standardwarteschlange — Auf Pro upgraden für 3–5× schnellere Verarbeitung",
+    "standardQueue": "Standardwarteschlange. Pro nutzt eine bevorzugte Warteschlange.",
     "doneTitle": "OCR abgeschlossen!",
     "pagesProcessed": "{count} Seite{plural} verarbeitet",
     "wordsExtracted": "~{count} Wörter extrahiert",

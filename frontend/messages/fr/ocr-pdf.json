@@ -8,7 +8,7 @@
     "title": "OCR PDF —",
     "titleHighlight": "Extraire le texte",
     "titleSuffix": "de tout document scanné",
-    "subtitle": "Transformez les PDFs basés sur des images, scannés ou capturés par caméra en documents entièrement consultables et copiables. 100+ langues. Aucune installation. Résultats en secondes."
+    "subtitle": "Transformez des PDF composés d'images, scannés ou pris en photo en documents interrogeables dont on peut copier le texte. Plus de 100 langues, sans rien à installer."
   },
   "upload": {
     "dropActive": "Déposez votre PDF ici",
@@ -45,11 +45,11 @@
       },
       {
         "title": "File d'attente prioritaire pour les utilisateurs Pro",
-        "desc": "Les utilisateurs Pro contournent entièrement la file d'attente standard. Les jobs OCR d'une seule page se terminent en moins de 3 secondes ; les batches multi-pages traitent les pages en parallèle pour un résultat quasi instantané."
+        "desc": "Les utilisateurs Pro contournent entièrement la file d'attente standard. Les tâches d'OCR d'une seule page se terminent en moins de 3 secondes, et les lots de plusieurs pages traitent les pages en parallèle."
       },
       {
         "title": "Confidentialité zéro connaissance",
-        "desc": "TLS 1.3 en transit, conteneurs de calcul isolés par job, suppression automatique en 1 heure (gratuit) ou 72 heures (payant). Nous ne lisons, stockons ni partageons jamais le contenu de votre document."
+        "desc": "TLS 1.3 en transit, conteneurs de calcul isolés par tâche, suppression automatique sous 1 heure (gratuit) ou 72 heures (payant). Nous ne lisons ni ne partageons le contenu de vos documents."
       },
       {
         "title": "Export Word et TXT (Pro)",
@@ -59,11 +59,11 @@
   },
   "howItWorks": {
     "sectionTitle": "Comment ça marche — 3 étapes simples",
-    "sectionSubtitle": "Téléchargez une fois, obtenez un PDF entièrement indexé et accessible en secondes.",
+    "sectionSubtitle": "Importez un scan et téléchargez un PDF interrogeable.",
     "steps": [
       {
         "title": "Téléchargez votre PDF scanné",
-        "desc": "Glissez-déposez ou cliquez pour parcourir. Nous acceptons tout PDF — contrats, factures, livres, formulaires, photos. Aucun compte nécessaire.",
+        "desc": "Glissez-déposez ou cliquez pour parcourir. Nous acceptons tout PDF, y compris contrats, factures, livres, formulaires et photos prises avec l'appareil.",
         "badge": "Gratuit : 10 Mo · 2 pages"
       },
       {
@@ -109,7 +109,7 @@
     ]
   },
   "diveTitle": "Ce qui se passe réellement lors de l'exécution de l'OCR",
-  "diveSubtitle": "Les détails qui comptent une fois les bases dépassées.",
+  "diveSubtitle": "Comment l'OCR lit votre scan, et ce qui influe sur la précision.",
   "dive1Title": "Détection de texte natif vs. scanné",
   "dive1Desc": "Certains PDF contiennent déjà du texte natif sélectionnable — dans ce cas, l'OCR n'est pas nécessaire. Notre outil détecte et traite uniquement les images scannées, laissant intactes les pages qui contiennent déjà du texte numérique.",
   "dive2Title": "Ce qui affecte la précision de reconnaissance",
@@ -124,7 +124,7 @@
   "dive6Desc": "L'OCR reconnaît le texte mais ne préserve pas de façon fiable la structure en lignes/colonnes des tableaux. Si l'objectif principal de votre document est l'extraction de données tabulaires, notre outil dédié PDF vers Excel est mieux adapté pour reconstruire la structure réelle du tableau.",
   "faq": {
     "sectionTitle": "Questions fréquemment posées",
-    "sectionSubtitle": "Tout ce que vous devez savoir sur l'OCR PDF sur SmallPDF.us",
+    "sectionSubtitle": "Réponses rapides sur les limites, la confidentialité et les résultats.",
     "items": [
       {
         "q": "Comment fonctionne l'OCR sur un PDF ?",
@@ -140,7 +140,7 @@
       },
       {
         "q": "Mon PDF est-il gardé privé et sécurisé ?",
-        "a": "La confidentialité est fondamentale dans la façon dont nous avons construit SmallPDF.us. Chaque téléchargement transite par le chiffrement TLS 1.3. Votre fichier est traité dans un conteneur de calcul isolé à usage unique qui est détruit immédiatement après la fin de votre job. Les fichiers du plan gratuit sont définitivement supprimés en 1 heure ; les fichiers payants en 24–72 heures. Nous ne lisons, indexons, partageons, vendons ni conservons jamais le contenu de votre document."
+        "a": "La confidentialité est au cœur de la conception de SmallPDF.us. Chaque envoi transite avec un chiffrement TLS 1.3. Votre fichier est traité dans un conteneur de calcul isolé à usage unique, détruit immédiatement après la fin de votre tâche. Les fichiers de l'offre gratuite sont définitivement supprimés sous 1 heure, ceux des offres payantes sous 72 heures. Nous ne lisons, n'indexons, ne partageons ni ne vendons le contenu de vos documents, et nous le supprimons selon le calendrier ci-dessus. Vous pouvez consulter notre Politique de confidentialité pour tous les détails."
       },
       {
         "q": "Quelles langues l'OCR prend-il en charge ?",
@@ -156,7 +156,7 @@
       },
       {
         "q": "Pourquoi l'OCR est-il limité à 1 par jour sur le plan gratuit ?",
-        "a": "La reconnaissance optique de caractères est informatiquement intensive — chaque page nécessite un temps GPU significatif pour le prétraitement et l'inférence. Nous fournissons 1 OCR gratuit par jour pour maintenir le service rapide et fiable pour tous les utilisateurs. Passez à Pro pour des exécutions OCR illimitées, l'accès à la file d'attente prioritaire, la prise en charge de fichiers plus grands et le traitement par lots."
+        "a": "La reconnaissance optique de caractères demande beaucoup de calcul : chaque page nécessite un temps GPU important pour le prétraitement et l'inférence. Nous proposons 1 passage d'OCR gratuit par jour pour que le service reste rapide et fiable pour tous. Passez à Pro pour des passages d'OCR illimités, l'accès à la file prioritaire, la prise en charge de fichiers plus gros et le traitement par lots. Les tâches Pro passent dans une file prioritaire."
       }
     ]
   },
@@ -169,8 +169,8 @@
     "p4": "Pour des résultats optimaux, assurez-vous que votre document source a été scanné à 300 DPI ou plus avec un éclairage uniforme et sans ombres. Les documents à 150 DPI ou moins, les textures de fond lourdes ou l'inclinaison extrême peuvent produire une précision inférieure. Dans tous les cas, les visuels originaux de votre PDF restent complètement intacts."
   },
   "cta": {
-    "heading": "Prêt à rendre votre PDF consultable ?",
-    "subtitle": "Déposez n'importe quel PDF scanné et obtenez en quelques secondes un document consultable et copiable. Gratuit pour commencer, simple à utiliser.",
+    "heading": "Rendez votre PDF interrogeable",
+    "subtitle": "Importez un PDF scanné et téléchargez un document interrogeable dont on peut copier le texte. Gratuit pour commencer.",
     "button": "Démarrer l'OCR maintenant — Gratuit"
   },
   "preview": {
@@ -218,7 +218,7 @@
     "pageTitle": "Traitement OCR — SmallPDF.us",
     "backLink": "Retour à l'OCR PDF",
     "processingTitle": "OCR en cours…",
-    "standardQueue": "File d'attente standard — passez à Pro pour un traitement 3–5× plus rapide",
+    "standardQueue": "File d'attente standard. Pro utilise une file prioritaire.",
     "doneTitle": "OCR terminé !",
     "pagesProcessed": "{count} page{plural} traitée{plural}",
     "wordsExtracted": "~{count} mots extraits",

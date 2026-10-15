@@ -8,7 +8,7 @@
     "title": "OCR PDF —",
     "titleHighlight": "Estrai il testo",
     "titleSuffix": "da qualsiasi documento scansionato",
-    "subtitle": "Trasforma PDF basati su immagini, scansionati o acquisiti con fotocamera in documenti completamente ricercabili e copiabili. 100+ lingue. Nessuna installazione. Risultati in secondi."
+    "subtitle": "Trasforma PDF basati su immagini, scansionati o fotografati in documenti ricercabili e con testo copiabile. Oltre 100 lingue, senza niente da installare."
   },
   "upload": {
     "dropActive": "Trascina il tuo PDF qui",
@@ -45,11 +45,11 @@
       },
       {
         "title": "Coda prioritaria per gli utenti Pro",
-        "desc": "Gli utenti Pro saltano completamente la coda standard. I job OCR a pagina singola si completano in meno di 3 secondi; i batch multipagina elaborano le pagine in parallelo per risultati quasi istantanei."
+        "desc": "Gli utenti Pro saltano del tutto la coda standard. I lavori OCR di una sola pagina si completano in meno di 3 secondi, e i lotti multipagina elaborano le pagine in parallelo."
       },
       {
         "title": "Privacy zero-knowledge",
-        "desc": "TLS 1.3 in transito, container di calcolo isolati per job, eliminazione automatica entro 1 ora (gratuito) o 72 ore (a pagamento). Non leggiamo, archiviamo né condividiamo mai il contenuto del tuo documento."
+        "desc": "TLS 1.3 in transito, contenitori di calcolo isolati per ogni lavoro, eliminazione automatica entro 1 ora (gratis) o 72 ore (a pagamento). Non leggiamo né condividiamo il contenuto dei tuoi documenti."
       },
       {
         "title": "Esportazione Word e TXT (Pro)",
@@ -59,11 +59,11 @@
   },
   "howItWorks": {
     "sectionTitle": "Come funziona — 3 semplici passaggi",
-    "sectionSubtitle": "Carica una volta, ottieni un PDF completamente indicizzato e accessibile in secondi.",
+    "sectionSubtitle": "Carica una scansione e scarica un PDF ricercabile.",
     "steps": [
       {
         "title": "Carica il tuo PDF scansionato",
-        "desc": "Trascina e rilascia o clicca per sfogliare. Accettiamo qualsiasi PDF — contratti, fatture, libri, moduli, foto da fotocamera. Nessun account necessario.",
+        "desc": "Trascina o clicca per sfogliare. Accettiamo qualsiasi PDF, inclusi contratti, fatture, libri, moduli e foto scattate con la fotocamera.",
         "badge": "Gratuito: 10 MB · 2 pagine"
       },
       {
@@ -109,7 +109,7 @@
     ]
   },
   "diveTitle": "Cosa succede davvero quando esegui l'OCR",
-  "diveSubtitle": "I dettagli che contano una volta superate le basi.",
+  "diveSubtitle": "Come l'OCR legge la tua scansione e cosa influisce sull'accuratezza.",
   "dive1Title": "Rilevamento di testo nativo vs. scansionato",
   "dive1Desc": "Alcuni PDF contengono già testo nativo selezionabile — in quel caso l'OCR non è necessario. Il nostro strumento rileva ed elabora solo le immagini scansionate, lasciando intatte le pagine che già contengono testo digitale.",
   "dive2Title": "Cosa influisce sulla precisione del riconoscimento",
@@ -124,7 +124,7 @@
   "dive6Desc": "L'OCR riconosce il testo ma non preserva in modo affidabile la struttura di righe/colonne delle tabelle. Se lo scopo principale del tuo documento è l'estrazione di dati tabellari, il nostro strumento dedicato Da PDF a Excel è più adatto a ricostruire la struttura reale della tabella.",
   "faq": {
     "sectionTitle": "Domande frequenti",
-    "sectionSubtitle": "Tutto quello che devi sapere sull'OCR PDF su SmallPDF.us",
+    "sectionSubtitle": "Risposte rapide su limiti, privacy e risultati.",
     "items": [
       {
         "q": "Come funziona l'OCR su un PDF?",
@@ -140,7 +140,7 @@
       },
       {
         "q": "Il mio PDF è mantenuto privato e sicuro?",
-        "a": "La privacy è fondamentale nel modo in cui abbiamo costruito SmallPDF.us. Ogni caricamento viaggia attraverso la crittografia TLS 1.3. Il tuo file viene elaborato in un container di calcolo isolato monouso che viene distrutto immediatamente dopo il completamento del job. I file del piano gratuito vengono eliminati definitivamente entro 1 ora; i file a pagamento entro 24–72 ore. Non leggiamo, indicizziamo, condividiamo, vendiamo né conserviamo mai il contenuto del tuo documento."
+        "a": "La privacy è fondamentale nel modo in cui è stato costruito SmallPDF.us. Ogni caricamento viaggia con cifratura TLS 1.3. Il tuo file viene elaborato in un contenitore di calcolo isolato e monouso, distrutto subito dopo il completamento del lavoro. I file del piano gratuito vengono eliminati definitivamente entro 1 ora; quelli dei piani a pagamento entro 72 ore. Non leggiamo, indicizziamo, condividiamo né vendiamo il contenuto dei tuoi documenti, e lo eliminiamo secondo i tempi indicati sopra. Puoi consultare la nostra Informativa sulla privacy per tutti i dettagli."
       },
       {
         "q": "Quali lingue supporta l'OCR?",
@@ -156,7 +156,7 @@
       },
       {
         "q": "Perché l'OCR è limitato a 1 al giorno nel piano gratuito?",
-        "a": "Il riconoscimento ottico dei caratteri è computazionalmente intensivo — ogni pagina richiede un significativo tempo GPU per la preelaborazione e l'inferenza. Forniamo 1 esecuzione OCR gratuita al giorno per mantenere il servizio veloce e affidabile per tutti gli utenti. Aggiorna a Pro per esecuzioni OCR illimitate, accesso alla coda prioritaria, supporto per file più grandi ed elaborazione batch."
+        "a": "Il riconoscimento ottico dei caratteri richiede molta potenza di calcolo: ogni pagina richiede un tempo GPU considerevole per pre-elaborazione e inferenza. Offriamo 1 esecuzione OCR gratuita al giorno per mantenere il servizio veloce e affidabile per tutti. Passa a Pro per esecuzioni OCR illimitate, accesso alla coda prioritaria, supporto per file più grandi ed elaborazione in lotti. I lavori Pro vengono eseguiti in una coda prioritaria."
       }
     ]
   },
@@ -169,8 +169,8 @@
     "p4": "Per risultati ottimali, assicurati che il documento sorgente sia stato scansionato a 300 DPI o superiori con illuminazione uniforme e senza ombre. I documenti a 150 DPI o inferiori, le texture di sfondo pesanti o l'inclinazione estrema possono produrre un'accuratezza inferiore. In ogni caso, i visual originali nel tuo PDF rimangono completamente intatti."
   },
   "cta": {
-    "heading": "Pronto a rendere il tuo PDF ricercabile?",
-    "subtitle": "Trascina qualsiasi PDF scansionato e ottieni in pochi secondi un documento ricercabile e copiabile. Gratis per iniziare, facile da usare.",
+    "heading": "Rendi ricercabile il tuo PDF",
+    "subtitle": "Carica un PDF scansionato e scarica un documento ricercabile con testo copiabile. Gratis per iniziare.",
     "button": "Inizia l'OCR ora — È gratuito"
   },
   "preview": {
@@ -218,7 +218,7 @@
     "pageTitle": "Elaborazione OCR — SmallPDF.us",
     "backLink": "Torna a OCR PDF",
     "processingTitle": "OCR in corso…",
-    "standardQueue": "Coda standard — passa a Pro per un'elaborazione 3–5× più rapida",
+    "standardQueue": "Coda standard. Pro usa una coda prioritaria.",
     "doneTitle": "OCR completato!",
     "pagesProcessed": "{count} pagina{plural} elaborata{plural}",
     "wordsExtracted": "~{count} parole estratte",

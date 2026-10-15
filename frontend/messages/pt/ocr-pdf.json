@@ -8,7 +8,7 @@
     "title": "OCR PDF —",
     "titleHighlight": "Extrair Texto",
     "titleSuffix": "de Qualquer Documento Digitalizado",
-    "subtitle": "Transforme PDFs baseados em imagens, digitalizados ou capturados por câmera em documentos totalmente pesquisáveis e copiáveis. 100+ idiomas. Sem instalação. Resultados em segundos."
+    "subtitle": "Transforme PDFs baseados em imagem, digitalizados ou fotografados em documentos pesquisáveis e com texto copiável. Mais de 100 idiomas, sem nada para instalar."
   },
   "upload": {
     "dropActive": "Solte seu PDF aqui",
@@ -45,11 +45,11 @@
       },
       {
         "title": "Fila prioritária para usuários Pro",
-        "desc": "Os usuários Pro ignoram completamente a fila padrão. Jobs de OCR de uma página são concluídos em menos de 3 segundos; lotes de várias páginas processam páginas em paralelo para resultados quase instantâneos."
+        "desc": "Usuários Pro ignoram totalmente a fila padrão. Tarefas de OCR de uma só página terminam em menos de 3 segundos, e lotes de várias páginas processam as páginas em paralelo."
       },
       {
         "title": "Privacidade zero-knowledge",
-        "desc": "TLS 1.3 em trânsito, contêineres de computação isolados por job, exclusão automática em 1 hora (gratuito) ou 72 horas (pago). Nunca lemos, armazenamos ou compartilhamos o conteúdo do seu documento."
+        "desc": "TLS 1.3 em trânsito, contêineres de computação isolados por tarefa, exclusão automática em até 1 hora (gratuito) ou 72 horas (pago). Não lemos nem compartilhamos o conteúdo dos seus documentos."
       },
       {
         "title": "Exportação Word e TXT (Pro)",
@@ -59,11 +59,11 @@
   },
   "howItWorks": {
     "sectionTitle": "Como funciona — 3 etapas simples",
-    "sectionSubtitle": "Carregue uma vez, obtenha um PDF totalmente indexado e acessível em segundos.",
+    "sectionSubtitle": "Envie uma digitalização e baixe um PDF pesquisável.",
     "steps": [
       {
         "title": "Carregue seu PDF digitalizado",
-        "desc": "Arraste e solte ou clique para navegar. Aceitamos qualquer PDF — contratos, faturas, livros, formulários, fotos de câmera. Sem conta necessária.",
+        "desc": "Arraste e solte ou clique para procurar. Aceitamos qualquer PDF, incluindo contratos, notas fiscais, livros, formulários e fotos de câmera.",
         "badge": "Grátis: 10 MB · 2 páginas"
       },
       {
@@ -109,7 +109,7 @@
     ]
   },
   "diveTitle": "O que realmente acontece ao executar o OCR",
-  "diveSubtitle": "Os detalhes que importam depois do básico.",
+  "diveSubtitle": "Como o OCR lê sua digitalização e o que afeta a precisão.",
   "dive1Title": "Detecção de texto nativo vs. escaneado",
   "dive1Desc": "Alguns PDFs já contêm texto nativo selecionável — nesse caso, o OCR não é necessário. Nossa ferramenta detecta e processa apenas imagens escaneadas, deixando intactas as páginas que já contêm texto digital.",
   "dive2Title": "O que afeta a precisão do reconhecimento",
@@ -124,7 +124,7 @@
   "dive6Desc": "O OCR reconhece texto, mas não preserva de forma confiável a estrutura de linhas/colunas de tabelas. Se o objetivo principal do seu documento for extrair dados tabulares, nossa ferramenta dedicada PDF para Excel é mais adequada para reconstruir a estrutura real da tabela.",
   "faq": {
     "sectionTitle": "Perguntas frequentes",
-    "sectionSubtitle": "Tudo o que você precisa saber sobre OCR PDF no SmallPDF.us",
+    "sectionSubtitle": "Respostas rápidas sobre limites, privacidade e resultados.",
     "items": [
       {
         "q": "Como o OCR funciona em um PDF?",
@@ -140,7 +140,7 @@
       },
       {
         "q": "Meu PDF é mantido privado e seguro?",
-        "a": "A privacidade é fundamental na forma como construímos o SmallPDF.us. Cada upload viaja pela criptografia TLS 1.3. Seu arquivo é processado em um contêiner de computação isolado de uso único que é destruído imediatamente após a conclusão do seu job. Os arquivos do plano gratuito são excluídos permanentemente em 1 hora; os arquivos pagos em 24–72 horas. Nunca lemos, indexamos, compartilhamos, vendemos ou retemos o conteúdo do seu documento."
+        "a": "A privacidade é fundamental na forma como o SmallPDF.us foi construído. Todo envio trafega com criptografia TLS 1.3. Seu arquivo é processado em um contêiner de computação isolado e de uso único, destruído logo após a conclusão da tarefa. Arquivos do plano gratuito são excluídos permanentemente em até 1 hora; os de planos pagos, em até 72 horas. Não lemos, indexamos, compartilhamos nem vendemos o conteúdo dos seus documentos, e o excluímos conforme o cronograma acima. Você pode consultar nossa Política de Privacidade para ver todos os detalhes."
       },
       {
         "q": "Quais idiomas o OCR suporta?",
@@ -156,7 +156,7 @@
       },
       {
         "q": "Por que o OCR é limitado a 1 por dia no plano gratuito?",
-        "a": "O reconhecimento óptico de caracteres é computacionalmente intensivo — cada página requer tempo de GPU significativo para pré-processamento e inferência. Fornecemos 1 OCR gratuito por dia para manter o serviço rápido e confiável para todos os usuários. Faça upgrade para Pro para execuções de OCR ilimitadas, acesso à fila prioritária, suporte a arquivos maiores e processamento em lote."
+        "a": "O reconhecimento óptico de caracteres exige muito processamento: cada página precisa de um tempo considerável de GPU para pré-processamento e inferência. Oferecemos 1 execução de OCR gratuita por dia para manter o serviço rápido e confiável para todos. Faça upgrade para o Pro para ter execuções de OCR ilimitadas, acesso à fila prioritária, suporte a arquivos maiores e processamento em lote. As tarefas Pro rodam em uma fila prioritária."
       }
     ]
   },
@@ -169,8 +169,8 @@
     "p4": "Para resultados ideais, certifique-se de que seu documento fonte foi digitalizado a 300 DPI ou mais com iluminação uniforme e sem sombras. Documentos a 150 DPI ou abaixo, texturas de fundo pesadas ou inclinação extrema podem produzir menor precisão. Em todos os casos, os visuais originais no seu PDF permanecem completamente intocados."
   },
   "cta": {
-    "heading": "Pronto para tornar seu PDF pesquisável?",
-    "subtitle": "Solte qualquer PDF digitalizado e receba em segundos um documento pesquisável e copiável. Grátis para começar e fácil de usar.",
+    "heading": "Torne seu PDF pesquisável",
+    "subtitle": "Envie um PDF digitalizado e baixe um documento pesquisável e com texto copiável. Comece de graça.",
     "button": "Iniciar OCR agora — É gratuito"
   },
   "preview": {
@@ -218,7 +218,7 @@
     "pageTitle": "Processando OCR — SmallPDF.us",
     "backLink": "Voltar ao OCR PDF",
     "processingTitle": "OCR em andamento…",
-    "standardQueue": "Fila padrão — atualize para Pro para processamento 3–5× mais rápido",
+    "standardQueue": "Fila padrão. O Pro usa uma fila prioritária.",
     "doneTitle": "OCR concluído!",
     "pagesProcessed": "{count} página{plural} processada{plural}",
     "wordsExtracted": "~{count} palavras extraídas",

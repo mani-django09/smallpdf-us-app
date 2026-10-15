@@ -8,7 +8,7 @@
     "title": "OCR PDF —",
     "titleHighlight": "Ekstrak Teks",
     "titleSuffix": "dari Dokumen Scan Apapun",
-    "subtitle": "Ubah PDF berbasis gambar, hasil scan, atau foto kamera menjadi dokumen yang sepenuhnya dapat dicari dan disalin. 100+ bahasa. Tanpa instalasi. Hasil dalam hitungan detik."
+    "subtitle": "Ubah PDF berbasis gambar, hasil pindai, atau hasil foto kamera menjadi dokumen yang bisa dicari dan teksnya bisa disalin. Lebih dari 100 bahasa, tanpa perlu menginstal apa pun."
   },
   "upload": {
     "dropActive": "Letakkan PDF Anda di sini",
@@ -45,11 +45,11 @@
       },
       {
         "title": "Antrian Prioritas untuk Pengguna Pro",
-        "desc": "Pengguna Pro melewati antrian standar sepenuhnya. Job OCR satu halaman selesai dalam kurang dari 3 detik; batch multi-halaman memproses halaman secara paralel untuk penyelesaian hampir instan."
+        "desc": "Pengguna Pro melewati antrean standar sepenuhnya. Tugas OCR satu halaman selesai dalam kurang dari 3 detik, dan batch multi-halaman memproses halaman secara paralel."
       },
       {
         "title": "Privasi Zero-Knowledge",
-        "desc": "TLS 1.3 saat transit, container komputasi terisolasi per job, penghapusan otomatis dalam 1 jam (gratis) atau 72 jam (berbayar). Kami tidak pernah membaca, menyimpan, atau berbagi konten dokumen Anda."
+        "desc": "TLS 1.3 saat transit, kontainer komputasi terisolasi per tugas, penghapusan otomatis dalam 1 jam (gratis) atau 72 jam (berbayar). Kami tidak membaca atau membagikan isi dokumen Anda."
       },
       {
         "title": "Ekspor Word dan TXT (Pro)",
@@ -59,11 +59,11 @@
   },
   "howItWorks": {
     "sectionTitle": "Cara Kerja — 3 Langkah Mudah",
-    "sectionSubtitle": "Unggah sekali, dapatkan PDF yang sepenuhnya diindeks dan dapat diakses dalam hitungan detik.",
+    "sectionSubtitle": "Unggah hasil pindai dan unduh PDF yang bisa dicari.",
     "steps": [
       {
         "title": "Unggah PDF Scan Anda",
-        "desc": "Seret dan lepas atau klik untuk memilih. Kami menerima PDF apapun — kontrak, faktur, buku, formulir, foto kamera. Tidak perlu akun.",
+        "desc": "Seret dan lepas atau klik untuk menelusuri. Kami menerima PDF apa pun, termasuk kontrak, faktur, buku, formulir, dan hasil foto kamera.",
         "badge": "Gratis: 10 MB · 2 halaman"
       },
       {
@@ -109,7 +109,7 @@
     ]
   },
   "diveTitle": "Apa yang sebenarnya terjadi saat menjalankan OCR",
-  "diveSubtitle": "Detail yang penting setelah melampaui dasar-dasarnya.",
+  "diveSubtitle": "Cara OCR membaca hasil pindai Anda, dan apa yang memengaruhi akurasi.",
   "dive1Title": "Deteksi teks asli vs. hasil pindai",
   "dive1Desc": "Beberapa PDF sudah berisi teks asli yang dapat dipilih — dalam kasus itu OCR tidak diperlukan. Alat kami hanya mendeteksi dan memproses gambar hasil pindai, membiarkan halaman yang sudah berisi teks digital tidak berubah.",
   "dive2Title": "Apa yang memengaruhi akurasi pengenalan",
@@ -124,7 +124,7 @@
   "dive6Desc": "OCR mengenali teks tetapi tidak secara andal mempertahankan struktur baris/kolom tabel. Jika tujuan utama dokumen Anda adalah mengekstrak data tabular, alat khusus PDF ke Excel kami lebih cocok untuk merekonstruksi struktur tabel yang sebenarnya.",
   "faq": {
     "sectionTitle": "Pertanyaan yang Sering Diajukan",
-    "sectionSubtitle": "Semua yang perlu Anda ketahui tentang OCR PDF di SmallPDF.us",
+    "sectionSubtitle": "Jawaban singkat tentang batas, privasi, dan hasil.",
     "items": [
       {
         "q": "Bagaimana cara kerja OCR pada PDF?",
@@ -140,7 +140,7 @@
       },
       {
         "q": "Apakah PDF saya tetap pribadi dan aman?",
-        "a": "Privasi adalah hal mendasar dalam cara kami membangun SmallPDF.us. Setiap unggahan berjalan melalui enkripsi TLS 1.3. File Anda diproses dalam container komputasi terisolasi sekali pakai yang dihancurkan segera setelah pekerjaan Anda selesai. File paket gratis dihapus secara permanen dalam 1 jam; file berbayar dalam 24–72 jam. Kami tidak pernah membaca, mengindeks, berbagi, menjual, atau menyimpan konten dokumen Anda."
+        "a": "Privasi adalah dasar dari cara SmallPDF.us dibangun. Setiap unggahan dikirim dengan enkripsi TLS 1.3. File Anda diproses dalam kontainer komputasi terisolasi sekali pakai yang dihancurkan segera setelah tugas Anda selesai. File paket gratis dihapus permanen dalam 1 jam; file paket berbayar dalam 72 jam. Kami tidak membaca, mengindeks, membagikan, atau menjual isi dokumen Anda, dan kami menghapusnya sesuai jadwal di atas. Anda dapat memeriksa Kebijakan Privasi kami untuk detail lengkap."
       },
       {
         "q": "Bahasa apa yang didukung OCR?",
@@ -156,7 +156,7 @@
       },
       {
         "q": "Mengapa OCR dibatasi 1 per hari di paket gratis?",
-        "a": "Pengenalan karakter optik sangat intensif secara komputasi — setiap halaman membutuhkan waktu GPU yang signifikan untuk pra-pemrosesan dan inferensi. Kami menyediakan 1 OCR gratis per hari untuk menjaga layanan tetap cepat dan andal untuk semua pengguna. Tingkatkan ke Pro untuk OCR tak terbatas, akses antrian prioritas, dukungan file lebih besar, dan pemrosesan batch."
+        "a": "Pengenalan karakter optik membutuhkan komputasi yang besar: setiap halaman memerlukan waktu GPU yang cukup besar untuk pra-pemrosesan dan inferensi. Kami menyediakan 1 kali OCR gratis per hari agar layanan tetap cepat dan andal bagi semua pengguna. Upgrade ke Pro untuk OCR tanpa batas, akses antrean prioritas, dukungan file lebih besar, dan pemrosesan batch. Tugas Pro berjalan di antrean prioritas."
       }
     ]
   },
@@ -169,8 +169,8 @@
     "p4": "Untuk hasil optimal, pastikan dokumen sumber Anda di-scan pada 300 DPI atau lebih tinggi dengan pencahayaan merata dan bebas bayangan. Dokumen pada 150 DPI atau di bawahnya, tekstur latar belakang berat, atau kemiringan ekstrem dapat menghasilkan akurasi yang lebih rendah. Dalam setiap kasus, visual asli dalam PDF Anda tetap sepenuhnya tidak tersentuh."
   },
   "cta": {
-    "heading": "Siap Membuat PDF Anda Dapat Dicari?",
-    "subtitle": "Letakkan PDF hasil scan apa pun dan dapatkan dokumen yang bisa dicari dan disalin dalam hitungan detik. Gratis untuk memulai, mudah digunakan.",
+    "heading": "Buat PDF Anda Bisa Dicari",
+    "subtitle": "Unggah PDF hasil pindai dan unduh dokumen yang bisa dicari dan teksnya bisa disalin. Gratis untuk memulai.",
     "button": "Mulai OCR Sekarang — Gratis"
   },
   "preview": {
@@ -218,7 +218,7 @@
     "pageTitle": "Memproses OCR — SmallPDF.us",
     "backLink": "Kembali ke OCR PDF",
     "processingTitle": "OCR Sedang Berjalan…",
-    "standardQueue": "Antrian standar — tingkatkan ke Pro untuk pemrosesan 3–5× lebih cepat",
+    "standardQueue": "Antrean standar. Pro menggunakan antrean prioritas.",
     "doneTitle": "OCR Selesai!",
     "pagesProcessed": "{count} halaman diproses",
     "wordsExtracted": "~{count} kata diekstrak",
