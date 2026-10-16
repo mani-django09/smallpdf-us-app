@@ -6,7 +6,7 @@
 // formats (Interstitial / Anchor) stay off, see GPT_OUT_OF_PAGE_ENABLED in _app.js.
 //
 // Props (unchanged, so every page works as before):
-//   size="leaderboard"  → /23028515350/Anchor, 750x200 or 728x90 on desktop, 320x50 on phones
+//   size="leaderboard"  → /23028515350/Anchor, 728x90 / 750x200 / 468x60 on desktop, 320x50 / 320x100 on phones
 //   default             → /23028515350/300x250 (300x250 rectangle)
 //   size="rectangle2"   → /23028515350/Interstitial unit used as a second 300x250
 //   adSlot, label       → accepted for backward-compat, not used by AdX
@@ -40,10 +40,13 @@ const UNIT_PATHS = {
   rectangle2:  '/23028515350/Interstitial',
 }
 
-// Desktop gets the multi-size request (GPT serves the higher bid, 728x90 is the
-// fallback; asking for 750x200 only would crater fill). Phones: 320x50.
-const LEADERBOARD_SIZES_DESKTOP = [[750, 200], [728, 90]]
-const LEADERBOARD_SIZES_MOBILE  = [[320, 50]]
+// Multi-size requests: GPT serves the highest bid among the sizes, so every extra
+// size is one more pool of demand — this matters for India/Indonesia traffic, where
+// AdX often has no bid for the 750x200/728x90 pair alone (2026-10-16: header ad was
+// empty for visitors there). Nothing wider than the 896px header container (a 970
+// size would be clipped). Phones: 320x50 plus the taller 320x100.
+const LEADERBOARD_SIZES_DESKTOP = [[728, 90], [750, 200], [468, 60]]
+const LEADERBOARD_SIZES_MOBILE  = [[320, 50], [320, 100]]
 
 // Switch for all GPT ads on the site. Keep in sync with GPT_SIDEBAR_ADS_ENABLED
 // in _app.js (that flag also controls whether gpt.js loads at all).

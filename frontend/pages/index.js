@@ -508,6 +508,15 @@ export default function HomePage() {
       <Layout>
         <div className={`bg-[#F7F5F0] ${INK}`} style={{ fontFamily: "'Sora','Instrument Sans',system-ui,sans-serif" }}>
           {/* HERO */}
+          {/* HOMEPAGE HEADER AD — directly under the site header (moved up from below the hero on
+              2026-10-16: it sat below the fold and was rarely seen). Hidden for paid users; the box
+              collapses to nothing when the ad slot comes back empty. */}
+          <div className="px-4 pt-3 sm:px-6">
+            <div className="mx-auto max-w-6xl">
+              <AdSenseUnit size="leaderboard" className="rounded-xl overflow-hidden" />
+            </div>
+          </div>
+
           <section className="mx-auto max-w-6xl px-4 pb-12 pt-12 sm:px-6 md:pt-16">
             <div className="grid items-center gap-10 lg:grid-cols-[1.05fr,0.95fr] lg:gap-14">
               <div>
@@ -596,13 +605,6 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-
-          {/* HOMEPAGE LEADERBOARD AD (unchanged position: between hero and tools; hidden for paid users) */}
-          <div className="bg-white px-4 py-4">
-            <div className="mx-auto max-w-5xl">
-              <AdSenseUnit size="leaderboard" className="rounded-xl overflow-hidden" />
-            </div>
-          </div>
 
           {/* FEATURED */}
           <section className="bg-[#14130F] px-4 py-14 text-white sm:px-6">
