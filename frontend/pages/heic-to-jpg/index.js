@@ -112,7 +112,7 @@ export default function HeicToJpg() {
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "featureList": ["Convert up to 20 HEIC images", "High-quality 92% JPG output", "Universal JPG compatibility", "Batch processing support", "Secure encryption", "Free plan available"]
+        "featureList": ["Convert 5 HEIC images at once on the free plan (up to 20 on Pro)", "High-quality 92% JPG output", "Universal JPG compatibility", "Batch processing support", "Secure encryption", "Free plan available"]
       },
       {
         "@type": "FAQPage",

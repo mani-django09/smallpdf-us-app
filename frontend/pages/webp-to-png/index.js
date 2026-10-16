@@ -142,7 +142,7 @@ const router = useLocalizedRouter()
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "featureList": ["Convert up to 20 WEBP images", "Lossless quality conversion", "Universal PNG compatibility", "Batch processing support", "Secure encryption", "Free plan available"]
+        "featureList": ["Convert 2 WebP images at once on the free plan (up to 20 on Pro)", "Lossless quality conversion", "Universal PNG compatibility", "Batch processing support", "Secure encryption", "Free plan available"]
       },
       {
         "@type": "FAQPage",

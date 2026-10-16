@@ -112,7 +112,7 @@ export default function HeicToPng() {
         "applicationCategory": "MultimediaApplication",
         "operatingSystem": "Any",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "featureList": ["Convert up to 20 HEIC images", "100% lossless PNG output", "Transparency support", "Batch processing support", "Secure encryption", "Free plan available"]
+        "featureList": ["Convert 5 HEIC images at once on the free plan (up to 20 on Pro)", "100% lossless PNG output", "Transparency support", "Batch processing support", "Secure encryption", "Free plan available"]
       },
       {
         "@type": "FAQPage",

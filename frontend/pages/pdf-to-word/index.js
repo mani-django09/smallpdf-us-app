@@ -309,7 +309,7 @@ export default function PdfToWord() {
         },
         // aggregateRating removed: only add back when you have real, verified user reviews.
         featureList: [
-          "Convert up to 10 PDF files",
+          "Convert 1 PDF at a time on the free plan (up to 10 on Starter)",
           "Intelligent layout recognition",
           "Preserves formatting and images",
           "Batch processing support",

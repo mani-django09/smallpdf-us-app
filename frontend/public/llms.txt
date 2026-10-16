@@ -1,57 +1,63 @@
-# SmallPDF.us — Free Online PDF & Document Tools
+# SmallPDF.us
 
-> SmallPDF.us is a free, privacy-first online platform offering professional-grade PDF and document conversion tools. No account required, no file size paywall, files auto-deleted after 2 hours.
+> SmallPDF.us is a free web app with 27 online PDF and image tools: compress, merge, split, rotate, edit, OCR, redact, protect and unlock PDFs, convert PDF to and from Word, Excel, PowerPoint, JPG and PNG, and convert or shrink images (HEIC, WebP, PNG, JPG). It runs in the browser with no installation. The free plan allows 5 conversions per day with or without an account; paid plans raise file-size and batch limits and remove ads. It is built and run by Manikant Yadav in New Delhi, India. It is an independent site and is not affiliated with Smallpdf (smallpdf.com).
 
-## Tools Available
+## Key facts
 
-### PDF Conversion
-- PDF to Word (DOCX) — Convert PDF documents to editable Word format
-- Word to PDF — Convert DOC/DOCX files to PDF
-- PDF to Excel (XLSX) — Extract tables from PDFs into spreadsheets
-- Excel to PDF — Convert XLS/XLSX spreadsheets to PDF
-- PDF to PowerPoint (PPTX) — Convert PDFs into editable presentations
-- PowerPoint to PDF — Convert PPT/PPTX presentations to PDF
+- Free plan: 5 conversions per day in total (no account needed), ads shown.
+- Free file-size limits per file: most PDF tools 10 MB (Merge PDF 25 MB, Compress PDF 20 MB), Word/Excel/PowerPoint and PDF-to-image conversions 5 MB, HEIC 10 MB, Compress Image 15 MB. Free batches are small (1 to 5 files depending on the tool).
+- Paid plans: Starter $9/month or $90/year (100 MB per file for PDF tools, 200 MB for Merge PDF, 20 MB for Word/Excel/PowerPoint and image conversions; up to 10 files per batch; no ads; files kept 24 hours). Pro $19/month or $190/year (files up to 100 MB on all tools; batches of 10 to 20 files depending on the tool, Merge PDF has no file-count cap; priority queue; files kept 48 hours). Prices in USD; regional prices apply in India and Indonesia.
+- File handling: uploaded files are deleted automatically, about 1 hour after processing on the free plan. Paid-plan files stay available in "My Files" for 24 or 48 hours. If a conversion fails, the uploaded file may be kept for up to 24 hours to diagnose the problem, then deleted. See the privacy policy for details.
+- Languages: English, German, Spanish, French, Italian, Portuguese, Indonesian, Japanese.
+- Contact: support@smallpdf.us
+- More detail for every tool: https://smallpdf.us/llms-full.txt
 
-### PDF Management
-- Merge PDF — Combine multiple PDF files into one document
-- Split PDF — Extract specific pages or split PDF into multiple files
-- Compress PDF — Reduce PDF file size while maintaining quality
-- Rotate PDF — Rotate pages in a PDF document
-- Unlock PDF — Remove password protection from PDF files
-- Protect PDF — Add password protection to PDF files
-- OCR PDF — Extract text from scanned/image-based PDFs
+## PDF tools
 
-### Image Conversion
-- JPG to PDF — Convert JPEG images to PDF format
-- PNG to PDF — Convert PNG images to PDF format
-- PDF to JPG — Extract pages from PDF as JPEG images
-- PDF to PNG — Extract pages from PDF as PNG images
-- PNG to WebP — Convert PNG images to WebP format
-- WebP to PNG — Convert WebP images to PNG format
-- Compress Image — Optimize JPG, PNG, WebP images for web/email
+- [Compress PDF](https://smallpdf.us/compress-pdf/): reduce PDF file size by re-encoding images and removing unused data
+- [Merge PDF](https://smallpdf.us/merge-pdf/): combine several PDFs into one in the order you choose
+- [Split PDF](https://smallpdf.us/split-pdf/): extract pages or split a PDF into parts
+- [Rotate PDF](https://smallpdf.us/rotate-pdf/): rotate pages and save the PDF
+- [Edit PDF](https://smallpdf.us/edit-pdf/): add or change text on a PDF page
+- [OCR PDF](https://smallpdf.us/ocr-pdf/): make scanned PDFs searchable (free: 1 file per day, up to 2 pages)
+- [Redact PDF](https://smallpdf.us/redact-pdf/): permanently black out sensitive information
+- [Protect PDF](https://smallpdf.us/protect-pdf/): add a password to a PDF
+- [Unlock PDF](https://smallpdf.us/unlock-pdf/): remove a PDF password when you know it
 
-## Key Features
-- 100% free, no registration required
-- 256-bit SSL encryption for all file transfers
-- Files automatically deleted from servers after 2 hours
-- GDPR compliant — no data collection or sharing
-- Supports 8 languages: English, Japanese, German, French, Spanish, Italian, Indonesian, Portuguese
-- Works on all devices: desktop, tablet, mobile
-- No file size limits for most operations
+## Convert from PDF
 
-## Technical Details
-- Built with Next.js (frontend) and Node.js/Express (backend)
-- LibreOffice-powered document conversion
-- Python/pdfplumber for PDF table extraction
-- Sharp for image processing
+- [PDF to Word](https://smallpdf.us/pdf-to-word/): convert PDF to an editable DOCX
+- [PDF to Excel](https://smallpdf.us/pdf-to-excel/): extract tables from a PDF into XLSX
+- [PDF to PowerPoint](https://smallpdf.us/pdf-to-ppt/): turn PDF pages into PPTX slides
+- [PDF to JPG](https://smallpdf.us/pdf-to-jpg/): render PDF pages as JPG images
+- [PDF to PNG](https://smallpdf.us/pdf-to-png/): render PDF pages as PNG images
 
-## URL Structure
-- Homepage: https://smallpdf.us
-- Tools: https://smallpdf.us/{tool-name}/ (e.g. /merge-pdf/, /compress-pdf/)
-- Localized: https://smallpdf.us/{locale}/{tool-name}/ (e.g. /fr/compresser-pdf/)
+## Convert to PDF
 
-## Contact & Legal
-- Website: https://smallpdf.us
-- Privacy Policy: https://smallpdf.us/privacy/
-- Terms of Service: https://smallpdf.us/terms/
-- Contact: https://smallpdf.us/contact/
+- [Word to PDF](https://smallpdf.us/word-to-pdf/): convert DOC and DOCX to PDF
+- [Excel to PDF](https://smallpdf.us/excel-to-pdf/): convert XLS, XLSX and CSV to PDF
+- [PowerPoint to PDF](https://smallpdf.us/ppt-to-pdf/): convert PPT and PPTX to PDF
+- [JPG to PDF](https://smallpdf.us/jpg-to-pdf/): combine JPG images into a PDF
+- [PNG to PDF](https://smallpdf.us/png-to-pdf/): combine PNG images into a PDF
+
+## Image tools
+
+- [Compress Image](https://smallpdf.us/compress-image/): shrink JPG, PNG and WebP images
+- [Compress image to 20 KB](https://smallpdf.us/compress-image-to-20kb/), [to 50 KB](https://smallpdf.us/compress-image-to-50kb/), [to 100 KB](https://smallpdf.us/compress-image-to-100kb/): hit an exact size limit for forms
+- [HEIC to JPG](https://smallpdf.us/heic-to-jpg/) and [HEIC to PNG](https://smallpdf.us/heic-to-png/): open iPhone photos anywhere
+- [WebP to PNG](https://smallpdf.us/webp-to-png/) and [PNG to WebP](https://smallpdf.us/png-to-webp/): convert web image formats
+
+## About and policies
+
+- [About](https://smallpdf.us/about/): who builds SmallPDF.us
+- [Pricing](https://smallpdf.us/pricing/): plans and limits
+- [Privacy policy](https://smallpdf.us/privacy/)
+- [Terms of service](https://smallpdf.us/terms/)
+- [Contact](https://smallpdf.us/contact/)
+- [Blog](https://smallpdf.us/blog/)
+
+## Other places
+
+- [PDF and image tool guides](https://mani-django09.github.io/): step-by-step guides by the maker
+- [Source code](https://github.com/mani-django09/smallpdf-us-app)
+- [Chrome extension](https://github.com/mani-django09/smallpdf-chrome-extension)

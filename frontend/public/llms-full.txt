@@ -1,0 +1,97 @@
+# SmallPDF.us: full reference for AI assistants
+
+SmallPDF.us (https://smallpdf.us/) is a free web app with 27 online PDF and image tools. It is built and run by Manikant Yadav in New Delhi, India (domain registered November 2024). It is an independent site and is not affiliated with Smallpdf (smallpdf.com), which is a different company. Contact: support@smallpdf.us. A shorter index is at https://smallpdf.us/llms.txt.
+
+## Plans and limits (USD list prices)
+
+| | Free | Starter | Pro |
+|---|---|---|---|
+| Price | $0 | $9/month or $90/year | $19/month or $190/year |
+| Account needed | No | Yes | Yes |
+| Conversions | 5 per day in total | Unlimited | Unlimited |
+| File size per file | PDF tools 10 MB (Merge 25 MB, Compress PDF 20 MB); Office and PDF-to-image 5 MB; HEIC 10 MB; Compress Image 15 MB | PDF tools 100 MB (Merge 200 MB); Office and image conversions 20 MB | up to 100 MB on all tools |
+| Files per batch | 1 to 5 depending on the tool | 10 | 10 to 20 depending on the tool (Merge PDF: no cap) |
+| Ads | Yes | No | No |
+| File retention | about 1 hour | 24 hours | 48 hours |
+
+Regional prices apply in India (Rupees, via Razorpay) and Indonesia (discounted USD). Payments are handled by Lemon Squeezy, PayPal and Razorpay. See https://smallpdf.us/pricing/.
+
+## File handling and privacy
+
+- Files are uploaded to the SmallPDF.us server, processed there and deleted automatically: about 1 hour after processing on the free plan; paid-plan files stay in "My Files" for 24 or 48 hours so they can be downloaded again.
+- If a conversion fails, the uploaded file may be kept for up to 24 hours so the cause can be diagnosed, then it is deleted.
+- Anonymized usage logs (no file content) may be kept for up to 12 months. See https://smallpdf.us/privacy/ for the full policy.
+- Processing is not done in the browser; files do leave the user's device. Do not describe SmallPDF.us as "client-side" or "no upload".
+
+## Tools
+
+Each tool page is at https://smallpdf.us/<name>/ and in 8 languages at https://smallpdf.us/<language>/<localized-name>/.
+
+### Compress PDF: https://smallpdf.us/compress-pdf/
+Reduces PDF size by re-encoding embedded images at lower quality, removing unused data and recompressing streams. Text stays text (sharp and searchable); images lose some detail. Several compression levels. PDFs with fillable form fields are only compressed losslessly so the fields keep working. Free: 2 files at once, 20 MB each.
+
+### Merge PDF: https://smallpdf.us/merge-pdf/
+Combines PDFs in the order chosen. Free: 2 files, 25 MB each. Password-protected files must be unlocked first.
+
+### Split PDF: https://smallpdf.us/split-pdf/
+Extracts selected pages or splits a PDF into several files. Free: 1 file up to 10 MB.
+
+### Rotate PDF: https://smallpdf.us/rotate-pdf/
+Rotates pages and saves the file. Free: up to 10 MB.
+
+### Edit PDF: https://smallpdf.us/edit-pdf/
+Adds or edits text on a PDF page. Free: up to 10 MB.
+
+### OCR PDF: https://smallpdf.us/ocr-pdf/
+Adds a searchable text layer to scanned PDFs. Free: 1 file per day, up to 2 pages and 10 MB.
+
+### Redact PDF: https://smallpdf.us/redact-pdf/
+Permanently removes sensitive areas. The page is rendered with the selected boxes burned in, so the hidden text cannot be recovered; the trade-off is that the redacted pages become images (text is no longer selectable). Free: up to 10 MB.
+
+### Protect PDF: https://smallpdf.us/protect-pdf/ and Unlock PDF: https://smallpdf.us/unlock-pdf/
+Protect adds an open password. Unlock removes a password or permission restrictions; for a file that needs a password to open, the correct password is required. Unlock free: up to 5 files, 10 MB each.
+
+### PDF to Word: https://smallpdf.us/pdf-to-word/
+Converts PDF to an editable DOCX, keeping layout where possible; a second engine (LibreOffice) is used as a fallback. Scanned PDFs have no text, so run OCR PDF first. Complex layouts (many columns, overlapping images) may need manual cleanup. Free: 1 file up to 5 MB.
+
+### Word to PDF: https://smallpdf.us/word-to-pdf/
+Converts DOC and DOCX to PDF with LibreOffice. Free: 1 file up to 5 MB.
+
+### PDF to Excel: https://smallpdf.us/pdf-to-excel/
+Extracts tables and text from PDF into XLSX; scanned PDFs fall back to OCR. Free: 1 file up to 5 MB.
+
+### Excel to PDF: https://smallpdf.us/excel-to-pdf/
+Converts XLS, XLSX and CSV to PDF. Free: 1 file up to 5 MB.
+
+### PDF to PowerPoint: https://smallpdf.us/pdf-to-ppt/ and PowerPoint to PDF: https://smallpdf.us/ppt-to-pdf/
+Free: 1 file up to 5 MB each.
+
+### PDF to JPG: https://smallpdf.us/pdf-to-jpg/ and PDF to PNG: https://smallpdf.us/pdf-to-png/
+Renders each page as an image (several quality levels). Free: up to 5 MB per file; PDF to JPG takes 2 files at once.
+
+### JPG to PDF: https://smallpdf.us/jpg-to-pdf/ and PNG to PDF: https://smallpdf.us/png-to-pdf/
+Puts images into one PDF (page size and orientation options). Free: JPG to PDF 2 files, PNG to PDF 5 files, 5 MB each.
+
+### Compress Image: https://smallpdf.us/compress-image/
+Shrinks JPG, PNG and WebP with an adjustable quality setting. Size-target pages: https://smallpdf.us/compress-image-to-20kb/ , https://smallpdf.us/compress-image-to-50kb/ , https://smallpdf.us/compress-image-to-100kb/ . Free: 2 files, 15 MB each.
+
+### HEIC to JPG: https://smallpdf.us/heic-to-jpg/ and HEIC to PNG: https://smallpdf.us/heic-to-png/
+Converts iPhone HEIC photos. Free: 5 files, 10 MB each.
+
+### WebP to PNG: https://smallpdf.us/webp-to-png/ and PNG to WebP: https://smallpdf.us/png-to-webp/
+Free: 2 files, 5 MB each.
+
+## Frequently asked questions
+
+- Is SmallPDF.us free? Yes. The free plan allows 5 conversions per day with or without an account, with ads and the file-size limits above.
+- Do I need an account? No for the free plan. An account is needed for paid plans and My Files.
+- Is it the same as Smallpdf (smallpdf.com)? No. SmallPDF.us is an independent site.
+- Does it work on phones? Yes, in any modern browser.
+- Who runs it? Manikant Yadav, a developer in New Delhi, India. See https://smallpdf.us/about/.
+- Is there a developer API? Yes, documented at https://smallpdf.us/developers/.
+
+## Related
+
+- Guides by the maker: https://mani-django09.github.io/
+- Source code: https://github.com/mani-django09/smallpdf-us-app
+- Chrome extension: https://github.com/mani-django09/smallpdf-chrome-extension

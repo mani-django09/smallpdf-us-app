@@ -15,7 +15,7 @@ import {
 // ─── Team data ────────────────────────────────────────────────────────────────
 const team = [
   {
-    name: "Manikant Kumar",
+    name: "Manikant Yadav",
     role: "Founder & Developer",
     education: "Computer Science",
     experience: "Full-stack developer · PDF tools & document processing",
@@ -195,7 +195,7 @@ export default function AboutPage() {
       <SEOHead
         title={t("about.pageTitle")}
         description={t("about.pageDescription")}
-        keywords="about smallpdf.us, Manikant Kumar, PDF tools team, privacy PDF, free PDF tools"
+        keywords="about smallpdf.us, Manikant Yadav, PDF tools team, privacy PDF, free PDF tools"
       />
       <Layout>
 

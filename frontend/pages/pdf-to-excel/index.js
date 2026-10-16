@@ -126,7 +126,7 @@ const translations = {
       "Your security is our priority. All files are encrypted during transfer using 256-bit SSL encryption. Files are automatically deleted from our servers within 1 hour after conversion, and we never share your data with third parties.",
     faq6Question: "Can I convert multiple PDF files at once?",
     faq6Answer:
-      "Yes! You can upload and convert up to 10 PDF files simultaneously. Each file will be converted to a separate Excel spreadsheet.",
+      "Yes, on a paid plan. Starter converts up to 10 PDF files at once; the free plan converts one PDF at a time. Each file becomes a separate Excel spreadsheet.",
     ctaTitle: "Ready to Convert Your PDF?",
     ctaSubtitle:
       "Free for 1 file at a time, up to 5MB. Files are deleted after an hour.",
@@ -237,7 +237,7 @@ const translations = {
       "セキュリティを最優先しています。すべてのファイルは256ビットSSL暗号化で転送中に保護されます。ファイルは変換後1時間以内にサーバーから自動削除され、データを第三者と共有することは一切ありません。",
     faq6Question: "複数のPDFファイルを一度に変換できますか？",
     faq6Answer:
-      "はい！最大10個のPDFファイルを同時にアップロードして変換できます。各ファイルは別々のExcelスプレッドシートに変換されます。",
+      "はい、有料プランで可能です。Starterは最大10個のPDFファイルを同時に変換でき、無料プランは1ファイルずつです。各ファイルは別々のExcelスプレッドシートに変換されます。",
     ctaTitle: "PDFの変換を始めましょう！",
     ctaSubtitle:
       "世界中のユーザーが、正確なPDF→Excel変換にSmallPDF.usを利用しています。",
@@ -347,7 +347,7 @@ const translations = {
       "Votre s\u00e9curit\u00e9 est notre priorit\u00e9. Tous les fichiers sont chiffr\u00e9s pendant le transfert avec SSL 256 bits. Les fichiers sont automatiquement supprim\u00e9s de nos serveurs dans l\u2019heure suivant la conversion, et nous ne partageons jamais vos donn\u00e9es avec des tiers.",
     faq6Question: "Puis-je convertir plusieurs fichiers PDF \u00e0 la fois ?",
     faq6Answer:
-      "Oui\u00a0! Vous pouvez importer et convertir jusqu\u2019\u00e0 10 fichiers PDF simultan\u00e9ment. Chaque fichier sera converti en une feuille de calcul Excel distincte.",
+      "Oui, avec un forfait payant. Starter convertit jusqu'à 10 fichiers PDF à la fois ; le forfait gratuit convertit un PDF à la fois. Chaque fichier devient une feuille de calcul Excel distincte.",
     ctaTitle: "Pr\u00eat \u00e0 convertir votre PDF ?",
     ctaSubtitle:
       "Rejoignez les utilisateurs du monde entier qui utilisent SmallPDF.us pour des conversions PDF en Excel rapides et pr\u00e9cises.",
@@ -457,7 +457,7 @@ const translations = {
       "Tu seguridad es nuestra prioridad. Todos los archivos se cifran durante la transferencia con SSL de 256 bits. Los archivos se eliminan autom\u00e1ticamente de nuestros servidores en la hora siguiente a la conversi\u00f3n, y nunca compartimos tus datos con terceros.",
     faq6Question: "\u00bfPuedo convertir varios archivos PDF a la vez?",
     faq6Answer:
-      "\u00a1S\u00ed! Puedes subir y convertir hasta 10 archivos PDF simult\u00e1neamente. Cada archivo se convertir\u00e1 en una hoja de c\u00e1lculo Excel independiente.",
+      "Sí, con un plan de pago. Starter convierte hasta 10 archivos PDF a la vez; el plan gratuito convierte un PDF cada vez. Cada archivo se convierte en una hoja de cálculo de Excel independiente.",
     ctaTitle: "\u00bfListo para convertir tu PDF?",
     ctaSubtitle:
       "\u00danete a usuarios de todo el mundo que utilizan SmallPDF.us para conversiones de PDF a Excel r\u00e1pidas y precisas.",
@@ -567,7 +567,7 @@ const translations = {
       "Ihre Sicherheit hat für uns höchste Priorität. Alle Dateien werden während der Übertragung mit 256-Bit-SSL-Verschlüsselung geschützt. Dateien werden innerhalb von 1 Stunde nach der Konvertierung automatisch von unseren Servern gelöscht, und wir geben Ihre Daten niemals an Dritte weiter.",
     faq6Question: "Kann ich mehrere PDF-Dateien gleichzeitig konvertieren?",
     faq6Answer:
-      "Ja! Sie können bis zu 10 PDF-Dateien gleichzeitig hochladen und konvertieren. Jede Datei wird in eine separate Excel-Tabelle konvertiert.",
+      "Ja, mit einem Bezahlplan. Starter konvertiert bis zu 10 PDF-Dateien gleichzeitig; der kostenlose Plan konvertiert eine PDF nach der anderen. Jede Datei wird in eine separate Excel-Tabelle konvertiert.",
     ctaTitle: "Bereit, Ihr PDF zu konvertieren?",
     ctaSubtitle:
       "Schließen Sie sich Nutzern weltweit an, die SmallPDF.us für schnelle, präzise PDF-zu-Excel-Konvertierungen verwenden.",
@@ -676,7 +676,7 @@ const translations = {
       "La tua sicurezza \u00e8 la nostra priorit\u00e0. Tutti i file sono crittografati durante il trasferimento con SSL a 256 bit. I file vengono cancellati automaticamente dai nostri server entro 1 ora dalla conversione e non condividiamo mai i tuoi dati con terze parti.",
     faq6Question: "Posso convertire pi\u00f9 file PDF contemporaneamente?",
     faq6Answer:
-      "S\u00ec! Puoi caricare e convertire fino a 10 file PDF contemporaneamente. Ogni file verr\u00e0 convertito in un foglio di calcolo Excel separato.",
+      "Sì, con un piano a pagamento. Starter converte fino a 10 file PDF alla volta; il piano gratuito ne converte uno alla volta. Ogni file diventa un foglio di calcolo Excel separato.",
     ctaTitle: "Pronto a convertire il tuo PDF?",
     ctaSubtitle:
       "Unisciti a utenti di tutto il mondo che usano SmallPDF.us per conversioni PDF in Excel rapide e precise.",
@@ -785,7 +785,7 @@ const translations = {
       "Keamanan Anda adalah prioritas kami. Semua file dienkripsi selama transfer menggunakan enkripsi SSL 256-bit. File dihapus otomatis dari server kami dalam 1 jam setelah konversi, dan kami tidak pernah membagikan data Anda kepada pihak ketiga.",
     faq6Question: "Bisakah saya mengonversi beberapa file PDF sekaligus?",
     faq6Answer:
-      "Ya! Anda dapat mengunggah dan mengonversi hingga 10 file PDF secara bersamaan. Setiap file akan dikonversi menjadi spreadsheet Excel terpisah.",
+      "Ya, dengan paket berbayar. Starter mengonversi hingga 10 file PDF sekaligus; paket gratis mengonversi satu PDF setiap kali. Setiap file menjadi spreadsheet Excel terpisah.",
     ctaTitle: "Siap Mengonversi PDF Anda?",
     ctaSubtitle:
       "Bergabunglah dengan pengguna di seluruh dunia yang menggunakan SmallPDF.us untuk konversi PDF ke Excel yang cepat dan akurat.",
@@ -895,7 +895,7 @@ const translations = {
       "Sua segurança é nossa prioridade. Todos os arquivos são criptografados durante a transferência usando criptografia SSL de 256 bits. Os arquivos são excluídos automaticamente de nossos servidores dentro de 1 hora após a conversão, e nunca compartilhamos seus dados com terceiros.",
     faq6Question: "Posso converter vários arquivos PDF de uma vez?",
     faq6Answer:
-      "Sim! Você pode enviar e converter até 10 arquivos PDF simultaneamente. Cada arquivo será convertido em uma planilha Excel separada.",
+      "Sim, com um plano pago. O Starter converte até 10 arquivos PDF de uma vez; o plano gratuito converte um PDF por vez. Cada arquivo é convertido em uma planilha Excel separada.",
     ctaTitle: "Pronto para Converter seu PDF?",
     ctaSubtitle:
       "Junte-se a usuários do mundo todo que usam o SmallPDF.us para conversões rápidas e precisas de PDF para Excel.",

@@ -158,7 +158,7 @@ const router = useLocalizedRouter()
         },
         // aggregateRating removed — add back only when real verified user reviews exist
         "featureList": [
-          "Convert up to 20 PNG images",
+          "Convert 2 PNG images at once on the free plan (up to 20 on Pro)",
           "25-35% smaller file sizes",
           "Preserves transparency",
           "Batch processing",

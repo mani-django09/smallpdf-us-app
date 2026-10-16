@@ -553,34 +553,50 @@ export default function PricingPage() {
     }
   })()
 
+  // USD list prices. India (Razorpay, INR) and Indonesia (discounted USD) see regional prices.
+  const usd = (name, price, months, desc) => ({
+    '@type': 'Offer',
+    name,
+    description: desc,
+    price,
+    priceCurrency: 'USD',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price,
+      priceCurrency: 'USD',
+      billingDuration: months === 1 ? 'P1M' : 'P1Y',
+      unitText: months === 1 ? 'MONTH' : 'YEAR',
+    },
+    availability: 'https://schema.org/InStock',
+    url: 'https://smallpdf.us/pricing/',
+  })
   const pricingStructuredData = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
-    name: 'SmallPDF.us Pricing — PDF Tools Plans',
-    description: 'Affordable PDF tool plans. Starter $9/mo, Pro $19/mo. Cancel anytime. Cards, PayPal, UPI accepted.',
-    url: 'https://smallpdf.us/pricing/',
-    provider: {
-      '@type': 'Organization',
-      name: 'SmallPDF.us',
-      url: 'https://smallpdf.us',
-    },
-    offers: [
+    '@graph': [
       {
-        '@type': 'Offer',
-        name: 'Starter Plan',
-        price: '9.00',
-        priceCurrency: 'USD',
-        priceSpecification: { '@type': 'UnitPriceSpecification', price: '9.00', priceCurrency: 'USD', unitText: 'MONTH' },
-        eligibleCustomerType: 'http://purl.org/goodrelations/v1#Individual',
+        '@type': 'WebPage',
+        '@id': 'https://smallpdf.us/pricing/#webpage',
+        name: 'SmallPDF.us Pricing — PDF Tools Plans',
+        description: 'Free plan (5 conversions per day), Starter $9/month and Pro $19/month. Cancel anytime. Cards, PayPal and UPI accepted.',
         url: 'https://smallpdf.us/pricing/',
+        isPartOf: { '@id': 'https://smallpdf.us/#website' },
+        publisher: { '@id': 'https://smallpdf.us/#organization' },
+        about: { '@id': 'https://smallpdf.us/pricing/#software' },
       },
       {
-        '@type': 'Offer',
-        name: 'Pro Plan',
-        price: '19.00',
-        priceCurrency: 'USD',
-        priceSpecification: { '@type': 'UnitPriceSpecification', price: '19.00', priceCurrency: 'USD', unitText: 'MONTH' },
-        url: 'https://smallpdf.us/pricing/',
+        '@type': 'SoftwareApplication',
+        '@id': 'https://smallpdf.us/pricing/#software',
+        name: 'SmallPDF.us',
+        applicationCategory: 'UtilitiesApplication',
+        operatingSystem: 'Any (web browser)',
+        url: 'https://smallpdf.us/',
+        offers: [
+          usd('Free', '0', 1, '5 conversions per day, no account needed. Ads shown; PDF tools up to 10 MB per file (Merge 25 MB, Compress 20 MB), Office and image conversions 5-15 MB.'),
+          usd('Starter (monthly)', '9.00', 1, 'No ads, 100 MB per file for PDF tools (200 MB for Merge), 20 MB for Office and image conversions, 10 files per batch, files kept 24 hours.'),
+          usd('Starter (yearly)', '90.00', 12, 'Same as Starter, billed yearly (2 months free).'),
+          usd('Pro (monthly)', '19.00', 1, 'Everything in Starter, files up to 100 MB on all tools, batches of 10 to 20 files, priority queue, files kept 48 hours.'),
+          usd('Pro (yearly)', '190.00', 12, 'Same as Pro, billed yearly (2 months free).'),
+        ],
       },
     ],
   }

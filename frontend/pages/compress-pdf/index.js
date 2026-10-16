@@ -140,11 +140,11 @@ export default function CompressPdf() {
           "priceCurrency": "USD",
         },
         "featureList": [
-          "Compress up to 10 PDF files",
+          "Compress 2 PDFs at once on the free plan (10 on Starter)",
           "Up to 90% size reduction",
           "Smart image optimization",
           "Batch processing",
-          "No quality loss with balanced mode",
+          "Choose a compression level: smaller file or higher quality",
           "Free plan available"
         ]
       },

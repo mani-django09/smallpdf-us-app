@@ -110,10 +110,18 @@ export default function SEOHead({
         founder: {
           '@type': 'Person',
           '@id': `${baseUrl}/#founder`,
-          name: 'Manikant Kumar',
+          name: 'Manikant Yadav',
           jobTitle: 'Founder & Developer',
           url: `${baseUrl}/about`,
         },
+        // Official profiles/pages of the same entity (helps AI and search engines
+        // connect this site with its maker, source code and guides).
+        sameAs: [
+          'https://github.com/mani-django09',
+          'https://github.com/mani-django09/smallpdf-us-app',
+          'https://github.com/mani-django09/smallpdf-chrome-extension',
+          'https://mani-django09.github.io/',
+        ],
         // Street-level address intentionally omitted from public structured
         // data (it's a residential address). Country is enough for schema.org.
         address: {
@@ -131,10 +139,12 @@ export default function SEOHead({
       {
         '@type': 'Person',
         '@id': `${baseUrl}/#founder`,
-        name: 'Manikant Kumar',
+        name: 'Manikant Yadav',
         jobTitle: 'Founder & Developer',
         worksFor: { '@id': `${baseUrl}/#organization` },
         url: `${baseUrl}/about`,
+        sameAs: ['https://github.com/mani-django09', 'https://mani-django09.github.io/'],
+        address: { '@type': 'PostalAddress', addressLocality: 'New Delhi', addressCountry: 'IN' },
         knowsAbout: ['PDF tools', 'Document processing', 'Web development', 'Node.js', 'Next.js'],
       },
       {

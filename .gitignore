@@ -45,3 +45,6 @@ __pycache__/
 # local Claude Code / MCP tooling (machine-specific)
 .claude/
 .mcp.json
+
+# runtime state (IndexNow hashes etc.)
+backend/data/
