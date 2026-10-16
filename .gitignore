@@ -41,3 +41,7 @@ __pycache__/
 .claude/launch.json
 # Added by code-review-graph
 .code-review-graph/
+
+# local Claude Code / MCP tooling (machine-specific)
+.claude/
+.mcp.json

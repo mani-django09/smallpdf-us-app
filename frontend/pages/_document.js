@@ -17,17 +17,10 @@ export default function MyDocument({ locale }) {
         <link rel="preconnect" href="https://securepubads.g.doubleclick.net" />
         <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
         <link rel="preconnect" href="https://www.googletagservices.com" />
-        {/* Preconnect Google AdSense */}
+        {/* Ad creatives served through Ad Manager (GPT) load from this host.
+            NOTE: the AdSense loader (adsbygoogle.js) was removed on 2026-10-16 —
+            all ads are AdX/GPT now (gpt.js is loaded in _app.js). */}
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-
-        {/* ========================================
-            GOOGLE ADSENSE — loaded on every page
-        ======================================== */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6913093595582462"
-          crossOrigin="anonymous"
-        ></script>
 
         {/* DNS Prefetch for faster lookups */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />

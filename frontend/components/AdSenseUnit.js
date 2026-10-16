@@ -1,15 +1,15 @@
-// AdSenseUnit — leaderboard = direct AdSense "Header Ad" unit; everything
-// else (rectangle/rectangle2, the sidebar units) = Google Ad Manager (AdX)
-// display unit via GPT.
+// AdSenseUnit — every ad on the site is a Google Ad Manager (AdX) display unit
+// served through GPT. (The file name is historical: there is NO AdSense code
+// left — no adsbygoogle loader, no <ins class="adsbygoogle"> — as of 2026-10-16.)
 // Network: /23028515350
-// GPT script + out-of-page slots (Interstitial, Anchor, Side Rails) load in _app.js.
-// The AdSense loader script (adsbygoogle.js) loads once site-wide in _document.js.
+// gpt.js is loaded once in _app.js (GPT_SIDEBAR_ADS_ENABLED there); out-of-page
+// formats (Interstitial / Anchor) stay off, see GPT_OUT_OF_PAGE_ENABLED in _app.js.
 //
-// Props (kept identical to the old AdSense version so every page works unchanged):
-//   size="leaderboard"  → real AdSense unit, client ca-pub-6913093595582462,
-//                         slot 8004544994 ("smallpdf_header"), responsive
-//   default             → /23028515350/300x250 (300×250 rectangle, AdX)
-//   adSlot, label       → accepted for backward-compat, not required by AdX
+// Props (unchanged, so every page works as before):
+//   size="leaderboard"  → /23028515350/Anchor, 750x200 or 728x90 on desktop, 320x50 on phones
+//   default             → /23028515350/300x250 (300x250 rectangle)
+//   size="rectangle2"   → /23028515350/Interstitial unit used as a second 300x250
+//   adSlot, label       → accepted for backward-compat, not used by AdX
 //
 // IMPORTANT: the slot's DOM id comes from React useId() so the server-rendered
 // id matches the client-rendered id (no hydration mismatch / "Application error").
@@ -21,23 +21,17 @@ import { useTranslations } from '../lib/i18n'
 
 const PAID_PLANS = ['starter', 'pro', 'agency', 'enterprise']
 
-const ADSENSE_CLIENT = 'ca-pub-6913093595582462'
-const ADSENSE_HEADER_SLOT = '8004544994'
-
-// Some pages render more than one size="leaderboard" AdSenseUnit (a "Header Ad"
-// at the top plus a mid-content one on the download pages and blog posts).
-// They all point at the same real ADSENSE_HEADER_SLOT, which AdSense allows —
-// the same ad unit code may appear several times on a page. This used to be
-// capped at ONE per page, which left the mid-content box on 20 download pages
-// as an empty "Advertisement" frame. The module-level tracker now only guards
-// against runaway duplicates (MAX_LEADERBOARDS_PER_PAGE). Resets automatically
-// on navigation (path change).
-const MAX_LEADERBOARDS_PER_PAGE = 2
+// Only ONE leaderboard per page: AdX has a single in-page leaderboard unit, and
+// requesting the same unit twice on a page competes for the same demand and
+// rarely double-fills. Later size="leaderboard" instances on the same page
+// (e.g. the mid-content one on download pages) render nothing instead of an
+// empty frame. The claim resets automatically on navigation (path change).
+const MAX_LEADERBOARDS_PER_PAGE = 1
 let leaderboardClaim = { path: null, claimed: 0 }
 
-// GAM (AdX) ad unit paths — sidebar rectangle units only (leaderboard now
-// renders real AdSense instead, see ADSENSE_HEADER_SLOT above).
+// GAM (AdX) ad unit paths.
 const UNIT_PATHS = {
+  leaderboard: '/23028515350/Anchor',
   rectangle:   '/23028515350/300x250',
   // Second, genuinely distinct rectangle unit — for a page's SECOND 300x250 slot.
   // Requesting the same 'rectangle' path twice on one page competes for the same
@@ -46,12 +40,14 @@ const UNIT_PATHS = {
   rectangle2:  '/23028515350/Interstitial',
 }
 
-// AdX is mostly paused in favor of direct AdSense — see _app.js. Only the
-// sidebar rectangle units (size="rectangle" default, or "rectangle2") go
-// through AdX/GPT; the leaderboard/header banner now renders real AdSense
-// unconditionally (see the isLeaderboard branch below). Keep in sync with
-// GPT_SIDEBAR_ADS_ENABLED in _app.js.
-const GPT_SIDEBAR_ADS_ENABLED = true
+// Desktop gets the multi-size request (GPT serves the higher bid, 728x90 is the
+// fallback; asking for 750x200 only would crater fill). Phones: 320x50.
+const LEADERBOARD_SIZES_DESKTOP = [[750, 200], [728, 90]]
+const LEADERBOARD_SIZES_MOBILE  = [[320, 50]]
+
+// Switch for all GPT ads on the site. Keep in sync with GPT_SIDEBAR_ADS_ENABLED
+// in _app.js (that flag also controls whether gpt.js loads at all).
+const GPT_ADS_ENABLED = true
 
 export default function AdSenseUnit({ adSlot, size, className = '', label, style = {}, targeting }) {
   const { user } = useAuth()
@@ -61,26 +57,23 @@ export default function AdSenseUnit({ adSlot, size, className = '', label, style
   const adLabel  = t('ads.label') === 'ads.label' ? 'Advertisement' : t('ads.label')
 
   const [inView, setInView] = useState(false)
-  // Track viewport after mount so the reserved box matches the actual mobile
-  // ad size (320x50) instead of holding desktop height on phones.
+  // Viewport is only known after mount; the leaderboard's size list depends on it,
+  // so the slot must not be defined before then.
   const [isMobileView, setIsMobileView] = useState(false)
-  // The leaderboard <ins> shape depends on the viewport, so it must not be
-  // pushed to AdSense until we know which shape we're rendering.
   const [viewportKnown, setViewportKnown] = useState(false)
+  // Set when GPT reports the slot rendered empty, so the reserved box collapses.
+  const [collapsed, setCollapsed] = useState(false)
   const wrapRef  = useRef(null)
   const slotRef  = useRef(null)
   const defined  = useRef(false)
 
   const isLeaderboard = size === 'leaderboard'
   const isRectangle2  = size === 'rectangle2'
-  const path = isRectangle2 ? UNIT_PATHS.rectangle2 : UNIT_PATHS.rectangle
+  const path = isLeaderboard ? UNIT_PATHS.leaderboard : isRectangle2 ? UNIT_PATHS.rectangle2 : UNIT_PATHS.rectangle
 
-  // Claim the one real leaderboard slot per page. Done in an effect (not a
-  // render-time/lazy-init side effect) so it's unaffected by React 18 Strict
-  // Mode's double-invocation of render in dev, and safe under concurrent
-  // rendering in production. Effects fire in mount order, so the first
-  // leaderboard instance on the page wins the claim. Resets when the path
-  // changes (new page = fresh claim).
+  // Claim the one leaderboard slot per page. Done in an effect (not a render-time
+  // side effect) so it is unaffected by React 18 Strict Mode's double render in
+  // dev. Effects fire in mount order, so the first leaderboard on the page wins.
   const [isPrimaryLeaderboard, setIsPrimaryLeaderboard] = useState(false)
   useEffect(() => {
     if (!isLeaderboard) return
@@ -90,9 +83,8 @@ export default function AdSenseUnit({ adSlot, size, className = '', label, style
     if (leaderboardClaim.claimed >= MAX_LEADERBOARDS_PER_PAGE) return
     leaderboardClaim.claimed += 1
     setIsPrimaryLeaderboard(true)
-    // Release the claim on unmount, so a leaderboard that remounts on the same
-    // path (a page swapping between a loading state and its real layout) can
-    // show again instead of staying blank.
+    // Release the claim on unmount so a leaderboard that remounts on the same
+    // path (a page swapping between a loading state and its real layout) shows again.
     return () => {
       if (leaderboardClaim.path === router.asPath && leaderboardClaim.claimed > 0) leaderboardClaim.claimed -= 1
     }
@@ -102,19 +94,17 @@ export default function AdSenseUnit({ adSlot, size, className = '', label, style
   // Hydration-safe unique div id (same on server + client). Strip ":" so the
   // id is valid for document.getElementById / googletag.display.
   const rawId = useId()
-  const divId = `gpt-300x250-${rawId.replace(/:/g, '')}`
+  const divId = `gpt-${isLeaderboard ? 'leaderboard' : '300x250'}-${rawId.replace(/:/g, '')}`
 
   useEffect(() => {
     setIsMobileView(window.innerWidth < 768)
     setViewportKnown(true)
   }, [])
 
-  // ── Lazy load: only activate the ad once it's near the viewport ─────────────
-  // isPrimaryLeaderboard is in the deps because the wrapping div (and wrapRef)
-  // only mounts once a leaderboard instance wins the claim — on the render
-  // before that, wrapRef.current is null and this effect bails out. Without
-  // isPrimaryLeaderboard here, the effect never re-runs once the ref becomes
-  // available, so the observer is never created and the ad never loads.
+  // ── Lazy load: only request the ad once it is near the viewport ─────────────
+  // isPrimaryLeaderboard is a dependency because the wrapper (and wrapRef) of a
+  // leaderboard only mounts after it wins the claim; without it the observer is
+  // never created and the ad never loads.
   useEffect(() => {
     if (isPaid || inView) return
     const el = wrapRef.current
@@ -128,38 +118,34 @@ export default function AdSenseUnit({ adSlot, size, className = '', label, style
     return () => io.disconnect()
   }, [isPaid, inView, isPrimaryLeaderboard])
 
-  // ── Leaderboard: push the real AdSense unit once in view (client only) ──────
+  // ── Define + display the GPT slot once in view ───────────────────────────────
   useEffect(() => {
-    if (isPaid || !isLeaderboard || !isPrimaryLeaderboard || !inView || !viewportKnown || defined.current) return
-    if (typeof window === 'undefined') return
-    defined.current = true
-    try {
-      window.adsbygoogle = window.adsbygoogle || []
-      window.adsbygoogle.push({})
-    } catch (e) {
-      // AdSense not ready / blocked — fail silently, never break the page
-    }
-  }, [isPaid, isLeaderboard, isPrimaryLeaderboard, inView, viewportKnown])
-
-  // ── Sidebar rectangles: define + display the GPT slot once in view ──────────
-  useEffect(() => {
-    if (isPaid || isLeaderboard || !inView || defined.current) return
+    if (isPaid || !GPT_ADS_ENABLED || !inView || defined.current) return
+    if (isLeaderboard && (!isPrimaryLeaderboard || !viewportKnown)) return
     if (typeof window === 'undefined') return
     defined.current = true
 
-    const adSize = [300, 250]
+    const adSizes = isLeaderboard
+      ? (isMobileView ? LEADERBOARD_SIZES_MOBILE : LEADERBOARD_SIZES_DESKTOP)
+      : [300, 250]
+    let onRendered = null
 
     window.googletag = window.googletag || { cmd: [] }
     window.googletag.cmd.push(() => {
       try {
-        const slot = window.googletag.defineSlot(path, adSize, divId)
+        const slot = window.googletag.defineSlot(path, adSizes, divId)
         if (!slot) return
         slot.addService(window.googletag.pubads())
-        slot.setTargeting('pos', 'rectangle')
+        slot.setTargeting('pos', isLeaderboard ? 'leaderboard' : 'rectangle')
         if (targeting && typeof targeting === 'object') {
           Object.entries(targeting).forEach(([k, v]) => slot.setTargeting(k, String(v)))
         }
         slotRef.current = slot
+        if (isLeaderboard) {
+          // Collapse the reserved box when nothing fills, so no blank band is left.
+          onRendered = (e) => { if (e.slot === slot && e.isEmpty) setCollapsed(true) }
+          window.googletag.pubads().addEventListener('slotRenderEnded', onRendered)
+        }
         window.googletag.display(divId)
       } catch (e) {
         // GPT not ready / blocked — fail silently, never break the page
@@ -170,63 +156,39 @@ export default function AdSenseUnit({ adSlot, size, className = '', label, style
       const s = slotRef.current
       if (s && window.googletag?.cmd) {
         window.googletag.cmd.push(() => {
-          try { window.googletag.destroySlots([s]) } catch {}
+          try {
+            if (onRendered) window.googletag.pubads().removeEventListener('slotRenderEnded', onRendered)
+            window.googletag.destroySlots([s])
+          } catch {}
         })
         slotRef.current = null
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPaid, isLeaderboard, inView])
+  }, [isPaid, isLeaderboard, isPrimaryLeaderboard, inView, viewportKnown])
 
-  if (isPaid) return null
-  if (!isLeaderboard && !GPT_SIDEBAR_ADS_ENABLED) return null
+  if (isPaid || !GPT_ADS_ENABLED) return null
   if (isLeaderboard && !isPrimaryLeaderboard) return null
 
   if (isLeaderboard) {
-    // Desktop: responsive AdSense unit; a modest min-height keeps layout shift
-    // small while the creative loads in.
-    // Mobile: responsive WIDTH, fixed 100px HEIGHT. This is AdSense's documented
-    // way to bound a responsive unit — size the <ins> in CSS and leave out
-    // data-ad-format / data-full-width-responsive. With those attributes (even
-    // "horizontal") AdSense took the full width AND a ~390px height on phones,
-    // pushing the page's own content a whole screen down.
+    // Reserve the banner height (above the fold → layout shift is real), centre
+    // whatever size AdX returns, and collapse if the slot comes back empty.
     return (
       <div
         ref={wrapRef}
         aria-label={adLabel}
         className={className}
         style={{
-          display:   'block',
-          overflow:  'hidden',
-          // Explicit width: inside a flex parent (the blog's "flex justify-center"
-          // ad box) the wrapper otherwise shrinks to 0px and AdSense has no
-          // width to size the ad from, so the slot stays empty.
-          width:     '100%',
-          maxWidth:  '100%',
-          minHeight: 100,
-          textAlign: isMobileView ? 'center' : undefined,
+          display:        'flex',
+          justifyContent: 'center',
+          alignItems:     'center',
+          overflow:       'hidden',
+          maxWidth:       '100%',
+          minHeight:      collapsed ? 0 : (isMobileView ? 50 : 90),
           ...style,
         }}
       >
-        {isMobileView ? (
-          <ins
-            key="mobile"
-            className="adsbygoogle"
-            style={{ display: 'block', width: '100%', height: 100 }}
-            data-ad-client={ADSENSE_CLIENT}
-            data-ad-slot={ADSENSE_HEADER_SLOT}
-          />
-        ) : (
-          <ins
-            key="desktop"
-            className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client={ADSENSE_CLIENT}
-            data-ad-slot={ADSENSE_HEADER_SLOT}
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-        )}
+        <div id={divId} />
       </div>
     )
   }

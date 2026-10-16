@@ -13,14 +13,14 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter()
 
   // ── Google Ad Manager (AdX) — load GPT + out-of-page slots once ─────────────
-  // Switched primary demand to direct AdSense (see _document.js). AdX is mostly
-  // paused, EXCEPT the sidebar rectangle units (AdSenseUnit size="rectangle"/
-  // "rectangle2" on download/preview pages) — those are re-enabled on purpose,
-  // so gpt.js still needs to load. Out-of-page Interstitial + sticky Anchor
-  // stay off. To pause sidebar ads too, set GPT_SIDEBAR_ADS_ENABLED = false
-  // (that alone also stops gpt.js from loading at all).
+  // ALL ads on the site are AdX/GPT now (AdSense was removed 2026-10-16): the
+  // leaderboard and the 300x250 rectangles in AdSenseUnit.js, plus the
+  // out-of-page Interstitial + sticky bottom Anchor (GPT_OUT_OF_PAGE_ENABLED;
+  // set it to false to turn the full-screen formats off again). To pause
+  // every ad, set GPT_SIDEBAR_ADS_ENABLED = false here AND GPT_ADS_ENABLED in
+  // AdSenseUnit.js (this flag alone also stops gpt.js from loading at all).
   const GPT_SIDEBAR_ADS_ENABLED = true
-  const GPT_OUT_OF_PAGE_ENABLED = false // Interstitial + Anchor — stays paused
+  const GPT_OUT_OF_PAGE_ENABLED = true // Interstitial + sticky bottom Anchor (AdX) — on since 2026-10-16, replaces the AdSense vignette/anchor
   useEffect(() => {
     if (!GPT_SIDEBAR_ADS_ENABLED) return
     if (router.pathname.startsWith('/admin')) return   // no ads on admin
