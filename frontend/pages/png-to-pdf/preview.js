@@ -249,12 +249,12 @@ export default function PreviewPngToPdf() {
       </div>
 
       {/* Hero */}
-      <div className="relative overflow-hidden bg-slate-800">
+      <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundImage: `radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)`,
               backgroundSize: "24px 24px",
             }}
           ></div>
@@ -263,13 +263,13 @@ export default function PreviewPngToPdf() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-slate-700 rounded-xl flex items-center justify-center shadow-lg">
-                <FileText className="w-6 h-6 text-white" />
+                <FileText className="w-6 h-6 text-slate-900" />
               </div>
               <div>
-                <h1 className="font-display text-xl sm:text-2xl font-bold text-white">
+                <h1 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                   {t('pngToPdf.previewTitle') || `Ready to Create PDF from ${filesData.length} Image${filesData.length > 1 ? "s" : ""}`}
                 </h1>
-                <p className="font-body text-slate-300 text-sm mt-0.5">{t('pngToPdf.previewSubtitle')}</p>
+                <p className="font-body text-slate-600 text-sm mt-0.5">{t('pngToPdf.previewSubtitle')}</p>
               </div>
             </div>
           </div>

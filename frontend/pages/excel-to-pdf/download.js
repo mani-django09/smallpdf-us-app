@@ -262,12 +262,12 @@ export default function DownloadExcelToPDF() {
       `}</style>
 
       {/* Success Header */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600 relative overflow-hidden">
+      <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundImage: `radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)`,
               backgroundSize: "24px 24px",
             }}
           ></div>
@@ -275,14 +275,14 @@ export default function DownloadExcelToPDF() {
 
         <div className="relative max-w-5xl mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
-              <CheckCircle2 className="w-8 h-8 text-white animate-checkmark" />
+            <div className="w-14 h-14 bg-white border border-slate-200 rounded-xl flex items-center justify-center">
+              <CheckCircle2 className="w-8 h-8 text-slate-900 animate-checkmark" />
             </div>
             <div>
-              <h1 className="font-display text-xl sm:text-2xl font-bold text-white">
+              <h1 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                 {t("excelToPdf.conversionComplete")}
               </h1>
-              <p className="font-body text-sm text-white/80">{t("excelToPdf.pdfReady")}</p>
+              <p className="font-body text-sm text-slate-600">{t("excelToPdf.pdfReady")}</p>
             </div>
           </div>
         </div>

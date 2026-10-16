@@ -260,16 +260,16 @@ export default function DownloadWebpToPng() {
 
               {/* Download card */}
               <div className="bg-white rounded-2xl border border-teal-200/60 overflow-hidden shadow-sm">
-                <div className="bg-gradient-to-r from-teal-600 to-emerald-600 px-6 py-5">
+                <div className="px-6 py-5 bg-slate-50 border-b border-slate-200">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                      <CheckCircle className="w-5 h-5 text-white" />
+                    <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-slate-900" />
                     </div>
                     <div>
-                      <h1 className="font-display text-lg font-bold text-white">
+                      <h1 className="font-display text-lg font-bold text-slate-900">
                         {t("webpToPng.downloadTitle")}
                       </h1>
-                      <p className="font-body text-sm text-teal-100">
+                      <p className="font-body text-sm text-slate-600">
                         {t("webpToPng.downloadDescription")}
                       </p>
                     </div>

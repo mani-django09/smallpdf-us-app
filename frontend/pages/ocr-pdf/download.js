@@ -141,19 +141,19 @@ export default function OcrPdfDownload() {
       <SEOHead title={t("ocrPdf.download.pageTitle")} noIndex={true} />
       <Layout>
         {/* Success header */}
-        <div className="bg-gradient-to-r from-violet-600 to-purple-600 relative overflow-hidden">
+        <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
           <div
             className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)", backgroundSize: "24px 24px" }}
+            style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)", backgroundSize: "24px 24px" }}
           />
           <div className="relative max-w-4xl mx-auto px-4 py-6">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
-                <CheckCircle2 className="w-8 h-8 text-white" />
+              <div className="w-14 h-14 bg-white border border-slate-200 rounded-xl flex items-center justify-center">
+                <CheckCircle2 className="w-8 h-8 text-slate-900" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-white">{t("ocrPdf.download.successTitle")}</h1>
-                <p className="text-sm text-white/80">
+                <h1 className="text-xl sm:text-2xl font-bold text-slate-900">{t("ocrPdf.download.successTitle")}</h1>
+                <p className="text-sm text-slate-600">
                   {t("ocrPdf.download.pagesProcessed", { count: result.pageCount, plural: result.pageCount === 1 ? "" : "s" })}
                   {result.wordCount ? ` · ${t("ocrPdf.download.wordsExtracted", { count: result.wordCount.toLocaleString() })}` : ""}
                 </p>

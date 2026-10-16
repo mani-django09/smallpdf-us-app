@@ -99,12 +99,12 @@ export default function RedactDownload() {
       <div className="bg-slate-50 min-h-screen py-10 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
           <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="bg-gradient-to-r from-emerald-500 to-green-500 p-6 text-center">
-              <div className="w-14 h-14 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-3">
-                <CheckCircle className="w-8 h-8 text-white" />
+            <div className="p-6 text-center bg-slate-50 border-b border-slate-200">
+              <div className="w-14 h-14 mx-auto bg-white border border-slate-200 rounded-full flex items-center justify-center mb-3">
+                <CheckCircle className="w-8 h-8 text-slate-900" />
               </div>
-              <h1 className="text-2xl font-bold text-white">{t("redactPdf.download.heading")}</h1>
-              <p className="text-emerald-50 text-sm mt-1">{t("redactPdf.download.subheading")}</p>
+              <h1 className="text-2xl font-bold text-slate-900">{t("redactPdf.download.heading")}</h1>
+              <p className="text-slate-600 text-sm mt-1">{t("redactPdf.download.subheading")}</p>
             </div>
 
             <div className="p-6 sm:p-8">

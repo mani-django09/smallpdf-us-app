@@ -226,12 +226,12 @@ export default function DownloadPngToPdf() {
       </div>
 
       {/* Success Header */}
-      <div className="relative overflow-hidden bg-slate-800">
+      <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundImage: `radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)`,
               backgroundSize: "24px 24px",
             }}
           ></div>
@@ -254,10 +254,10 @@ export default function DownloadPngToPdf() {
                 </svg>
               </div>
               <div>
-                <h1 className="font-display text-xl sm:text-2xl font-bold text-white">
+                <h1 className="font-display text-xl sm:text-2xl font-bold text-slate-900">
                   {t('pngToPdf.downloadSuccessTitle') || "PDF Created Successfully!"}
                 </h1>
-                <p className="font-body text-slate-300 text-sm mt-0.5">
+                <p className="font-body text-slate-600 text-sm mt-0.5">
                   {pageCount} {t('pngToPdf.downloadPageGenerated') || "page(s) generated from your images"}
                 </p>
               </div>
@@ -266,11 +266,11 @@ export default function DownloadPngToPdf() {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 bg-slate-700 rounded-lg px-3 py-2">
                 <Timer className="w-4 h-4 text-amber-400" />
-                <span className="font-display text-sm font-semibold text-white">{formatTime(countdown)}</span>
+                <span className="font-display text-sm font-semibold text-slate-900">{formatTime(countdown)}</span>
               </div>
               <div className="flex items-center gap-2 bg-slate-700 rounded-lg px-3 py-2">
                 <Lock className="w-4 h-4 text-green-400" />
-                <span className="font-body text-sm text-slate-200">{t('pngToPdf.downloadSecure') || "Secure"}</span>
+                <span className="font-body text-sm text-slate-600">{t('pngToPdf.downloadSecure') || "Secure"}</span>
               </div>
             </div>
           </div>

@@ -169,27 +169,27 @@ export default function DownloadHeicToPng() {
       </div>
 
       {/* Success Header */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-teal-600 to-cyan-600">
+      <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`, backgroundSize: "24px 24px" }}></div>
+          <div className="absolute inset-0" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)`, backgroundSize: "24px 24px" }}></div>
         </div>
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 bg-white border border-slate-200 rounded-xl flex items-center justify-center shadow-lg">
                 <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" />
                   <path d="M7 12l3 3 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-checkmark" />
                 </svg>
               </div>
               <div>
-                <h1 className="font-display text-xl sm:text-2xl font-bold text-white">{t("heicToPng.downloadTitle")}</h1>
-                <p className="font-body text-teal-100 text-sm mt-0.5">{fileCount} {t("heicToPng.downloadImages")} · PNG</p>
+                <h1 className="font-display text-xl sm:text-2xl font-bold text-slate-900">{t("heicToPng.downloadTitle")}</h1>
+                <p className="font-body text-slate-600 text-sm mt-0.5">{fileCount} {t("heicToPng.downloadImages")} · PNG</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 bg-white/15 rounded-lg px-3 py-2">
-              <Timer className="w-4 h-4 text-cyan-200" />
-              <span className="font-display text-sm font-semibold text-white">{formatTime(countdown)}</span>
+            <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-2">
+              <Timer className="w-4 h-4 text-slate-600" />
+              <span className="font-display text-sm font-semibold text-slate-900">{formatTime(countdown)}</span>
             </div>
           </div>
         </div>

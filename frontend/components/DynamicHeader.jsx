@@ -28,11 +28,11 @@ const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : use
 const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt"]
 const hrefFor = (href, locale) => (LOCALIZED.includes(locale) ? localePath(href, locale) : href)
 
-// lime bar colours
+// light bar colours (was lime #C6F432 until 2026-10-16)
 const T = {
   icon: "text-[#8A4B00]",
-  flat: "bg-[#C6F432]/95",
-  float: "bg-[#C6F432]/95 border-[#14130F]",
+  flat: "bg-white/95",
+  float: "bg-white/95 border-[#14130F]",
   flatBorder: "border-[#14130F]/10",
   text: "text-[#14130F]",
   muted: "text-[#14130F]/70 hover:text-[#14130F]",

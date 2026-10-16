@@ -270,12 +270,12 @@ export default function DownloadPDFtoPNG() {
         </div>
 
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 relative overflow-hidden">
+        <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
           <div className="absolute inset-0 opacity-10">
             <div
               className="absolute inset-0"
               style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                backgroundImage: `radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)`,
                 backgroundSize: "24px 24px",
               }}
             ></div>
@@ -284,28 +284,28 @@ export default function DownloadPDFtoPNG() {
           <div className="relative max-w-6xl mx-auto px-4 py-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
+                <div className="w-14 h-14 bg-white border border-slate-200 rounded-xl flex items-center justify-center">
                   {showSuccess ? (
-                    <CheckCircle className="w-7 h-7 text-white" />
+                    <CheckCircle className="w-7 h-7 text-slate-900" />
                   ) : (
-                    <ImageIcon className="w-7 h-7 text-white" />
+                    <ImageIcon className="w-7 h-7 text-slate-900" />
                   )}
                 </div>
                 <div>
-                  <h1 className="font-display text-2xl font-bold text-white mb-1">
+                  <h1 className="font-display text-2xl font-bold text-slate-900 mb-1">
                     {showSuccess ? t('pdfToPng.downloadSuccess') : t('pdfToPng.downloadYourImages')}
                   </h1>
-                  <p className="font-body text-sm text-white/80">
+                  <p className="font-body text-sm text-slate-600">
                     {`${pageCount} ${pageCount === 1 ? t('pdfToPng.downloadImagesReadyCountSingular') : t('pdfToPng.downloadImagesReadyCount')}`}
                   </p>
                 </div>
               </div>
 
-              <div className="hidden md:flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2.5">
-                <Timer className="w-4 h-4 text-white/80" />
+              <div className="hidden md:flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-4 py-2.5">
+                <Timer className="w-4 h-4 text-slate-600" />
                 <div className="text-right">
-                  <div className="text-xs text-white/60 font-medium">{t('pdfToPng.downloadFilesExpire')}</div>
-                  <div className="text-sm text-white font-bold font-mono">{formatTime(countdown)}</div>
+                  <div className="text-xs text-slate-600 font-medium">{t('pdfToPng.downloadFilesExpire')}</div>
+                  <div className="text-sm text-slate-900 font-bold font-mono">{formatTime(countdown)}</div>
                 </div>
               </div>
             </div>

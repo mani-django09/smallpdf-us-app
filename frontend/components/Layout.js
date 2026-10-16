@@ -3,7 +3,7 @@ import Script from "next/script"
 import Link from "next/link"
 import { useTranslations } from "../lib/i18n"
 import DynamicHeader from "./DynamicHeader"
-import InstallExtensionBanner, { InstallExtensionFooterBadge } from "./InstallExtensionBanner"
+import { InstallExtensionFooterBadge } from "./InstallExtensionBanner"
 import { localePath } from "../lib/route-translations"
 
 // Locales that use localized URL slugs (all non-English locales)
@@ -44,7 +44,7 @@ export default function Layout({ children, title, description }) {
   return (
     <>
       <div className="min-h-screen flex flex-col">
-        <InstallExtensionBanner />
+        {/* Top "Add to Chrome" bar removed 2026-10-16 (owner request). The footer badge below stays. */}
         <DynamicHeader />
 
         <main>{children}</main>

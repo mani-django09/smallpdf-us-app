@@ -304,12 +304,12 @@ export default function DownloadMergePDF() {
       </div>
 
       {/* Success Header */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-teal-600">
+      <div className="relative overflow-hidden bg-slate-50 border-b border-slate-200">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundImage: `radial-gradient(circle at 2px 2px, #94a3b8 1px, transparent 0)`,
               backgroundSize: "24px 24px",
             }}
           ></div>
@@ -319,8 +319,8 @@ export default function DownloadMergePDF() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className={`relative flex-shrink-0 ${mounted ? "animate-fade-up" : ""}`}>
-                <div className="w-14 h-14 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
-                  <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none">
+                <div className="w-14 h-14 bg-white border border-slate-200 rounded-xl flex items-center justify-center">
+                  <svg className="w-7 h-7 text-slate-900" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M5 13l4 4L19 7"
                       stroke="currentColor"
@@ -333,19 +333,19 @@ export default function DownloadMergePDF() {
                 </div>
               </div>
               <div className={`${mounted ? "animate-fade-up-delay-1" : "opacity-0"}`}>
-                <h1 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">
+                <h1 className="font-display text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                   {t('mergePdf.download.mergedSuccess')}
                 </h1>
-                <p className="font-body text-emerald-100 text-sm">{t('mergePdf.download.filesCombined').replace('{count}', fileCount)}</p>
+                <p className="font-body text-slate-600 text-sm">{t('mergePdf.download.filesCombined').replace('{count}', fileCount)}</p>
               </div>
             </div>
 
             <div className={`flex items-center gap-2 ${mounted ? "animate-fade-up-delay-2" : "opacity-0"}`}>
-              <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur px-3 py-1.5 rounded-full text-xs font-medium text-white">
+              <div className="inline-flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-full text-xs font-medium text-slate-900">
                 <Timer className="w-3.5 h-3.5" />
                 <span>{formatTime(countdown)}</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur px-3 py-1.5 rounded-full text-xs font-medium text-white">
+              <div className="inline-flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-full text-xs font-medium text-slate-900">
                 <Lock className="w-3.5 h-3.5" />
                 <span>{t('mergePdf.download.encrypted')}</span>
               </div>

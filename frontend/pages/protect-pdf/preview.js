@@ -119,16 +119,16 @@ export default function ProtectPreview() {
     <Layout title={t("protectPdf.preview.pageTitle")} description={t("protectPdf.heroSubtitle")}>
       <SEOHead title="Protect PDF - Set Password | SmallPDF.us" description="Password-protect your PDF and download." noIndex={true} />
 
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-600">
+      <div className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 py-5">
-          <button onClick={() => router.push("/protect-pdf")} className="mb-3 flex items-center gap-1.5 text-white/80 hover:text-white text-xs font-medium">
+          <button onClick={() => router.push("/protect-pdf")} className="mb-3 flex items-center gap-1.5 text-slate-600 hover:text-slate-900 text-xs font-medium">
             <ArrowLeft className="w-3.5 h-3.5" /><span>{t("protectPdf.preview.changeFile")}</span>
           </button>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center"><Lock className="w-5 h-5 text-white" /></div>
+            <div className="w-10 h-10 bg-white border border-slate-200 rounded-lg flex items-center justify-center"><Lock className="w-5 h-5 text-slate-900" /></div>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold text-white">{t("protectPdf.preview.heading")}</h1>
-              <p className="text-xs text-white/80">{t("protectPdf.preview.subheading")}</p>
+              <h1 className="text-lg sm:text-xl font-bold text-slate-900">{t("protectPdf.preview.heading")}</h1>
+              <p className="text-xs text-slate-600">{t("protectPdf.preview.subheading")}</p>
             </div>
           </div>
         </div>

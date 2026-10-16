@@ -169,29 +169,29 @@ export default function PreviewPdfToPpt() {
       `}</style>
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-orange-500 py-6">
+      <div className="py-6 bg-slate-50 border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => router.push("/pdf-to-ppt")}
-                className="flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span className="font-body text-sm hidden sm:inline">{t('pdfToPpt.backButton')}</span>
               </button>
               <div>
-                <h1 className="font-display text-xl sm:text-2xl font-bold text-white">{t('pdfToPpt.previewHeader')}</h1>
-                <p className="font-body text-sm text-red-100">
+                <h1 className="font-display text-xl sm:text-2xl font-bold text-slate-900">{t('pdfToPpt.previewHeader')}</h1>
+                <p className="font-body text-sm text-slate-600">
                   {selectedCount} of {filesData.length} PDF{filesData.length > 1 ? "s" : ""} {t('pdfToPpt.selectedLabel')}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="hidden sm:flex items-center gap-1.5 bg-white/15 backdrop-blur px-3 py-1.5 rounded-full">
-                <Shield className="w-4 h-4 text-yellow-300" />
-                <span className="font-body text-xs text-white">{t('pdfToPpt.badgeSecure')}</span>
+              <div className="hidden sm:flex items-center gap-1.5 bg-white border border-slate-200 px-3 py-1.5 rounded-full">
+                <Shield className="w-4 h-4 text-slate-600" />
+                <span className="font-body text-xs text-slate-900">{t('pdfToPpt.badgeSecure')}</span>
               </div>
             </div>
           </div>
