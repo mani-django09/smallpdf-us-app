@@ -11,16 +11,9 @@ export default function MyDocument({ locale }) {
         {/* Preconnect to critical domains - Load these FIRST */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        {/* Preconnect Ad Manager (AdX / GPT) domains — network currently paused, see _app.js */}
+        {/* Only 3 preconnects (Lighthouse advises <= 4): fonts x2 + the GPT host. GA/GTM load
+            lazily (dns-prefetch below is enough); the other ad/PayPal hosts were removed 2026-10-21. */}
         <link rel="preconnect" href="https://securepubads.g.doubleclick.net" />
-        <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
-        <link rel="preconnect" href="https://www.googletagservices.com" />
-        {/* Ad creatives served through Ad Manager (GPT) load from this host.
-            NOTE: the AdSense loader (adsbygoogle.js) was removed on 2026-10-16 —
-            all ads are AdX/GPT now (gpt.js is loaded in _app.js). */}
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
 
         {/* DNS Prefetch for faster lookups */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -72,9 +65,6 @@ export default function MyDocument({ locale }) {
         {/* ========================================
             SEO IMPROVEMENTS
         ======================================== */}
-        {/* Preconnect to PayPal for faster checkout loading */}
-        <link rel="preconnect" href="https://www.paypal.com" />
-        <link rel="preconnect" href="https://api-m.paypal.com" />
 
       </Head>
       <body>

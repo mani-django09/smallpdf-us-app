@@ -8,6 +8,7 @@
 // backfill over the nginx access logs (origin='nginx'; scripts/backfill-visits.js).
 const { dbRun, dbGet, dbAll } = require('../database')
 const { classify, BOT_UA } = require('./trafficSource')
+const { countryOf } = require('../geo')
 
 const MIN = 60 * 1000, DAY = 24 * 60 * MIN, IST_MIN = 330
 const sqlTs = (ms) => new Date(ms).toISOString().slice(0, 19).replace('T', ' ')
@@ -71,12 +72,12 @@ function registerVisitBeacon(app) {
         source: url.searchParams.get('utm_source'), medium: url.searchParams.get('utm_medium'),
       })
       const first = path.split('/')[1]
-      const country = String(req.headers['cf-ipcountry'] || '').toUpperCase()
+      const country = countryOf(ip, req.headers['cf-ipcountry'])   // header if Cloudflare ever fronts us again, else offline IP lookup
       await dbRun(
         `INSERT INTO visits (ip, session, source, medium, ref_host, campaign, landing, locale, device, country, origin)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'beacon')`,
         [ip, session || null, source, medium, refHost || null, (url.searchParams.get('utm_campaign') || '').toLowerCase().slice(0, 80) || null,
-          path, LOCALES.has(first) ? first : 'en', deviceOf(ua), /^[A-Z]{2}$/.test(country) && country !== 'XX' ? country : null]
+          path, LOCALES.has(first) ? first : 'en', deviceOf(ua), country]
       )
     } catch (e) { console.warn('[visits] beacon failed:', e.message) }
   })

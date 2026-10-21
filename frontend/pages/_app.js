@@ -25,15 +25,26 @@ function MyApp({ Component, pageProps }) {
     if (!GPT_SIDEBAR_ADS_ENABLED) return
     if (router.pathname.startsWith('/admin')) return   // no ads on admin
     if (typeof window === 'undefined') return
-    if (document.getElementById('gpt-js')) return       // already loaded
+    if (window.__gptInit) return                         // already set up (also guards dev Strict Mode)
+    window.__gptInit = true
 
     window.googletag = window.googletag || { cmd: [] }
 
-    const s = document.createElement('script')
-    s.id = 'gpt-js'
-    s.async = true
-    s.src = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js'
-    document.head.appendChild(s)
+    // gpt.js + pubads_impl.js are ~1 s of main-thread work (measured with Lighthouse, 2026-10-21) —
+    // the biggest cause of the high Total Blocking Time. Fetch them once the page has loaded and
+    // the browser is idle (max ~2.5 s later) instead of right after hydration. Slots and the init
+    // block below only touch the googletag.cmd queue, so their order does not change.
+    const loadGpt = () => {
+      if (document.getElementById('gpt-js')) return
+      const s = document.createElement('script')
+      s.id = 'gpt-js'
+      s.async = true
+      s.src = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js'
+      document.head.appendChild(s)
+    }
+    const whenIdle = () => ('requestIdleCallback' in window ? window.requestIdleCallback(loadGpt, { timeout: 2500 }) : setTimeout(loadGpt, 300))
+    if (document.readyState === 'complete') whenIdle()
+    else window.addEventListener('load', whenIdle, { once: true })
 
     window.googletag.cmd.push(function () {
       const pubads = window.googletag.pubads()

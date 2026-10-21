@@ -310,6 +310,8 @@ function parseUserAgent(userAgent) {
 async function logActivityToDB(data) {
   try {
     const { browser, os, device } = parseUserAgent(data.userAgent);
+    // callers never pass a country (and Cloudflare no longer fronts the site) → resolve it from the IP
+    if (!data.country && data.ip) data.country = require('./geo').countryOf(data.ip);
     
     const query = `
       INSERT INTO activity_logs (
