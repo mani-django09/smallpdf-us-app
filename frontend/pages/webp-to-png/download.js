@@ -40,6 +40,7 @@ import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { printBlob, printFile, filenameFromDisposition } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import AdLabel from "../../components/AdLabel"
 
 
@@ -430,14 +431,12 @@ export default function DownloadWebpToPng() {
 
               {/* Sidebar Ad */}
               <div className="bg-white rounded-2xl border border-teal-200/60 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="7489539676" />
+                <PromoBanner slot={0} />
               </div>
 
               {/* Sidebar Ad 2 */}
               <div className="bg-white rounded-2xl border border-teal-200/60 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+                <PromoBanner slot={1} />
               </div>
 
 

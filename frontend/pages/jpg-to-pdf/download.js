@@ -7,6 +7,7 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import {
   Download,
   FileText,
@@ -504,14 +505,12 @@ export default function DownloadJpgToPdf() {
 
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="7489539676" label="Download Sidebar" />
+                <PromoBanner slot={0} />
               </div>
 
               {/* Sidebar Ad 2 */}
               <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+                <PromoBanner slot={1} />
               </div>
 
             </div>

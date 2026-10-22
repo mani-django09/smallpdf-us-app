@@ -295,3 +295,7 @@ html.dark .shadow-lg {
 
 /* ── Ad Manager (AdX/GPT) — empty/unfilled slots are collapsed by         */
 /* googletag.pubads().collapseEmptyDivs() set in _app.js. No CSS needed.   */
+/* PromoBanner (sidebar house banners) fade-in after mount */
+@keyframes promoFade { from { opacity: 0 } to { opacity: 1 } }
+.promo-fade { animation: promoFade .4s ease-out; }
+@media (prefers-reduced-motion: reduce) { .promo-fade { animation: none; } }

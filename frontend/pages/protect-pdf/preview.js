@@ -5,6 +5,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import PrivacyNotice from "../../components/PrivacyNotice"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
@@ -13,7 +14,6 @@ import { getApiUrl } from "../../lib/getApiUrl"
 import { usePdfThumbnail } from "../../hooks/usePdfThumbnail"
 import { Lock, ArrowLeft, FileText, Eye, EyeOff } from "lucide-react"
 import useDailyLimit from '../../hooks/useDailyLimit'
-import AdLabel from "../../components/AdLabel"
 import { goToDownload } from "../../lib/fullPageNav"
 
 function strength(pw) {
@@ -197,13 +197,11 @@ export default function ProtectPreview() {
 
           <div className="lg:col-span-4 space-y-4">
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-              <AdSenseUnit adSlot="1617102171" />
+              <PromoBanner slot={0} />
             </div>
 
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-              <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              <PromoBanner slot={1} />
             </div>
 
           </div>

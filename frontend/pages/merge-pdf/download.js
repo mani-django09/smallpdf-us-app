@@ -30,6 +30,7 @@ import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { printBlob, printFile } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import AdLabel from "../../components/AdLabel"
 
 // AdSense Component
@@ -586,28 +587,15 @@ export default function DownloadMergePDF() {
             <div className="lg:col-span-4 space-y-6">
               {/* Ad Space 1 */}
               <div className="glass-card rounded-2xl border border-slate-200/60 p-4">
-                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-                  <AdLabel />
-                </p>
                 <div className="flex justify-center">
-                  <AdSenseUnit
-                    adSlot="2896409385"
-                    style={{ width: "300px", height: "250px" }}
-                  />
+                  <PromoBanner slot={0} />
                 </div>
               </div>
 
               {/* Ad Space 2 */}
               <div className="glass-card rounded-2xl border border-slate-200/60 p-4">
-                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-                  <AdLabel />
-                </p>
                 <div className="flex justify-center">
-                  <AdSenseUnit
-                    adSlot="2896409385"
-                    size="rectangle2"
-                    style={{ width: "300px", height: "250px" }}
-                  />
+                  <PromoBanner slot={1} />
                 </div>
               </div>
             </div>

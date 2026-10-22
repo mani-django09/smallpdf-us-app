@@ -22,6 +22,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import RelatedTools from "../../components/RelatedTools"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
@@ -386,14 +387,12 @@ export default function DownloadHeicToJpg() {
 
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="7489539676" />
+                <PromoBanner slot={0} />
               </div>
 
               {/* Sidebar Ad 2 */}
               <div className="hidden lg:block bg-white rounded-2xl border border-orange-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+                <PromoBanner slot={1} />
               </div>
 
             </div>

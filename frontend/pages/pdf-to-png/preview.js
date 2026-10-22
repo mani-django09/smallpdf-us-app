@@ -6,7 +6,7 @@ import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { ArrowLeft, ImageIcon, Check, Download, AlertCircle } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import AdLabel from "../../components/AdLabel"
+import PromoBanner from "../../components/PromoBanner"
 import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewPDFtoPNG() {
@@ -355,14 +355,12 @@ export default function PreviewPDFtoPNG() {
               <div className="space-y-4">
                 {/* Sidebar Ad */}
                 <div className="bg-white rounded-xl p-3 shadow-sm border border-blue-200">
-                  <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                  <AdSenseUnit adSlot="1617102171" />
+                  <PromoBanner slot={0} />
                 </div>
 
                 {/* Sidebar Ad 2 */}
                 <div className="bg-white rounded-xl p-3 shadow-sm border border-blue-200">
-                  <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                  <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+                  <PromoBanner slot={1} />
                 </div>
 
               </div>

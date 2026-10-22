@@ -6,11 +6,11 @@ import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { Presentation, ArrowLeft, Shield, Play, Trash2, CheckCircle, FileText } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { pptToPdfStore } from "./index"
-import AdLabel from "../../components/AdLabel"
 import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewPptToPdf() {
@@ -415,14 +415,12 @@ export default function PreviewPptToPdf() {
             <div className="lg:col-span-4 xl:col-span-3 space-y-6">
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                <AdSenseUnit adSlot="1617102171" />
+                <PromoBanner slot={0} />
               </div>
 
               {/* Sidebar Ad 2 */}
               <div className="hidden lg:block bg-white rounded-2xl shadow-lg p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+                <PromoBanner slot={1} />
               </div>
 
             </div>

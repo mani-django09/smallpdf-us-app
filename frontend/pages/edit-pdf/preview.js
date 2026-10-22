@@ -17,7 +17,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import AdLabel from "../../components/AdLabel"
+import PromoBanner from "../../components/PromoBanner"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { useAuth } from "../../context/AuthContext"
@@ -1053,12 +1053,10 @@ export default function EditPreview() {
             </section>
 
             <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
-              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
-              <div className="flex justify-center"><AdSenseUnit adSlot="1617102171" /></div>
+              <div className="flex justify-center"><PromoBanner slot={0} /></div>
             </div>
             <div className="hidden lg:block bg-white rounded-2xl border border-slate-200 p-3 shadow-sm">
-              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
-              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" size="rectangle2" /></div>
+              <div className="flex justify-center"><PromoBanner slot={1} /></div>
             </div>
           </aside>
         </div>

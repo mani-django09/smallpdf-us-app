@@ -4,6 +4,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import RelatedTools from "../../components/RelatedTools"
 import PrivacyNotice from "../../components/PrivacyNotice"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
@@ -170,13 +171,11 @@ export default function RedactDownload() {
           {/* Sidebar — 2 ads beside the card instead of stacked below it */}
           <div className="lg:col-span-1 space-y-4">
             <div className="bg-white rounded-2xl border border-slate-200 p-3">
-              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
-              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
+              <div className="flex justify-center"><PromoBanner slot={0} /></div>
             </div>
             {/* Sidebar Ad 2 */}
             <div className="bg-white rounded-2xl border border-slate-200 p-3">
-              <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
-              <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" size="rectangle2" /></div>
+              <div className="flex justify-center"><PromoBanner slot={1} /></div>
             </div>
           </div>
         </div>

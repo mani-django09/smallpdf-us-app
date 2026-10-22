@@ -7,8 +7,8 @@ import { getPageMessages } from '../../lib/i18nLoader'
 import { FileText, ArrowLeft, Sparkles, Scissors, CheckCircle, Eye, X } from "lucide-react"
 import { splitPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import useDailyLimit from '../../hooks/useDailyLimit'
-import AdLabel from "../../components/AdLabel"
 import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewSplitPdf() {
@@ -398,14 +398,12 @@ export default function PreviewSplitPdf() {
             <div className="space-y-4">
               {/* Sidebar Ad */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                <AdSenseUnit adSlot="1617102171" />
+                <PromoBanner slot={0} />
               </div>
 
               {/* Sidebar Ad 2 */}
               <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+                <PromoBanner slot={1} />
               </div>
 
             </div>

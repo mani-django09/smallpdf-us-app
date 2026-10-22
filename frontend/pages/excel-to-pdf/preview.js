@@ -15,10 +15,10 @@ import {
 } from "lucide-react"
 import { excelToPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
-import AdLabel from "../../components/AdLabel"
 import { goToDownload } from "../../lib/fullPageNav"
 
 // Dev: NEXT_PUBLIC_API_URL=http://localhost:5011 | Prod: same-origin
@@ -421,14 +421,12 @@ export default function PreviewExcelToPDF() {
           <div className="space-y-4">
             {/* Sidebar Ad */}
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-              <AdSenseUnit adSlot="1617102171" label="Preview Sidebar" />
+              <PromoBanner slot={0} />
             </div>
 
             {/* Sidebar Ad 2 */}
             <div className="hidden lg:block bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-              <AdSenseUnit adSlot="1617102171" size="rectangle2" />
+              <PromoBanner slot={1} />
             </div>
 
           </div>

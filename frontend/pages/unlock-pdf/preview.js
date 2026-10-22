@@ -6,8 +6,8 @@ import { FileText, ArrowLeft, Key, Shield, Zap, Clock, Unlock, Trash2, CheckCirc
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import useDailyLimit from '../../hooks/useDailyLimit'
-import AdLabel from "../../components/AdLabel"
 import { unlockPdfStore } from "./index"
 import { goToDownload } from "../../lib/fullPageNav"
 
@@ -391,12 +391,10 @@ export default function PreviewUnlockPdf() {
           {/* Sidebar */}
           <div className="hidden lg:block space-y-4">
             <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-              <AdSenseUnit adSlot="1617102171" />
+              <PromoBanner slot={0} />
             </div>
             <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-              <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-              <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+              <PromoBanner slot={1} />
             </div>
           </div>
           </div>

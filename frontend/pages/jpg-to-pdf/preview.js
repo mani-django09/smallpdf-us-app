@@ -6,13 +6,13 @@ import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle } from "lucide-react"
 import AdSenseUnit from "../../components/AdSenseUnit"
+import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import ThumbEditControls from "../../components/ThumbEditControls"
 import { bakeImageTransform, filterCssById, hasTransform } from "../../lib/imageEdit"
 
 import { jpgFileStore } from "./index"
 import useDailyLimit from '../../hooks/useDailyLimit'
-import AdLabel from "../../components/AdLabel"
 import { goToDownload } from "../../lib/fullPageNav"
 
 export default function PreviewJpgToPdf() {
@@ -392,14 +392,12 @@ export default function PreviewJpgToPdf() {
 
                 {/* Sidebar ad */}
                 <div className="hidden lg:block bg-white rounded-xl border border-slate-200 p-2.5">
-                  <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider"><AdLabel /></p>
-                  <AdSenseUnit adSlot="1617102171" />
+                  <PromoBanner slot={0} />
                 </div>
 
                 {/* Sidebar ad 2 */}
                 <div className="hidden lg:block bg-white rounded-xl border border-slate-200 p-2.5">
-                  <p className="text-[10px] text-center text-slate-400 mb-1.5 uppercase tracking-wider"><AdLabel /></p>
-                  <AdSenseUnit adSlot="7489539676" size="rectangle2" />
+                  <PromoBanner slot={1} />
                 </div>
 
               </div>{/* end sidebar */}

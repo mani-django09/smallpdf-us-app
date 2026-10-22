@@ -18,7 +18,7 @@ import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { printBlob, printFile } from "../../lib/fileActions"
 import AdSenseUnit from "../../components/AdSenseUnit"
-import AdLabel from "../../components/AdLabel"
+import PromoBanner from "../../components/PromoBanner"
 
 
 export default function OcrPdfDownload() {
@@ -375,13 +375,11 @@ export default function OcrPdfDownload() {
             {/* Two ads side-by-side so they don't stack into a tall empty gap when unfilled */}
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide">{t("ocrPdf.download.advertisement")}</p>
-                <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" /></div>
+                <div className="flex justify-center"><PromoBanner slot={0} /></div>
               </div>
               {/* Sidebar Ad 2 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-3">
-                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
-                <div className="flex justify-center"><AdSenseUnit adSlot="7489539676" size="rectangle2" /></div>
+                <div className="flex justify-center"><PromoBanner slot={1} /></div>
               </div>
             </div>
           </div>
