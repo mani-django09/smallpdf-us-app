@@ -165,6 +165,18 @@ const TOOL_GROUPS_DEF = [
   },
 ]
 
+// "10 files", "1–5 files", "1 file · 2 pages · 1/day", "24 hours" → the visitor's language (sizes like "10 MB" stay).
+function localizeLimit(str, t) {
+  if (typeof str !== 'string') return str
+  return str
+    .replace(/(\d+(?:–\d+)?) files\b/g, (_, n) => t('pricing.units.files', { n }))
+    .replace(/(\d+) file\b/g, (_, n) => t('pricing.units.file', { n }))
+    .replace(/(\d+) pages\b/g, (_, n) => t('pricing.units.pages', { n }))
+    .replace(/(\d+)\/day\b/g, (_, n) => t('pricing.units.perDay', { n }))
+    .replace(/(\d+) hours\b/g, (_, n) => t('pricing.units.hours', { n }))
+    .replace(/(\d+) hour\b/g, (_, n) => t('pricing.units.hour', { n }))
+}
+
 // ── Feature cell ───────────────────────────────────────────────────────────────
 function Cell({ val, t }) {
   if (val === true)  return <Check className="w-4 h-4 text-green-500 mx-auto" />
@@ -177,7 +189,7 @@ function Cell({ val, t }) {
     return <span className={`text-sm font-medium ${hi ? 'text-red-600 font-bold' : 'text-gray-700'}`}>{translated}</span>
   }
   const hi = val === 'Unlimited' || val === 'Dedicated' || val === 'Priority'
-  return <span className={`text-sm font-medium ${hi ? 'text-red-600 font-bold' : 'text-gray-700'}`}>{val}</span>
+  return <span className={`text-sm font-medium ${hi ? 'text-red-600 font-bold' : 'text-gray-700'}`}>{localizeLimit(val, t)}</span>
 }
 
 // ── FAQ item ───────────────────────────────────────────────────────────────────
@@ -303,7 +315,7 @@ function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutPayPal,
           <span className={`text-sm font-medium ${isPro ? 'text-slate-400' : 'text-slate-400'}`}>{t('pricing.perMonth')}</span>
         </div>
         {isFree ? (
-          <p className="text-xs mt-2 text-slate-400">No credit card required</p>
+          <p className="text-xs mt-2 text-slate-400">{t('pricing.noCardRequired')}</p>
         ) : isYear ? (
           <div className="flex items-center gap-2 mt-2 flex-wrap">
             <p className={`text-xs ${isPro ? 'text-slate-400' : 'text-slate-400'}`}>
@@ -380,7 +392,7 @@ function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutPayPal,
                 className={`w-full py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-center gap-1.5 disabled:opacity-50 ${isPro ? 'text-gray-400 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'}`}
               >
                 <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/></svg>
-                Pay with PayPal instead
+                {t('pricing.payPalInstead')}
               </button>
             </div>
           )}
@@ -654,20 +666,20 @@ export default function PricingPage() {
 
             {/* Social proof row */}
             <div className="mt-7 flex flex-wrap justify-center items-center gap-x-5 gap-y-2 text-sm text-slate-500">
-              <span className="inline-flex items-center gap-1.5"><Shield className="w-4 h-4 text-green-500" /> 14-day money-back guarantee</span>
+              <span className="inline-flex items-center gap-1.5"><Shield className="w-4 h-4 text-green-500" /> {t('pricing.socialProof.moneyBack')}</span>
               <span className="hidden sm:block h-4 w-px bg-slate-200" />
-              <span className="inline-flex items-center gap-1.5"><Zap className="w-4 h-4 text-amber-500" /> Cancel anytime</span>
+              <span className="inline-flex items-center gap-1.5"><Zap className="w-4 h-4 text-amber-500" /> {t('pricing.socialProof.cancelAnytime')}</span>
               <span className="hidden sm:block h-4 w-px bg-slate-200" />
-              <span>No hidden fees</span>
+              <span>{t('pricing.socialProof.noHiddenFees')}</span>
             </div>
 
             {/* Stats strip */}
             <div className="mt-9 inline-flex flex-wrap justify-center divide-x divide-slate-200 rounded-2xl border border-slate-200/80 bg-white/70 backdrop-blur px-2 shadow-sm">
               {[
-                { value: '27',   label: 'PDF & Image Tools' },
-                { value: '8',    label: 'Languages' },
-                { value: '1h',   label: 'File Auto-Delete' },
-                { value: '256-bit', label: 'Encrypted Transfers' },
+                { value: '27',   label: t('pricing.stats.tools') },
+                { value: '8',    label: t('pricing.stats.languages') },
+                { value: '1h',   label: t('pricing.stats.autoDelete') },
+                { value: '256-bit', label: t('pricing.stats.encrypted') },
               ].map(({ value, label }) => (
                 <div key={label} className="px-5 sm:px-7 py-3 text-center">
                   <p className="text-2xl font-extrabold text-slate-900">{value}</p>
@@ -716,7 +728,7 @@ export default function PricingPage() {
 
           <div className="flex flex-wrap justify-center items-center gap-4 mt-6">
             <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
-              🔒 Secure checkout
+              🔒 {t('pricing.secureCheckout')}
             </span>
             {isIndia ? (
               <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
@@ -728,7 +740,7 @@ export default function PricingPage() {
               </span>
             )}
             <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
-              ↩ 14-day money-back guarantee
+              ↩ {t('pricing.socialProof.moneyBack')}
             </span>
           </div>
         </section>
@@ -758,13 +770,13 @@ export default function PricingPage() {
         {/* What you get — replaces fake testimonials */}
         <section className="max-w-5xl mx-auto px-4 py-14">
           <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-100 p-8 md:p-10 text-center">
-            <h2 className="text-xl font-extrabold text-gray-900 mb-2">The same tools. Just without the limits.</h2>
-            <p className="text-sm text-gray-500 mb-8 max-w-lg mx-auto">Free plan already gives you access to all 27 tools. Premium removes the friction — bigger files, batch processing, no ads, priority processing.</p>
+            <h2 className="text-xl font-extrabold text-gray-900 mb-2">{t('pricing.whatYouGet.title')}</h2>
+            <p className="text-sm text-gray-500 mb-8 max-w-lg mx-auto">{t('pricing.whatYouGet.subtitle')}</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
               {[
-                { icon: '📁', title: 'Bigger files', desc: 'Up to 200 MB, depending on the tool, on Starter — unlimited on Pro. Stop getting blocked mid-workflow.' },
-                { icon: '⚡', title: 'Batch processing', desc: 'Convert or compress multiple files at once. Not one by one.' },
-                { icon: '🚫', title: 'No ads', desc: 'Clean interface with zero interruptions. Just the tool, nothing else.' },
+                { icon: '📁', title: t('pricing.whatYouGet.items.bigger.title'), desc: t('pricing.whatYouGet.items.bigger.desc') },
+                { icon: '⚡', title: t('pricing.whatYouGet.items.batch.title'), desc: t('pricing.whatYouGet.items.batch.desc') },
+                { icon: '🚫', title: t('pricing.whatYouGet.items.noAds.title'), desc: t('pricing.whatYouGet.items.noAds.desc') },
               ].map(({ icon, title, desc }) => (
                 <div key={title} className="bg-white rounded-xl p-5 border border-gray-100">
                   <div className="text-2xl mb-3">{icon}</div>
@@ -857,15 +869,15 @@ export default function PricingPage() {
                           <td className="py-3 px-5 text-sm font-semibold text-gray-800">{tool.name}</td>
                           <td className="py-3 px-4 text-center">
                             <div className="text-xs text-gray-700 font-medium">{tool.free.size}</div>
-                            <div className="text-xs text-gray-400 mt-0.5">{tool.free.batch}</div>
+                            <div className="text-xs text-gray-400 mt-0.5">{localizeLimit(tool.free.batch, t)}</div>
                           </td>
                           <td className="py-3 px-4 text-center bg-blue-50/30">
                             <div className="text-xs text-gray-700 font-medium">{tool.starter.size}</div>
-                            <div className="text-xs text-gray-400 mt-0.5">{tool.starter.batch}</div>
+                            <div className="text-xs text-gray-400 mt-0.5">{localizeLimit(tool.starter.batch, t)}</div>
                           </td>
                           <td className="py-3 px-4 text-center bg-red-50/30">
                             <div className={`text-xs font-bold ${tool.pro.size === 'Unlimited' ? 'text-red-600' : 'text-gray-700'}`}>{tool.pro.size}</div>
-                            <div className={`text-xs mt-0.5 ${tool.pro.batch === 'Unlimited' ? 'text-red-500 font-semibold' : 'text-gray-500'}`}>{tool.pro.batch}</div>
+                            <div className={`text-xs mt-0.5 ${tool.pro.batch === 'Unlimited' ? 'text-red-500 font-semibold' : 'text-gray-500'}`}>{localizeLimit(tool.pro.batch, t)}</div>
                           </td>
                         </tr>
                       ))}
@@ -906,7 +918,7 @@ export default function PricingPage() {
               <div className="flex justify-center mb-6 -mt-4">
                 <span className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400">
                   <Sparkles className="w-4 h-4" />
-                  Annual billing selected — 17% off, applied at checkout
+                  {t('pricing.annualSelected')}
                 </span>
               </div>
             )}
@@ -918,8 +930,8 @@ export default function PricingPage() {
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
                 {isIndia
-                  ? (interval === 'yearly' ? 'Get Pro — ₹7,990/yr' : 'Get Pro — ₹799/mo')
-                  : (interval === 'yearly' ? 'Get Pro — $190/yr'   : 'Get Pro — $19/mo')}
+                  ? (interval === 'yearly' ? `${t('pricing.plans.pro.cta')} — ₹7,990${t('pricing.perYear')}` : `${t('pricing.plans.pro.cta')} — ₹799${t('pricing.perMonth')}`)
+                  : (interval === 'yearly' ? `${t('pricing.plans.pro.cta')} — $190${t('pricing.perYear')}` : `${t('pricing.plans.pro.cta')} — $19${t('pricing.perMonth')}`)}
               </button>
               <button
                 onClick={() => isIndia ? startCheckout('starter', interval) : startLemonSqueezyCheckout('starter', interval)}
@@ -927,13 +939,13 @@ export default function PricingPage() {
                 className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-8 py-4 rounded-xl transition-all text-sm"
               >
                 {isIndia
-                  ? (interval === 'yearly' ? 'Get Starter — ₹3,990/yr' : 'Get Starter — ₹399/mo')
-                  : (interval === 'yearly' ? 'Get Starter — $90/yr'    : 'Get Starter — $9/mo')}
+                  ? (interval === 'yearly' ? `${t('pricing.plans.starter.cta')} — ₹3,990${t('pricing.perYear')}` : `${t('pricing.plans.starter.cta')} — ₹399${t('pricing.perMonth')}`)
+                  : (interval === 'yearly' ? `${t('pricing.plans.starter.cta')} — $90${t('pricing.perYear')}` : `${t('pricing.plans.starter.cta')} — $9${t('pricing.perMonth')}`)}
               </button>
             </div>
             <p className="mt-5 text-xs text-gray-500">
-              🔒 14-day money-back guarantee · No hidden fees · Cancel anytime
-              {isIndia ? ' · Powered by Razorpay' : ' · Powered by Lemon Squeezy'}
+              🔒 {t('pricing.socialProof.moneyBack')} · {t('pricing.socialProof.noHiddenFees')} · {t('pricing.socialProof.cancelAnytime')}
+              {' · '}{t('pricing.poweredBy', { name: isIndia ? 'Razorpay' : 'Lemon Squeezy' })}
             </p>
           </div>
         </section>

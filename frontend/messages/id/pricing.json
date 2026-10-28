@@ -171,5 +171,48 @@
     "checkoutCancelled": "Checkout dibatalkan — tidak ada tagihan yang dikenakan.",
     "dismiss": "Tutup",
     "contactSupport": "hubungi dukungan"
-  }
+  },
+  "noCardRequired": "Tidak perlu kartu kredit",
+  "socialProof": {
+    "moneyBack": "Garansi uang kembali 14 hari",
+    "cancelAnytime": "Batalkan kapan saja",
+    "noHiddenFees": "Tanpa biaya tersembunyi"
+  },
+  "stats": {
+    "tools": "Alat PDF & Gambar",
+    "languages": "Bahasa",
+    "autoDelete": "File dihapus otomatis",
+    "encrypted": "Transfer terenkripsi"
+  },
+  "whatYouGet": {
+    "title": "Alat yang sama. Tanpa batasan.",
+    "subtitle": "Paket gratis sudah memberi akses ke semua 27 alat. Premium menghilangkan hambatan: file lebih besar, pemrosesan massal, tanpa iklan, dan pemrosesan prioritas.",
+    "items": {
+      "bigger": {
+        "title": "File lebih besar",
+        "desc": "Hingga 200 MB tergantung alatnya di Starter, tanpa batas di Pro. Tidak lagi terhenti di tengah pekerjaan."
+      },
+      "batch": {
+        "title": "Pemrosesan massal",
+        "desc": "Konversi atau kompres banyak file sekaligus, tidak satu per satu."
+      },
+      "noAds": {
+        "title": "Tanpa iklan",
+        "desc": "Tampilan bersih tanpa gangguan. Hanya alatnya, tidak ada yang lain."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} file",
+    "files": "{n} file",
+    "pages": "{n} halaman",
+    "perDay": "{n}/hari",
+    "hour": "{n} jam",
+    "hours": "{n} jam"
+  },
+  "perYear": "/thn",
+  "secureCheckout": "Pembayaran aman",
+  "payPalInstead": "Bayar dengan PayPal saja",
+  "annualSelected": "Penagihan tahunan dipilih: diskon 17%, diterapkan saat pembayaran",
+  "poweredBy": "Didukung oleh {name}"
 }

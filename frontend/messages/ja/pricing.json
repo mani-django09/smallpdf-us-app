@@ -171,5 +171,48 @@
     "checkoutCancelled": "チェックアウトがキャンセルされました — 請求はありません。",
     "dismiss": "閉じる",
     "contactSupport": "サポートに連絡"
-  }
+  },
+  "noCardRequired": "クレジットカードは不要です",
+  "socialProof": {
+    "moneyBack": "14日間の返金保証",
+    "cancelAnytime": "いつでも解約可能",
+    "noHiddenFees": "隠れた手数料なし"
+  },
+  "stats": {
+    "tools": "PDF・画像ツール",
+    "languages": "対応言語",
+    "autoDelete": "ファイル自動削除",
+    "encrypted": "暗号化された通信"
+  },
+  "whatYouGet": {
+    "title": "同じツールを、制限なしで。",
+    "subtitle": "無料プランでも27種類すべてのツールを使えます。プレミアムなら、より大きなファイル、一括処理、広告なし、優先処理で作業の手間がなくなります。",
+    "items": {
+      "bigger": {
+        "title": "より大きなファイル",
+        "desc": "ツールによって、Starterでは最大200MB、Proでは無制限です。作業の途中で止まることがなくなります。"
+      },
+      "batch": {
+        "title": "一括処理",
+        "desc": "複数のファイルをまとめて変換・圧縮できます。1つずつ処理する必要はありません。"
+      },
+      "noAds": {
+        "title": "広告なし",
+        "desc": "邪魔の入らないすっきりした画面で、ツールだけに集中できます。"
+      }
+    }
+  },
+  "units": {
+    "file": "{n}ファイル",
+    "files": "{n}ファイル",
+    "pages": "{n}ページ",
+    "perDay": "1日{n}回",
+    "hour": "{n}時間",
+    "hours": "{n}時間"
+  },
+  "perYear": "/年",
+  "secureCheckout": "安全な決済",
+  "payPalInstead": "代わりにPayPalで支払う",
+  "annualSelected": "年払いを選択中：17%オフ、お支払い時に適用されます",
+  "poweredBy": "提供：{name}"
 }

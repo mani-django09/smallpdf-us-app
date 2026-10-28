@@ -171,5 +171,48 @@
     "checkoutCancelled": "Checkout abgebrochen — es wurde keine Zahlung vorgenommen.",
     "dismiss": "Schließen",
     "contactSupport": "Support kontaktieren"
-  }
+  },
+  "noCardRequired": "Keine Kreditkarte nötig",
+  "socialProof": {
+    "moneyBack": "14 Tage Geld-zurück-Garantie",
+    "cancelAnytime": "Jederzeit kündbar",
+    "noHiddenFees": "Keine versteckten Gebühren"
+  },
+  "stats": {
+    "tools": "PDF- & Bild-Tools",
+    "languages": "Sprachen",
+    "autoDelete": "Automatisches Löschen",
+    "encrypted": "Verschlüsselte Übertragung"
+  },
+  "whatYouGet": {
+    "title": "Dieselben Tools. Nur ohne Limits.",
+    "subtitle": "Im kostenlosen Tarif können Sie bereits alle 27 Tools nutzen. Premium nimmt die Hürden weg: größere Dateien, Stapelverarbeitung, keine Werbung, bevorzugte Verarbeitung.",
+    "items": {
+      "bigger": {
+        "title": "Größere Dateien",
+        "desc": "Je nach Tool bis zu 200 MB im Starter-Tarif, unbegrenzt in Pro. Schluss mit Abbrüchen mitten im Arbeitsablauf."
+      },
+      "batch": {
+        "title": "Stapelverarbeitung",
+        "desc": "Mehrere Dateien auf einmal umwandeln oder komprimieren, nicht eine nach der anderen."
+      },
+      "noAds": {
+        "title": "Keine Werbung",
+        "desc": "Eine aufgeräumte Oberfläche ohne Unterbrechungen. Nur das Tool, sonst nichts."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} Datei",
+    "files": "{n} Dateien",
+    "pages": "{n} Seiten",
+    "perDay": "{n}/Tag",
+    "hour": "{n} Stunde",
+    "hours": "{n} Stunden"
+  },
+  "perYear": "/Jahr",
+  "secureCheckout": "Sichere Bezahlung",
+  "payPalInstead": "Stattdessen mit PayPal bezahlen",
+  "annualSelected": "Jahresabrechnung gewählt — 17 % Rabatt, wird an der Kasse abgezogen",
+  "poweredBy": "Bereitgestellt von {name}"
 }

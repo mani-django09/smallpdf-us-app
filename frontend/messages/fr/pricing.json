@@ -171,5 +171,48 @@
     "checkoutCancelled": "Paiement annulé — aucun prélèvement n'a été effectué.",
     "dismiss": "Fermer",
     "contactSupport": "contacter le support"
-  }
+  },
+  "noCardRequired": "Aucune carte bancaire requise",
+  "socialProof": {
+    "moneyBack": "Garantie satisfait ou remboursé de 14 jours",
+    "cancelAnytime": "Résiliable à tout moment",
+    "noHiddenFees": "Aucun frais caché"
+  },
+  "stats": {
+    "tools": "Outils PDF et image",
+    "languages": "Langues",
+    "autoDelete": "Suppression automatique des fichiers",
+    "encrypted": "Transferts chiffrés"
+  },
+  "whatYouGet": {
+    "title": "Les mêmes outils. Sans les limites.",
+    "subtitle": "L'offre gratuite donne déjà accès aux 27 outils. Premium supprime les freins : fichiers plus volumineux, traitement par lot, aucune publicité et traitement prioritaire.",
+    "items": {
+      "bigger": {
+        "title": "Fichiers plus volumineux",
+        "desc": "Jusqu'à 200 Mo selon l'outil avec Starter, illimité avec Pro. Fini les blocages en plein travail."
+      },
+      "batch": {
+        "title": "Traitement par lot",
+        "desc": "Convertissez ou compressez plusieurs fichiers à la fois, pas un par un."
+      },
+      "noAds": {
+        "title": "Sans publicité",
+        "desc": "Une interface propre, sans interruption. Rien que l'outil."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} fichier",
+    "files": "{n} fichiers",
+    "pages": "{n} pages",
+    "perDay": "{n}/jour",
+    "hour": "{n} heure",
+    "hours": "{n} heures"
+  },
+  "perYear": "/an",
+  "secureCheckout": "Paiement sécurisé",
+  "payPalInstead": "Payer plutôt avec PayPal",
+  "annualSelected": "Facturation annuelle sélectionnée : 17 % de réduction, appliquée au paiement",
+  "poweredBy": "Propulsé par {name}"
 }

@@ -155,5 +155,48 @@
     "checkoutCancelled": "Checkout cancelled — no charge was made.",
     "dismiss": "Dismiss",
     "contactSupport": "contact support"
-  }
+  },
+  "noCardRequired": "No credit card required",
+  "socialProof": {
+    "moneyBack": "14-day money-back guarantee",
+    "cancelAnytime": "Cancel anytime",
+    "noHiddenFees": "No hidden fees"
+  },
+  "stats": {
+    "tools": "PDF & Image Tools",
+    "languages": "Languages",
+    "autoDelete": "File Auto-Delete",
+    "encrypted": "Encrypted Transfers"
+  },
+  "whatYouGet": {
+    "title": "The same tools. Just without the limits.",
+    "subtitle": "Free plan already gives you access to all 27 tools. Premium removes the friction — bigger files, batch processing, no ads, priority processing.",
+    "items": {
+      "bigger": {
+        "title": "Bigger files",
+        "desc": "Up to 200 MB, depending on the tool, on Starter — unlimited on Pro. Stop getting blocked mid-workflow."
+      },
+      "batch": {
+        "title": "Batch processing",
+        "desc": "Convert or compress multiple files at once. Not one by one."
+      },
+      "noAds": {
+        "title": "No ads",
+        "desc": "Clean interface with zero interruptions. Just the tool, nothing else."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} file",
+    "files": "{n} files",
+    "pages": "{n} pages",
+    "perDay": "{n}/day",
+    "hour": "{n} hour",
+    "hours": "{n} hours"
+  },
+  "perYear": "/yr",
+  "secureCheckout": "Secure checkout",
+  "payPalInstead": "Pay with PayPal instead",
+  "annualSelected": "Annual billing selected — 17% off, applied at checkout",
+  "poweredBy": "Powered by {name}"
 }
