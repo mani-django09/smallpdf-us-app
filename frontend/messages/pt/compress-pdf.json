@@ -177,5 +177,55 @@
     "savedBytes": "Você economizou {size}"
   },
   "metaTitle": "Comprimir PDF Grátis — Reduza o Tamanho até 90% | SmallPDF.us",
-  "metaDescription": "Comprima arquivos PDF online de graça. Reduza o tamanho em até 90% com o modo Qualidade máxima, Equilibrado ou Extremo. Os arquivos são excluídos após 1 hora."
+  "metaDescription": "Comprima arquivos PDF online de graça. Reduza o tamanho em até 90% com o modo Qualidade máxima, Equilibrado ou Extremo. Os arquivos são excluídos após 1 hora.",
+  "guide": {
+    "title": "Como comprimir um PDF para 100 KB, 200 KB ou 1 MB",
+    "intro": "Envie seu PDF acima, escolha a compressão **Extremo** e baixe o resultado. PDFs digitalizados ou com muitas fotos costumam diminuir bastante, muitas vezes o suficiente para formulários que só aceitam arquivos com menos de 100 KB ou 200 KB. PDFs com quase só texto já são pequenos, então diminuem menos.",
+    "table": {
+      "headers": [
+        "Nível",
+        "O que faz",
+        "Economia típica",
+        "Ideal para"
+      ],
+      "rows": [
+        [
+          "Qualidade máxima",
+          "Mantém as imagens em 150 dpi",
+          "Cerca de 20–50%",
+          "Impressão, documentos com detalhes finos"
+        ],
+        [
+          "Equilibrado (padrão)",
+          "Imagens em 96 dpi",
+          "Cerca de 50–75%",
+          "E-mail e a maioria dos formulários"
+        ],
+        [
+          "Extremo",
+          "Imagens em 72 dpi com a compressão mais forte",
+          "Cerca de 70–90%",
+          "Limites rígidos como 100 KB ou 200 KB"
+        ]
+      ],
+      "note": "São resultados típicos, não garantias. A economia depende do conteúdo do arquivo."
+    },
+    "sections": [
+      {
+        "title": "Ainda grande demais?",
+        "type": "ul",
+        "items": [
+          "Remova as páginas de que não precisa com [Dividir PDF](/split-pdf) e comprima de novo.",
+          "Se o PDF foi feito com fotos do celular, reduza primeiro as fotos com [Comprimir imagem](/compress-image) e depois recrie o PDF com [JPG para PDF](/jpg-to-pdf).",
+          "Se o formulário aceitar mais de um arquivo, divida um documento longo em partes e envie-as separadamente.",
+          "Trabalha com arquivos muito grandes? O plano gratuito tem um limite de tamanho por arquivo; os planos pagos aumentam esse limite. Veja os [Preços](/pricing)."
+        ]
+      },
+      {
+        "title": "Comprimir muda o meu texto?",
+        "type": "p",
+        "text": "Não. A compressão atua nas imagens do PDF. O texto continua sendo texto, então fica nítido e pesquisável."
+      }
+    ]
+  }
 }

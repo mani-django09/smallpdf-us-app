@@ -131,5 +131,31 @@
   "relatedTool3Name": "PDF aufteilen",
   "relatedTool3Desc": "Ein PDF in einzelne Seiten oder Bereiche aufteilen",
   "relatedTool4Name": "PDF in Word",
-  "relatedTool4Desc": "PDF-Dokumente in bearbeitbare Word-Dateien konvertieren"
+  "relatedTool4Desc": "PDF-Dokumente in bearbeitbare Word-Dateien konvertieren",
+  "guide": {
+    "title": "So entfernen Sie ein Passwort aus einem PDF",
+    "intro": "PDFs können zwei Arten von Passwörtern haben, und sie werden unterschiedlich entfernt. Prüfen Sie, welches Ihre Datei hat.",
+    "sections": [
+      {
+        "title": "Drucken oder Kopieren ist gesperrt (Berechtigungspasswort)",
+        "type": "p",
+        "text": "Wenn sich das PDF normal öffnet, aber Drucken, Kopieren oder Bearbeiten nicht erlaubt, hat es nur ein Berechtigungspasswort. Laden Sie es oben hoch und wir entfernen diese Einschränkungen. Das Passwort müssen Sie dafür nicht kennen."
+      },
+      {
+        "title": "Es fragt vor dem Öffnen nach einem Passwort (Öffnungspasswort)",
+        "type": "p",
+        "text": "Wenn das PDF schon zum Öffnen ein Passwort verlangt, geben Sie dieses beim Entsperren einmal ein. Wir speichern dann eine Kopie ohne Passwort, die sich ab sofort direkt öffnet. Ein Öffnungspasswort, das Sie nicht kennen, können wir nicht entfernen: Wir erraten oder knacken keine Passwörter."
+      },
+      {
+        "title": "Nach dem Entsperren",
+        "type": "ul",
+        "items": [
+          "Legen Sie mit [PDF schützen](/protect-pdf) ein neues Passwort fest.",
+          "Kombinieren Sie es mit [PDF zusammenfügen](/merge-pdf) mit anderen Dateien. Zum Zusammenfügen müssen sich die Dateien ohne Passwort öffnen lassen.",
+          "Verkleinern Sie es mit [PDF komprimieren](/compress-pdf)."
+        ]
+      }
+    ],
+    "footnote": "Entsperren Sie nur PDFs, die Ihnen gehören oder die Sie ändern dürfen."
+  }
 }

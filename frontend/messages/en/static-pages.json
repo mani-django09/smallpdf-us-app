@@ -111,7 +111,7 @@
     ],
     "securityPara": "Our infrastructure is hosted in ISO 27001-certified data centers in the EU and US. All file transfers use TLS 1.3 encryption.",
     "retentionTitle": "Data retention",
-    "retentionFiles": "Uploaded files are automatically and permanently deleted from our servers within 1 hour of upload. This is enforced at the infrastructure level.",
+    "retentionFiles": "Uploaded files and the converted results are automatically and permanently deleted from our servers within 1 hour. There are two exceptions: on the Starter plan, results saved in My Files are kept for 24 hours (48 hours on Pro and Agency) so you can download them again; and if a conversion fails, the uploaded file is kept for up to 24 hours so we can find and fix the error. After that, both are deleted automatically.",
     "retentionLogs": "Anonymized usage logs (no file content or personal identifiers) may be retained for up to 12 months for security and performance analysis.",
     "thirdPartyTitle": "Third-party services",
     "thirdPartyIntro": "We use a small number of third-party services to operate the platform:",

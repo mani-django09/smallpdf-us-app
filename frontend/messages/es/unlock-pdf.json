@@ -131,5 +131,31 @@
   "relatedTool3Name": "Dividir PDF",
   "relatedTool3Desc": "Divide un PDF en páginas o rangos separados",
   "relatedTool4Name": "PDF a Word",
-  "relatedTool4Desc": "Convierte documentos PDF a archivos Word editables"
+  "relatedTool4Desc": "Convierte documentos PDF a archivos Word editables",
+  "guide": {
+    "title": "Cómo quitar la contraseña de un PDF",
+    "intro": "Los PDF pueden tener dos tipos de contraseña y se quitan de forma distinta. Comprueba cuál tiene tu archivo.",
+    "sections": [
+      {
+        "title": "No deja imprimir ni copiar (contraseña de permisos)",
+        "type": "p",
+        "text": "Si el PDF se abre con normalidad pero no te deja imprimir, copiar o editar, solo tiene una contraseña de permisos. Súbelo arriba y quitamos esas restricciones. No necesitas saber la contraseña."
+      },
+      {
+        "title": "Pide una contraseña para abrirlo (contraseña de apertura)",
+        "type": "p",
+        "text": "Si el PDF pide una contraseña solo para abrirse, escríbela una vez al desbloquearlo. Después guardamos una copia sin ella, que a partir de ahora se abre directamente. No podemos quitar una contraseña de apertura que no conoces: no adivinamos ni desciframos contraseñas."
+      },
+      {
+        "title": "Después de desbloquearlo",
+        "type": "ul",
+        "items": [
+          "Pon una contraseña nueva con [Proteger PDF](/protect-pdf).",
+          "Combínalo con otros archivos con [Unir PDF](/merge-pdf). Para unir, los archivos deben abrirse sin contraseña.",
+          "Hazlo más ligero con [Comprimir PDF](/compress-pdf)."
+        ]
+      }
+    ],
+    "footnote": "Desbloquea solo los PDF que sean tuyos o que tengas permiso para modificar."
+  }
 }

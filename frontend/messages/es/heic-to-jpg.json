@@ -145,5 +145,35 @@
   "downloadErrorFailed": "Error de descarga. Por favor intenta de nuevo.",
   "downloadLoadingFiles": "Cargando tus archivos...",
   "downloadDownloaded": "¡Descargado!",
-  "downloadDownloading": "Descargando…"
+  "downloadDownloading": "Descargando…",
+  "guide": {
+    "title": "Cómo abrir fotos HEIC en Windows (y convertirlas a JPG)",
+    "intro": "HEIC es el formato que usa el iPhone para las fotos. Windows solo lo abre si están instaladas las extensiones HEIF y HEVC de Microsoft, y muchas aplicaciones y webs todavía no lo aceptan. La solución más rápida es convertir las fotos a JPG: suelta tus archivos HEIC arriba, conviértelos y descárgalos. No hay nada que instalar y funciona igual en Windows, Mac y Android.",
+    "sections": [
+      {
+        "title": "Convierte HEIC a JPG en tres pasos",
+        "type": "ol",
+        "items": [
+          "Copia las fotos del iPhone al ordenador o elígelas directamente desde el móvil.",
+          "Súbelas arriba. Puedes añadir varias fotos a la vez.",
+          "Descarga tus JPG. Se guardan con alta calidad (92 %), así que se ven igual que las originales."
+        ]
+      },
+      {
+        "title": "Evita que tu iPhone guarde en HEIC",
+        "type": "p",
+        "text": "En el iPhone, abre **Ajustes → Cámara → Formatos** y elige **Más compatible**. Las fotos nuevas se guardarán en JPG. Las que ya hiciste siguen en HEIC, así que conviértelas aquí."
+      },
+      {
+        "title": "¿Qué formato te conviene?",
+        "type": "ul",
+        "items": [
+          "**JPG**: archivos más pequeños que se abren en todas partes. Es lo que crea esta herramienta.",
+          "**PNG**: sin pérdida, pero más pesado. Usa [HEIC a PNG](/heic-to-png).",
+          "¿Necesitas un PDF con tus fotos? Conviértelas a JPG y luego usa [JPG a PDF](/jpg-to-pdf).",
+          "¿Demasiado grandes para un formulario? Redúcelas con [Comprimir imagen](/compress-image)."
+        ]
+      }
+    ]
+  }
 }

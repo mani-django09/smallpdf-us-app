@@ -131,5 +131,31 @@
   "relatedTool3Name": "Diviser PDF",
   "relatedTool3Desc": "Divisez un PDF en pages ou plages séparées",
   "relatedTool4Name": "PDF en Word",
-  "relatedTool4Desc": "Convertissez des PDF en fichiers Word modifiables"
+  "relatedTool4Desc": "Convertissez des PDF en fichiers Word modifiables",
+  "guide": {
+    "title": "Comment supprimer le mot de passe d'un PDF",
+    "intro": "Un PDF peut avoir deux types de mot de passe, et ils ne se suppriment pas de la même façon. Vérifiez lequel votre fichier utilise.",
+    "sections": [
+      {
+        "title": "L'impression ou la copie est bloquée (mot de passe de permissions)",
+        "type": "p",
+        "text": "Si le PDF s'ouvre normalement mais n'autorise pas l'impression, la copie ou la modification, il n'a qu'un mot de passe de permissions. Importez-le ci-dessus et nous supprimons ces restrictions. Vous n'avez pas besoin de connaître le mot de passe."
+      },
+      {
+        "title": "Il demande un mot de passe à l'ouverture (mot de passe d'ouverture)",
+        "type": "p",
+        "text": "Si le PDF demande un mot de passe rien que pour s'ouvrir, saisissez-le une fois lors du déverrouillage. Nous enregistrons ensuite une copie sans mot de passe, qui s'ouvre directement. Nous ne pouvons pas supprimer un mot de passe d'ouverture que vous ne connaissez pas : nous ne devinons ni ne cassons les mots de passe."
+      },
+      {
+        "title": "Après le déverrouillage",
+        "type": "ul",
+        "items": [
+          "Définissez un nouveau mot de passe avec [Protéger un PDF](/protect-pdf).",
+          "Combinez-le avec d'autres fichiers grâce à [Fusionner PDF](/merge-pdf). La fusion nécessite des fichiers qui s'ouvrent sans mot de passe.",
+          "Réduisez sa taille avec [Compresser PDF](/compress-pdf)."
+        ]
+      }
+    ],
+    "footnote": "Ne déverrouillez que des PDF qui vous appartiennent ou que vous avez le droit de modifier."
+  }
 }

@@ -131,5 +131,31 @@
   "relatedTool3Name": "Dividi PDF",
   "relatedTool3Desc": "Dividi un PDF in pagine o intervalli separati",
   "relatedTool4Name": "PDF in Word",
-  "relatedTool4Desc": "Converti documenti PDF in file Word modificabili"
+  "relatedTool4Desc": "Converti documenti PDF in file Word modificabili",
+  "guide": {
+    "title": "Come rimuovere la password da un PDF",
+    "intro": "Un PDF può avere due tipi di password, e si rimuovono in modo diverso. Controlla quale ha il tuo file.",
+    "sections": [
+      {
+        "title": "Stampa o copia bloccate (password dei permessi)",
+        "type": "p",
+        "text": "Se il PDF si apre normalmente ma non ti permette di stampare, copiare o modificare, ha solo una password dei permessi. Caricalo qui sopra e rimuoviamo queste restrizioni. Non serve conoscere la password."
+      },
+      {
+        "title": "Chiede una password per aprirlo (password di apertura)",
+        "type": "p",
+        "text": "Se il PDF chiede una password solo per aprirsi, inseriscila una volta quando lo sblocchi. Poi salviamo una copia senza password, che da ora in poi si apre subito. Non possiamo rimuovere una password di apertura che non conosci: non indoviniamo né forziamo le password."
+      },
+      {
+        "title": "Dopo lo sblocco",
+        "type": "ul",
+        "items": [
+          "Imposta una nuova password con [Proteggi PDF](/protect-pdf).",
+          "Uniscilo ad altri file con [Unisci PDF](/merge-pdf). Per unire servono file che si aprano senza password.",
+          "Riduci le dimensioni con [Comprimi PDF](/compress-pdf)."
+        ]
+      }
+    ],
+    "footnote": "Sblocca solo i PDF di tua proprietà o che hai il permesso di modificare."
+  }
 }

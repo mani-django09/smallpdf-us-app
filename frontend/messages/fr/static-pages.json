@@ -111,7 +111,7 @@
     ],
     "securityPara": "Notre infrastructure est hébergée dans des centres de données certifiés ISO 27001 dans l'UE et aux États-Unis. Tous les transferts utilisent le chiffrement TLS 1.3.",
     "retentionTitle": "Conservation des données",
-    "retentionFiles": "Les fichiers téléchargés sont automatiquement et définitivement supprimés de nos serveurs dans les 1 heure suivant le téléchargement. Cela est appliqué au niveau de l'infrastructure.",
+    "retentionFiles": "Les fichiers importés et les résultats convertis sont supprimés automatiquement et définitivement de nos serveurs en moins d'1 heure. Il y a deux exceptions : avec l'offre Starter, les résultats enregistrés dans Mes fichiers sont conservés 24 heures (48 heures avec Pro et Agency) pour que vous puissiez les télécharger à nouveau ; et si une conversion échoue, le fichier importé est conservé jusqu'à 24 heures afin que nous puissions trouver et corriger l'erreur. Ensuite, les deux sont supprimés automatiquement.",
     "retentionLogs": "Les journaux d'utilisation anonymisés (sans contenu de fichier ni identifiants personnels) peuvent être conservés jusqu'à 12 mois à des fins d'analyse de sécurité et de performances.",
     "thirdPartyTitle": "Services tiers",
     "thirdPartyIntro": "Nous utilisons un petit nombre de services tiers pour exploiter la plateforme :",

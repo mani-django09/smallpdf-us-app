@@ -111,7 +111,7 @@
     ],
     "securityPara": "La nostra infrastruttura è ospitata in data center certificati ISO 27001 nell'UE e negli USA. Tutti i trasferimenti utilizzano crittografia TLS 1.3.",
     "retentionTitle": "Conservazione dei dati",
-    "retentionFiles": "I file caricati vengono eliminati automaticamente e definitivamente dai nostri server entro 1 ora dal caricamento. Questo è applicato a livello infrastrutturale.",
+    "retentionFiles": "I file caricati e i risultati convertiti vengono eliminati automaticamente e definitivamente dai nostri server entro 1 ora. Ci sono due eccezioni: con il piano Starter, i risultati salvati in I miei file vengono conservati per 24 ore (48 ore con Pro e Agency) così puoi scaricarli di nuovo; e se una conversione non riesce, il file caricato viene conservato fino a 24 ore per permetterci di trovare e correggere l'errore. Dopodiché, entrambi vengono eliminati automaticamente.",
     "retentionLogs": "I log di utilizzo anonimizzati (senza contenuto file o identificatori personali) possono essere conservati fino a 12 mesi per analisi di sicurezza e prestazioni.",
     "thirdPartyTitle": "Servizi di terze parti",
     "thirdPartyIntro": "Utilizziamo un piccolo numero di servizi di terze parti per gestire la piattaforma:",

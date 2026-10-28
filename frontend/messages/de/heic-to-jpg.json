@@ -145,5 +145,35 @@
   "downloadErrorFailed": "Download fehlgeschlagen. Bitte versuchen Sie es erneut.",
   "downloadLoadingFiles": "Ihre Dateien werden geladen...",
   "downloadDownloaded": "Heruntergeladen!",
-  "downloadDownloading": "Wird heruntergeladen…"
+  "downloadDownloading": "Wird heruntergeladen…",
+  "guide": {
+    "title": "So öffnen Sie HEIC-Fotos unter Windows (und wandeln sie in JPG um)",
+    "intro": "HEIC ist das Fotoformat des iPhones. Windows öffnet es nur, wenn die HEIF- und HEVC-Erweiterungen von Microsoft installiert sind, und viele Apps und Websites akzeptieren es gar nicht. Am schnellsten hilft die Umwandlung in JPG: Ziehen Sie Ihre HEIC-Dateien oben hinein, wandeln Sie sie um und laden Sie sie herunter. Sie müssen nichts installieren, und es funktioniert unter Windows, Mac und Android gleich.",
+    "sections": [
+      {
+        "title": "HEIC in drei Schritten in JPG umwandeln",
+        "type": "ol",
+        "items": [
+          "Kopieren Sie die Fotos vom iPhone auf Ihren Computer oder wählen Sie sie direkt auf dem Handy aus.",
+          "Laden Sie sie oben hoch. Sie können mehrere Fotos auf einmal hinzufügen.",
+          "Laden Sie Ihre JPGs herunter. Sie werden in hoher Qualität (92 %) gespeichert und sehen aus wie die Originale."
+        ]
+      },
+      {
+        "title": "Verhindern, dass das iPhone HEIC speichert",
+        "type": "p",
+        "text": "Öffnen Sie auf dem iPhone **Einstellungen → Kamera → Formate** und wählen Sie **Maximale Kompatibilität**. Neue Fotos werden dann als JPG gespeichert. Bereits aufgenommene Fotos bleiben HEIC, diese wandeln Sie hier um."
+      },
+      {
+        "title": "Welches Format sollten Sie wählen?",
+        "type": "ul",
+        "items": [
+          "**JPG**: kleinere Dateien, die sich überall öffnen lassen. Das erstellt dieses Tool.",
+          "**PNG**: verlustfrei, aber größer. Nutzen Sie [HEIC in PNG](/heic-to-png).",
+          "Sie brauchen ein PDF aus Ihren Fotos? Wandeln Sie sie in JPG um und nutzen Sie dann [JPG in PDF](/jpg-to-pdf).",
+          "Zu groß für ein Upload-Formular? Verkleinern Sie sie mit [Bild komprimieren](/compress-image)."
+        ]
+      }
+    ]
+  }
 }

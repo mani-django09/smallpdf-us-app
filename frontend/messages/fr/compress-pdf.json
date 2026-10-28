@@ -177,5 +177,55 @@
     "savedBytes": "Vous avez économisé {size}"
   },
   "metaTitle": "Compresser PDF gratuitement – jusqu’à 90 % | SmallPDF.us",
-  "metaDescription": "Compressez des fichiers PDF gratuitement en ligne. Réduisez leur poids jusqu'à 90 % avec le mode Qualité maximale, Équilibré ou Extrême. Les fichiers sont supprimés après 1 heure."
+  "metaDescription": "Compressez des fichiers PDF gratuitement en ligne. Réduisez leur poids jusqu'à 90 % avec le mode Qualité maximale, Équilibré ou Extrême. Les fichiers sont supprimés après 1 heure.",
+  "guide": {
+    "title": "Comment compresser un PDF à 100 Ko, 200 Ko ou 1 Mo",
+    "intro": "Importez votre PDF ci-dessus, choisissez la compression **Extrême** et téléchargez le résultat. Les PDF scannés ou riches en photos réduisent généralement beaucoup, souvent assez pour les formulaires qui n'acceptent que des fichiers de moins de 100 Ko ou 200 Ko. Les PDF composés surtout de texte sont déjà légers et réduisent donc moins.",
+    "table": {
+      "headers": [
+        "Niveau",
+        "Ce qu'il fait",
+        "Gain habituel",
+        "Idéal pour"
+      ],
+      "rows": [
+        [
+          "Qualité maximale",
+          "Garde les images à 150 dpi",
+          "Environ 20 à 50 %",
+          "Impression, documents très détaillés"
+        ],
+        [
+          "Équilibré (par défaut)",
+          "Images à 96 dpi",
+          "Environ 50 à 75 %",
+          "E-mail et la plupart des formulaires"
+        ],
+        [
+          "Extrême",
+          "Images à 72 dpi avec la compression la plus forte",
+          "Environ 70 à 90 %",
+          "Limites strictes comme 100 Ko ou 200 Ko"
+        ]
+      ],
+      "note": "Ce sont des résultats habituels, pas des garanties. Le gain dépend du contenu de votre fichier."
+    },
+    "sections": [
+      {
+        "title": "Toujours trop lourd ?",
+        "type": "ul",
+        "items": [
+          "Supprimez les pages inutiles avec [Diviser PDF](/split-pdf), puis compressez à nouveau.",
+          "Si le PDF est fait de photos prises au téléphone, réduisez d'abord les photos avec [Compresser une image](/compress-image), puis recréez le PDF avec [JPG en PDF](/jpg-to-pdf).",
+          "Si le formulaire accepte plusieurs fichiers, divisez un long document en parties et importez-les séparément.",
+          "Des fichiers très volumineux ? L'offre gratuite a une limite de taille par fichier ; les offres payantes l'augmentent. Voir les [Tarifs](/pricing)."
+        ]
+      },
+      {
+        "title": "La compression modifie-t-elle mon texte ?",
+        "type": "p",
+        "text": "Non. La compression agit sur les images du PDF. Le texte reste du texte : il reste net et peut être recherché."
+      }
+    ]
+  }
 }

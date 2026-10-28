@@ -111,7 +111,7 @@
     ],
     "securityPara": "Infrastruktur kami dihosting di pusat data bersertifikat ISO 27001 di UE dan AS. Semua transfer file menggunakan enkripsi TLS 1.3.",
     "retentionTitle": "Retensi data",
-    "retentionFiles": "File yang diunggah dihapus secara otomatis dan permanen dari server kami dalam 1 jam setelah pengunggahan. Ini diterapkan di tingkat infrastruktur.",
+    "retentionFiles": "File yang diunggah dan hasil konversinya dihapus secara otomatis dan permanen dari server kami dalam waktu 1 jam. Ada dua pengecualian: pada paket Starter, hasil yang disimpan di File Saya disimpan selama 24 jam (48 jam untuk Pro dan Agency) agar Anda bisa mengunduhnya lagi; dan jika konversi gagal, file yang diunggah disimpan hingga 24 jam agar kami dapat menemukan dan memperbaiki kesalahannya. Setelah itu, keduanya dihapus secara otomatis.",
     "retentionLogs": "Log penggunaan yang dianonimkan (tanpa konten file atau pengenal pribadi) dapat disimpan hingga 12 bulan untuk analisis keamanan dan kinerja.",
     "thirdPartyTitle": "Layanan pihak ketiga",
     "thirdPartyIntro": "Kami menggunakan sejumlah kecil layanan pihak ketiga untuk mengoperasikan platform:",

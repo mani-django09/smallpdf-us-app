@@ -145,5 +145,35 @@
   "downloadErrorFailed": "Échec du téléchargement. Veuillez réessayer.",
   "downloadLoadingFiles": "Chargement de vos fichiers...",
   "downloadDownloaded": "Téléchargé !",
-  "downloadDownloading": "Téléchargement…"
+  "downloadDownloading": "Téléchargement…",
+  "guide": {
+    "title": "Comment ouvrir des photos HEIC sous Windows (et les convertir en JPG)",
+    "intro": "HEIC est le format photo de l'iPhone. Windows ne l'ouvre que si les extensions HEIF et HEVC de Microsoft sont installées, et beaucoup d'applications et de sites ne l'acceptent toujours pas. Le plus rapide est de convertir les photos en JPG : déposez vos fichiers HEIC ci-dessus, convertissez et téléchargez. Rien à installer, et cela fonctionne de la même façon sous Windows, Mac et Android.",
+    "sections": [
+      {
+        "title": "Convertir HEIC en JPG en trois étapes",
+        "type": "ol",
+        "items": [
+          "Copiez les photos de l'iPhone vers votre ordinateur, ou choisissez-les directement sur le téléphone.",
+          "Importez-les ci-dessus. Vous pouvez ajouter plusieurs photos à la fois.",
+          "Téléchargez vos JPG. Ils sont enregistrés en haute qualité (92 %) et ressemblent aux originaux."
+        ]
+      },
+      {
+        "title": "Empêcher l'iPhone d'enregistrer en HEIC",
+        "type": "p",
+        "text": "Sur l'iPhone, ouvrez **Réglages → Appareil photo → Formats** et choisissez **Le plus compatible**. Les nouvelles photos seront enregistrées en JPG. Celles déjà prises restent en HEIC : convertissez-les ici."
+      },
+      {
+        "title": "Quel format choisir ?",
+        "type": "ul",
+        "items": [
+          "**JPG** : des fichiers plus légers qui s'ouvrent partout. C'est ce que crée cet outil.",
+          "**PNG** : sans perte mais plus lourd. Utilisez [HEIC en PNG](/heic-to-png).",
+          "Besoin d'un PDF de vos photos ? Convertissez-les en JPG, puis utilisez [JPG en PDF](/jpg-to-pdf).",
+          "Trop lourdes pour un formulaire ? Réduisez-les avec [Compresser une image](/compress-image)."
+        ]
+      }
+    ]
+  }
 }

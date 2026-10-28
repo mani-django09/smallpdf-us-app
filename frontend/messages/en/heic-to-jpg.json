@@ -145,5 +145,35 @@
   "downloadErrorFailed": "Download failed. Please try again.",
   "downloadLoadingFiles": "Loading your files...",
   "downloadDownloaded": "Downloaded!",
-  "downloadDownloading": "Downloading…"
+  "downloadDownloading": "Downloading…",
+  "guide": {
+    "title": "How to open HEIC photos on Windows (and convert them to JPG)",
+    "intro": "HEIC is the format iPhones use for photos. Windows only opens it when Microsoft's HEIF and HEVC extensions are installed, and many apps and websites still don't accept it at all. The quickest fix is to convert the photos to JPG: drop your HEIC files above, convert and download. There is nothing to install, and it works the same on Windows, Mac and Android.",
+    "sections": [
+      {
+        "title": "Convert HEIC to JPG in three steps",
+        "type": "ol",
+        "items": [
+          "Copy the photos from your iPhone to your computer, or pick them straight from your phone.",
+          "Upload them above. You can add several photos at once.",
+          "Download your JPGs. They are saved at high quality (92%), so they look the same as the originals."
+        ]
+      },
+      {
+        "title": "Stop your iPhone from saving HEIC",
+        "type": "p",
+        "text": "On your iPhone, open **Settings → Camera → Formats** and choose **Most Compatible**. New photos are then saved as JPG. Photos you already took stay HEIC, so convert those here."
+      },
+      {
+        "title": "Which format should you pick?",
+        "type": "ul",
+        "items": [
+          "**JPG**: smaller files that open everywhere. That's what this tool makes.",
+          "**PNG**: lossless but larger. Use [HEIC to PNG](/heic-to-png).",
+          "Need one PDF of your photos? Convert them to JPG, then use [JPG to PDF](/jpg-to-pdf).",
+          "Too big for an upload form? Shrink them with [Compress Image](/compress-image)."
+        ]
+      }
+    ]
+  }
 }

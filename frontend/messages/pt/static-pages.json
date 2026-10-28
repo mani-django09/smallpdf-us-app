@@ -111,7 +111,7 @@
     ],
     "securityPara": "Nossa infraestrutura é hospedada em data centers certificados ISO 27001 na UE e nos EUA. Todas as transferências usam criptografia TLS 1.3.",
     "retentionTitle": "Retenção de dados",
-    "retentionFiles": "Os arquivos carregados são excluídos automática e permanentemente dos nossos servidores dentro de 1 hora após o upload. Isso é aplicado no nível da infraestrutura.",
+    "retentionFiles": "Os arquivos enviados e os resultados convertidos são excluídos de forma automática e permanente dos nossos servidores em até 1 hora. Há duas exceções: no plano Starter, os resultados salvos em Meus arquivos ficam guardados por 24 horas (48 horas no Pro e Agency) para que você possa baixá-los novamente; e, se uma conversão falhar, o arquivo enviado fica guardado por até 24 horas para que possamos encontrar e corrigir o erro. Depois disso, ambos são excluídos automaticamente.",
     "retentionLogs": "Registros de uso anonimizados (sem conteúdo de arquivo ou identificadores pessoais) podem ser retidos por até 12 meses para análise de segurança e desempenho.",
     "thirdPartyTitle": "Serviços de terceiros",
     "thirdPartyIntro": "Usamos um pequeno número de serviços de terceiros para operar a plataforma:",

@@ -3,6 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
 import AdSenseUnit from "../../components/AdSenseUnit"
+import ToolGuide from "../../components/ToolGuide"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
@@ -251,6 +252,8 @@ export default function HeicToJpg() {
             </div>
           </div>
         </div>
+
+        <ToolGuide tool="heic-to-jpg" />
 
         {/* Features */}
         <div className="bg-white py-12 px-4">

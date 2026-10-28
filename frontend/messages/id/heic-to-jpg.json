@@ -145,5 +145,35 @@
   "downloadErrorFailed": "Error de descarga. Por favor intenta de nuevo.",
   "downloadLoadingFiles": "Cargando tus archivos...",
   "downloadDownloaded": "¡Descargado!",
-  "downloadDownloading": "Descargando…"
+  "downloadDownloading": "Descargando…",
+  "guide": {
+    "title": "Cara membuka foto HEIC di Windows (dan mengubahnya ke JPG)",
+    "intro": "HEIC adalah format foto yang dipakai iPhone. Windows hanya bisa membukanya jika ekstensi HEIF dan HEVC dari Microsoft terpasang, dan banyak aplikasi serta situs web masih belum menerimanya. Cara tercepat adalah mengubah foto ke JPG: taruh file HEIC Anda di atas, konversi, lalu unduh. Tidak perlu memasang apa pun, dan cara kerjanya sama di Windows, Mac, dan Android.",
+    "sections": [
+      {
+        "title": "Ubah HEIC ke JPG dalam tiga langkah",
+        "type": "ol",
+        "items": [
+          "Salin foto dari iPhone ke komputer, atau pilih langsung dari ponsel.",
+          "Unggah di atas. Anda bisa menambahkan beberapa foto sekaligus.",
+          "Unduh JPG Anda. Disimpan dengan kualitas tinggi (92%), jadi tampilannya sama seperti aslinya."
+        ]
+      },
+      {
+        "title": "Agar iPhone tidak menyimpan HEIC",
+        "type": "p",
+        "text": "Di iPhone, buka **Pengaturan → Kamera → Format** lalu pilih **Paling Kompatibel**. Foto baru akan disimpan sebagai JPG. Foto yang sudah ada tetap HEIC, jadi ubah di sini."
+      },
+      {
+        "title": "Format mana yang sebaiknya dipilih?",
+        "type": "ul",
+        "items": [
+          "**JPG**: file lebih kecil yang bisa dibuka di mana saja. Itulah yang dibuat alat ini.",
+          "**PNG**: tanpa kehilangan kualitas, tapi lebih besar. Gunakan [HEIC ke PNG](/heic-to-png).",
+          "Butuh satu PDF dari foto Anda? Ubah ke JPG dulu, lalu gunakan [JPG ke PDF](/jpg-to-pdf).",
+          "Terlalu besar untuk formulir unggahan? Kecilkan dengan [Kompres Gambar](/compress-image)."
+        ]
+      }
+    ]
+  }
 }

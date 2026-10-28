@@ -177,5 +177,55 @@
     "savedBytes": "Hai risparmiato {size}"
   },
   "metaTitle": "Comprimi PDF gratis – fino al 90 % in meno | SmallPDF.us",
-  "metaDescription": "Comprimi file PDF online gratis. Riduci le dimensioni fino al 90% con la modalità Qualità massima, Bilanciata o Estrema. I file vengono eliminati dopo 1 ora."
+  "metaDescription": "Comprimi file PDF online gratis. Riduci le dimensioni fino al 90% con la modalità Qualità massima, Bilanciata o Estrema. I file vengono eliminati dopo 1 ora.",
+  "guide": {
+    "title": "Come comprimere un PDF a 100 KB, 200 KB o 1 MB",
+    "intro": "Carica il tuo PDF qui sopra, scegli la compressione **Estremo** e scarica il risultato. I PDF scansionati o pieni di foto di solito si riducono molto, spesso abbastanza per i moduli che accettano solo file sotto i 100 KB o 200 KB. I PDF composti soprattutto da testo sono già leggeri, quindi si riducono meno.",
+    "table": {
+      "headers": [
+        "Livello",
+        "Cosa fa",
+        "Risparmio tipico",
+        "Ideale per"
+      ],
+      "rows": [
+        [
+          "Qualità massima",
+          "Mantiene le immagini a 150 dpi",
+          "Circa 20–50%",
+          "Stampa, documenti con dettagli fini"
+        ],
+        [
+          "Bilanciato (predefinito)",
+          "Immagini a 96 dpi",
+          "Circa 50–75%",
+          "Email e la maggior parte dei moduli"
+        ],
+        [
+          "Estremo",
+          "Immagini a 72 dpi con la compressione più forte",
+          "Circa 70–90%",
+          "Limiti rigidi come 100 KB o 200 KB"
+        ]
+      ],
+      "note": "Sono risultati tipici, non garanzie. Il risparmio dipende dal contenuto del file."
+    },
+    "sections": [
+      {
+        "title": "Ancora troppo grande?",
+        "type": "ul",
+        "items": [
+          "Rimuovi le pagine che non ti servono con [Dividi PDF](/split-pdf), poi comprimi di nuovo.",
+          "Se il PDF è fatto di foto scattate col telefono, riduci prima le foto con [Comprimi immagine](/compress-image), poi ricrea il PDF con [JPG in PDF](/jpg-to-pdf).",
+          "Se il modulo accetta più file, dividi un documento lungo in parti e caricale separatamente.",
+          "Lavori con file molto grandi? Il piano gratuito ha un limite di dimensione per file; i piani a pagamento lo aumentano. Vedi [Prezzi](/pricing)."
+        ]
+      },
+      {
+        "title": "La compressione cambia il mio testo?",
+        "type": "p",
+        "text": "No. La compressione agisce sulle immagini del PDF. Il testo resta testo, quindi rimane nitido e ricercabile."
+      }
+    ]
+  }
 }

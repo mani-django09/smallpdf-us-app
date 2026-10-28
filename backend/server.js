@@ -9985,8 +9985,10 @@ app.post('/api/ocr-pdf',
   // leaving files behind that slowly fill the disk. This sweeps the work dirs on a
   // schedule, deleting anything older than maxAge. uploads/blog is preserved.
   async function sweepOldFiles() {
-    const ONE_HOUR = 60 * 60 * 1000
-    const cutoff = Date.now() - ONE_HOUR
+    // The privacy policy promises deletion "within 1 hour": remove anything older than 55 min and
+    // run every 5 min (below), so nothing outlives the hour. (The 2-hour cron is only a backstop.)
+    const MAX_AGE = 55 * 60 * 1000
+    const cutoff = Date.now() - MAX_AGE
     const dirs = ["uploads", "converted", "compressed", "downloads", "temp", "unlocked"]
     let removed = 0
     // "My Files" keeps paid users' outputs for 24h by pointing at the files in
@@ -10018,9 +10020,9 @@ app.post('/api/ocr-pdf',
     if (removed > 0) console.log(`🧹 Temp sweep: removed ${removed} expired item(s)`)
   }
 
-  // Run once at startup (clears orphans from any previous crash), then every 30 min
+  // Run once at startup (clears orphans from any previous crash), then every 5 min
   sweepOldFiles()
-  setInterval(sweepOldFiles, 30 * 60 * 1000)
+  setInterval(sweepOldFiles, 5 * 60 * 1000)
 
   // Inputs of failed conversions: kept 24 h, then removed (startup + hourly)
   sweepFailedInputs()

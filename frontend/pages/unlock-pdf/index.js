@@ -3,6 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
 import AdSenseUnit from "../../components/AdSenseUnit"
+import ToolGuide from "../../components/ToolGuide"
 import SEOHead from "../../components/SEOHead"
 import { Upload, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Unlock } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
@@ -329,6 +330,8 @@ export default function UnlockPdf() {
             </div>
           </div>
         </div>
+
+        <ToolGuide tool="unlock-pdf" />
 
         {/* Features Grid */}
         <div className="bg-white py-12 px-4">

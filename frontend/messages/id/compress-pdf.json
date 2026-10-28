@@ -177,5 +177,55 @@
     "savedBytes": "Anda menghemat {size}"
   },
   "metaTitle": "Kompres PDF Gratis — Kurangi Ukuran hingga 90% | SmallPDF.us",
-  "metaDescription": "Kompres file PDF gratis secara online. Perkecil ukuran file hingga 90% dengan mode Kualitas Maksimum, Seimbang, atau Ekstrem. File dihapus setelah 1 jam."
+  "metaDescription": "Kompres file PDF gratis secara online. Perkecil ukuran file hingga 90% dengan mode Kualitas Maksimum, Seimbang, atau Ekstrem. File dihapus setelah 1 jam.",
+  "guide": {
+    "title": "Cara mengompres PDF menjadi 100 KB, 200 KB, atau 1 MB",
+    "intro": "Unggah PDF Anda di atas, pilih kompresi **Ekstrem**, lalu unduh hasilnya. PDF hasil scan dan yang berisi banyak foto biasanya mengecil jauh, sering kali cukup untuk formulir yang hanya menerima file di bawah 100 KB atau 200 KB. PDF yang sebagian besar berisi teks sudah kecil, jadi pengurangannya lebih sedikit.",
+    "table": {
+      "headers": [
+        "Tingkat",
+        "Fungsinya",
+        "Penghematan umum",
+        "Cocok untuk"
+      ],
+      "rows": [
+        [
+          "Kualitas Maksimum",
+          "Gambar tetap 150 dpi",
+          "Sekitar 20–50%",
+          "Mencetak, dokumen dengan detail halus"
+        ],
+        [
+          "Seimbang (bawaan)",
+          "Gambar 96 dpi",
+          "Sekitar 50–75%",
+          "Email dan sebagian besar formulir unggahan"
+        ],
+        [
+          "Ekstrem",
+          "Gambar 72 dpi dengan kompresi terkuat",
+          "Sekitar 70–90%",
+          "Batas ketat seperti 100 KB atau 200 KB"
+        ]
+      ],
+      "note": "Ini hasil umum, bukan jaminan. Penghematan tergantung isi file Anda."
+    },
+    "sections": [
+      {
+        "title": "Masih terlalu besar?",
+        "type": "ul",
+        "items": [
+          "Hapus halaman yang tidak perlu dengan [Pisah PDF](/split-pdf), lalu kompres lagi.",
+          "Jika PDF berasal dari foto ponsel, kecilkan dulu fotonya dengan [Kompres Gambar](/compress-image), lalu buat ulang PDF dengan [JPG ke PDF](/jpg-to-pdf).",
+          "Jika formulir menerima lebih dari satu file, pisahkan dokumen panjang menjadi beberapa bagian dan unggah satu per satu.",
+          "Bekerja dengan file sangat besar? Paket gratis punya batas ukuran per file; paket berbayar menaikkannya. Lihat [Harga](/pricing)."
+        ]
+      },
+      {
+        "title": "Apakah kompresi mengubah teks saya?",
+        "type": "p",
+        "text": "Tidak. Kompresi bekerja pada gambar di dalam PDF. Teks tetap berupa teks, jadi tetap tajam dan bisa dicari."
+      }
+    ]
+  }
 }

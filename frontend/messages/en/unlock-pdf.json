@@ -131,5 +131,31 @@
   "relatedTool3Name": "Split PDF",
   "relatedTool3Desc": "Split a PDF into separate pages or ranges",
   "relatedTool4Name": "PDF to Word",
-  "relatedTool4Desc": "Convert PDF documents to editable Word files"
+  "relatedTool4Desc": "Convert PDF documents to editable Word files",
+  "guide": {
+    "title": "How to remove a password from a PDF",
+    "intro": "PDFs can have two kinds of password, and they are removed differently. Check which one your file has.",
+    "sections": [
+      {
+        "title": "Printing or copying is blocked (permissions password)",
+        "type": "p",
+        "text": "If the PDF opens normally but won't let you print, copy or edit, it only has a permissions password. Upload it above and we remove those restrictions. You don't need to know the password."
+      },
+      {
+        "title": "It asks for a password before opening (open password)",
+        "type": "p",
+        "text": "If the PDF asks for a password just to open it, type that password once when you unlock it. We then save a copy without it, so it opens straight away from now on. We can't remove an open password you don't know: we don't guess or crack passwords."
+      },
+      {
+        "title": "After unlocking",
+        "type": "ul",
+        "items": [
+          "Set a new password with [Protect PDF](/protect-pdf).",
+          "Combine it with other files using [Merge PDF](/merge-pdf). Merging needs files that open without a password.",
+          "Make it smaller with [Compress PDF](/compress-pdf)."
+        ]
+      }
+    ],
+    "footnote": "Only unlock PDFs you own or have permission to change."
+  }
 }

@@ -177,5 +177,55 @@
     "savedBytes": "Sie haben {size} gespart"
   },
   "metaTitle": "PDF kostenlos komprimieren – bis zu 90 % kleiner | SmallPDF.us",
-  "metaDescription": "PDF-Dateien kostenlos online komprimieren. Verkleinern Sie die Dateigröße um bis zu 90 % im Modus Maximale Qualität, Ausgewogen oder Extrem. Dateien werden nach 1 Stunde gelöscht."
+  "metaDescription": "PDF-Dateien kostenlos online komprimieren. Verkleinern Sie die Dateigröße um bis zu 90 % im Modus Maximale Qualität, Ausgewogen oder Extrem. Dateien werden nach 1 Stunde gelöscht.",
+  "guide": {
+    "title": "So komprimieren Sie ein PDF auf 100 KB, 200 KB oder 1 MB",
+    "intro": "Laden Sie Ihr PDF oben hoch, wählen Sie die Komprimierung **Extrem** und laden Sie das Ergebnis herunter. Gescannte und bildlastige PDFs werden meist deutlich kleiner, oft klein genug für Formulare, die nur Dateien unter 100 KB oder 200 KB annehmen. PDFs mit überwiegend Text sind bereits klein und schrumpfen daher weniger.",
+    "table": {
+      "headers": [
+        "Stufe",
+        "Was sie macht",
+        "Typische Ersparnis",
+        "Geeignet für"
+      ],
+      "rows": [
+        [
+          "Maximale Qualität",
+          "Bilder bleiben bei 150 dpi",
+          "Etwa 20–50 %",
+          "Drucken, Dokumente mit feinen Details"
+        ],
+        [
+          "Ausgewogen (Standard)",
+          "Bilder mit 96 dpi",
+          "Etwa 50–75 %",
+          "E-Mail und die meisten Upload-Formulare"
+        ],
+        [
+          "Extrem",
+          "Bilder mit 72 dpi und stärkster Komprimierung",
+          "Etwa 70–90 %",
+          "Strenge Grenzen wie 100 KB oder 200 KB"
+        ]
+      ],
+      "note": "Das sind typische Ergebnisse, keine Garantie. Die Ersparnis hängt vom Inhalt Ihrer Datei ab."
+    },
+    "sections": [
+      {
+        "title": "Immer noch zu groß?",
+        "type": "ul",
+        "items": [
+          "Entfernen Sie nicht benötigte Seiten mit [PDF teilen](/split-pdf) und komprimieren Sie erneut.",
+          "Besteht das PDF aus Handyfotos, verkleinern Sie zuerst die Fotos mit [Bild komprimieren](/compress-image) und erstellen Sie das PDF dann mit [JPG in PDF](/jpg-to-pdf) neu.",
+          "Wenn das Formular mehrere Dateien annimmt, teilen Sie ein langes Dokument in Teile und laden Sie diese einzeln hoch.",
+          "Sehr große Dateien? Der kostenlose Tarif hat ein Größenlimit pro Datei; bezahlte Tarife erhöhen es. Siehe [Preise](/pricing)."
+        ]
+      },
+      {
+        "title": "Verändert die Komprimierung meinen Text?",
+        "type": "p",
+        "text": "Nein. Die Komprimierung wirkt auf die Bilder im PDF. Text bleibt Text und damit scharf und durchsuchbar."
+      }
+    ]
+  }
 }

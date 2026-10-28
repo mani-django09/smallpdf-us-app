@@ -3,6 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
 import AdSenseUnit from "../../components/AdSenseUnit"
+import ToolGuide from "../../components/ToolGuide"
 import SEOHead from "../../components/SEOHead"
 import { Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Minimize2 } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
@@ -358,6 +359,8 @@ export default function CompressPdf() {
             </div>
           </div>
         </div>
+
+        <ToolGuide tool="compress-pdf" />
 
         {/* Features Section */}
         <div className="bg-white py-12 px-4">

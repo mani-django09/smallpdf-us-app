@@ -177,5 +177,55 @@
     "savedBytes": "You saved {size}"
   },
   "metaTitle": "Compress PDF Free — Reduce Size Up to 90% | SmallPDF.us",
-  "metaDescription": "Compress PDF files free online. Cut file size by up to 90% with Maximum Quality, Balanced or Extreme mode. Files are deleted after 1 hour."
+  "metaDescription": "Compress PDF files free online. Cut file size by up to 90% with Maximum Quality, Balanced or Extreme mode. Files are deleted after 1 hour.",
+  "guide": {
+    "title": "How to compress a PDF to 100 KB, 200 KB or 1 MB",
+    "intro": "Upload your PDF above, choose **Extreme** compression and download the result. Scanned and photo-heavy PDFs usually shrink a lot, often enough for forms that only accept files under 100 KB or 200 KB. PDFs that are mostly text are already small, so they shrink less.",
+    "table": {
+      "headers": [
+        "Level",
+        "What it does",
+        "Typical saving",
+        "Good for"
+      ],
+      "rows": [
+        [
+          "Maximum Quality",
+          "Keeps images at 150 dpi",
+          "About 20–50%",
+          "Printing, documents with fine detail"
+        ],
+        [
+          "Balanced (default)",
+          "Images at 96 dpi",
+          "About 50–75%",
+          "Email and most upload forms"
+        ],
+        [
+          "Extreme",
+          "Images at 72 dpi with the strongest compression",
+          "About 70–90%",
+          "Strict limits such as 100 KB or 200 KB"
+        ]
+      ],
+      "note": "These are typical results, not guarantees. The saving depends on what is inside your file."
+    },
+    "sections": [
+      {
+        "title": "Still too big?",
+        "type": "ul",
+        "items": [
+          "Remove the pages you don't need with [Split PDF](/split-pdf), then compress again.",
+          "If the PDF is made from phone photos, shrink the photos first with [Compress Image](/compress-image), then rebuild the PDF with [JPG to PDF](/jpg-to-pdf).",
+          "If the form accepts more than one file, split a long document into parts and upload them separately.",
+          "Working with very large files? The free plan has a size limit per file; paid plans raise it. See [Pricing](/pricing)."
+        ]
+      },
+      {
+        "title": "Will compressing change my text?",
+        "type": "p",
+        "text": "No. Compression works on the images inside the PDF. Text stays as text, so it remains sharp and searchable."
+      }
+    ]
+  }
 }

@@ -131,5 +131,31 @@
   "relatedTool3Name": "Pisah PDF",
   "relatedTool3Desc": "Pisahkan PDF menjadi halaman atau rentang terpisah",
   "relatedTool4Name": "PDF ke Word",
-  "relatedTool4Desc": "Konversi dokumen PDF menjadi file Word yang bisa diedit"
+  "relatedTool4Desc": "Konversi dokumen PDF menjadi file Word yang bisa diedit",
+  "guide": {
+    "title": "Cara menghapus kata sandi dari PDF",
+    "intro": "PDF bisa memiliki dua jenis kata sandi, dan cara menghapusnya berbeda. Cek jenis yang ada di file Anda.",
+    "sections": [
+      {
+        "title": "Tidak bisa mencetak atau menyalin (kata sandi izin)",
+        "type": "p",
+        "text": "Jika PDF terbuka seperti biasa tetapi tidak bisa dicetak, disalin, atau diedit, berarti hanya ada kata sandi izin. Unggah di atas dan kami akan menghapus batasan tersebut. Anda tidak perlu tahu kata sandinya."
+      },
+      {
+        "title": "Meminta kata sandi sebelum dibuka (kata sandi pembuka)",
+        "type": "p",
+        "text": "Jika PDF meminta kata sandi hanya untuk dibuka, ketik kata sandi itu sekali saat membuka kuncinya. Kami lalu menyimpan salinan tanpa kata sandi, sehingga selanjutnya langsung terbuka. Kami tidak bisa menghapus kata sandi pembuka yang tidak Anda ketahui: kami tidak menebak atau membobol kata sandi."
+      },
+      {
+        "title": "Setelah dibuka kuncinya",
+        "type": "ul",
+        "items": [
+          "Pasang kata sandi baru dengan [Lindungi PDF](/protect-pdf).",
+          "Gabungkan dengan file lain lewat [Gabung PDF](/merge-pdf). Penggabungan butuh file yang bisa dibuka tanpa kata sandi.",
+          "Perkecil ukurannya dengan [Kompres PDF](/compress-pdf)."
+        ]
+      }
+    ],
+    "footnote": "Buka kunci hanya PDF milik Anda atau yang boleh Anda ubah."
+  }
 }

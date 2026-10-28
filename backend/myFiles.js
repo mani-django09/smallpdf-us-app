@@ -3,7 +3,7 @@
 //
 // When a logged-in user runs a tool, the produced output file is recorded here
 // with a retention window based on their plan:
-//   • free    → 1 hour
+//   • free    → 55 minutes (privacy policy: deleted within 1 hour)
 //   • starter → 24 hours
 //   • pro / agency → 48 hours   (as promised in the /pricing comparison table)
 // A background sweep deletes the physical file and the DB row once expired, so
@@ -20,7 +20,7 @@ const { requireAuth } = require('./middleware/authMiddleware')
 
 const HOUR = 60 * 60 * 1000
 const RETENTION_MS = {
-  free: HOUR,
+  free: 55 * 60 * 1000,   // < 1 h, matching the privacy policy's "within 1 hour"
   starter: 24 * HOUR,
   pro: 48 * HOUR,
   agency: 48 * HOUR,

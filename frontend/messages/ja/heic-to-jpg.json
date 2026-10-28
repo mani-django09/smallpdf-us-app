@@ -145,5 +145,35 @@
   "downloadErrorFailed": "ダウンロードに失敗しました。もう一度お試しください。",
   "downloadLoadingFiles": "ファイルを読み込み中...",
   "downloadDownloaded": "ダウンロード完了！",
-  "downloadDownloading": "ダウンロード中…"
+  "downloadDownloading": "ダウンロード中…",
+  "guide": {
+    "title": "WindowsでHEIC写真を開く方法（JPGに変換する方法）",
+    "intro": "HEICはiPhoneが写真に使う形式です。WindowsではMicrosoftのHEIF拡張機能とHEVC拡張機能が入っていないと開けず、対応していないアプリやWebサイトもまだ多くあります。いちばん手早いのはJPGに変換することです。上にHEICファイルを入れて変換し、ダウンロードしてください。インストールは不要で、Windows・Mac・Androidで同じように使えます。",
+    "sections": [
+      {
+        "title": "3ステップでHEICをJPGに変換",
+        "type": "ol",
+        "items": [
+          "iPhoneの写真をパソコンにコピーするか、スマホから直接選びます。",
+          "上からアップロードします。複数の写真をまとめて追加できます。",
+          "JPGをダウンロードします。高画質（92%）で保存されるので、元の写真と同じように見えます。"
+        ]
+      },
+      {
+        "title": "iPhoneでHEICを保存しないようにする",
+        "type": "p",
+        "text": "iPhoneで**設定 → カメラ → フォーマット**を開き、**互換性優先**を選びます。以降の写真はJPGで保存されます。すでに撮った写真はHEICのままなので、ここで変換してください。"
+      },
+      {
+        "title": "どの形式を選べばいい？",
+        "type": "ul",
+        "items": [
+          "**JPG**：ファイルが小さく、どこでも開けます。このツールで作れる形式です。",
+          "**PNG**：劣化しませんがサイズは大きめです。[HEICからPNG](/heic-to-png)をご利用ください。",
+          "写真を1つのPDFにしたい場合は、JPGに変換してから[JPGからPDF](/jpg-to-pdf)を使います。",
+          "アップロードフォームに対して大きすぎる場合は、[画像圧縮](/compress-image)で小さくできます。"
+        ]
+      }
+    ]
+  }
 }

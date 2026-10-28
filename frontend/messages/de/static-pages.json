@@ -111,7 +111,7 @@
     ],
     "securityPara": "Unsere Infrastruktur wird in ISO 27001-zertifizierten Rechenzentren in der EU und den USA gehostet. Alle Dateiübertragungen verwenden TLS 1.3-Verschlüsselung.",
     "retentionTitle": "Datenspeicherung",
-    "retentionFiles": "Hochgeladene Dateien werden innerhalb von 1 Stunde nach dem Hochladen automatisch und dauerhaft von unseren Servern gelöscht. Dies wird auf Infrastrukturebene erzwungen.",
+    "retentionFiles": "Hochgeladene Dateien und die konvertierten Ergebnisse werden innerhalb von 1 Stunde automatisch und dauerhaft von unseren Servern gelöscht. Es gibt zwei Ausnahmen: Im Starter-Tarif werden Ergebnisse in „Meine Dateien“ 24 Stunden aufbewahrt (bei Pro und Agency 48 Stunden), damit Sie sie erneut herunterladen können. Und wenn eine Konvertierung fehlschlägt, wird die hochgeladene Datei bis zu 24 Stunden aufbewahrt, damit wir den Fehler finden und beheben können. Danach werden beide automatisch gelöscht.",
     "retentionLogs": "Anonymisierte Nutzungsprotokolle (ohne Dateiinhalte oder persönliche Kennungen) können bis zu 12 Monate zur Sicherheits- und Leistungsanalyse aufbewahrt werden.",
     "thirdPartyTitle": "Drittanbieter-Dienste",
     "thirdPartyIntro": "Wir nutzen eine kleine Anzahl von Drittanbieter-Diensten für den Betrieb der Plattform:",
