@@ -63,7 +63,7 @@ export default function Contact() {
     },
     {
       icon: MapPin,
-      title: "Based in",
+      title: t('contact.basedInTitle'),
       value: "New Delhi, India",
       href: null,
       gradient: "from-emerald-500 to-green-500",
@@ -91,7 +91,7 @@ export default function Contact() {
           <div className="relative max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-500/25 rounded-full px-3 py-1.5 mb-4">
               <Mail className="w-3.5 h-3.5 text-blue-400" />
-              <span className="text-[11px] font-bold text-blue-300 uppercase tracking-wider">Contact Us</span>
+              <span className="text-[11px] font-bold text-blue-300 uppercase tracking-wider">{t('contact.heroBadge')}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-white mb-3 leading-tight">
               {t('contact.heroTitle')}
@@ -137,7 +137,7 @@ export default function Contact() {
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="bg-gradient-to-r from-gray-50 to-white px-6 py-4 border-b border-gray-100">
                 <h2 className="text-lg font-black text-gray-900">{t('contact.formTitle')}</h2>
-                <p className="text-xs text-gray-500 mt-0.5">We read every message and reply within 24 hours.</p>
+                <p className="text-xs text-gray-500 mt-0.5">{t('contact.formSubtitle')}</p>
               </div>
 
               <form onSubmit={handleSubmit} className="p-6 space-y-5">
@@ -245,12 +245,12 @@ export default function Contact() {
 
               {/* Trust signals */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-                <h3 className="text-sm font-black text-gray-900 mb-4">What to expect</h3>
+                <h3 className="text-sm font-black text-gray-900 mb-4">{t('contact.expectTitle')}</h3>
                 <div className="space-y-3">
                   {[
-                    { icon: Shield, text: "Your messages are encrypted in transit", color: "text-green-500 bg-green-50" },
-                    { icon: Zap,    text: "We reply within 24 hours, usually sooner", color: "text-amber-500 bg-amber-50" },
-                    { icon: Users,  text: "Real humans read and respond, no bots", color: "text-blue-500 bg-blue-50" },
+                    { icon: Shield, text: t('contact.expect1'), color: "text-green-500 bg-green-50" },
+                    { icon: Zap,    text: t('contact.expect2'), color: "text-amber-500 bg-amber-50" },
+                    { icon: Users,  text: t('contact.expect3'), color: "text-blue-500 bg-blue-50" },
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
                       <div className={`w-7 h-7 ${item.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
@@ -264,7 +264,7 @@ export default function Contact() {
 
               {/* Quick topics */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-                <h3 className="text-sm font-black text-gray-900 mb-3">Common topics</h3>
+                <h3 className="text-sm font-black text-gray-900 mb-3">{t('contact.commonTopicsTitle')}</h3>
                 <div className="space-y-1.5">
                   {[
                     "File conversion not working",
@@ -273,7 +273,7 @@ export default function Contact() {
                     "Bug report",
                     "Business / partnerships",
                     "Something else",
-                  ].map((topic) => (
+                  ].map((topic, ti) => (
                     <button
                       key={topic}
                       type="button"
@@ -281,7 +281,7 @@ export default function Contact() {
                       className="w-full text-left px-3 py-2 rounded-lg text-xs text-gray-600 hover:bg-blue-50 hover:text-blue-700 font-medium transition-all flex items-center gap-2 group"
                     >
                       <span className="w-1.5 h-1.5 bg-gray-300 group-hover:bg-blue-400 rounded-full flex-shrink-0 transition-colors" />
-                      {topic}
+                      {t(`contact.topics.${ti}`)}
                     </button>
                   ))}
                 </div>
@@ -291,10 +291,10 @@ export default function Contact() {
               <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <Shield className="w-4 h-4 text-green-400" />
-                  <h3 className="text-xs font-black text-white">Privacy guaranteed</h3>
+                  <h3 className="text-xs font-black text-white">{t('contact.privacyTitle')}</h3>
                 </div>
                 <p className="text-xs text-slate-400 leading-relaxed">
-                  Contact form data is used only to respond to your message and is deleted after 30 days.
+                  {t('contact.privacyText')}
                 </p>
               </div>
             </div>

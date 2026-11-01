@@ -20,7 +20,25 @@
     "submitButton": "Nachricht senden",
     "sendingButton": "Wird gesendet…",
     "successMessage": "Nachricht gesendet! Wir melden uns innerhalb von 24 Stunden.",
-    "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt."
+    "errorMessage": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie uns direkt.",
+    "formSubtitle": "Wir lesen jede Nachricht und antworten innerhalb von 24 Stunden.",
+    "expectTitle": "Was Sie erwartet",
+    "expect1": "Ihre Nachrichten werden verschlüsselt übertragen",
+    "expect2": "Wir antworten innerhalb von 24 Stunden, meist schneller",
+    "expect3": "Echte Menschen lesen und antworten, keine Bots",
+    "privacyTitle": "Ihre Privatsphäre",
+    "privacyText": "Die Daten aus dem Kontaktformular werden nur verwendet, um Ihre Nachricht zu beantworten.",
+    "heroBadge": "Kontakt",
+    "basedInTitle": "Standort",
+    "commonTopicsTitle": "Häufige Themen",
+    "topics": [
+      "Dateikonvertierung funktioniert nicht",
+      "Fragen zu Datenschutz / Daten",
+      "Funktionswunsch",
+      "Fehlermeldung",
+      "Geschäftliches / Partnerschaften",
+      "Etwas anderes"
+    ]
   },
   "about": {
     "pageTitle": "Über uns — SmallPDF.us",
@@ -53,13 +71,57 @@
     "teamSubtitle": "Entwickelt von einem Entwickler, der glaubt, dass großartige Software für alle zugänglich sein sollte — nicht hinter einer Paywall versteckt.",
     "teamSize": "Alleine entwickelt und gepflegt.",
     "trustTitle": "Warum Sie uns vertrauen können",
-    "trustSubtitle": "Zertifikate und Nachweise — nicht nur Worte.",
+    "trustSubtitle": "So gehen wir mit Ihren Dateien um, in einfachen Worten.",
     "ctaTitle": "Tools ausprobieren",
     "ctaSubtitle": "Keine Kreditkarte nötig. Kostenlose PDF- und Bildtools.",
     "ctaButton": "SmallPDF.us kostenlos testen",
     "ctaContact": "Team kontaktieren",
     "valuesTitle": "Wofür wir stehen",
-    "valuesSubtitle": "Sechs Prinzipien, die jede Entscheidung leiten — von Produktfunktionen bis zur Datenschutzpolitik."
+    "valuesSubtitle": "Sechs Prinzipien, die jede Entscheidung leiten — von Produktfunktionen bis zur Datenschutzpolitik.",
+    "founderBadge": "Gründung",
+    "founderRole": "Gründung & Entwicklung",
+    "founderEducation": "Informatik",
+    "founderExperience": "Full-Stack-Entwicklung · PDF-Tools und Dokumentverarbeitung",
+    "founderBio": "Manikant hat SmallPDF.us von Grund auf entwickelt, weil viele PDF-Tools grundlegende Funktionen hinter Bezahlschranken verstecken oder ein Konto verlangen, nur um zwei Dateien zusammenzufügen. Das gesamte Produkt wird von Manikant gebaut und betrieben, von der Verarbeitung im Backend bis zur Benutzeroberfläche.",
+    "founderExpertise": [
+      "PDF-Verarbeitung",
+      "Next.js / Node.js",
+      "Produktdesign"
+    ],
+    "soloBuilt": "Allein gebaut und betreut: jede Zeile Code, jedes Tool, jede Designentscheidung.",
+    "trustCards": [
+      {
+        "title": "Verschlüsselt übertragen",
+        "desc": "Jede Übertragung läuft über HTTPS (TLS), Ihre Dateien sind auf dem Weg zu und von unseren Servern verschlüsselt."
+      },
+      {
+        "title": "Innerhalb von 1 Stunde gelöscht",
+        "desc": "Hochgeladene Dateien und Ergebnisse werden innerhalb von 1 Stunde dauerhaft von unseren Servern gelöscht. Die zwei Ausnahmen stehen in unserer Datenschutzerklärung."
+      },
+      {
+        "title": "Ihre Dateien bleiben Ihre",
+        "desc": "Wir verarbeiten Ihre Dateien nur, um das gewählte Tool auszuführen. Wir verkaufen sie nicht und nutzen sie nicht für Werbung."
+      },
+      {
+        "title": "Datenschutz von Anfang an",
+        "desc": "Wir erheben nur, was wir für den Betrieb des Dienstes brauchen. Unsere Datenschutzerklärung erklärt genau, was das ist."
+      }
+    ],
+    "archUpload": "HTTPS (TLS) bei der Übertragung",
+    "archProcess1": "Nur um das gewählte Tool auszuführen",
+    "archProcess2": "Nie verkauft oder für Werbung genutzt",
+    "archServe": "Ihr Ergebnis steht zum Download bereit",
+    "archDeleteVal": "innerhalb von 1 Stunde",
+    "archExceptions": "siehe Datenschutzerklärung",
+    "archPill": "Automatische Löschung innerhalb von 1 Stunde",
+    "missionChecks": [
+      "Schnelle Verarbeitung über HTTPS",
+      "Dateien werden innerhalb von 1 Stunde gelöscht",
+      "Kostenlose Tools mit Werbung, keine auf bezahlten Tarifen",
+      "Transparent, wie wir Geld verdienen",
+      "Eine Datenschutzerklärung, die sagt, was wir erheben",
+      "In 8 Sprachen verfügbar"
+    ]
   },
   "privacy": {
     "layoutTitle": "Datenschutzrichtlinie — SmallPDF.us",
@@ -147,7 +209,14 @@
     "bottomTitle": "Fragen zu Ihrer Privatsphäre?",
     "bottomSubtitle": "Wir nehmen Ihren Datenschutz ernst. Unser Team beantwortet gerne alle Fragen.",
     "bottomContact": "Kontakt aufnehmen",
-    "bottomTerms": "Nutzungsbedingungen"
+    "bottomTerms": "Nutzungsbedingungen",
+    "heroTagline": "Ihre Dateien, Ihre Privatsphäre. Wir verarbeiten Dokumente und löschen sie wieder, mehr nicht.",
+    "onThisPage": "Auf dieser Seite",
+    "payIndiaDesc": "UPI, Karten, Net Banking — Zahlungen in INR",
+    "payIntlDesc": "Zahlungen in USD über PayPal für internationale Nutzer",
+    "heroBadge": "Datenschutzerklärung",
+    "viewTheirPolicy": "Zu deren Datenschutzerklärung →",
+    "bottomRefund": "Rückerstattungsrichtlinie"
   },
   "terms": {
     "layoutTitle": "Nutzungsbedingungen — SmallPDF.us",
@@ -211,7 +280,17 @@
     "highlight1": "Kostenlos — keine versteckten Gebühren",
     "highlight2": "Dateien werden innerhalb von 1 Stunde gelöscht",
     "highlight3": "Ihre Inhalte gehören immer Ihnen",
-    "s2NotTitle": "Sie dürfen nicht:"
+    "s2NotTitle": "Sie dürfen nicht:",
+    "heroBadge": "Nutzungsbedingungen",
+    "heroTagline": "Einfach und klar: Mit der Nutzung von SmallPDF.us stimmen Sie diesen Bedingungen zu.",
+    "readPrivacy": "Unsere Datenschutzerklärung lesen →",
+    "readRefund": "Unsere Rückerstattungsrichtlinie lesen →",
+    "operatedBy": "Betrieben von:",
+    "operatorType": "Einzelperson",
+    "sectionsTitle": "Abschnitte",
+    "legalOperator": "Rechtlicher Betreiber",
+    "bottomPrivacy": "Datenschutzerklärung",
+    "bottomRefund": "Rückerstattungsrichtlinie"
   },
   "refund": {
     "seoTitle": "Rückerstattungsrichtlinie — 14-Tage-Geld-zurück-Garantie | SmallPDF.us",
@@ -337,6 +416,8 @@
       "3": "Konten, die wegen Verstoßes gegen unsere Nutzungsbedingungen gesperrt wurden",
       "4": "Anfragen aufgrund von Unzufriedenheit mit kostenlosen Tools",
       "5": "Anteilige Rückerstattungen für nicht genutzte Tage"
-    }
+    },
+    "onThisPage": "Auf dieser Seite",
+    "subjectLine": "Betreffzeile:"
   }
 }

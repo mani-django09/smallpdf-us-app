@@ -171,5 +171,8 @@
   "downloadExpiryTitle": "Kedaluwarsa File",
   "downloadExpirySubtitle": "File dihapus otomatis setelah 1 jam",
   "downloadTimeRemaining": "Waktu Tersisa",
-  "downloadErrorFailed": "Gagal mengunduh file. Silakan coba lagi."
+  "downloadErrorFailed": "Gagal mengunduh file. Silakan coba lagi.",
+  "related50kbLead": "Butuh ukuran file tertentu untuk formulir atau unggahan ujian? Coba alat",
+  "related50kbLink": "kompres gambar ke 50KB",
+  "related50kbTail": "kami, dibuat khusus untuk lamaran dan ujian dengan batas ukuran yang ketat."
 }

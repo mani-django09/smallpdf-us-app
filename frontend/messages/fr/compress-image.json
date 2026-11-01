@@ -171,5 +171,8 @@
   "downloadFeature3Title": "Sécurisé et privé",
   "downloadFeature3Desc": "Fichiers chiffrés et supprimés automatiquement après 1 heure.",
   "downloadFeature4Title": "{saved}% plus léger",
-  "downloadFeature4Desc": "{saved}% de réduction par rapport à l'original"
+  "downloadFeature4Desc": "{saved}% de réduction par rapport à l'original",
+  "related50kbLead": "Besoin d'une taille de fichier précise pour un formulaire ou un concours ? Essayez notre outil",
+  "related50kbLink": "compresser une image à 50 Ko",
+  "related50kbTail": ", conçu pour les candidatures et concours avec des limites de taille strictes."
 }

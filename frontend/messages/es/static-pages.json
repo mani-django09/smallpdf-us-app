@@ -20,7 +20,25 @@
     "submitButton": "Enviar mensaje",
     "sendingButton": "Enviando…",
     "successMessage": "¡Mensaje enviado! Te responderemos en 24 horas.",
-    "errorMessage": "Algo salió mal. Por favor intenta de nuevo o escríbenos directamente."
+    "errorMessage": "Algo salió mal. Por favor intenta de nuevo o escríbenos directamente.",
+    "formSubtitle": "Leemos todos los mensajes y respondemos en un plazo de 24 horas.",
+    "expectTitle": "Qué puedes esperar",
+    "expect1": "Tus mensajes se envían cifrados",
+    "expect2": "Respondemos en 24 horas, normalmente antes",
+    "expect3": "Personas reales leen y responden, sin bots",
+    "privacyTitle": "Tu privacidad",
+    "privacyText": "Los datos del formulario de contacto se usan solo para responder a tu mensaje.",
+    "heroBadge": "Contacto",
+    "basedInTitle": "Ubicación",
+    "commonTopicsTitle": "Temas frecuentes",
+    "topics": [
+      "La conversión de archivos no funciona",
+      "Preguntas sobre privacidad / datos",
+      "Solicitud de función",
+      "Informe de error",
+      "Negocios / colaboraciones",
+      "Otro asunto"
+    ]
   },
   "about": {
     "pageTitle": "Acerca de — SmallPDF.us",
@@ -53,13 +71,57 @@
     "teamSubtitle": "Desarrollado por alguien que cree que el buen software debe estar abierto a todos — no bloqueado detrás de un muro de pago.",
     "teamSize": "Desarrollado y mantenido en solitario.",
     "trustTitle": "Por qué confiar en nosotros",
-    "trustSubtitle": "Acreditaciones y certificaciones — no solo palabras.",
+    "trustSubtitle": "Cómo tratamos tus archivos, en pocas palabras.",
     "ctaTitle": "Prueba las herramientas",
     "ctaSubtitle": "No hace falta tarjeta de crédito. Herramientas de PDF e imagen gratuitas.",
     "ctaButton": "Prueba SmallPDF.us gratis",
     "ctaContact": "Contactar al equipo",
     "valuesTitle": "Por qué luchamos",
-    "valuesSubtitle": "Seis principios que guían cada decisión — desde funciones del producto hasta políticas de privacidad."
+    "valuesSubtitle": "Seis principios que guían cada decisión — desde funciones del producto hasta políticas de privacidad.",
+    "founderBadge": "Fundación",
+    "founderRole": "Fundación y desarrollo",
+    "founderEducation": "Informática",
+    "founderExperience": "Desarrollo full-stack · herramientas PDF y procesamiento de documentos",
+    "founderBio": "Manikant creó SmallPDF.us desde cero tras frustrarse con herramientas de PDF que esconden funciones básicas tras un muro de pago o exigen crear una cuenta solo para unir dos archivos. Todo el producto lo construye y mantiene Manikant, del procesamiento en el servidor a la experiencia de uso.",
+    "founderExpertise": [
+      "Procesamiento de PDF",
+      "Next.js / Node.js",
+      "Diseño de producto"
+    ],
+    "soloBuilt": "Creado y mantenido por una sola persona: cada línea de código, cada herramienta, cada decisión de diseño.",
+    "trustCards": [
+      {
+        "title": "Cifrado en tránsito",
+        "desc": "Toda transferencia usa HTTPS (TLS), así que tus archivos viajan cifrados hacia y desde nuestros servidores."
+      },
+      {
+        "title": "Eliminados en menos de 1 hora",
+        "desc": "Los archivos subidos y los resultados se eliminan de forma permanente de nuestros servidores en menos de 1 hora. Las dos excepciones figuran en nuestra Política de privacidad."
+      },
+      {
+        "title": "Tus archivos siguen siendo tuyos",
+        "desc": "Solo procesamos tus archivos para ejecutar la herramienta que elegiste. No los vendemos ni los usamos para publicidad."
+      },
+      {
+        "title": "Privacidad desde el diseño",
+        "desc": "Recopilamos solo lo necesario para ofrecer el servicio. Nuestra Política de privacidad explica exactamente qué es."
+      }
+    ],
+    "archUpload": "HTTPS (TLS) en tránsito",
+    "archProcess1": "Solo para ejecutar la herramienta elegida",
+    "archProcess2": "Nunca se venden ni se usan para anuncios",
+    "archServe": "Tu resultado está listo para descargar",
+    "archDeleteVal": "en menos de 1 hora",
+    "archExceptions": "ver nuestra Política de privacidad",
+    "archPill": "Eliminación automática en menos de 1 hora",
+    "missionChecks": [
+      "Procesamiento rápido por HTTPS",
+      "Archivos eliminados en menos de 1 hora",
+      "Herramientas gratuitas con anuncios, sin anuncios en los planes de pago",
+      "Transparentes sobre cómo ganamos dinero",
+      "Una Política de privacidad que dice qué recopilamos",
+      "Disponible en 8 idiomas"
+    ]
   },
   "privacy": {
     "layoutTitle": "Política de privacidad — SmallPDF.us",
@@ -147,7 +209,14 @@
     "bottomTitle": "¿Preguntas sobre tu privacidad?",
     "bottomSubtitle": "Nos tomamos tu privacidad en serio. Nuestro equipo está feliz de responder cualquier pregunta.",
     "bottomContact": "Contáctanos",
-    "bottomTerms": "Términos de servicio"
+    "bottomTerms": "Términos de servicio",
+    "heroTagline": "Tus archivos, tu privacidad. Procesamos los documentos y los eliminamos, nada más.",
+    "onThisPage": "En esta página",
+    "payIndiaDesc": "UPI, tarjetas, banca online — pagos en INR",
+    "payIntlDesc": "Pagos en USD con PayPal para usuarios internacionales",
+    "heroBadge": "Política de privacidad",
+    "viewTheirPolicy": "Ver su Política de privacidad →",
+    "bottomRefund": "Política de reembolsos"
   },
   "terms": {
     "layoutTitle": "Términos de servicio — SmallPDF.us",
@@ -211,7 +280,17 @@
     "highlight1": "Gratis — sin cargos ocultos",
     "highlight2": "Archivos eliminados en 1 hora",
     "highlight3": "Tu contenido siempre es tuyo",
-    "s2NotTitle": "No puedes:"
+    "s2NotTitle": "No puedes:",
+    "heroBadge": "Términos del servicio",
+    "heroTagline": "Claro y sencillo: al usar SmallPDF.us aceptas estos términos.",
+    "readPrivacy": "Lee nuestra Política de privacidad →",
+    "readRefund": "Lee nuestra Política de reembolsos →",
+    "operatedBy": "Operado por:",
+    "operatorType": "persona física",
+    "sectionsTitle": "Secciones",
+    "legalOperator": "Responsable legal",
+    "bottomPrivacy": "Política de privacidad",
+    "bottomRefund": "Política de reembolsos"
   },
   "refund": {
     "seoTitle": "Política de reembolso — Garantía de 14 días | SmallPDF.us",
@@ -337,6 +416,8 @@
       "3": "Cuentas suspendidas por violación de los Términos de Servicio",
       "4": "Solicitudes por insatisfacción con herramientas gratuitas",
       "5": "Reembolsos parciales por días no utilizados"
-    }
+    },
+    "onThisPage": "En esta página",
+    "subjectLine": "Asunto:"
   }
 }

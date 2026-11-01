@@ -55,7 +55,7 @@ const FounderCard = memo(({ member }) => (
         {/* Founder badge */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-blue-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg">
           <span>★</span>
-          <span>FOUNDER</span>
+          <span className="uppercase">{member.badge}</span>
         </div>
       </div>
 
@@ -167,7 +167,17 @@ export default function AboutPage() {
     return () => document.head.removeChild(style)
   }, [])
 
-  const founder = team.find((m) => m.isFounder)
+  // Founder card text comes from the translation files (the bio avoids pronouns on purpose)
+  const founderBase = team.find((m) => m.isFounder)
+  const founder = founderBase && {
+    ...founderBase,
+    badge: t("about.founderBadge"),
+    role: t("about.founderRole"),
+    education: t("about.founderEducation"),
+    experience: t("about.founderExperience"),
+    bio: t("about.founderBio"),
+    expertise: [0, 1, 2].map((i) => t(`about.founderExpertise.${i}`)),
+  }
   const restTeam = team.filter((m) => !m.isFounder)
 
   // Translated stats labels
@@ -263,7 +273,7 @@ export default function AboutPage() {
                   <p>{t("about.missionPara")}</p>
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-2.5">
-                  {["Fast, secure processing", "Files deleted within 1 hour", "No ads inside conversion flows", "Transparent about how we earn", "GDPR & CCPA compliant", "Available in 8 languages"].map((item) => (
+                  {[0, 1, 2, 3, 4, 5].map((n) => t(`about.missionChecks.${n}`)).map((item) => (
                     <div key={item} className="flex items-start gap-2">
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span className="text-xs font-medium text-gray-700">{item}</span>
@@ -286,19 +296,19 @@ export default function AboutPage() {
                   <div className="space-y-2.5 font-mono text-sm">
                     {[
                       { c: "text-purple-400", t: "UPLOAD" },
-                      { c: "text-slate-400",  t: "  └─ 256-bit TLS in transit" },
+                      { c: "text-slate-400",  t: `  └─ ${t("about.archUpload")}` },
                       { c: "text-purple-400", t: "PROCESS" },
-                      { c: "text-slate-400",  t: "  └─ Isolated sandboxed container" },
-                      { c: "text-slate-400",  t: "  └─ No file content logging" },
+                      { c: "text-slate-400",  t: `  └─ ${t("about.archProcess1")}` },
+                      { c: "text-slate-400",  t: `  └─ ${t("about.archProcess2")}` },
                       { c: "text-purple-400", t: "SERVE" },
-                      { c: "text-slate-400",  t: "  └─ Signed download URL (15 min)" },
-                      { c: "text-green-400",  t: "AUTO_DELETE  →  1 hour" },
-                      { c: "text-cyan-400",   t: "STORED_COPIES →  0" },
+                      { c: "text-slate-400",  t: `  └─ ${t("about.archServe")}` },
+                      { c: "text-green-400",  t: `AUTO_DELETE  →  ${t("about.archDeleteVal")}` },
+                      { c: "text-cyan-400",   t: `EXCEPTIONS   →  ${t("about.archExceptions")}` },
                     ].map((line, i) => <div key={i} className={`${line.c} leading-tight`}>{line.t}</div>)}
                   </div>
                   <div className="mt-5 flex items-center gap-2 bg-green-500/10 border border-green-500/25 rounded-lg px-3 py-2">
                     <Shield className="w-4 h-4 text-green-400 flex-shrink-0" />
-                    <span className="text-green-300 text-xs font-bold">Zero data retention — by architecture, not just policy</span>
+                    <span className="text-green-300 text-xs font-bold">{t("about.archPill")}</span>
                   </div>
                 </div>
               </div>
@@ -347,7 +357,7 @@ export default function AboutPage() {
 
             <div className="mt-8 text-center">
               <div className="inline-flex items-center gap-3 bg-white border border-gray-200 rounded-2xl px-7 py-4 shadow-sm">
-                <p className="text-sm text-gray-600">Solo-built and maintained — every line of code, every tool, every design decision.</p>
+                <p className="text-sm text-gray-600">{t("about.soloBuilt")}</p>
               </div>
             </div>
           </div>
@@ -363,10 +373,10 @@ export default function AboutPage() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: Shield,      title: "256-bit SSL Encryption",  desc: "All file transfers are encrypted in transit. Your data is protected end-to-end.", color: "from-blue-500 to-blue-600" },
-                { icon: Clock,       title: "1-Hour Auto Delete",      desc: "Every uploaded file is permanently deleted from our servers within 1 hour.", color: "from-amber-500 to-orange-500" },
-                { icon: Lock,        title: "Zero Data Retention",     desc: "We don't store, analyze, or share your files. No copies are ever kept.", color: "from-violet-500 to-purple-600" },
-                { icon: CheckCircle, title: "GDPR Compliant",          desc: "Built with privacy by design. Compliant with GDPR and international privacy standards.", color: "from-green-500 to-emerald-600" },
+                { icon: Shield,      title: t("about.trustCards.0.title"), desc: t("about.trustCards.0.desc"), color: "from-blue-500 to-blue-600" },
+                { icon: Clock,       title: t("about.trustCards.1.title"), desc: t("about.trustCards.1.desc"), color: "from-amber-500 to-orange-500" },
+                { icon: Lock,        title: t("about.trustCards.2.title"), desc: t("about.trustCards.2.desc"), color: "from-violet-500 to-purple-600" },
+                { icon: CheckCircle, title: t("about.trustCards.3.title"), desc: t("about.trustCards.3.desc"), color: "from-green-500 to-emerald-600" },
               ].map((item, i) => (
                 <div key={i} className="bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:border-gray-200 transition-all group text-center">
                   <div className={`w-12 h-12 bg-gradient-to-br ${item.color} rounded-xl flex items-center justify-center mx-auto mb-3 shadow-md group-hover:scale-110 transition-transform`}>

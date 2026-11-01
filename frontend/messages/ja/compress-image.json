@@ -171,5 +171,8 @@
   "downloadExpirySubtitle": "プライバシーのため自動削除",
   "downloadTimeRemaining": "残り時間",
   "downloadLoadingFiles": "ファイルを読み込み中...",
-  "downloadErrorFailed": "ファイルのダウンロードに失敗しました。再度お試しください。"
+  "downloadErrorFailed": "ファイルのダウンロードに失敗しました。再度お試しください。",
+  "related50kbLead": "フォームや試験のアップロードに特定のファイルサイズが必要ですか？",
+  "related50kbLink": "画像を50KBに圧縮",
+  "related50kbTail": "ツールをぜひお試しください。厳しいサイズ制限のある申請・試験用にとことん最適化されています。"
 }

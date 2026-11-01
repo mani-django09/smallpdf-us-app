@@ -4,6 +4,7 @@ import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
+import { localePath } from "@/lib/route-translations"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
@@ -13,7 +14,7 @@ import AdLabel from "../../components/AdLabel"
 
 export default function CompressImage() {
   const router = useLocalizedRouter()
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
   const { checkFiles, PremiumGateModal } = useFileSizeGuard('compress-image')
   const { checkBatch, BatchGateModal } = useBatchGuard('compress-image')
   const [files, setFiles] = useState([])
@@ -544,11 +545,11 @@ export default function CompressImage() {
               </h3>
               <p className="font-body text-slate-700">{t("compressImage.seo3P")}</p>
               <p className="font-body text-slate-700 mt-4">
-                Need a specific file size for a form or exam upload? Try our{" "}
-                <a href="/compress-image-to-50kb" className="text-blue-600 font-semibold hover:underline">
-                  compress image to 50KB
+                {t("compressImage.related50kbLead")}{" "}
+                <a href={localePath("/compress-image-to-50kb", locale).replace(/\/?$/, "/")} className="text-blue-600 font-semibold hover:underline">
+                  {t("compressImage.related50kbLink")}
                 </a>{" "}
-                tool, built for exam and application uploads with strict size limits.
+                {t("compressImage.related50kbTail")}
               </p>
             </div>
           </div>

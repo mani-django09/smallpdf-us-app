@@ -20,7 +20,25 @@
     "submitButton": "メッセージを送信",
     "sendingButton": "送信中…",
     "successMessage": "メッセージを送信しました！24時間以内にご返信します。",
-    "errorMessage": "エラーが発生しました。もう一度お試しいただくか、直接メールをお送りください。"
+    "errorMessage": "エラーが発生しました。もう一度お試しいただくか、直接メールをお送りください。",
+    "formSubtitle": "すべてのメッセージに目を通し、24時間以内に返信します。",
+    "expectTitle": "ご連絡後の流れ",
+    "expect1": "メッセージは暗号化されて送信されます",
+    "expect2": "24時間以内に返信します（多くはそれより早く）",
+    "expect3": "ボットではなく、人が読んで返信します",
+    "privacyTitle": "プライバシー",
+    "privacyText": "お問い合わせフォームの情報は、メッセージへの返信にのみ使用します。",
+    "heroBadge": "お問い合わせ",
+    "basedInTitle": "所在地",
+    "commonTopicsTitle": "よくあるご相談",
+    "topics": [
+      "ファイル変換がうまくいかない",
+      "プライバシー・データに関する質問",
+      "機能のリクエスト",
+      "不具合の報告",
+      "ビジネス・提携のご相談",
+      "その他"
+    ]
   },
   "about": {
     "pageTitle": "会社概要 — SmallPDF.us",
@@ -53,13 +71,57 @@
     "teamSubtitle": "優れたソフトウェアはペイウォールの後ろに閉じ込めず、すべての人に開かれるべきだと信じる開発者が独自に構築・運営しています。",
     "teamSize": "個人で開発・運営しています。",
     "trustTitle": "信頼できる理由",
-    "trustSubtitle": "資格と認証 — 言葉だけではありません。",
+    "trustSubtitle": "ファイルの扱い方を、わかりやすくご説明します。",
     "ctaTitle": "ツールを試す",
     "ctaSubtitle": "クレジットカードは不要です。無料のPDF・画像ツール。",
     "ctaButton": "SmallPDF.usを無料で試す",
     "ctaContact": "チームに連絡",
     "valuesTitle": "私たちが大切にすること",
-    "valuesSubtitle": "製品機能からプライバシーポリシーまで、すべての意思決定を導く6つの原則。"
+    "valuesSubtitle": "製品機能からプライバシーポリシーまで、すべての意思決定を導く6つの原則。",
+    "founderBadge": "創業者",
+    "founderRole": "創業者・開発者",
+    "founderEducation": "コンピュータサイエンス",
+    "founderExperience": "フルスタック開発 · PDFツールと文書処理",
+    "founderBio": "Manikantは、基本機能を有料化したり、2つのファイルを結合するだけでアカウント登録を求めたりするPDFツールに不満を感じ、SmallPDF.usをゼロから作りました。バックエンドの処理からフロントエンドのUXまで、プロダクト全体をManikantが作り、運営しています。",
+    "founderExpertise": [
+      "PDF処理",
+      "Next.js / Node.js",
+      "プロダクトデザイン"
+    ],
+    "soloBuilt": "すべてひとりで開発・運営：コードの一行一行、ツールのひとつひとつ、デザインの判断すべて。",
+    "trustCards": [
+      {
+        "title": "通信は暗号化",
+        "desc": "すべての通信はHTTPS（TLS）で行われるため、ファイルはサーバーとの間で暗号化されます。"
+      },
+      {
+        "title": "1時間以内に削除",
+        "desc": "アップロードしたファイルと結果は、1時間以内にサーバーから完全に削除されます。2つの例外はプライバシーポリシーに記載しています。"
+      },
+      {
+        "title": "ファイルはあなたのもの",
+        "desc": "ファイルは、選んだツールを実行するためだけに処理します。販売したり、広告に使ったりすることはありません。"
+      },
+      {
+        "title": "設計段階からプライバシーを重視",
+        "desc": "サービスの運営に必要な情報だけを収集します。その内容はプライバシーポリシーで詳しく説明しています。"
+      }
+    ],
+    "archUpload": "転送時はHTTPS（TLS）",
+    "archProcess1": "選んだツールの実行のみに使用",
+    "archProcess2": "販売や広告への利用なし",
+    "archServe": "結果をダウンロードできます",
+    "archDeleteVal": "1時間以内",
+    "archExceptions": "プライバシーポリシーを参照",
+    "archPill": "1時間以内に自動削除",
+    "missionChecks": [
+      "HTTPSによる高速な処理",
+      "ファイルは1時間以内に削除",
+      "無料ツールは広告で運営、有料プランは広告なし",
+      "収益の仕組みを公開",
+      "収集する情報を明記したプライバシーポリシー",
+      "8言語に対応"
+    ]
   },
   "privacy": {
     "layoutTitle": "プライバシーポリシー — SmallPDF.us",
@@ -147,7 +209,14 @@
     "bottomTitle": "プライバシーについてご質問がありますか？",
     "bottomSubtitle": "お客様のプライバシーを真剣に考えています。どんな質問でもお気軽にどうぞ。",
     "bottomContact": "お問い合わせ",
-    "bottomTerms": "利用規約"
+    "bottomTerms": "利用規約",
+    "heroTagline": "あなたのファイル、あなたのプライバシー。書類を処理して削除する、ただそれだけです。",
+    "onThisPage": "このページの内容",
+    "payIndiaDesc": "UPI、カード、ネットバンキング — INR決済",
+    "payIntlDesc": "海外のお客様向け：PayPalによるUSD決済",
+    "heroBadge": "プライバシーポリシー",
+    "viewTheirPolicy": "各社のプライバシーポリシーを見る →",
+    "bottomRefund": "返金ポリシー"
   },
   "terms": {
     "layoutTitle": "利用規約 — SmallPDF.us",
@@ -211,7 +280,17 @@
     "highlight1": "無料 — 隠れた費用なし",
     "highlight2": "ファイルは1時間以内に削除",
     "highlight3": "コンテンツは常にあなたのもの",
-    "s2NotTitle": "以下の行為は禁止されています:"
+    "s2NotTitle": "以下の行為は禁止されています:",
+    "heroBadge": "利用規約",
+    "heroTagline": "シンプルにまとめています。SmallPDF.usをご利用いただくと、これらの規約に同意したものとみなされます。",
+    "readPrivacy": "プライバシーポリシーを読む →",
+    "readRefund": "返金ポリシーを読む →",
+    "operatedBy": "運営者：",
+    "operatorType": "個人",
+    "sectionsTitle": "セクション",
+    "legalOperator": "法的運営者",
+    "bottomPrivacy": "プライバシーポリシー",
+    "bottomRefund": "返金ポリシー"
   },
   "refund": {
     "seoTitle": "返金ポリシー — 14日間返金保証 | SmallPDF.us",
@@ -337,6 +416,8 @@
       "3": "利用規約違反で停止・禁止されたアカウント",
       "4": "無料ツールへの不満を理由とするリクエスト",
       "5": "未使用日数への按分返金"
-    }
+    },
+    "onThisPage": "このページの内容",
+    "subjectLine": "件名："
   }
 }

@@ -171,5 +171,8 @@
   "downloadFeature3Title": "Sichere Verarbeitung",
   "downloadFeature3Desc": "Verschlüsselte Verarbeitung, automatische Löschung nach 1 Stunde",
   "downloadFeature4Title": "{saved} % kleiner",
-  "downloadFeature4Desc": "{saved} % Reduktion gegenüber dem Original"
+  "downloadFeature4Desc": "{saved} % Reduktion gegenüber dem Original",
+  "related50kbLead": "Brauchen Sie eine bestimmte Dateigröße für ein Formular oder einen Prüfungs-Upload? Probieren Sie unser",
+  "related50kbLink": "Bild auf 50KB komprimieren",
+  "related50kbTail": "Tool — gemacht für Bewerbungen und Anträge mit strengen Größenlimits."
 }

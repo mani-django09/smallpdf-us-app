@@ -1,12 +1,14 @@
 import Layout from "../components/Layout"
 import SEOHead from "../components/SEOHead"
 import { useTranslations } from "../lib/i18n"
+import { localePath } from "../lib/route-translations"
 import { getPageMessages } from '../lib/i18nLoader'
 import { Shield, Lock, Eye, Trash2, Server, FileText, CheckCircle, ChevronRight, CreditCard } from "lucide-react"
 import { useState, useEffect } from "react"
 
 export default function Privacy() {
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
+  const lp = (path) => localePath(path, locale).replace(/\/?$/, '/')
   const [activeSection, setActiveSection] = useState(0)
   const [mounted, setMounted] = useState(false)
 
@@ -80,14 +82,14 @@ export default function Privacy() {
           <div className="relative max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 bg-green-500/15 border border-green-500/25 rounded-full px-3 py-1.5 mb-4">
               <Shield className="w-3.5 h-3.5 text-green-400" />
-              <span className="text-[11px] font-bold text-green-300 uppercase tracking-wider">Privacy Policy</span>
+              <span className="text-[11px] font-bold text-green-300 uppercase tracking-wider">{t('privacy.heroBadge')}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-white mb-3 leading-tight">
               {t('privacy.heroTitle')}
             </h1>
             <p className="text-slate-400 text-sm mb-2">{t('privacy.lastUpdated')}</p>
             <p className="text-slate-300 text-sm max-w-xl mx-auto">
-              Your files, your privacy. We process documents and delete them — nothing more.
+              {t('privacy.heroTagline')}
             </p>
           </div>
         </div>
@@ -120,7 +122,7 @@ export default function Privacy() {
             {/* Sticky sidebar nav — hidden on mobile */}
             <aside className="hidden lg:block w-52 flex-shrink-0 sticky top-6">
               <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">On This Page</p>
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">{t('privacy.onThisPage')}</p>
                 <nav className="space-y-0.5">
                   {sections.map((s, i) => (
                     <a
@@ -213,14 +215,14 @@ export default function Privacy() {
                   <p className="text-sm text-gray-600 leading-relaxed mb-4">{t('privacy.paymentPara')}</p>
                   <div className="grid sm:grid-cols-2 gap-3">
                     {[
-                      { name: "Razorpay (India)", desc: "UPI, cards, net banking — INR payments", url: "https://razorpay.com/privacy/" },
-                      { name: "Razorpay + PayPal (Intl)", desc: "USD payments via PayPal for international users", url: "https://www.paypal.com/in/legalhub/privacy-full" },
+                      { name: "Razorpay (India)", desc: t('privacy.payIndiaDesc'), url: "https://razorpay.com/privacy/" },
+                      { name: "Razorpay + PayPal (Intl)", desc: t('privacy.payIntlDesc'), url: "https://www.paypal.com/in/legalhub/privacy-full" },
                     ].map((p, i) => (
                       <div key={i} className="bg-purple-50 border border-purple-100 rounded-xl p-4">
                         <p className="text-xs font-black text-purple-900 mb-1">{p.name}</p>
                         <p className="text-xs text-purple-700 mb-2">{p.desc}</p>
                         <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-[11px] font-bold text-purple-600 hover:underline">
-                          View their Privacy Policy →
+                          {t('privacy.viewTheirPolicy')}
                         </a>
                       </div>
                     ))}
@@ -288,14 +290,14 @@ export default function Privacy() {
                   <p className="text-slate-400 text-xs">{t('privacy.bottomSubtitle')}</p>
                 </div>
                 <div className="flex gap-2 flex-shrink-0 flex-wrap justify-center sm:justify-start">
-                  <a href="/contact" className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:shadow-lg transition-all">
+                  <a href={lp('/contact')} className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:shadow-lg transition-all">
                     {t('privacy.bottomContact')}
                   </a>
-                  <a href="/terms" className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
+                  <a href={lp('/terms')} className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
                     {t('privacy.bottomTerms')}
                   </a>
-                  <a href="/refund" className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
-                    Refund Policy
+                  <a href={lp('/refund')} className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
+                    {t('privacy.bottomRefund')}
                   </a>
                 </div>
               </div>

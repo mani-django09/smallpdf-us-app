@@ -171,5 +171,8 @@
   "downloadExpiryTitle": "Validade dos Arquivos",
   "downloadExpirySubtitle": "Arquivos excluídos automaticamente após 1 hora",
   "downloadTimeRemaining": "Tempo Restante",
-  "downloadErrorFailed": "Falha ao baixar o arquivo. Por favor, tente novamente."
+  "downloadErrorFailed": "Falha ao baixar o arquivo. Por favor, tente novamente.",
+  "related50kbLead": "Precisa de um tamanho de arquivo específico para um formulário ou concurso? Experimente nossa ferramenta",
+  "related50kbLink": "comprimir imagem para 50KB",
+  "related50kbTail": ", feita para candidaturas e concursos com limites de tamanho rígidos."
 }

@@ -3,10 +3,12 @@ import SEOHead from "../components/SEOHead"
 import { CreditCard, CheckCircle, XCircle, Clock, Mail, AlertCircle, RefreshCw, Shield } from "lucide-react"
 import { useState } from "react"
 import { useTranslations } from "../lib/i18n"
+import { localePath } from "../lib/route-translations"
 import { getPageMessages } from '../lib/i18nLoader'
 
 export default function RefundPolicy() {
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
+  const lp = (path) => localePath(path, locale).replace(/\/?$/, '/')
   const [activeSection, setActiveSection] = useState(0)
 
   const sections = [
@@ -122,7 +124,7 @@ export default function RefundPolicy() {
             {/* Sticky sidebar */}
             <aside className="hidden lg:block w-52 flex-shrink-0 sticky top-6">
               <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm">
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">On This Page</p>
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">{t('refund.onThisPage')}</p>
                 <nav className="space-y-0.5">
                   {sections.map((s, i) => (
                     <a
@@ -286,7 +288,7 @@ export default function RefundPolicy() {
                     </div>
                   </div>
                   <p className="text-xs text-gray-400">
-                    Subject line:{' '}
+                    {t('refund.subjectLine')}{' '}
                     <span className="font-mono bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">{t('refund.contactSubject')}</span>
                   </p>
                 </section>
@@ -309,10 +311,10 @@ export default function RefundPolicy() {
                   >
                     {t('refund.ctaButton')}
                   </a>
-                  <a href="/terms" className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
+                  <a href={lp('/terms')} className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
                     {t('refund.ctaTerms')}
                   </a>
-                  <a href="/privacy" className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
+                  <a href={lp('/privacy')} className="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:bg-white/15 transition-all">
                     {t('refund.ctaPrivacy')}
                   </a>
                 </div>

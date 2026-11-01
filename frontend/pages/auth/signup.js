@@ -10,12 +10,7 @@ import { useTranslations } from '../../lib/i18n'
 import { getPageMessages } from '../../lib/i18nLoader'
 import { safeRedirect } from "../../lib/safeRedirect"
 
-const PERKS = [
-  { icon: '🚀', text: 'Instant access — no waiting' },
-  { icon: '🔐', text: 'Your files auto-deleted in 1hr' },
-  { icon: '📦', text: '27 PDF & image tools' },
-  { icon: '💳', text: 'Free to start, no credit card' },
-]
+const PERK_ICONS = ['🚀', '🔐', '📦', '💳']
 
 function GoogleIcon() {
   return (
@@ -163,21 +158,21 @@ export default function SignupPage() {
 
             <div style={{ marginBottom: 48 }}>
               <h2 style={{ fontSize: 34, fontWeight: 800, color: '#fff', margin: '0 0 12px', lineHeight: 1.2, letterSpacing: '-0.5px' }}>
-                Create your<br /><span style={{ color: '#f87171' }}>free account</span>
+                {t('auth.signup.panelTitle1')}<br /><span style={{ color: '#f87171' }}>{t('auth.signup.panelTitle2')}</span>
               </h2>
               <p style={{ fontSize: 16, color: '#94a3b8', margin: 0, lineHeight: 1.6 }}>
-                No subscription. No credit card. Just powerful PDF tools at your fingertips.
+                {t('auth.signup.panelSub')}
               </p>
             </div>
 
             {/* Perks */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {PERKS.map((p, i) => (
+              {PERK_ICONS.map((icon, i) => (
                 <div key={i} className="feat-item" style={{ display: 'flex', alignItems: 'center', gap: 14, animationDelay: `${i * 0.1}s` }}>
                   <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(220,38,38,0.15)', border: '1px solid rgba(220,38,38,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17, flexShrink: 0 }}>
-                    {p.icon}
+                    {icon}
                   </div>
-                  <span style={{ fontSize: 14, color: '#cbd5e1', fontWeight: 500 }}>{p.text}</span>
+                  <span style={{ fontSize: 14, color: '#cbd5e1', fontWeight: 500 }}>{t(`auth.signup.perks.${i}`)}</span>
                 </div>
               ))}
             </div>
@@ -186,15 +181,15 @@ export default function SignupPage() {
             <div style={{ marginTop: 48, background: 'rgba(255,255,255,0.05)', borderRadius: 14, padding: '18px 20px', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', gap: 10 }}>
               <p style={{ fontSize: 13, color: '#475569', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ color: '#22c55e', fontSize: 16 }}>●</span>
-                27 PDF &amp; image tools — all free
+                {t('auth.signup.fact1')}
               </p>
               <p style={{ fontSize: 13, color: '#475569', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ color: '#22c55e', fontSize: 16 }}>●</span>
-                Files deleted automatically within 1 hour
+                {t('auth.signup.fact2')}
               </p>
               <p style={{ fontSize: 13, color: '#475569', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ color: '#22c55e', fontSize: 16 }}>●</span>
-                No credit card required
+                {t('auth.signup.fact3')}
               </p>
             </div>
           </div>
@@ -228,7 +223,7 @@ export default function SignupPage() {
                 <p style={{ fontSize: 15, color: '#16a34a', margin: '0 0 24px', lineHeight: 1.6 }}>{success}</p>
                 <div style={{ background: 'rgba(255,255,255,0.7)', borderRadius: 12, padding: '12px 16px', marginBottom: 24, fontSize: 13, color: '#15803d', display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center' }}>
                   <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                  Check your inbox — link expires in 24 hours
+                  {t('auth.signup.inbox')}
                 </div>
                 <Link href={redirect !== '/' ? `/auth/login?redirect=${encodeURIComponent(redirect)}` : '/auth/login'}
                   style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#15803d', color: '#fff', textDecoration: 'none', borderRadius: 10, padding: '12px 24px', fontWeight: 700, fontSize: 14 }}>
@@ -252,7 +247,7 @@ export default function SignupPage() {
                   {!googleReady && (
                     <div style={{ height: 48, background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                       <GoogleIcon />
-                      <span style={{ fontSize: 14, color: '#475569', fontWeight: 500 }}>Sign up with Google</span>
+                      <span style={{ fontSize: 14, color: '#475569', fontWeight: 500 }}>{t('auth.signup.googleSignup')}</span>
                     </div>
                   )}
                 </div>
@@ -388,7 +383,7 @@ export default function SignupPage() {
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 16, color: '#94a3b8', fontSize: 12 }}>
                   <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  <span>Your data is encrypted & never shared</span>
+                  <span>{t('auth.signup.dataNote')}</span>
                 </div>
               </>
             )}

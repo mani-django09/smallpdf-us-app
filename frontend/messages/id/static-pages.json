@@ -20,7 +20,25 @@
     "submitButton": "Kirim Pesan",
     "sendingButton": "Mengirim…",
     "successMessage": "Pesan terkirim! Kami akan menghubungi Anda dalam 24 jam.",
-    "errorMessage": "Terjadi kesalahan. Coba lagi atau email kami langsung."
+    "errorMessage": "Terjadi kesalahan. Coba lagi atau email kami langsung.",
+    "formSubtitle": "Kami membaca setiap pesan dan membalas dalam 24 jam.",
+    "expectTitle": "Apa yang bisa Anda harapkan",
+    "expect1": "Pesan Anda terenkripsi saat dikirim",
+    "expect2": "Kami membalas dalam 24 jam, biasanya lebih cepat",
+    "expect3": "Orang sungguhan yang membaca dan membalas, bukan bot",
+    "privacyTitle": "Privasi Anda",
+    "privacyText": "Data formulir kontak hanya digunakan untuk membalas pesan Anda.",
+    "heroBadge": "Hubungi Kami",
+    "basedInTitle": "Berlokasi di",
+    "commonTopicsTitle": "Topik umum",
+    "topics": [
+      "Konversi file tidak berfungsi",
+      "Pertanyaan privasi / data",
+      "Permintaan fitur",
+      "Laporan bug",
+      "Bisnis / kemitraan",
+      "Lainnya"
+    ]
   },
   "about": {
     "pageTitle": "Tentang Kami — SmallPDF.us",
@@ -53,13 +71,57 @@
     "teamSubtitle": "Dibangun oleh seorang developer yang percaya bahwa perangkat lunak berkualitas harus terbuka untuk semua — tidak terkunci di balik paywall.",
     "teamSize": "Dibangun dan dikelola secara mandiri.",
     "trustTitle": "Mengapa mempercayai kami",
-    "trustSubtitle": "Akreditasi dan sertifikasi — bukan hanya kata-kata.",
+    "trustSubtitle": "Cara kami memperlakukan file Anda, dengan bahasa sederhana.",
     "ctaTitle": "Coba alatnya",
     "ctaSubtitle": "Tidak perlu kartu kredit. Alat PDF dan gambar gratis.",
     "ctaButton": "Coba SmallPDF.us gratis",
     "ctaContact": "Hubungi tim",
     "valuesTitle": "Apa yang kami perjuangkan",
-    "valuesSubtitle": "Enam prinsip yang memandu setiap keputusan — dari fitur produk hingga kebijakan privasi."
+    "valuesSubtitle": "Enam prinsip yang memandu setiap keputusan — dari fitur produk hingga kebijakan privasi.",
+    "founderBadge": "Pendiri",
+    "founderRole": "Pendiri & Pengembang",
+    "founderEducation": "Ilmu Komputer",
+    "founderExperience": "Pengembangan full-stack · alat PDF dan pemrosesan dokumen",
+    "founderBio": "Manikant membuat SmallPDF.us dari nol setelah kesal dengan alat PDF yang mengunci fitur dasar di balik paywall atau mewajibkan akun hanya untuk menggabungkan dua file. Seluruh produk dibangun dan dijalankan oleh Manikant, dari pemrosesan di backend sampai tampilan antarmukanya.",
+    "founderExpertise": [
+      "Pemrosesan PDF",
+      "Next.js / Node.js",
+      "Desain produk"
+    ],
+    "soloBuilt": "Dibuat dan dirawat sendirian: setiap baris kode, setiap alat, setiap keputusan desain.",
+    "trustCards": [
+      {
+        "title": "Terenkripsi saat transfer",
+        "desc": "Setiap transfer memakai HTTPS (TLS), sehingga file Anda terenkripsi saat menuju dan dari server kami."
+      },
+      {
+        "title": "Dihapus dalam 1 jam",
+        "desc": "File yang diunggah dan hasilnya dihapus permanen dari server kami dalam 1 jam. Dua pengecualiannya tercantum di Kebijakan Privasi kami."
+      },
+      {
+        "title": "File Anda tetap milik Anda",
+        "desc": "Kami hanya memproses file Anda untuk menjalankan alat yang Anda pilih. Kami tidak menjualnya dan tidak memakainya untuk iklan."
+      },
+      {
+        "title": "Privasi sejak desain",
+        "desc": "Kami hanya mengumpulkan yang diperlukan untuk menjalankan layanan. Kebijakan Privasi kami menjelaskan persisnya apa saja."
+      }
+    ],
+    "archUpload": "HTTPS (TLS) saat transfer",
+    "archProcess1": "Hanya untuk menjalankan alat yang dipilih",
+    "archProcess2": "Tidak dijual atau dipakai untuk iklan",
+    "archServe": "Hasil Anda siap diunduh",
+    "archDeleteVal": "dalam 1 jam",
+    "archExceptions": "lihat Kebijakan Privasi kami",
+    "archPill": "Penghapusan otomatis dalam 1 jam",
+    "missionChecks": [
+      "Pemrosesan cepat lewat HTTPS",
+      "File dihapus dalam 1 jam",
+      "Alat gratis ditopang iklan, tanpa iklan di paket berbayar",
+      "Terbuka soal cara kami mendapat penghasilan",
+      "Kebijakan Privasi yang menjelaskan apa yang kami kumpulkan",
+      "Tersedia dalam 8 bahasa"
+    ]
   },
   "privacy": {
     "layoutTitle": "Kebijakan Privasi — SmallPDF.us",
@@ -147,7 +209,14 @@
     "bottomTitle": "Pertanyaan tentang privasi Anda?",
     "bottomSubtitle": "Kami serius dalam menjaga privasi Anda. Tim kami dengan senang hati menjawab pertanyaan apa pun.",
     "bottomContact": "Hubungi kami",
-    "bottomTerms": "Ketentuan Layanan"
+    "bottomTerms": "Ketentuan Layanan",
+    "heroTagline": "File Anda, privasi Anda. Kami memproses dokumen lalu menghapusnya, tidak lebih.",
+    "onThisPage": "Di halaman ini",
+    "payIndiaDesc": "UPI, kartu, net banking — pembayaran dalam INR",
+    "payIntlDesc": "Pembayaran USD lewat PayPal untuk pengguna internasional",
+    "heroBadge": "Kebijakan Privasi",
+    "viewTheirPolicy": "Lihat Kebijakan Privasi mereka →",
+    "bottomRefund": "Kebijakan Pengembalian Dana"
   },
   "terms": {
     "layoutTitle": "Ketentuan Layanan — SmallPDF.us",
@@ -211,7 +280,17 @@
     "highlight1": "Gratis — tanpa biaya tersembunyi",
     "highlight2": "File dihapus dalam 1 jam",
     "highlight3": "Konten Anda selalu milik Anda",
-    "s2NotTitle": "Anda tidak boleh:"
+    "s2NotTitle": "Anda tidak boleh:",
+    "heroBadge": "Ketentuan Layanan",
+    "heroTagline": "Singkat dan jelas: dengan memakai SmallPDF.us, Anda menyetujui ketentuan ini.",
+    "readPrivacy": "Baca Kebijakan Privasi kami →",
+    "readRefund": "Baca Kebijakan Pengembalian Dana kami →",
+    "operatedBy": "Dioperasikan oleh:",
+    "operatorType": "perorangan",
+    "sectionsTitle": "Bagian",
+    "legalOperator": "Operator hukum",
+    "bottomPrivacy": "Kebijakan Privasi",
+    "bottomRefund": "Kebijakan Pengembalian Dana"
   },
   "refund": {
     "seoTitle": "Kebijakan Pengembalian Dana — Garansi 14 Hari | SmallPDF.us",
@@ -337,6 +416,8 @@
       "3": "Akun yang ditangguhkan karena pelanggaran Ketentuan Layanan",
       "4": "Permintaan terkait ketidakpuasan dengan alat gratis",
       "5": "Pengembalian dana parsial untuk hari yang tidak digunakan"
-    }
+    },
+    "onThisPage": "Di halaman ini",
+    "subjectLine": "Subjek:"
   }
 }

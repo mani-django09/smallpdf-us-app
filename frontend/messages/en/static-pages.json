@@ -20,7 +20,25 @@
     "submitButton": "Send Message",
     "sendingButton": "Sending…",
     "successMessage": "Message sent! We'll get back to you within 24 hours.",
-    "errorMessage": "Something went wrong. Please try again or email us directly."
+    "errorMessage": "Something went wrong. Please try again or email us directly.",
+    "formSubtitle": "We read every message and reply within 24 hours.",
+    "expectTitle": "What to expect",
+    "expect1": "Your messages are encrypted in transit",
+    "expect2": "We reply within 24 hours, usually sooner",
+    "expect3": "Real humans read and respond, no bots",
+    "privacyTitle": "Your privacy",
+    "privacyText": "Contact form data is used only to respond to your message.",
+    "heroBadge": "Contact Us",
+    "basedInTitle": "Based in",
+    "commonTopicsTitle": "Common topics",
+    "topics": [
+      "File conversion not working",
+      "Privacy / data questions",
+      "Feature request",
+      "Bug report",
+      "Business / partnerships",
+      "Something else"
+    ]
   },
   "about": {
     "pageTitle": "About — SmallPDF.us",
@@ -53,13 +71,57 @@
     "teamSubtitle": "Built by a developer who believes great software should be accessible to everyone — not locked behind a paywall.",
     "teamSize": "Solo-built and maintained.",
     "trustTitle": "Why trust us",
-    "trustSubtitle": "Accreditations and certifications — not just words.",
+    "trustSubtitle": "How we handle your files, in plain terms.",
     "ctaTitle": "Try the tools",
     "ctaSubtitle": "No credit card needed. Free PDF and image tools.",
     "ctaButton": "Try SmallPDF.us free",
     "ctaContact": "Contact the team",
     "valuesTitle": "What we stand for",
-    "valuesSubtitle": "Six principles guiding every decision — from product features to privacy policy."
+    "valuesSubtitle": "Six principles guiding every decision — from product features to privacy policy.",
+    "founderBadge": "Founder",
+    "founderRole": "Founder & Developer",
+    "founderEducation": "Computer Science",
+    "founderExperience": "Full-stack development · PDF tools & document processing",
+    "founderBio": "Manikant built SmallPDF.us from scratch after getting frustrated with PDF tools that lock basic features behind paywalls or require creating an account just to merge two files. The whole product is built and run by Manikant, from backend processing to frontend UX.",
+    "founderExpertise": [
+      "PDF Processing",
+      "Next.js / Node.js",
+      "Product Design"
+    ],
+    "soloBuilt": "Solo-built and maintained — every line of code, every tool, every design decision.",
+    "trustCards": [
+      {
+        "title": "Encrypted in transit",
+        "desc": "Every transfer uses HTTPS (TLS), so your files are encrypted on their way to and from our servers."
+      },
+      {
+        "title": "Deleted within 1 hour",
+        "desc": "Uploaded files and results are permanently deleted from our servers within 1 hour. The two exceptions are listed in our Privacy Policy."
+      },
+      {
+        "title": "Your files stay yours",
+        "desc": "We only process your files to run the tool you chose. We don't sell them or use them for advertising."
+      },
+      {
+        "title": "Privacy by design",
+        "desc": "We collect only what we need to run the service. Our Privacy Policy explains exactly what that is."
+      }
+    ],
+    "archUpload": "HTTPS (TLS) in transit",
+    "archProcess1": "Only to run the tool you chose",
+    "archProcess2": "Never sold or used for ads",
+    "archServe": "Your result is ready to download",
+    "archDeleteVal": "within 1 hour",
+    "archExceptions": "see our Privacy Policy",
+    "archPill": "Automatic deletion within 1 hour",
+    "missionChecks": [
+      "Fast processing over HTTPS",
+      "Files deleted within 1 hour",
+      "Free tools supported by ads, none on paid plans",
+      "Transparent about how we earn",
+      "A Privacy Policy that says what we collect",
+      "Available in 8 languages"
+    ]
   },
   "privacy": {
     "layoutTitle": "Privacy Policy — SmallPDF.us",
@@ -147,7 +209,14 @@
     "bottomTitle": "Questions about your privacy?",
     "bottomSubtitle": "We take your privacy seriously. Our team is happy to answer any questions.",
     "bottomContact": "Contact us",
-    "bottomTerms": "Terms of Service"
+    "bottomTerms": "Terms of Service",
+    "heroTagline": "Your files, your privacy. We process documents and delete them — nothing more.",
+    "onThisPage": "On This Page",
+    "payIndiaDesc": "UPI, cards, net banking — INR payments",
+    "payIntlDesc": "USD payments via PayPal for international users",
+    "heroBadge": "Privacy Policy",
+    "viewTheirPolicy": "View their Privacy Policy →",
+    "bottomRefund": "Refund Policy"
   },
   "terms": {
     "layoutTitle": "Terms of Service — SmallPDF.us",
@@ -211,7 +280,17 @@
     "highlight1": "Free to use — no hidden fees",
     "highlight2": "Files deleted within 1 hour",
     "highlight3": "Your content stays yours — always",
-    "s2NotTitle": "You may not:"
+    "s2NotTitle": "You may not:",
+    "heroBadge": "Terms of Service",
+    "heroTagline": "Plain and simple. By using SmallPDF.us you agree to these terms.",
+    "readPrivacy": "Read our Privacy Policy →",
+    "readRefund": "Read our Refund Policy →",
+    "operatedBy": "Operated by:",
+    "operatorType": "Individual",
+    "sectionsTitle": "Sections",
+    "legalOperator": "Legal Operator",
+    "bottomPrivacy": "Privacy Policy",
+    "bottomRefund": "Refund Policy"
   },
   "refund": {
     "seoTitle": "Refund Policy — 14-Day Money-Back | SmallPDF.us",
@@ -337,6 +416,8 @@
     "ctaDesc": "We're happy to help. Email us and we'll sort it out.",
     "ctaButton": "Request a Refund",
     "ctaTerms": "Terms of Service",
-    "ctaPrivacy": "Privacy Policy"
+    "ctaPrivacy": "Privacy Policy",
+    "onThisPage": "On This Page",
+    "subjectLine": "Subject line:"
   }
 }

@@ -10,12 +10,7 @@ import { useTranslations } from '../../lib/i18n'
 import { getPageMessages } from '../../lib/i18nLoader'
 import { safeRedirect } from "../../lib/safeRedirect"
 
-const FEATURES = [
-  { icon: '⚡', text: 'Convert PDFs in seconds' },
-  { icon: '🔒', text: 'Bank-grade encryption' },
-  { icon: '🌍', text: '27 tools, 8 languages' },
-  { icon: '♾️', text: 'Free to start, no watermarks' },
-]
+const FEATURE_ICONS = ['⚡', '🔒', '🌍', '♾️']
 
 function Logo() {
   return (
@@ -157,20 +152,20 @@ export default function LoginPage() {
             </Link>
 
             <h2 style={{ fontSize: 36, fontWeight: 800, color: '#fff', margin: '0 0 12px', lineHeight: 1.15, letterSpacing: '-0.5px' }}>
-              Your PDF toolkit,<br /><span style={{ color: '#f87171' }}>always free.</span>
+              {t('auth.login.panelTitle1')}<br /><span style={{ color: '#f87171' }}>{t('auth.login.panelTitle2')}</span>
             </h2>
             <p style={{ fontSize: 16, color: '#94a3b8', margin: '0 0 48px', lineHeight: 1.6 }}>
-              All 27 PDF &amp; image tools — quick and easy to use.
+              {t('auth.login.panelSub')}
             </p>
 
             {/* Feature list */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              {FEATURES.map((f, i) => (
+              {FEATURE_ICONS.map((icon, i) => (
                 <div key={i} className="feat-item" style={{ display: 'flex', alignItems: 'center', gap: 16, animationDelay: `${i * 0.1}s` }}>
                   <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(220,38,38,0.15)', border: '1px solid rgba(220,38,38,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
-                    {f.icon}
+                    {icon}
                   </div>
-                  <span style={{ fontSize: 15, color: '#cbd5e1', fontWeight: 500 }}>{f.text}</span>
+                  <span style={{ fontSize: 15, color: '#cbd5e1', fontWeight: 500 }}>{t(`auth.login.features.${i}`)}</span>
                 </div>
               ))}
             </div>
@@ -179,11 +174,11 @@ export default function LoginPage() {
             <div style={{ marginTop: 56, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', gap: 10 }}>
               <p style={{ fontSize: 13, color: '#475569', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ color: '#22c55e', fontSize: 16 }}>●</span>
-                27 PDF &amp; image tools, all free
+                {t('auth.login.fact1')}
               </p>
               <p style={{ fontSize: 13, color: '#475569', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ color: '#22c55e', fontSize: 16 }}>●</span>
-                Files deleted within 1 hour
+                {t('auth.login.fact2')}
               </p>
             </div>
           </div>
@@ -229,7 +224,7 @@ export default function LoginPage() {
               {!googleReady && (
                 <div style={{ height: 48, background: '#fff', border: '1.5px solid #e2e8f0', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
                   <GoogleIcon />
-                  <span style={{ fontSize: 14, color: '#475569', fontWeight: 500 }}>Continue with Google</span>
+                  <span style={{ fontSize: 14, color: '#475569', fontWeight: 500 }}>{t('auth.login.googleContinue')}</span>
                 </div>
               )}
             </div>
@@ -324,7 +319,7 @@ export default function LoginPage() {
             {/* Security note */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginTop: 20, color: '#94a3b8', fontSize: 12 }}>
               <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span>Secured with 256-bit SSL encryption</span>
+              <span>{t('auth.login.sslNote')}</span>
             </div>
           </div>
         </div>

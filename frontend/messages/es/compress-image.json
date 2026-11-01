@@ -171,5 +171,8 @@
   "downloadFeature3Title": "Seguro y privado",
   "downloadFeature3Desc": "Archivos cifrados y eliminados automáticamente tras 1 hora.",
   "downloadFeature4Title": "{saved}% más pequeño",
-  "downloadFeature4Desc": "{saved}% de reducción respecto al original"
+  "downloadFeature4Desc": "{saved}% de reducción respecto al original",
+  "related50kbLead": "¿Necesitas un tamaño de archivo específico para un formulario o examen? Prueba nuestra herramienta",
+  "related50kbLink": "comprimir imagen a 50KB",
+  "related50kbTail": ", creada para solicitudes y exámenes con límites de tamaño estrictos."
 }

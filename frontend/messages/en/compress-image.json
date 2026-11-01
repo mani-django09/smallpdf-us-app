@@ -182,5 +182,8 @@
   "downloadExpirySubtitle": "Auto-delete for privacy",
   "downloadTimeRemaining": "Time remaining",
   "downloadLoadingFiles": "Loading your files...",
-  "downloadErrorFailed": "Failed to download file. Please try again."
+  "downloadErrorFailed": "Failed to download file. Please try again.",
+  "related50kbLead": "Need a specific file size for a form or exam upload? Try our",
+  "related50kbLink": "compress image to 50KB",
+  "related50kbTail": "tool, built for exam and application uploads with strict size limits."
 }
