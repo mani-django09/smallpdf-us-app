@@ -213,5 +213,59 @@
     "heicToPng": "iPhone写真をPNGに",
     "webpToPng": "WebP画像をPNGに",
     "pngToWebp": "PNGを軽いWebPに"
+  },
+  "limits": {
+    "close": "閉じる",
+    "upgradeTitle": "Proにアップグレード",
+    "viewPlans": "Proプランを見る",
+    "maybeLater": "あとで",
+    "signIn": "ログイン",
+    "guestNote": "有料プランをご利用中ですか？ログインするとプランの上限が適用されます。",
+    "yourLimit": "現在の上限",
+    "proLimit": "Proの上限",
+    "unlimited": "無制限",
+    "fileOne": "{n}ファイル",
+    "fileMany": "{n}ファイル",
+    "daily": {
+      "title": "1日の上限に達しました",
+      "resets": "リセット時刻：{time}",
+      "body": "本日の無料変換{limit}回をすべて使いました。Proにアップグレードすると無制限で変換できます。",
+      "includes": "Proプランの内容",
+      "comeBack": "明日また利用する",
+      "features": [
+        "変換回数は無制限、1日の上限なし",
+        "すべてのツールで100 MBまでのファイルに対応",
+        "1回につき最大20ファイル",
+        "広告なし",
+        "優先処理"
+      ]
+    },
+    "size": {
+      "body": "ファイル（{size}）が「{tool}」の上限{limit}を超えています。",
+      "yourFile": "ファイルサイズ",
+      "features": [
+        "すべてのツールで100 MBまでのファイルに対応",
+        "優先処理",
+        "複数ファイルの一括変換",
+        "広告なし"
+      ]
+    },
+    "batch": {
+      "body": "{count}を選択しましたが、現在のプランの「{tool}」では一度に{allowed}までです。",
+      "youSelected": "選択したファイル",
+      "moreFiles": "より多くのファイル",
+      "upTo": "「{tool}」で1回につき最大{limit}",
+      "noLimit": "「{tool}」は一括処理の上限なし",
+      "more": "「{tool}」で1回に処理できるファイルが増加",
+      "features": [
+        "すべてのツールで100 MBまでのファイルに対応",
+        "優先処理",
+        "広告なし"
+      ]
+    },
+    "privacy": {
+      "banner": "ファイルはHTTPSで送信され、1時間以内にサーバーから削除されます。販売や広告に使われることはありません。",
+      "inline": "1時間以内に削除"
+    }
   }
 }

@@ -213,5 +213,59 @@
     "heicToPng": "Photos iPhone en PNG",
     "webpToPng": "Images WebP en PNG",
     "pngToWebp": "PNG en WebP plus léger"
+  },
+  "limits": {
+    "close": "Fermer",
+    "upgradeTitle": "Passer à Pro",
+    "viewPlans": "Voir les offres Pro",
+    "maybeLater": "Plus tard",
+    "signIn": "Se connecter",
+    "guestNote": "Vous avez déjà une offre payante ? Connectez-vous pour profiter de vos limites.",
+    "yourLimit": "Votre limite",
+    "proLimit": "Limite Pro",
+    "unlimited": "Illimité",
+    "fileOne": "{n} fichier",
+    "fileMany": "{n} fichiers",
+    "daily": {
+      "title": "Limite quotidienne atteinte",
+      "resets": "Réinitialisation à {time}",
+      "body": "Vous avez utilisé vos {limit} conversions gratuites du jour. Passez à Pro pour des conversions illimitées.",
+      "includes": "L'offre Pro comprend",
+      "comeBack": "Revenir demain",
+      "features": [
+        "Conversions illimitées, sans plafond quotidien",
+        "Fichiers jusqu'à 100 Mo sur tous les outils",
+        "Jusqu'à 20 fichiers par lot",
+        "Sans publicité",
+        "Traitement prioritaire"
+      ]
+    },
+    "size": {
+      "body": "Votre fichier ({size}) dépasse la limite de {limit} pour {tool}.",
+      "yourFile": "Votre fichier",
+      "features": [
+        "Fichiers jusqu'à 100 Mo sur tous les outils",
+        "Traitement prioritaire",
+        "Conversion par lots, plusieurs fichiers à la fois",
+        "Sans publicité"
+      ]
+    },
+    "batch": {
+      "body": "Vous avez sélectionné {count}, mais votre offre autorise {allowed} à la fois pour {tool}.",
+      "youSelected": "Votre sélection",
+      "moreFiles": "Plus de fichiers",
+      "upTo": "Jusqu'à {limit} par lot avec {tool}",
+      "noLimit": "Aucune limite par lot avec {tool}",
+      "more": "Plus de fichiers par lot avec {tool}",
+      "features": [
+        "Fichiers jusqu'à 100 Mo sur tous les outils",
+        "Traitement prioritaire",
+        "Sans publicité"
+      ]
+    },
+    "privacy": {
+      "banner": "Vos fichiers sont envoyés via HTTPS et supprimés de nos serveurs en moins d'1 heure. Ils ne sont jamais vendus ni utilisés pour la publicité.",
+      "inline": "Supprimés en moins d'1 heure"
+    }
   }
 }

@@ -213,5 +213,59 @@
     "heicToPng": "iPhone photos to PNG",
     "webpToPng": "WebP images to PNG",
     "pngToWebp": "PNG to smaller WebP"
+  },
+  "limits": {
+    "close": "Close",
+    "upgradeTitle": "Upgrade to Pro",
+    "viewPlans": "View Pro plans",
+    "maybeLater": "Maybe later",
+    "signIn": "Sign in",
+    "guestNote": "Already on a paid plan? Sign in to use your limits.",
+    "yourLimit": "Your limit",
+    "proLimit": "Pro limit",
+    "unlimited": "Unlimited",
+    "fileOne": "{n} file",
+    "fileMany": "{n} files",
+    "daily": {
+      "title": "Daily limit reached",
+      "resets": "Resets at {time}",
+      "body": "You've used your {limit} free conversions for today. Upgrade to Pro for unlimited conversions.",
+      "includes": "Pro plan includes",
+      "comeBack": "Come back tomorrow",
+      "features": [
+        "Unlimited conversions, no daily cap",
+        "Files up to 100 MB on every tool",
+        "Up to 20 files per batch",
+        "No ads",
+        "Priority processing"
+      ]
+    },
+    "size": {
+      "body": "Your file ({size}) is over the {limit} limit for {tool}.",
+      "yourFile": "Your file",
+      "features": [
+        "Files up to 100 MB on every tool",
+        "Priority processing",
+        "Batch conversions, multiple files at once",
+        "No ads"
+      ]
+    },
+    "batch": {
+      "body": "You selected {count}, but your plan allows {allowed} at a time for {tool}.",
+      "youSelected": "You selected",
+      "moreFiles": "More files",
+      "upTo": "Up to {limit} per batch with {tool}",
+      "noLimit": "No batch limit with {tool}",
+      "more": "More files per batch with {tool}",
+      "features": [
+        "Files up to 100 MB on every tool",
+        "Priority processing",
+        "No ads"
+      ]
+    },
+    "privacy": {
+      "banner": "Your files are sent over HTTPS and deleted from our servers within 1 hour. They are never sold or used for ads.",
+      "inline": "Deleted within 1 hour"
+    }
   }
 }

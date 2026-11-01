@@ -213,5 +213,59 @@
     "heicToPng": "Fotos de iPhone a PNG",
     "webpToPng": "Imágenes WebP a PNG",
     "pngToWebp": "PNG a WebP más ligero"
+  },
+  "limits": {
+    "close": "Cerrar",
+    "upgradeTitle": "Pásate a Pro",
+    "viewPlans": "Ver planes Pro",
+    "maybeLater": "Quizás más tarde",
+    "signIn": "Iniciar sesión",
+    "guestNote": "¿Ya tienes un plan de pago? Inicia sesión para usar tus límites.",
+    "yourLimit": "Tu límite",
+    "proLimit": "Límite Pro",
+    "unlimited": "Ilimitado",
+    "fileOne": "{n} archivo",
+    "fileMany": "{n} archivos",
+    "daily": {
+      "title": "Límite diario alcanzado",
+      "resets": "Se restablece a las {time}",
+      "body": "Has usado tus {limit} conversiones gratuitas de hoy. Pásate a Pro para tener conversiones ilimitadas.",
+      "includes": "El plan Pro incluye",
+      "comeBack": "Volver mañana",
+      "features": [
+        "Conversiones ilimitadas, sin tope diario",
+        "Archivos de hasta 100 MB en todas las herramientas",
+        "Hasta 20 archivos por lote",
+        "Sin anuncios",
+        "Procesamiento prioritario"
+      ]
+    },
+    "size": {
+      "body": "Tu archivo ({size}) supera el límite de {limit} para {tool}.",
+      "yourFile": "Tu archivo",
+      "features": [
+        "Archivos de hasta 100 MB en todas las herramientas",
+        "Procesamiento prioritario",
+        "Conversión por lotes, varios archivos a la vez",
+        "Sin anuncios"
+      ]
+    },
+    "batch": {
+      "body": "Has seleccionado {count}, pero tu plan permite {allowed} a la vez en {tool}.",
+      "youSelected": "Tu selección",
+      "moreFiles": "Más archivos",
+      "upTo": "Hasta {limit} por lote en {tool}",
+      "noLimit": "Sin límite por lote en {tool}",
+      "more": "Más archivos por lote en {tool}",
+      "features": [
+        "Archivos de hasta 100 MB en todas las herramientas",
+        "Procesamiento prioritario",
+        "Sin anuncios"
+      ]
+    },
+    "privacy": {
+      "banner": "Tus archivos se envían por HTTPS y se eliminan de nuestros servidores en menos de 1 hora. Nunca se venden ni se usan para publicidad.",
+      "inline": "Eliminados en menos de 1 hora"
+    }
   }
 }

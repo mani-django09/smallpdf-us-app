@@ -182,7 +182,7 @@ export default function RotatePreview() {
                 </div>
               )}
             </div>
-            {!processing && <PrivacyNotice minutes={60} variant="inline" className="mt-4" />}
+            {!processing && <PrivacyNotice variant="inline" className="mt-4" />}
           </div>
 
           {/* Sidebar */}

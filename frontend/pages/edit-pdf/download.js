@@ -133,7 +133,7 @@ export default function EditDownload() {
 
               {error && <p className="mt-3 text-sm text-red-700 font-medium text-center">{error}</p>}
 
-              <PrivacyNotice minutes={60} className="mt-4" />
+              <PrivacyNotice className="mt-4" />
 
               <UpgradeUpsell className="mt-4" />
 

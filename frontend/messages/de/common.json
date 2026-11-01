@@ -217,5 +217,59 @@
     "heicToPng": "iPhone-Fotos zu PNG",
     "webpToPng": "WebP-Bilder zu PNG",
     "pngToWebp": "PNG zu kleinerem WebP"
+  },
+  "limits": {
+    "close": "Schließen",
+    "upgradeTitle": "Auf Pro upgraden",
+    "viewPlans": "Pro-Tarife ansehen",
+    "maybeLater": "Vielleicht später",
+    "signIn": "Anmelden",
+    "guestNote": "Du hast schon einen bezahlten Tarif? Melde dich an, um deine Limits zu nutzen.",
+    "yourLimit": "Dein Limit",
+    "proLimit": "Pro-Limit",
+    "unlimited": "Unbegrenzt",
+    "fileOne": "{n} Datei",
+    "fileMany": "{n} Dateien",
+    "daily": {
+      "title": "Tageslimit erreicht",
+      "resets": "Wird um {time} zurückgesetzt",
+      "body": "Du hast deine {limit} kostenlosen Konvertierungen für heute verbraucht. Mit Pro konvertierst du unbegrenzt.",
+      "includes": "Im Pro-Tarif enthalten",
+      "comeBack": "Morgen wiederkommen",
+      "features": [
+        "Unbegrenzte Konvertierungen, kein Tageslimit",
+        "Dateien bis 100 MB bei jedem Tool",
+        "Bis zu 20 Dateien pro Stapel",
+        "Keine Werbung",
+        "Bevorzugte Verarbeitung"
+      ]
+    },
+    "size": {
+      "body": "Deine Datei ({size}) überschreitet das Limit von {limit} für {tool}.",
+      "yourFile": "Deine Datei",
+      "features": [
+        "Dateien bis 100 MB bei jedem Tool",
+        "Bevorzugte Verarbeitung",
+        "Stapelkonvertierung, mehrere Dateien auf einmal",
+        "Keine Werbung"
+      ]
+    },
+    "batch": {
+      "body": "Du hast {count} ausgewählt, dein Tarif erlaubt bei {tool} aber nur {allowed} auf einmal.",
+      "youSelected": "Deine Auswahl",
+      "moreFiles": "Mehr Dateien",
+      "upTo": "Bis zu {limit} pro Stapel bei {tool}",
+      "noLimit": "Kein Stapellimit bei {tool}",
+      "more": "Mehr Dateien pro Stapel bei {tool}",
+      "features": [
+        "Dateien bis 100 MB bei jedem Tool",
+        "Bevorzugte Verarbeitung",
+        "Keine Werbung"
+      ]
+    },
+    "privacy": {
+      "banner": "Deine Dateien werden per HTTPS übertragen und innerhalb von 1 Stunde von unseren Servern gelöscht. Sie werden nie verkauft oder für Werbung genutzt.",
+      "inline": "Innerhalb von 1 Stunde gelöscht"
+    }
   }
 }

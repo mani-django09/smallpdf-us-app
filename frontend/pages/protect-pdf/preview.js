@@ -192,7 +192,7 @@ export default function ProtectPreview() {
                 </div>
               )}
             </div>
-            {!processing && <PrivacyNotice minutes={60} variant="inline" className="mt-4" />}
+            {!processing && <PrivacyNotice variant="inline" className="mt-4" />}
           </div>
 
           <div className="lg:col-span-4 space-y-4">

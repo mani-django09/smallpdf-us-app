@@ -213,5 +213,59 @@
     "heicToPng": "Foto iPhone ke PNG",
     "webpToPng": "Gambar WebP ke PNG",
     "pngToWebp": "PNG ke WebP lebih kecil"
+  },
+  "limits": {
+    "close": "Tutup",
+    "upgradeTitle": "Upgrade ke Pro",
+    "viewPlans": "Lihat paket Pro",
+    "maybeLater": "Nanti saja",
+    "signIn": "Masuk",
+    "guestNote": "Sudah punya paket berbayar? Masuk untuk memakai batas Anda.",
+    "yourLimit": "Batas Anda",
+    "proLimit": "Batas Pro",
+    "unlimited": "Tanpa batas",
+    "fileOne": "{n} file",
+    "fileMany": "{n} file",
+    "daily": {
+      "title": "Batas harian tercapai",
+      "resets": "Direset pukul {time}",
+      "body": "Anda sudah memakai {limit} konversi gratis hari ini. Upgrade ke Pro untuk konversi tanpa batas.",
+      "includes": "Paket Pro mencakup",
+      "comeBack": "Kembali besok",
+      "features": [
+        "Konversi tanpa batas harian",
+        "File hingga 100 MB di semua alat",
+        "Hingga 20 file per batch",
+        "Tanpa iklan",
+        "Pemrosesan prioritas"
+      ]
+    },
+    "size": {
+      "body": "File Anda ({size}) melebihi batas {limit} untuk {tool}.",
+      "yourFile": "File Anda",
+      "features": [
+        "File hingga 100 MB di semua alat",
+        "Pemrosesan prioritas",
+        "Konversi batch, banyak file sekaligus",
+        "Tanpa iklan"
+      ]
+    },
+    "batch": {
+      "body": "Anda memilih {count}, tetapi paket Anda hanya mengizinkan {allowed} sekaligus untuk {tool}.",
+      "youSelected": "Pilihan Anda",
+      "moreFiles": "Lebih banyak file",
+      "upTo": "Hingga {limit} per batch dengan {tool}",
+      "noLimit": "Tanpa batas batch dengan {tool}",
+      "more": "Lebih banyak file per batch dengan {tool}",
+      "features": [
+        "File hingga 100 MB di semua alat",
+        "Pemrosesan prioritas",
+        "Tanpa iklan"
+      ]
+    },
+    "privacy": {
+      "banner": "File Anda dikirim lewat HTTPS dan dihapus dari server kami dalam 1 jam. File tidak pernah dijual atau dipakai untuk iklan.",
+      "inline": "Dihapus dalam 1 jam"
+    }
   }
 }

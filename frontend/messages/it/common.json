@@ -213,5 +213,59 @@
     "heicToPng": "Foto iPhone in PNG",
     "webpToPng": "Immagini WebP in PNG",
     "pngToWebp": "PNG in WebP più leggero"
+  },
+  "limits": {
+    "close": "Chiudi",
+    "upgradeTitle": "Passa a Pro",
+    "viewPlans": "Vedi i piani Pro",
+    "maybeLater": "Forse più tardi",
+    "signIn": "Accedi",
+    "guestNote": "Hai già un piano a pagamento? Accedi per usare i tuoi limiti.",
+    "yourLimit": "Il tuo limite",
+    "proLimit": "Limite Pro",
+    "unlimited": "Illimitato",
+    "fileOne": "{n} file",
+    "fileMany": "{n} file",
+    "daily": {
+      "title": "Limite giornaliero raggiunto",
+      "resets": "Si azzera alle {time}",
+      "body": "Hai usato le tue {limit} conversioni gratuite di oggi. Passa a Pro per conversioni illimitate.",
+      "includes": "Il piano Pro include",
+      "comeBack": "Torna domani",
+      "features": [
+        "Conversioni illimitate, nessun tetto giornaliero",
+        "File fino a 100 MB con tutti gli strumenti",
+        "Fino a 20 file per lotto",
+        "Nessuna pubblicità",
+        "Elaborazione prioritaria"
+      ]
+    },
+    "size": {
+      "body": "Il tuo file ({size}) supera il limite di {limit} per {tool}.",
+      "yourFile": "Il tuo file",
+      "features": [
+        "File fino a 100 MB con tutti gli strumenti",
+        "Elaborazione prioritaria",
+        "Conversione in lotti, più file insieme",
+        "Nessuna pubblicità"
+      ]
+    },
+    "batch": {
+      "body": "Hai selezionato {count}, ma il tuo piano ne consente {allowed} alla volta per {tool}.",
+      "youSelected": "La tua selezione",
+      "moreFiles": "Più file",
+      "upTo": "Fino a {limit} per lotto con {tool}",
+      "noLimit": "Nessun limite per lotto con {tool}",
+      "more": "Più file per lotto con {tool}",
+      "features": [
+        "File fino a 100 MB con tutti gli strumenti",
+        "Elaborazione prioritaria",
+        "Nessuna pubblicità"
+      ]
+    },
+    "privacy": {
+      "banner": "I tuoi file vengono inviati tramite HTTPS ed eliminati dai nostri server entro 1 ora. Non vengono mai venduti né usati per la pubblicità.",
+      "inline": "Eliminati entro 1 ora"
+    }
   }
 }

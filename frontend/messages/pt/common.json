@@ -213,5 +213,59 @@
     "heicToPng": "Fotos do iPhone para PNG",
     "webpToPng": "Imagens WebP para PNG",
     "pngToWebp": "PNG para WebP menor"
+  },
+  "limits": {
+    "close": "Fechar",
+    "upgradeTitle": "Assine o Pro",
+    "viewPlans": "Ver planos Pro",
+    "maybeLater": "Talvez depois",
+    "signIn": "Entrar",
+    "guestNote": "Já tem um plano pago? Entre para usar seus limites.",
+    "yourLimit": "Seu limite",
+    "proLimit": "Limite Pro",
+    "unlimited": "Ilimitado",
+    "fileOne": "{n} arquivo",
+    "fileMany": "{n} arquivos",
+    "daily": {
+      "title": "Limite diário atingido",
+      "resets": "Reinicia às {time}",
+      "body": "Você usou suas {limit} conversões gratuitas de hoje. Assine o Pro para ter conversões ilimitadas.",
+      "includes": "O plano Pro inclui",
+      "comeBack": "Voltar amanhã",
+      "features": [
+        "Conversões ilimitadas, sem teto diário",
+        "Arquivos de até 100 MB em todas as ferramentas",
+        "Até 20 arquivos por lote",
+        "Sem anúncios",
+        "Processamento prioritário"
+      ]
+    },
+    "size": {
+      "body": "Seu arquivo ({size}) ultrapassa o limite de {limit} para {tool}.",
+      "yourFile": "Seu arquivo",
+      "features": [
+        "Arquivos de até 100 MB em todas as ferramentas",
+        "Processamento prioritário",
+        "Conversão em lote, vários arquivos de uma vez",
+        "Sem anúncios"
+      ]
+    },
+    "batch": {
+      "body": "Você selecionou {count}, mas seu plano permite {allowed} por vez em {tool}.",
+      "youSelected": "Sua seleção",
+      "moreFiles": "Mais arquivos",
+      "upTo": "Até {limit} por lote em {tool}",
+      "noLimit": "Sem limite por lote em {tool}",
+      "more": "Mais arquivos por lote em {tool}",
+      "features": [
+        "Arquivos de até 100 MB em todas as ferramentas",
+        "Processamento prioritário",
+        "Sem anúncios"
+      ]
+    },
+    "privacy": {
+      "banner": "Seus arquivos são enviados por HTTPS e excluídos dos nossos servidores em até 1 hora. Eles nunca são vendidos nem usados para anúncios.",
+      "inline": "Excluídos em até 1 hora"
+    }
   }
 }
