@@ -23,7 +23,44 @@ if (typeof globalThis.Path2D === 'undefined') {
   const fs = require("fs")
   const { exec } = require("child_process")
   const util = require("util")
-  const execPromise = util.promisify(exec)
+  // execPromiseKillsGroup: same API as util.promisify(exec) ({stdout, stderr},
+  // err.stdout/err.stderr/err.killed), but on timeout it SIGKILLs the whole
+  // process group. util.promisify(exec) only killed the /bin/sh wrapper, so the
+  // real program (python3 pdf2docx, gs, soffice...) kept running as an orphan
+  // with no limit - 3 stuck pdf-to-word jobs pinned the CPU at 100% (2026-11-10).
+  const execPromise = (cmd, opts = {}) => {
+    const { timeout = 0, maxBuffer = 1024 * 1024, encoding, ...rest } = opts
+    const group = process.platform !== "win32"
+    return new Promise((resolve, reject) => {
+      const child = require("child_process").spawn(cmd, { ...rest, shell: true, detached: group, windowsHide: true })
+      const out = [], err = []
+      let outLen = 0, errLen = 0, timedOut = false, overflow = false, done = false
+      const killTree = () => {
+        if (group) { try { process.kill(-child.pid, "SIGKILL"); return } catch {} }
+        try { child.kill("SIGKILL") } catch {}
+      }
+      const timer = timeout > 0 ? setTimeout(() => { timedOut = true; killTree() }, timeout) : null
+      child.stdout.on("data", (d) => { outLen += d.length; if (outLen > maxBuffer) { overflow = true; killTree() } else out.push(d) })
+      child.stderr.on("data", (d) => { errLen += d.length; if (errLen > maxBuffer) { overflow = true; killTree() } else err.push(d) })
+      const finish = (code, signal, spawnErr) => {
+        if (done) return
+        done = true
+        if (timer) clearTimeout(timer)
+        if (timedOut || overflow) killTree()
+        const stdout = Buffer.concat(out).toString(), stderr = Buffer.concat(err).toString()
+        if (!spawnErr && code === 0 && !timedOut && !overflow) return resolve({ stdout, stderr })
+        const e = spawnErr || new Error(
+          timedOut ? `Command timed out after ${timeout} ms: ${cmd}`
+          : overflow ? `maxBuffer exceeded: ${cmd}`
+          : `Command failed: ${cmd}\n${stderr}`)
+        e.code = code; e.signal = signal; e.killed = timedOut || overflow; e.cmd = cmd
+        e.stdout = stdout; e.stderr = stderr
+        reject(e)
+      }
+      child.on("error", (e) => finish(null, null, e))
+      child.on("close", (code, signal) => finish(code, signal))
+    })
+  }
   const archiver = require("archiver")
   const PDFDocument = require("pdfkit")
   const { PDFDocument: PDFLibDocument } = require("pdf-lib")

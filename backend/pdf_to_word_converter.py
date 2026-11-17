@@ -332,13 +332,57 @@ def polish_docx(docx_path):
         doc.save(docx_path)
 
 
+# pdf2docx gets extremely slow on PDFs packed with vector shapes (SAP invoices
+# draw ~1,500 tiny lines/boxes per page: 3 pages took ~2 min, 20+ pages never
+# finished and the request timed out). The Node caller kills us at 180 s, so
+# pdf2docx gets a time budget and heavy files go straight to pdfplumber.
+PDF2DOCX_BUDGET_SEC = int(os.environ.get("PDF2DOCX_BUDGET_SEC", "90"))
+HEAVY_VECTOR_SHAPES = int(os.environ.get("PDF2DOCX_MAX_SHAPES", "8000"))
+
+
+def estimate_vector_shapes(pdf_path):
+    """Estimated vector drawings in the whole file (samples up to 3 pages, ~1 s)."""
+    try:
+        import fitz
+        doc = fitz.open(pdf_path)
+        n = doc.page_count
+        k = min(3, n)
+        sample = sum(len(doc[i].get_drawings()) for i in range(k))
+        doc.close()
+        return int(sample / k * n) if k else 0
+    except Exception:
+        return 0
+
+
+def _pdf2docx_worker(pdf_path, docx_path):
+    convert_with_pdf2docx(pdf_path, docx_path)
+
+
+def run_pdf2docx_with_budget(pdf_path, docx_path, budget):
+    """Run pdf2docx in a child process; kill it if it exceeds `budget` seconds."""
+    import multiprocessing as mp
+    ctx = mp.get_context("spawn" if sys.platform == "win32" else "fork")
+    proc = ctx.Process(target=_pdf2docx_worker, args=(pdf_path, docx_path), daemon=True)
+    proc.start()
+    proc.join(budget)
+    if proc.is_alive():
+        proc.kill()
+        proc.join(5)
+        if os.path.exists(docx_path):
+            os.remove(docx_path)
+        print(f"WARNING: pdf2docx exceeded {budget}s, using fallback converter", file=sys.stderr)
+        return False
+    return proc.exitcode == 0
+
+
 def convert_pdf_to_word(pdf_path, docx_path):
     """
     Main conversion function.
     Strategy:
       1. Detect scanned PDFs and warn early
-      2. Try pdf2docx — best layout fidelity
-      3. If pdf2docx fails, fall back to pdfplumber
+      2. Try pdf2docx — best layout fidelity (time-boxed, skipped for
+         vector-heavy files it cannot finish)
+      3. If pdf2docx fails or runs out of time, fall back to pdfplumber
     """
     # ── Scanned PDF detection ─────────────────────────────────────────────
     if is_scanned_pdf(pdf_path):
@@ -346,9 +390,12 @@ def convert_pdf_to_word(pdf_path, docx_path):
         # Still attempt conversion — pdf2docx may handle it partially
 
     # ── Strategy 1: pdf2docx ──────────────────────────────────────────────
+    shapes = estimate_vector_shapes(pdf_path)
+    if shapes > HEAVY_VECTOR_SHAPES:
+        print(f"WARNING: ~{shapes} vector shapes, skipping pdf2docx", file=sys.stderr)
     try:
-        convert_with_pdf2docx(pdf_path, docx_path)
-        if os.path.exists(docx_path) and os.path.getsize(docx_path) > 1000:
+        if shapes <= HEAVY_VECTOR_SHAPES and run_pdf2docx_with_budget(pdf_path, docx_path, PDF2DOCX_BUDGET_SEC) \
+                and os.path.exists(docx_path) and os.path.getsize(docx_path) > 1000:
             try:
                 polish_docx(docx_path)
             except Exception as e:  # cosmetic step — never fail the conversion
