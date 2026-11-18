@@ -39,6 +39,7 @@ const INLINE_T = {
     fr: "images-converties.pdf", es: "imagenes-convertidas.pdf", it: "immagini-convertite.pdf",
     id: "gambar-dikonversi.pdf", pt: "imagens-convertidas.pdf",
     vi: "anh-da-chuyen-doi.pdf",
+    hi: "badli-gai-images.pdf",
   },
 }
 

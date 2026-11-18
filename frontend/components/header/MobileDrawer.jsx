@@ -5,7 +5,7 @@ import { Button, Dialog, Disclosure, DisclosureGroup, DisclosurePanel, Heading, 
 import { localePath } from "../../lib/route-translations"
 import LanguageSwitcher from "../LanguageSwitcher"
 
-const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt", "vi"]
+const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt", "vi", "hi"]
 const hrefFor = (href, locale) => (LOCALIZED.includes(locale) ? localePath(href, locale) : href)
 
 export default function MobileDrawer({ nav, t, locale, isActive, user, loading, logout, redirect, onClose, logo }) {

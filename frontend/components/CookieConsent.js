@@ -105,6 +105,12 @@ export default function CookieConsent() {
       decline: 'Từ chối',
       policy: 'Quyền riêng tư',
     },
+    hi: {
+      msg: 'हम इस वेबसाइट को मुफ़्त रखने के लिए एनालिटिक्स और विज्ञापनों के लिए कुकी इस्तेमाल करते हैं।',
+      accept: 'स्वीकार करें',
+      decline: 'अस्वीकार करें',
+      policy: 'गोपनीयता',
+    },
   }
 
   const t = texts[locale] || texts.en

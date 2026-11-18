@@ -21,12 +21,14 @@ const INLINE_T = {
     es: "{n} archivos PDF seleccionados", it: "{n} file PDF selezionati",
     id: "{n} file PDF dipilih", pt: "{n} arquivos PDF selecionados",
     vi: "Đã chọn {n} tệp PDF",
+    hi: "{n} PDF फ़ाइलें चुनी गईं",
   },
   totalSize: {
     en: "Total: {size} MB", ja: "合計: {size} MB", de: "Gesamt: {size} MB",
     fr: "Total : {size} Mo", es: "Total: {size} MB", it: "Totale: {size} MB",
     id: "Total: {size} MB", pt: "Total: {size} MB",
     vi: "Tổng: {size} MB",
+    hi: "कुल: {size} MB",
   },
   errPassword: {
     en: "\"{name}\" is protected with an open password. Remove it with our Unlock PDF tool first, then merge again.",
@@ -38,6 +40,7 @@ const INLINE_T = {
     pt: "\"{name}\" está protegido por uma senha de abertura. Remova-a primeiro com nossa ferramenta Desbloquear PDF e depois junte novamente.",
     ja: "「{name}」は開くためのパスワードで保護されています。先に「PDFロック解除」ツールでパスワードを解除してから、もう一度結合してください。",
     vi: "\"{name}\" được bảo vệ bằng mật khẩu mở tệp. Hãy gỡ mật khẩu bằng công cụ Mở khóa PDF của chúng tôi trước, rồi gộp lại.",
+    hi: "\"{name}\" खोलने के पासवर्ड से सुरक्षित है। पहले हमारे PDF अनलॉक करें टूल से उसे हटाएँ, फिर दोबारा जोड़ें।",
   },
   errCorrupt: {
     en: "Could not read \"{name}\". The file may be damaged — try re-saving or re-downloading it.",
@@ -49,6 +52,7 @@ const INLINE_T = {
     pt: "Não foi possível ler \"{name}\". O arquivo pode estar danificado — tente salvá-lo ou baixá-lo novamente.",
     ja: "「{name}」を読み込めませんでした。ファイルが破損している可能性があります。保存し直すか、再度ダウンロードしてください。",
     vi: "Không thể đọc \"{name}\". Tệp có thể bị hỏng — hãy thử lưu lại hoặc tải lại tệp.",
+    hi: "\"{name}\" पढ़ी नहीं जा सकी। फ़ाइल खराब हो सकती है — उसे दोबारा सहेजें या दोबारा डाउनलोड करें।",
   },
   errGeneric: {
     en: "Merging failed. Please try again in a moment.", de: "Zusammenführen fehlgeschlagen. Bitte versuchen Sie es gleich noch einmal.",
@@ -56,12 +60,14 @@ const INLINE_T = {
     it: "Unione non riuscita. Riprova tra un momento.", id: "Penggabungan gagal. Silakan coba lagi sebentar lagi.",
     pt: "Falha ao juntar. Tente novamente em instantes.", ja: "結合に失敗しました。しばらくしてからもう一度お試しください。",
     vi: "Gộp thất bại. Vui lòng thử lại sau giây lát.",
+    hi: "जोड़ना विफल रहा। कृपया कुछ देर बाद दोबारा कोशिश करें।",
   },
   loading: {
     en: "Loading...", ja: "読み込み中...", de: "Wird geladen...",
     fr: "Chargement...", es: "Cargando...", it: "Caricamento...",
     id: "Memuat...", pt: "Carregando...",
     vi: "Đang tải...",
+    hi: "लोड हो रहा है...",
   },
 }
 

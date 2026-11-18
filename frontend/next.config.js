@@ -272,6 +272,60 @@ const viSubPages = {
   'tai-xuong': 'download',
 }
 
+// ── Hindi slugs → EN (Latin / Hinglish, so URLs need no percent-encoding) ──
+// Hindi uses the SAME slugs as English (/hi/compress-pdf). These are the
+// short-lived Hinglish slugs, kept only to 301 old links to the English slugs.
+const hiLegacyToEn = {
+  'pdf-compress-karein':        'compress-pdf',
+  'pdf-jodein':                 'merge-pdf',
+  'pdf-alag-karein':            'split-pdf',
+  'pdf-unlock-karein':          'unlock-pdf',
+  'pdf-se-word':                'pdf-to-word',
+  'word-se-pdf':                'word-to-pdf',
+  'pdf-se-jpg':                 'pdf-to-jpg',
+  'jpg-se-pdf':                 'jpg-to-pdf',
+  'pdf-se-png':                 'pdf-to-png',
+  'png-se-pdf':                 'png-to-pdf',
+  'pdf-se-ppt':                 'pdf-to-ppt',
+  'ppt-se-pdf':                 'ppt-to-pdf',
+  'pdf-se-excel':               'pdf-to-excel',
+  'excel-se-pdf':               'excel-to-pdf',
+  'webp-se-png':                'webp-to-png',
+  'png-se-webp':                'png-to-webp',
+  'heic-se-jpg':                'heic-to-jpg',
+  'heic-se-png':                'heic-to-png',
+  'pdf-ghumayein':              'rotate-pdf',
+  'pdf-lock-karein':            'protect-pdf',
+  'pdf-chhupayein':             'redact-pdf',
+  'pdf-edit-karein':            'edit-pdf',
+  'image-compress-karein':      'compress-image',
+  'image-50kb-compress':        'compress-image-to-50kb',
+  'image-100kb-compress':       'compress-image-to-100kb',
+  'image-20kb-compress':        'compress-image-to-20kb',
+  'hamare-bare-mein':           'about',
+  'sampark':                    'contact',
+  'gopniyata':                  'privacy',
+  'sharten':                    'terms',
+}
+
+const hiLegacySubPages = {
+  'purvavlokan':    'preview',
+  'download-karein': 'download',
+}
+
+function buildHiLegacyRedirects() {
+  const out = []
+  for (const [old, en] of Object.entries(hiLegacyToEn)) {
+    for (const [oldSub, enSub] of Object.entries(hiLegacySubPages)) {
+      out.push({ source: `/hi/${old}/${oldSub}`,  destination: `/hi/${en}/${enSub}/`, permanent: true, locale: false })
+      out.push({ source: `/hi/${old}/${oldSub}/`, destination: `/hi/${en}/${enSub}/`, permanent: true, locale: false })
+    }
+    out.push({ source: `/hi/${old}`,  destination: `/hi/${en}/`, permanent: true, locale: false })
+    out.push({ source: `/hi/${old}/`, destination: `/hi/${en}/`, permanent: true, locale: false })
+  }
+  return out
+}
+
 // ── Helpers ────────────────────────────────────────────────────
 
 function getLocalSub(subPageMap, enSub) {
@@ -401,7 +455,7 @@ function buildSameToolAliasRewrites(fromSlug, toSlug) {
     { source: `/${fromSlug}/download`,  destination: `/${toSlug}/download` },
     { source: `/${fromSlug}/download/`, destination: `/${toSlug}/download/` },
   ]
-  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi']) {
+  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi']) {
     rewrites.push({ source: `/${locale}/${fromSlug}/preview`,   destination: `/${locale}/${toSlug}/preview`,   locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/preview/`,  destination: `/${locale}/${toSlug}/preview/`,  locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/download`,  destination: `/${locale}/${toSlug}/download`,  locale: false })
@@ -471,7 +525,7 @@ const nextConfig = {
   trailingSlash: true,
 
   i18n: {
-    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi'],
+    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi'],
     defaultLocale: 'en',
     localeDetection: false, // ← Prevent Accept-Language header causing redirects for Googlebot
   },
@@ -624,6 +678,7 @@ const nextConfig = {
       ...buildLocaleRedirects('id', idToEn, idSubPages),
       ...buildLocaleRedirects('pt', ptToEn, ptSubPages),
       ...buildLocaleRedirects('vi', viToEn, viSubPages),
+      ...buildHiLegacyRedirects(),
       // ocr-pdf / edit-pdf canonical sub-page redirects
       ...buildSameSlugRedirects('ocr-pdf', ocrSubPages),
       ...buildSameSlugRedirects('edit-pdf', editPdfSubPages),
@@ -656,7 +711,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options',   value: 'nosniff' },
           { key: 'X-XSS-Protection',         value: '1; mode=block' },
           { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
-          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi' },
+          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi, hi' },
         ],
       },
       // ── Immutable cache for Next.js JS/CSS chunks (fingerprinted filenames) ──
