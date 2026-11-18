@@ -1,0 +1,269 @@
+{
+  "seo": {
+    "title": "OCR PDF miễn phí — Trích xuất văn bản từ PDF quét | SmallPDF.us",
+    "description": "Biến PDF quét thành văn bản tìm kiếm được, miễn phí. Công cụ OCR của chúng tôi nhận dạng văn bản tiếng Anh, xuất ra PDF tìm kiếm được hoặc Word. Không cần cài đặt.",
+    "keywords": "OCR PDF, trích xuất văn bản từ PDF, PDF quét sang văn bản, OCR PDF online, làm PDF tìm kiếm được, công cụ OCR miễn phí, trích xuất văn bản PDF, nhận dạng ký tự quang học PDF, PDF tìm kiếm được, tài liệu quét sang văn bản"
+  },
+  "hero": {
+    "title": "OCR PDF —",
+    "titleHighlight": "Trích xuất văn bản",
+    "titleSuffix": "từ bất kỳ tài liệu quét nào",
+    "subtitle": "Biến PDF dạng ảnh, bản quét hoặc ảnh chụp bằng máy ảnh thành tài liệu tìm kiếm được, sao chép - dán được. Nhận dạng văn bản tiếng Anh, không cần cài đặt gì."
+  },
+  "upload": {
+    "dropActive": "Thả PDF của bạn vào đây",
+    "heading": "Tải lên PDF quét",
+    "subheading": "Kéo và thả hoặc nhấp để chọn — chỉ tệp PDF",
+    "button": "Chọn PDF để OCR",
+    "sslEncrypted": "Mã hóa SSL",
+    "filesDeleted": "Tệp bị xóa sau 1 giờ",
+    "noSignUp": "Nhanh & dễ dùng",
+    "freeLimits": "Miễn phí:",
+    "freeLimitsValue": "10 MB · 2 trang · 1 lần/ngày",
+    "proLimits": "Pro:",
+    "proLimitsValue": "100 MB+ · Không giới hạn trang · OCR hàng loạt",
+    "preparing": "Đang chuẩn bị OCR…",
+    "preparingSubtitle": "Đang tải lên và xếp hàng tài liệu của bạn",
+    "errorOnlyPdf": "Chỉ chấp nhận tệp PDF. Vui lòng tải lên tệp .pdf.",
+    "errorSeePlans": "Xem các gói Pro →"
+  },
+  "features": {
+    "sectionTitle": "Điều làm OCR của SmallPDF.us khác biệt",
+    "sectionSubtitle": "Được xây dựng trên nhiều năm kinh nghiệm xử lý tài liệu, quy trình OCR của chúng tôi được thiết kế từ đầu cho độ chính xác, quyền riêng tư và sự đa dạng của tài liệu thực tế.",
+    "items": [
+      {
+        "title": "Độ chính xác ký tự cao",
+        "desc": "Nhận dạng nhiều lượt xử lý được phông chữ hỗn hợp, trang bị xoay, bản quét kém chất lượng và bố cục nhiều cột. Tài liệu nguồn sạch từ 300 DPI trở lên luôn cho kết quả sắc nét, chính xác cao."
+      },
+      {
+        "title": "Nhận dạng văn bản tiếng Anh",
+        "desc": "Hiện tại công cụ OCR của chúng tôi nhận dạng văn bản tiếng Anh. Các ngôn ngữ khác, bao gồm tiếng Việt có dấu, chưa được hỗ trợ và có thể cho kết quả sai."
+      },
+      {
+        "title": "PDF tìm kiếm được, không phá hủy",
+        "desc": "Bố cục, hình ảnh và định dạng gốc của bạn được giữ nguyên hoàn hảo. Chúng tôi phủ một lớp văn bản trong suốt, khớp từng điểm ảnh để tìm kiếm, sao chép và trình đọc màn hình hoạt động trơn tru."
+      },
+      {
+        "title": "Hàng đợi ưu tiên cho người dùng Pro",
+        "desc": "Người dùng Pro bỏ qua hoàn toàn hàng đợi tiêu chuẩn. Các tác vụ OCR một trang hoàn tất trong chưa đầy 3 giây, và các lô nhiều trang xử lý các trang song song."
+      },
+      {
+        "title": "Quyền riêng tư không cần tin tưởng",
+        "desc": "TLS 1.3 khi truyền tải, các container tính toán tách biệt cho mỗi tác vụ, tự động xóa trong vòng 1 giờ (miễn phí) hoặc 72 giờ (trả phí). Chúng tôi không đọc hay chia sẻ nội dung tài liệu của bạn."
+      },
+      {
+        "title": "Xuất Word & TXT (Pro)",
+        "desc": "Vượt ra ngoài PDF tìm kiếm được. Xuất kết quả OCR dưới dạng .docx để chỉnh sửa trong Word, hoặc .txt để lập chỉ mục, quy trình dịch thuật và quản lý nội dung."
+      }
+    ]
+  },
+  "howItWorks": {
+    "sectionTitle": "Cách hoạt động — 3 bước đơn giản",
+    "sectionSubtitle": "Tải lên bản quét và tải xuống PDF tìm kiếm được.",
+    "steps": [
+      {
+        "title": "Tải PDF quét của bạn lên",
+        "desc": "Kéo và thả hoặc nhấp để chọn. Chúng tôi chấp nhận mọi PDF, gồm hợp đồng, hóa đơn, sách, biểu mẫu và ảnh chụp bằng máy ảnh.",
+        "badge": "Miễn phí: 10 MB · 2 trang"
+      },
+      {
+        "title": "Công cụ OCR xử lý các trang",
+        "desc": "Mỗi trang được chỉnh nghiêng, khử nhiễu và đưa qua mô hình nhận dạng ký tự của chúng tôi. Tọa độ văn bản được ánh xạ lại về hình học gốc.",
+        "badge": "Nhận dạng tiếng Anh"
+      },
+      {
+        "title": "Tải PDF tìm kiếm được xuống",
+        "desc": "Nhận tài liệu của bạn với lớp văn bản vô hình được nhúng đầy đủ. Tìm kiếm Ctrl+F, sao chép - dán và trình đọc màn hình giờ hoạt động ở mọi nơi trên đó.",
+        "badge": "Pro: cả .docx & .txt"
+      }
+    ]
+  },
+  "useCases": {
+    "sectionTitle": "Ai dùng OCR PDF — và vì sao",
+    "sectionSubtitle": "Mỗi ngày, các chuyên gia ở hàng chục ngành dựa vào OCR chính xác để mở khóa dữ liệu bị nhốt bên trong tài liệu quét của họ.",
+    "items": [
+      {
+        "title": "Chuyên gia pháp lý",
+        "desc": "Chuyển hồ sơ tòa án, biên bản lấy lời khai và hợp đồng quét thành PDF tìm kiếm được để tra cứu từ khóa nhanh và đối chiếu trích dẫn khi chuẩn bị vụ án."
+      },
+      {
+        "title": "Y tế & chăm sóc sức khỏe",
+        "desc": "Số hóa hồ sơ bệnh nhân, kết quả xét nghiệm và đơn thuốc viết tay hoặc in — giúp chúng truy cập được bởi hệ thống hồ sơ y tế điện tử và các cuộc kiểm toán tuân thủ."
+      },
+      {
+        "title": "Nghiên cứu học thuật",
+        "desc": "Trích xuất văn bản từ bài báo khoa học quét, kho lưu trữ lịch sử và sách thư viện để cho phép tìm kiếm toàn văn, quản lý trích dẫn và phân tích NLP."
+      },
+      {
+        "title": "Tài chính & kế toán",
+        "desc": "OCR hóa đơn, biên lai, sao kê ngân hàng và giấy tờ thuế để tự động nhập dữ liệu vào phần mềm kế toán và loại bỏ các lỗi nhập tay tốn kém."
+      },
+      {
+        "title": "Tài liệu tiếng Anh",
+        "desc": "Xử lý hợp đồng, giấy tờ nhập cư hoặc thư từ quốc tế bằng tiếng Anh với độ tin cậy cao. Các tài liệu ngôn ngữ khác hiện chưa được hỗ trợ."
+      },
+      {
+        "title": "Kỹ thuật & kiến trúc",
+        "desc": "Trích xuất thông số kỹ thuật, mã linh kiện và số đo từ bản vẽ thiết kế và bản vẽ kỹ thuật quét để theo dõi sửa đổi và tích hợp quy trình BIM."
+      }
+    ]
+  },
+  "diveTitle": "Điều thực sự xảy ra trong quá trình OCR",
+  "diveSubtitle": "OCR đọc bản quét của bạn ra sao, và điều gì ảnh hưởng đến độ chính xác.",
+  "dive1Title": "Văn bản gốc và văn bản quét — OCR phân biệt thế nào",
+  "dive1Desc": "PDF tạo bằng máy tính vốn đã có lớp văn bản, nên chạy OCR trên đó là không cần thiết — công cụ phát hiện điều này và có thể bỏ qua các trang đã có văn bản chọn được. Các trang quét, vốn chỉ là hình ảnh không có lớp văn bản, mới là những trang thực sự cần xử lý OCR.",
+  "dive2Title": "Điều gì ảnh hưởng đến độ chính xác của OCR",
+  "dive2Desc": "Độ phân giải bản quét quan trọng nhất — bản quét rõ nét 300 DPI được nhận dạng chính xác hơn nhiều so với ảnh chụp điện thoại bị mờ. Độ rõ phông chữ, độ tương phản giữa chữ và nền, và độ nghiêng của trang cũng quan trọng; quy trình tự động hiệu chỉnh độ nghiêng và nhiễu, nhưng các bản quét chất lượng rất thấp vẫn cho nhiều lỗi hơn.",
+  "dive3Title": "Ngôn ngữ trong tài liệu",
+  "dive3Desc": "Mô hình OCR được huấn luyện theo từng ngôn ngữ. Công cụ của chúng tôi hiện nhận dạng văn bản tiếng Anh, nên tài liệu bằng các ngôn ngữ khác — gồm cả tiếng Việt có dấu — hiện cho kết quả không đáng tin cậy.",
+  "dive4Title": "PDF tìm kiếm được và tệp văn bản đã trích xuất",
+  "dive4Desc": "Theo mặc định, OCR thêm một lớp văn bản vô hình lên trên ảnh quét gốc, nên PDF trông không đổi nhưng trở nên tìm kiếm và sao chép được. Nếu bạn cụ thể cần văn bản thô được tách ra thành tệp riêng, hãy tìm tùy chọn xuất văn bản riêng thay vì chỉ dùng kết quả PDF tìm kiếm được.",
+  "dive5Title": "OCR có hoạt động với chữ viết tay không?",
+  "dive5Desc": "Các mô hình OCR tiêu chuẩn được huấn luyện trên văn bản in và gặp khó khăn lớn với chữ viết tay, đặc biệt là chữ viết liền hoặc không đều. Chữ viết tay in hoa rõ ràng đôi khi nhận dạng khá tốt, nhưng độ chính xác giảm mạnh so với văn bản in hoặc gõ.",
+  "dive6Title": "Bảng và dữ liệu có cấu trúc trong tài liệu quét",
+  "dive6Desc": "OCR nhận dạng văn bản bên trong bảng, nhưng không tự động dựng lại thành một bảng có cấu trúc — kết quả là một trang tìm kiếm được, nơi các con số và nhãn có thể tìm thấy, chứ không nhất thiết giữ cấu trúc cột và hàng. Với việc đó, chuyển đổi PDF sang Excel chuyên dụng phù hợp hơn.",
+  "faq": {
+    "sectionTitle": "Câu hỏi thường gặp",
+    "sectionSubtitle": "Giải đáp nhanh về giới hạn, quyền riêng tư và kết quả.",
+    "items": [
+      {
+        "q": "OCR hoạt động thế nào trên PDF?",
+        "a": "OCR (Nhận dạng ký tự quang học) coi mỗi trang PDF của bạn như một hình ảnh và đưa nó qua một quy trình nhiều giai đoạn: chỉnh nghiêng, khử nhiễu, chuẩn hóa độ tương phản, rồi một mô hình nhận dạng ký tự học sâu ánh xạ các mẫu điểm ảnh sang ký tự Unicode. Văn bản được dựng lại được nhúng dưới dạng một lớp vô hình trên hình ảnh gốc, làm cho tài liệu hoàn toàn tìm kiếm và sao chép - dán được mà không thay đổi một điểm ảnh nào của bố cục gốc."
+      },
+      {
+        "q": "Những loại PDF nào hưởng lợi từ OCR?",
+        "a": "Bất kỳ PDF nào chứa ảnh quét của văn bản — tài liệu từ máy quét phẳng, ảnh chụp bằng máy ảnh được lưu thành PDF, fax, biểu mẫu in, hay bản quét vi phim lưu trữ — đều hưởng lợi từ OCR. Nếu PDF của bạn đã chứa văn bản chọn được (tức là bạn có thể tô sáng chữ), nó là PDF 'gốc' và không cần OCR, dù công cụ của chúng tôi vẫn có thể trích xuất và định dạng lại nội dung của nó."
+      },
+      {
+        "q": "OCR chính xác đến mức nào?",
+        "a": "Với bản quét sạch, độ phân giải cao từ 300 DPI trở lên, công cụ của chúng tôi đạt độ chính xác ký tự rất cao trên các tài liệu tiếng Anh chuẩn. Độ chính xác tự nhiên thay đổi theo chất lượng bản quét: ảnh mờ, độ tương phản thấp hay méo nặng sẽ cho điểm thấp hơn. Chữ viết tay được hỗ trợ một phần nhưng khó hơn nhiều so với văn bản in. Chúng tôi luôn khuyên quét ở tối thiểu 300 DPI với ánh sáng đều để có kết quả tốt nhất."
+      },
+      {
+        "q": "PDF của tôi có được giữ riêng tư và an toàn không?",
+        "a": "Quyền riêng tư là nền tảng trong cách chúng tôi xây dựng SmallPDF.us. Mọi lượt tải lên đều đi qua mã hóa TLS 1.3. Tệp của bạn được xử lý trong một container tính toán tách biệt, dùng một lần, bị hủy ngay sau khi tác vụ của bạn hoàn tất. Tệp gói miễn phí bị xóa vĩnh viễn trong vòng 1 giờ; tệp gói trả phí trong vòng 72 giờ. Chúng tôi không đọc, lập chỉ mục, chia sẻ hay bán nội dung tài liệu của bạn, và chúng tôi xóa nó theo lịch trên. Bạn có thể xem Chính sách quyền riêng tư của chúng tôi để biết chi tiết."
+      },
+      {
+        "q": "OCR hỗ trợ những ngôn ngữ nào?",
+        "a": "Hiện tại công cụ OCR của chúng tôi chỉ nhận dạng văn bản tiếng Anh. Các ngôn ngữ khác, bao gồm tiếng Việt có dấu, chưa được hỗ trợ và có thể cho kết quả sai hoặc thiếu ký tự. Chúng tôi sẽ không nói là hỗ trợ một ngôn ngữ trước khi nó thực sự hoạt động."
+      },
+      {
+        "q": "Tôi có thể OCR PDF nhiều trang không?",
+        "a": "Người dùng gói miễn phí có thể xử lý tối đa 2 trang mỗi tác vụ OCR — lý tưởng để trích xuất nhanh từ tài liệu ngắn. Người dùng gói Pro và Agency có thể OCR PDF với số trang không giới hạn trong một tác vụ, và cũng có thể gửi tối đa 10 tệp cùng lúc qua OCR hàng loạt, giúp xử lý các bộ tài liệu lớn hiệu quả mà không cần tải lên lại từng tệp một."
+      },
+      {
+        "q": "Tôi có thể tải xuống những định dạng đầu ra nào?",
+        "a": "Người dùng miễn phí nhận PDF tìm kiếm được — giống hệt bản gốc về mặt hình ảnh nhưng có lớp văn bản vô hình được nhúng, cho phép tìm kiếm Ctrl+F, sao chép - dán và các công cụ hỗ trợ tiếp cận. Người dùng Pro và Agency còn có thể xuất văn bản đã trích xuất dưới dạng tài liệu Word .docx có định dạng (giữ đoạn văn và bố cục cơ bản) hoặc tệp .txt thô cho quy trình dữ liệu, công cụ dịch thuật hay hệ thống quản lý nội dung."
+      },
+      {
+        "q": "Vì sao OCR bị giới hạn 1 lần mỗi ngày ở gói miễn phí?",
+        "a": "Nhận dạng ký tự quang học đòi hỏi nhiều tính toán — mỗi trang cần nhiều thời gian GPU cho tiền xử lý và suy luận. Chúng tôi cung cấp 1 lần OCR miễn phí mỗi ngày để giữ dịch vụ nhanh và ổn định cho mọi người dùng. Nâng cấp lên Pro để có OCR không giới hạn, quyền truy cập hàng đợi ưu tiên, hỗ trợ tệp lớn hơn và xử lý hàng loạt. Các tác vụ Pro chạy trong hàng đợi ưu tiên."
+      }
+    ]
+  },
+  "seoContent": {
+    "h2": "OCR là gì và vì sao PDF của bạn cần nó?",
+    "p1": "Nhận dạng ký tự quang học (OCR) là công nghệ bắc cầu giữa một PDF dạng ảnh phẳng và một tài liệu sống, tương tác được. Khi bạn quét một hợp đồng giấy, chụp ảnh một biên lai, hay lưu một báo cáo in thành PDF, tệp về cơ bản là một bức ảnh — máy tính thấy các mẫu điểm ảnh, không phải chữ cái. OCR thay đổi điều đó. Nó phân tích từng trang, nhận dạng từng ký tự bằng các mô hình học máy đã huấn luyện và dựng lại văn bản ở dạng số — tất cả mà không thay đổi một điểm ảnh nào của bố cục hình ảnh gốc.",
+    "p2": "Kết quả là một <strong>PDF tìm kiếm được</strong>: giống hệt bản gốc về mặt hình ảnh, nhưng có một lớp văn bản vô hình, căn chỉnh hoàn hảo bên dưới các hình ảnh. Giờ bạn có thể tìm kiếm Ctrl+F trong hợp đồng 200 trang, tô sáng và sao chép một đoạn, hoặc để các công cụ hỗ trợ tiếp cận đọc nội dung cho người khiếm thị. Người dùng Pro còn đi xa hơn, tải văn bản đã trích xuất dưới dạng <strong>tệp Word .docx</strong> có thể chỉnh sửa hoặc <strong>tệp .txt</strong> thô cho quy trình chỉnh sửa, dịch thuật hay lập chỉ mục tiếp theo.",
+    "h3": "SmallPDF.us mang lại kết quả OCR chính xác như thế nào",
+    "p3": "Độ chính xác trong xử lý tài liệu là điều không thể thương lượng. Quy trình OCR của chúng tôi chạy qua bốn giai đoạn rõ ràng. Thứ nhất, <strong>tiền xử lý</strong>: mỗi trang được phân tích về độ xoay, nhiễu, độ tương phản, và được phân đoạn thành vùng văn bản và hình không phải văn bản. Thứ hai, <strong>nhận diện ngôn ngữ</strong>: hiện tại công cụ nhận dạng văn bản tiếng Anh. Thứ ba, <strong>công cụ nhận dạng</strong> chạy phân tích từng ký tự bằng các mô hình ngôn ngữ theo ngữ cảnh để phân biệt các ký tự giống nhau (như \"I\", \"l\" và \"1\"). Cuối cùng, <strong>hậu xử lý</strong> dựng lại từ và câu với khoảng cách, ngắt dòng và cấu trúc đoạn đúng trước khi nhúng lớp văn bản vào PDF của bạn.",
+    "p4": "Để có kết quả tối ưu, hãy đảm bảo tài liệu nguồn được quét ở 300 DPI trở lên với ánh sáng đều, không bóng. Tài liệu ở 150 DPI trở xuống, nền có họa tiết nặng hoặc độ nghiêng quá lớn có thể cho độ chính xác thấp hơn. Trong mọi trường hợp, hình ảnh gốc trong PDF của bạn hoàn toàn không bị động đến — chỉ có lớp văn bản vô hình, tìm kiếm được là được thêm lên trên."
+  },
+  "cta": {
+    "heading": "Làm cho PDF của bạn tìm kiếm được",
+    "subtitle": "Tải PDF quét lên và tải xuống tài liệu tìm kiếm được, sao chép - dán được. Miễn phí để bắt đầu.",
+    "button": "Bắt đầu OCR ngay — Miễn phí"
+  },
+  "preview": {
+    "pageTitle": "Xem trước OCR PDF — SmallPDF.us",
+    "changeFile": "Đổi tệp",
+    "headerTitle": "Sẵn sàng trích xuất văn bản",
+    "headerSubtitle": "Xem lại tệp của bạn và chạy OCR",
+    "fileReady": "Sẵn sàng",
+    "freePlanTitle": "Giới hạn gói miễn phí",
+    "freePlanDesc": "Tối đa 2 trang · tệp 10 MB · 1 lần OCR mỗi ngày · Hàng đợi tiêu chuẩn",
+    "proPlanDesc": "Pro: Không giới hạn trang · 100 MB · Xuất PDF + Word + TXT",
+    "whatYoullReceive": "Bạn sẽ nhận được",
+    "receiveSearchablePdf": "PDF tìm kiếm được với lớp văn bản nhúng",
+    "receiveDocx": "Tài liệu Word (.docx) với văn bản đã trích xuất",
+    "receiveTxt": "Tệp văn bản thuần (.txt) để dễ sao chép - dán",
+    "receiveProOnly": "Xuất Word & TXT (chỉ Pro)",
+    "runOcrButton": "Chạy OCR — Trích xuất văn bản",
+    "securePrivate": "An toàn & riêng tư",
+    "autoDeleted": "Tự động xóa sau 1 giờ",
+    "pleaseWait": "Vui lòng đợi — đừng đóng thẻ này",
+    "ocrFailed": "OCR thất bại",
+    "tryAgain": "Thử lại",
+    "upgradeToPro": "Nâng cấp lên Pro",
+    "uploadDifferent": "Tải tệp khác lên",
+    "sidebarHowTitle": "Cách OCR hoạt động",
+    "sidebarSteps": [
+      "Tải PDF của bạn lên",
+      "Lớp văn bản được trích xuất",
+      "PDF tìm kiếm được được tạo",
+      "Tải các tệp của bạn xuống"
+    ],
+    "sidebarSecurityTitle": "Bảo mật",
+    "sidebarSecurityItems": [
+      "Mã hóa SSL 256-bit",
+      "Tự động xóa sau 1 giờ",
+      "Không lưu hay bán dữ liệu",
+      "Tải xuống & xóa bất cứ lúc nào"
+    ],
+    "sidebarProTitle": "Nâng cấp lên Pro",
+    "sidebarProDesc": "Không giới hạn trang, OCR hàng loạt, xuất Word & TXT, hàng đợi ưu tiên",
+    "sidebarProButton": "Xem các gói →",
+    "advertisement": "Quảng cáo"
+  },
+  "process": {
+    "pageTitle": "Đang xử lý OCR — SmallPDF.us",
+    "backLink": "Quay lại OCR PDF",
+    "processingTitle": "OCR đang chạy…",
+    "standardQueue": "Hàng đợi tiêu chuẩn. Pro dùng hàng đợi ưu tiên.",
+    "doneTitle": "OCR hoàn tất!",
+    "pagesProcessed": "Đã xử lý {count} trang",
+    "wordsExtracted": "Đã trích xuất ~{count} từ",
+    "downloadPdf": "Tải xuống PDF tìm kiếm được",
+    "downloadDocx": "Tải xuống Word (.docx)",
+    "downloadTxt": "Tải xuống văn bản thuần (.txt)",
+    "upsellTitle": "Muốn nhiều hơn?",
+    "upsellDesc": "Người dùng Pro cũng có thể tải tài liệu này dưới dạng tệp Word hoặc văn bản thuần, OCR không giới hạn số trang và xử lý lô tối đa 10 PDF cùng lúc.",
+    "upgradePro": "Nâng cấp lên Pro",
+    "ocrAnother": "OCR tài liệu khác",
+    "errorTitle": "OCR thất bại",
+    "stages": [
+      "Đang tải tài liệu lên…",
+      "Đang tiền xử lý các trang…",
+      "Đang chạy nhận dạng ký tự…",
+      "Đang dựng lại bố cục văn bản…",
+      "Đang nhúng lớp văn bản…",
+      "Đang hoàn tất PDF của bạn…"
+    ]
+  },
+  "download": {
+    "pageTitle": "Tải xuống OCR PDF — SmallPDF.us",
+    "successTitle": "OCR hoàn tất!",
+    "pagesProcessed": "Đã xử lý {count} trang",
+    "wordsExtracted": "Đã trích xuất ~{count} từ",
+    "fileReady": "Sẵn sàng",
+    "downloadPdf": "Tải xuống PDF tìm kiếm được",
+    "downloading": "Đang tải xuống…",
+    "downloaded": "Đã tải xuống!",
+    "downloadDocx": "Tải xuống Word (.docx)",
+    "downloadTxt": "Tải xuống văn bản thuần (.txt)",
+    "secureDownload": "Tải xuống an toàn",
+    "autoDeleted": "Tệp tự động bị xóa sau 1 giờ",
+    "imagePdfTitle": "Đã phát hiện PDF quét / dạng ảnh",
+    "imagePdfDesc": "PDF này chứa hình ảnh thay vì văn bản số, nên không thể tự động trích xuất văn bản. PDF đã tải xuống chứa một trang giải thích.",
+    "imagePdfUpgrade": "Nâng cấp lên Pro",
+    "imagePdfUpgradeSuffix": "để được hỗ trợ công cụ OCR nâng cao trên tài liệu quét.",
+    "alreadySearchableTitle": "PDF của bạn vốn đã có văn bản chọn được",
+    "alreadySearchableDesc": "Không cần OCR — bạn đã có thể tìm kiếm và sao chép văn bản của nó. Tệp của bạn không thay đổi.",
+    "noTextTitle": "Không nhận dạng được văn bản nào",
+    "noTextDesc": "Hãy thử bản quét rõ hơn: trang thẳng, độ tương phản tốt và ít nhất 300 DPI. Chữ viết tay không được hỗ trợ.",
+    "proUpsellTitle": "Muốn nhiều hơn từ OCR?",
+    "proUpsellDesc": "Nâng cấp lên Pro để có không giới hạn trang, OCR hàng loạt, xuất Word & TXT, tệp 100 MB và xử lý ưu tiên.",
+    "proUpsellLink": "Nâng cấp lên Pro",
+    "ocrAnother": "OCR tài liệu khác",
+    "advertisement": "Quảng cáo"
+  }
+}

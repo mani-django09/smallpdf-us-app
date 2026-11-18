@@ -5,43 +5,43 @@ const SITE_URL = 'https://smallpdf.us'
 const today = new Date().toISOString().split('T')[0]
 
 const TOOLS = [
-  { en: 'compress-pdf',   de: 'pdf-komprimieren',    fr: 'compresser-pdf',    es: 'comprimir-pdf',     it: 'comprimi-pdf',       id: 'kompres-pdf',     pt: 'comprimir-pdf'    },
-  { en: 'merge-pdf',      de: 'pdf-zusammenfuegen',  fr: 'fusionner-pdf',     es: 'combinar-pdf',      it: 'unisci-pdf',         id: 'gabung-pdf',      pt: 'unir-pdf'         },
-  { en: 'split-pdf',      de: 'pdf-teilen',          fr: 'diviser-pdf',       es: 'dividir-pdf',       it: 'dividi-pdf',         id: 'pisah-pdf',       pt: 'dividir-pdf'      },
-  { en: 'unlock-pdf',     de: 'pdf-entsperren',      fr: 'deverrouiller-pdf', es: 'desbloquear-pdf',   it: 'sblocca-pdf',        id: 'buka-kunci-pdf',  pt: 'desbloquear-pdf'  },
-  { en: 'rotate-pdf',     de: 'pdf-drehen',          fr: 'pivoter-pdf',       es: 'rotar-pdf',         it: 'ruota-pdf',          id: 'putar-pdf',       pt: 'girar-pdf'        },
-  { en: 'protect-pdf',    de: 'pdf-schuetzen',       fr: 'proteger-pdf',      es: 'proteger-pdf',      it: 'proteggi-pdf',       id: 'lindungi-pdf',    pt: 'proteger-pdf'     },
-  { en: 'redact-pdf',     de: 'pdf-schwaerzen',      fr: 'caviarder-pdf',    es: 'censurar-pdf',      it: 'oscura-pdf',         id: 'sensor-pdf',      pt: 'tarjar-pdf'       },
-  { en: 'pdf-to-word',    de: 'pdf-in-word',         fr: 'pdf-en-word',       es: 'pdf-a-word',        it: 'pdf-in-word',        id: 'pdf-ke-word',     pt: 'pdf-para-word'    },
-  { en: 'word-to-pdf',    de: 'word-in-pdf',         fr: 'word-en-pdf',       es: 'word-a-pdf',        it: 'word-in-pdf',        id: 'word-ke-pdf',     pt: 'word-para-pdf'    },
-  { en: 'pdf-to-jpg',     de: 'pdf-in-jpg',          fr: 'pdf-en-jpg',        es: 'pdf-a-jpg',         it: 'pdf-in-jpg',         id: 'pdf-ke-jpg',      pt: 'pdf-para-jpg'     },
-  { en: 'jpg-to-pdf',     de: 'jpg-in-pdf',          fr: 'jpg-en-pdf',        es: 'jpg-a-pdf',         it: 'jpg-in-pdf',         id: 'jpg-ke-pdf',      pt: 'jpg-para-pdf'     },
-  { en: 'pdf-to-png',     de: 'pdf-in-png',          fr: 'pdf-en-png',        es: 'pdf-a-png',         it: 'pdf-in-png',         id: 'pdf-ke-png',      pt: 'pdf-para-png'     },
-  { en: 'png-to-pdf',     de: 'png-in-pdf',          fr: 'png-en-pdf',        es: 'png-a-pdf',         it: 'png-in-pdf',         id: 'png-ke-pdf',      pt: 'png-para-pdf'     },
-  { en: 'pdf-to-ppt',     de: 'pdf-in-ppt',          fr: 'pdf-en-ppt',        es: 'pdf-a-ppt',         it: 'pdf-in-ppt',         id: 'pdf-ke-ppt',      pt: 'pdf-para-ppt'     },
-  { en: 'ppt-to-pdf',     de: 'ppt-in-pdf',          fr: 'ppt-en-pdf',        es: 'ppt-a-pdf',         it: 'ppt-in-pdf',         id: 'ppt-ke-pdf',      pt: 'ppt-para-pdf'     },
-  { en: 'pdf-to-excel',   de: 'pdf-in-excel',        fr: 'pdf-en-excel',      es: 'pdf-a-excel',       it: 'pdf-in-excel',       id: 'pdf-ke-excel',    pt: 'pdf-para-excel'   },
-  { en: 'excel-to-pdf',   de: 'excel-in-pdf',        fr: 'excel-en-pdf',      es: 'excel-a-pdf',       it: 'excel-in-pdf',       id: 'excel-ke-pdf',    pt: 'excel-para-pdf'   },
-  { en: 'webp-to-png',    de: 'webp-in-png',         fr: 'webp-en-png',       es: 'webp-a-png',        it: 'webp-in-png',        id: 'webp-ke-png',     pt: 'webp-para-png'    },
-  { en: 'png-to-webp',    de: 'png-in-webp',         fr: 'png-en-webp',       es: 'png-a-webp',        it: 'png-in-webp',        id: 'png-ke-webp',     pt: 'png-para-webp'    },
-  { en: 'heic-to-jpg',    de: 'heic-zu-jpg',         fr: 'heic-en-jpg',       es: 'heic-a-jpg',        it: 'heic-in-jpg',        id: 'heic-ke-jpg',     pt: 'heic-para-jpg'    },
-  { en: 'heic-to-png',    de: 'heic-zu-png',         fr: 'heic-en-png',       es: 'heic-a-png',        it: 'heic-in-png',        id: 'heic-ke-png',     pt: 'heic-para-png'    },
-  { en: 'compress-image', de: 'bild-komprimieren',   fr: 'compresser-image',  es: 'comprimir-imagen',  it: 'comprimi-immagine',  id: 'kompres-gambar',  pt: 'comprimir-imagem' },
-  { en: 'ocr-pdf',        de: 'ocr-pdf',             fr: 'ocr-pdf',           es: 'ocr-pdf',           it: 'ocr-pdf',            id: 'ocr-pdf',         pt: 'ocr-pdf'          },
-  { en: 'edit-pdf',       de: 'pdf-bearbeiten',      fr: 'modifier-pdf',     es: 'editar-pdf',        it: 'modifica-pdf',       id: 'edit-pdf',        pt: 'editar-pdf'       },
+  { en: 'compress-pdf',   de: 'pdf-komprimieren',    fr: 'compresser-pdf',    es: 'comprimir-pdf',     it: 'comprimi-pdf',       id: 'kompres-pdf',     pt: 'comprimir-pdf', vi: 'nen-pdf'    },
+  { en: 'merge-pdf',      de: 'pdf-zusammenfuegen',  fr: 'fusionner-pdf',     es: 'combinar-pdf',      it: 'unisci-pdf',         id: 'gabung-pdf',      pt: 'unir-pdf', vi: 'gop-pdf'         },
+  { en: 'split-pdf',      de: 'pdf-teilen',          fr: 'diviser-pdf',       es: 'dividir-pdf',       it: 'dividi-pdf',         id: 'pisah-pdf',       pt: 'dividir-pdf', vi: 'tach-pdf'      },
+  { en: 'unlock-pdf',     de: 'pdf-entsperren',      fr: 'deverrouiller-pdf', es: 'desbloquear-pdf',   it: 'sblocca-pdf',        id: 'buka-kunci-pdf',  pt: 'desbloquear-pdf', vi: 'mo-khoa-pdf'  },
+  { en: 'rotate-pdf',     de: 'pdf-drehen',          fr: 'pivoter-pdf',       es: 'rotar-pdf',         it: 'ruota-pdf',          id: 'putar-pdf',       pt: 'girar-pdf', vi: 'xoay-pdf'        },
+  { en: 'protect-pdf',    de: 'pdf-schuetzen',       fr: 'proteger-pdf',      es: 'proteger-pdf',      it: 'proteggi-pdf',       id: 'lindungi-pdf',    pt: 'proteger-pdf', vi: 'bao-ve-pdf'     },
+  { en: 'redact-pdf',     de: 'pdf-schwaerzen',      fr: 'caviarder-pdf',    es: 'censurar-pdf',      it: 'oscura-pdf',         id: 'sensor-pdf',      pt: 'tarjar-pdf', vi: 'che-noi-dung-pdf'       },
+  { en: 'pdf-to-word',    de: 'pdf-in-word',         fr: 'pdf-en-word',       es: 'pdf-a-word',        it: 'pdf-in-word',        id: 'pdf-ke-word',     pt: 'pdf-para-word', vi: 'pdf-sang-word'    },
+  { en: 'word-to-pdf',    de: 'word-in-pdf',         fr: 'word-en-pdf',       es: 'word-a-pdf',        it: 'word-in-pdf',        id: 'word-ke-pdf',     pt: 'word-para-pdf', vi: 'word-sang-pdf'    },
+  { en: 'pdf-to-jpg',     de: 'pdf-in-jpg',          fr: 'pdf-en-jpg',        es: 'pdf-a-jpg',         it: 'pdf-in-jpg',         id: 'pdf-ke-jpg',      pt: 'pdf-para-jpg', vi: 'pdf-sang-jpg'     },
+  { en: 'jpg-to-pdf',     de: 'jpg-in-pdf',          fr: 'jpg-en-pdf',        es: 'jpg-a-pdf',         it: 'jpg-in-pdf',         id: 'jpg-ke-pdf',      pt: 'jpg-para-pdf', vi: 'jpg-sang-pdf'     },
+  { en: 'pdf-to-png',     de: 'pdf-in-png',          fr: 'pdf-en-png',        es: 'pdf-a-png',         it: 'pdf-in-png',         id: 'pdf-ke-png',      pt: 'pdf-para-png', vi: 'pdf-sang-png'     },
+  { en: 'png-to-pdf',     de: 'png-in-pdf',          fr: 'png-en-pdf',        es: 'png-a-pdf',         it: 'png-in-pdf',         id: 'png-ke-pdf',      pt: 'png-para-pdf', vi: 'png-sang-pdf'     },
+  { en: 'pdf-to-ppt',     de: 'pdf-in-ppt',          fr: 'pdf-en-ppt',        es: 'pdf-a-ppt',         it: 'pdf-in-ppt',         id: 'pdf-ke-ppt',      pt: 'pdf-para-ppt', vi: 'pdf-sang-ppt'     },
+  { en: 'ppt-to-pdf',     de: 'ppt-in-pdf',          fr: 'ppt-en-pdf',        es: 'ppt-a-pdf',         it: 'ppt-in-pdf',         id: 'ppt-ke-pdf',      pt: 'ppt-para-pdf', vi: 'ppt-sang-pdf'     },
+  { en: 'pdf-to-excel',   de: 'pdf-in-excel',        fr: 'pdf-en-excel',      es: 'pdf-a-excel',       it: 'pdf-in-excel',       id: 'pdf-ke-excel',    pt: 'pdf-para-excel', vi: 'pdf-sang-excel'   },
+  { en: 'excel-to-pdf',   de: 'excel-in-pdf',        fr: 'excel-en-pdf',      es: 'excel-a-pdf',       it: 'excel-in-pdf',       id: 'excel-ke-pdf',    pt: 'excel-para-pdf', vi: 'excel-sang-pdf'   },
+  { en: 'webp-to-png',    de: 'webp-in-png',         fr: 'webp-en-png',       es: 'webp-a-png',        it: 'webp-in-png',        id: 'webp-ke-png',     pt: 'webp-para-png', vi: 'webp-sang-png'    },
+  { en: 'png-to-webp',    de: 'png-in-webp',         fr: 'png-en-webp',       es: 'png-a-webp',        it: 'png-in-webp',        id: 'png-ke-webp',     pt: 'png-para-webp', vi: 'png-sang-webp'    },
+  { en: 'heic-to-jpg',    de: 'heic-zu-jpg',         fr: 'heic-en-jpg',       es: 'heic-a-jpg',        it: 'heic-in-jpg',        id: 'heic-ke-jpg',     pt: 'heic-para-jpg', vi: 'heic-sang-jpg'    },
+  { en: 'heic-to-png',    de: 'heic-zu-png',         fr: 'heic-en-png',       es: 'heic-a-png',        it: 'heic-in-png',        id: 'heic-ke-png',     pt: 'heic-para-png', vi: 'heic-sang-png'    },
+  { en: 'compress-image', de: 'bild-komprimieren',   fr: 'compresser-image',  es: 'comprimir-imagen',  it: 'comprimi-immagine',  id: 'kompres-gambar',  pt: 'comprimir-imagem', vi: 'nen-anh' },
+  { en: 'ocr-pdf',        de: 'ocr-pdf',             fr: 'ocr-pdf',           es: 'ocr-pdf',           it: 'ocr-pdf',            id: 'ocr-pdf',         pt: 'ocr-pdf', vi: 'ocr-pdf'          },
+  { en: 'edit-pdf',       de: 'pdf-bearbeiten',      fr: 'modifier-pdf',     es: 'editar-pdf',        it: 'modifica-pdf',       id: 'edit-pdf',        pt: 'editar-pdf', vi: 'chinh-sua-pdf'       },
 ]
 
 // ── Static (non-tool) pages ─────────────────────────────────────────────────
 const STATIC_PAGES = [
-  { en: 'pricing',    priority: '0.8', changefreq: 'weekly',  de: 'pricing',            fr: 'pricing',        es: 'pricing',          it: 'pricing',         id: 'pricing',        pt: 'pricing'        },
-  { en: 'about',       priority: '0.5', changefreq: 'monthly', de: 'ueber-uns',          fr: 'a-propos',       es: 'sobre-nosotros',   it: 'chi-siamo',       id: 'tentang-kami',   pt: 'sobre-nos'      },
-  { en: 'contact',     priority: '0.5', changefreq: 'monthly', de: 'kontakt',            fr: 'contact',        es: 'contacto',         it: 'contatti',        id: 'kontak',         pt: 'contato'        },
-  { en: 'privacy',     priority: '0.3', changefreq: 'yearly',  de: 'datenschutz',        fr: 'confidentialite',es: 'privacidad',       it: 'privacy',         id: 'privasi',        pt: 'privacidade'    },
-  { en: 'terms',       priority: '0.3', changefreq: 'yearly',  de: 'nutzungsbedingungen',fr: 'conditions',     es: 'terminos',         it: 'termini',         id: 'syarat',         pt: 'termos'         },
-  { en: 'refund',      priority: '0.3', changefreq: 'yearly',  de: 'refund',             fr: 'refund',         es: 'refund',           it: 'refund',          id: 'refund',         pt: 'refund'         },
-  { en: 'compress-image-to-50kb', priority: '0.6', changefreq: 'monthly', de: 'bild-auf-50kb-komprimieren', fr: 'compresser-image-a-50ko', es: 'comprimir-imagen-a-50kb', it: 'comprimi-immagine-a-50kb', id: 'kompres-gambar-ke-50kb', pt: 'comprimir-imagem-para-50kb' },
-  { en: 'compress-image-to-100kb', priority: '0.6', changefreq: 'monthly', de: 'bild-auf-100kb-komprimieren', fr: 'compresser-image-a-100ko', es: 'comprimir-imagen-a-100kb', it: 'comprimi-immagine-a-100kb', id: 'kompres-gambar-ke-100kb', pt: 'comprimir-imagem-para-100kb' },
-  { en: 'compress-image-to-20kb', priority: '0.6', changefreq: 'monthly', de: 'bild-auf-20kb-komprimieren', fr: 'compresser-image-a-20ko', es: 'comprimir-imagen-a-20kb', it: 'comprimi-immagine-a-20kb', id: 'kompres-gambar-ke-20kb', pt: 'comprimir-imagem-para-20kb' },
+  { en: 'pricing',    priority: '0.8', changefreq: 'weekly',  de: 'pricing',            fr: 'pricing',        es: 'pricing',          it: 'pricing',         id: 'pricing',        pt: 'pricing', vi: 'pricing'        },
+  { en: 'about',       priority: '0.5', changefreq: 'monthly', de: 'ueber-uns',          fr: 'a-propos',       es: 'sobre-nosotros',   it: 'chi-siamo',       id: 'tentang-kami',   pt: 'sobre-nos', vi: 'gioi-thieu'      },
+  { en: 'contact',     priority: '0.5', changefreq: 'monthly', de: 'kontakt',            fr: 'contact',        es: 'contacto',         it: 'contatti',        id: 'kontak',         pt: 'contato', vi: 'lien-he'        },
+  { en: 'privacy',     priority: '0.3', changefreq: 'yearly',  de: 'datenschutz',        fr: 'confidentialite',es: 'privacidad',       it: 'privacy',         id: 'privasi',        pt: 'privacidade', vi: 'quyen-rieng-tu'    },
+  { en: 'terms',       priority: '0.3', changefreq: 'yearly',  de: 'nutzungsbedingungen',fr: 'conditions',     es: 'terminos',         it: 'termini',         id: 'syarat',         pt: 'termos', vi: 'dieu-khoan'         },
+  { en: 'refund',      priority: '0.3', changefreq: 'yearly',  de: 'refund',             fr: 'refund',         es: 'refund',           it: 'refund',          id: 'refund',         pt: 'refund', vi: 'refund'         },
+  { en: 'compress-image-to-50kb', priority: '0.6', changefreq: 'monthly', de: 'bild-auf-50kb-komprimieren', fr: 'compresser-image-a-50ko', es: 'comprimir-imagen-a-50kb', it: 'comprimi-immagine-a-50kb', id: 'kompres-gambar-ke-50kb', pt: 'comprimir-imagem-para-50kb', vi: 'nen-anh-xuong-50kb' },
+  { en: 'compress-image-to-100kb', priority: '0.6', changefreq: 'monthly', de: 'bild-auf-100kb-komprimieren', fr: 'compresser-image-a-100ko', es: 'comprimir-imagen-a-100kb', it: 'comprimi-immagine-a-100kb', id: 'kompres-gambar-ke-100kb', pt: 'comprimir-imagem-para-100kb', vi: 'nen-anh-xuong-100kb' },
+  { en: 'compress-image-to-20kb', priority: '0.6', changefreq: 'monthly', de: 'bild-auf-20kb-komprimieren', fr: 'compresser-image-a-20ko', es: 'comprimir-imagen-a-20kb', it: 'comprimi-immagine-a-20kb', id: 'kompres-gambar-ke-20kb', pt: 'comprimir-imagem-para-20kb', vi: 'nen-anh-xuong-20kb' },
 ]
 
 // ── Drift guard ─────────────────────────────────────────────────────────────
@@ -64,7 +64,7 @@ function assertSlugsMatchRouteTranslations() {
     for (const p of m[2].matchAll(/(\w+):\s*'([^']+)'/g)) entry[p[1]] = p[2]
     routes[m[1]] = entry
   }
-  const locales = ['de', 'fr', 'es', 'it', 'id', 'pt']
+  const locales = ['de', 'fr', 'es', 'it', 'id', 'pt', 'vi']
   const problems = []
   for (const row of [...TOOLS, ...STATIC_PAGES]) {
     const actual = routes[row.en]
@@ -99,6 +99,7 @@ function hreflangBlock(tool) {
     `<xhtml:link rel="alternate" hreflang="it" href="${SITE_URL}/it/${tool.it}/"/>`,
     `<xhtml:link rel="alternate" hreflang="id" href="${SITE_URL}/id/${tool.id}/"/>`,
     `<xhtml:link rel="alternate" hreflang="pt" href="${SITE_URL}/pt/${tool.pt}/"/>`,
+    `<xhtml:link rel="alternate" hreflang="vi" href="${SITE_URL}/vi/${tool.vi}/"/>`,
   ].join('')
 }
 
@@ -114,7 +115,7 @@ for (const tool of TOOLS) {
   const hreflang = hreflangBlock(tool)
   xml += urlEntry(`${SITE_URL}/${tool.en}/`,    '0.9', 'weekly', hreflang)
   xml += urlEntry(`${SITE_URL}/ja/${tool.en}/`, '0.9', 'weekly', hreflang)
-  for (const loc of ['de','fr','es','it','id','pt']) {
+  for (const loc of ['de','fr','es','it','id','pt','vi']) {
     xml += urlEntry(`${SITE_URL}/${loc}/${tool[loc]}/`, '0.9', 'weekly', hreflang)
   }
 }
@@ -123,15 +124,15 @@ for (const page of STATIC_PAGES) {
   const hreflang = hreflangBlock(page)
   xml += urlEntry(`${SITE_URL}/${page.en}/`,    page.priority, page.changefreq, hreflang)
   xml += urlEntry(`${SITE_URL}/ja/${page.en}/`, page.priority, page.changefreq, hreflang)
-  for (const loc of ['de','fr','es','it','id','pt']) {
+  for (const loc of ['de','fr','es','it','id','pt','vi']) {
     xml += urlEntry(`${SITE_URL}/${loc}/${page[loc]}/`, page.priority, page.changefreq, hreflang)
   }
 }
 
-// Homepages — English + all 7 locale homepages, as one hreflang cluster.
+// Homepages — English + all 8 locale homepages, as one hreflang cluster.
 // (Previously only "/" was listed, with no alternates, although every page's
 // hreflang points at /ja/, /de/, … — those roots were missing from the sitemap.)
-const HOME_LOCALES = ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt']
+const HOME_LOCALES = ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi']
 const homeHreflang = [
   `<xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}/"/>`,
   `<xhtml:link rel="alternate" hreflang="en" href="${SITE_URL}/"/>`,

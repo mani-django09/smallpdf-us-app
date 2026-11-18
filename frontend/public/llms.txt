@@ -8,7 +8,7 @@
 - Free file-size limits per file: most PDF tools 10 MB (Merge PDF 25 MB, Compress PDF 20 MB), Word/Excel/PowerPoint and PDF-to-image conversions 5 MB, HEIC 10 MB, Compress Image 15 MB. Free batches are small (1 to 5 files depending on the tool).
 - Paid plans: Starter $9/month or $90/year (100 MB per file for PDF tools, 200 MB for Merge PDF, 20 MB for Word/Excel/PowerPoint and image conversions; up to 10 files per batch; no ads; files kept 24 hours). Pro $19/month or $190/year (files up to 100 MB on all tools; batches of 10 to 20 files depending on the tool, Merge PDF has no file-count cap; priority queue; files kept 48 hours). Prices in USD; regional prices apply in India and Indonesia.
 - File handling: uploaded files are deleted automatically, about 1 hour after processing on the free plan. Paid-plan files stay available in "My Files" for 24 or 48 hours. If a conversion fails, the uploaded file may be kept for up to 24 hours to diagnose the problem, then deleted. See the privacy policy for details.
-- Languages: English, German, Spanish, French, Italian, Portuguese, Indonesian, Japanese.
+- Languages: English, German, Spanish, French, Italian, Portuguese, Indonesian, Vietnamese, Japanese.
 - Contact: support@smallpdf.us
 - More detail for every tool: https://smallpdf.us/llms-full.txt
 

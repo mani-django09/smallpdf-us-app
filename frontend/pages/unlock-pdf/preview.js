@@ -22,6 +22,7 @@ const INLINE_T = {
     id: "PDF ini memerlukan kata sandi pembuka. Masukkan di atas lalu coba lagi.",
     pt: "Este PDF precisa da senha de abertura. Digite-a acima e tente novamente.",
     ja: "このPDFを開くにはパスワードが必要です。上に入力してもう一度お試しください。",
+    vi: "PDF này cần mật khẩu mở tệp. Hãy nhập ở trên rồi thử lại.",
   },
   unreadable: {
     en: "Could not read this PDF. The file may be damaged.",
@@ -32,6 +33,7 @@ const INLINE_T = {
     id: "Tidak dapat membaca PDF ini. File mungkin rusak.",
     pt: "Não foi possível ler este PDF. O arquivo pode estar danificado.",
     ja: "このPDFを読み込めませんでした。ファイルが破損している可能性があります。",
+    vi: "Không thể đọc PDF này. Tệp có thể bị hỏng.",
   },
 }
 

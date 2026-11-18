@@ -1,0 +1,202 @@
+{
+  "pageTitle": "Bảng giá — SmallPDF.us",
+  "metaDescription": "Starter · Pro — thanh toán theo tháng hoặc theo năm. Tất cả công cụ PDF, tệp tối đa 100 MB, không quảng cáo.",
+  "badge": "Bảng giá đơn giản, không bất ngờ",
+  "hero": {
+    "title": "Chọn gói phù hợp với bạn",
+    "subtitle": "Mọi gói đều bao gồm tất cả công cụ PDF và ảnh. Nâng cấp để có tệp lớn hơn, xử lý nhanh hơn và không có quảng cáo."
+  },
+  "billing": {
+    "monthly": "Theo tháng",
+    "yearly": "Theo năm",
+    "monthsFree": "Miễn phí 2 tháng",
+    "saveAnnually": "🎉 Bạn tiết kiệm tới $98/năm khi thanh toán theo năm",
+    "billedAnnually": "Thanh toán hằng năm — ${total}/năm",
+    "billedMonthly": "Thanh toán hằng tháng · Hủy bất cứ lúc nào",
+    "save": "Tiết kiệm ${amount}"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Hoàn hảo cho cá nhân",
+      "cta": "Chọn Starter"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Cho người dùng chuyên nghiệp",
+      "cta": "Chọn Pro",
+      "badge": "Phổ biến nhất"
+    },
+    "free": {
+      "name": "Miễn phí",
+      "description": "Cho nhu cầu thỉnh thoảng",
+      "cta": "Bắt đầu miễn phí"
+    }
+  },
+  "features": {
+    "allTools": "Tất cả công cụ PDF & ảnh",
+    "upTo200MB": "Tối đa 100 MB mỗi tệp (200 MB khi gộp)",
+    "officeUpTo50MB": "Chuyển đổi Office — tối đa 20 MB",
+    "standardProcessing": "Xử lý tiêu chuẩn",
+    "retain24h": "Tệp được giữ 24 giờ",
+    "adFree": "Trải nghiệm không quảng cáo",
+    "batch10": "Tối đa 10 tệp mỗi lô",
+    "priorityProcessing": "Xử lý ưu tiên",
+    "apiAccess": "Truy cập API",
+    "everythingInStarter": "Mọi thứ trong Starter",
+    "unlimitedFileSize": "Tệp tối đa 100 MB — mọi công cụ",
+    "officeUnlimited": "Chuyển đổi Office — tối đa 100 MB",
+    "priorityQueue": "Hàng đợi xử lý ưu tiên",
+    "retain48h": "Tệp được giữ 48 giờ",
+    "batch20": "Tối đa 20 tệp mỗi lô",
+    "emailSupport": "Hỗ trợ qua email",
+    "everythingInPro": "Mọi thứ trong Pro",
+    "dedicatedProcessing": "Xử lý chuyên dụng",
+    "retain72h": "Tệp được giữ 72 giờ",
+    "batch50": "Tối đa 50 tệp mỗi lô",
+    "fullApiWebhooks": "Truy cập API đầy đủ + webhook",
+    "teamSeats": "Quản lý nhóm (5 tài khoản)",
+    "priorityPhoneEmail": "Hỗ trợ ưu tiên qua điện thoại & email",
+    "customInvoicing": "Có thể xuất hóa đơn tùy chỉnh",
+    "upTo100MB": "Tối đa 5–25 MB mỗi tệp",
+    "officeUpTo15MB": "Chuyển đổi Office — tối đa 5 MB",
+    "retain1h": "Tệp bị xóa sau 1 giờ",
+    "adsShown": "Có hiển thị quảng cáo"
+  },
+  "currentPlan": "Gói hiện tại",
+  "perMonth": "/tháng",
+  "freeBanner": {
+    "title": "Gói miễn phí — luôn có sẵn",
+    "subtitle": "5 lượt dùng miễn phí mỗi ngày · Tất cả công cụ · Giới hạn 5–25 MB · Lưu giữ 1 giờ · Có quảng cáo",
+    "signupLink": "Đăng ký miễn phí →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "Mã hóa SSL", "subtitle": "Mọi lượt truyền đều được bảo mật" },
+    "autoDelete": { "title": "Tự động xóa", "subtitle": "Tệp được xóa theo lịch" },
+    "fast": { "title": "Xử lý nhanh", "subtitle": "Hàng đợi ưu tiên cho các gói trả phí" },
+    "noFees": { "title": "Không phí ẩn", "subtitle": "Hủy bất cứ lúc nào, tức thì" }
+  },
+  "compareTable": {
+    "title": "So sánh đầy đủ tính năng",
+    "featureCol": "Tính năng",
+    "rows": {
+      "dailyUses": "Lượt dùng miễn phí mỗi ngày",
+      "pdfToolSize": "Dung lượng tệp công cụ PDF",
+      "officeConversions": "Chuyển đổi Office",
+      "imageTools": "Công cụ ảnh",
+      "batchFiles": "Số tệp mỗi lô",
+      "processingSpeed": "Tốc độ xử lý",
+      "fileRetention": "Thời gian lưu giữ tệp",
+      "ads": "Quảng cáo",
+      "apiAccess": "Truy cập API",
+      "teamSeats": "Tài khoản nhóm",
+      "emailSupport": "Hỗ trợ qua email",
+      "phoneSupport": "Hỗ trợ qua điện thoại"
+    },
+    "values": {
+      "fivePerDay": "5 mỗi ngày",
+      "standard": "Tiêu chuẩn",
+      "priority": "Ưu tiên",
+      "dedicated": "Chuyên dụng",
+      "unlimited": "Không giới hạn",
+      "yes": "Có",
+      "none": "Không",
+      "fiveSeats": "5 tài khoản"
+    }
+  },
+  "toolLimits": {
+    "title": "Giới hạn theo từng công cụ",
+    "subtitle": "Giới hạn dung lượng tệp và số tệp mỗi lô chính xác cho mọi công cụ, chia theo gói.",
+    "singleFileNote": "— = công cụ một tệp (không áp dụng giới hạn lô)",
+    "colSize": "dung lượng · lô",
+    "groups": {
+      "pdfTools": "Công cụ PDF",
+      "officeConversions": "Chuyển đổi Office",
+      "imageTools": "Công cụ ảnh"
+    }
+  },
+  "faq": {
+    "title": "Câu hỏi thường gặp",
+    "items": [
+      {
+        "q": "Thanh toán theo tháng và theo năm khác nhau thế nào?",
+        "a": "Thanh toán theo tháng tính phí bạn mỗi tháng. Thanh toán theo năm tính phí một lần mỗi năm với mức giá ưu đãi — tương đương miễn phí 2 tháng (bạn trả 10 tháng, dùng 12 tháng). Bạn có thể chọn chu kỳ thanh toán ưa thích khi thanh toán."
+      },
+      {
+        "q": "Tôi có thể hủy bất cứ lúc nào không?",
+        "a": "Có — hủy chỉ với một cú nhấp từ trang đăng ký trong tài khoản của bạn. Gói của bạn vẫn hoạt động đến hết chu kỳ thanh toán hiện tại, sau đó tự động trở về gói Miễn phí. Không có khoản phí ẩn."
+      },
+      {
+        "q": "Tôi có thể chuyển giữa thanh toán theo tháng và theo năm sau khi đăng ký không?",
+        "a": "Để đổi chu kỳ thanh toán, hãy hủy gói hiện tại và đăng ký lại với chu kỳ mới. Quyền truy cập Pro của bạn vẫn tiếp tục đến hết kỳ hiện tại."
+      },
+      {
+        "q": "Chấp nhận những phương thức thanh toán nào?",
+        "a": "Các thẻ tín dụng/ghi nợ phổ biến (Visa, Mastercard) và PayPal, được xử lý an toàn qua đối tác thanh toán của chúng tôi. Phương thức khả dụng có thể khác nhau tùy quốc gia của bạn. Mọi giao dịch đều tuân thủ PCI-DSS."
+      },
+      {
+        "q": "Tệp của tôi sẽ ra sao sau thời gian lưu giữ?",
+        "a": "Tệp bị xóa vĩnh viễn khỏi máy chủ của chúng tôi một cách tự động. Chúng tôi không bao giờ bán hay chia sẻ tệp của bạn. Mọi lượt truyền đều được mã hóa SSL."
+      },
+      {
+        "q": "Có chính sách hoàn tiền không?",
+        "a": "Có — nếu bạn không hài lòng trong vòng 14 ngày kể từ lần thanh toán đầu tiên, hãy liên hệ chúng tôi để được hoàn tiền đầy đủ. Không hỏi lý do."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Nâng cấp gói của bạn",
+    "subtitle": "Hãy cùng những người làm việc chuyên nghiệp trên toàn thế giới đang dùng SmallPDF.us. Hủy bất cứ lúc nào.",
+    "proBtnMonthly": "Chọn Pro — $19/tháng",
+    "proBtnYearly": "Chọn Pro — $190/năm",
+    "starterBtn": "Chọn Starter — $9/tháng"
+  },
+  "notices": {
+    "checkoutCancelled": "Đã hủy thanh toán — không có khoản phí nào được tính.",
+    "dismiss": "Đóng",
+    "contactSupport": "liên hệ hỗ trợ"
+  },
+  "noCardRequired": "Không cần thẻ tín dụng",
+  "socialProof": {
+    "moneyBack": "Đảm bảo hoàn tiền trong 14 ngày",
+    "cancelAnytime": "Hủy bất cứ lúc nào",
+    "noHiddenFees": "Không phí ẩn"
+  },
+  "stats": {
+    "tools": "Công cụ PDF & ảnh",
+    "languages": "Ngôn ngữ",
+    "autoDelete": "Tự động xóa tệp",
+    "encrypted": "Truyền tải mã hóa"
+  },
+  "whatYouGet": {
+    "title": "Cùng những công cụ đó. Chỉ là không có giới hạn.",
+    "subtitle": "Gói miễn phí đã cho bạn truy cập tất cả 27 công cụ. Gói trả phí loại bỏ những vướng mắc — tệp lớn hơn, xử lý hàng loạt, không quảng cáo, xử lý ưu tiên.",
+    "items": {
+      "bigger": {
+        "title": "Tệp lớn hơn",
+        "desc": "Tối đa 200 MB, tùy công cụ, với Starter — không giới hạn với Pro. Không còn bị chặn giữa chừng công việc."
+      },
+      "batch": {
+        "title": "Xử lý hàng loạt",
+        "desc": "Chuyển đổi hoặc nén nhiều tệp cùng lúc. Không phải từng tệp một."
+      },
+      "noAds": {
+        "title": "Không quảng cáo",
+        "desc": "Giao diện sạch, không bị gián đoạn. Chỉ có công cụ, không gì khác."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} tệp",
+    "files": "{n} tệp",
+    "pages": "{n} trang",
+    "perDay": "{n}/ngày",
+    "hour": "{n} giờ",
+    "hours": "{n} giờ"
+  },
+  "perYear": "/năm",
+  "secureCheckout": "Thanh toán an toàn",
+  "payPalInstead": "Thanh toán bằng PayPal",
+  "annualSelected": "Đã chọn thanh toán theo năm — giảm 17%, áp dụng khi thanh toán",
+  "poweredBy": "Cung cấp bởi {name}"
+}

@@ -99,6 +99,12 @@ export default function CookieConsent() {
       decline: 'Recusar',
       policy: 'Privacidade',
     },
+    vi: {
+      msg: 'Chúng tôi dùng cookie cho phân tích và quảng cáo để giữ trang web này miễn phí.',
+      accept: 'Chấp nhận',
+      decline: 'Từ chối',
+      policy: 'Quyền riêng tư',
+    },
   }
 
   const t = texts[locale] || texts.en

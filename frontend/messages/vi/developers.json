@@ -1,0 +1,78 @@
+{
+  "pageTitle": "API PDF — Gộp, chuyển đổi, nén & bảo vệ PDF | SmallPDF.us",
+  "pageDescription": "Một REST API đơn giản, nhanh cho PDF: gộp, tách, xoay, nén, đặt mật khẩu và chuyển đổi PDF ⇄ Word, JPG, PNG. Có gói miễn phí, mã mẫu bằng cURL, Node.js & Python.",
+  "heroBadge": "API cho nhà phát triển · v1",
+  "heroTitle": "API PDF được xây dựng cho nhà phát triển",
+  "heroDesc": "Mỗi tác vụ một điểm cuối REST đơn giản. Gộp, chuyển đổi, nén và bảo vệ PDF từ bất kỳ ngôn ngữ nào — không cần SDK, không cần máy chủ, không phải vật lộn với thư viện PDF.",
+  "heroCtaPrimary": "Nhận khóa API miễn phí",
+  "heroCtaSecondary": "Bắt đầu nhanh",
+  "trust": {
+    "endpoints": { "title": "11 điểm cuối", "desc": "PDF, Word & ảnh" },
+    "noSdk": { "title": "Không cần SDK", "desc": "HTTP thuần + multipart" },
+    "private": { "title": "Riêng tư", "desc": "Được quét & tự động xóa" },
+    "anyLang": { "title": "Mọi ngôn ngữ", "desc": "cURL, Node, Python…" }
+  },
+  "toc": {
+    "label": "Tài liệu",
+    "quickstart": "Bắt đầu nhanh",
+    "authentication": "Xác thực",
+    "baseUrl": "URL gốc & phản hồi",
+    "endpoints": "Điểm cuối",
+    "quota": "Gói & hạn mức",
+    "errors": "Mã lỗi",
+    "apiKeys": "Khóa API của bạn"
+  },
+  "sections": {
+    "quickstart": "Bắt đầu nhanh",
+    "authentication": "Xác thực",
+    "baseUrl": "URL gốc & phản hồi",
+    "endpoints": "Điểm cuối",
+    "quota": "Gói & hạn mức",
+    "errors": "Mã trạng thái & mã lỗi",
+    "cta": "Bắt đầu xây dựng ngay hôm nay"
+  },
+  "steps": {
+    "getKey": { "title": "1. Lấy khóa", "desc": "Đăng nhập và tạo khóa trong bảng điều khiển của bạn." },
+    "callEndpoint": { "title": "2. Gọi một điểm cuối", "desc": "Gửi POST tệp của bạn dưới dạng multipart/form-data." },
+    "getResult": { "title": "3. Nhận kết quả", "desc": "Tệp đã xử lý được trả về ngay lập tức." }
+  },
+  "auth": {
+    "desc": "Mọi yêu cầu phải bao gồm khóa bí mật của bạn trong header",
+    "desc2": ". Tạo và quản lý khóa trong",
+    "dashboard": "bảng điều khiển",
+    "warning": "Hãy giữ khóa phía máy chủ — không bao giờ để lộ chúng trong mã phía máy khách."
+  },
+  "baseUrl": {
+    "desc": "Tất cả điểm cuối là",
+    "desc2": "dưới:",
+    "bullet1": "Khi thành công, tệp đã xử lý được trả về trực tiếp trong phần thân.",
+    "bullet2": "Khi có lỗi, một phần thân JSON được trả về:",
+    "bullet3": "Mọi phản hồi đều bao gồm",
+    "bullet4": "Các tệp tải lên được quét mã độc và bị xóa khỏi máy chủ của chúng tôi ngay sau khi xử lý."
+  },
+  "params": {
+    "label": "Tham số",
+    "required": "bắt buộc",
+    "optional": "tùy chọn",
+    "returns": "Trả về"
+  },
+  "categories": {
+    "organize": "Sắp xếp",
+    "convert": "Chuyển đổi",
+    "optimize": "Tối ưu",
+    "secure": "Bảo mật"
+  },
+  "quota": {
+    "cols": { "plan": "Gói", "calls": "Lượt gọi API", "price": "Giá" },
+    "note": "Hạn mức được đặt lại vào ngày 1 hằng tháng (UTC). Chỉ các lượt gọi thành công được tính.",
+    "pricing": "Xem bảng giá đầy đủ"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "Mã", "meaning": "Ý nghĩa" }
+  },
+  "cta": {
+    "title": "Bắt đầu xây dựng ngay hôm nay",
+    "desc": "Tạo khóa API miễn phí và thực hiện lệnh gọi đầu tiên chỉ trong chưa đầy một phút.",
+    "button": "Nhận khóa API của bạn"
+  }
+}

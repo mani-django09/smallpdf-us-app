@@ -38,6 +38,7 @@ const INLINE_T = {
     en: "converted-images.pdf", ja: "変換済み画像.pdf", de: "konvertierte-bilder.pdf",
     fr: "images-converties.pdf", es: "imagenes-convertidas.pdf", it: "immagini-convertite.pdf",
     id: "gambar-dikonversi.pdf", pt: "imagens-convertidas.pdf",
+    vi: "anh-da-chuyen-doi.pdf",
   },
 }
 

@@ -41,6 +41,7 @@ const INLINE_T = {
     en: "My Merged PDF", ja: "結合したPDF", de: "Meine zusammengefügte PDF",
     fr: "Mon PDF fusionné", es: "Mi PDF combinado", it: "Il mio PDF unito",
     id: "PDF gabungan saya", pt: "Meu PDF mesclado",
+    vi: "PDF đã gộp của tôi",
   },
   shareText: {
     en: "Check out my merged PDF file", ja: "結合したPDFファイルをご覧ください",
@@ -50,22 +51,26 @@ const INLINE_T = {
     it: "Guarda il mio file PDF unito",
     id: "Lihat file PDF gabungan saya",
     pt: "Veja meu arquivo PDF mesclado",
+    vi: "Xem tệp PDF đã gộp của tôi",
   },
   filesSelected: {
     en: "{n} PDF Files Selected", ja: "{n}個のPDFファイルを選択",
     de: "{n} PDF-Dateien ausgewählt", fr: "{n} fichiers PDF sélectionnés",
     es: "{n} archivos PDF seleccionados", it: "{n} file PDF selezionati",
     id: "{n} file PDF dipilih", pt: "{n} arquivos PDF selecionados",
+    vi: "Đã chọn {n} tệp PDF",
   },
   totalSize: {
     en: "Total: {size} MB", ja: "合計: {size} MB", de: "Gesamt: {size} MB",
     fr: "Total : {size} Mo", es: "Total: {size} MB", it: "Totale: {size} MB",
     id: "Total: {size} MB", pt: "Total: {size} MB",
+    vi: "Tổng: {size} MB",
   },
   loading: {
     en: "Loading...", ja: "読み込み中...", de: "Wird geladen...",
     fr: "Chargement...", es: "Cargando...", it: "Caricamento...",
     id: "Memuat...", pt: "Carregando...",
+    vi: "Đang tải...",
   },
 }
 

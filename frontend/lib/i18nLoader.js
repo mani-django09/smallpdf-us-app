@@ -13,7 +13,7 @@ const path = require('path')
 
 const MESSAGES_DIR = path.join(process.cwd(), 'messages')
 
-function loadJSON(locale, file) {
+function readJSON(locale, file) {
   const p = path.join(MESSAGES_DIR, locale, file)
   if (!fs.existsSync(p)) return {}
   try {
@@ -21,6 +21,27 @@ function loadJSON(locale, file) {
   } catch {
     return {}
   }
+}
+
+// Fill any key a locale does not have yet with the English text, so a missing
+// or half-finished translation shows English instead of a raw "ns.key" string
+// (t() has no fallback of its own). Arrays are taken whole from the locale
+// when it has them, otherwise from English.
+function withEnglishFallback(base, own) {
+  if (own === undefined || own === null) return base
+  if (Array.isArray(base) || Array.isArray(own)) return Array.isArray(own) ? own : base
+  if (base && typeof base === 'object' && own && typeof own === 'object') {
+    const out = { ...base }
+    for (const k of Object.keys(own)) out[k] = withEnglishFallback(base[k], own[k])
+    return out
+  }
+  return own
+}
+
+function loadJSON(locale, file) {
+  const own = readJSON(locale, file)
+  if (locale === 'en') return own
+  return withEnglishFallback(readJSON('en', file), own)
 }
 
 // Maps a namespace key (as referenced in t("xxx.yyy")) to the JSON file that

@@ -7,7 +7,7 @@ import { InstallExtensionFooterBadge } from "./InstallExtensionBanner"
 import { localePath } from "../lib/route-translations"
 
 // Locales that use localized URL slugs (all non-English locales)
-const LOCALIZED_LOCALES = ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt']
+const LOCALIZED_LOCALES = ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi']
 
 /**
  * Brand logo — icon mark + wordmark. `dark` inverts the wordmark for the footer.

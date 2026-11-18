@@ -69,7 +69,7 @@ export default function HeroUpload({ compact = false }) {
       className="hidden"
       accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.webp,.heic,.heif"
       onChange={(e) => pick(e.target.files)}
-      aria-label={L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo' })}
+      aria-label={L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo', vi: 'Chọn tệp' })}
     />
   )
 
@@ -94,11 +94,11 @@ export default function HeroUpload({ compact = false }) {
         <div>
           <p className={`font-semibold text-gray-700 mb-0.5 ${compact ? 'text-sm' : 'text-xs'}`}>
             {compact
-              ? L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo' })
-              : L(locale, { ja: 'ファイルをドロップ', de: 'Datei ablegen', fr: 'Déposer le fichier', es: 'Soltar archivo', en: 'Drop your file here', it: 'Trascina il file', id: 'Seret file di sini', pt: 'Solte o arquivo aqui' })}
+              ? L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo', vi: 'Chọn tệp' })
+              : L(locale, { ja: 'ファイルをドロップ', de: 'Datei ablegen', fr: 'Déposer le fichier', es: 'Soltar archivo', en: 'Drop your file here', it: 'Trascina il file', id: 'Seret file di sini', pt: 'Solte o arquivo aqui', vi: 'Thả tệp của bạn vào đây' })}
           </p>
           <p className="text-[10px] text-gray-400">
-            {compact ? 'PDF, DOCX, JPG, PNG, XLSX…' : L(locale, { ja: 'またはクリックして選択 · PDF, DOCX, JPG, PNG…', de: 'oder klicken · PDF, DOCX, JPG, PNG…', fr: 'ou cliquez · PDF, DOCX, JPG, PNG…', es: 'o haz clic · PDF, DOCX, JPG, PNG…', en: 'or click to browse · PDF, DOCX, JPG, PNG…', it: 'o fai clic · PDF, DOCX, JPG, PNG…', id: 'atau klik · PDF, DOCX, JPG, PNG…', pt: 'ou clique · PDF, DOCX, JPG, PNG…' })}
+            {compact ? 'PDF, DOCX, JPG, PNG, XLSX…' : L(locale, { ja: 'またはクリックして選択 · PDF, DOCX, JPG, PNG…', de: 'oder klicken · PDF, DOCX, JPG, PNG…', fr: 'ou cliquez · PDF, DOCX, JPG, PNG…', es: 'o haz clic · PDF, DOCX, JPG, PNG…', en: 'or click to browse · PDF, DOCX, JPG, PNG…', it: 'o fai clic · PDF, DOCX, JPG, PNG…', id: 'atau klik · PDF, DOCX, JPG, PNG…', pt: 'ou clique · PDF, DOCX, JPG, PNG…', vi: 'hoặc nhấp để chọn · PDF, DOCX, JPG, PNG…' })}
           </p>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function HeroUpload({ compact = false }) {
       {tools.length ? (
         <>
           <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">
-            {L(locale, { ja: '何をしますか？', de: 'Was möchten Sie tun?', fr: 'Que voulez-vous faire ?', es: '¿Qué quieres hacer?', en: 'What do you want to do?', it: 'Cosa vuoi fare?', id: 'Apa yang ingin Anda lakukan?', pt: 'O que você quer fazer?' })}
+            {L(locale, { ja: '何をしますか？', de: 'Was möchten Sie tun?', fr: 'Que voulez-vous faire ?', es: '¿Qué quieres hacer?', en: 'What do you want to do?', it: 'Cosa vuoi fare?', id: 'Apa yang ingin Anda lakukan?', pt: 'O que você quer fazer?', vi: 'Bạn muốn làm gì?' })}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {tools.map(([href, key], i) => (
@@ -142,7 +142,7 @@ export default function HeroUpload({ compact = false }) {
         </>
       ) : (
         <p className="text-xs text-red-600">
-          {L(locale, { ja: 'このファイル形式には対応していません', de: 'Dieser Dateityp wird nicht unterstützt', fr: "Ce type de fichier n'est pas pris en charge", es: 'Este tipo de archivo no es compatible', en: "This file type isn't supported", it: 'Tipo di file non supportato', id: 'Jenis file ini tidak didukung', pt: 'Este tipo de arquivo não é compatível' })}
+          {L(locale, { ja: 'このファイル形式には対応していません', de: 'Dieser Dateityp wird nicht unterstützt', fr: "Ce type de fichier n'est pas pris en charge", es: 'Este tipo de archivo no es compatible', en: "This file type isn't supported", it: 'Tipo di file non supportato', id: 'Jenis file ini tidak didukung', pt: 'Este tipo de arquivo não é compatível', vi: 'Không hỗ trợ loại tệp này' })}
         </p>
       )}
     </div>

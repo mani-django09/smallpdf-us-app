@@ -233,6 +233,45 @@ const ptSubPages = {
   'baixar':     'download',
 }
 
+// ── Vietnamese slugs → EN (ASCII, no diacritics, so URLs stay clean) ──
+const viToEn = {
+  'nen-pdf':              'compress-pdf',
+  'gop-pdf':              'merge-pdf',
+  'tach-pdf':             'split-pdf',
+  'mo-khoa-pdf':          'unlock-pdf',
+  'pdf-sang-word':        'pdf-to-word',
+  'word-sang-pdf':        'word-to-pdf',
+  'pdf-sang-jpg':         'pdf-to-jpg',
+  'jpg-sang-pdf':         'jpg-to-pdf',
+  'pdf-sang-png':         'pdf-to-png',
+  'png-sang-pdf':         'png-to-pdf',
+  'pdf-sang-ppt':         'pdf-to-ppt',
+  'ppt-sang-pdf':         'ppt-to-pdf',
+  'pdf-sang-excel':       'pdf-to-excel',
+  'excel-sang-pdf':       'excel-to-pdf',
+  'webp-sang-png':        'webp-to-png',
+  'png-sang-webp':        'png-to-webp',
+  'heic-sang-jpg':        'heic-to-jpg',
+  'heic-sang-png':        'heic-to-png',
+  'xoay-pdf':             'rotate-pdf',
+  'bao-ve-pdf':           'protect-pdf',
+  'nen-anh':              'compress-image',
+  'nen-anh-xuong-50kb':   'compress-image-to-50kb',
+  'nen-anh-xuong-100kb':  'compress-image-to-100kb',
+  'nen-anh-xuong-20kb':   'compress-image-to-20kb',
+  'chinh-sua-pdf':        'edit-pdf',
+  'che-noi-dung-pdf':     'redact-pdf',
+  'gioi-thieu':           'about',
+  'lien-he':              'contact',
+  'quyen-rieng-tu':       'privacy',
+  'dieu-khoan':           'terms',
+}
+
+const viSubPages = {
+  'xem-truoc': 'preview',
+  'tai-xuong': 'download',
+}
+
 // ── Helpers ────────────────────────────────────────────────────
 
 function getLocalSub(subPageMap, enSub) {
@@ -306,6 +345,7 @@ const ocrSubPages = {
   de: { 'vorschau':  'preview', 'download': 'download' },
   id: { 'pratinjau': 'preview', 'unduh': 'download' },
   pt: { 'visualizar': 'preview', 'baixar': 'download' },
+  vi: { 'xem-truoc': 'preview', 'tai-xuong': 'download' },
 }
 
 // edit-pdf keeps its 'edit-pdf' slug only for 'id' (de/fr/es/it/pt got real
@@ -361,7 +401,7 @@ function buildSameToolAliasRewrites(fromSlug, toSlug) {
     { source: `/${fromSlug}/download`,  destination: `/${toSlug}/download` },
     { source: `/${fromSlug}/download/`, destination: `/${toSlug}/download/` },
   ]
-  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt']) {
+  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi']) {
     rewrites.push({ source: `/${locale}/${fromSlug}/preview`,   destination: `/${locale}/${toSlug}/preview`,   locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/preview/`,  destination: `/${locale}/${toSlug}/preview/`,  locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/download`,  destination: `/${locale}/${toSlug}/download`,  locale: false })
@@ -388,6 +428,7 @@ const compressImage50kbSlugs = {
   it: 'comprimi-immagine-a-50kb',
   id: 'kompres-gambar-ke-50kb',
   pt: 'comprimir-imagem-para-50kb',
+  vi: 'nen-anh-xuong-50kb',
 }
 const compressImage100kbSlugs = {
   de: 'bild-auf-100kb-komprimieren',
@@ -396,6 +437,7 @@ const compressImage100kbSlugs = {
   it: 'comprimi-immagine-a-100kb',
   id: 'kompres-gambar-ke-100kb',
   pt: 'comprimir-imagem-para-100kb',
+  vi: 'nen-anh-xuong-100kb',
 }
 const compressImage20kbSlugs = {
   de: 'bild-auf-20kb-komprimieren',
@@ -404,9 +446,10 @@ const compressImage20kbSlugs = {
   it: 'comprimi-immagine-a-20kb',
   id: 'kompres-gambar-ke-20kb',
   pt: 'comprimir-imagem-para-20kb',
+  vi: 'nen-anh-xuong-20kb',
 }
 const compressImage50kbSubPagesByLocale = {
-  de: deSubPages, fr: frSubPages, es: esSubPages, it: itSubPages, id: idSubPages, pt: ptSubPages,
+  de: deSubPages, fr: frSubPages, es: esSubPages, it: itSubPages, id: idSubPages, pt: ptSubPages, vi: viSubPages,
 }
 function buildCompressImageTargetKbSubRewrites(slugsMap) {
   const rewrites = []
@@ -428,7 +471,7 @@ const nextConfig = {
   trailingSlash: true,
 
   i18n: {
-    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt'],
+    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi'],
     defaultLocale: 'en',
     localeDetection: false, // ← Prevent Accept-Language header causing redirects for Googlebot
   },
@@ -464,6 +507,7 @@ const nextConfig = {
       ...buildLocaleRewrites('it', itToEn, itSubPages),
       ...buildLocaleRewrites('id', idToEn, idSubPages),
       ...buildLocaleRewrites('pt', ptToEn, ptSubPages),
+      ...buildLocaleRewrites('vi', viToEn, viSubPages),
       // ocr-pdf (all locales) and edit-pdf (id only) keep the same top-level
       // slug but still have localized sub-pages
       ...buildSameSlugRewrites('ocr-pdf', ocrSubPages),
@@ -579,6 +623,7 @@ const nextConfig = {
       ...buildLocaleRedirects('it', itToEn, itSubPages),
       ...buildLocaleRedirects('id', idToEn, idSubPages),
       ...buildLocaleRedirects('pt', ptToEn, ptSubPages),
+      ...buildLocaleRedirects('vi', viToEn, viSubPages),
       // ocr-pdf / edit-pdf canonical sub-page redirects
       ...buildSameSlugRedirects('ocr-pdf', ocrSubPages),
       ...buildSameSlugRedirects('edit-pdf', editPdfSubPages),
@@ -611,7 +656,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options',   value: 'nosniff' },
           { key: 'X-XSS-Protection',         value: '1; mode=block' },
           { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
-          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt' },
+          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi' },
         ],
       },
       // ── Immutable cache for Next.js JS/CSS chunks (fingerprinted filenames) ──
