@@ -8,6 +8,7 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
+    "@pdf-lib/fontkit": "^1.1.1",
     "archiver": "^7.0.1",
     "bcryptjs": "^3.0.3",
     "brotli": "^1.3.3",

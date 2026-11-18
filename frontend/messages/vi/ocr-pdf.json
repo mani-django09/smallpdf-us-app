@@ -1,14 +1,14 @@
 {
   "seo": {
     "title": "OCR PDF miễn phí — Trích xuất văn bản từ PDF quét | SmallPDF.us",
-    "description": "Biến PDF quét thành văn bản tìm kiếm được, miễn phí. Công cụ OCR của chúng tôi nhận dạng văn bản tiếng Anh, xuất ra PDF tìm kiếm được hoặc Word. Không cần cài đặt.",
+    "description": "Biến PDF quét thành văn bản tìm kiếm được, miễn phí. Công cụ OCR của chúng tôi nhận dạng tiếng Việt có dấu và tiếng Anh, xuất ra PDF tìm kiếm được hoặc Word. Không cần cài đặt.",
     "keywords": "OCR PDF, trích xuất văn bản từ PDF, PDF quét sang văn bản, OCR PDF online, làm PDF tìm kiếm được, công cụ OCR miễn phí, trích xuất văn bản PDF, nhận dạng ký tự quang học PDF, PDF tìm kiếm được, tài liệu quét sang văn bản"
   },
   "hero": {
     "title": "OCR PDF —",
     "titleHighlight": "Trích xuất văn bản",
     "titleSuffix": "từ bất kỳ tài liệu quét nào",
-    "subtitle": "Biến PDF dạng ảnh, bản quét hoặc ảnh chụp bằng máy ảnh thành tài liệu tìm kiếm được, sao chép - dán được. Nhận dạng văn bản tiếng Anh, không cần cài đặt gì."
+    "subtitle": "Biến PDF dạng ảnh, bản quét hoặc ảnh chụp bằng máy ảnh thành tài liệu tìm kiếm được, sao chép - dán được. Nhận dạng tiếng Việt có dấu và tiếng Anh, không cần cài đặt gì."
   },
   "upload": {
     "dropActive": "Thả PDF của bạn vào đây",
@@ -36,8 +36,8 @@
         "desc": "Nhận dạng nhiều lượt xử lý được phông chữ hỗn hợp, trang bị xoay, bản quét kém chất lượng và bố cục nhiều cột. Tài liệu nguồn sạch từ 300 DPI trở lên luôn cho kết quả sắc nét, chính xác cao."
       },
       {
-        "title": "Nhận dạng văn bản tiếng Anh",
-        "desc": "Hiện tại công cụ OCR của chúng tôi nhận dạng văn bản tiếng Anh. Các ngôn ngữ khác, bao gồm tiếng Việt có dấu, chưa được hỗ trợ và có thể cho kết quả sai."
+        "title": "Tiếng Việt có dấu & tiếng Anh",
+        "desc": "Khi bạn dùng giao diện tiếng Việt, công cụ OCR nhận dạng cả chữ Việt có dấu lẫn chữ Latinh và số thông thường. Các ngôn ngữ khác chưa được hỗ trợ và có thể cho kết quả sai."
       },
       {
         "title": "PDF tìm kiếm được, không phá hủy",
@@ -69,7 +69,7 @@
       {
         "title": "Công cụ OCR xử lý các trang",
         "desc": "Mỗi trang được chỉnh nghiêng, khử nhiễu và đưa qua mô hình nhận dạng ký tự của chúng tôi. Tọa độ văn bản được ánh xạ lại về hình học gốc.",
-        "badge": "Nhận dạng tiếng Anh"
+        "badge": "Tiếng Việt & tiếng Anh"
       },
       {
         "title": "Tải PDF tìm kiếm được xuống",
@@ -99,8 +99,8 @@
         "desc": "OCR hóa đơn, biên lai, sao kê ngân hàng và giấy tờ thuế để tự động nhập dữ liệu vào phần mềm kế toán và loại bỏ các lỗi nhập tay tốn kém."
       },
       {
-        "title": "Tài liệu tiếng Anh",
-        "desc": "Xử lý hợp đồng, giấy tờ nhập cư hoặc thư từ quốc tế bằng tiếng Anh với độ tin cậy cao. Các tài liệu ngôn ngữ khác hiện chưa được hỗ trợ."
+        "title": "Tài liệu tiếng Việt & tiếng Anh",
+        "desc": "Xử lý hóa đơn, hợp đồng, giấy tờ hành chính hoặc thư từ bằng tiếng Việt có dấu hay tiếng Anh. Các tài liệu bằng ngôn ngữ khác hiện chưa được hỗ trợ."
       },
       {
         "title": "Kỹ thuật & kiến trúc",
@@ -115,7 +115,7 @@
   "dive2Title": "Điều gì ảnh hưởng đến độ chính xác của OCR",
   "dive2Desc": "Độ phân giải bản quét quan trọng nhất — bản quét rõ nét 300 DPI được nhận dạng chính xác hơn nhiều so với ảnh chụp điện thoại bị mờ. Độ rõ phông chữ, độ tương phản giữa chữ và nền, và độ nghiêng của trang cũng quan trọng; quy trình tự động hiệu chỉnh độ nghiêng và nhiễu, nhưng các bản quét chất lượng rất thấp vẫn cho nhiều lỗi hơn.",
   "dive3Title": "Ngôn ngữ trong tài liệu",
-  "dive3Desc": "Mô hình OCR được huấn luyện theo từng ngôn ngữ. Công cụ của chúng tôi hiện nhận dạng văn bản tiếng Anh, nên tài liệu bằng các ngôn ngữ khác — gồm cả tiếng Việt có dấu — hiện cho kết quả không đáng tin cậy.",
+  "dive3Desc": "Mô hình OCR được huấn luyện theo từng ngôn ngữ. Công cụ của chúng tôi hiện nhận dạng tiếng Việt (có dấu) và tiếng Anh. Tài liệu bằng các ngôn ngữ khác hiện cho kết quả không đáng tin cậy. Với tài liệu pha trộn tiếng Việt và tiếng Anh, hãy dùng giao diện tiếng Việt để nhận dạng cả hai.",
   "dive4Title": "PDF tìm kiếm được và tệp văn bản đã trích xuất",
   "dive4Desc": "Theo mặc định, OCR thêm một lớp văn bản vô hình lên trên ảnh quét gốc, nên PDF trông không đổi nhưng trở nên tìm kiếm và sao chép được. Nếu bạn cụ thể cần văn bản thô được tách ra thành tệp riêng, hãy tìm tùy chọn xuất văn bản riêng thay vì chỉ dùng kết quả PDF tìm kiếm được.",
   "dive5Title": "OCR có hoạt động với chữ viết tay không?",
@@ -144,7 +144,7 @@
       },
       {
         "q": "OCR hỗ trợ những ngôn ngữ nào?",
-        "a": "Hiện tại công cụ OCR của chúng tôi chỉ nhận dạng văn bản tiếng Anh. Các ngôn ngữ khác, bao gồm tiếng Việt có dấu, chưa được hỗ trợ và có thể cho kết quả sai hoặc thiếu ký tự. Chúng tôi sẽ không nói là hỗ trợ một ngôn ngữ trước khi nó thực sự hoạt động."
+        "a": "Công cụ OCR hiện nhận dạng tiếng Việt (có dấu) và tiếng Anh. Để nhận dạng tiếng Việt, hãy dùng trang này ở giao diện tiếng Việt (SmallPDF.us/vi/); ở giao diện các ngôn ngữ khác, OCR chỉ đọc tiếng Anh. Các ngôn ngữ khác chưa được hỗ trợ và có thể cho kết quả sai hoặc thiếu ký tự."
       },
       {
         "q": "Tôi có thể OCR PDF nhiều trang không?",
@@ -165,7 +165,7 @@
     "p1": "Nhận dạng ký tự quang học (OCR) là công nghệ bắc cầu giữa một PDF dạng ảnh phẳng và một tài liệu sống, tương tác được. Khi bạn quét một hợp đồng giấy, chụp ảnh một biên lai, hay lưu một báo cáo in thành PDF, tệp về cơ bản là một bức ảnh — máy tính thấy các mẫu điểm ảnh, không phải chữ cái. OCR thay đổi điều đó. Nó phân tích từng trang, nhận dạng từng ký tự bằng các mô hình học máy đã huấn luyện và dựng lại văn bản ở dạng số — tất cả mà không thay đổi một điểm ảnh nào của bố cục hình ảnh gốc.",
     "p2": "Kết quả là một <strong>PDF tìm kiếm được</strong>: giống hệt bản gốc về mặt hình ảnh, nhưng có một lớp văn bản vô hình, căn chỉnh hoàn hảo bên dưới các hình ảnh. Giờ bạn có thể tìm kiếm Ctrl+F trong hợp đồng 200 trang, tô sáng và sao chép một đoạn, hoặc để các công cụ hỗ trợ tiếp cận đọc nội dung cho người khiếm thị. Người dùng Pro còn đi xa hơn, tải văn bản đã trích xuất dưới dạng <strong>tệp Word .docx</strong> có thể chỉnh sửa hoặc <strong>tệp .txt</strong> thô cho quy trình chỉnh sửa, dịch thuật hay lập chỉ mục tiếp theo.",
     "h3": "SmallPDF.us mang lại kết quả OCR chính xác như thế nào",
-    "p3": "Độ chính xác trong xử lý tài liệu là điều không thể thương lượng. Quy trình OCR của chúng tôi chạy qua bốn giai đoạn rõ ràng. Thứ nhất, <strong>tiền xử lý</strong>: mỗi trang được phân tích về độ xoay, nhiễu, độ tương phản, và được phân đoạn thành vùng văn bản và hình không phải văn bản. Thứ hai, <strong>nhận diện ngôn ngữ</strong>: hiện tại công cụ nhận dạng văn bản tiếng Anh. Thứ ba, <strong>công cụ nhận dạng</strong> chạy phân tích từng ký tự bằng các mô hình ngôn ngữ theo ngữ cảnh để phân biệt các ký tự giống nhau (như \"I\", \"l\" và \"1\"). Cuối cùng, <strong>hậu xử lý</strong> dựng lại từ và câu với khoảng cách, ngắt dòng và cấu trúc đoạn đúng trước khi nhúng lớp văn bản vào PDF của bạn.",
+    "p3": "Độ chính xác trong xử lý tài liệu là điều không thể thương lượng. Quy trình OCR của chúng tôi chạy qua bốn giai đoạn rõ ràng. Thứ nhất, <strong>tiền xử lý</strong>: mỗi trang được phân tích về độ xoay, nhiễu, độ tương phản, và được phân đoạn thành vùng văn bản và hình không phải văn bản. Thứ hai, <strong>nhận diện ngôn ngữ</strong>: hiện tại công cụ nhận dạng tiếng Việt (có dấu) và tiếng Anh. Thứ ba, <strong>công cụ nhận dạng</strong> chạy phân tích từng ký tự bằng các mô hình ngôn ngữ theo ngữ cảnh để phân biệt các ký tự giống nhau (như \"I\", \"l\" và \"1\"). Cuối cùng, <strong>hậu xử lý</strong> dựng lại từ và câu với khoảng cách, ngắt dòng và cấu trúc đoạn đúng trước khi nhúng lớp văn bản vào PDF của bạn.",
     "p4": "Để có kết quả tối ưu, hãy đảm bảo tài liệu nguồn được quét ở 300 DPI trở lên với ánh sáng đều, không bóng. Tài liệu ở 150 DPI trở xuống, nền có họa tiết nặng hoặc độ nghiêng quá lớn có thể cho độ chính xác thấp hơn. Trong mọi trường hợp, hình ảnh gốc trong PDF của bạn hoàn toàn không bị động đến — chỉ có lớp văn bản vô hình, tìm kiếm được là được thêm lên trên."
   },
   "cta": {

@@ -28,7 +28,7 @@ const STAGES_EN = [
 export default function OcrPdfProcess() {
   const router  = useLocalizedRouter()
   const { user, authFetch } = useAuth()
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
   const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const isPro   = ["starter", "pro", "agency", "enterprise"].includes(user?.plan)
 
@@ -70,6 +70,7 @@ export default function OcrPdfProcess() {
     try {
       const formData = new FormData()
       formData.append("file", file)
+      formData.append("language", locale === "vi" ? "vie" : "eng")
       if (isPro) formData.append("outputFormats", "pdf,docx,txt")
 
       const API_URL =

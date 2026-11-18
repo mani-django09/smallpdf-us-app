@@ -33,7 +33,7 @@ export default function OcrPdfPreview() {
   const router = useLocalizedRouter()
   const { handleDailyLimitError, DailyLimitGate } = useDailyLimit()
   const { user, authFetch } = useAuth()
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
   // Any paid plan gets the paid OCR limits + Word/TXT exports (matches the server)
   const isPro = ["starter", "pro", "agency", "enterprise"].includes(user?.plan)
 
@@ -84,6 +84,7 @@ export default function OcrPdfPreview() {
     try {
       const formData = new FormData()
       formData.append("file", file)
+      formData.append("language", locale === "vi" ? "vie" : "eng")
 
       const API_URL =
         typeof window !== "undefined" &&

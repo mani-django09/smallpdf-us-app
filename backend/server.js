@@ -9717,6 +9717,31 @@ function drawInvisibleWords(page, font, words) {
 }
 
 
+// ── OCR language ─────────────────────────────────────────────────────────────
+// The client sends form field `language`. Only English (default) and Vietnamese
+// are installed/tested; anything else falls back to English. Vietnamese runs
+// "vie+eng" so Latin words and numbers inside a Vietnamese document still read.
+const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', eng: 'eng', en: 'eng' }
+function ocrLangFrom(v) {
+  return OCR_LANGS[String(v || '').toLowerCase().trim()] || 'eng'
+}
+// pdf-lib's built-in Helvetica is WinAnsi only, so Vietnamese letters (ệ, ư, ơ…)
+// cannot be drawn and every word containing one would be dropped from the
+// searchable layer. A Unicode TTF is embedded (subset) when OCR language is not English.
+const OCR_UNICODE_FONT = process.env.OCR_UNICODE_FONT || '/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf'
+async function embedOcrFont(doc, ocrLang) {
+  if (ocrLang !== 'eng') {
+    try {
+      const fontkit = require('@pdf-lib/fontkit')
+      doc.registerFontkit(fontkit)
+      return await doc.embedFont(fs.readFileSync(OCR_UNICODE_FONT), { subset: true })
+    } catch (e) {
+      console.warn('[OCR] Unicode font unavailable, falling back to Helvetica:', e.message)
+    }
+  }
+  return doc.embedFont(StandardFonts.Helvetica)
+}
+
 // ── Daily OCR quota for free/guest users is now persisted in SQLite ──────────
 // (ocrCheckDaily / ocrIncrementDaily imported from middleware/sqliteRateStore.js).
 // Survives restarts and is shared across instances.
@@ -9744,6 +9769,7 @@ app.post('/api/ocr-pdf',
     // "100 MB · 10 files" for OCR, and fileSizeLimiter already allows it.
     const isPro = isDesktop || ['starter', 'pro', 'agency', 'enterprise'].includes(user?.plan)
 
+    const ocrLang   = ocrLangFrom(req.body && req.body.language)
     const filePath  = file.path
     const tmpFiles  = [] // temp page PNGs — deleted after OCR
 
@@ -9840,7 +9866,7 @@ app.post('/api/ocr-pdf',
       if (ocrCount > 0) {
         console.log(`[OCR] ${ocrCount}/${processedPages} page(s) need OCR`)
         const gsPath = getGhostscriptPath()
-        const worker = await createWorker('eng')
+        const worker = await createWorker(ocrLang)
         try {
           // Fully automatic segmentation without OSD — mode 1 needs osd.traineddata,
           // which isn't installed ("osd language failed to load" on every page).
@@ -9894,7 +9920,7 @@ app.post('/api/ocr-pdf',
       // line in search results and copy/paste.
       // Unguessable (uploads/ is public; OCR inputs are often ID documents).
       const pdfOutPath = path.join(outDir, `ocr-${genJobId()}.pdf`)
-      const font = await srcDoc.embedFont(StandardFonts.Helvetica)
+      const font = await embedOcrFont(srcDoc, ocrLang)
 
       for (let i = 0; i < processedPages; i++) {
         const words = ocrWords[i]
