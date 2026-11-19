@@ -677,7 +677,7 @@ export default function PricingPage() {
             <div className="mt-9 inline-flex flex-wrap justify-center divide-x divide-slate-200 rounded-2xl border border-slate-200/80 bg-white/70 backdrop-blur px-2 shadow-sm">
               {[
                 { value: '27',   label: t('pricing.stats.tools') },
-                { value: '8',    label: t('pricing.stats.languages') },
+                { value: '10',    label: t('pricing.stats.languages') },
                 { value: '1h',   label: t('pricing.stats.autoDelete') },
                 { value: '256-bit', label: t('pricing.stats.encrypted') },
               ].map(({ value, label }) => (
