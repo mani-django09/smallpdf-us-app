@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Dialog, Popover } from "react-aria-components"
 import { localePath } from "../../lib/route-translations"
 
-const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt", "vi", "hi"]
+const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt", "vi", "hi", "ar"]
 const hrefFor = (href, locale) => (LOCALIZED.includes(locale) ? localePath(href, locale) : href)
 
 function ToolRow({ item, t, locale, active, onNavigate }) {

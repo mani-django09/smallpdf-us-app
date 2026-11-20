@@ -183,7 +183,7 @@ export default function AboutPage() {
   // Translated stats labels
   const statsTranslated = [
     { value: "27",     label: t("about.statTools"),      icon: FileText },
-    { value: "10",      label: t("about.statLanguages"),  icon: Users },
+    { value: "11",      label: t("about.statLanguages"),  icon: Users },
     { value: "256-bit",label: t("about.statEncryption"), icon: Lock },
     { value: "1 hr",   label: t("about.statAutoDelete"), icon: Clock },
     { value: "2024",   label: t("about.statLaunched"),   icon: Star },

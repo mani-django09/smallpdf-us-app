@@ -41,6 +41,7 @@ const INLINE_T = {
     id: "Dokumen PDF", pt: "Documento PDF",
     vi: "Tài liệu PDF",
     hi: "PDF दस्तावेज़",
+    ar: "مستند PDF",
   },
   conversionPreservedNote: {
     en: "Excel file successfully converted to PDF. Formatting, charts, and data fully preserved.",
@@ -53,6 +54,7 @@ const INLINE_T = {
     pt: "Arquivo Excel convertido para PDF com sucesso. Formatação, gráficos e dados totalmente preservados.",
     vi: "Đã chuyển tệp Excel sang PDF thành công. Định dạng, biểu đồ và dữ liệu được giữ nguyên hoàn toàn.",
     hi: "Excel फ़ाइल सफलतापूर्वक PDF में बदल गई। फ़ॉर्मेटिंग, चार्ट और डेटा पूरी तरह सुरक्षित हैं।",
+    ar: "تم تحويل ملف Excel إلى PDF بنجاح. التنسيق والمخططات والبيانات محفوظة بالكامل.",
   },
   loadResultError: {
     en: "Failed to load conversion result", ja: "変換結果の読み込みに失敗しました",
@@ -63,6 +65,7 @@ const INLINE_T = {
     id: "Gagal memuat hasil konversi", pt: "Falha ao carregar resultado da conversão",
     vi: "Không tải được kết quả chuyển đổi",
     hi: "कन्वर्ज़न का नतीजा लोड नहीं हो सका",
+    ar: "تعذّر تحميل نتيجة التحويل",
   },
   downloadUrlNotFound: {
     en: "Download URL not found", ja: "ダウンロードURLが見つかりません",
@@ -71,6 +74,7 @@ const INLINE_T = {
     id: "URL unduhan tidak ditemukan", pt: "URL de download não encontrado",
     vi: "Không tìm thấy URL tải xuống",
     hi: "डाउनलोड URL नहीं मिला",
+    ar: "لم يُعثر على رابط التنزيل",
   },
   downloadFailedPrefix: {
     en: "Download failed: ", ja: "ダウンロード失敗: ", de: "Download fehlgeschlagen: ",
@@ -78,6 +82,7 @@ const INLINE_T = {
     id: "Unduhan gagal: ", pt: "Download falhou: ",
     vi: "Tải xuống thất bại: ",
     hi: "डाउनलोड विफल: ",
+    ar: "فشل التنزيل: ",
   },
 }
 

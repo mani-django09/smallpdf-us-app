@@ -2,7 +2,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 export default function MyDocument({ locale }) {
   return (
-    <Html lang={locale || 'en'}>
+    <Html lang={locale || 'en'} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <Head>
         {/* ========================================
             CRITICAL PERFORMANCE OPTIMIZATIONS
@@ -55,6 +55,12 @@ export default function MyDocument({ locale }) {
           media="print"
           onLoad="this.media='all'"
         />
+        {locale === 'ar' && (
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap"
+          />
+        )}
         <noscript>
           <link
             rel="stylesheet"

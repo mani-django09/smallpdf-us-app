@@ -8,6 +8,7 @@ import ClarityLoader from '../components/ClarityLoader'
 import { AuthProvider } from '../context/AuthContext'
 import { TranslationsProvider } from '../lib/i18n'
 import '../styles/globals.css'
+import '../styles/rtl.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()

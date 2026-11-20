@@ -201,14 +201,14 @@ export default function SubscriptionPage() {
                   <a href={status.updatePaymentUrl} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5">
                     <CreditCard className="w-3.5 h-3.5" />
-                    {L({ en: 'Update payment method', ja: '支払い方法を更新', de: 'Zahlungsmethode ändern', fr: 'Modifier le moyen de paiement', es: 'Actualizar método de pago', it: 'Aggiorna metodo di pagamento', id: 'Perbarui metode pembayaran', pt: 'Atualizar forma de pagamento', vi: 'Cập nhật phương thức thanh toán', hi: 'भुगतान तरीका अपडेट करें' })}
+                    {L({ en: 'Update payment method', ja: '支払い方法を更新', de: 'Zahlungsmethode ändern', fr: 'Modifier le moyen de paiement', es: 'Actualizar método de pago', it: 'Aggiorna metodo di pagamento', id: 'Perbarui metode pembayaran', pt: 'Atualizar forma de pagamento', vi: 'Cập nhật phương thức thanh toán', hi: 'भुगतान तरीका अपडेट करें', ar: 'تحديث طريقة الدفع' })}
                   </a>
                 )}
                 {status.portalUrl && (
                   <a href={status.portalUrl} target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 font-semibold text-gray-700 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-1.5">
                     <Receipt className="w-3.5 h-3.5" />
-                    {L({ en: 'Invoices & billing', ja: '請求書と請求', de: 'Rechnungen & Abrechnung', fr: 'Factures et facturation', es: 'Facturas y facturación', it: 'Fatture e fatturazione', id: 'Faktur & tagihan', pt: 'Faturas e cobrança', vi: 'Hóa đơn & thanh toán', hi: 'इनवॉइस और बिलिंग' })}
+                    {L({ en: 'Invoices & billing', ja: '請求書と請求', de: 'Rechnungen & Abrechnung', fr: 'Factures et facturation', es: 'Facturas y facturación', it: 'Fatture e fatturazione', id: 'Faktur & tagihan', pt: 'Faturas e cobrança', vi: 'Hóa đơn & thanh toán', hi: 'इनवॉइस और बिलिंग', ar: 'الفواتير والفوترة' })}
                   </a>
                 )}
               </div>

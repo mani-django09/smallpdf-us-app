@@ -111,6 +111,12 @@ export default function CookieConsent() {
       decline: 'अस्वीकार करें',
       policy: 'गोपनीयता',
     },
+    ar: {
+      msg: 'نستخدم ملفات تعريف الارتباط للتحليلات والإعلانات لنُبقي هذا الموقع مجانياً.',
+      accept: 'موافق',
+      decline: 'رفض',
+      policy: 'الخصوصية',
+    },
   }
 
   const t = texts[locale] || texts.en

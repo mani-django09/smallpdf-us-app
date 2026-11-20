@@ -24,6 +24,7 @@ const INLINE_T = {
     ja: "このPDFを開くにはパスワードが必要です。上に入力してもう一度お試しください。",
     vi: "PDF này cần mật khẩu mở tệp. Hãy nhập ở trên rồi thử lại.",
     hi: "इस PDF को खोलने का पासवर्ड चाहिए। उसे ऊपर डालें और दोबारा कोशिश करें।",
+    ar: "يحتاج ملف PDF هذا إلى كلمة مرور لفتحه. أدخلها أعلاه وحاول مرة أخرى.",
   },
   unreadable: {
     en: "Could not read this PDF. The file may be damaged.",
@@ -36,6 +37,7 @@ const INLINE_T = {
     ja: "このPDFを読み込めませんでした。ファイルが破損している可能性があります。",
     vi: "Không thể đọc PDF này. Tệp có thể bị hỏng.",
     hi: "यह PDF पढ़ी नहीं जा सकी। फ़ाइल खराब हो सकती है।",
+    ar: "تعذّرت قراءة ملف PDF هذا. قد يكون الملف تالفاً.",
   },
 }
 

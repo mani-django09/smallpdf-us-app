@@ -22,7 +22,7 @@ export default function ExtensionPrivacy() {
               Privacy Policy
             </h1>
             <p className="text-slate-300 text-sm max-w-xl mx-auto">
-              For the SmallPDF.us browser extension. Last updated September 2026.
+              For the SmallPDF.us browser extension. Last updated November 2026 (version 1.1).
             </p>
           </div>
         </div>
@@ -31,11 +31,31 @@ export default function ExtensionPrivacy() {
 
           <section>
             <p>
-              This extension is a launcher for smallpdf.us tools — it does not process,
-              upload, or read the contents of any file. Every action opens the matching
-              tool page on smallpdf.us in a new tab, where our{" "}
+              This extension is a launcher for smallpdf.us tools — it does not convert or
+              edit files itself. Every action opens the matching tool page on smallpdf.us in
+              a new tab, where our{" "}
               <a href="/privacy" className="text-red-600 font-semibold hover:underline">main privacy policy</a>{" "}
               applies to whatever you do there.
+            </p>
+          </section>
+
+          <section>
+            <div className="flex items-center gap-2 mb-3">
+              <Shield className="w-4 h-4 text-emerald-600" />
+              <h2 className="text-base font-black text-gray-900">Sending a file to a tool</h2>
+            </div>
+            <p>
+              When <em>you</em> choose a tool for a PDF or image you are viewing (from the popup or the
+              right-click menu), the extension downloads that one file and places it into the upload
+              field of the smallpdf.us tool page it just opened — exactly as if you had picked the file
+              yourself. The file goes only to smallpdf.us, and only after that click. Nothing is
+              downloaded or sent without it.
+            </p>
+            <p className="mt-3">
+              To do this, the extension runs a small script on smallpdf.us tool pages that it opened.
+              It does not run scripts on any other website. Files behind a link or image on
+              another website can only be fetched if you turn on "Files from links &amp; images" in
+              the popup, which asks your browser for that permission; you can turn it off at any time.
             </p>
           </section>
 
@@ -61,7 +81,7 @@ export default function ExtensionPrivacy() {
               When you open the popup, the extension reads the URL of your <em>current active tab</em> —
               nothing else, and only at that moment — to suggest a matching tool (for example,
               offering "Compress PDF" if you have a .pdf file open). It does not read page
-              content, run in the background, or track your browsing.
+              content or track your browsing.
             </p>
           </section>
 
@@ -69,8 +89,8 @@ export default function ExtensionPrivacy() {
             <h2 className="text-base font-black text-gray-900 mb-3">What it never does</h2>
             <ul className="space-y-1.5 list-disc list-inside">
               <li>Never collects, transmits, or sells any personal data</li>
-              <li>Never reads file contents — your files stay on your device until you choose to upload them on smallpdf.us itself</li>
-              <li>Never injects scripts into pages you visit</li>
+              <li>Never downloads or sends a file unless you pick a tool for it</li>
+              <li>Never runs scripts on websites other than smallpdf.us</li>
               <li>Never tracks browsing history</li>
             </ul>
           </section>

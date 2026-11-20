@@ -9699,7 +9699,12 @@ function drawInvisibleWords(page, font, words) {
     if (bw <= 0) continue
     const size = Math.max(2, Math.min(w.size, 144))
     let natural
-    try { natural = font.widthOfTextAtSize(w.text, size) } catch (_) { continue } // glyph outside WinAnsi
+    let fnt = font
+    try { natural = font.widthOfTextAtSize(w.text, size) } catch (_) {
+      // glyph outside this font (e.g. Latin word in an Arabic font) — try the fallback font
+      if (!font._fallback) continue
+      try { fnt = font._fallback; natural = fnt.widthOfTextAtSize(w.text, size) } catch (_) { continue }
+    }
     if (!(natural > 0)) continue
     const scale = Math.max(10, Math.min(1000, (bw / natural) * 100))
     const dx = w.x0, dy = w.base
@@ -9710,7 +9715,7 @@ function drawInvisibleWords(page, font, words) {
     else                  { x = dx;      y = ph - dy; angle = 0 }
     try {
       page.pushOperators(PDFOperator.of(PDFOperatorNames.SetTextHorizontalScaling, [PDFNumber.of(scale)]))
-      page.drawText(w.text, { x: mx + x, y: my + y, size, font, rotate: degrees(angle) })
+      page.drawText(w.text, { x: mx + x, y: my + y, size, font: fnt, rotate: degrees(angle) })
     } catch (_) {}
   }
   page.pushOperators(popGraphicsState())
@@ -9718,10 +9723,10 @@ function drawInvisibleWords(page, font, words) {
 
 
 // ── OCR language ─────────────────────────────────────────────────────────────
-// The client sends form field `language`. Only English (default) and Vietnamese
-// are installed/tested; anything else falls back to English. Vietnamese runs
+// The client sends form field `language`. English (default), Vietnamese and Arabic
+// are installed; anything else falls back to English. Vietnamese runs
 // "vie+eng" so Latin words and numbers inside a Vietnamese document still read.
-const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', eng: 'eng', en: 'eng' }
+const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', ara: 'ara+eng', ar: 'ara+eng', eng: 'eng', en: 'eng' }
 function ocrLangFrom(v) {
   return OCR_LANGS[String(v || '').toLowerCase().trim()] || 'eng'
 }
@@ -9729,12 +9734,19 @@ function ocrLangFrom(v) {
 // cannot be drawn and every word containing one would be dropped from the
 // searchable layer. A Unicode TTF is embedded (subset) when OCR language is not English.
 const OCR_UNICODE_FONT = process.env.OCR_UNICODE_FONT || '/usr/share/fonts/truetype/noto/NotoSans-Regular.ttf'
+const OCR_ARABIC_FONT = process.env.OCR_ARABIC_FONT || '/usr/share/fonts/truetype/noto/NotoSansArabic-Regular.ttf'
 async function embedOcrFont(doc, ocrLang) {
   if (ocrLang !== 'eng') {
     try {
       const fontkit = require('@pdf-lib/fontkit')
       doc.registerFontkit(fontkit)
-      return await doc.embedFont(fs.readFileSync(OCR_UNICODE_FONT), { subset: true })
+      const latin = await doc.embedFont(fs.readFileSync(OCR_UNICODE_FONT), { subset: true })
+      if (ocrLang.startsWith('ara')) {
+        const ar = await doc.embedFont(fs.readFileSync(OCR_ARABIC_FONT), { subset: true })
+        ar._fallback = latin
+        return ar
+      }
+      return latin
     } catch (e) {
       console.warn('[OCR] Unicode font unavailable, falling back to Helvetica:', e.message)
     }

@@ -25,7 +25,7 @@ const AccountPanel = dynamic(loadAccount, { ssr: false })
 const MobileDrawer = dynamic(loadDrawer, { ssr: false })
 
 const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
-const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt", "vi", "hi"]
+const LOCALIZED = ["ja", "de", "fr", "es", "it", "id", "pt", "vi", "hi", "ar"]
 const hrefFor = (href, locale) => (LOCALIZED.includes(locale) ? localePath(href, locale) : href)
 
 // light bar colours (was lime #C6F432 until 2026-10-16)
