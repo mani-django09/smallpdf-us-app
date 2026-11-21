@@ -227,7 +227,7 @@ export default function PreviewCompressPdf() {
     return (
       <Layout>
         <SEOHead
-          title="Compress PDF - Preview | SmallPDF.us"
+          title={`${t("compressPdf.preview.readyToCompress")} | SmallPDF.us`}
           description="Review and compress your PDF files."
           noIndex={true}
         />
@@ -247,7 +247,7 @@ export default function PreviewCompressPdf() {
   return (
     <Layout title="Preview & Compress - PDF Compressor" description="Review your PDF files and compress them">
       <SEOHead
-        title="Compress PDF - Preview | SmallPDF.us"
+        title={`${t("compressPdf.preview.readyToCompress")} | SmallPDF.us`}
         description="Review and compress your PDF files."
         noIndex={true}
       />

@@ -77,7 +77,7 @@ export default function EditDownload() {
   if (!result) {
     return (
       <Layout>
-        <SEOHead title="Download Edited PDF | SmallPDF.us" description="Download your edited PDF." noIndex={true} />
+        <SEOHead title={t("editPdf.download.pageTitle")} description="Download your edited PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="w-10 h-10 border-3 border-slate-200 border-t-slate-700 rounded-full animate-spin" />
         </div>
@@ -87,7 +87,7 @@ export default function EditDownload() {
 
   return (
     <Layout title={t("editPdf.download.pageTitle")} description={t("editPdf.download.subheading")}>
-      <SEOHead title="Download Edited PDF | SmallPDF.us" description="Download your edited PDF." noIndex={true} />
+      <SEOHead title={t("editPdf.download.pageTitle")} description="Download your edited PDF." noIndex={true} />
 
       <div className="bg-white py-4 px-4 border-b border-slate-200">
         <div className="max-w-6xl mx-auto">

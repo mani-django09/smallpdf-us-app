@@ -109,7 +109,7 @@ export default function PreviewPDFToJPG() {
   if (!fileData) {
     return (
       <Layout>
-        <SEOHead title="Preview & Convert – PDF to JPG | SmallPDF.us" noIndex={true} />
+        <SEOHead title={t("pdfToJpg.previewPageTitle")} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-3">
@@ -126,7 +126,7 @@ export default function PreviewPDFToJPG() {
   return (
     <Layout title="Preview & Convert - PDF to JPG" description="Preview your PDF and convert to JPG images">
       {/* noIndex — transient post-upload page, no static indexable content */}
-      <SEOHead title="Preview & Convert – PDF to JPG | SmallPDF.us" noIndex={true} />
+      <SEOHead title={t("pdfToJpg.previewPageTitle")} noIndex={true} />
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         

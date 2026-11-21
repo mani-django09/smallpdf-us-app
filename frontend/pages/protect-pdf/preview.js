@@ -105,7 +105,7 @@ export default function ProtectPreview() {
   if (!meta) {
     return (
       <Layout>
-        <SEOHead title="Protect PDF - Set Password | SmallPDF.us" description="Password-protect your PDF." noIndex={true} />
+        <SEOHead title={t("protectPdf.preview.pageTitle")} description="Password-protect your PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="w-10 h-10 border-3 border-slate-200 border-t-emerald-600 rounded-full animate-spin" /></div>
       </Layout>
     )
@@ -117,7 +117,7 @@ export default function ProtectPreview() {
 
   return (
     <Layout title={t("protectPdf.preview.pageTitle")} description={t("protectPdf.heroSubtitle")}>
-      <SEOHead title="Protect PDF - Set Password | SmallPDF.us" description="Password-protect your PDF and download." noIndex={true} />
+      <SEOHead title={t("protectPdf.preview.pageTitle")} description="Password-protect your PDF and download." noIndex={true} />
 
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-5xl mx-auto px-4 py-5">

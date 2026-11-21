@@ -174,7 +174,7 @@ export default function DownloadUnlockPdf() {
   if (!result) {
     return (
       <Layout>
-        <SEOHead noIndex={true} />
+        <SEOHead title={`${t("unlockPdf.downloadSuccessTitle")} | SmallPDF.us`} noIndex={true} />
         <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-12 px-4 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -190,7 +190,7 @@ export default function DownloadUnlockPdf() {
 
   return (
     <Layout>
-      <SEOHead title="Download Unlocked PDF | SmallPDF.us" description="Download your password-unlocked PDF." noIndex={true} />
+      <SEOHead title={`${t("unlockPdf.downloadSuccessTitle")} | SmallPDF.us`} description="Download your password-unlocked PDF." noIndex={true} />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
         <div className="max-w-4xl mx-auto">
 

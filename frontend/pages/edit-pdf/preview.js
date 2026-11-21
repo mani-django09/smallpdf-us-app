@@ -784,7 +784,7 @@ export default function EditPreview() {
   if (!meta) {
     return (
       <Layout>
-        <SEOHead title="Edit PDF - Preview | SmallPDF.us" description="Edit your PDF." noIndex={true} />
+        <SEOHead title={t("editPdf.preview.pageTitle")} description="Edit your PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-100">
           <div className="w-10 h-10 border-[3px] border-slate-200 border-t-blue-600 rounded-full animate-spin" />
         </div>

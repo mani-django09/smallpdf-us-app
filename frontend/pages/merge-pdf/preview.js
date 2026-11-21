@@ -287,7 +287,7 @@ export default function PreviewMergePDF() {
     return (
       <Layout>
         <SEOHead
-          title="Merge PDF - Preview | SmallPDF.us"
+          title={t('mergePdf.preview.pageTitle')}
           description="Review and merge your PDF files into one document."
           noIndex={true}
         />
@@ -310,7 +310,7 @@ export default function PreviewMergePDF() {
       description={t('mergePdf.preview.pageDescription')}
     >
       <SEOHead
-        title="Merge PDF - Preview | SmallPDF.us"
+        title={t('mergePdf.preview.pageTitle')}
         description="Review and merge your PDF files into one document."
         noIndex={true}
       />

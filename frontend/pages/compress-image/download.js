@@ -228,7 +228,7 @@ export default function DownloadCompressImage() {
     return (
       <Layout>
         <SEOHead
-          title="Download Compressed Images | SmallPDF.us"
+          title={t("compressImage.downloadTitle")}
           description="Download your compressed image files."
           noIndex={true}
         />
@@ -257,7 +257,7 @@ export default function DownloadCompressImage() {
     <>
     <Layout title={t("compressImage.downloadTitle")} description={t("compressImage.downloadDescription")}>
       <SEOHead
-        title="Download Compressed Images | SmallPDF.us"
+        title={t("compressImage.downloadTitle")}
         description="Download your compressed image files."
         noIndex={true}
       />

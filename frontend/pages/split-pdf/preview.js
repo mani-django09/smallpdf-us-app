@@ -116,7 +116,7 @@ export default function PreviewSplitPdf() {
   if (!fileData) {
     return (
       <>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("splitPdf.previewTitle")} noIndex={true} />
         <Layout>
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="text-center">
@@ -137,7 +137,7 @@ export default function PreviewSplitPdf() {
 
   return (
     <>
-      <SEOHead noIndex={true} />
+      <SEOHead title={t("splitPdf.previewTitle")} noIndex={true} />
       <Layout title={t("splitPdf.previewTitle")} description={t("splitPdf.previewDescription")}>
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');

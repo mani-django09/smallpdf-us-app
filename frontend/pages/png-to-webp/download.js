@@ -197,7 +197,7 @@ export default function DownloadPngToWebp() {
   if (!convertResult && !jobId) {
     return (
       <Layout>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t('pngToWebp.downloadTitle')} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-4">

@@ -327,7 +327,7 @@ export default function RedactPreview() {
   if (!meta) {
     return (
       <Layout>
-        <SEOHead title="Redact PDF - Preview | SmallPDF.us" description="Redact your PDF." noIndex={true} />
+        <SEOHead title={t("redactPdf.preview.pageTitle")} description="Redact your PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="w-10 h-10 border-3 border-slate-200 border-t-slate-700 rounded-full animate-spin" />
         </div>
@@ -339,7 +339,7 @@ export default function RedactPreview() {
 
   return (
     <Layout title={t("redactPdf.preview.pageTitle")} description={t("redactPdf.heroSubtitle")}>
-      <SEOHead title="Redact PDF - Preview | SmallPDF.us" description="Redact your PDF and download." noIndex={true} />
+      <SEOHead title={t("redactPdf.preview.pageTitle")} description="Redact your PDF and download." noIndex={true} />
 
       {/* Header */}
       <div className="bg-slate-50 border-b border-slate-200">

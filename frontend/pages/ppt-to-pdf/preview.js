@@ -190,7 +190,7 @@ export default function PreviewPptToPdf() {
   if (filesData.length === 0) {
     return (
       <Layout>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("pptToPdf.previewPageTitle")} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-orange-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-4">
@@ -206,7 +206,7 @@ export default function PreviewPptToPdf() {
 
   return (
     <Layout>
-      <SEOHead noIndex={true} />
+      <SEOHead title={t("pptToPdf.previewPageTitle")} noIndex={true} />
 
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');

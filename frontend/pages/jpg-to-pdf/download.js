@@ -218,7 +218,7 @@ export default function DownloadJpgToPdf() {
     return (
       <Layout>
         <SEOHead
-          title="Download JPG to PDF | SmallPDF.us"
+          title={t("jpgToPdf.download.layoutTitle")}
           description="Download your converted PDF file."
           noIndex={true}
         />
@@ -240,7 +240,7 @@ export default function DownloadJpgToPdf() {
   return (
     <Layout title={t("jpgToPdf.download.layoutTitle")} description={t("jpgToPdf.download.layoutDesc")}>
       <SEOHead
-        title="Download JPG to PDF | SmallPDF.us"
+        title={t("jpgToPdf.download.layoutTitle")}
         description="Download your converted PDF file."
         noIndex={true}
       />

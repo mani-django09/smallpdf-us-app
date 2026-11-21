@@ -214,7 +214,7 @@ export default function DownloadWebpToPng() {
   if (!convertResult && !jobId) {
     return (
       <>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("webpToPng.downloadTitle")} noIndex={true} />
         <Layout>
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 to-emerald-50">
           <div className="text-center">

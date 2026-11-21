@@ -134,7 +134,7 @@ export default function DownloadHeicToPng() {
   if (!convertResult && !jobId) {
     return (
       <Layout>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("heicToPng.downloadTitle")} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-teal-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-4">

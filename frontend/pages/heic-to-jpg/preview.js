@@ -143,7 +143,7 @@ export default function PreviewHeicToJpg() {
   if (filesData.length === 0) {
     return (
       <>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("heicToJpg.previewTitle")} noIndex={true} />
         <Layout>
           <div className="min-h-screen flex items-center justify-center bg-orange-50">
             <div className="text-center">
@@ -161,7 +161,7 @@ export default function PreviewHeicToJpg() {
 
   return (
     <>
-      <SEOHead noIndex={true} />
+      <SEOHead title={t("heicToJpg.previewTitle")} noIndex={true} />
       <Layout title={t("heicToJpg.previewTitle")} description={t("heicToJpg.previewDescription")}>
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');

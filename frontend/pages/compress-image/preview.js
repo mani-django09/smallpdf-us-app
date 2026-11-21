@@ -278,7 +278,7 @@ export default function PreviewCompressImage() {
     return (
       <Layout>
         <SEOHead
-          title="Compress Image - Preview | SmallPDF.us"
+          title={`${t("compressImage.previewTitle")} | SmallPDF.us`}
           description="Review and compress your images."
           noIndex={true}
         />
@@ -298,7 +298,7 @@ export default function PreviewCompressImage() {
   return (
     <Layout>
       <SEOHead
-        title="Compress Image - Preview | SmallPDF.us"
+        title={`${t("compressImage.previewTitle")} | SmallPDF.us`}
         description="Review and compress your images."
         noIndex={true}
       />

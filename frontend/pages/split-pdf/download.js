@@ -198,7 +198,7 @@ export default function DownloadSplitPdf() {
   if (!splitResult && !jobId) {
     return (
       <>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("splitPdf.downloadPageTitle")} noIndex={true} />
         <Layout>
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="text-center">

@@ -77,7 +77,7 @@ export default function RotateDownload() {
   if (!result) {
     return (
       <Layout>
-        <SEOHead title="Download Rotated PDF | SmallPDF.us" description="Download your rotated PDF." noIndex={true} />
+        <SEOHead title={t("rotatePdf.download.pageTitle")} description="Download your rotated PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="w-10 h-10 border-3 border-slate-200 border-t-indigo-600 rounded-full animate-spin" />
         </div>
@@ -87,7 +87,7 @@ export default function RotateDownload() {
 
   return (
     <Layout title={t("rotatePdf.download.pageTitle")} description={t("rotatePdf.download.subheading")}>
-      <SEOHead title="Download Rotated PDF | SmallPDF.us" description="Download your rotated PDF." noIndex={true} />
+      <SEOHead title={t("rotatePdf.download.pageTitle")} description="Download your rotated PDF." noIndex={true} />
 
 
       <div className="bg-white py-4 px-4 border-b border-slate-200">

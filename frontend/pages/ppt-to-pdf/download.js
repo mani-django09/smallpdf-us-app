@@ -210,7 +210,7 @@ export default function DownloadPptToPdf() {
   if (!convertResult && !jobId) {
     return (
       <Layout>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t('pptToPdf.downloadPageTitle')} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-orange-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-4">

@@ -226,7 +226,7 @@ export default function DownloadCompressPdf() {
     return (
       <Layout>
         <SEOHead
-          title="Download Compressed PDF | SmallPDF.us"
+          title={`${t("compressPdf.download.compressionComplete")} | SmallPDF.us`}
           description="Download your compressed PDF files."
           noIndex={true}
         />
@@ -267,7 +267,7 @@ export default function DownloadCompressPdf() {
   return (
     <Layout title="Download Compressed PDF - SmallPDF.us" description="Download your compressed PDF files">
       <SEOHead
-        title="Download Compressed PDF | SmallPDF.us"
+        title={`${t("compressPdf.download.compressionComplete")} | SmallPDF.us`}
         description="Download your compressed PDF files."
         noIndex={true}
       />

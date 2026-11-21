@@ -132,7 +132,7 @@ export default function OcrPdfPreview() {
   if (!file) {
     return (
       <Layout>
-        <SEOHead title="OCR PDF — SmallPDF.us" noIndex={true} />
+        <SEOHead title={t("ocrPdf.preview.pageTitle")} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-violet-50">
           <div className="relative w-12 h-12">
             <div className="absolute inset-0 border-4 border-violet-100 rounded-full" />

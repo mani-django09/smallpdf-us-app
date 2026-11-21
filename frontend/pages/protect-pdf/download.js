@@ -73,7 +73,7 @@ export default function ProtectDownload() {
   if (!result) {
     return (
       <Layout>
-        <SEOHead title="Download Protected PDF | SmallPDF.us" description="Download your protected PDF." noIndex={true} />
+        <SEOHead title={t("protectPdf.download.pageTitle")} description="Download your protected PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50"><div className="w-10 h-10 border-3 border-slate-200 border-t-emerald-600 rounded-full animate-spin" /></div>
       </Layout>
     )
@@ -81,7 +81,7 @@ export default function ProtectDownload() {
 
   return (
     <Layout title={t("protectPdf.download.pageTitle")} description={t("protectPdf.download.subheading")}>
-      <SEOHead title="Download Protected PDF | SmallPDF.us" description="Download your password-protected PDF." noIndex={true} />
+      <SEOHead title={t("protectPdf.download.pageTitle")} description="Download your password-protected PDF." noIndex={true} />
 
 
       <div className="bg-white py-4 px-4 border-b border-slate-200">

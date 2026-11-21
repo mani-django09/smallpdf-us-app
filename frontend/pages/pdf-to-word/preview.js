@@ -160,7 +160,7 @@ export default function PreviewPdfToWord() {
   if (files.length === 0) {
     return (
       <Layout>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("pdfToWordPreview.layoutTitle")} noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="text-center">
             <div className="relative w-12 h-12 mx-auto mb-3">
@@ -179,7 +179,7 @@ export default function PreviewPdfToWord() {
       title={t("pdfToWordPreview.layoutTitle")}
       description={t("pdfToWordPreview.layoutDesc")}
     >
-      <SEOHead noIndex={true} />
+      <SEOHead title={t("pdfToWordPreview.layoutTitle")} noIndex={true} />
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
         .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }

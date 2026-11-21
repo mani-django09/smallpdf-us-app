@@ -218,7 +218,7 @@ export default function PreviewUnlockPdf() {
 
   return (
     <Layout>
-      <SEOHead noIndex={true} />
+      <SEOHead title={`${t("unlockPdf.previewTitle")} | SmallPDF.us`} noIndex={true} />
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white py-8 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header Ad */}

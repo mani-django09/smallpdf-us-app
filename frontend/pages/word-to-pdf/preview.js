@@ -132,7 +132,7 @@ export default function PreviewWordToPDF() {
   if (!fileData) {
     return (
       <>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("wordToPdf.preview.layoutTitle")} noIndex={true} />
         <Layout>
           <div className="min-h-screen flex items-center justify-center bg-slate-50">
             <div className="text-center">
@@ -150,7 +150,7 @@ export default function PreviewWordToPDF() {
 
   return (
     <>
-      <SEOHead noIndex={true} />
+      <SEOHead title={t("wordToPdf.preview.layoutTitle")} noIndex={true} />
       <Layout
         title={t("wordToPdf.preview.layoutTitle")}
         description={t("wordToPdf.preview.layoutDesc")}

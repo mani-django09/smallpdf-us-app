@@ -106,7 +106,7 @@ export default function RotatePreview() {
   if (!meta) {
     return (
       <Layout>
-        <SEOHead title="Rotate PDF - Preview | SmallPDF.us" description="Rotate your PDF." noIndex={true} />
+        <SEOHead title={t("rotatePdf.preview.pageTitle")} description="Rotate your PDF." noIndex={true} />
         <div className="min-h-screen flex items-center justify-center bg-slate-50">
           <div className="w-10 h-10 border-3 border-slate-200 border-t-indigo-600 rounded-full animate-spin" />
         </div>
@@ -116,7 +116,7 @@ export default function RotatePreview() {
 
   return (
     <Layout title={t("rotatePdf.preview.pageTitle")} description={t("rotatePdf.heroSubtitle")}>
-      <SEOHead title="Rotate PDF - Preview | SmallPDF.us" description="Rotate your PDF and download." noIndex={true} />
+      <SEOHead title={t("rotatePdf.preview.pageTitle")} description="Rotate your PDF and download." noIndex={true} />
 
       {/* Header */}
       <div className="bg-slate-50 border-b border-slate-200">

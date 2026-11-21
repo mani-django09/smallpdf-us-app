@@ -238,7 +238,7 @@ export default function DownloadExcelToPDF() {
     return (
       <Layout>
         <SEOHead
-          title="Download Excel to PDF | SmallPDF.us"
+          title={t("excelToPdf.downloadTitle")}
           description="Download your converted PDF file."
           noIndex={true}
         />
@@ -261,7 +261,7 @@ export default function DownloadExcelToPDF() {
       description={t("excelToPdf.downloadDescription")}
     >
       <SEOHead
-        title="Download Excel to PDF | SmallPDF.us"
+        title={t("excelToPdf.downloadTitle")}
         description="Download your converted PDF file."
         noIndex={true}
       />

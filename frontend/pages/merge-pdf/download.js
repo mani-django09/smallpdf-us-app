@@ -242,7 +242,7 @@ export default function DownloadMergePDF() {
     return (
       <Layout>
         <SEOHead
-          title="Download Merged PDF | SmallPDF.us"
+          title={t('mergePdf.download.pageTitle')}
           description="Download your merged PDF file."
           noIndex={true}
         />
@@ -265,7 +265,7 @@ export default function DownloadMergePDF() {
   return (
     <Layout title={t('mergePdf.download.pageTitle')} description={t('mergePdf.download.pageDescription')}>
       <SEOHead
-        title="Download Merged PDF | SmallPDF.us"
+        title={t('mergePdf.download.pageTitle')}
         description="Download your merged PDF file."
         noIndex={true}
       />

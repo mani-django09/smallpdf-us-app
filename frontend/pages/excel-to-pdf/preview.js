@@ -158,7 +158,7 @@ export default function PreviewExcelToPDF() {
     return (
       <Layout>
         <SEOHead
-          title="Excel to PDF - Preview | SmallPDF.us"
+          title={t("excelToPdf.previewTitle")}
           description="Review and convert your Excel file to PDF."
           noIndex={true}
         />
@@ -181,7 +181,7 @@ export default function PreviewExcelToPDF() {
       description={t("excelToPdf.previewDescription")}
     >
       <SEOHead
-        title="Excel to PDF - Preview | SmallPDF.us"
+        title={t("excelToPdf.previewTitle")}
         description="Review and convert your Excel file to PDF."
         noIndex={true}
       />

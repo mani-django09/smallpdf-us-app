@@ -182,7 +182,7 @@ export default function DownloadPage() {
   if (!conversionResult && !file) {
     return (
       <>
-        <SEOHead noIndex={true} />
+        <SEOHead title={t("wordToPdf.download.layoutTitle")} noIndex={true} />
         <Layout>
           <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
             <div className="text-center">
