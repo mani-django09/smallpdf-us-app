@@ -1,9 +1,9 @@
 {
   "seo": {
-    "title": "Converti PDF in Word gratis – Senza registrazione | SmallPDF.us",
-    "description": "Converti file PDF in documenti Word (.docx) completamente modificabili online gratis. Layout, immagini e formattazione restano il più vicino possibile all'originale. Funziona nel tuo browser."
+    "title": "Da PDF a Word: converti in DOCX gratis | SmallPDF.us",
+    "description": "Convertire PDF in Word (DOCX) online gratis. Ottieni un documento modificabile con layout, tabelle e immagini. Funziona nel browser, senza installare nulla."
   },
-  "heroTitle": "Converti PDF in Word",
+  "heroTitle": "Convertire PDF in Word online gratis",
   "heroTitleHighlight": "gratis e in pochi secondi",
   "heroSubtitle": "Trasforma i tuoi file PDF in documenti Word modificabili, con un layout il più vicino possibile all'originale. Carica il file e scarica il .docx.",
   "dropTitle": "Trascina qui i tuoi file PDF",
@@ -58,13 +58,13 @@
   "diveTitle": "Cosa succede davvero quando converti in Word",
   "diveSubtitle": "Come vengono gestiti layout, caratteri e pagine scansionate.",
   "dive1Title": "La formattazione sopravvive alla conversione?",
-  "dive1Desc": "I documenti semplici — paragrafi, titoli, tabelle di base — si convertono quasi perfettamente. I layout complessi con caselle di testo sovrapposte, sostituzioni di font insolite o elementi di design personalizzati pesanti a volte si spostano leggermente, poiché il motore di layout di Word e il layout fisso di un PDF funzionano in modo diverso.",
+  "dive1Desc": "I documenti semplici - paragrafi, titoli, tabelle di base - si convertono quasi perfettamente. I layout complessi con caselle di testo sovrapposte, sostituzioni di font insolite o elementi di design personalizzati pesanti a volte si spostano leggermente, poiché il motore di layout di Word e il layout fisso di un PDF funzionano in modo diverso.",
   "dive2Title": "I PDF scansionati hanno bisogno prima dell'OCR",
-  "dive2Desc": "Un PDF scansionato è solo l'immagine di una pagina, senza testo sottostante da estrarre — convertirlo direttamente dà un documento vuoto o solo di immagini. Il nostro convertitore esegue automaticamente prima l'OCR sulle pagine scansionate, così il file Word risultante ha testo reale e modificabile invece di un'immagine.",
+  "dive2Desc": "Un PDF scansionato è solo l'immagine di una pagina, senza testo sottostante da estrarre - convertirlo direttamente dà un documento vuoto o solo di immagini. Il nostro convertitore esegue automaticamente prima l'OCR sulle pagine scansionate, così il file Word risultante ha testo reale e modificabile invece di un'immagine.",
   "dive3Title": "Cosa puoi modificare facilmente dopo e cosa no",
-  "dive3Desc": "Il testo dei paragrafi, i titoli e le tabelle semplici diventano contenuto Word completamente modificabile. Grafica complessa, diagrammi incorporati come immagini e posizionamento preciso a livello di pixel da PDF molto curati nel design spesso si convertono come immagini anziché oggetti modificabili — vengono visualizzati correttamente ma vanno sostituiti per essere cambiati.",
+  "dive3Desc": "Il testo dei paragrafi, i titoli e le tabelle semplici diventano contenuto Word completamente modificabile. Grafica complessa, diagrammi incorporati come immagini e posizionamento preciso a livello di pixel da PDF molto curati nel design spesso si convertono come immagini anziché oggetti modificabili - vengono visualizzati correttamente ma vanno sostituiti per essere cambiati.",
   "dive4Title": "Layout multi-colonna e moduli",
-  "dive4Desc": "Il testo multi-colonna, come una newsletter o un articolo accademico, si converte nella formattazione a colonne propria di Word quando possibile, preservando il layout visivo. I campi modulo PDF interattivi si convertono nel loro aspetto visivo, ma la funzionalità compilabile non viene trasferita — vedrai i contorni dei campi come elementi normali.",
+  "dive4Desc": "Il testo multi-colonna, come una newsletter o un articolo accademico, si converte nella formattazione a colonne propria di Word quando possibile, preservando il layout visivo. I campi modulo PDF interattivi si convertono nel loro aspetto visivo, ma la funzionalità compilabile non viene trasferita - vedrai i contorni dei campi come elementi normali.",
   "dive5Title": "Font che il tuo computer non ha",
   "dive5Desc": "Se il PDF originale usa un font non installato sul tuo sistema, Word lo sostituisce con il font disponibile più simile all'apertura del file, il che può spostare leggermente le interruzioni di riga e la spaziatura. Incorporare il font nel PDF in anticipo, quando possibile, offre la sostituzione più accurata.",
   "dive6Title": "PDF in Word vs. conversione diretta in Google Documenti",

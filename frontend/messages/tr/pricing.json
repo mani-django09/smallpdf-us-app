@@ -1,6 +1,6 @@
 {
-  "pageTitle": "Fiyatlandırma — SmallPDF.us",
-  "metaDescription": "Starter · Pro — aylık ya da yıllık faturalama. Tüm PDF araçları, 100 MB'a kadar dosyalar, reklamsız.",
+  "pageTitle": "Fiyatlar: Ücretsiz ve Pro PDF Araçları | SmallPDF.us",
+  "metaDescription": "SmallPDF.us planlarını karşılaştırın. Günlük kullanım için ücretsiz; Starter ve Pro daha büyük dosyalar, toplu işlem, reklamsız kullanım ve öncelik sunar.",
   "badge": "Basit fiyatlandırma, sürpriz yok",
   "hero": {
     "title": "Size uyan paketi seçin",
@@ -11,7 +11,7 @@
     "yearly": "Yıllık",
     "monthsFree": "2 ay ücretsiz",
     "saveAnnually": "🎉 Yıllık faturalamayla yılda $98'a kadar tasarruf edersiniz",
-    "billedAnnually": "Yıllık faturalanır — ${total}/yıl",
+    "billedAnnually": "Yıllık faturalanır - ${total}/yıl",
     "billedMonthly": "Aylık faturalanır · İstediğiniz zaman iptal edin",
     "save": "${amount} tasarruf"
   },
@@ -36,7 +36,7 @@
   "features": {
     "allTools": "Tüm PDF ve görsel araçları",
     "upTo200MB": "Dosya başına 100 MB'a kadar (birleştirmede 200 MB)",
-    "officeUpTo50MB": "Office dönüştürmeleri — 20 MB'a kadar",
+    "officeUpTo50MB": "Office dönüştürmeleri - 20 MB'a kadar",
     "standardProcessing": "Standart işleme",
     "retain24h": "Dosyalar 24 saat saklanır",
     "adFree": "Reklamsız deneyim",
@@ -44,8 +44,8 @@
     "priorityProcessing": "Öncelikli işleme",
     "apiAccess": "API erişimi",
     "everythingInStarter": "Starter'daki her şey",
-    "unlimitedFileSize": "100 MB'a kadar dosyalar — tüm araçlar",
-    "officeUnlimited": "Office dönüştürmeleri — 100 MB'a kadar",
+    "unlimitedFileSize": "100 MB'a kadar dosyalar - tüm araçlar",
+    "officeUnlimited": "Office dönüştürmeleri - 100 MB'a kadar",
     "priorityQueue": "Öncelikli işleme kuyruğu",
     "retain48h": "Dosyalar 48 saat saklanır",
     "batch20": "Toplu işte 20 dosyaya kadar",
@@ -59,14 +59,14 @@
     "priorityPhoneEmail": "Öncelikli telefon ve e-posta desteği",
     "customInvoicing": "Özel faturalandırma mevcut",
     "upTo100MB": "Dosya başına 5–25 MB'a kadar",
-    "officeUpTo15MB": "Office dönüştürmeleri — 5 MB'a kadar",
+    "officeUpTo15MB": "Office dönüştürmeleri - 5 MB'a kadar",
     "retain1h": "Dosyalar 1 saat sonra silinir",
     "adsShown": "Reklamlar gösterilir"
   },
   "currentPlan": "Mevcut Paket",
   "perMonth": "/ay",
   "freeBanner": {
-    "title": "Ücretsiz Paket — her zaman mevcut",
+    "title": "Ücretsiz Paket - her zaman mevcut",
     "subtitle": "Günde 5 ücretsiz kullanım · Tüm araçlar · 5–25 MB sınırı · 1 saat saklama · Reklamlar gösterilir",
     "signupLink": "Ücretsiz kaydol →"
   },
@@ -107,7 +107,7 @@
   "toolLimits": {
     "title": "Araç başına limitler",
     "subtitle": "Her araç için, pakete göre ayrılmış tam dosya boyutu ve toplu işlem sayısı limitleri.",
-    "singleFileNote": "— = tek dosyalı araç (toplu işlem sınırı geçerli değil)",
+    "singleFileNote": "- = tek dosyalı araç (toplu işlem sınırı geçerli değil)",
     "colSize": "boyut · toplu",
     "groups": {
       "pdfTools": "PDF Araçları",
@@ -147,9 +147,9 @@
   "bottomCta": {
     "title": "Paketinizi yükseltin",
     "subtitle": "SmallPDF.us'i kullanan dünyanın dört bir yanındaki profesyonellere katılın. İstediğiniz zaman iptal edin.",
-    "proBtnMonthly": "Pro'yu Al — $19/ay",
-    "proBtnYearly": "Pro'yu Al — $190/yıl",
-    "starterBtn": "Starter'ı Al — $9/ay"
+    "proBtnMonthly": "Pro'yu Al - $19/ay",
+    "proBtnYearly": "Pro'yu Al - $190/yıl",
+    "starterBtn": "Starter'ı Al - $9/ay"
   },
   "notices": {
     "checkoutCancelled": "Ödeme iptal edildi; hiçbir ücret alınmadı.",
@@ -197,6 +197,6 @@
   "perYear": "/yıl",
   "secureCheckout": "Güvenli ödeme",
   "payPalInstead": "Bunun yerine PayPal ile öde",
-  "annualSelected": "Yıllık faturalama seçildi — %17 indirim, ödemede uygulanır",
+  "annualSelected": "Yıllık faturalama seçildi - %17 indirim, ödemede uygulanır",
   "poweredBy": "{name} tarafından desteklenir"
 }

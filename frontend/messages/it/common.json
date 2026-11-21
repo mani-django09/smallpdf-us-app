@@ -22,7 +22,7 @@
     "fileTooLarge": "\"{name}\" supera i 100 MB, il massimo per file. Comprimilo o dividilo prima."
   },
   "extension": {
-    "oneClick": "Usa questi strumenti con un clic —",
+    "oneClick": "Usa questi strumenti con un clic -",
     "addToChrome": "Aggiungi SmallPDF.us a Chrome",
     "dismiss": "Chiudi",
     "freeExtension": "Estensione gratuita",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Strumenti PDF gratuiti – converti, comprimi | SmallPDF.us",
-      "description": "27 strumenti gratuiti per PDF e immagini: converti, comprimi, unisci e dividi in pochi secondi. Trasferimento cifrato, file eliminati entro 1 ora.",
+      "title": "Strumenti PDF gratis: unire, dividere | SmallPDF.us",
+      "description": "27 strumenti online gratuiti per PDF e immagini. Unisci, dividi, comprimi, converti, modifica e sblocca PDF in pochi secondi. File cifrati ed eliminati dopo 1 ora.",
       "keywords": "strumenti pdf gratuiti, comprimere pdf, convertire pdf, unire pdf, dividere pdf, pdf in word, pdf in jpg, pdf online gratis"
     }
   },
@@ -180,7 +180,7 @@
       "Elaborazione in batch",
       "Senza pubblicità"
     ],
-    "upgradeBtn": "Passa a Pro — Prossimamente",
+    "upgradeBtn": "Passa a Pro - Prossimamente",
     "planBadgeFree": "Gratuito",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"

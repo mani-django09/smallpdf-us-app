@@ -141,7 +141,7 @@ export default function CompressImageTo100KB() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "Compress Image to 100KB — SmallPDF.us",
+        name: "Compress Image to 100KB - SmallPDF.us",
         url: "https://smallpdf.us/compress-image-to-100kb",
         description: t("compressImage100kb.pageDescription"),
         applicationCategory: "MultimediaApplication",

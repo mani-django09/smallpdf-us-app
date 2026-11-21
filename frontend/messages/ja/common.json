@@ -22,7 +22,7 @@
     "fileTooLarge": "「{name}」は1ファイルあたりの上限100MBを超えています。先に圧縮または分割してください。"
   },
   "extension": {
-    "oneClick": "ワンクリックでツールを使う —",
+    "oneClick": "ワンクリックでツールを使う -",
     "addToChrome": "SmallPDF.usをChromeに追加",
     "dismiss": "閉じる",
     "freeExtension": "無料の拡張機能",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "無料PDFツール - PDFの変換・圧縮・結合 | SmallPDF.us",
-      "description": "27種類の無料PDF・画像ツール。変換・圧縮・結合・分割を数秒で。無料で始められ、ファイルは暗号化して転送、1時間以内に自動削除されます。",
+      "title": "無料PDFツール：結合・分割・圧縮 | SmallPDF.us",
+      "description": "PDFと画像の無料オンラインツール27種。PDFの結合・分割・圧縮・変換・編集・ロック解除が数秒で完了。ファイルは暗号化され1時間後に削除。",
       "keywords": "無料PDFツール, PDF変換, PDF圧縮, PDF結合, PDFをWordに, WordをPDFに, PDF分割, オンラインPDF"
     }
   },
@@ -180,7 +180,7 @@
       "バッチ処理",
       "広告なし"
     ],
-    "upgradeBtn": "Proにアップグレード — 近日公開",
+    "upgradeBtn": "Proにアップグレード - 近日公開",
     "planBadgeFree": "無料",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"

@@ -15,14 +15,14 @@
   "toolErrors": {
     "passwordProtected": "\"{name}\" está protegido por uma senha de abertura. Remova-a primeiro com nossa ferramenta Desbloquear PDF e tente novamente.",
     "alreadyLocked": "\"{name}\" já tem uma senha de abertura. Remova-a primeiro com nossa ferramenta Desbloquear PDF e depois proteja-o novamente.",
-    "corrupt": "Não foi possível ler \"{name}\". O arquivo pode estar danificado — tente salvá-lo ou baixá-lo novamente.",
-    "unreadableImages": "Não foi possível ler: {names}. A imagem pode estar danificada ou em um formato não suportado — salve-a como JPG ou PNG e tente novamente.",
+    "corrupt": "Não foi possível ler \"{name}\". O arquivo pode estar danificado - tente salvá-lo ou baixá-lo novamente.",
+    "unreadableImages": "Não foi possível ler: {names}. A imagem pode estar danificada ou em um formato não suportado - salve-a como JPG ou PNG e tente novamente.",
     "someSkipped": "Seu PDF está pronto, mas estas imagens não puderam ser lidas e foram omitidas: {names}",
-    "skippedFiles": "Pronto — mas estes arquivos não puderam ser lidos e foram omitidos: {names}",
+    "skippedFiles": "Pronto - mas estes arquivos não puderam ser lidos e foram omitidos: {names}",
     "fileTooLarge": "\"{name}\" tem mais de 100 MB, o máximo por arquivo. Comprima ou divida o arquivo primeiro."
   },
   "extension": {
-    "oneClick": "Use estas ferramentas com um clique —",
+    "oneClick": "Use estas ferramentas com um clique -",
     "addToChrome": "Adicionar o SmallPDF.us ao Chrome",
     "dismiss": "Fechar",
     "freeExtension": "Extensão gratuita",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Ferramentas PDF grátis – converter, comprimir | SmallPDF.us",
-      "description": "27 ferramentas grátis de PDF e imagem: converta, comprima, junte e divida em segundos. Transferência criptografada e exclusão automática em 1 hora.",
+      "title": "Ferramentas PDF Grátis: Juntar, Dividir | SmallPDF.us",
+      "description": "27 ferramentas online grátis para PDF e imagens. Junte, divida, comprima, converta, edite e desbloqueie PDF em segundos. Arquivos criptografados e apagados após 1 hora.",
       "keywords": "ferramentas pdf gratis, comprimir pdf, converter pdf, juntar pdf, dividir pdf, pdf para word, pdf para jpg, pdf online gratis"
     }
   },
@@ -144,7 +144,7 @@
       "delete": "Excluir",
       "deleteConfirm": "Excluir \"{name}\"? Isso não pode ser desfeito.",
       "errorLoad": "Não foi possível carregar seus arquivos",
-      "errorDownload": "Falha no download — o arquivo pode ter expirado.",
+      "errorDownload": "Falha no download - o arquivo pode ter expirado.",
       "errorDelete": "Falha ao excluir",
       "expired": "Expirado",
       "leftHours": "restam {h} h {m} min",
@@ -180,7 +180,7 @@
       "Processamento em lote",
       "Sem anúncios"
     ],
-    "upgradeBtn": "Fazer upgrade para Pro — Em breve",
+    "upgradeBtn": "Fazer upgrade para Pro - Em breve",
     "planBadgeFree": "Grátis",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"

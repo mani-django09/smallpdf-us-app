@@ -186,7 +186,7 @@ export default function Layout({ children, title, description }) {
             {/* Bottom Bar */}
             <div className="pt-8 border-t border-gray-800">
               <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <p className="text-sm text-gray-400">© {new Date().getFullYear()} SmallPDF.us — All rights reserved.</p>
+                <p className="text-sm text-gray-400">© {new Date().getFullYear()} SmallPDF.us - All rights reserved.</p>
                 <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-400">
                   <LocalizedLink href="/privacy" className="hover:text-white transition-colors">
                     {t('footer.privacy')}

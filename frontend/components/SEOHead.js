@@ -46,7 +46,7 @@ export default function SEOHead({
   })
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://smallpdf.us'
 
-  const defaultTitle = 'Free PDF Tools — Merge, Split, Compress & Convert | SmallPDF.us'
+  const defaultTitle = 'Free PDF Tools - Merge, Split, Compress & Convert | SmallPDF.us'
   const defaultDescription =
     'Free online PDF tools to convert, merge, split, compress PDFs and more. No signup required. Fast, secure, and easy to use. Convert PDF to Word, JPG to PDF, and compress images instantly.'
   const defaultKeywords =

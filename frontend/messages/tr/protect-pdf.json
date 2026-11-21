@@ -1,6 +1,6 @@
 {
   "badge": "Ücretsiz PDF Koruyucu",
-  "heroTitle": "PDF Koru",
+  "heroTitle": "PDF Şifrele ve Parola Koy online ve ücretsiz",
   "heroSubtitle": "PDF'inize parola ekleyin ve gizli tutun. Sonuçta filigran yok.",
   "dropTitle": "PDF'inizi buraya bırakın",
   "dropSubtitle": "ya da tıklayıp seçin, ücretsiz 10 MB'a kadar",
@@ -104,7 +104,7 @@
   "faq5Q": "Parolayı sonradan kaldırabilir miyim?",
   "faq5A": "Evet. İhtiyaç duyduğunuzda korumayı kaldırmak için PDF Kilidini Aç aracımızı doğru parolayla kullanın.",
   "preview": {
-    "pageTitle": "PDF Koru — Parola Belirle",
+    "pageTitle": "PDF Koru - Parola Belirle",
     "heading": "PDF'inizi koruyun",
     "subheading": "Bir parola seçin; belgeyi açmak için gerekecek.",
     "changeFile": "Dosyayı değiştir",
@@ -135,7 +135,7 @@
     "qualityLabel": "Kalite",
     "secureLabel": "Güvenli"
   },
-  "seoTitle": "PDF Koru — PDF'i Online Ücretsiz Parolayla Koru | SmallPDF.us",
-  "seoDescription": "PDF dosyalarını çevrimiçi ve ücretsiz parolayla koruyun. PDF'inize 256 bit AES şifreleme ekleyin ve indirin. Filigran yok, dosyalar otomatik silinir.",
+  "seoTitle": "PDF Şifrele: Parola Koy, Ücretsiz | SmallPDF.us",
+  "seoDescription": "PDF'ye online ve ücretsiz parola koyun. 256 bit AES şifreleme ekleyip indirin. Filigran yok, dosyalar 1 saat sonra silinir.",
   "seoKeywords": "pdf koru, pdf parola koruması, pdf şifrele, pdf kilitle, pdf'e parola ekle, pdf'i online ücretsiz güvenceye al"
 }

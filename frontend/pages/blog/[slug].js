@@ -127,9 +127,9 @@ function readingTime(content) {
 
 // ── Format date nicely ─────────────────────────────────────────────────────
 function formatDate(dateStr) {
-  if (!dateStr) return "—"
+  if (!dateStr) return "-"
   const d = new Date(dateStr)
-  if (isNaN(d.getTime())) return "—"
+  if (isNaN(d.getTime())) return "-"
   return d.toLocaleDateString("en-US", {
     year: "numeric", month: "long", day: "numeric",
   })
@@ -157,14 +157,14 @@ function CopyLinkBtn() {
 // Search results cut titles at ~60 characters and descriptions at ~160, so
 // add the brand only when it fits, and trim long excerpts at a word boundary.
 function blogTitle(t) {
-  if ((t + ' — SmallPDF.us Blog').length <= 65) return t + ' — SmallPDF.us Blog'
+  if ((t + ' - SmallPDF.us Blog').length <= 65) return t + ' - SmallPDF.us Blog'
   if ((t + ' | SmallPDF.us').length <= 65) return t + ' | SmallPDF.us'
   return t
 }
 function metaDescription(d) {
   if (!d || d.length <= 160) return d
   const cut = d.slice(0, 157)
-  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:—–-]+$/, '') + '…'
+  return cut.slice(0, cut.lastIndexOf(' ')).replace(/[,;:-–-]+$/, '') + '…'
 }
 
 export default function BlogPost({ post: initialPost, relatedPosts: initialRelated }) {
@@ -598,7 +598,7 @@ export default function BlogPost({ post: initialPost, relatedPosts: initialRelat
                 {/* CTA box */}
                 <div className="bg-gradient-to-br from-red-600 to-orange-600 rounded-2xl p-5 text-white text-center">
                   <p className="font-bold text-base mb-1">Try SmallPDF.us Free</p>
-                  <p className="text-red-100 text-xs mb-4 leading-snug">Compress, merge, convert PDFs — all tools free.</p>
+                  <p className="text-red-100 text-xs mb-4 leading-snug">Compress, merge, convert PDFs - all tools free.</p>
                   <Link
                     href="/"
                     className="block bg-white text-red-600 font-bold text-sm px-4 py-2.5 rounded-xl hover:bg-red-50 transition-colors"

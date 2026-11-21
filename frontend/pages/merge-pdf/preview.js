@@ -49,16 +49,16 @@ const INLINE_T = {
     tr: "\"{name}\" bir açma parolasıyla korunuyor. Önce PDF Kilidini Aç aracımızla parolayı kaldırın, sonra tekrar birleştirin.",
   },
   errCorrupt: {
-    en: "Could not read \"{name}\". The file may be damaged — try re-saving or re-downloading it.",
+    en: "Could not read \"{name}\". The file may be damaged - try re-saving or re-downloading it.",
     de: "„{name}“ konnte nicht gelesen werden. Die Datei ist möglicherweise beschädigt – speichern oder laden Sie sie erneut herunter.",
     fr: "Impossible de lire « {name} ». Le fichier est peut-être endommagé : réenregistrez-le ou téléchargez-le à nouveau.",
     es: "No se pudo leer \"{name}\". Es posible que el archivo esté dañado: vuelve a guardarlo o descargarlo.",
     it: "Impossibile leggere \"{name}\". Il file potrebbe essere danneggiato: salvalo o scaricalo di nuovo.",
-    id: "Tidak dapat membaca \"{name}\". File mungkin rusak — coba simpan ulang atau unduh ulang.",
-    pt: "Não foi possível ler \"{name}\". O arquivo pode estar danificado — tente salvá-lo ou baixá-lo novamente.",
+    id: "Tidak dapat membaca \"{name}\". File mungkin rusak - coba simpan ulang atau unduh ulang.",
+    pt: "Não foi possível ler \"{name}\". O arquivo pode estar danificado - tente salvá-lo ou baixá-lo novamente.",
     ja: "「{name}」を読み込めませんでした。ファイルが破損している可能性があります。保存し直すか、再度ダウンロードしてください。",
-    vi: "Không thể đọc \"{name}\". Tệp có thể bị hỏng — hãy thử lưu lại hoặc tải lại tệp.",
-    hi: "\"{name}\" पढ़ी नहीं जा सकी। फ़ाइल खराब हो सकती है — उसे दोबारा सहेजें या दोबारा डाउनलोड करें।",
+    vi: "Không thể đọc \"{name}\". Tệp có thể bị hỏng - hãy thử lưu lại hoặc tải lại tệp.",
+    hi: "\"{name}\" पढ़ी नहीं जा सकी। फ़ाइल खराब हो सकती है - उसे दोबारा सहेजें या दोबारा डाउनलोड करें।",
     ar: "تعذّرت قراءة \"{name}\". قد يكون الملف تالفاً، فجرّب حفظه مجدداً أو إعادة تنزيله.",
     tr: "\"{name}\" okunamadı. Dosya hasarlı olabilir; yeniden kaydetmeyi ya da tekrar indirmeyi deneyin.",
   },
@@ -120,7 +120,7 @@ export default function PreviewMergePDF() {
     } else {
       routerRef.current.push("/merge-pdf")
     }
-  }, []) // ✅ Empty deps — runs once on mount only
+  }, []) // ✅ Empty deps - runs once on mount only
 
   // Generate first-page thumbnails once PDF.js is ready (preview before merge).
   useEffect(() => {

@@ -263,7 +263,7 @@ export default function PdfToPpt() {
         SEOHead is inside Layout so Next.js <Head> merging works correctly.
         It auto-builds: self-referencing canonical per locale, all 8 hreflang
         tags (de/fr/es/it/id/pt/ja/en + x-default), localized OG/Twitter meta,
-        and robots directives. Never pass a hardcoded `canonical` prop here —
+        and robots directives. Never pass a hardcoded `canonical` prop here -
         SEOHead derives it dynamically from router.pathname so every localized
         page gets its own correct canonical URL.
       */}

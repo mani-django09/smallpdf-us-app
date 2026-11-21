@@ -19,7 +19,7 @@ const team = [
     role: "Founder & Developer",
     education: "Computer Science",
     experience: "Full-stack developer · PDF tools & document processing",
-    bio: "Manikant built SmallPDF.us from scratch after getting frustrated with PDF tools that lock basic features behind paywalls or require creating an account just to merge two files. He handles everything — from backend processing to frontend UX.",
+    bio: "Manikant built SmallPDF.us from scratch after getting frustrated with PDF tools that lock basic features behind paywalls or require creating an account just to merge two files. He handles everything - from backend processing to frontend UX.",
     expertise: ["PDF Processing", "Next.js / Node.js", "Product Design"],
     photo: "/team/manikant.png",
     isFounder: true,
@@ -39,7 +39,7 @@ const FounderCard = memo(({ member }) => (
       <div className="relative overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 min-h-[280px] md:min-h-0">
         <Image
           src={member.photo}
-          alt={`${member.name} — ${member.role}, SmallPDF.us`}
+          alt={`${member.name} - ${member.role}, SmallPDF.us`}
           fill
           sizes="(max-width: 768px) 100vw, 280px"
           className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
@@ -107,7 +107,7 @@ const TeamCard = memo(({ member, index }) => (
         <div className="relative w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-md ring-2 ring-gray-100">
           <Image
             src={member.photo}
-            alt={`${member.name} — ${member.role} at SmallPDF.us`}
+            alt={`${member.name} - ${member.role} at SmallPDF.us`}
             fill
             sizes="64px"
             className="object-cover group-hover:scale-105 transition-transform duration-500"

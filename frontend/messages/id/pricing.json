@@ -1,6 +1,6 @@
 {
-  "pageTitle": "Harga — SmallPDF.us",
-  "metaDescription": "Starter · Pro — tagihan bulanan atau tahunan. Semua alat PDF, file hingga 100 MB, tanpa iklan.",
+  "pageTitle": "Harga: Alat PDF Gratis dan Pro | SmallPDF.us",
+  "metaDescription": "Bandingkan paket SmallPDF.us. Gratis untuk pemakaian harian; Starter dan Pro menambah file lebih besar, proses massal, tanpa iklan, dan prioritas.",
   "badge": "Harga sederhana, tanpa kejutan",
   "hero": {
     "title": "Pilih paket yang tepat untukmu",
@@ -11,7 +11,7 @@
     "yearly": "Tahunan",
     "monthsFree": "2 bulan gratis",
     "saveAnnually": "🎉 Hemat hingga $98/tahun dengan tagihan tahunan",
-    "billedAnnually": "Ditagih tahunan — ${total}/tahun",
+    "billedAnnually": "Ditagih tahunan - ${total}/tahun",
     "billedMonthly": "Ditagih bulanan · Batalkan kapan saja",
     "save": "Hemat ${amount}"
   },
@@ -36,7 +36,7 @@
   "features": {
     "allTools": "Semua alat PDF & gambar",
     "upTo200MB": "Hingga 100 MB per file (200 MB untuk penggabungan)",
-    "officeUpTo50MB": "Konversi Office — hingga 20 MB",
+    "officeUpTo50MB": "Konversi Office - hingga 20 MB",
     "standardProcessing": "Pemrosesan standar",
     "retain24h": "File disimpan 24 jam",
     "adFree": "Pengalaman tanpa iklan",
@@ -44,8 +44,8 @@
     "priorityProcessing": "Pemrosesan prioritas",
     "apiAccess": "Akses API",
     "everythingInStarter": "Semua fitur Starter",
-    "unlimitedFileSize": "File hingga 100 MB — semua alat",
-    "officeUnlimited": "Konversi Office — hingga 100 MB",
+    "unlimitedFileSize": "File hingga 100 MB - semua alat",
+    "officeUnlimited": "Konversi Office - hingga 100 MB",
     "priorityQueue": "Antrian pemrosesan prioritas",
     "retain48h": "File disimpan 48 jam",
     "batch20": "Hingga 20 file per batch",
@@ -59,14 +59,14 @@
     "priorityPhoneEmail": "Dukungan telepon & email prioritas",
     "customInvoicing": "Faktur kustom tersedia",
     "upTo100MB": "Hingga 5–25 MB per file",
-    "officeUpTo15MB": "Konversi Office — hingga 5 MB",
+    "officeUpTo15MB": "Konversi Office - hingga 5 MB",
     "retain1h": "File dihapus setelah 1 jam",
     "adsShown": "Iklan ditampilkan"
   },
   "currentPlan": "Paket Saat Ini",
   "perMonth": "/bln",
   "freeBanner": {
-    "title": "Paket Gratis — selalu tersedia",
+    "title": "Paket Gratis - selalu tersedia",
     "subtitle": "5 penggunaan gratis per hari · Semua alat · Batas 5–25 MB · Retensi 1 jam · Iklan ditampilkan",
     "signupLink": "Daftar gratis →"
   },
@@ -119,7 +119,7 @@
   "toolLimits": {
     "title": "Batas per alat",
     "subtitle": "Batas ukuran file dan jumlah batch untuk setiap alat, berdasarkan paket.",
-    "singleFileNote": "— = alat satu file (tidak ada batas batch)",
+    "singleFileNote": "- = alat satu file (tidak ada batas batch)",
     "colSize": "ukuran · batch",
     "groups": {
       "pdfTools": "Alat PDF",
@@ -132,11 +132,11 @@
     "items": [
       {
         "q": "Apa perbedaan antara tagihan bulanan dan tahunan?",
-        "a": "Tagihan bulanan dikenakan setiap bulan. Tagihan tahunan dikenakan sekali setahun dengan tarif diskon — setara dengan 2 bulan gratis (bayar 10, dapatkan 12). Kamu dapat memilih siklus tagihan yang diinginkan saat checkout."
+        "a": "Tagihan bulanan dikenakan setiap bulan. Tagihan tahunan dikenakan sekali setahun dengan tarif diskon - setara dengan 2 bulan gratis (bayar 10, dapatkan 12). Kamu dapat memilih siklus tagihan yang diinginkan saat checkout."
       },
       {
         "q": "Bisakah saya membatalkan kapan saja?",
-        "a": "Ya — batalkan dengan satu klik dari halaman langganan akunmu. Paketmu tetap aktif hingga akhir periode tagihan saat ini, kemudian kembali ke Gratis secara otomatis. Tidak ada biaya tersembunyi."
+        "a": "Ya - batalkan dengan satu klik dari halaman langganan akunmu. Paketmu tetap aktif hingga akhir periode tagihan saat ini, kemudian kembali ke Gratis secara otomatis. Tidak ada biaya tersembunyi."
       },
       {
         "q": "Bisakah saya beralih antara tagihan bulanan dan tahunan setelah berlangganan?",
@@ -144,7 +144,7 @@
       },
       {
         "q": "Metode pembayaran apa yang diterima?",
-        "a": "Semua kartu kredit/debit utama (Visa, Mastercard, RuPay), UPI, net banking, dan dompet digital — diproses dengan aman melalui Razorpay. Semua transaksi sesuai PCI-DSS."
+        "a": "Semua kartu kredit/debit utama (Visa, Mastercard, RuPay), UPI, net banking, dan dompet digital - diproses dengan aman melalui Razorpay. Semua transaksi sesuai PCI-DSS."
       },
       {
         "q": "Apa yang terjadi pada file saya setelah masa retensi?",
@@ -152,23 +152,23 @@
       },
       {
         "q": "Apakah ada kebijakan pengembalian dana?",
-        "a": "Ya — jika kamu tidak puas dalam 14 hari setelah tagihan pertama, hubungi kami untuk pengembalian dana penuh. Tanpa pertanyaan."
+        "a": "Ya - jika kamu tidak puas dalam 14 hari setelah tagihan pertama, hubungi kami untuk pengembalian dana penuh. Tanpa pertanyaan."
       },
       {
         "q": "Apakah paket Agency mendukung banyak pengguna?",
-        "a": "Ya — Agency mencakup 5 kursi tim. Setiap kursi mendapatkan login sendiri dengan penagihan bersama di bawah satu akun. Butuh lebih? Hubungi kami."
+        "a": "Ya - Agency mencakup 5 kursi tim. Setiap kursi mendapatkan login sendiri dengan penagihan bersama di bawah satu akun. Butuh lebih? Hubungi kami."
       }
     ]
   },
   "bottomCta": {
     "title": "Upgrade paket Anda",
     "subtitle": "Bergabunglah dengan para profesional di seluruh dunia yang menggunakan SmallPDF.us. Batalkan kapan saja.",
-    "proBtnMonthly": "Mulai Pro — $19/bln",
-    "proBtnYearly": "Mulai Pro — $190/tahun",
-    "starterBtn": "Mulai Starter — $9/bln"
+    "proBtnMonthly": "Mulai Pro - $19/bln",
+    "proBtnYearly": "Mulai Pro - $190/tahun",
+    "starterBtn": "Mulai Starter - $9/bln"
   },
   "notices": {
-    "checkoutCancelled": "Checkout dibatalkan — tidak ada tagihan yang dikenakan.",
+    "checkoutCancelled": "Checkout dibatalkan - tidak ada tagihan yang dikenakan.",
     "dismiss": "Tutup",
     "contactSupport": "hubungi dukungan"
   },

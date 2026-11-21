@@ -1,15 +1,15 @@
 {
   "seo": {
-    "title": "Chuyển PDF sang Word miễn phí – Nhanh & An toàn | SmallPDF.us",
-    "description": "Chuyển tệp PDF sang tài liệu Word (.docx) có thể chỉnh sửa hoàn toàn, trực tuyến và miễn phí. Bố cục, hình ảnh và định dạng được giữ gần với bản gốc nhất có thể. Chạy ngay trong trình duyệt của bạn."
+    "title": "Chuyển PDF sang Word miễn phí (DOCX) | SmallPDF.us",
+    "description": "Chuyển PDF sang Word (DOCX) online miễn phí. Nhận tài liệu chỉnh sửa được, giữ nguyên bố cục, bảng và hình ảnh. Chạy trên trình duyệt, không cần cài đặt."
   },
 
-  "heroTitle": "Chuyển PDF sang Word",
+  "heroTitle": "Chuyển PDF sang Word online miễn phí",
   "heroTitleHighlight": "Miễn phí & trong vài giây",
   "heroSubtitle": "Biến tệp PDF của bạn thành tài liệu Word có thể chỉnh sửa, với bố cục được giữ gần với bản gốc nhất có thể. Tải tệp lên rồi tải về tệp .docx.",
 
   "dropTitle": "Thả tệp PDF của bạn vào đây",
-  "dropActive": "Thả ra ngay — chúng tôi đã nhận được!",
+  "dropActive": "Thả ra ngay - chúng tôi đã nhận được!",
   "dropSubtitle": "hoặc nhấp để chọn tệp từ thiết bị của bạn",
   "selectFiles": "Chọn tệp PDF",
   "pdfFormat": "Chỉ hỗ trợ định dạng PDF",
@@ -36,7 +36,7 @@
   "errorMaxSize": "Tệp này quá lớn. Giới hạn là 5 MB mỗi tệp với gói miễn phí.",
   "errorNoFiles": "Vui lòng chọn ít nhất một tệp PDF để tiếp tục.",
   "errorProcessing": "Đã xảy ra lỗi khi xử lý tệp của bạn. Vui lòng thử lại.",
-  "errorPreviewLoading": "Bản xem trước vẫn đang tải — vui lòng đợi một chút.",
+  "errorPreviewLoading": "Bản xem trước vẫn đang tải - vui lòng đợi một chút.",
   "errorPreviewFailed": "Không thể tải bản xem trước. Tệp có thể bị hỏng.",
 
   "featuresTitle": "Vì sao nên dùng SmallPDF.us?",
@@ -75,13 +75,13 @@
   "diveTitle": "Điều thực sự xảy ra khi bạn chuyển sang Word",
   "diveSubtitle": "Cách xử lý bố cục, phông chữ và các trang quét.",
   "dive1Title": "Định dạng có được giữ nguyên sau khi chuyển đổi không?",
-  "dive1Desc": "Các tài liệu đơn giản — đoạn văn, tiêu đề, bảng cơ bản — được chuyển đổi gần như hoàn hảo. Các bố cục phức tạp với hộp văn bản chồng lên nhau, phông chữ bị thay thế bất thường hoặc nhiều yếu tố thiết kế tùy chỉnh đôi khi bị lệch đôi chút, vì bộ máy bố cục của Word và bố cục cố định của PDF hoạt động khác nhau.",
+  "dive1Desc": "Các tài liệu đơn giản - đoạn văn, tiêu đề, bảng cơ bản - được chuyển đổi gần như hoàn hảo. Các bố cục phức tạp với hộp văn bản chồng lên nhau, phông chữ bị thay thế bất thường hoặc nhiều yếu tố thiết kế tùy chỉnh đôi khi bị lệch đôi chút, vì bộ máy bố cục của Word và bố cục cố định của PDF hoạt động khác nhau.",
   "dive2Title": "PDF quét cần OCR trước",
-  "dive2Desc": "PDF quét chỉ là hình ảnh của một trang, không có văn bản bên dưới để trích xuất — chuyển đổi trực tiếp sẽ cho ra tài liệu trống hoặc chỉ có hình ảnh. Công cụ của chúng tôi tự động chạy OCR trên các trang quét trước, nên tệp Word thu được có văn bản thật, có thể chỉnh sửa thay vì một bức ảnh.",
+  "dive2Desc": "PDF quét chỉ là hình ảnh của một trang, không có văn bản bên dưới để trích xuất - chuyển đổi trực tiếp sẽ cho ra tài liệu trống hoặc chỉ có hình ảnh. Công cụ của chúng tôi tự động chạy OCR trên các trang quét trước, nên tệp Word thu được có văn bản thật, có thể chỉnh sửa thay vì một bức ảnh.",
   "dive3Title": "Những gì bạn có thể và không thể dễ dàng chỉnh sửa sau đó",
-  "dive3Desc": "Văn bản đoạn, tiêu đề và bảng đơn giản trở thành nội dung Word có thể chỉnh sửa hoàn toàn. Đồ họa phức tạp, biểu đồ nhúng dưới dạng hình ảnh và việc định vị chính xác từng điểm ảnh trong các PDF thiên về thiết kế thường được chuyển thành hình ảnh thay vì đối tượng có thể chỉnh sửa — chúng hiển thị đúng nhưng cần được thay thế nếu muốn thay đổi.",
+  "dive3Desc": "Văn bản đoạn, tiêu đề và bảng đơn giản trở thành nội dung Word có thể chỉnh sửa hoàn toàn. Đồ họa phức tạp, biểu đồ nhúng dưới dạng hình ảnh và việc định vị chính xác từng điểm ảnh trong các PDF thiên về thiết kế thường được chuyển thành hình ảnh thay vì đối tượng có thể chỉnh sửa - chúng hiển thị đúng nhưng cần được thay thế nếu muốn thay đổi.",
   "dive4Title": "Bố cục nhiều cột và biểu mẫu",
-  "dive4Desc": "Văn bản nhiều cột, như bản tin hay bài báo khoa học, được chuyển thành định dạng cột của Word khi có thể, giữ nguyên bố cục trực quan. Các trường biểu mẫu tương tác trong PDF được chuyển thành hình dạng hiển thị, nhưng chức năng điền thông tin không được giữ lại — bạn sẽ thấy khung của trường như các thành phần thông thường.",
+  "dive4Desc": "Văn bản nhiều cột, như bản tin hay bài báo khoa học, được chuyển thành định dạng cột của Word khi có thể, giữ nguyên bố cục trực quan. Các trường biểu mẫu tương tác trong PDF được chuyển thành hình dạng hiển thị, nhưng chức năng điền thông tin không được giữ lại - bạn sẽ thấy khung của trường như các thành phần thông thường.",
   "dive5Title": "Phông chữ mà máy tính của bạn không có",
   "dive5Desc": "Nếu PDF gốc dùng phông chữ chưa được cài trên máy của bạn, Word sẽ thay bằng phông chữ gần nhất có sẵn khi bạn mở tệp, điều này có thể làm lệch nhẹ ngắt dòng và khoảng cách. Nếu có thể, hãy nhúng phông chữ vào PDF từ trước để việc thay thế chính xác nhất.",
   "dive6Title": "PDF sang Word so với chuyển thẳng sang Google Docs",
@@ -90,10 +90,10 @@
   "faqSubtitle": "Giải đáp nhanh về giới hạn, quyền riêng tư và kết quả.",
 
   "faq1Question": "Chuyển đổi PDF sang Word chính xác đến mức nào?",
-  "faq1Answer": "Điều này phụ thuộc vào loại PDF. Với PDF tạo từ máy tính — xuất từ Word, InDesign hoặc phần mềm tương tự — việc chuyển đổi rất chính xác: văn bản, định dạng và cấu trúc đều được giữ gọn gàng. Với PDF quét không có văn bản nhúng, độ chính xác có thể thay đổi vì cần thêm bước OCR (nhận dạng ký tự quang học).",
+  "faq1Answer": "Điều này phụ thuộc vào loại PDF. Với PDF tạo từ máy tính - xuất từ Word, InDesign hoặc phần mềm tương tự - việc chuyển đổi rất chính xác: văn bản, định dạng và cấu trúc đều được giữ gọn gàng. Với PDF quét không có văn bản nhúng, độ chính xác có thể thay đổi vì cần thêm bước OCR (nhận dạng ký tự quang học).",
 
   "faq2Question": "Bố cục tài liệu của tôi có được giữ nguyên không?",
-  "faq2Answer": "Có. Chúng tôi cố gắng tái tạo bố cục gốc trung thực nhất có thể. Cột, tiêu đề, danh sách và hình ảnh nhúng đều được tính đến. Các bố cục rất phức tạp — như trang tạp chí nhiều cột — đôi khi có thể có chút khác biệt nhỏ.",
+  "faq2Answer": "Có. Chúng tôi cố gắng tái tạo bố cục gốc trung thực nhất có thể. Cột, tiêu đề, danh sách và hình ảnh nhúng đều được tính đến. Các bố cục rất phức tạp - như trang tạp chí nhiều cột - đôi khi có thể có chút khác biệt nhỏ.",
 
   "faq3Question": "Tệp PDF của tôi có an toàn không?",
   "faq3Answer": "Có. Mọi quá trình truyền tải đều được mã hóa qua HTTPS/SSL. Tệp của bạn không được chia sẻ với bất kỳ bên thứ ba nào và tự động bị xóa khỏi máy chủ của chúng tôi sau một giờ.",
@@ -109,7 +109,7 @@
   "ctaButton": "Chuyển PDF của tôi sang Word",
 
   "preview": {
-    "layoutTitle": "Chuyển PDF sang Word — Xem trước",
+    "layoutTitle": "Chuyển PDF sang Word - Xem trước",
     "layoutDesc": "Xem lại các tệp của bạn và bắt đầu chuyển đổi sang Word.",
     "loadingText": "Đang tải tài liệu của bạn…",
     "changeFiles": "Đổi tệp",
@@ -146,8 +146,8 @@
     "stage5": "Đang hoàn tất…",
     "stageComplete": "Chuyển đổi hoàn tất!",
     "percentComplete": "% hoàn tất",
-    "convertingText_singular": "Đang chuyển đổi {{count}} tệp — vui lòng không đóng thẻ này.",
-    "convertingText_plural": "Đang chuyển đổi {{count}} tệp — vui lòng không đóng thẻ này.",
+    "convertingText_singular": "Đang chuyển đổi {{count}} tệp - vui lòng không đóng thẻ này.",
+    "convertingText_plural": "Đang chuyển đổi {{count}} tệp - vui lòng không đóng thẻ này.",
     "conversionFailed": "Chuyển đổi thất bại"
   },
 
@@ -171,7 +171,7 @@
     "downloadFailed": "Tải xuống thất bại: {{error}}",
     "convertAnother": "Chuyển thêm PDF khác",
     "shareTitle": "Tài liệu Word tôi vừa chuyển đổi",
-    "shareText": "Tôi đã chuyển PDF sang Word bằng SmallPDF.us — bạn thử xem nhé!",
+    "shareText": "Tôi đã chuyển PDF sang Word bằng SmallPDF.us - bạn thử xem nhé!",
     "editable": "Chỉnh sửa hoàn toàn",
     "encrypted": "Mã hóa & an toàn",
     "expiresIn": "Hết hạn sau",

@@ -37,7 +37,7 @@ function sha256OfFile(filePath) {
 // Returns { malicious: boolean, stats } or null when the hash is unknown to VT.
 async function lookupHash(sha256) {
   if (typeof fetch !== 'function') {
-    console.warn('[virusScan] global fetch unavailable (Node < 18) — skipping')
+    console.warn('[virusScan] global fetch unavailable (Node < 18) - skipping')
     return null
   }
 
@@ -52,7 +52,7 @@ async function lookupHash(sha256) {
     // 404 = VT has never seen this file → not known-bad, allow it.
     if (resp.status === 404) return null
     if (!resp.ok) {
-      console.warn(`[virusScan] VT lookup HTTP ${resp.status} — failing open`)
+      console.warn(`[virusScan] VT lookup HTTP ${resp.status} - failing open`)
       return null
     }
 
@@ -61,7 +61,7 @@ async function lookupHash(sha256) {
     const malicious = (stats.malicious || 0) >= MALICIOUS_THRESHOLD
     return { malicious, stats }
   } catch (err) {
-    console.warn('[virusScan] VT lookup failed — failing open:', err.message)
+    console.warn('[virusScan] VT lookup failed - failing open:', err.message)
     return null
   } finally {
     clearTimeout(timeout)
@@ -103,7 +103,7 @@ async function virusScan(req, res, next) {
     return next()
   } catch (err) {
     // Never block legitimate users on an internal scan error — fail open.
-    console.error('[virusScan] unexpected error — failing open:', err.message)
+    console.error('[virusScan] unexpected error - failing open:', err.message)
     return next()
   }
 }

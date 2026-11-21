@@ -25,7 +25,7 @@ db.serialize(() => {
   for (const sql of columns) {
     const col = sql.match(/ADD COLUMN (\S+)/)[1]
     db.run(sql, (err) => {
-      if (err?.message?.includes('duplicate column')) console.log(`ℹ️  ${col} already exists — skipped`)
+      if (err?.message?.includes('duplicate column')) console.log(`ℹ️  ${col} already exists - skipped`)
       else if (err) console.error(`❌ Error adding ${col}:`, err.message)
       else console.log(`✅ Added column: ${col}`)
     })

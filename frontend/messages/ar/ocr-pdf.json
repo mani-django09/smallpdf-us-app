@@ -1,13 +1,13 @@
 {
   "seo": {
-    "title": "OCR PDF مجاناً — استخراج النص من PDF الممسوح ضوئياً | SmallPDF.us",
-    "description": "حوّل ملفات PDF الممسوحة ضوئياً إلى نص قابل للبحث مجاناً. تقرأ أداة OCR لدينا النصوص العربية والإنجليزية، وتُخرج PDF قابلاً للبحث أو Word. دون تثبيت.",
+    "title": "OCR PDF: استخراج النص من PDF ممسوح | SmallPDF.us",
+    "description": "اجعل ملف PDF الممسوح ضوئيًا قابلًا للبحث والنسخ بواسطة OCR مجاني أونلاين. نزّل PDF قابلًا للبحث؛ وWord وTXT في الخطط المدفوعة. دون تثبيت.",
     "keywords": "OCR PDF, استخراج النص من PDF, PDF ممسوح إلى نص, OCR PDF أونلاين, جعل PDF قابلاً للبحث, أداة OCR مجانية, استخراج نص PDF, التعرف الضوئي على الحروف PDF, PDF قابل للبحث, مستند ممسوح إلى نص"
   },
   "hero": {
-    "title": "OCR PDF —",
+    "title": "OCR PDF أونلاين:",
     "titleHighlight": "استخراج النص",
-    "titleSuffix": "من أي مستند ممسوح ضوئياً",
+    "titleSuffix": "من ملف PDF ممسوح",
     "subtitle": "حوّل ملفات PDF القائمة على الصور أو الممسوحة ضوئياً أو الملتقطة بالكاميرا إلى مستندات قابلة للبحث والنسخ. تقرأ الأداة النصوص العربية والإنجليزية، ودون تثبيت أي شيء."
   },
   "upload": {
@@ -174,7 +174,7 @@
     "button": "ابدأ OCR الآن، مجاناً"
   },
   "preview": {
-    "pageTitle": "معاينة OCR PDF — SmallPDF.us",
+    "pageTitle": "معاينة OCR PDF - SmallPDF.us",
     "changeFile": "غيّر الملف",
     "headerTitle": "جاهز لاستخراج النص",
     "headerSubtitle": "راجع ملفك وشغّل OCR",
@@ -187,7 +187,7 @@
     "receiveDocx": "مستند Word (.docx) بالنص المستخرج",
     "receiveTxt": "ملف نص عادي (.txt) لنسخ ولصق سهل",
     "receiveProOnly": "تصدير Word وTXT (لـ Pro فقط)",
-    "runOcrButton": "شغّل OCR — استخرج النص",
+    "runOcrButton": "شغّل OCR - استخرج النص",
     "securePrivate": "آمن وخاص",
     "autoDeleted": "حذف تلقائي بعد ساعة",
     "pleaseWait": "لحظة من فضلك، لا تغلق هذه التبويبة",
@@ -215,7 +215,7 @@
     "advertisement": "إعلان"
   },
   "process": {
-    "pageTitle": "معالجة OCR — SmallPDF.us",
+    "pageTitle": "معالجة OCR - SmallPDF.us",
     "backLink": "العودة إلى OCR PDF",
     "processingTitle": "OCR قيد التنفيذ…",
     "standardQueue": "قائمة عادية. وتستخدم Pro قائمة أولوية.",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "نزّل OCR PDF — SmallPDF.us",
+    "pageTitle": "نزّل OCR PDF - SmallPDF.us",
     "successTitle": "اكتمل OCR!",
     "pagesProcessed": "تمت معالجة {count} صفحة",
     "wordsExtracted": "استُخرجت نحو {count} كلمة",

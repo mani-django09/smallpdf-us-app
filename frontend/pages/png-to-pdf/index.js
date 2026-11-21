@@ -228,7 +228,7 @@ export default function PngToPdf() {
         SEOHead must be inside Layout so Next.js <Head> merging works correctly.
         It auto-builds: self-referencing canonical per locale, all 8 hreflang tags,
         localized OG/Twitter meta, and robots directives.
-        Never pass a hardcoded `canonical` prop — SEOHead derives it dynamically
+        Never pass a hardcoded `canonical` prop - SEOHead derives it dynamically
         from router.pathname so each locale gets its own correct canonical URL.
       */}
       <SEOHead

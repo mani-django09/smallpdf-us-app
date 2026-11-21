@@ -53,18 +53,18 @@ function getRazorpay() {
 const INTL_PLANS = {
   starter: {
     label:   'Starter',
-    monthly: { amount: 900,   description: 'Starter Monthly — $9/mo'    },
-    yearly:  { amount: 9000,  description: 'Starter Annual — $90/yr'    },
+    monthly: { amount: 900,   description: 'Starter Monthly - $9/mo'    },
+    yearly:  { amount: 9000,  description: 'Starter Annual - $90/yr'    },
   },
   pro: {
     label:   'Pro',
-    monthly: { amount: 1900,  description: 'Pro Monthly — $19/mo'       },
-    yearly:  { amount: 19000, description: 'Pro Annual — $190/yr'       },
+    monthly: { amount: 1900,  description: 'Pro Monthly - $19/mo'       },
+    yearly:  { amount: 19000, description: 'Pro Annual - $190/yr'       },
   },
   agency: {
     label:   'Agency',
-    monthly: { amount: 4900,  description: 'Agency Monthly — $49/mo'   },
-    yearly:  { amount: 49000, description: 'Agency Annual — $490/yr'   },
+    monthly: { amount: 4900,  description: 'Agency Monthly - $49/mo'   },
+    yearly:  { amount: 49000, description: 'Agency Annual - $490/yr'   },
   },
 }
 
@@ -153,7 +153,7 @@ router.post('/create-subscription', requireAuth, async (req, res) => {
         ? `RAZORPAY_${plan.toUpperCase()}_YEARLY_PLAN_ID`
         : `RAZORPAY_${plan.toUpperCase()}_PLAN_ID`
       return res.status(500).json({
-        error: `${envKey} not set in .env — create the ${interval} plan in Razorpay Dashboard first`,
+        error: `${envKey} not set in .env - create the ${interval} plan in Razorpay Dashboard first`,
       })
     }
 
@@ -387,11 +387,11 @@ async function webhookHandler(req, res) {
   // Verify webhook signature — REQUIRED, fail closed if the secret is missing
   // (a missing secret used to silently skip verification entirely).
   if (!webhookSecret) {
-    console.error('❌ RAZORPAY_WEBHOOK_SECRET not configured — rejecting webhook for safety')
+    console.error('❌ RAZORPAY_WEBHOOK_SECRET not configured - rejecting webhook for safety')
     return res.status(500).send('Webhook verification not configured')
   }
   if (!signature) {
-    console.warn('❌ Razorpay webhook missing signature header — rejecting')
+    console.warn('❌ Razorpay webhook missing signature header - rejecting')
     return res.status(400).send('Missing webhook signature')
   }
   {
@@ -488,7 +488,7 @@ async function webhookHandler(req, res) {
             sendPaymentFailedEmail({ name: failedUser.name, email: failedUser.email, plan: failedUser.plan, gateway: 'razorpay' })
           }
         }
-        console.warn(`⚠️  Payment failed: ${payment?.id} — ${payment?.error_description || 'unknown error'}`)
+        console.warn(`⚠️  Payment failed: ${payment?.id} - ${payment?.error_description || 'unknown error'}`)
         break
       }
 
@@ -661,7 +661,7 @@ async function sendAbandonedCheckoutReminders() {
       try {
         sub = await rzp.subscriptions.fetch(user.razorpay_subscription_id)
       } catch {
-        continue // subscription no longer exists on Razorpay's side — skip
+        continue // subscription no longer exists on Razorpay's side - skip
       }
       if (!['created', 'authenticated'].includes(sub.status)) continue
 

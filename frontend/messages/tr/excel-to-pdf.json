@@ -2,10 +2,10 @@
   "howToDescription": "Bir Excel elektronik tablosunu (XLSX, XLS, CSV ya da ODS) üç hızlı adımda çevrimiçi PDF'e dönüştürün.",
   "howToTitle": "Excel PDF'e nasıl dönüştürülür",
   "seo": {
-    "title": "Excel'den PDF'e Dönüştürücü — Ücretsiz Online | SmallPDF.us",
-    "description": "Excel'i çevrimiçi ve ücretsiz PDF'e dönüştürün; kolay kullanım, filigran yok. XLSX ya da XLS yükleyin, grafikleri ve tabloları korunmuş, kusursuz biçimlendirilmiş bir PDF alın."
+    "title": "Excel'i PDF'ye Dönüştür: XLSX Ücretsiz | SmallPDF.us",
+    "description": "Excel'i PDF'ye online ve ücretsiz dönüştürün. XLSX veya XLS yükleyin, tüm sayfaları, grafikleri ve biçimlendirmeyi koruyan PDF alın."
   },
-  "heroTitle": "Excel'i Ücretsiz PDF'e Dönüştür",
+  "heroTitle": "Excel'i PDF'ye Dönüştür online ve ücretsiz",
   "heroSubtitle": "XLSX ya da XLS dosyanızı bırakın, saniyeler içinde temiz, baskıya hazır bir PDF alın. Her sayfa, grafik ve formül sonucu taşınır. Formüller hesaplanmış değerlerine dönüşür.",
   "heroHighlight": "Ücretsiz Online Excel'den PDF'e Dönüştürücü",
   "heroBadge1": "Ücretsiz",
@@ -14,8 +14,8 @@
   "uploadDropText": "Excel dosyanızı buraya bırakın",
   "uploadOrText": "ya da cihazınızdan seçmek için tıklayın",
   "uploadProcessing": "Elektronik tablonuz okunuyor…",
-  "pageTitle": "Excel'den PDF'e Dönüştürücü — Ücretsiz Online | SmallPDF.us",
-  "pageDescription": "Excel'i çevrimiçi ve ücretsiz PDF'e dönüştürün; kolay kullanım, filigran yok. XLSX ya da XLS dosyanızı yükleyin, tüm sayfaları korunmuş, kusursuz biçimlendirilmiş bir PDF alın. Ücretsiz en fazla 5MB.",
+  "pageTitle": "Excel'i PDF'ye Dönüştür: XLSX Ücretsiz | SmallPDF.us",
+  "pageDescription": "Excel'i PDF'ye online ve ücretsiz dönüştürün. XLSX veya XLS yükleyin, tüm sayfaları, grafikleri ve biçimlendirmeyi koruyan PDF alın.",
   "uploadTitle": "Excel Elektronik Tablonuzu Yükleyin",
   "uploadSubtitle": "Dosyanızı buraya sürükleyip bırakın ya da cihazınızdan seçmek için tıklayın",
   "uploadButton": "Dosya Seç",

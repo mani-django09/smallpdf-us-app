@@ -70,7 +70,7 @@ export default function AdminBlog() {
   // again at /admin in another tab refreshes localStorage), and on expiry keep
   // the editor contents instead of throwing the user out mid-post.
   const currentToken = () => localStorage.getItem("adminToken") || token
-  const SESSION_EXPIRED = "Session expired. Log in again at /admin in a new tab, then click Save again — your post is kept here."
+  const SESSION_EXPIRED = "Session expired. Log in again at /admin in a new tab, then click Save again - your post is kept here."
 
   const fetchPosts = async (authToken) => {
     try {

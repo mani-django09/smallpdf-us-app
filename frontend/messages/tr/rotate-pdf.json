@@ -1,6 +1,6 @@
 {
   "badge": "Ücretsiz PDF Döndürücü",
-  "heroTitle": "PDF Döndür",
+  "heroTitle": "PDF Sayfalarını Döndür online ve ücretsiz",
   "heroSubtitle": "PDF'inizdeki tüm sayfaları döndürün ve sonucu kaydedin. Ücretsiz, filigransız.",
   "dropTitle": "PDF'inizi buraya bırakın",
   "dropSubtitle": "ya da tıklayıp seçin, ücretsiz 10 MB'a kadar",
@@ -96,7 +96,7 @@
   "faq5Q": "Parolayla korunan bir PDF'i döndürebilir miyim?",
   "faq5A": "Lütfen önce PDF Kilidini Aç aracımızla PDF'in kilidini açın, sonra kilidi açılan dosyayı döndürün.",
   "preview": {
-    "pageTitle": "PDF Döndür — Ayarla ve Uygula",
+    "pageTitle": "PDF Döndür - Ayarla ve Uygula",
     "heading": "PDF'inizi döndürün",
     "subheading": "Döndürmeyi ayarlamak için düğmeleri kullanın, ardından her sayfaya uygulayın.",
     "changeFile": "Dosyayı değiştir",
@@ -126,7 +126,7 @@
     "pagesLabel": "Sayfalar",
     "secureLabel": "Güvenli"
   },
-  "seoTitle": "PDF Döndür — PDF Sayfalarını Online Ücretsiz Döndür | SmallPDF.us",
-  "seoDescription": "PDF sayfalarını çevrimiçi ve ücretsiz döndürün. PDF'inizi 90°, 180° ya da 270° çevirip indirin. Filigran yok, dosyalar otomatik silinir.",
+  "seoTitle": "PDF Döndür: Sayfaları Online Çevir | SmallPDF.us",
+  "seoDescription": "PDF'yi online ve ücretsiz döndürün, değişikliği kalıcı kaydedin. Tüm PDF'yi 90°, 180° veya 270° çevirin. Filigran yok.",
   "seoKeywords": "pdf döndür, pdf sayfalarını döndür, pdf'i çevir, pdf'i online ücretsiz döndür, pdf yönünü değiştir, pdf'i döndür ve kaydet"
 }

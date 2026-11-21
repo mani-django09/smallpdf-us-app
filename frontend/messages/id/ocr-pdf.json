@@ -1,19 +1,19 @@
 {
   "seo": {
-    "title": "OCR PDF Gratis – Ekstrak Teks dari Hasil Scan | SmallPDF.us",
-    "description": "Ubah PDF hasil scan menjadi dokumen yang dapat dicari. Mendukung 100+ bahasa, output PDF yang dapat dicari atau Word. Tanpa instalasi.",
+    "title": "OCR PDF: Teks dari PDF Hasil Scan | SmallPDF.us",
+    "description": "Buat PDF hasil scan bisa dicari dan disalin dengan OCR online gratis. Unduh PDF yang bisa dicari; Word dan TXT di paket berbayar. Tanpa instalasi.",
     "keywords": "OCR PDF, ekstrak teks dari PDF, PDF scan ke teks, OCR PDF online, buat PDF bisa dicari, alat OCR gratis, ekstraksi teks PDF, pengenalan karakter optik PDF"
   },
   "hero": {
-    "title": "OCR PDF —",
-    "titleHighlight": "Ekstrak Teks",
-    "titleSuffix": "dari Dokumen Scan Apapun",
+    "title": "OCR PDF online:",
+    "titleHighlight": "ekstrak teks",
+    "titleSuffix": "dari PDF hasil scan",
     "subtitle": "Ubah PDF berbasis gambar, hasil pindai, atau hasil foto kamera menjadi dokumen yang bisa dicari dan teksnya bisa disalin. Lebih dari 100 bahasa, tanpa perlu menginstal apa pun."
   },
   "upload": {
     "dropActive": "Letakkan PDF Anda di sini",
     "heading": "Unggah PDF Hasil Scan",
-    "subheading": "Seret & lepas atau klik untuk memilih — hanya file PDF",
+    "subheading": "Seret & lepas atau klik untuk memilih - hanya file PDF",
     "button": "Pilih PDF untuk OCR",
     "sslEncrypted": "Terenkripsi SSL",
     "filesDeleted": "File dihapus dalam 1 jam",
@@ -37,7 +37,7 @@
       },
       {
         "title": "100+ Bahasa Terdeteksi Otomatis",
-        "desc": "Latin, Sirilik, Arab, Ibrani, CJK (Cina, Jepang, Korea), Devanagari, Thai, dan lainnya — model karakter yang tepat diterapkan secara otomatis per halaman."
+        "desc": "Latin, Sirilik, Arab, Ibrani, CJK (Cina, Jepang, Korea), Devanagari, Thai, dan lainnya - model karakter yang tepat diterapkan secara otomatis per halaman."
       },
       {
         "title": "PDF Dapat Dicari Non-Destruktif",
@@ -58,7 +58,7 @@
     ]
   },
   "howItWorks": {
-    "sectionTitle": "Cara Kerja — 3 Langkah Mudah",
+    "sectionTitle": "Cara Kerja - 3 Langkah Mudah",
     "sectionSubtitle": "Unggah hasil pindai dan unduh PDF yang bisa dicari.",
     "steps": [
       {
@@ -79,7 +79,7 @@
     ]
   },
   "useCases": {
-    "sectionTitle": "Siapa yang Menggunakan OCR PDF — dan Mengapa",
+    "sectionTitle": "Siapa yang Menggunakan OCR PDF - dan Mengapa",
     "sectionSubtitle": "Setiap hari, para profesional dari puluhan industri mengandalkan OCR yang akurat untuk membuka data yang terkunci dalam dokumen scan mereka.",
     "items": [
       {
@@ -88,7 +88,7 @@
       },
       {
         "title": "Kesehatan & Medis",
-        "desc": "Digitalisasi catatan pasien tulisan tangan atau tercetak, hasil lab, dan resep — membuatnya dapat diakses oleh sistem EHR dan audit kepatuhan."
+        "desc": "Digitalisasi catatan pasien tulisan tangan atau tercetak, hasil lab, dan resep - membuatnya dapat diakses oleh sistem EHR dan audit kepatuhan."
       },
       {
         "title": "Penelitian Akademik",
@@ -111,7 +111,7 @@
   "diveTitle": "Apa yang sebenarnya terjadi saat menjalankan OCR",
   "diveSubtitle": "Cara OCR membaca hasil pindai Anda, dan apa yang memengaruhi akurasi.",
   "dive1Title": "Deteksi teks asli vs. hasil pindai",
-  "dive1Desc": "Beberapa PDF sudah berisi teks asli yang dapat dipilih — dalam kasus itu OCR tidak diperlukan. Alat kami hanya mendeteksi dan memproses gambar hasil pindai, membiarkan halaman yang sudah berisi teks digital tidak berubah.",
+  "dive1Desc": "Beberapa PDF sudah berisi teks asli yang dapat dipilih - dalam kasus itu OCR tidak diperlukan. Alat kami hanya mendeteksi dan memproses gambar hasil pindai, membiarkan halaman yang sudah berisi teks digital tidak berubah.",
   "dive2Title": "Apa yang memengaruhi akurasi pengenalan",
   "dive2Desc": "Akurasi OCR bergantung pada kualitas pindaian: resolusi (DPI) lebih tinggi lebih baik, kemiringan halaman lebih sedikit lebih baik, kontras yang lebih tinggi antara teks dan latar belakang lebih baik. Pindaian berkualitas rendah, resolusi rendah, atau halaman yang difoto miring dapat menyebabkan lebih banyak kesalahan pengenalan.",
   "dive3Title": "Memproses dokumen multibahasa",
@@ -119,7 +119,7 @@
   "dive4Title": "PDF yang dapat dicari vs. file teks yang diekstrak",
   "dive4Desc": "Anda dapat memilih di antara dua format output: PDF yang dapat dicari yang melapiskan lapisan teks tak terlihat di atas tampilan aslinya, atau file teks biasa yang hanya berisi teks yang dikenali. Pilih yang pertama untuk mengarsipkan dokumen, yang kedua untuk menggunakan kembali teksnya.",
   "dive5Title": "Keterbatasan dengan tulisan tangan",
-  "dive5Desc": "OCR dioptimalkan untuk mengenali teks cetak. Tulisan tangan, terutama huruf sambung atau tulisan yang berantakan, jauh lebih tidak akurat dibandingkan teks cetak — bahkan huruf balok yang rapi pun dapat memberikan hasil yang bervariasi.",
+  "dive5Desc": "OCR dioptimalkan untuk mengenali teks cetak. Tulisan tangan, terutama huruf sambung atau tulisan yang berantakan, jauh lebih tidak akurat dibandingkan teks cetak - bahkan huruf balok yang rapi pun dapat memberikan hasil yang bervariasi.",
   "dive6Title": "Catatan tentang tabel dan data terstruktur",
   "dive6Desc": "OCR mengenali teks tetapi tidak secara andal mempertahankan struktur baris/kolom tabel. Jika tujuan utama dokumen Anda adalah mengekstrak data tabular, alat khusus PDF ke Excel kami lebih cocok untuk merekonstruksi struktur tabel yang sebenarnya.",
   "faq": {
@@ -132,7 +132,7 @@
       },
       {
         "q": "Jenis PDF apa yang mendapat manfaat dari OCR?",
-        "a": "PDF apapun yang berisi gambar scan teks — dokumen dari scanner flatbed, foto kamera yang disimpan sebagai PDF, faks, formulir tercetak, atau scan mikrofilm arsip — akan mendapat manfaat dari OCR. Jika PDF Anda sudah berisi teks yang dapat dipilih (yaitu Anda dapat menandai kata-kata), itu adalah PDF 'native' dan OCR tidak diperlukan."
+        "a": "PDF apapun yang berisi gambar scan teks - dokumen dari scanner flatbed, foto kamera yang disimpan sebagai PDF, faks, formulir tercetak, atau scan mikrofilm arsip - akan mendapat manfaat dari OCR. Jika PDF Anda sudah berisi teks yang dapat dipilih (yaitu Anda dapat menandai kata-kata), itu adalah PDF 'native' dan OCR tidak diperlukan."
       },
       {
         "q": "Seberapa akurat OCR-nya?",
@@ -152,7 +152,7 @@
       },
       {
         "q": "Format output apa yang bisa saya unduh?",
-        "a": "Pengguna gratis menerima PDF yang dapat dicari — secara visual identik dengan aslinya tetapi dengan lapisan teks tak kasat mata yang tertanam yang memungkinkan pencarian Ctrl+F, salin-tempel, dan alat aksesibilitas. Pengguna Pro dan Agency juga dapat mengekspor teks yang diekstrak sebagai dokumen Word .docx yang diformat atau sebagai file .txt mentah untuk pipeline data, alat penerjemahan, atau sistem manajemen konten."
+        "a": "Pengguna gratis menerima PDF yang dapat dicari - secara visual identik dengan aslinya tetapi dengan lapisan teks tak kasat mata yang tertanam yang memungkinkan pencarian Ctrl+F, salin-tempel, dan alat aksesibilitas. Pengguna Pro dan Agency juga dapat mengekspor teks yang diekstrak sebagai dokumen Word .docx yang diformat atau sebagai file .txt mentah untuk pipeline data, alat penerjemahan, atau sistem manajemen konten."
       },
       {
         "q": "Mengapa OCR dibatasi 1 per hari di paket gratis?",
@@ -162,7 +162,7 @@
   },
   "seoContent": {
     "h2": "Apa itu OCR dan Mengapa PDF Anda Membutuhkannya?",
-    "p1": "OCR (Pengenalan Karakter Optik) adalah teknologi yang menjembatani kesenjangan antara PDF flat berbasis gambar dan dokumen yang hidup dan interaktif. Saat Anda men-scan kontrak kertas, memfoto kuitansi, atau menyimpan laporan tercetak sebagai PDF, file tersebut pada dasarnya adalah gambar — komputer melihat pola piksel, bukan huruf. OCR mengubah itu.",
+    "p1": "OCR (Pengenalan Karakter Optik) adalah teknologi yang menjembatani kesenjangan antara PDF flat berbasis gambar dan dokumen yang hidup dan interaktif. Saat Anda men-scan kontrak kertas, memfoto kuitansi, atau menyimpan laporan tercetak sebagai PDF, file tersebut pada dasarnya adalah gambar - komputer melihat pola piksel, bukan huruf. OCR mengubah itu.",
     "p2": "Hasilnya adalah <strong>PDF yang dapat dicari</strong>: secara visual identik dengan aslinya, tetapi dengan lapisan teks tak kasat mata yang sejajar sempurna di bawah gambar. Anda sekarang dapat mencari dalam kontrak 200 halaman dengan Ctrl+F, menyorot dan menyalin paragraf, atau membiarkan alat aksesibilitas menceritakan konten kepada pembaca tunanetra. Pengguna Pro melangkah lebih jauh, mengunduh teks yang diekstrak sebagai <strong>file Word .docx</strong> yang dapat diedit atau <strong>file .txt</strong> mentah.",
     "h3": "Bagaimana SmallPDF.us Menghasilkan Hasil OCR yang Akurat",
     "p3": "Akurasi dalam pemrosesan dokumen tidak dapat dikompromikan. Pipeline OCR kami melewati empat tahap yang terdefinisi dengan baik. Pertama, <strong>pra-pemrosesan</strong>: setiap halaman dianalisis untuk rotasi, noise, kontras, dan disegmentasi menjadi wilayah teks dan gambar non-teks. Kedua, <strong>deteksi bahasa</strong>: scan sampel mengidentifikasi apakah Anda bekerja dalam Latin, Sirilik, Arab, CJK, atau skrip lain dari 100+ yang didukung. Ketiga, <strong>mesin pengenalan</strong> menjalankan analisis karakter demi karakter. Terakhir, <strong>pasca-pemrosesan</strong> merekonstruksi kata dan kalimat sebelum menyematkan lapisan teks ke dalam PDF Anda.",
@@ -171,10 +171,10 @@
   "cta": {
     "heading": "Buat PDF Anda Bisa Dicari",
     "subtitle": "Unggah PDF hasil pindai dan unduh dokumen yang bisa dicari dan teksnya bisa disalin. Gratis untuk memulai.",
-    "button": "Mulai OCR Sekarang — Gratis"
+    "button": "Mulai OCR Sekarang - Gratis"
   },
   "preview": {
-    "pageTitle": "Pratinjau OCR PDF — SmallPDF.us",
+    "pageTitle": "Pratinjau OCR PDF - SmallPDF.us",
     "changeFile": "Ganti file",
     "headerTitle": "Siap Mengekstrak Teks",
     "headerSubtitle": "Tinjau file Anda dan jalankan OCR",
@@ -187,10 +187,10 @@
     "receiveDocx": "Dokumen Word (.docx) dengan teks yang diekstrak",
     "receiveTxt": "File teks biasa (.txt) untuk salin-tempel mudah",
     "receiveProOnly": "Ekspor Word dan TXT (hanya Pro)",
-    "runOcrButton": "Jalankan OCR — Ekstrak Teks",
+    "runOcrButton": "Jalankan OCR - Ekstrak Teks",
     "securePrivate": "Aman & pribadi",
     "autoDeleted": "Terhapus otomatis dalam 1 jam",
-    "pleaseWait": "Harap tunggu — jangan tutup tab ini",
+    "pleaseWait": "Harap tunggu - jangan tutup tab ini",
     "ocrFailed": "OCR Gagal",
     "tryAgain": "Coba Lagi",
     "upgradeToPro": "Tingkatkan ke Pro",
@@ -215,7 +215,7 @@
     "advertisement": "Iklan"
   },
   "process": {
-    "pageTitle": "Memproses OCR — SmallPDF.us",
+    "pageTitle": "Memproses OCR - SmallPDF.us",
     "backLink": "Kembali ke OCR PDF",
     "processingTitle": "OCR Sedang Berjalan…",
     "standardQueue": "Antrean standar. Pro menggunakan antrean prioritas.",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "Unduh OCR PDF — SmallPDF.us",
+    "pageTitle": "Unduh OCR PDF - SmallPDF.us",
     "successTitle": "OCR Selesai!",
     "pagesProcessed": "{count} halaman diproses",
     "wordsExtracted": "~{count} kata diekstrak",
@@ -257,7 +257,7 @@
     "imagePdfUpgrade": "Tingkatkan ke Pro",
     "imagePdfUpgradeSuffix": "untuk dukungan mesin OCR tingkat lanjut pada dokumen yang di-scan.",
     "alreadySearchableTitle": "PDF Anda sudah memiliki teks yang bisa dipilih",
-    "alreadySearchableDesc": "OCR tidak diperlukan — teksnya sudah bisa dicari dan disalin. File Anda tidak diubah.",
+    "alreadySearchableDesc": "OCR tidak diperlukan - teksnya sudah bisa dicari dan disalin. File Anda tidak diubah.",
     "noTextTitle": "Tidak ada teks yang dapat dikenali",
     "noTextDesc": "Coba hasil pindai yang lebih jelas: halaman lurus, kontras baik, dan minimal 300 DPI. Tulisan tangan tidak didukung.",
     "proUpsellTitle": "Ingin lebih dari OCR?",

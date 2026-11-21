@@ -22,7 +22,7 @@
     "fileTooLarge": "\"{name}\" dosyası dosya başına izin verilen en yüksek boyut olan 100 MB'ı aşıyor. Lütfen önce sıkıştırın ya da bölün."
   },
   "extension": {
-    "oneClick": "Bu araçları tek tıkla kullanın —",
+    "oneClick": "Bu araçları tek tıkla kullanın -",
     "addToChrome": "SmallPDF.us'i Chrome'a ekleyin",
     "dismiss": "Kapat",
     "freeExtension": "Ücretsiz eklenti",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Ücretsiz PDF Araçları — Dönüştür, Sıkıştır, Birleştir | SmallPDF.us",
-      "description": "27 ücretsiz PDF ve görsel aracı. Saniyeler içinde dönüştürün, sıkıştırın, birleştirin ve bölün; ücretsiz başlayın. Dosyalar aktarım sırasında şifrelenir ve 1 saat içinde otomatik silinir.",
+      "title": "Ücretsiz PDF Araçları: Birleştir, Böl | SmallPDF.us",
+      "description": "PDF ve görseller için 27 ücretsiz online araç. PDF birleştirin, bölün, sıkıştırın, dönüştürün, düzenleyin ve kilidini açın. Dosyalar şifrelenir, 1 saat sonra silinir.",
       "keywords": "ücretsiz pdf araçları, pdf dönüştürücü, pdf sıkıştır, pdf birleştir, pdf'den word'e, word'den pdf'e, pdf böl, online pdf düzenleyici"
     }
   },
@@ -180,7 +180,7 @@
       "Toplu işleme",
       "Reklamsız"
     ],
-    "upgradeBtn": "Pro'ya Yükselt — Çok Yakında",
+    "upgradeBtn": "Pro'ya Yükselt - Çok Yakında",
     "planBadgeFree": "Ücretsiz",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Kurumsal"

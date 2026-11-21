@@ -31,13 +31,13 @@ const TOOL_LABELS = {
 }
 
 function fmtSize(bytes) {
-  if (!bytes) return '—'
+  if (!bytes) return '-'
   if (bytes >= 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB'
   return (bytes / 1024).toFixed(0) + ' KB'
 }
 
 function fmtDate(iso) {
-  if (!iso) return '—'
+  if (!iso) return '-'
   const d = new Date(iso)
   return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
@@ -334,11 +334,11 @@ function AccountPage() {
                                 {TOOL_LABELS[row.tool] || row.tool}
                               </td>
                               <td style={{ ...styles.td, maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                {row.filename || '—'}
+                                {row.filename || '-'}
                               </td>
                               <td style={styles.td}>{fmtSize(row.file_size)}</td>
                               <td style={styles.td}>
-                                {row.processing_time ? row.processing_time + 's' : '—'}
+                                {row.processing_time ? row.processing_time + 's' : '-'}
                               </td>
                               <td style={styles.td}>
                                 <span style={{

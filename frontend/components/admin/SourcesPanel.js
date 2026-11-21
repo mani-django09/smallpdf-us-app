@@ -54,7 +54,7 @@ export default function SourcesPanel({ api, token, onUnauthorized }) {
         <>
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
             <StatCard label="Visits" icon={MousePointerClick} tone="blue" value={fmtNum(T.visits)} sub={`${fmtNum(T.visitors)} unique visitors`} />
-            <StatCard label="Top source" icon={Globe2} tone="violet" value={top ? cap(top.source) : "—"} sub={top ? `${fmtNum(top.visitors)} visitors · ${mediumInfo(top.medium).label}` : ""} />
+            <StatCard label="Top source" icon={Globe2} tone="violet" value={top ? cap(top.source) : "-"} sub={top ? `${fmtNum(top.visitors)} visitors · ${mediumInfo(top.medium).label}` : ""} />
             <StatCard label="From search engines" icon={Search} tone="emerald" value={pct(organic ? organic.visits / T.visits : 0, 0)} sub={`${fmtNum(organic?.visitors || 0)} visitors (Google, Bing, …)`} />
             <StatCard label="Converted a file" icon={Users} tone="amber" value={pct(T.rate, 1)} sub={`${fmtNum(T.converted)} of ${fmtNum(T.visits)} visits (24 h)`} />
           </div>
@@ -97,7 +97,7 @@ export default function SourcesPanel({ api, token, onUnauthorized }) {
 
           <div className="grid gap-6 lg:grid-cols-2">
             <Card title="Websites sending traffic" subtitle="Referring domains (search engines included)">
-              <HBars items={d.referrers.map((r) => ({ label: r.host, value: r.visitors }))} color="#f59e0b" empty="No referrals yet — all visits were direct" />
+              <HBars items={d.referrers.map((r) => ({ label: r.host, value: r.visitors }))} color="#f59e0b" empty="No referrals yet - all visits were direct" />
             </Card>
             <Card title="Top landing pages" subtitle="First page of the visit and its main source">
               <HBars items={d.landing.map((l) => ({ label: l.path, value: l.visitors, sub: l.topSource ? `mostly ${l.topSource}` : "" }))} color="#3b82f6" />
@@ -105,7 +105,7 @@ export default function SourcesPanel({ api, token, onUnauthorized }) {
             <Card title="Countries" subtitle="From Cloudflare's country header">
               <HBars items={d.countries.map((c) => ({ label: `${FLAG(c.country)} ${c.country}`, value: c.visitors }))} color="#06b6d4" empty="Country is recorded for new visits only" />
             </Card>
-            <Card title="Campaign links (utm_campaign)" subtitle="Links you tagged yourself — Pinterest, newsletters, ads">
+            <Card title="Campaign links (utm_campaign)" subtitle="Links you tagged yourself - Pinterest, newsletters, ads">
               <HBars items={d.campaigns.map((c) => ({ label: `${c.campaign} · ${c.source}`, value: c.visitors }))} color="#ec4899" empty="No tagged links yet. Add ?utm_source=pinterest&utm_campaign=name to links you share." />
             </Card>
           </div>

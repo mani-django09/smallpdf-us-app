@@ -9,7 +9,7 @@ let lookup = null
 try {
   lookup = require('geoip-country').lookup
 } catch (e) {
-  console.warn('[geo] geoip-country not installed — country will stay empty:', e.message)
+  console.warn('[geo] geoip-country not installed - country will stay empty:', e.message)
 }
 
 function countryOf(ip, headerValue) {

@@ -1,9 +1,9 @@
 {
-  "pageTitle": "PDF API — Merge, Convert, Compress & Protect PDFs | SmallPDF.us",
+  "pageTitle": "PDF API - Merge, Convert, Compress & Protect PDFs | SmallPDF.us",
   "pageDescription": "A simple, fast REST API for PDF: merge, split, rotate, compress, password-protect, and convert PDF ⇄ Word, JPG, PNG. Free tier, code samples in cURL, Node.js & Python.",
   "heroBadge": "Developer API · v1",
   "heroTitle": "The PDF API built for developers",
-  "heroDesc": "One simple REST endpoint per task. Merge, convert, compress and protect PDFs from any language — no SDK, no servers, no PDF libraries to wrestle with.",
+  "heroDesc": "One simple REST endpoint per task. Merge, convert, compress and protect PDFs from any language - no SDK, no servers, no PDF libraries to wrestle with.",
   "heroCtaPrimary": "Get your free API key",
   "heroCtaSecondary": "Quick start",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "Every request must include your secret key in the",
     "desc2": "header. Create and manage keys in your",
     "dashboard": "dashboard",
-    "warning": "Keep keys server-side — never expose them in client code."
+    "warning": "Keep keys server-side - never expose them in client code."
   },
   "baseUrl": {
     "desc": "All endpoints are",

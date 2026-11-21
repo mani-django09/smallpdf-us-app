@@ -55,7 +55,7 @@ export default function PreviewPDFtoPNG() {
     } else {
       routerRef.current.push("/pdf-to-png")
     }
-  }, []) // ✅ Empty deps — runs once on mount only
+  }, []) // ✅ Empty deps - runs once on mount only
 
   const togglePage = (pageId) => {
     setSelectedPages((prev) => (prev.includes(pageId) ? prev.filter((id) => id !== pageId) : [...prev, pageId]))

@@ -22,7 +22,7 @@
     "fileTooLarge": "„{name}“ ist größer als 100 MB (Maximum pro Datei). Bitte komprimieren oder teilen Sie die Datei zuerst."
   },
   "extension": {
-    "oneClick": "Diese Tools mit einem Klick nutzen —",
+    "oneClick": "Diese Tools mit einem Klick nutzen -",
     "addToChrome": "SmallPDF.us zu Chrome hinzufügen",
     "dismiss": "Schließen",
     "freeExtension": "Kostenlose Erweiterung",
@@ -106,8 +106,8 @@
   },
   "seo": {
     "home": {
-      "title": "Kostenlose PDF-Tools – umwandeln, komprimieren | SmallPDF.us",
-      "description": "27 kostenlose PDF- und Bildtools: umwandeln, komprimieren, zusammenführen und teilen in Sekunden. Verschlüsselte Übertragung, Löschung nach 1 Stunde.",
+      "title": "Kostenlose PDF-Tools: Zusammenfügen, Teilen | SmallPDF.us",
+      "description": "27 kostenlose Online-Tools für PDF und Bilder. PDF zusammenfügen, teilen, komprimieren, umwandeln, bearbeiten und entsperren, in Sekunden. Dateien werden verschlüsselt und nach 1 Stunde gelöscht.",
       "keywords": "kostenlose PDF-Tools, PDF konvertieren, PDF zusammenführen, PDF komprimieren, PDF teilen, PDF zu Word, Word zu PDF, kostenlos online"
     }
   },
@@ -184,7 +184,7 @@
       "Stapelverarbeitung",
       "Keine Werbung"
     ],
-    "upgradeBtn": "Auf Pro upgraden — Demnächst verfügbar",
+    "upgradeBtn": "Auf Pro upgraden - Demnächst verfügbar",
     "planBadgeFree": "Kostenlos",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"

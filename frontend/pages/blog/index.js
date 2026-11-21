@@ -80,7 +80,7 @@ export default function Blog({ initialPosts = [], initialCategories = [], initia
   return (
     <>
       <SEOHead
-        title="Blog — PDF Tips, Guides & How-Tos | SmallPDF.us"
+        title="Blog - PDF Tips, Guides & How-Tos | SmallPDF.us"
         description="Learn how to compress, merge, split, convert PDFs and more. Step-by-step guides, tips and tricks for PDF tools from SmallPDF.us."
         canonical="https://smallpdf.us/blog/"
         hreflang={false}
@@ -224,7 +224,7 @@ export default function Blog({ initialPosts = [], initialCategories = [], initia
                     <div className="flex items-center gap-4 text-xs text-slate-500 mb-3">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
-                        {post.createdAt && !isNaN(new Date(post.createdAt)) ? new Date(post.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—"}
+                        {post.createdAt && !isNaN(new Date(post.createdAt)) ? new Date(post.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "-"}
                       </div>
                       <div className="flex items-center gap-1">
                         <User className="w-3 h-3" />

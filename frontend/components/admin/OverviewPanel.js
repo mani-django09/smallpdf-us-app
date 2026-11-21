@@ -12,7 +12,7 @@ const LEVEL = {
 
 export function AlertList({ items, compact = false }) {
   if (!items.length) return (
-    <div className="flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3"><CheckCircle2 className="w-4 h-4" />All systems normal — nothing needs attention.</div>
+    <div className="flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3"><CheckCircle2 className="w-4 h-4" />All systems normal - nothing needs attention.</div>
   )
   return (
     <ul className="space-y-2">
@@ -53,7 +53,7 @@ export default function OverviewPanel({ api, token, onUnauthorized, goTo }) {
           <div><div className="text-2xl font-bold leading-none">{fmtNum(d.live.visitors)}</div><div className="text-xs text-blue-100 mt-1">active in the last 5 min</div></div>
         </div>
         <div><div className="text-lg font-semibold leading-none">{fmtNum(d.live.events)}</div><div className="text-xs text-blue-100 mt-1">events (5 min)</div></div>
-        <div><div className="text-lg font-semibold leading-none">{d.lastConversion ? agoIST(d.lastConversion.created_at) : "—"}</div><div className="text-xs text-blue-100 mt-1">last conversion{d.lastConversion ? ` · ${d.lastConversion.tool}` : ""}</div></div>
+        <div><div className="text-lg font-semibold leading-none">{d.lastConversion ? agoIST(d.lastConversion.created_at) : "-"}</div><div className="text-xs text-blue-100 mt-1">last conversion{d.lastConversion ? ` · ${d.lastConversion.tool}` : ""}</div></div>
         <div className="ml-auto flex items-center gap-2 text-xs">
           <button onClick={() => goTo("health")} className="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 rounded-full px-3 py-1.5 font-semibold transition-colors">
             {d.alerts.critical ? <XCircle className="w-3.5 h-3.5 text-red-200" /> : d.alerts.warning ? <AlertTriangle className="w-3.5 h-3.5 text-amber-200" /> : <CheckCircle2 className="w-3.5 h-3.5 text-emerald-200" />}

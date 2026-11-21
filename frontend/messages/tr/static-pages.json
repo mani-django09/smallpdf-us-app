@@ -1,6 +1,6 @@
 {
   "contact": {
-    "pageTitle": "Bize Ulaşın — SmallPDF.us",
+    "pageTitle": "Bize Ulaşın - SmallPDF.us",
     "pageDescription": "SmallPDF.us ekibiyle iletişime geçin. Her mesajı okur ve 24 saat içinde yanıtlarız.",
     "heroTitle": "Sizden haber almaktan memnuniyet duyarız",
     "heroSubtitle": "Bir sorunuz, bir hata bildiriminiz ya da özellik öneriniz mi var? Bize mesaj gönderin; gerçek insanlar her birini okuyor.",
@@ -41,7 +41,7 @@
     ]
   },
   "about": {
-    "pageTitle": "Hakkımızda — SmallPDF.us",
+    "pageTitle": "Hakkımızda - SmallPDF.us",
     "pageDescription": "SmallPDF.us ekibini ve misyonunu tanıyın: herkes için ücretsiz, gizli ve güçlü PDF araçları.",
     "heroTitle": "PDF'lerle çalışan herkes için yapıldı",
     "heroSubtitle": "Tek bir inanç etrafında kurulmuş bağımsız bir proje: harika PDF araçları ücretsiz, hızlı ve gizli olmalı, hile olmadan.",
@@ -124,7 +124,7 @@
     ]
   },
   "privacy": {
-    "layoutTitle": "Gizlilik Politikası — SmallPDF.us",
+    "layoutTitle": "Gizlilik Politikası - SmallPDF.us",
     "layoutDescription": "SmallPDF.us Gizlilik Politikası. Dosyalarınızı işler ve 1 saat içinde sileriz. Takip yok, veri satışı yok.",
     "heroTitle": "Gizliliğiniz bizim mimarimiz",
     "lastUpdated": "Son güncelleme: Mart 2026",
@@ -219,7 +219,7 @@
     "bottomRefund": "İade Politikası"
   },
   "terms": {
-    "layoutTitle": "Hizmet Şartları — SmallPDF.us",
+    "layoutTitle": "Hizmet Şartları - SmallPDF.us",
     "layoutDescription": "SmallPDF.us Hizmet Şartlarını okuyun. Ücretsiz, gizli ücret yok, dosyalar 1 saat içinde silinir.",
     "heroTitle": "Hizmet Şartları",
     "lastUpdated": "Son güncelleme: Mart 2026",
@@ -293,7 +293,7 @@
     "bottomRefund": "İade Politikası"
   },
   "refund": {
-    "seoTitle": "İade Politikası — 14 Gün Para İadesi | SmallPDF.us",
+    "seoTitle": "İade Politikası - 14 Gün Para İadesi | SmallPDF.us",
     "seoDescription": "SmallPDF.us yeni abonelere 14 gün para iade garantisi sunar. Starter, Pro ya da Agency paketleri için iade talebinin nasıl yapılacağını öğrenin.",
     "seoKeywords": "smallpdf iade politikası, para iade garantisi, aboneliği iptal et, faturalama",
     "badge": "İade Politikası",
@@ -365,21 +365,21 @@
     "intlMethodDesc": "Ödeme sırasında kullandığınız özgün ödeme yöntemine (kart ya da desteklenen başka bir yöntem) Lemon Squeezy üzerinden iade edilir. Para birimi: USD.",
     "intlNote": "Not: Lemon Squeezy kendi işlem gecikmelerini uygulayabilir. Genellikle iadeyi başlattığımızdan sonra 3–5 iş günü.",
     "cancelTitle": "İptal Politikası",
-    "cancelIndiaTitle": "Hindistan Paketleri (INR — Otomatik Yenilenen)",
+    "cancelIndiaTitle": "Hindistan Paketleri (INR - Otomatik Yenilenen)",
     "cancelIndiaPara": "Aboneliğinizi hesap panonuzdan Ayarlar → Abonelik altında istediğiniz zaman iptal edebilirsiniz. Paketiniz mevcut faturalama döngüsünün sonuna kadar aktif kalır. İptalden sonraki kalan günler için orantılı iade yapılmaz.",
-    "cancelIntlTitle": "Uluslararası Paketler (USD — Otomatik Yenilenen)",
+    "cancelIntlTitle": "Uluslararası Paketler (USD - Otomatik Yenilenen)",
     "cancelIntlPara": "Uluslararası paketler, iptal edilene kadar Lemon Squeezy üzerinden aylık ya da yıllık otomatik yenilenir. Hesap panonuzdan Ayarlar → Abonelik altında ya da ödeme onay e-postanızdaki Lemon Squeezy faturalama portalı bağlantısı üzerinden istediğiniz zaman iptal edebilirsiniz. Paketiniz mevcut faturalama döngüsünün sonuna kadar aktif kalır. İptalden sonraki kalan günler için orantılı iade yapılmaz.",
     "contactTitle": "Bize Ulaşın",
     "contactPara": "İade talepleri, faturalama soruları ya da iptal yardımı için lütfen destek ekibimize ulaşın:",
     "contactEmail": "contact@smallpdf.us",
     "contactResponseTime": "2 iş günü içinde yanıt vermeyi hedefliyoruz",
-    "contactSubjectHint": "İade Talebi — SmallPDF.us",
+    "contactSubjectHint": "İade Talebi - SmallPDF.us",
     "ctaTitle": "İadeniz hakkında sorularınız mı var?",
     "ctaSubtitle": "Yardımcı olmaktan memnuniyet duyarız. Bize e-posta gönderin, halledelim.",
     "ctaRequestBtn": "İade Talep Et",
     "ctaTermsBtn": "Hizmet Şartları",
     "ctaPrivacyBtn": "Gizlilik Politikası",
-    "pageTitle": "İade Politikası — 14 Gün Para İadesi | SmallPDF.us",
+    "pageTitle": "İade Politikası - 14 Gün Para İadesi | SmallPDF.us",
     "pageDescription": "SmallPDF.us yeni abonelere 14 gün para iade garantisi sunar. Starter, Pro ya da Agency paketleri için iade talebinin nasıl yapılacağını öğrenin.",
     "pageKeywords": "smallpdf iade politikası, para iade garantisi, aboneliği iptal et, faturalama",
     "sidebarTitle": "İadeye mi ihtiyacınız var?",
@@ -407,12 +407,12 @@
     "intlCard1Desc": "Aynı 14 günlük süre geçerlidir. Hak koşulları Hindistan paketleriyle aynıdır.",
     "intlCard2Title": "İade Yöntemi",
     "intlCard2Desc": "Ödeme sırasında kullandığınız özgün ödeme yöntemine (kart ya da desteklenen başka bir yöntem) Lemon Squeezy üzerinden iade edilir. Para birimi: USD.",
-    "cancelInrTitle": "Hindistan Paketleri (INR — Otomatik Yenilenen)",
+    "cancelInrTitle": "Hindistan Paketleri (INR - Otomatik Yenilenen)",
     "cancelInrDesc": "Aboneliğinizi hesap panonuzdan Ayarlar → Abonelik altında istediğiniz zaman iptal edebilirsiniz. Paketiniz mevcut faturalama döngüsünün sonuna kadar aktif kalır. İptalden sonraki kalan günler için orantılı iade yapılmaz.",
     "cancelIntlDesc": "Uluslararası paketler, iptal edilene kadar Lemon Squeezy üzerinden aylık ya da yıllık otomatik yenilenir. Hesap panonuzdan Ayarlar → Abonelik altında ya da ödeme onay e-postanızdaki Lemon Squeezy faturalama portalı bağlantısı üzerinden istediğiniz zaman iptal edebilirsiniz. Paketiniz mevcut faturalama döngüsünün sonuna kadar aktif kalır. İptalden sonraki kalan günler için orantılı iade yapılmaz.",
     "contactIntro": "İade talepleri, faturalama soruları ya da iptal yardımı için lütfen destek ekibimize ulaşın:",
     "contactResponse": "2 iş günü içinde yanıt vermeyi hedefliyoruz",
-    "contactSubject": "İade Talebi — SmallPDF.us",
+    "contactSubject": "İade Talebi - SmallPDF.us",
     "ctaDesc": "Yardımcı olmaktan memnuniyet duyarız. Bize e-posta gönderin, halledelim.",
     "ctaButton": "İade Talep Et",
     "ctaTerms": "Hizmet Şartları",

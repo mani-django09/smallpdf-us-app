@@ -16,9 +16,9 @@ export default function NotFound() {
   const { t } = useTranslations()
 
   return (
-    <Layout title="Page Not Found — SmallPDF.us">
+    <Layout title="Page Not Found - SmallPDF.us">
       <SEOHead
-        title="Page Not Found (404) — SmallPDF.us"
+        title="Page Not Found (404) - SmallPDF.us"
         description="The page you're looking for doesn't exist. Go back to SmallPDF.us and use our free PDF tools."
         noIndex={true}
       />

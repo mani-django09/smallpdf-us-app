@@ -44,9 +44,9 @@ export default function Terms() {
   ]
 
   const highlights = [
-    { icon: CheckCircle, text: t('terms.highlight1') || "Free to use — no hidden fees",      color: "from-emerald-500 to-green-600",  border: "border-emerald-100" },
+    { icon: CheckCircle, text: t('terms.highlight1') || "Free to use - no hidden fees",      color: "from-emerald-500 to-green-600",  border: "border-emerald-100" },
     { icon: Lock,        text: t('terms.highlight2') || "Files deleted within 1 hour",      color: "from-blue-500 to-blue-600",      border: "border-blue-100" },
-    { icon: Shield,      text: t('terms.highlight3') || "Your content stays yours — always", color: "from-violet-500 to-purple-600",  border: "border-violet-100" },
+    { icon: Shield,      text: t('terms.highlight3') || "Your content stays yours - always", color: "from-violet-500 to-purple-600",  border: "border-violet-100" },
   ]
 
   return (
@@ -55,7 +55,7 @@ export default function Terms() {
       description={t('terms.layoutDescription')}
     >
       {/* Without this the page shipped with no <title>, meta description,
-          canonical or hreflang at all — invisible/ambiguous to search engines. */}
+          canonical or hreflang at all - invisible/ambiguous to search engines. */}
       <SEOHead
         title={t('terms.layoutTitle')}
         description={t('terms.layoutDescription')}
@@ -80,7 +80,7 @@ export default function Terms() {
               {t('terms.heroTagline')}
             </p>
             <p className="text-slate-400 text-xs max-w-xl mx-auto mt-2">
-              {t('terms.operatedBy')} <span className="text-slate-300 font-semibold">Manikant Yadav ({t('terms.operatorType')})</span> — District Lakhisarai, Bihar 811310, India
+              {t('terms.operatedBy')} <span className="text-slate-300 font-semibold">Manikant Yadav ({t('terms.operatorType')})</span> - District Lakhisarai, Bihar 811310, India
             </p>
           </div>
         </div>

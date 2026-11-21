@@ -157,8 +157,8 @@ function fileSizeLimiter(toolName) {
       uploadedMB: Math.round(totalSize / (1024 * 1024)),
       isGuest,
       message: isGuest
-        ? `Files total ${fmtMB(totalSize)} — free limit is ${fmtMB(limit)}. Sign in to unlock larger files.`
-        : `Files total ${fmtMB(totalSize)} — your plan limit for this tool is ${fmtMB(limit)}. Upgrade for larger files.`,
+        ? `Files total ${fmtMB(totalSize)} - free limit is ${fmtMB(limit)}. Sign in to unlock larger files.`
+        : `Files total ${fmtMB(totalSize)} - your plan limit for this tool is ${fmtMB(limit)}. Upgrade for larger files.`,
       upgradeUrl: '/pricing',
       loginUrl:   '/auth/login',
     })

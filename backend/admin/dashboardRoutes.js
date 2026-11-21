@@ -115,7 +115,7 @@ async function computeAlerts() {
   // infrastructure
   const disk = diskInfo()
   if (disk) {
-    if (disk.usedPct > 90) push('critical', 'Disk almost full', `${disk.usedPct.toFixed(0)}% used — conversions will start failing`, { area: 'system' })
+    if (disk.usedPct > 90) push('critical', 'Disk almost full', `${disk.usedPct.toFixed(0)}% used - conversions will start failing`, { area: 'system' })
     else if (disk.usedPct > 80) push('warning', 'Disk filling up', `${disk.usedPct.toFixed(0)}% used`, { area: 'system' })
   }
   const mem = readMemAvailablePct()

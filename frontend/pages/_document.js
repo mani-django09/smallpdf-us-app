@@ -41,7 +41,7 @@ export default function MyDocument({ locale }) {
         <meta name="msapplication-TileColor" content="#DC2626" />
         
         {/* ========================================
-            GOOGLE FONTS — non-blocking async load
+            GOOGLE FONTS - non-blocking async load
             font-display=swap prevents invisible text during load
         ======================================== */}
         <link

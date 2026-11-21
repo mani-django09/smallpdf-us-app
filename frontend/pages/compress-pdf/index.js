@@ -63,7 +63,7 @@ export default function CompressPdf() {
       const validation = validateFile(file)
       if (validation.valid) {
         validFiles.push({
-          file,                   // raw File object — no base64 needed
+          file,                   // raw File object - no base64 needed
           id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           name: file.name,
           size: file.size,

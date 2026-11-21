@@ -216,7 +216,7 @@ export default function RefundPolicy() {
                   </div>
                   <div className="mt-5">
                     <a
-                      href="mailto:contact@smallpdf.us?subject=Refund Request — SmallPDF.us"
+                      href="mailto:contact@smallpdf.us?subject=Refund Request - SmallPDF.us"
                       className="inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-purple-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg transition-all"
                     >
                       <Mail className="w-4 h-4" />
@@ -306,7 +306,7 @@ export default function RefundPolicy() {
                 </div>
                 <div className="flex gap-2 flex-shrink-0 flex-wrap justify-center">
                   <a
-                    href="mailto:contact@smallpdf.us?subject=Refund Request — SmallPDF.us"
+                    href="mailto:contact@smallpdf.us?subject=Refund Request - SmallPDF.us"
                     className="inline-flex items-center gap-1.5 bg-gradient-to-r from-purple-500 to-violet-500 text-white px-4 py-2.5 rounded-lg font-bold text-xs hover:shadow-lg transition-all"
                   >
                     {t('refund.ctaButton')}

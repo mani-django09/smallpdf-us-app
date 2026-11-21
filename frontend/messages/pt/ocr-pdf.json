@@ -1,19 +1,19 @@
 {
   "seo": {
-    "title": "OCR PDF grátis – texto de PDF digitalizado | SmallPDF.us",
-    "description": "Transforme PDFs digitalizados em documentos pesquisáveis. Mais de 100 idiomas, saída em PDF pesquisável ou Word. Sem instalação.",
+    "title": "OCR PDF: texto de PDF digitalizado | SmallPDF.us",
+    "description": "Torne um PDF digitalizado pesquisável e copiável com OCR online grátis. Baixe um PDF pesquisável; Word e TXT nos planos pagos. Sem instalar nada.",
     "keywords": "OCR PDF, extrair texto de PDF, PDF digitalizado para texto, OCR PDF online, tornar PDF pesquisável, ferramenta OCR gratuita, extração de texto PDF, reconhecimento óptico de caracteres PDF"
   },
   "hero": {
-    "title": "OCR PDF —",
-    "titleHighlight": "Extrair Texto",
-    "titleSuffix": "de Qualquer Documento Digitalizado",
+    "title": "OCR PDF online:",
+    "titleHighlight": "extrair texto",
+    "titleSuffix": "de PDF digitalizado",
     "subtitle": "Transforme PDFs baseados em imagem, digitalizados ou fotografados em documentos pesquisáveis e com texto copiável. Mais de 100 idiomas, sem nada para instalar."
   },
   "upload": {
     "dropActive": "Solte seu PDF aqui",
     "heading": "Carregar um PDF Digitalizado",
-    "subheading": "Arraste e solte ou clique para navegar — apenas arquivos PDF",
+    "subheading": "Arraste e solte ou clique para navegar - apenas arquivos PDF",
     "button": "Escolher PDF para OCR",
     "sslEncrypted": "Criptografia SSL",
     "filesDeleted": "Arquivos excluídos em 1h",
@@ -37,7 +37,7 @@
       },
       {
         "title": "100+ idiomas detectados automaticamente",
-        "desc": "Latino, cirílico, árabe, hebraico, CJK (chinês, japonês, coreano), devanagari, tailandês e mais — o modelo de caracteres correto é aplicado automaticamente por página."
+        "desc": "Latino, cirílico, árabe, hebraico, CJK (chinês, japonês, coreano), devanagari, tailandês e mais - o modelo de caracteres correto é aplicado automaticamente por página."
       },
       {
         "title": "PDF pesquisável não destrutivo",
@@ -58,7 +58,7 @@
     ]
   },
   "howItWorks": {
-    "sectionTitle": "Como funciona — 3 etapas simples",
+    "sectionTitle": "Como funciona - 3 etapas simples",
     "sectionSubtitle": "Envie uma digitalização e baixe um PDF pesquisável.",
     "steps": [
       {
@@ -79,7 +79,7 @@
     ]
   },
   "useCases": {
-    "sectionTitle": "Quem usa OCR PDF — e por quê",
+    "sectionTitle": "Quem usa OCR PDF - e por quê",
     "sectionSubtitle": "Todos os dias, profissionais de dezenas de setores confiam no OCR preciso para desbloquear os dados presos em seus documentos digitalizados.",
     "items": [
       {
@@ -88,7 +88,7 @@
       },
       {
         "title": "Saúde e medicina",
-        "desc": "Digitalize prontuários médicos manuscritos ou impressos, resultados de laboratório e receitas — tornando-os acessíveis a sistemas de prontuário eletrônico e auditorias de conformidade."
+        "desc": "Digitalize prontuários médicos manuscritos ou impressos, resultados de laboratório e receitas - tornando-os acessíveis a sistemas de prontuário eletrônico e auditorias de conformidade."
       },
       {
         "title": "Pesquisa acadêmica",
@@ -111,7 +111,7 @@
   "diveTitle": "O que realmente acontece ao executar o OCR",
   "diveSubtitle": "Como o OCR lê sua digitalização e o que afeta a precisão.",
   "dive1Title": "Detecção de texto nativo vs. escaneado",
-  "dive1Desc": "Alguns PDFs já contêm texto nativo selecionável — nesse caso, o OCR não é necessário. Nossa ferramenta detecta e processa apenas imagens escaneadas, deixando intactas as páginas que já contêm texto digital.",
+  "dive1Desc": "Alguns PDFs já contêm texto nativo selecionável - nesse caso, o OCR não é necessário. Nossa ferramenta detecta e processa apenas imagens escaneadas, deixando intactas as páginas que já contêm texto digital.",
   "dive2Title": "O que afeta a precisão do reconhecimento",
   "dive2Desc": "A precisão do OCR depende da qualidade da digitalização: uma resolução (DPI) maior é melhor, menos inclinação da página é melhor, maior contraste entre texto e fundo é melhor. Digitalizações de baixa qualidade, baixa resolução ou páginas fotografadas tortas podem causar mais erros de reconhecimento.",
   "dive3Title": "Processando documentos multilíngues",
@@ -119,7 +119,7 @@
   "dive4Title": "PDF pesquisável vs. arquivo de texto extraído",
   "dive4Desc": "Você pode escolher entre dois formatos de saída: um PDF pesquisável que sobrepõe uma camada de texto invisível sobre a aparência original, ou um arquivo de texto simples contendo apenas o texto reconhecido. Escolha o primeiro para arquivar o documento, o segundo para reutilizar o texto.",
   "dive5Title": "Limitações com escrita à mão",
-  "dive5Desc": "O OCR é otimizado para reconhecer texto impresso. A escrita à mão, especialmente cursiva ou desorganizada, é significativamente menos precisa do que o texto impresso — mesmo letra de forma bem feita pode gerar resultados variados.",
+  "dive5Desc": "O OCR é otimizado para reconhecer texto impresso. A escrita à mão, especialmente cursiva ou desorganizada, é significativamente menos precisa do que o texto impresso - mesmo letra de forma bem feita pode gerar resultados variados.",
   "dive6Title": "Uma observação sobre tabelas e dados estruturados",
   "dive6Desc": "O OCR reconhece texto, mas não preserva de forma confiável a estrutura de linhas/colunas de tabelas. Se o objetivo principal do seu documento for extrair dados tabulares, nossa ferramenta dedicada PDF para Excel é mais adequada para reconstruir a estrutura real da tabela.",
   "faq": {
@@ -132,7 +132,7 @@
       },
       {
         "q": "Que tipos de PDFs se beneficiam do OCR?",
-        "a": "Qualquer PDF que contenha imagens digitalizadas de texto — documentos de um scanner flatbed, fotos de câmera salvas como PDF, faxes, formulários impressos ou digitalizações de microfilme de arquivo — se beneficiará do OCR. Se o seu PDF já contém texto selecionável (ou seja, você pode destacar palavras), é um PDF 'nativo' e o OCR não é necessário."
+        "a": "Qualquer PDF que contenha imagens digitalizadas de texto - documentos de um scanner flatbed, fotos de câmera salvas como PDF, faxes, formulários impressos ou digitalizações de microfilme de arquivo - se beneficiará do OCR. Se o seu PDF já contém texto selecionável (ou seja, você pode destacar palavras), é um PDF 'nativo' e o OCR não é necessário."
       },
       {
         "q": "Quão preciso é o OCR?",
@@ -152,7 +152,7 @@
       },
       {
         "q": "Quais formatos de saída posso baixar?",
-        "a": "Os usuários gratuitos recebem um PDF pesquisável — visualmente idêntico ao original, mas com uma camada de texto invisível incorporada que ativa pesquisa Ctrl+F, copiar e colar e ferramentas de acessibilidade. Os usuários Pro e Agency também podem exportar o texto extraído como um documento Word .docx formatado ou como um arquivo .txt bruto para pipelines de dados, ferramentas de tradução ou sistemas de gerenciamento de conteúdo."
+        "a": "Os usuários gratuitos recebem um PDF pesquisável - visualmente idêntico ao original, mas com uma camada de texto invisível incorporada que ativa pesquisa Ctrl+F, copiar e colar e ferramentas de acessibilidade. Os usuários Pro e Agency também podem exportar o texto extraído como um documento Word .docx formatado ou como um arquivo .txt bruto para pipelines de dados, ferramentas de tradução ou sistemas de gerenciamento de conteúdo."
       },
       {
         "q": "Por que o OCR é limitado a 1 por dia no plano gratuito?",
@@ -162,7 +162,7 @@
   },
   "seoContent": {
     "h2": "O que é OCR e por que seu PDF precisa disso?",
-    "p1": "O OCR (Reconhecimento Óptico de Caracteres) é a tecnologia que preenche a lacuna entre um PDF plano baseado em imagens e um documento vivo e interativo. Quando você digitaliza um contrato em papel, fotografa um recibo ou salva um relatório impresso como PDF, o arquivo é essencialmente uma imagem — o computador vê padrões de pixels, não letras. O OCR muda isso.",
+    "p1": "O OCR (Reconhecimento Óptico de Caracteres) é a tecnologia que preenche a lacuna entre um PDF plano baseado em imagens e um documento vivo e interativo. Quando você digitaliza um contrato em papel, fotografa um recibo ou salva um relatório impresso como PDF, o arquivo é essencialmente uma imagem - o computador vê padrões de pixels, não letras. O OCR muda isso.",
     "p2": "O resultado é um <strong>PDF pesquisável</strong>: visualmente idêntico ao original, mas com uma camada de texto invisível e perfeitamente alinhada abaixo das imagens. Agora você pode pesquisar em um contrato de 200 páginas com Ctrl+F, destacar e copiar um parágrafo, ou deixar ferramentas de acessibilidade narrar o conteúdo para leitores com deficiência visual. Os usuários Pro vão além, baixando o texto extraído como um <strong>arquivo Word .docx</strong> editável ou como um <strong>arquivo .txt</strong> bruto.",
     "h3": "Como o SmallPDF.us oferece resultados precisos de OCR",
     "p3": "A precisão no processamento de documentos é inegociável. Nosso pipeline de OCR passa por quatro etapas bem definidas. Primeiro, o <strong>pré-processamento</strong>: cada página é analisada para rotação, ruído, contraste e segmentada em regiões de texto e figuras não textuais. Segundo, a <strong>detecção de idioma</strong>: uma digitalização de amostra identifica se você está trabalhando em latino, cirílico, árabe, CJK ou outro dos 100+ scripts suportados. Terceiro, o <strong>motor de reconhecimento</strong> executa análise caractere por caractere. Finalmente, o <strong>pós-processamento</strong> reconstrói palavras e frases antes de incorporar a camada de texto no seu PDF.",
@@ -171,10 +171,10 @@
   "cta": {
     "heading": "Torne seu PDF pesquisável",
     "subtitle": "Envie um PDF digitalizado e baixe um documento pesquisável e com texto copiável. Comece de graça.",
-    "button": "Iniciar OCR agora — É gratuito"
+    "button": "Iniciar OCR agora - É gratuito"
   },
   "preview": {
-    "pageTitle": "Visualizar OCR PDF — SmallPDF.us",
+    "pageTitle": "Visualizar OCR PDF - SmallPDF.us",
     "changeFile": "Trocar arquivo",
     "headerTitle": "Pronto para extrair texto",
     "headerSubtitle": "Revise seu arquivo e execute o OCR",
@@ -187,10 +187,10 @@
     "receiveDocx": "Documento Word (.docx) com texto extraído",
     "receiveTxt": "Arquivo de texto simples (.txt) para copiar e colar facilmente",
     "receiveProOnly": "Exportação Word e TXT (apenas Pro)",
-    "runOcrButton": "Executar OCR — Extrair texto",
+    "runOcrButton": "Executar OCR - Extrair texto",
     "securePrivate": "Seguro e privado",
     "autoDeleted": "Excluído automaticamente em 1h",
-    "pleaseWait": "Aguarde — não feche esta aba",
+    "pleaseWait": "Aguarde - não feche esta aba",
     "ocrFailed": "OCR falhou",
     "tryAgain": "Tentar novamente",
     "upgradeToPro": "Atualizar para Pro",
@@ -215,7 +215,7 @@
     "advertisement": "Publicidade"
   },
   "process": {
-    "pageTitle": "Processando OCR — SmallPDF.us",
+    "pageTitle": "Processando OCR - SmallPDF.us",
     "backLink": "Voltar ao OCR PDF",
     "processingTitle": "OCR em andamento…",
     "standardQueue": "Fila padrão. O Pro usa uma fila prioritária.",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "Baixar OCR PDF — SmallPDF.us",
+    "pageTitle": "Baixar OCR PDF - SmallPDF.us",
     "successTitle": "OCR concluído!",
     "pagesProcessed": "{count} página{plural} processada{plural}",
     "wordsExtracted": "~{count} palavras extraídas",
@@ -257,7 +257,7 @@
     "imagePdfUpgrade": "Atualizar para Pro",
     "imagePdfUpgradeSuffix": "para suporte avançado do motor OCR em documentos digitalizados.",
     "alreadySearchableTitle": "Seu PDF já tinha texto selecionável",
-    "alreadySearchableDesc": "Não foi necessário OCR — você já pode pesquisar e copiar o texto. Seu arquivo não foi alterado.",
+    "alreadySearchableDesc": "Não foi necessário OCR - você já pode pesquisar e copiar o texto. Seu arquivo não foi alterado.",
     "noTextTitle": "Nenhum texto foi reconhecido",
     "noTextDesc": "Tente uma digitalização mais nítida: páginas retas, bom contraste e pelo menos 300 DPI. Texto manuscrito não é suportado.",
     "proUpsellTitle": "Quer mais do OCR?",

@@ -216,15 +216,15 @@ export default function HomePage() {
       name: t('nav.editPdf'), href: "/edit-pdf", Icon: PenLine, gradient: "from-blue-600 to-slate-900",
       longDesc: L(locale, {
         ja: 'PDF内の任意のテキストをクリックして直接打ち直せます。実際のテキスト編集で、画像化されません。',
-        de: 'Klicke auf jeden Text in deinem PDF und tippe ihn direkt neu — echte Textbearbeitung, kein Bild.',
-        fr: 'Cliquez sur n\'importe quel texte de votre PDF et retapez-le directement — vraie modification, pas une image.',
-        es: 'Haz clic en cualquier texto de tu PDF y reescríbelo directamente — edición real, no una imagen.',
-        en: 'Click any text in your PDF and retype it directly — real text editing, not a flattened image.',
-        it: 'Clicca su qualsiasi testo del tuo PDF e riscrivilo direttamente — modifica reale, non un\'immagine.',
-        id: 'Klik teks mana pun di PDF-mu dan ketik ulang langsung — pengeditan teks sungguhan, bukan gambar.',
-        pt: 'Clique em qualquer texto do seu PDF e reescreva direto — edição real, não uma imagem.',
-        vi: 'Nhấp vào bất kỳ văn bản nào trong PDF và gõ lại trực tiếp — chỉnh sửa văn bản thật, không phải ảnh phẳng.',
-        hi: 'अपनी PDF में किसी भी टेक्स्ट पर क्लिक करें और सीधे दोबारा टाइप करें — असली टेक्स्ट एडिटिंग, सपाट इमेज नहीं।',
+        de: 'Klicke auf jeden Text in deinem PDF und tippe ihn direkt neu - echte Textbearbeitung, kein Bild.',
+        fr: 'Cliquez sur n\'importe quel texte de votre PDF et retapez-le directement - vraie modification, pas une image.',
+        es: 'Haz clic en cualquier texto de tu PDF y reescríbelo directamente - edición real, no una imagen.',
+        en: 'Click any text in your PDF and retype it directly - real text editing, not a flattened image.',
+        it: 'Clicca su qualsiasi testo del tuo PDF e riscrivilo direttamente - modifica reale, non un\'immagine.',
+        id: 'Klik teks mana pun di PDF-mu dan ketik ulang langsung - pengeditan teks sungguhan, bukan gambar.',
+        pt: 'Clique em qualquer texto do seu PDF e reescreva direto - edição real, não uma imagem.',
+        vi: 'Nhấp vào bất kỳ văn bản nào trong PDF và gõ lại trực tiếp - chỉnh sửa văn bản thật, không phải ảnh phẳng.',
+        hi: 'अपनी PDF में किसी भी टेक्स्ट पर क्लिक करें और सीधे दोबारा टाइप करें - असली टेक्स्ट एडिटिंग, सपाट इमेज नहीं।',
         ar: 'اضغط على أي نص في ملف PDF وأعد كتابته مباشرة، تعديل نص حقيقي وليس صورة مسطحة.',
         tr: 'PDF\'inizdeki herhangi bir metne tıklayın ve doğrudan yeniden yazın; gerçek metin düzenleme, düz bir görsel değil.',
       }), ctaText, badgeText,
@@ -233,15 +233,15 @@ export default function HomePage() {
       name: t('nav.redactPdf'), href: "/redact-pdf", Icon: EyeOff, gradient: "from-slate-600 to-slate-800",
       longDesc: L(locale, {
         ja: '機密情報を永久に削除。カバーするだけでなく、実際にPDFから取り除きます。',
-        de: 'Vertrauliche Inhalte dauerhaft entfernen — nicht nur überdeckt, sondern wirklich aus dem PDF gelöscht.',
-        fr: 'Supprimez définitivement les infos sensibles — pas seulement masquées, vraiment retirées du PDF.',
-        es: 'Elimina información sensible de forma permanente — no solo se cubre, se quita realmente del PDF.',
-        en: 'Permanently remove sensitive info — not just covered up, actually stripped from the PDF.',
-        it: 'Rimuovi le informazioni sensibili in modo permanente — non solo coperte, davvero eliminate dal PDF.',
-        id: 'Hapus info sensitif secara permanen — bukan hanya ditutup, benar-benar dihapus dari PDF.',
-        pt: 'Remova informações sensíveis permanentemente — não só cobertas, realmente removidas do PDF.',
-        vi: 'Xóa vĩnh viễn thông tin nhạy cảm — không chỉ bị che đi, mà thực sự bị gỡ khỏi PDF.',
-        hi: 'संवेदनशील जानकारी स्थायी रूप से हटाएँ — सिर्फ़ ढकी नहीं, सचमुच PDF से निकाल दी जाती है।',
+        de: 'Vertrauliche Inhalte dauerhaft entfernen - nicht nur überdeckt, sondern wirklich aus dem PDF gelöscht.',
+        fr: 'Supprimez définitivement les infos sensibles - pas seulement masquées, vraiment retirées du PDF.',
+        es: 'Elimina información sensible de forma permanente - no solo se cubre, se quita realmente del PDF.',
+        en: 'Permanently remove sensitive info - not just covered up, actually stripped from the PDF.',
+        it: 'Rimuovi le informazioni sensibili in modo permanente - non solo coperte, davvero eliminate dal PDF.',
+        id: 'Hapus info sensitif secara permanen - bukan hanya ditutup, benar-benar dihapus dari PDF.',
+        pt: 'Remova informações sensíveis permanentemente - não só cobertas, realmente removidas do PDF.',
+        vi: 'Xóa vĩnh viễn thông tin nhạy cảm - không chỉ bị che đi, mà thực sự bị gỡ khỏi PDF.',
+        hi: 'संवेदनशील जानकारी स्थायी रूप से हटाएँ - सिर्फ़ ढकी नहीं, सचमुच PDF से निकाल दी जाती है।',
         ar: 'احذف المعلومات الحساسة نهائياً، فلا تُغطّى فقط بل تُزال فعلاً من ملف PDF.',
         tr: 'Hassas bilgileri kalıcı olarak silin; yalnızca örtülmez, PDF\'ten gerçekten kaldırılır.',
       }), ctaText, badgeText,
@@ -290,7 +290,7 @@ export default function HomePage() {
   ] : locale === 'de' ? [
     {
       question: "Ist diese Website wirklich kostenlos?",
-      answer: "Ja — alle Tools lassen sich kostenlos nutzen, und Sie können sofort ohne Bezahlung loslegen. Der kostenlose Plan hat ein Tageslimit und Dateigrößengrenzen; für größere Dateien, Stapelverarbeitung oder ein werbefreies Erlebnis gibt es die Pläne Starter und Pro. Den kostenlosen Plan finanzieren wir über wenige Anzeigen."
+      answer: "Ja - alle Tools lassen sich kostenlos nutzen, und Sie können sofort ohne Bezahlung loslegen. Der kostenlose Plan hat ein Tageslimit und Dateigrößengrenzen; für größere Dateien, Stapelverarbeitung oder ein werbefreies Erlebnis gibt es die Pläne Starter und Pro. Den kostenlosen Plan finanzieren wir über wenige Anzeigen."
     },
     {
       question: "Wie sicher sind meine Dateien beim Hochladen?",
@@ -302,7 +302,7 @@ export default function HomePage() {
     },
     {
       question: "Muss ich ein Konto erstellen?",
-      answer: "Nein — alle Tools funktionieren ohne Konto. Mit einem kostenlosen Konto erhalten Sie ein höheres Tageslimit und einen Verlauf Ihrer letzten Dateien; bezahlte Pläne bieten größere Dateien und Stapelverarbeitung."
+      answer: "Nein - alle Tools funktionieren ohne Konto. Mit einem kostenlosen Konto erhalten Sie ein höheres Tageslimit und einen Verlauf Ihrer letzten Dateien; bezahlte Pläne bieten größere Dateien und Stapelverarbeitung."
     },
     {
       question: "Kann ich die Website auf meinem Smartphone oder Tablet nutzen?",
@@ -311,7 +311,7 @@ export default function HomePage() {
   ] : locale === 'fr' ? [
     {
       question: "Ce site est-il vraiment gratuit ?",
-      answer: "Oui — tous les outils sont utilisables gratuitement et vous pouvez commencer tout de suite sans payer. Le forfait gratuit a une limite quotidienne et des tailles de fichier maximales ; pour des fichiers plus lourds, le traitement par lots ou une expérience sans publicité, les forfaits Starter et Pro sont disponibles. Le forfait gratuit est financé par quelques publicités."
+      answer: "Oui - tous les outils sont utilisables gratuitement et vous pouvez commencer tout de suite sans payer. Le forfait gratuit a une limite quotidienne et des tailles de fichier maximales ; pour des fichiers plus lourds, le traitement par lots ou une expérience sans publicité, les forfaits Starter et Pro sont disponibles. Le forfait gratuit est financé par quelques publicités."
     },
     {
       question: "Mes fichiers sont-ils sécurisés lors du téléchargement ?",
@@ -323,7 +323,7 @@ export default function HomePage() {
     },
     {
       question: "Dois-je créer un compte ?",
-      answer: "Non — tous les outils fonctionnent sans compte. Un compte gratuit vous donne une limite quotidienne plus élevée et l'historique de vos fichiers récents ; les forfaits payants ajoutent des fichiers plus lourds et le traitement par lots."
+      answer: "Non - tous les outils fonctionnent sans compte. Un compte gratuit vous donne une limite quotidienne plus élevée et l'historique de vos fichiers récents ; les forfaits payants ajoutent des fichiers plus lourds et le traitement par lots."
     },
     {
       question: "Puis-je l'utiliser sur mon téléphone ou ma tablette ?",
@@ -374,7 +374,7 @@ export default function HomePage() {
   ] : locale === 'id' ? [
     {
       question: "Apakah situs ini benar-benar gratis?",
-      answer: "Ya — semua alat bisa digunakan secara gratis dan Anda bisa langsung mulai tanpa membayar. Paket gratis memiliki batas harian dan batas ukuran file; jika butuh file lebih besar, pemrosesan batch, atau pengalaman tanpa iklan, tersedia paket Starter dan Pro. Paket gratis kami didukung oleh sedikit iklan."
+      answer: "Ya - semua alat bisa digunakan secara gratis dan Anda bisa langsung mulai tanpa membayar. Paket gratis memiliki batas harian dan batas ukuran file; jika butuh file lebih besar, pemrosesan batch, atau pengalaman tanpa iklan, tersedia paket Starter dan Pro. Paket gratis kami didukung oleh sedikit iklan."
     },
     {
       question: "Apakah file saya aman saat diunggah?",
@@ -386,7 +386,7 @@ export default function HomePage() {
     },
     {
       question: "Apakah saya perlu membuat akun?",
-      answer: "Tidak — semua alat bisa digunakan tanpa membuat akun. Akun gratis memberi Anda batas harian yang lebih tinggi dan riwayat file terbaru, sedangkan paket berbayar menambahkan file lebih besar dan pemrosesan batch."
+      answer: "Tidak - semua alat bisa digunakan tanpa membuat akun. Akun gratis memberi Anda batas harian yang lebih tinggi dan riwayat file terbaru, sedangkan paket berbayar menambahkan file lebih besar dan pemrosesan batch."
     },
     {
       question: "Bisakah saya menggunakannya di ponsel atau tablet?",
@@ -395,7 +395,7 @@ export default function HomePage() {
   ] : locale === 'pt' ? [
     {
       question: "Este site é realmente gratuito?",
-      answer: "Sim — todas as ferramentas podem ser usadas grátis e você pode começar agora mesmo, sem pagar. O plano gratuito tem um limite diário e tamanhos máximos de arquivo; se você precisar de arquivos maiores, processamento em lote ou uma experiência sem anúncios, existem os planos Starter e Pro. Mantemos o plano gratuito com poucos anúncios."
+      answer: "Sim - todas as ferramentas podem ser usadas grátis e você pode começar agora mesmo, sem pagar. O plano gratuito tem um limite diário e tamanhos máximos de arquivo; se você precisar de arquivos maiores, processamento em lote ou uma experiência sem anúncios, existem os planos Starter e Pro. Mantemos o plano gratuito com poucos anúncios."
     },
     {
       question: "Meus arquivos ficam seguros quando os envio?",
@@ -407,7 +407,7 @@ export default function HomePage() {
     },
     {
       question: "Preciso criar uma conta?",
-      answer: "Não — você pode usar todas as ferramentas sem criar conta. Uma conta gratuita dá um limite diário maior e o histórico dos seus arquivos recentes, e os planos pagos adicionam arquivos maiores e processamento em lote."
+      answer: "Não - você pode usar todas as ferramentas sem criar conta. Uma conta gratuita dá um limite diário maior e o histórico dos seus arquivos recentes, e os planos pagos adicionam arquivos maiores e processamento em lote."
     },
     {
       question: "Posso usar no meu celular ou tablet?",
@@ -416,7 +416,7 @@ export default function HomePage() {
   ] : locale === 'vi' ? [
     {
       question: "Trang web của bạn có thực sự miễn phí không?",
-      answer: "Có — mọi công cụ đều có thể dùng miễn phí và bạn có thể bắt đầu ngay mà không phải trả tiền. Gói miễn phí có giới hạn hằng ngày và giới hạn dung lượng tệp; nếu bạn cần tệp lớn hơn, xử lý hàng loạt hoặc trải nghiệm không quảng cáo, có các gói Starter và Pro. Chúng tôi duy trì gói miễn phí bằng một lượng nhỏ quảng cáo."
+      answer: "Có - mọi công cụ đều có thể dùng miễn phí và bạn có thể bắt đầu ngay mà không phải trả tiền. Gói miễn phí có giới hạn hằng ngày và giới hạn dung lượng tệp; nếu bạn cần tệp lớn hơn, xử lý hàng loạt hoặc trải nghiệm không quảng cáo, có các gói Starter và Pro. Chúng tôi duy trì gói miễn phí bằng một lượng nhỏ quảng cáo."
     },
     {
       question: "Tệp của tôi an toàn đến mức nào khi tải lên?",
@@ -428,7 +428,7 @@ export default function HomePage() {
     },
     {
       question: "Tôi có cần tạo tài khoản không?",
-      answer: "Không — bạn có thể dùng mọi công cụ mà không cần tạo tài khoản. Tài khoản miễn phí cho bạn giới hạn hằng ngày cao hơn và lịch sử các tệp gần đây, còn các gói trả phí bổ sung tệp lớn hơn và xử lý hàng loạt."
+      answer: "Không - bạn có thể dùng mọi công cụ mà không cần tạo tài khoản. Tài khoản miễn phí cho bạn giới hạn hằng ngày cao hơn và lịch sử các tệp gần đây, còn các gói trả phí bổ sung tệp lớn hơn và xử lý hàng loạt."
     },
     {
       question: "Tôi có thể dùng trên điện thoại hoặc máy tính bảng không?",
@@ -437,7 +437,7 @@ export default function HomePage() {
   ] : locale === 'hi' ? [
     {
       question: "क्या आपकी वेबसाइट सचमुच मुफ़्त है?",
-      answer: "हाँ — हर टूल मुफ़्त में इस्तेमाल किया जा सकता है, और आप बिना भुगतान किए तुरंत शुरू कर सकते हैं। मुफ़्त प्लान में रोज़ की सीमा और फ़ाइल आकार की सीमाएँ हैं; अगर आपको बड़ी फ़ाइलें, बैच प्रोसेसिंग या बिना विज्ञापन का अनुभव चाहिए, तो Starter और Pro प्लान उपलब्ध हैं। हम मुफ़्त प्लान को थोड़े-से विज्ञापनों के सहारे चलाते हैं।"
+      answer: "हाँ - हर टूल मुफ़्त में इस्तेमाल किया जा सकता है, और आप बिना भुगतान किए तुरंत शुरू कर सकते हैं। मुफ़्त प्लान में रोज़ की सीमा और फ़ाइल आकार की सीमाएँ हैं; अगर आपको बड़ी फ़ाइलें, बैच प्रोसेसिंग या बिना विज्ञापन का अनुभव चाहिए, तो Starter और Pro प्लान उपलब्ध हैं। हम मुफ़्त प्लान को थोड़े-से विज्ञापनों के सहारे चलाते हैं।"
     },
     {
       question: "अपलोड करते समय मेरी फ़ाइलें कितनी सुरक्षित हैं?",
@@ -449,7 +449,7 @@ export default function HomePage() {
     },
     {
       question: "क्या मुझे अकाउंट बनाना ज़रूरी है?",
-      answer: "नहीं — आप बिना अकाउंट बनाए हर टूल इस्तेमाल कर सकते हैं। मुफ़्त अकाउंट से आपको रोज़ की ऊँची सीमा और अपनी हाल की फ़ाइलों का इतिहास मिलता है, और पेड प्लान में बड़ी फ़ाइलें और बैच प्रोसेसिंग जुड़ जाती हैं।"
+      answer: "नहीं - आप बिना अकाउंट बनाए हर टूल इस्तेमाल कर सकते हैं। मुफ़्त अकाउंट से आपको रोज़ की ऊँची सीमा और अपनी हाल की फ़ाइलों का इतिहास मिलता है, और पेड प्लान में बड़ी फ़ाइलें और बैच प्रोसेसिंग जुड़ जाती हैं।"
     },
     {
       question: "क्या मैं इसे अपने फ़ोन या टैबलेट पर इस्तेमाल कर सकता/सकती हूँ?",
@@ -500,7 +500,7 @@ export default function HomePage() {
   ] : [
     {
       question: "Is your website really free to use?",
-      answer: "Yes — every tool can be used for free, and you can start right away without paying. The free plan has a daily limit and file-size limits; if you need bigger files, batch processing or an ad-free experience, the Starter and Pro plans are available. We keep the free plan running with a small number of ads."
+      answer: "Yes - every tool can be used for free, and you can start right away without paying. The free plan has a daily limit and file-size limits; if you need bigger files, batch processing or an ad-free experience, the Starter and Pro plans are available. We keep the free plan running with a small number of ads."
     },
     {
       question: "How secure are my files when I upload them?",
@@ -512,7 +512,7 @@ export default function HomePage() {
     },
     {
       question: "Do I need to create an account?",
-      answer: "No — you can use every tool without creating an account. A free account gives you a higher daily limit and a history of your recent files, and paid plans add bigger files and batch processing."
+      answer: "No - you can use every tool without creating an account. A free account gives you a higher daily limit and a history of your recent files, and paid plans add bigger files and batch processing."
     },
     {
       question: "Can I use this on my phone or tablet?",
@@ -527,8 +527,8 @@ export default function HomePage() {
 
   const router = useLocalizedRouter()
   const S = {
-    h1a: L(locale, { ja: 'PDFツールを', de: 'PDF-Tools,', fr: 'Des outils PDF', es: 'Herramientas PDF', en: 'PDF tools that', it: 'Strumenti PDF', id: 'Alat PDF yang', pt: 'Ferramentas PDF que', vi: 'Công cụ PDF', hi: 'PDF टूल जो', ar: 'أدوات PDF', tr: 'PDF araçları,' }),
-    h1b: L(locale, { ja: '無料で、すぐに使える', de: 'kostenlos & sofort', fr: 'gratuits & instantanés', es: 'gratis e instantáneas', en: 'actually just work', it: 'gratuiti & veloci', id: 'gratis & instan', pt: 'grátis & instantâneas', vi: 'miễn phí & dùng được ngay', hi: 'सचमुच बस काम करते हैं', ar: 'تعمل ببساطة فعلاً', tr: 'gerçekten sorunsuz çalışır' }),
+    h1a: L(locale, { ja: '無料オンラインPDFツール', de: 'Kostenlose Online-PDF-Tools', fr: 'Outils PDF gratuits en ligne', es: 'Herramientas PDF online gratis', en: 'Free Online PDF Tools', it: 'Strumenti PDF online gratis', id: 'Alat PDF Online Gratis', pt: 'Ferramentas PDF online grátis', vi: 'Công cụ PDF online miễn phí', hi: 'फ्री ऑनलाइन PDF टूल्स', ar: 'أدوات PDF مجانية أونلاين', tr: 'Ücretsiz Online PDF Araçları' }),
+    h1b: L(locale, { ja: '毎日の書類作業に', de: 'für alltägliche Dokumente', fr: 'pour vos documents du quotidien', es: 'para tus documentos de cada día', en: 'for Everyday Documents', it: 'per i documenti di ogni giorno', id: 'untuk dokumen sehari-hari', pt: 'para os documentos do dia a dia', vi: 'cho tài liệu hằng ngày', hi: 'रोज़ के डॉक्यूमेंट के लिए', ar: 'لمستنداتك اليومية', tr: 'her gün kullandığınız belgeler için' }),
     sub: L(locale, { ja: 'PDFを数秒で変換、圧縮、結合、編集。', de: 'PDFs in Sekunden konvertieren, komprimieren, zusammenführen & bearbeiten.', fr: 'Convertissez, compressez, fusionnez et modifiez vos PDF en secondes.', es: 'Convierte, comprime, combina y edita tus PDF en segundos.', en: 'Convert, compress, merge & edit PDFs in seconds.', it: 'Converti, comprimi, unisci e modifica i tuoi PDF in pochi secondi.', id: 'Konversi, kompres, gabung & edit PDF dalam hitungan detik.', pt: 'Converta, comprima, mescle e edite PDFs em segundos.', vi: 'Chuyển đổi, nén, gộp & chỉnh sửa PDF trong vài giây.', hi: 'PDF को सेकंडों में बदलें, कंप्रेस करें, जोड़ें और एडिट करें।', ar: 'حوّل ملفات PDF واضغطها وادمجها وعدّلها في ثوانٍ.', tr: 'PDF\'leri saniyeler içinde dönüştürün, sıkıştırın, birleştirin ve düzenleyin.' }),
     pill1: L(locale, { ja: '256ビットSSL暗号化', de: '256-Bit-SSL-Verschlüsselung', fr: 'Chiffrement SSL 256 bits', es: 'Cifrado SSL 256 bits', en: '256-bit SSL encryption', it: 'Crittografia SSL 256 bit', id: 'Enkripsi SSL 256-bit', pt: 'Criptografia SSL 256 bits', vi: 'Mã hóa SSL 256-bit', hi: '256-बिट SSL एन्क्रिप्शन', ar: 'تشفير SSL بطول 256 بت', tr: '256 bit SSL şifreleme' }),
     pill2: L(locale, { ja: '超高速', de: 'Blitzschnell', fr: 'Ultra rapide', es: 'Ultra rápido', en: 'Lightning fast', it: 'Velocissimo', id: 'Sangat cepat', pt: 'Extremamente rápido', vi: 'Cực nhanh', hi: 'बिजली-सी तेज़', ar: 'سريع كالبرق', tr: 'Şimşek gibi hızlı' }),
@@ -538,11 +538,11 @@ export default function HomePage() {
     statTools: L(locale, { ja:'ツール', de:'Tools', fr:'Outils', es:'Herramientas', en:'Tools', it:'Strumenti', id:'Alat', pt:'Ferramentas', vi: 'Công cụ', hi: 'टूल', ar: 'أدوات', tr: 'Araç' }),
     statLang: L(locale, { ja:'言語', de:'Sprachen', fr:'Langues', es:'Idiomas', en:'Languages', it:'Lingue', id:'Bahasa', pt:'Idiomas', vi: 'Ngôn ngữ', hi: 'भाषाएँ', ar: 'لغات', tr: 'Dil' }),
     statPlan: L(locale, { ja:'プラン', de:'Plan', fr:'Forfait', es:'Plan', it:'Piano', id:'Paket', pt:'Plano', vi: 'Gói', hi: 'प्लान', ar: 'الباقة', tr: 'Paket', en:'Plan' }),
-    done: L(locale,{ja:'変換完了',de:'Fertig',fr:'Terminé',es:'Listo',en:'Done — download ready',it:'Pronto',id:'Selesai',pt:'Pronto', vi: 'Xong — sẵn sàng tải xuống', hi: 'हो गया — डाउनलोड तैयार', ar: 'تم، التنزيل جاهز', tr: 'Tamam, indirme hazır'}),
+    done: L(locale,{ja:'変換完了',de:'Fertig',fr:'Terminé',es:'Listo',en:'Done - download ready',it:'Pronto',id:'Selesai',pt:'Pronto', vi: 'Xong - sẵn sàng tải xuống', hi: 'हो गया - डाउनलोड तैयार', ar: 'تم، التنزيل جاهز', tr: 'Tamam, indirme hazır'}),
     deleted: L(locale,{ja:'1時間後に削除',de:'Gelöscht in 1 Std.',fr:'Supprimé dans 1h',es:'Borrado en 1h',en:'Deleted in 1 hr',it:'Eliminato in 1h',id:'Dihapus dalam 1 jam',pt:'Excluído em 1h', vi: 'Xóa sau 1 giờ', hi: '1 घंटे में हटा दी जाती है', ar: 'يُحذف بعد ساعة', tr: '1 saatte silinir'}),
     launched: L(locale, { ja: '新機能', de: 'Neu bei uns', fr: 'Nouveau chez nous', es: 'Recién llegado', en: 'Just launched', it: 'Appena lanciato', id: 'Baru diluncurkan', pt: 'Recém-lançado', vi: 'Mới ra mắt', hi: 'अभी शुरू हुआ', ar: 'أُطلقت للتو', tr: 'Yeni çıktı' }),
     featH: L(locale, { ja: 'まだ試していないツールはありますか？', de: 'Diese Tools noch nicht ausprobiert?', fr: 'Vous n\'avez pas encore essayé ces outils ?', es: '¿Aún no has probado estas herramientas?', en: 'Tools you might have missed', it: 'Strumenti che potresti aver perso', id: 'Alat yang mungkin terlewat', pt: 'Ferramentas que você pode ter perdido', vi: 'Những công cụ bạn có thể đã bỏ lỡ', hi: 'वे टूल जो शायद आपसे छूट गए हों', ar: 'أدوات ربما فاتتك', tr: 'Kaçırmış olabileceğiniz araçlar' }),
-    featSub: L(locale, { ja: '同じ無料・安全な処理で、新しくできることが増えました。', de: 'Gleiche kostenlose, sichere Verarbeitung — jetzt mit mehr Möglichkeiten.', fr: 'Même traitement gratuit et sécurisé — avec encore plus de possibilités.', es: 'El mismo procesamiento gratis y seguro — ahora con más posibilidades.', en: 'Same free, secure processing — now with a lot more you can do.', it: 'La stessa elaborazione gratuita e sicura — ora con molto di più.', id: 'Pemrosesan gratis dan aman yang sama — kini dengan lebih banyak kemampuan.', pt: 'O mesmo processamento grátis e seguro — agora com muito mais possibilidades.', vi: 'Vẫn xử lý miễn phí, an toàn — nhưng giờ bạn làm được nhiều hơn rất nhiều.', hi: 'वही मुफ़्त, सुरक्षित प्रोसेसिंग — अब आप और भी बहुत कुछ कर सकते हैं।', ar: 'المعالجة المجانية والآمنة نفسها، لكن مع الكثير مما يمكنك فعله الآن.', tr: 'Aynı ücretsiz, güvenli işleme; artık yapabileceğiniz çok daha fazla şeyle.' }),
+    featSub: L(locale, { ja: '同じ無料・安全な処理で、新しくできることが増えました。', de: 'Gleiche kostenlose, sichere Verarbeitung - jetzt mit mehr Möglichkeiten.', fr: 'Même traitement gratuit et sécurisé - avec encore plus de possibilités.', es: 'El mismo procesamiento gratis y seguro - ahora con más posibilidades.', en: 'Same free, secure processing - now with a lot more you can do.', it: 'La stessa elaborazione gratuita e sicura - ora con molto di più.', id: 'Pemrosesan gratis dan aman yang sama - kini dengan lebih banyak kemampuan.', pt: 'O mesmo processamento grátis e seguro - agora com muito mais possibilidades.', vi: 'Vẫn xử lý miễn phí, an toàn - nhưng giờ bạn làm được nhiều hơn rất nhiều.', hi: 'वही मुफ़्त, सुरक्षित प्रोसेसिंग - अब आप और भी बहुत कुछ कर सकते हैं।', ar: 'المعالجة المجانية والآمنة نفسها، لكن مع الكثير مما يمكنك فعله الآن.', tr: 'Aynı ücretsiz, güvenli işleme; artık yapabileceğiniz çok daha fazla şeyle.' }),
     allH: L(locale, { ja:'すべてのPDFツール', de:'Alle PDF-Tools', fr:'Tous les outils PDF', es:'Todas las herramientas PDF', en:'All PDF Tools', it:'Tutti gli strumenti PDF', id:'Semua Alat PDF', pt:'Todas as Ferramentas PDF', vi: 'Tất cả công cụ PDF', hi: 'सभी PDF टूल', ar: 'كل أدوات PDF', tr: 'Tüm PDF Araçları' }),
     allSub: L(locale, { ja:'PDFファイルの作業に必要なすべて', de:'Alles für die Arbeit mit PDFs', fr:'Tout pour vos PDF', es:'Todo para trabajar con PDF', en:'Everything you need to work with PDF files', it:'Tutto per lavorare con i PDF', id:'Semua untuk bekerja dengan file PDF', pt:'Tudo para trabalhar com PDFs', vi: 'Mọi thứ bạn cần để làm việc với tệp PDF', hi: 'PDF फ़ाइलों के साथ काम करने के लिए आपको जो कुछ चाहिए', ar: 'كل ما تحتاجه للتعامل مع ملفات PDF', tr: 'PDF dosyalarıyla çalışmak için ihtiyacınız olan her şey' }),
     fmtH: L(locale, { ja:'あらゆるファイル形式に対応', de:'Mit jedem Format arbeiten', fr:'Tous les formats', es:'Cualquier formato', en:'Work With Any File Format', it:'Qualsiasi formato', id:'Format File Apa Pun', pt:'Qualquer Formato', vi: 'Làm việc với mọi định dạng tệp', hi: 'किसी भी फ़ाइल फ़ॉर्मेट के साथ काम करें', ar: 'تعامل مع أي صيغة ملف', tr: 'Her Dosya Biçimiyle Çalışın' }),
@@ -557,7 +557,7 @@ export default function HomePage() {
     why2d: L(locale, { ja: '最適化されたサーバーで数秒でファイルを処理。', de: 'Dateien in Sekunden mit optimierten Servern verarbeiten.', fr: 'Traitement des fichiers en quelques secondes avec des serveurs optimisés.', es: 'Procesa archivos en segundos con servidores optimizados.', en: 'Process files in seconds with optimized servers.', it: 'Elabora i file in pochi secondi con server ottimizzati.', id: 'Proses file dalam hitungan detik dengan server yang dioptimalkan.', pt: 'Processe arquivos em segundos com servidores otimizados.', vi: 'Xử lý tệp trong vài giây với máy chủ được tối ưu.', hi: 'ऑप्टिमाइज़ सर्वर से फ़ाइलें सेकंडों में प्रोसेस करें।', ar: 'عالج الملفات في ثوانٍ بخوادم محسّنة.', tr: 'Optimize sunucularla dosyaları saniyeler içinde işleyin.' }),
     why3t: L(locale, { ja: '常に無料で開始', de: 'Kostenlos starten', fr: 'Commencez gratuitement', es: 'Comienza gratis', en: 'Free to Start', it: 'Inizia gratuitamente', id: 'Mulai Gratis', pt: 'Comece Grátis', vi: 'Miễn phí để bắt đầu', hi: 'शुरू करना मुफ़्त', ar: 'مجاني للبدء', tr: 'Ücretsiz Başlayın' }),
     why3d: L(locale, { ja: '隠れた費用なし。プレミアムプランでさらに強力に。', de: 'Keine versteckten Kosten. Premium-Pläne für mehr Leistung.', fr: 'Aucuns frais cachés. Passez en Premium pour plus de puissance.', es: 'Sin tarifas ocultas. Planes Premium para mayor rendimiento.', en: 'No hidden fees. Upgrade to Premium for more power.', it: 'Nessun costo nascosto. Passa a Premium per più potenza.', id: 'Tidak ada biaya tersembunyi. Upgrade ke Premium untuk lebih banyak fitur.', pt: 'Sem taxas ocultas. Faça upgrade para Premium para mais recursos.', vi: 'Không phí ẩn. Nâng cấp lên Premium để mạnh mẽ hơn.', hi: 'कोई छिपी फ़ीस नहीं। और ताकत के लिए प्रीमियम में अपग्रेड करें।', ar: 'دون رسوم مخفية. وترقّ إلى Premium لقوة أكبر.', tr: 'Gizli ücret yok. Daha fazla güç için Premium\'a yükseltin.' }),
-    secH: L(locale, { ja: 'ファイルは1時間後に消える。設計によって。', de: 'Weg nach 1 Stunde — so ist es gebaut.', fr: 'Disparu en 1 heure — par conception.', es: 'Borrado en 1 hora — por diseño, no promesas.', en: 'Gone in 1 hour. By design, not policy.', it: 'Sparito in 1 ora — per progetto, non per parole.', id: 'Hilang dalam 1 jam. Dirancang begitu, bukan janji.', pt: 'Excluído em 1 hora. Por design, não só promessa.', vi: 'Biến mất sau 1 giờ. Do thiết kế, không chỉ do chính sách.', hi: '1 घंटे में गायब। बनावट से, सिर्फ़ नीति से नहीं।', ar: 'تختفي خلال ساعة. بحكم التصميم، وليس بحكم السياسة.', tr: '1 saatte yok olur. Politikadan değil, tasarımdan.' }),
+    secH: L(locale, { ja: 'ファイルは1時間後に消える。設計によって。', de: 'Weg nach 1 Stunde - so ist es gebaut.', fr: 'Disparu en 1 heure - par conception.', es: 'Borrado en 1 hora - por diseño, no promesas.', en: 'Gone in 1 hour. By design, not policy.', it: 'Sparito in 1 ora - per progetto, non per parole.', id: 'Hilang dalam 1 jam. Dirancang begitu, bukan janji.', pt: 'Excluído em 1 hora. Por design, não só promessa.', vi: 'Biến mất sau 1 giờ. Do thiết kế, không chỉ do chính sách.', hi: '1 घंटे में गायब। बनावट से, सिर्फ़ नीति से नहीं।', ar: 'تختفي خلال ساعة. بحكم التصميم، وليس بحكم السياسة.', tr: '1 saatte yok olur. Politikadan değil, tasarımdan.' }),
     secP: L(locale, { ja: 'アップロードしたファイルは256ビットSSLで転送され、独立したコンテナで処理され、1時間以内に完全削除されます。コピーは残りません。例外もありません。', de: 'Jede Datei wird per 256-Bit-SSL übertragen, in einem isolierten Container verarbeitet und innerhalb von 1 Stunde vollständig gelöscht. Keine Kopien. Keine Ausnahmen.', fr: 'Chaque fichier est chiffré en transit via SSL 256 bits, traité dans un conteneur isolé et définitivement supprimé en 1 heure. Aucune copie. Aucune exception.', es: 'Cada archivo se transfiere con SSL de 256 bits, se procesa en un contenedor aislado y se elimina permanentemente en 1 hora. Sin copias. Sin excepciones.', en: 'Every file is transferred over 256-bit SSL, processed in an isolated container, and permanently deleted within 1 hour. No copies. No exceptions.', it: "Ogni file viene trasferito via SSL a 256 bit, elaborato in un container isolato ed eliminato definitivamente entro 1 ora. Nessuna copia. Nessuna eccezione.", id: 'Setiap file ditransfer lewat SSL 256-bit, diproses di container terisolasi, dan dihapus permanen dalam 1 jam. Tidak ada salinan. Tidak ada pengecualian.', pt: 'Cada arquivo é transferido por SSL de 256 bits, processado em um container isolado e excluído permanentemente em 1 hora. Sem cópias. Sem exceções.', vi: 'Mỗi tệp được truyền qua SSL 256-bit, xử lý trong một container tách biệt và bị xóa vĩnh viễn trong vòng 1 giờ. Không có bản sao. Không ngoại lệ.', hi: 'हर फ़ाइल 256-बिट SSL पर ट्रांसफ़र होती है, अलग कंटेनर में प्रोसेस होती है, और 1 घंटे के भीतर स्थायी रूप से हटा दी जाती है। कोई प्रति नहीं। कोई अपवाद नहीं।', ar: 'يُنقل كل ملف عبر SSL بطول 256 بت، ويُعالج في حاوية معزولة، ويُحذف نهائياً خلال ساعة. دون نسخ. ودون استثناءات.', tr: 'Her dosya 256 bit SSL ile aktarılır, yalıtılmış bir kapsayıcıda işlenir ve 1 saat içinde kalıcı olarak silinir. Kopya yok. İstisna yok.' }),
     sec1t: L(locale, { ja: '256ビットSSL暗号化', de: '256-Bit-SSL-Verschlüsselung', fr: 'Chiffrement SSL 256 bits', es: 'Cifrado SSL de 256 bits', en: '256-bit SSL Encryption', it: 'Crittografia SSL a 256 bit', id: 'Enkripsi SSL 256-bit', pt: 'Criptografia SSL de 256 bits', vi: 'Mã hóa SSL 256-bit', hi: '256-बिट SSL एन्क्रिप्शन', ar: 'تشفير SSL بطول 256 بت', tr: '256 bit SSL Şifreleme' }),
     sec1d: L(locale, { ja: '軍事レベルの暗号化が転送中のファイルを保護', de: 'Militärtaugliche Verschlüsselung schützt Ihre Dateien bei der Übertragung', fr: 'Le chiffrement de niveau militaire protège vos fichiers pendant le transfert', es: 'El cifrado de nivel militar protege sus archivos durante la transferencia', en: 'Military-grade encryption protects your files during transfer', it: 'La crittografia di livello militare protegge i tuoi file durante il trasferimento', id: 'Enkripsi tingkat militer melindungi file Anda saat transfer', pt: 'Criptografia de nível militar protege seus arquivos durante a transferência', vi: 'Mã hóa cấp quân sự bảo vệ tệp của bạn khi truyền tải', hi: 'ट्रांसफ़र के दौरान मज़बूत एन्क्रिप्शन आपकी फ़ाइलों की रक्षा करता है', ar: 'تشفير بمستوى عسكري يحمي ملفاتك أثناء النقل', tr: 'Askerî düzeyde şifreleme, aktarım sırasında dosyalarınızı korur' }),
@@ -643,7 +643,7 @@ export default function HomePage() {
                     <Input placeholder={S.search} className="h-12 w-full rounded-full border-2 border-[#14130F] bg-white pl-12 pr-4 text-base placeholder:text-[#14130F]/45 focus:outline-none data-[focus-visible]:ring-4 data-[focus-visible]:ring-[#C6F432]" />
                   </div>
                   <Popover className="w-[--trigger-width] overflow-hidden rounded-3xl border-2 border-[#14130F] bg-white shadow-[0_24px_60px_-20px_rgba(20,19,15,0.45)]">
-                    <ListBox className="max-h-72 overflow-auto p-2 outline-none" renderEmptyState={() => <div className="px-4 py-4 text-sm text-[#14130F]/60">—</div>}>
+                    <ListBox className="max-h-72 overflow-auto p-2 outline-none" renderEmptyState={() => <div className="px-4 py-4 text-sm text-[#14130F]/60">-</div>}>
                       {(x) => (
                         <ListBoxItem id={x.id} textValue={`${x.name} ${x.shortDesc}`} className="flex cursor-pointer items-center gap-3 rounded-2xl px-3 py-2 outline-none data-[focused]:bg-[#F1EEE6]">
                           <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${TONES[TONE_BY_HREF[x.href] || "sand"].chip}`}><x.Icon aria-hidden="true" className="h-4 w-4" /></span>
@@ -869,7 +869,7 @@ export default function HomePage() {
         PDF bisa sangat membuat frustrasi. Kita semua pernah mengalaminya: mencoba menggabungkan beberapa file saat tenggat waktu semakin dekat, berjuang mengecilkan dokumen besar agar bisa dikirim lewat email, atau ingin mengkonversi PDF ke Word tanpa format berantakan. Kedengarannya familiar?
       </p>
       <p>
-        Frustrasi itulah yang mendorong kami membuat situs ini. Kami ingin membangun sesuatu yang berbeda — sesuatu yang benar-benar bekerja sesuai harapan. Tidak ada menu membingungkan yang tersembunyi tiga klik lebih dalam, tidak ada paywall mengejutkan yang muncul tepat saat Anda membutuhkan sesuatu, dan sama sekali tidak memaksa Anda membuat akun lagi hanya untuk mengubah ukuran gambar atau menggabungkan dua file.
+        Frustrasi itulah yang mendorong kami membuat situs ini. Kami ingin membangun sesuatu yang berbeda - sesuatu yang benar-benar bekerja sesuai harapan. Tidak ada menu membingungkan yang tersembunyi tiga klik lebih dalam, tidak ada paywall mengejutkan yang muncul tepat saat Anda membutuhkan sesuatu, dan sama sekali tidak memaksa Anda membuat akun lagi hanya untuk mengubah ukuran gambar atau menggabungkan dua file.
       </p>
       <p>
         Baik Anda seorang pelajar yang mengumpulkan makalah penelitian tengah malam, seorang profesional yang menangani kontrak dan faktur, atau hanya seseorang yang perlu menandatangani dan mengirim dokumen dengan cepat, alat-alat ini dirancang untuk menghemat waktu Anda. Kami terus meningkatkan karena waktu Anda yang paling penting.
@@ -905,7 +905,7 @@ export default function HomePage() {
                         PDF có thể gây bực bội vô cùng. Chúng ta đều từng như vậy: cuống cuồng gộp nhiều tệp khi hạn chót đang đến gần, vật lộn thu nhỏ một tài liệu khổng lồ để gửi được qua email, hoặc muốn chuyển PDF sang Word mà định dạng không bị loạn hết cả lên. Nghe quen không?
                       </p>
                       <p>
-                        Chính nỗi bực bội đó là lý do chúng tôi tạo ra trang web này. Chúng tôi muốn xây dựng một thứ khác biệt — thứ thực sự hoạt động đúng như bạn mong đợi. Không có menu rối rắm giấu sâu ba cú nhấp, không có bức tường trả phí bất ngờ hiện ra đúng lúc bạn cần, và hoàn toàn không ép bạn tạo thêm một tài khoản nữa chỉ để đổi kích thước một bức ảnh hay gộp hai tệp.
+                        Chính nỗi bực bội đó là lý do chúng tôi tạo ra trang web này. Chúng tôi muốn xây dựng một thứ khác biệt - thứ thực sự hoạt động đúng như bạn mong đợi. Không có menu rối rắm giấu sâu ba cú nhấp, không có bức tường trả phí bất ngờ hiện ra đúng lúc bạn cần, và hoàn toàn không ép bạn tạo thêm một tài khoản nữa chỉ để đổi kích thước một bức ảnh hay gộp hai tệp.
                       </p>
                       <p>
                         Dù bạn là sinh viên đang tổng hợp bài nghiên cứu lúc nửa đêm, người đi làm xử lý hợp đồng và hóa đơn, hay đơn giản là người cần ký và gửi nhanh một tài liệu, các công cụ này được thiết kế để tiết kiệm thời gian của bạn. Chúng tôi tinh chỉnh từng tính năng dựa trên phản hồi thực tế của người dùng, và luôn cải thiện vì thời gian của bạn là điều quan trọng nhất.
@@ -917,7 +917,7 @@ export default function HomePage() {
                         PDF बेहद झुँझलाहट भरी हो सकती हैं। हम सब इससे गुज़रे हैं: समय-सीमा पास आते-आते कई फ़ाइलें जोड़ने की हड़बड़ी, भारी दस्तावेज़ को ईमेल करने लायक छोटा करने की जद्दोजहद, या PDF को Word में बदलना ताकि फ़ॉर्मेटिंग पूरी तरह बिगड़ न जाए। सुना-सुना लगता है?
                       </p>
                       <p>
-                        उसी झुँझलाहट की वजह से हमने यह वेबसाइट बनाई। हम कुछ अलग बनाना चाहते थे — ऐसी चीज़ जो सचमुच वैसे काम करे जैसी आप उम्मीद करते हैं। तीन क्लिक गहराई में दबे उलझे मेनू नहीं, ज़रूरत के ठीक समय अचानक आ जाने वाला पेवॉल नहीं, और इमेज का आकार बदलने या दो फ़ाइलें जोड़ने भर के लिए एक और अकाउंट बनवाने की ज़बरदस्ती बिल्कुल नहीं।
+                        उसी झुँझलाहट की वजह से हमने यह वेबसाइट बनाई। हम कुछ अलग बनाना चाहते थे - ऐसी चीज़ जो सचमुच वैसे काम करे जैसी आप उम्मीद करते हैं। तीन क्लिक गहराई में दबे उलझे मेनू नहीं, ज़रूरत के ठीक समय अचानक आ जाने वाला पेवॉल नहीं, और इमेज का आकार बदलने या दो फ़ाइलें जोड़ने भर के लिए एक और अकाउंट बनवाने की ज़बरदस्ती बिल्कुल नहीं।
                       </p>
                       <p>
                         चाहे आप आधी रात को शोध-पत्र जोड़ते छात्र हों, अनुबंध और इनवॉइस सँभालते पेशेवर हों, या बस कोई ऐसा जिसे जल्दी से दस्तावेज़ पर हस्ताक्षर करके भेजना हो, ये टूल आपका समय बचाने के लिए बनाए गए हैं। हमने हर सुविधा को उपयोगकर्ताओं के असली फ़ीडबैक के आधार पर निखारा है, और हम सुधारते रहते हैं क्योंकि आपका समय सबसे ज़्यादा मायने रखता है।
@@ -950,13 +950,13 @@ export default function HomePage() {
                   ) : (
                     <>
                       <p>
-                        PDFs have always frustrated me. Trying to merge files before a deadline, shrinking a document so it'll actually go through email, converting a PDF to Word without the formatting turning into chaos — I kept running into the same walls. Every tool either wanted money, an account, or both.
+                        PDFs have always frustrated me. Trying to merge files before a deadline, shrinking a document so it'll actually go through email, converting a PDF to Word without the formatting turning into chaos - I kept running into the same walls. Every tool either wanted money, an account, or both.
                       </p>
                       <p>
-                        So I built this. No menus buried three clicks deep, no surprise paywalls, no "please create an account" just to resize an image. I wanted something that actually works the way you'd expect — you open it, you use it, you leave. That's it.
+                        So I built this. No menus buried three clicks deep, no surprise paywalls, no "please create an account" just to resize an image. I wanted something that actually works the way you'd expect - you open it, you use it, you leave. That's it.
                       </p>
                       <p>
-                        I'm Manikant, a developer from New Delhi, India. I built and maintain every tool on this site myself. If something's broken or you need a feature, you can reach me directly — there's no support team, just me.
+                        I'm Manikant, a developer from New Delhi, India. I built and maintain every tool on this site myself. If something's broken or you need a feature, you can reach me directly - there's no support team, just me.
                       </p>
                     </>
                   )}

@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
   // every ad, set GPT_SIDEBAR_ADS_ENABLED = false here AND GPT_ADS_ENABLED in
   // AdSenseUnit.js (this flag alone also stops gpt.js from loading at all).
   const GPT_SIDEBAR_ADS_ENABLED = true
-  const GPT_OUT_OF_PAGE_ENABLED = true // Interstitial + sticky bottom Anchor (AdX) — on since 2026-10-16, replaces the AdSense vignette/anchor
+  const GPT_OUT_OF_PAGE_ENABLED = true // Interstitial + sticky bottom Anchor (AdX) - on since 2026-10-16, replaces the AdSense vignette/anchor
   useEffect(() => {
     if (!GPT_SIDEBAR_ADS_ENABLED) return
     if (router.pathname.startsWith('/admin')) return   // no ads on admin
@@ -128,7 +128,7 @@ function MyApp({ Component, pageProps }) {
     if (conn?.saveData || (conn?.effectiveType && ['slow-2g', '2g', '3g'].includes(conn.effectiveType))) return
     const timeout = setTimeout(() => {
       prefetchPages.forEach((page) => router.prefetch(page))
-    }, 5000) // after 5s — well after page is interactive
+    }, 5000) // after 5s - well after page is interactive
     return () => clearTimeout(timeout)
   }, [router])
 

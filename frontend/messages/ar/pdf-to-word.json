@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "تحويل PDF إلى Word مجاناً – سريع وآمن | SmallPDF.us",
-    "description": "حوّل ملفات PDF إلى مستندات Word (.docx) قابلة للتعديل أونلاين ومجاناً. يبقى التنسيق والصور والتخطيط أقرب ما يمكن إلى الأصل. يعمل في متصفحك."
+    "title": "تحويل PDF إلى Word مجانًا (DOCX) | SmallPDF.us",
+    "description": "تحويل PDF إلى Word (DOCX) أونلاين مجانًا. احصل على مستند قابل للتحرير يحافظ على التنسيق والجداول والصور. يعمل في المتصفح دون تثبيت."
   },
 
-  "heroTitle": "تحويل PDF إلى Word",
+  "heroTitle": "تحويل PDF إلى Word أونلاين مجانًا",
   "heroTitleHighlight": "مجاناً وفي ثوانٍ",
   "heroSubtitle": "حوّل ملفات PDF إلى مستندات Word قابلة للتعديل، مع إبقاء التخطيط أقرب ما يمكن إلى الأصل. ارفع الملف ونزّل ملف .docx.",
 
@@ -109,7 +109,7 @@
   "ctaButton": "حوّل ملف PDF إلى Word",
 
   "preview": {
-    "layoutTitle": "تحويل PDF إلى Word — معاينة",
+    "layoutTitle": "تحويل PDF إلى Word - معاينة",
     "layoutDesc": "راجع ملفاتك وابدأ التحويل إلى Word.",
     "loadingText": "جارٍ تحميل مستنداتك…",
     "changeFiles": "تغيير الملفات",
@@ -146,8 +146,8 @@
     "stage5": "نُنهي العمل…",
     "stageComplete": "اكتمل التحويل!",
     "percentComplete": "% مكتمل",
-    "convertingText_singular": "جارٍ تحويل {{count}} ملف — من فضلك لا تغلق هذه الصفحة.",
-    "convertingText_plural": "جارٍ تحويل {{count}} ملفات — من فضلك لا تغلق هذه الصفحة.",
+    "convertingText_singular": "جارٍ تحويل {{count}} ملف - من فضلك لا تغلق هذه الصفحة.",
+    "convertingText_plural": "جارٍ تحويل {{count}} ملفات - من فضلك لا تغلق هذه الصفحة.",
     "conversionFailed": "فشل التحويل"
   },
 
@@ -171,7 +171,7 @@
     "downloadFailed": "فشل التنزيل: {{error}}",
     "convertAnother": "حوّل المزيد من ملفات PDF",
     "shareTitle": "مستند Word الذي حوّلته",
-    "shareText": "حوّلت ملف PDF إلى Word عبر SmallPDF.us — جرّبه أنت أيضاً!",
+    "shareText": "حوّلت ملف PDF إلى Word عبر SmallPDF.us - جرّبه أنت أيضاً!",
     "editable": "قابل للتعديل بالكامل",
     "encrypted": "مشفّر وآمن",
     "expiresIn": "تنتهي الصلاحية بعد",

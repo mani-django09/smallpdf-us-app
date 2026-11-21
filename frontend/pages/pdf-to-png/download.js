@@ -110,7 +110,7 @@ export default function DownloadPDFtoPNG() {
       }
 
       const blob = await response.blob()
-      setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
+      setDownloadedBlob(blob)  // reuse for print - backend deletes file after first serve
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement("a")
       link.href = url

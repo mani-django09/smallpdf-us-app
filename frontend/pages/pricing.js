@@ -131,11 +131,11 @@ const TOOL_GROUPS_DEF = [
       { name: 'Merge PDF',    free: { size: '25 MB',  batch: '2 files'  }, starter: { size: '200 MB',  batch: '10 files' }, pro: { size: '100 MB', batch: 'Unlimited' } },
       { name: 'Split PDF',    free: { size: '10 MB',  batch: '1 file'   }, starter: { size: '100 MB',  batch: '10 files' }, pro: { size: '100 MB', batch: '10 files'  } },
       { name: 'Compress PDF', free: { size: '20 MB',  batch: '2 files'  }, starter: { size: '100 MB',  batch: '10 files' }, pro: { size: '100 MB', batch: '10 files'  } },
-      { name: 'Rotate PDF',   free: { size: '10 MB',  batch: '—'        }, starter: { size: '100 MB',  batch: '—'        }, pro: { size: '100 MB', batch: '—'          } },
+      { name: 'Rotate PDF',   free: { size: '10 MB',  batch: '-'        }, starter: { size: '100 MB',  batch: '-'        }, pro: { size: '100 MB', batch: '-'          } },
       { name: 'Unlock PDF',   free: { size: '10 MB',  batch: '5 files'  }, starter: { size: '100 MB',  batch: '10 files' }, pro: { size: '100 MB', batch: '20 files'   } },
-      { name: 'Protect PDF',  free: { size: '10 MB',  batch: '—'        }, starter: { size: '100 MB',  batch: '—'        }, pro: { size: '100 MB', batch: '—'          } },
-      { name: 'Redact PDF',   free: { size: '10 MB',  batch: '—'        }, starter: { size: '100 MB',  batch: '—'        }, pro: { size: '100 MB', batch: '—'          } },
-      { name: 'Edit PDF',     free: { size: '10 MB',  batch: '—'        }, starter: { size: '100 MB',  batch: '—'        }, pro: { size: '100 MB', batch: '—'          } },
+      { name: 'Protect PDF',  free: { size: '10 MB',  batch: '-'        }, starter: { size: '100 MB',  batch: '-'        }, pro: { size: '100 MB', batch: '-'          } },
+      { name: 'Redact PDF',   free: { size: '10 MB',  batch: '-'        }, starter: { size: '100 MB',  batch: '-'        }, pro: { size: '100 MB', batch: '-'          } },
+      { name: 'Edit PDF',     free: { size: '10 MB',  batch: '-'        }, starter: { size: '100 MB',  batch: '-'        }, pro: { size: '100 MB', batch: '-'          } },
     ],
   },
   {
@@ -153,7 +153,7 @@ const TOOL_GROUPS_DEF = [
     groupKey: 'imageTools',
     tools: [
       { name: 'PDF → JPG',       free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: '100 MB', batch: '10 files' } },
-      { name: 'PDF → PNG',       free: { size: '5 MB',  batch: '—'       }, starter: { size: '20 MB', batch: '—'        }, pro: { size: '100 MB', batch: '—'         } },
+      { name: 'PDF → PNG',       free: { size: '5 MB',  batch: '-'       }, starter: { size: '20 MB', batch: '-'        }, pro: { size: '100 MB', batch: '-'         } },
       { name: 'JPG → PDF',       free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: '100 MB', batch: '20 files' } },
       { name: 'PNG → PDF',       free: { size: '5 MB',  batch: '5 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: '100 MB', batch: '20 files' } },
       { name: 'WebP → PNG',      free: { size: '5 MB',  batch: '2 files' }, starter: { size: '20 MB', batch: '10 files' }, pro: { size: '100 MB', batch: '20 files' } },
@@ -332,7 +332,7 @@ function PlanCard({ plan, interval, isCurrentPlan, onCheckout, onCheckoutPayPal,
         )}
         {showIdrHint && (
           <p className={`text-[11px] mt-1 ${isPro ? 'text-slate-500' : 'text-slate-400'}`}>
-            ≈ Rp {idrDisplay.toLocaleString('id-ID')} — billed in USD
+            ≈ Rp {idrDisplay.toLocaleString('id-ID')} - billed in USD
           </p>
         )}
       </div>
@@ -588,7 +588,7 @@ export default function PricingPage() {
       {
         '@type': 'WebPage',
         '@id': 'https://smallpdf.us/pricing/#webpage',
-        name: 'SmallPDF.us Pricing — PDF Tools Plans',
+        name: 'SmallPDF.us Pricing - PDF Tools Plans',
         description: 'Free plan (5 conversions per day), Starter $9/month and Pro $19/month. Cancel anytime. Cards, PayPal and UPI accepted.',
         url: 'https://smallpdf.us/pricing/',
         isPartOf: { '@id': 'https://smallpdf.us/#website' },
@@ -640,7 +640,7 @@ export default function PricingPage() {
         {error && (
           <div className="bg-red-50 border-b border-red-200 py-3 px-4 text-center">
             <p className="text-sm text-red-700">
-              {error} —{' '}
+              {error} -{' '}
               <Link href="/contact" className="underline font-medium">
                 {t('pricing.notices.contactSupport')}
               </Link>
@@ -930,8 +930,8 @@ export default function PricingPage() {
               >
                 {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
                 {isIndia
-                  ? (interval === 'yearly' ? `${t('pricing.plans.pro.cta')} — ₹7,990${t('pricing.perYear')}` : `${t('pricing.plans.pro.cta')} — ₹799${t('pricing.perMonth')}`)
-                  : (interval === 'yearly' ? `${t('pricing.plans.pro.cta')} — $190${t('pricing.perYear')}` : `${t('pricing.plans.pro.cta')} — $19${t('pricing.perMonth')}`)}
+                  ? (interval === 'yearly' ? `${t('pricing.plans.pro.cta')} - ₹7,990${t('pricing.perYear')}` : `${t('pricing.plans.pro.cta')} - ₹799${t('pricing.perMonth')}`)
+                  : (interval === 'yearly' ? `${t('pricing.plans.pro.cta')} - $190${t('pricing.perYear')}` : `${t('pricing.plans.pro.cta')} - $19${t('pricing.perMonth')}`)}
               </button>
               <button
                 onClick={() => isIndia ? startCheckout('starter', interval) : startLemonSqueezyCheckout('starter', interval)}
@@ -939,8 +939,8 @@ export default function PricingPage() {
                 className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-8 py-4 rounded-xl transition-all text-sm"
               >
                 {isIndia
-                  ? (interval === 'yearly' ? `${t('pricing.plans.starter.cta')} — ₹3,990${t('pricing.perYear')}` : `${t('pricing.plans.starter.cta')} — ₹399${t('pricing.perMonth')}`)
-                  : (interval === 'yearly' ? `${t('pricing.plans.starter.cta')} — $90${t('pricing.perYear')}` : `${t('pricing.plans.starter.cta')} — $9${t('pricing.perMonth')}`)}
+                  ? (interval === 'yearly' ? `${t('pricing.plans.starter.cta')} - ₹3,990${t('pricing.perYear')}` : `${t('pricing.plans.starter.cta')} - ₹399${t('pricing.perMonth')}`)
+                  : (interval === 'yearly' ? `${t('pricing.plans.starter.cta')} - $90${t('pricing.perYear')}` : `${t('pricing.plans.starter.cta')} - $9${t('pricing.perMonth')}`)}
               </button>
             </div>
             <p className="mt-5 text-xs text-gray-500">

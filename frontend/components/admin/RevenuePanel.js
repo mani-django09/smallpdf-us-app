@@ -38,7 +38,7 @@ export default function RevenuePanel({ api, token, onUnauthorized, openUser }) {
         <StatCard label="MRR (monthly recurring)" icon={IndianRupee} tone="emerald" value={money(d.mrr.USD, d.mrr.INR)} sub={d.mrr.INR && d.mrr.USD ? `≈ ${fmtMoney(d.mrr.usdEstimate)} total` : d.activeSubscribers ? "from active plans" : "no active paid plans"} />
         <StatCard label="ARR (yearly run-rate)" icon={TrendingUp} tone="blue" value={money(d.arr.USD, d.arr.INR)} sub={d.mrr.INR && d.mrr.USD ? `≈ ${fmtMoney(d.arr.usdEstimate)} total` : "MRR × 12"} />
         <StatCard label="Paying customers" icon={UserCheck} tone="violet" value={fmtNum(d.activeSubscribers)} sub={`${pct(f.conversionRate, 2)} of ${fmtNum(f.totalUsers)} users`} />
-        <StatCard label="Failed payments (30 d)" icon={CreditCard} tone="rose" value={fmtNum(d.history.failedLast30d)} sub={d.history.failedLast30d ? "follow up with these users" : "none — great"} />
+        <StatCard label="Failed payments (30 d)" icon={CreditCard} tone="rose" value={fmtNum(d.history.failedLast30d)} sub={d.history.failedLast30d ? "follow up with these users" : "none - great"} />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -70,8 +70,8 @@ export default function RevenuePanel({ api, token, onUnauthorized, openUser }) {
             <ul className="divide-y divide-slate-100 max-h-72 overflow-y-auto">{d.history.recent.map((p) => (
               <li key={p.id} className="px-5 py-2.5 flex items-center gap-3 text-sm">
                 <Badge tone={EVENT_TONE[p.event] || "slate"}>{p.event}</Badge>
-                <div className="min-w-0"><div className="truncate text-slate-800">{p.email || "—"}</div><div className="text-[11px] text-slate-400">{(GATEWAY[p.gateway] || GATEWAY.manual).label} · {p.plan || "?"} · <span title={formatIST(p.created_at)}>{timeAgo(p.created_at)}</span></div></div>
-                <div className="ml-auto font-semibold text-slate-900 whitespace-nowrap">{p.amount ? fmtMoney(p.amount / 100, p.currency) : "—"}</div>
+                <div className="min-w-0"><div className="truncate text-slate-800">{p.email || "-"}</div><div className="text-[11px] text-slate-400">{(GATEWAY[p.gateway] || GATEWAY.manual).label} · {p.plan || "?"} · <span title={formatIST(p.created_at)}>{timeAgo(p.created_at)}</span></div></div>
+                <div className="ml-auto font-semibold text-slate-900 whitespace-nowrap">{p.amount ? fmtMoney(p.amount / 100, p.currency) : "-"}</div>
               </li>))}</ul>
           ) : <EmptyState title="No payment events yet" />}
         </Card>
@@ -84,10 +84,10 @@ export default function RevenuePanel({ api, token, onUnauthorized, openUser }) {
               <li key={s.id} className="flex items-center gap-3 text-sm"><button onClick={() => openUser(s.id)} className="text-blue-600 hover:underline truncate text-left">{s.email}</button><Badge tone={PLAN_TONE[s.plan] || "slate"}>{s.plan}</Badge><span className="ml-auto text-xs text-slate-500 whitespace-nowrap">{s.daysLeft < 1 ? "today" : `in ${Math.ceil(s.daysLeft)} d`} · {formatISTDate(s.expiresAt)}</span></li>))}</ul>
           ) : <p className="text-sm text-slate-400">No renewals due this week.</p>}
         </Card>
-        <Card title="Recently lapsed" subtitle="Plan ended in the last 30 days — win-back list">
+        <Card title="Recently lapsed" subtitle="Plan ended in the last 30 days - win-back list">
           {d.risk.lapsed.length || d.risk.cancelled.length ? (
             <ul className="space-y-2">{[...d.risk.lapsed.map((u) => ({ id: u.id, email: u.email, plan: u.plan, when: u.plan_expires_at })), ...d.risk.cancelled.map((c) => ({ id: c.user_id, email: c.email, plan: c.plan, when: c.updated_at, tag: c.status }))].slice(0, 12).map((u, i) => (
-              <li key={i} className="flex items-center gap-3 text-sm"><button onClick={() => u.id && openUser(u.id)} className="text-blue-600 hover:underline truncate text-left">{u.email || "—"}</button><Badge tone="red">{u.tag || "expired"}</Badge><span className="ml-auto text-xs text-slate-500 whitespace-nowrap">{u.plan} · {timeAgo(u.when)}</span></li>))}</ul>
+              <li key={i} className="flex items-center gap-3 text-sm"><button onClick={() => u.id && openUser(u.id)} className="text-blue-600 hover:underline truncate text-left">{u.email || "-"}</button><Badge tone="red">{u.tag || "expired"}</Badge><span className="ml-auto text-xs text-slate-500 whitespace-nowrap">{u.plan} · {timeAgo(u.when)}</span></li>))}</ul>
           ) : <p className="text-sm text-slate-400">Nobody has lapsed recently.</p>}
         </Card>
       </div>
@@ -97,7 +97,7 @@ export default function RevenuePanel({ api, token, onUnauthorized, openUser }) {
           <div className="overflow-x-auto"><table className="min-w-full text-sm"><thead><tr className="border-b border-slate-200 text-xs text-slate-500"><th className="text-left px-5 py-2 font-semibold">Customer</th><th className="text-left px-3 py-2 font-semibold">Plan</th><th className="text-left px-3 py-2 font-semibold">Gateway</th><th className="text-right px-3 py-2 font-semibold">Per month</th><th className="text-right px-5 py-2 font-semibold">Renews / ends</th></tr></thead>
             <tbody className="divide-y divide-slate-100">{d.subscribers.map((s) => (
               <tr key={s.id} className="hover:bg-slate-50 cursor-pointer" onClick={() => openUser(s.id)}>
-                <td className="px-5 py-2.5"><div className="font-medium text-slate-800">{s.name || "—"}</div><div className="text-[11px] text-slate-400">{s.email}</div></td>
+                <td className="px-5 py-2.5"><div className="font-medium text-slate-800">{s.name || "-"}</div><div className="text-[11px] text-slate-400">{s.email}</div></td>
                 <td className="px-3 py-2.5"><Badge tone={PLAN_TONE[s.plan] || "slate"}>{s.plan}</Badge> <span className="text-[11px] text-slate-400">{s.interval}</span></td>
                 <td className="px-3 py-2.5 text-slate-600 text-xs">{(GATEWAY[s.gateway] || GATEWAY.manual).label}</td>
                 <td className="px-3 py-2.5 text-right font-semibold">{fmtMoney(s.monthly, s.currency)}</td>

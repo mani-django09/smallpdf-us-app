@@ -16,7 +16,7 @@ import { getPageMessages } from '../../lib/i18nLoader'
 import { useRouter } from 'next/router'
 
 function fmt(isoDate) {
-  if (!isoDate) return '—'
+  if (!isoDate) return '-'
   return new Date(isoDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 

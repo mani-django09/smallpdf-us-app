@@ -22,7 +22,7 @@
     "fileTooLarge": "\"{name}\" supera los 100 MB, el máximo por archivo. Comprímelo o divídelo primero."
   },
   "extension": {
-    "oneClick": "Usa estas herramientas con un clic —",
+    "oneClick": "Usa estas herramientas con un clic -",
     "addToChrome": "Añadir SmallPDF.us a Chrome",
     "dismiss": "Cerrar",
     "freeExtension": "Extensión gratuita",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Herramientas PDF gratis – convertir, comprimir | SmallPDF.us",
-      "description": "27 herramientas gratis de PDF e imagen: convierte, comprime, combina y divide en segundos. Transferencia cifrada y borrado automático en 1 hora.",
+      "title": "Herramientas PDF gratis: unir, dividir | SmallPDF.us",
+      "description": "27 herramientas gratuitas online para PDF e imágenes. Unir, dividir, comprimir, convertir, editar y desbloquear PDF en segundos. Archivos cifrados y borrados tras 1 hora.",
       "keywords": "herramientas pdf gratis, comprimir pdf, convertir pdf, combinar pdf, dividir pdf, pdf a word, pdf a jpg, pdf en línea gratis"
     }
   },
@@ -173,7 +173,7 @@
     "planFreeDesc": "Acceso básico con funciones limitadas",
     "planPaidDesc": "Acceso completo a todas las herramientas",
     "upgradeToPro": "Actualizar a Pro",
-    "upgradeBtn": "Actualizar a Pro — Próximamente",
+    "upgradeBtn": "Actualizar a Pro - Próximamente",
     "planBadgeFree": "Gratis",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise",

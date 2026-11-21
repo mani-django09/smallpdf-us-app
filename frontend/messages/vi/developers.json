@@ -1,9 +1,9 @@
 {
-  "pageTitle": "API PDF — Gộp, chuyển đổi, nén & bảo vệ PDF | SmallPDF.us",
+  "pageTitle": "API PDF - Gộp, chuyển đổi, nén & bảo vệ PDF | SmallPDF.us",
   "pageDescription": "Một REST API đơn giản, nhanh cho PDF: gộp, tách, xoay, nén, đặt mật khẩu và chuyển đổi PDF ⇄ Word, JPG, PNG. Có gói miễn phí, mã mẫu bằng cURL, Node.js & Python.",
   "heroBadge": "API cho nhà phát triển · v1",
   "heroTitle": "API PDF được xây dựng cho nhà phát triển",
-  "heroDesc": "Mỗi tác vụ một điểm cuối REST đơn giản. Gộp, chuyển đổi, nén và bảo vệ PDF từ bất kỳ ngôn ngữ nào — không cần SDK, không cần máy chủ, không phải vật lộn với thư viện PDF.",
+  "heroDesc": "Mỗi tác vụ một điểm cuối REST đơn giản. Gộp, chuyển đổi, nén và bảo vệ PDF từ bất kỳ ngôn ngữ nào - không cần SDK, không cần máy chủ, không phải vật lộn với thư viện PDF.",
   "heroCtaPrimary": "Nhận khóa API miễn phí",
   "heroCtaSecondary": "Bắt đầu nhanh",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "Mọi yêu cầu phải bao gồm khóa bí mật của bạn trong header",
     "desc2": ". Tạo và quản lý khóa trong",
     "dashboard": "bảng điều khiển",
-    "warning": "Hãy giữ khóa phía máy chủ — không bao giờ để lộ chúng trong mã phía máy khách."
+    "warning": "Hãy giữ khóa phía máy chủ - không bao giờ để lộ chúng trong mã phía máy khách."
   },
   "baseUrl": {
     "desc": "Tất cả điểm cuối là",

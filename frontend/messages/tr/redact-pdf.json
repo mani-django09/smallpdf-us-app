@@ -1,6 +1,6 @@
 {
   "badge": "Ücretsiz PDF Karartma",
-  "heroTitle": "PDF Karart",
+  "heroTitle": "PDF Karart online ve ücretsiz",
   "heroSubtitle": "PDF'inizdeki hassas metin ve görselleri kalıcı olarak karartın. Gizlenen içerik gerçekten kaldırılır; yalnızca örtülmez. Ücretsiz ve güvenli.",
   "dropTitle": "PDF'inizi buraya bırakın",
   "dropSubtitle": "ya da tıklayıp seçin, ücretsiz 10 MB'a kadar",
@@ -83,7 +83,7 @@
   "faq5Q": "Parolayla korunan bir PDF'i karartabilir miyim?",
   "faq5A": "Lütfen önce PDF Kilidini Aç aracımızla PDF'in kilidini açın, sonra kilidi açılan dosyayı karartın.",
   "preview": {
-    "pageTitle": "PDF Karart — İşaretle ve Kaldır",
+    "pageTitle": "PDF Karart - İşaretle ve Kaldır",
     "heading": "PDF'inizi karartın",
     "subheading": "Kalıcı olarak kaldırmak istediğiniz her şeyin üzerine bir kutu sürükleyin, sonra Karart'a tıklayın.",
     "changeFile": "Dosyayı değiştir",
@@ -131,7 +131,7 @@
     "pagesLabel": "Sayfalar",
     "secureLabel": "Güvenli"
   },
-  "seoTitle": "PDF Karart — Metin ve Görselleri Kalıcı Olarak Kaldırın, Ücretsiz | SmallPDF.us",
-  "seoDescription": "PDF'i çevrimiçi ve ücretsiz karartın. Hassas metin, numara ve görselleri kalıcı olarak karartıp kaldırın; yalnızca örtülmez, dosyadan çıkarılır. Filigran yok.",
+  "seoTitle": "PDF Karart: Metni Kalıcı Olarak Sil | SmallPDF.us",
+  "seoDescription": "PDF'yi online ve ücretsiz karartın. İsimleri, sayıları ve görselleri kalıcı olarak kaldırın: içerik dosyadan silinir, yalnızca örtülmez.",
   "seoKeywords": "pdf karart, pdf'i online karart, pdf karartma, pdf'ten metin kaldır, pdf'i ücretsiz karart, hassas bilgiyi pdf'te gizle, gerçek pdf karartma"
 }

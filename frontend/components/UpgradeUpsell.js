@@ -49,7 +49,7 @@ export default function UpgradeUpsell({ className = "" }) {
   if (!mounted || isPaidUser) return null
 
   const headline = useCount >= NUDGE_THRESHOLD
-    ? `You've used SmallPDF ${useCount} times this month — go unlimited`
+    ? `You've used SmallPDF ${useCount} times this month - go unlimited`
     : "Unlimited files, bigger uploads, zero ads"
 
   return (

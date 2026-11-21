@@ -141,7 +141,7 @@ export default function CompressImageTo50KB() {
     "@graph": [
       {
         "@type": "WebApplication",
-        name: "Compress Image to 50KB — SmallPDF.us",
+        name: "Compress Image to 50KB - SmallPDF.us",
         url: "https://smallpdf.us/compress-image-to-50kb",
         description: t("compressImage50kb.pageDescription"),
         applicationCategory: "MultimediaApplication",

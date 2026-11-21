@@ -16,13 +16,13 @@
     "passwordProtected": "« {name} » est protégé par un mot de passe d'ouverture. Supprimez-le d'abord avec notre outil Déverrouiller un PDF, puis réessayez.",
     "alreadyLocked": "« {name} » a déjà un mot de passe d'ouverture. Supprimez-le d'abord avec notre outil Déverrouiller un PDF, puis protégez-le à nouveau.",
     "corrupt": "Impossible de lire « {name} ». Le fichier est peut-être endommagé : réenregistrez-le ou téléchargez-le à nouveau.",
-    "unreadableImages": "Illisible : {names}. L'image est peut-être endommagée ou dans un format non pris en charge — enregistrez-la en JPG ou PNG et réessayez.",
+    "unreadableImages": "Illisible : {names}. L'image est peut-être endommagée ou dans un format non pris en charge - enregistrez-la en JPG ou PNG et réessayez.",
     "someSkipped": "Votre PDF est prêt, mais ces images n'ont pas pu être lues et ont été ignorées : {names}",
-    "skippedFiles": "Terminé — mais ces fichiers n'ont pas pu être lus et ont été ignorés : {names}",
+    "skippedFiles": "Terminé - mais ces fichiers n'ont pas pu être lus et ont été ignorés : {names}",
     "fileTooLarge": "« {name} » dépasse 100 Mo, la taille maximale par fichier. Compressez-le ou divisez-le d'abord."
   },
   "extension": {
-    "oneClick": "Utilisez ces outils en un clic —",
+    "oneClick": "Utilisez ces outils en un clic -",
     "addToChrome": "Ajouter SmallPDF.us à Chrome",
     "dismiss": "Fermer",
     "freeExtension": "Extension gratuite",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Outils PDF gratuits – convertir, compresser | SmallPDF.us",
-      "description": "27 outils PDF et image gratuits : convertir, compresser, fusionner et diviser en quelques secondes. Transfert chiffré, fichiers supprimés sous 1 heure.",
+      "title": "Outils PDF gratuits : fusionner, diviser | SmallPDF.us",
+      "description": "27 outils gratuits en ligne pour PDF et images. Fusionner, diviser, compresser, convertir, modifier et déverrouiller un PDF en quelques secondes. Fichiers chiffrés et supprimés après 1 heure.",
       "keywords": "outils pdf gratuits, compresser pdf, convertir pdf, fusionner pdf, diviser pdf, pdf en word, pdf en jpg, pdf en ligne gratuit"
     }
   },
@@ -144,7 +144,7 @@
       "delete": "Supprimer",
       "deleteConfirm": "Supprimer « {name} » ? Cette action est irréversible.",
       "errorLoad": "Impossible de charger vos fichiers",
-      "errorDownload": "Échec du téléchargement — le fichier a peut-être expiré.",
+      "errorDownload": "Échec du téléchargement - le fichier a peut-être expiré.",
       "errorDelete": "Échec de la suppression",
       "expired": "Expiré",
       "leftHours": "{h} h {m} min restantes",
@@ -173,7 +173,7 @@
     "planFreeDesc": "Accès de base avec fonctionnalités limitées",
     "planPaidDesc": "Accès complet à tous les outils",
     "upgradeToPro": "Passer à Pro",
-    "upgradeBtn": "Passer à Pro — Bientôt disponible",
+    "upgradeBtn": "Passer à Pro - Bientôt disponible",
     "planBadgeFree": "Gratuit",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise",

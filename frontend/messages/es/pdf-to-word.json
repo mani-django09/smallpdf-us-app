@@ -1,9 +1,9 @@
 {
   "seo": {
-    "title": "Convertir PDF a Word gratis – Sin registro | SmallPDF.us",
-    "description": "Convierte archivos PDF en documentos de Word totalmente editables (.docx) online gratis. El diseño, las imágenes y el formato se conservan lo más cerca posible del original. Funciona en tu navegador."
+    "title": "PDF a Word: convertir a DOCX gratis | SmallPDF.us",
+    "description": "Convertir PDF a Word (DOCX) online gratis. Obtén un documento editable que conserva diseño, tablas e imágenes. Funciona en el navegador, sin instalar nada."
   },
-  "heroTitle": "Convertir PDF a Word",
+  "heroTitle": "Convertir PDF a Word online gratis",
   "heroTitleHighlight": "gratis y al instante",
   "heroSubtitle": "Convierte tus archivos PDF en documentos de Word editables, con el diseño lo más parecido posible al original. Sube tu archivo y descarga el .docx.",
   "dropTitle": "Arrastra tus archivos PDF aquí",
@@ -58,13 +58,13 @@
   "diveTitle": "Lo que realmente ocurre al convertir a Word",
   "diveSubtitle": "Cómo se tratan el diseño, las fuentes y las páginas escaneadas.",
   "dive1Title": "¿Se conserva el formato en la conversión?",
-  "dive1Desc": "Los documentos simples — párrafos, títulos, tablas básicas — se convierten casi a la perfección. Los diseños complejos con cuadros de texto superpuestos, sustituciones de fuente inusuales o elementos de diseño personalizados intensos a veces se desplazan ligeramente, ya que el motor de diseño de Word y el diseño fijo de un PDF funcionan de forma distinta.",
+  "dive1Desc": "Los documentos simples - párrafos, títulos, tablas básicas - se convierten casi a la perfección. Los diseños complejos con cuadros de texto superpuestos, sustituciones de fuente inusuales o elementos de diseño personalizados intensos a veces se desplazan ligeramente, ya que el motor de diseño de Word y el diseño fijo de un PDF funcionan de forma distinta.",
   "dive2Title": "Los PDF escaneados necesitan OCR primero",
-  "dive2Desc": "Un PDF escaneado es solo la imagen de una página, sin texto subyacente que extraer — convertirlo directamente da un documento vacío o solo con imágenes. Nuestro conversor ejecuta OCR automáticamente en las páginas escaneadas primero, así el archivo Word resultante tiene texto real y editable en lugar de una imagen.",
+  "dive2Desc": "Un PDF escaneado es solo la imagen de una página, sin texto subyacente que extraer - convertirlo directamente da un documento vacío o solo con imágenes. Nuestro conversor ejecuta OCR automáticamente en las páginas escaneadas primero, así el archivo Word resultante tiene texto real y editable en lugar de una imagen.",
   "dive3Title": "Qué puedes editar fácilmente después y qué no",
-  "dive3Desc": "El texto de párrafo, los títulos y las tablas simples se convierten en contenido de Word totalmente editable. Los gráficos complejos, los diagramas incrustados como imágenes y el posicionamiento preciso al píxel de PDF muy trabajados en diseño suelen convertirse como imágenes en vez de objetos editables — se muestran correctamente pero hay que sustituirlos para cambiarlos.",
+  "dive3Desc": "El texto de párrafo, los títulos y las tablas simples se convierten en contenido de Word totalmente editable. Los gráficos complejos, los diagramas incrustados como imágenes y el posicionamiento preciso al píxel de PDF muy trabajados en diseño suelen convertirse como imágenes en vez de objetos editables - se muestran correctamente pero hay que sustituirlos para cambiarlos.",
   "dive4Title": "Diseños de varias columnas y formularios",
-  "dive4Desc": "El texto en varias columnas, como un boletín o un artículo académico, se convierte al formato de columnas propio de Word cuando es posible, preservando el diseño visual. Los campos de formulario PDF interactivos se convierten según su apariencia visual, pero la funcionalidad rellenable no se traslada — verás los contornos de los campos como elementos normales.",
+  "dive4Desc": "El texto en varias columnas, como un boletín o un artículo académico, se convierte al formato de columnas propio de Word cuando es posible, preservando el diseño visual. Los campos de formulario PDF interactivos se convierten según su apariencia visual, pero la funcionalidad rellenable no se traslada - verás los contornos de los campos como elementos normales.",
   "dive5Title": "Fuentes que tu ordenador no tiene",
   "dive5Desc": "Si el PDF original usa una fuente que no está instalada en tu sistema, Word la sustituye por la más parecida disponible al abrir el archivo, lo que puede desplazar ligeramente los saltos de línea y el espaciado. Incrustar la fuente en el PDF de antemano, cuando sea posible, da la sustitución más precisa.",
   "dive6Title": "PDF a Word vs. convertir directamente a Google Docs",

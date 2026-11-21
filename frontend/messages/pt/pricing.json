@@ -1,6 +1,6 @@
 {
-  "pageTitle": "Preços — SmallPDF.us",
-  "metaDescription": "Starter · Pro — cobrança mensal ou anual. Todas as ferramentas de PDF, arquivos de até 100 MB, sem anúncios.",
+  "pageTitle": "Preços: ferramentas PDF grátis e Pro | SmallPDF.us",
+  "metaDescription": "Compare os planos do SmallPDF.us. Grátis para o dia a dia; Starter e Pro trazem arquivos maiores, lotes, sem anúncios e com prioridade.",
   "badge": "Preços simples, sem surpresas",
   "hero": {
     "title": "Escolha o plano ideal para você",
@@ -11,7 +11,7 @@
     "yearly": "Anual",
     "monthsFree": "2 meses grátis",
     "saveAnnually": "🎉 Economize até $98/ano com cobrança anual",
-    "billedAnnually": "Cobrado anualmente — ${total}/ano",
+    "billedAnnually": "Cobrado anualmente - ${total}/ano",
     "billedMonthly": "Cobrado mensalmente · Cancele a qualquer momento",
     "save": "Economize ${amount}"
   },
@@ -36,7 +36,7 @@
   "features": {
     "allTools": "Todas as ferramentas PDF e imagem",
     "upTo200MB": "Até 100 MB por arquivo (200 MB para unir)",
-    "officeUpTo50MB": "Conversões Office — até 20 MB",
+    "officeUpTo50MB": "Conversões Office - até 20 MB",
     "standardProcessing": "Processamento padrão",
     "retain24h": "Arquivos retidos por 24 horas",
     "adFree": "Experiência sem anúncios",
@@ -44,8 +44,8 @@
     "priorityProcessing": "Processamento prioritário",
     "apiAccess": "Acesso à API",
     "everythingInStarter": "Tudo do Starter",
-    "unlimitedFileSize": "Arquivos de até 100 MB — todas as ferramentas",
-    "officeUnlimited": "Conversões do Office — até 100 MB",
+    "unlimitedFileSize": "Arquivos de até 100 MB - todas as ferramentas",
+    "officeUnlimited": "Conversões do Office - até 100 MB",
     "priorityQueue": "Fila de processamento prioritário",
     "retain48h": "Arquivos retidos por 48 horas",
     "batch20": "Até 20 arquivos por lote",
@@ -59,14 +59,14 @@
     "priorityPhoneEmail": "Suporte prioritário por telefone e e-mail",
     "customInvoicing": "Faturamento personalizado disponível",
     "upTo100MB": "Até 5–25 MB por arquivo",
-    "officeUpTo15MB": "Conversões Office — até 5 MB",
+    "officeUpTo15MB": "Conversões Office - até 5 MB",
     "retain1h": "Arquivos excluídos após 1 hora",
     "adsShown": "Anúncios exibidos"
   },
   "currentPlan": "Plano Atual",
   "perMonth": "/mês",
   "freeBanner": {
-    "title": "Plano Grátis — sempre disponível",
+    "title": "Plano Grátis - sempre disponível",
     "subtitle": "5 usos gratuitos por dia · Todas as ferramentas · Limite de 5–25 MB · Retenção de 1 hora · Anúncios",
     "signupLink": "Cadastre-se grátis →"
   },
@@ -119,7 +119,7 @@
   "toolLimits": {
     "title": "Limites por ferramenta",
     "subtitle": "Limites exatos de tamanho de arquivo e lote para cada ferramenta, por plano.",
-    "singleFileNote": "— = ferramenta de arquivo único (sem limite de lote)",
+    "singleFileNote": "- = ferramenta de arquivo único (sem limite de lote)",
     "colSize": "tamanho · lote",
     "groups": {
       "pdfTools": "Ferramentas PDF",
@@ -132,11 +132,11 @@
     "items": [
       {
         "q": "Qual é a diferença entre cobrança mensal e anual?",
-        "a": "A cobrança mensal é feita todo mês. A cobrança anual é feita uma vez por ano com taxa reduzida — equivalente a 2 meses grátis (você paga por 10, recebe 12). Você pode escolher seu ciclo de cobrança preferido no checkout."
+        "a": "A cobrança mensal é feita todo mês. A cobrança anual é feita uma vez por ano com taxa reduzida - equivalente a 2 meses grátis (você paga por 10, recebe 12). Você pode escolher seu ciclo de cobrança preferido no checkout."
       },
       {
         "q": "Posso cancelar a qualquer momento?",
-        "a": "Sim — cancele com um clique na página de assinatura da sua conta. Seu plano permanece ativo até o final do período de cobrança atual e depois volta automaticamente para o Grátis. Sem cobranças ocultas."
+        "a": "Sim - cancele com um clique na página de assinatura da sua conta. Seu plano permanece ativo até o final do período de cobrança atual e depois volta automaticamente para o Grátis. Sem cobranças ocultas."
       },
       {
         "q": "Posso trocar entre cobrança mensal e anual após assinar?",
@@ -144,7 +144,7 @@
       },
       {
         "q": "Quais métodos de pagamento são aceitos?",
-        "a": "Todos os principais cartões de crédito/débito (Visa, Mastercard, RuPay), UPI, internet banking e carteiras — processados com segurança via Razorpay. Todas as transações estão em conformidade com PCI-DSS."
+        "a": "Todos os principais cartões de crédito/débito (Visa, Mastercard, RuPay), UPI, internet banking e carteiras - processados com segurança via Razorpay. Todas as transações estão em conformidade com PCI-DSS."
       },
       {
         "q": "O que acontece com meus arquivos após o período de retenção?",
@@ -152,23 +152,23 @@
       },
       {
         "q": "Existe uma política de reembolso?",
-        "a": "Sim — se você não estiver satisfeito dentro de 14 dias da sua primeira cobrança, entre em contato conosco para reembolso total. Sem perguntas."
+        "a": "Sim - se você não estiver satisfeito dentro de 14 dias da sua primeira cobrança, entre em contato conosco para reembolso total. Sem perguntas."
       },
       {
         "q": "O plano Agency suporta vários usuários?",
-        "a": "Sim — o Agency inclui 5 vagas de equipe. Cada vaga tem seu próprio login com cobrança compartilhada em uma conta. Precisa de mais? Entre em contato."
+        "a": "Sim - o Agency inclui 5 vagas de equipe. Cada vaga tem seu próprio login com cobrança compartilhada em uma conta. Precisa de mais? Entre em contato."
       }
     ]
   },
   "bottomCta": {
     "title": "Faça upgrade do seu plano",
     "subtitle": "Junte-se a profissionais do mundo todo que usam o SmallPDF.us. Cancele a qualquer momento.",
-    "proBtnMonthly": "Obter Pro — $19/mês",
-    "proBtnYearly": "Obter Pro — $190/ano",
-    "starterBtn": "Obter Starter — $9/mês"
+    "proBtnMonthly": "Obter Pro - $19/mês",
+    "proBtnYearly": "Obter Pro - $190/ano",
+    "starterBtn": "Obter Starter - $9/mês"
   },
   "notices": {
-    "checkoutCancelled": "Checkout cancelado — nenhuma cobrança foi feita.",
+    "checkoutCancelled": "Checkout cancelado - nenhuma cobrança foi feita.",
     "dismiss": "Fechar",
     "contactSupport": "contatar suporte"
   },

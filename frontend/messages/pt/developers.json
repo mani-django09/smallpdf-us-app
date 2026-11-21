@@ -1,9 +1,9 @@
 {
-  "pageTitle": "API PDF — Mesclar, Converter, Comprimir e Proteger PDFs | SmallPDF.us",
+  "pageTitle": "API PDF - Mesclar, Converter, Comprimir e Proteger PDFs | SmallPDF.us",
   "pageDescription": "Uma API REST simples e rápida para PDFs: mesclar, dividir, girar, comprimir, proteger com senha e converter PDF⇄Word, JPG, PNG. Nível gratuito, exemplos de código em cURL, Node.js e Python.",
   "heroBadge": "API para Desenvolvedores · v1",
   "heroTitle": "A API de PDF criada para desenvolvedores",
-  "heroDesc": "Um simples endpoint REST por tarefa. Mescle, converta, comprima e proteja PDFs de qualquer linguagem — sem SDK, sem servidores, sem bibliotecas PDF.",
+  "heroDesc": "Um simples endpoint REST por tarefa. Mescle, converta, comprima e proteja PDFs de qualquer linguagem - sem SDK, sem servidores, sem bibliotecas PDF.",
   "heroCtaPrimary": "Obtenha sua chave API gratuita",
   "heroCtaSecondary": "Início rápido",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "Cada requisição deve incluir sua chave secreta no cabeçalho",
     "desc2": ". Crie e gerencie chaves no seu",
     "dashboard": "painel",
-    "warning": "Mantenha as chaves no lado do servidor — nunca as exponha no código do cliente."
+    "warning": "Mantenha as chaves no lado do servidor - nunca as exponha no código do cliente."
   },
   "baseUrl": {
     "desc": "Todos os endpoints são",

@@ -1,6 +1,6 @@
 {
-  "pageTitle": "Pricing — SmallPDF.us",
-  "metaDescription": "Starter · Pro — monthly or yearly billing. All PDF tools, files up to 100 MB, no ads.",
+  "pageTitle": "PDF Tools Pricing: Free, Starter & Pro | SmallPDF.us",
+  "metaDescription": "Compare SmallPDF.us plans. Free for everyday use. Starter and Pro add larger files, batch processing, no ads and priority processing, billed monthly or yearly.",
   "badge": "Simple pricing, no surprises",
   "hero": {
     "title": "Pick the plan that fits you",
@@ -11,7 +11,7 @@
     "yearly": "Yearly",
     "monthsFree": "2 months free",
     "saveAnnually": "🎉 You save up to $98/year with annual billing",
-    "billedAnnually": "Billed annually — ${total}/yr",
+    "billedAnnually": "Billed annually - ${total}/yr",
     "billedMonthly": "Billed monthly · Cancel anytime",
     "save": "Save ${amount}"
   },
@@ -36,7 +36,7 @@
   "features": {
     "allTools": "All PDF & image tools",
     "upTo200MB": "Up to 100 MB per file (200 MB merge)",
-    "officeUpTo50MB": "Office conversions — up to 20 MB",
+    "officeUpTo50MB": "Office conversions - up to 20 MB",
     "standardProcessing": "Standard processing",
     "retain24h": "Files retained 24 hours",
     "adFree": "Ad-free experience",
@@ -44,8 +44,8 @@
     "priorityProcessing": "Priority processing",
     "apiAccess": "API access",
     "everythingInStarter": "Everything in Starter",
-    "unlimitedFileSize": "Files up to 100 MB — all tools",
-    "officeUnlimited": "Office conversions — up to 100 MB",
+    "unlimitedFileSize": "Files up to 100 MB - all tools",
+    "officeUnlimited": "Office conversions - up to 100 MB",
     "priorityQueue": "Priority processing queue",
     "retain48h": "Files retained 48 hours",
     "batch20": "Up to 20 files per batch",
@@ -59,14 +59,14 @@
     "priorityPhoneEmail": "Priority phone & email support",
     "customInvoicing": "Custom invoicing available",
     "upTo100MB": "Up to 5–25 MB per file",
-    "officeUpTo15MB": "Office conversions — up to 5 MB",
+    "officeUpTo15MB": "Office conversions - up to 5 MB",
     "retain1h": "Files deleted after 1 hour",
     "adsShown": "Ads shown"
   },
   "currentPlan": "Current Plan",
   "perMonth": "/mo",
   "freeBanner": {
-    "title": "Free Plan — always available",
+    "title": "Free Plan - always available",
     "subtitle": "5 free uses per day · All tools · 5–25 MB limit · 1-hour retention · Ads shown",
     "signupLink": "Sign up free →"
   },
@@ -107,7 +107,7 @@
   "toolLimits": {
     "title": "Per-tool limits",
     "subtitle": "Exact file size and batch count limits for every tool, broken down by plan.",
-    "singleFileNote": "— = single-file tool (no batch limit applies)",
+    "singleFileNote": "- = single-file tool (no batch limit applies)",
     "colSize": "size · batch",
     "groups": {
       "pdfTools": "PDF Tools",
@@ -120,11 +120,11 @@
     "items": [
       {
         "q": "What is the difference between monthly and yearly billing?",
-        "a": "Monthly billing charges you each month. Yearly billing charges you once a year at a discounted rate — equivalent to 2 months free (you pay for 10, get 12). You can choose your preferred billing cycle at checkout."
+        "a": "Monthly billing charges you each month. Yearly billing charges you once a year at a discounted rate - equivalent to 2 months free (you pay for 10, get 12). You can choose your preferred billing cycle at checkout."
       },
       {
         "q": "Can I cancel anytime?",
-        "a": "Yes — cancel with one click from your account subscription page. Your plan stays active until the end of the current billing period, then reverts to Free automatically. No hidden charges."
+        "a": "Yes - cancel with one click from your account subscription page. Your plan stays active until the end of the current billing period, then reverts to Free automatically. No hidden charges."
       },
       {
         "q": "Can I switch between monthly and yearly after subscribing?",
@@ -132,7 +132,7 @@
       },
       {
         "q": "What payment methods are accepted?",
-        "a": "All major credit/debit cards (Visa, Mastercard, RuPay), UPI, net banking, and wallets — securely processed via Razorpay. All transactions are PCI-DSS compliant."
+        "a": "All major credit/debit cards (Visa, Mastercard, RuPay), UPI, net banking, and wallets - securely processed via Razorpay. All transactions are PCI-DSS compliant."
       },
       {
         "q": "What happens to my files after the retention period?",
@@ -140,19 +140,19 @@
       },
       {
         "q": "Is there a refund policy?",
-        "a": "Yes — if you're not satisfied within 14 days of your first charge, contact us for a full refund. No questions asked."
+        "a": "Yes - if you're not satisfied within 14 days of your first charge, contact us for a full refund. No questions asked."
       }
     ]
   },
   "bottomCta": {
     "title": "Upgrade your plan",
     "subtitle": "Join professionals worldwide using SmallPDF.us. Cancel anytime.",
-    "proBtnMonthly": "Get Pro — $19/mo",
-    "proBtnYearly": "Get Pro — $190/yr",
-    "starterBtn": "Get Starter — $9/mo"
+    "proBtnMonthly": "Get Pro - $19/mo",
+    "proBtnYearly": "Get Pro - $190/yr",
+    "starterBtn": "Get Starter - $9/mo"
   },
   "notices": {
-    "checkoutCancelled": "Checkout cancelled — no charge was made.",
+    "checkoutCancelled": "Checkout cancelled - no charge was made.",
     "dismiss": "Dismiss",
     "contactSupport": "contact support"
   },
@@ -170,11 +170,11 @@
   },
   "whatYouGet": {
     "title": "The same tools. Just without the limits.",
-    "subtitle": "Free plan already gives you access to all 27 tools. Premium removes the friction — bigger files, batch processing, no ads, priority processing.",
+    "subtitle": "Free plan already gives you access to all 27 tools. Premium removes the friction - bigger files, batch processing, no ads, priority processing.",
     "items": {
       "bigger": {
         "title": "Bigger files",
-        "desc": "Up to 200 MB, depending on the tool, on Starter — unlimited on Pro. Stop getting blocked mid-workflow."
+        "desc": "Up to 200 MB, depending on the tool, on Starter - unlimited on Pro. Stop getting blocked mid-workflow."
       },
       "batch": {
         "title": "Batch processing",
@@ -197,6 +197,6 @@
   "perYear": "/yr",
   "secureCheckout": "Secure checkout",
   "payPalInstead": "Pay with PayPal instead",
-  "annualSelected": "Annual billing selected — 17% off, applied at checkout",
+  "annualSelected": "Annual billing selected - 17% off, applied at checkout",
   "poweredBy": "Powered by {name}"
 }

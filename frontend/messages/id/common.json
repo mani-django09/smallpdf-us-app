@@ -15,14 +15,14 @@
   "toolErrors": {
     "passwordProtected": "\"{name}\" dilindungi kata sandi pembuka. Hapus dulu dengan alat Buka Kunci PDF kami, lalu coba lagi.",
     "alreadyLocked": "\"{name}\" sudah memiliki kata sandi pembuka. Hapus dulu dengan alat Buka Kunci PDF kami, lalu lindungi lagi.",
-    "corrupt": "Tidak dapat membaca \"{name}\". File mungkin rusak — coba simpan ulang atau unduh ulang.",
-    "unreadableImages": "Tidak dapat dibaca: {names}. Gambar mungkin rusak atau formatnya tidak didukung — simpan sebagai JPG atau PNG lalu coba lagi.",
+    "corrupt": "Tidak dapat membaca \"{name}\". File mungkin rusak - coba simpan ulang atau unduh ulang.",
+    "unreadableImages": "Tidak dapat dibaca: {names}. Gambar mungkin rusak atau formatnya tidak didukung - simpan sebagai JPG atau PNG lalu coba lagi.",
     "someSkipped": "PDF Anda sudah siap, tetapi gambar berikut tidak dapat dibaca dan dilewati: {names}",
-    "skippedFiles": "Selesai — tetapi file berikut tidak dapat dibaca dan dilewati: {names}",
+    "skippedFiles": "Selesai - tetapi file berikut tidak dapat dibaca dan dilewati: {names}",
     "fileTooLarge": "\"{name}\" lebih dari 100 MB, batas maksimum per file. Kompres atau pisahkan dulu."
   },
   "extension": {
-    "oneClick": "Gunakan alat ini dalam satu klik —",
+    "oneClick": "Gunakan alat ini dalam satu klik -",
     "addToChrome": "Tambahkan SmallPDF.us ke Chrome",
     "dismiss": "Tutup",
     "freeExtension": "Ekstensi gratis",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Alat PDF Gratis – Konversi, Kompres, Gabung | SmallPDF.us",
-      "description": "27 alat PDF dan gambar gratis: konversi, kompres, gabung, dan pisah dalam hitungan detik. Transfer terenkripsi, file dihapus otomatis dalam 1 jam.",
+      "title": "Alat PDF Gratis: Gabung, Pisah, Kompres | SmallPDF.us",
+      "description": "27 alat online gratis untuk PDF dan gambar. Gabung, pisah, kompres, ubah, edit, dan buka kunci PDF dalam hitungan detik. File dienkripsi dan dihapus setelah 1 jam.",
       "keywords": "alat pdf gratis, konversi pdf, kompres pdf, gabung pdf, pdf ke word, word ke pdf, pisah pdf, editor pdf online"
     }
   },
@@ -144,7 +144,7 @@
       "delete": "Hapus",
       "deleteConfirm": "Hapus \"{name}\"? Tindakan ini tidak dapat dibatalkan.",
       "errorLoad": "File Anda tidak dapat dimuat",
-      "errorDownload": "Unduhan gagal — file mungkin sudah kedaluwarsa.",
+      "errorDownload": "Unduhan gagal - file mungkin sudah kedaluwarsa.",
       "errorDelete": "Gagal menghapus",
       "expired": "Kedaluwarsa",
       "leftHours": "sisa {h} j {m} m",
@@ -180,7 +180,7 @@
       "Pemrosesan batch",
       "Tanpa iklan"
     ],
-    "upgradeBtn": "Upgrade ke Pro — Segera Hadir",
+    "upgradeBtn": "Upgrade ke Pro - Segera Hadir",
     "planBadgeFree": "Gratis",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"

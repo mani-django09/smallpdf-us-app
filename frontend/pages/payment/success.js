@@ -58,7 +58,7 @@ export default function PaymentSuccess() {
             fresh = await refreshUser()
           }
         }
-      } catch { /* ignore — plan may already be active via webhook */ }
+      } catch { /* ignore - plan may already be active via webhook */ }
       finally { setReady(true) }
     }
 

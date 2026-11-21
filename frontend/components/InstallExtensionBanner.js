@@ -9,7 +9,7 @@ import { useTranslations } from '../lib/i18n'
 
 // t() has no English fallback — pages without common.json messages would show
 // raw keys, so fall back to English here.
-const EN = { oneClick: 'Use these tools in one click —', addToChrome: 'Add SmallPDF.us to Chrome', dismiss: 'Dismiss', freeExtension: 'Free extension', addChromeShort: 'Add to Chrome' }
+const EN = { oneClick: 'Use these tools in one click -', addToChrome: 'Add SmallPDF.us to Chrome', dismiss: 'Dismiss', freeExtension: 'Free extension', addChromeShort: 'Add to Chrome' }
 function useExtText() {
   const { t } = useTranslations()
   return (k) => { const v = t('extension.' + k); return v === 'extension.' + k ? EN[k] : v }

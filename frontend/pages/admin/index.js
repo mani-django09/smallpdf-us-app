@@ -158,7 +158,7 @@ export default function EnhancedAdminDashboard() {
     const res = await fetch(url, options)
     if (res.status === 401) {
       handleLogout()
-      setError("Session expired — please log in again.")
+      setError("Session expired - please log in again.")
     }
     return res
   }
@@ -524,7 +524,7 @@ export default function EnhancedAdminDashboard() {
                   <div className={`w-9 h-9 bg-gradient-to-br ${s.color} rounded-lg flex items-center justify-center mb-2`}>
                     <s.icon className="w-4 h-4 text-white" />
                   </div>
-                  <div className="text-2xl font-bold text-slate-900">{s.value ?? "—"}</div>
+                  <div className="text-2xl font-bold text-slate-900">{s.value ?? "-"}</div>
                   <div className="text-xs text-slate-500 mt-0.5">{s.label}</div>
                 </div>
               ))}
@@ -1180,7 +1180,7 @@ export default function EnhancedAdminDashboard() {
                             <span title={`${log.source_medium} · landed on ${log.source_landing || '?'}`} className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${SOURCE_CHIP[log.source_medium] || 'bg-sky-50 text-sky-700'}`}>
                               {log.source.charAt(0).toUpperCase() + log.source.slice(1)}
                             </span>
-                          ) : <span className="text-xs text-slate-300" title="No visit recorded for this IP in the last 7 days">—</span>}
+                          ) : <span className="text-xs text-slate-300" title="No visit recorded for this IP in the last 7 days">-</span>}
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-1 text-xs text-slate-600">

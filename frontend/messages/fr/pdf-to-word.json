@@ -1,9 +1,9 @@
 {
   "seo": {
-    "title": "Convertir PDF en Word gratuitement | SmallPDF.us",
-    "description": "Convertissez gratuitement des fichiers PDF en documents Word (.docx) entièrement modifiables en ligne. La mise en page, les images et la mise en forme sont conservées au plus près de l'original. Fonctionne dans votre navigateur."
+    "title": "PDF en Word : convertir en DOCX gratuit | SmallPDF.us",
+    "description": "Convertir un PDF en Word (DOCX) en ligne gratuitement. Obtenez un document modifiable qui garde la mise en page, les tableaux et les images. Sans installation."
   },
-  "heroTitle": "Convertir PDF en Word",
+  "heroTitle": "Convertir un PDF en Word en ligne, gratuit",
   "heroTitleHighlight": "gratuitement et en secondes",
   "heroSubtitle": "Transformez vos fichiers PDF en documents Word modifiables, avec une mise en page au plus près de l'original. Importez votre fichier et téléchargez le .docx.",
   "dropTitle": "Déposez vos fichiers PDF ici",
@@ -58,13 +58,13 @@
   "diveTitle": "Ce qui se passe réellement lors de la conversion en Word",
   "diveSubtitle": "Comment la mise en page, les polices et les pages scannées sont gérées.",
   "dive1Title": "La mise en forme survit-elle à la conversion ?",
-  "dive1Desc": "Les documents simples — paragraphes, titres, tableaux basiques — se convertissent presque parfaitement. Les mises en page complexes avec zones de texte superposées, substitutions de polices inhabituelles ou éléments de design personnalisés lourds bougent parfois légèrement, car le moteur de mise en page de Word et la mise en page fixe d'un PDF fonctionnent différemment.",
+  "dive1Desc": "Les documents simples - paragraphes, titres, tableaux basiques - se convertissent presque parfaitement. Les mises en page complexes avec zones de texte superposées, substitutions de polices inhabituelles ou éléments de design personnalisés lourds bougent parfois légèrement, car le moteur de mise en page de Word et la mise en page fixe d'un PDF fonctionnent différemment.",
   "dive2Title": "Les PDF scannés ont besoin d'OCR d'abord",
-  "dive2Desc": "Un PDF scanné n'est qu'une image d'une page, sans texte sous-jacent à extraire — le convertir directement donne un document vide ou uniquement composé d'images. Notre convertisseur applique automatiquement l'OCR aux pages scannées, afin que le fichier Word obtenu contienne du texte réel et modifiable au lieu d'une image.",
+  "dive2Desc": "Un PDF scanné n'est qu'une image d'une page, sans texte sous-jacent à extraire - le convertir directement donne un document vide ou uniquement composé d'images. Notre convertisseur applique automatiquement l'OCR aux pages scannées, afin que le fichier Word obtenu contienne du texte réel et modifiable au lieu d'une image.",
   "dive3Title": "Ce que vous pouvez facilement modifier ensuite, et ce que vous ne pouvez pas",
-  "dive3Desc": "Le texte des paragraphes, les titres et les tableaux simples deviennent du contenu Word entièrement modifiable. Les graphiques complexes, les diagrammes intégrés comme images et le positionnement précis au pixel près des PDF très design se convertissent souvent en images plutôt qu'en objets modifiables — ils s'affichent correctement mais doivent être remplacés pour être modifiés.",
+  "dive3Desc": "Le texte des paragraphes, les titres et les tableaux simples deviennent du contenu Word entièrement modifiable. Les graphiques complexes, les diagrammes intégrés comme images et le positionnement précis au pixel près des PDF très design se convertissent souvent en images plutôt qu'en objets modifiables - ils s'affichent correctement mais doivent être remplacés pour être modifiés.",
   "dive4Title": "Mises en page multi-colonnes et formulaires",
-  "dive4Desc": "Le texte multi-colonnes, comme une newsletter ou un article académique, se convertit dans le formatage en colonnes propre à Word quand c'est possible, en préservant la mise en page visuelle. Les champs de formulaire PDF interactifs se convertissent selon leur apparence visuelle, mais la fonctionnalité de remplissage ne suit pas — vous verrez les contours des champs comme des éléments normaux.",
+  "dive4Desc": "Le texte multi-colonnes, comme une newsletter ou un article académique, se convertit dans le formatage en colonnes propre à Word quand c'est possible, en préservant la mise en page visuelle. Les champs de formulaire PDF interactifs se convertissent selon leur apparence visuelle, mais la fonctionnalité de remplissage ne suit pas - vous verrez les contours des champs comme des éléments normaux.",
   "dive5Title": "Les polices que votre ordinateur n'a pas",
   "dive5Desc": "Si le PDF original utilise une police non installée sur votre système, Word la remplace par la police disponible la plus proche à l'ouverture du fichier, ce qui peut légèrement déplacer les sauts de ligne et l'espacement. Intégrer la police dans le PDF au préalable, quand c'est possible, donne la substitution la plus précise.",
   "dive6Title": "PDF vers Word vs. conversion directe vers Google Docs",

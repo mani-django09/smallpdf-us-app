@@ -1,9 +1,9 @@
 {
-  "pageTitle": "API PDF — Gabung, Konversi, Kompres & Lindungi PDF | SmallPDF.us",
+  "pageTitle": "API PDF - Gabung, Konversi, Kompres & Lindungi PDF | SmallPDF.us",
   "pageDescription": "API REST sederhana dan cepat untuk PDF: gabung, pisah, putar, kompres, lindungi dengan kata sandi, dan konversi PDF⇄Word, JPG, PNG. Tingkat gratis, contoh kode dalam cURL, Node.js & Python.",
   "heroBadge": "API Developer · v1",
   "heroTitle": "API PDF yang dibuat untuk developer",
-  "heroDesc": "Satu endpoint REST sederhana per tugas. Gabung, konversi, kompres, dan lindungi PDF dari bahasa apa pun — tanpa SDK, tanpa server, tanpa library PDF.",
+  "heroDesc": "Satu endpoint REST sederhana per tugas. Gabung, konversi, kompres, dan lindungi PDF dari bahasa apa pun - tanpa SDK, tanpa server, tanpa library PDF.",
   "heroCtaPrimary": "Dapatkan API key gratis",
   "heroCtaSecondary": "Mulai cepat",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "Setiap permintaan harus menyertakan kunci rahasia Anda di header",
     "desc2": ". Buat dan kelola kunci di",
     "dashboard": "dashboard",
-    "warning": "Simpan kunci di sisi server — jangan pernah ekspos di kode klien."
+    "warning": "Simpan kunci di sisi server - jangan pernah ekspos di kode klien."
   },
   "baseUrl": {
     "desc": "Semua endpoint adalah",

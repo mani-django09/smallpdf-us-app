@@ -281,7 +281,7 @@ app.param("jobId", (req, res, next, jobId) => {
 // No email service wired up; just stores to email_subscribers for later use/export.
 const subscribeLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5,                   // per IP per window — this is a low-value form, not a login
+  max: 5,                   // per IP per window - this is a low-value form, not a login
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: rateLimitKey,
@@ -673,7 +673,7 @@ const fileValidation = (req, res, next) => {
       next()
     } catch (error) {
       res.status(401).json({
-        error: error.name === "TokenExpiredError" ? "Session expired — please log in again" : "Invalid token",
+        error: error.name === "TokenExpiredError" ? "Session expired - please log in again" : "Invalid token",
         code: "ADMIN_AUTH",
       })
     }
@@ -765,7 +765,7 @@ const fileValidation = (req, res, next) => {
       p = sharp(Buffer.from(img.data.buffer, img.data.byteOffset, img.data.byteLength), { raw: { width: img.width, height: img.height, channels: 4 } })
     } catch (_) {
       try {
-        await sharp(buf).stats() // full decode — rejects corrupt/truncated data
+        await sharp(buf).stats() // full decode - rejects corrupt/truncated data
         p = sharp(buf).rotate() // honour EXIF orientation of real JPEGs
       } catch (_) { return null }
     }
@@ -2196,7 +2196,7 @@ app.get("/api/admin/analytics/geography", adminAuth, async (req, res) => {
 
         res.status(500).json({
           error: "CONVERSION_FAILED",
-          message: "We couldn't convert this document. It may be damaged or use an unsupported format — open it in Word, save a new copy as .docx and try again.",
+          message: "We couldn't convert this document. It may be damaged or use an unsupported format - open it in Word, save a new copy as .docx and try again.",
         })
       }
     } catch (error) {
@@ -2584,14 +2584,14 @@ try:
             if (dim.width or 8.43) < w:
                 dim.width = min(w, 40)
 
-        # Gridlines only for plain tables — never over bordered layouts or charts.
+        # Gridlines only for plain tables - never over bordered layouts or charts.
         if not has_border and not getattr(ws, "_charts", None) and not getattr(ws, "_images", None):
             ws.print_options.gridLines = True
 
     wb.save(dst)
     print("PREP_OK")
 except ImportError:
-    print("PREP_SKIP")  # openpyxl not installed — skip prep, use original
+    print("PREP_SKIP")  # openpyxl not installed - skip prep, use original
 except Exception as e:
     print(f"PREP_SKIP:{e}")
 `
@@ -2695,7 +2695,7 @@ except Exception as e:
       
       return res.status(422).json({
         error: "CONVERSION_FAILED",
-        message: "We couldn't convert this spreadsheet. It may be damaged or password-protected — open it in Excel, save a new copy and try again.",
+        message: "We couldn't convert this spreadsheet. It may be damaged or password-protected - open it in Excel, save a new copy and try again.",
       })
     }
 
@@ -3829,7 +3829,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
             const needsPassword = /encrypt/i.test(loadErr.message)
             const err = new Error(needsPassword
               ? `"${file.originalname}" is protected with an open password. Remove it with our Unlock PDF tool first, then merge again.`
-              : `Could not read "${file.originalname}". The file may be damaged — try re-saving or re-downloading it.`)
+              : `Could not read "${file.originalname}". The file may be damaged - try re-saving or re-downloading it.`)
             err.code = needsPassword ? "PASSWORD_PROTECTED" : "CORRUPT_PDF"
             err.fileName = file.originalname
             throw err
@@ -3945,7 +3945,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         try {
           const parsed = JSON.parse(req.body.pages)
           if (Array.isArray(parsed) && parsed.length) targetPages = parsed.map(Number)
-        } catch (_) { /* ignore — rotate all */ }
+        } catch (_) { /* ignore - rotate all */ }
       }
 
       logActivity({
@@ -4848,7 +4848,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       status: "processing",
     })
 
-    console.log(`\n📥 Compress PDF Batch — ${req.files.length} file(s) received`)
+    console.log(`\n📥 Compress PDF Batch - ${req.files.length} file(s) received`)
 
     const jobId = genJobId()
     const compressedDir = path.join(__dirname, "compressed", jobId)
@@ -4965,7 +4965,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         try {
           const pyCmd = `"${pythonCmd}" "${pythonScript}" "${file.path}" "${pass1Path}" ${compressionLevel}`
           const t1 = passBudget(120000)
-          if (t1 < 5000) throw new Error("skipped — request time budget used up")
+          if (t1 < 5000) throw new Error("skipped - request time budget used up")
           const { stdout } = await execPromise(pyCmd, { timeout: t1, maxBuffer: 200 * 1024 * 1024 })
           if (fs.existsSync(pass1Path) && fs.statSync(pass1Path).size > 0) {
             pass1OK   = true
@@ -4973,7 +4973,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
             console.log(`     Pass1 pikepdf: ${formatFileSize(file.size)} → ${formatFileSize(pass1Size)} (${Math.round((1 - pass1Size / file.size) * 100)}% saved)`)
           }
         } catch (pyErr) {
-          console.log(`     Pass1 pikepdf: FAILED — ${pyErr.message.slice(0, 100)}`)
+          console.log(`     Pass1 pikepdf: FAILED - ${pyErr.message.slice(0, 100)}`)
           console.log(`     💡 Fix: pip install pikepdf  (or: pip3 install pikepdf)`)
         }
 
@@ -4993,11 +4993,11 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         } catch (_) {
           unreadable = true
         }
-        if (hasForm) console.log(`     Pass2 GS: skipped — PDF has fillable form fields`)
+        if (hasForm) console.log(`     Pass2 GS: skipped - PDF has fillable form fields`)
         if (!hasForm) try {
           const gsCmd = buildGsCommand(gsInput, pass2Path, settings)
           const t2 = passBudget(180000)
-          if (t2 < 5000) throw new Error("skipped — request time budget used up")
+          if (t2 < 5000) throw new Error("skipped - request time budget used up")
           await execPromise(gsCmd, { timeout: t2, maxBuffer: 200 * 1024 * 1024 })
           if (fs.existsSync(pass2Path) && fs.statSync(pass2Path).size > 0) {
             pass2OK   = true
@@ -5005,7 +5005,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
             console.log(`     Pass2 GS:      ${formatFileSize(fs.statSync(gsInput).size)} → ${formatFileSize(pass2Size)}`)
           }
         } catch (gsErr) {
-          console.log(`     Pass2 GS: FAILED — ${gsErr.message.slice(0, 80)}`)
+          console.log(`     Pass2 GS: FAILED - ${gsErr.message.slice(0, 80)}`)
         }
 
         // ── Pass 3: qpdf — stream recompression for text-heavy PDFs ──
@@ -5020,7 +5020,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         try {
           const qpdfCmd = `qpdf --compress-streams=y --object-streams=generate --recompress-flate --compression-level=9 --linearize "${qpdfInput.path}" "${pass3Path}"`
           const t3 = passBudget(60000)
-          if (t3 < 5000) throw new Error("skipped — request time budget used up")
+          if (t3 < 5000) throw new Error("skipped - request time budget used up")
           await execPromise(qpdfCmd, { timeout: t3, maxBuffer: 200 * 1024 * 1024 })
           if (fs.existsSync(pass3Path) && fs.statSync(pass3Path).size > 0) {
             pass3OK   = true
@@ -5028,7 +5028,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
             console.log(`     Pass3 qpdf:    ${formatFileSize(qpdfInput.size)} → ${formatFileSize(pass3Size)} (${Math.round((1 - pass3Size / file.size) * 100)}% saved)`)
           }
         } catch (qpdfErr) {
-          console.log(`     Pass3 qpdf: FAILED — ${qpdfErr.message.slice(0, 80)}`)
+          console.log(`     Pass3 qpdf: FAILED - ${qpdfErr.message.slice(0, 80)}`)
           console.log(`     💡 Fix: apt-get install -y qpdf`)
         }
 
@@ -5056,7 +5056,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         const savedBytes      = Math.max(0, file.size - finalSize)
         const savedPercentage = Math.round((savedBytes / file.size) * 100)
 
-        console.log(`     ✅ Winner: ${formatFileSize(finalSize)} — saved ${savedPercentage}%`)
+        console.log(`     ✅ Winner: ${formatFileSize(finalSize)} - saved ${savedPercentage}%`)
 
         totalCompressedSize += finalSize
         compressedFiles.push({
@@ -5082,7 +5082,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
             filename: outputFilename, originalName: file.originalname,
             originalSize: file.size, compressedSize: file.size,
             savedBytes: 0, savedPercentage: 0,
-            warning: "Compression unavailable — original returned",
+            warning: "Compression unavailable - original returned",
           })
         } catch (_) {}
 
@@ -6719,7 +6719,7 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
       status: "processing",
     })
 
-    console.log(`PDF to Word — ${req.files.length} file(s) received`)
+    console.log(`PDF to Word - ${req.files.length} file(s) received`)
 
     const jobId = genJobId()
     const convertedDir = path.join(__dirname, "converted", jobId)
@@ -6779,7 +6779,7 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
 
           // Log warnings from Python (e.g. scanned PDF notice)
           if (stderr && stderr.includes("WARNING:scanned_pdf")) {
-            console.warn(`[pdf2docx] ⚠ Scanned PDF detected: ${file.originalname} — text extraction may be limited`)
+            console.warn(`[pdf2docx] ⚠ Scanned PDF detected: ${file.originalname} - text extraction may be limited`)
           }
           if (stderr && !stderr.includes("WARNING:scanned_pdf")) {
             console.warn(`[pdf2docx] stderr: ${stderr}`)
@@ -6873,7 +6873,7 @@ app.post("/api/pdf-to-word", upload.array("files", 500), fileSizeLimiter("pdf-to
         console.log(`   Pages: ${pageCount}, Size: ${(stats.size / 1024).toFixed(1)} KB, Engine: ${engine}`)
       } else {
         console.error(`✗ All strategies failed for: ${file.originalname}`)
-        errors.push({ file: file.originalname, error: "Conversion failed — all engines exhausted" })
+        errors.push({ file: file.originalname, error: "Conversion failed - all engines exhausted" })
       }
 
       // Cleanup uploaded PDF
@@ -7533,7 +7533,7 @@ def write_text_line(ws, row, words):
         fn, fs = w.get('fontname', ''), w.get('size') or 11
         color = color_to_hex(w.get('non_stroking_color')) or '000000'
         if is_light(color):
-            color = '000000'  # no background here — light text would be invisible
+            color = '000000'  # no background here - light text would be invisible
         ws.cell(row=row, column=col).font = Font(
             name=excel_font_name(fn), bold=is_bold(fn), italic=is_italic(fn),
             size=max(min(round(fs), 36), 8), color=color)
@@ -7658,7 +7658,7 @@ def write_word_layout(ws, words):
     col_map = {x: min(range(len(col_buckets)), key=lambda i: abs(col_buckets[i] - x)) + 1 for x in x_starts}
     row_map = {y: min(range(len(row_buckets)), key=lambda i: abs(row_buckets[i] - y)) + 1 for y in y_tops}
 
-    # Join words per cell first, THEN write — so "1,234" + ".56" style splits
+    # Join words per cell first, THEN write - so "1,234" + ".56" style splits
     # become one value before the number conversion runs.
     cells = {}
     style = {}
@@ -7858,7 +7858,7 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
                                 else:
                                     bg_hex = None
                             # White header text whose dark fill wasn't found would
-                            # be invisible — fall back to black.
+                            # be invisible - fall back to black.
                             if not bg_hex and is_light(text_hex):
                                 text_hex = '000000'
 
@@ -7915,7 +7915,7 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
             return False
 
         # Numbers are real numbers now, and Excel shows "###" when a number
-        # doesn't fit its column — widen (never shrink) those columns.
+        # doesn't fit its column - widen (never shrink) those columns.
         for sheet in wb.worksheets:
             need = {}
             for row in sheet.iter_rows():
@@ -7947,7 +7947,7 @@ def convert_pdf_to_excel(input_pdf, output_xlsx):
 # Run conversion
 if __name__ == "__main__":
     # Paths come from argv (NOT interpolated into the source) so a filename with
-    # odd bytes/quotes can never corrupt this script — that previously produced
+    # odd bytes/quotes can never corrupt this script - that previously produced
     # "SyntaxError: source code cannot contain null bytes" and was an injection risk.
     if len(sys.argv) > 3:
         result = convert_ocr_words(sys.argv[3], sys.argv[2])
@@ -8059,7 +8059,7 @@ if __name__ == "__main__":
       }
       return res.status(500).json({
         error: "CONVERSION_FAILED",
-        message: "We couldn't convert this PDF. It may be damaged or password-protected — please try another file.",
+        message: "We couldn't convert this PDF. It may be damaged or password-protected - please try another file.",
       })
     }
 
@@ -8349,7 +8349,7 @@ app.post("/api/ppt-to-pdf", upload.array("files", 500), fileSizeLimiter("ppt-to-
       }
       return res.status(500).json({
         error: "CONVERSION_FAILED",
-        message: "We couldn't convert this presentation. It may be damaged — open it in PowerPoint, save a new copy as .pptx and try again.",
+        message: "We couldn't convert this presentation. It may be damaged - open it in PowerPoint, save a new copy as .pptx and try again.",
       })
     }
 
@@ -8774,7 +8774,7 @@ app.post("/api/pdf-to-ppt", upload.array("files", 500), fileSizeLimiter("pdf-to-
       }
       return res.status(500).json({
         error: "CONVERSION_FAILED",
-        message: "We couldn't convert this PDF. It may be damaged — please try another file.",
+        message: "We couldn't convert this PDF. It may be damaged - please try another file.",
       })
     }
 
@@ -9553,7 +9553,7 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
        from: `"SmallPDF Contact" <${process.env.SMTP_USER}>`,
        to: process.env.CONTACT_EMAIL || process.env.SMTP_USER,
        replyTo: email,
-      subject: `[Contact] ${subject} — from ${name}`,
+      subject: `[Contact] ${subject} - from ${name}`,
        text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
        html: `
          <h2>New Contact Message</h2>
@@ -9565,7 +9565,7 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
        `,
      })
 
-    console.log(`📧 Contact form: ${name} <${email}> — "${subject}"`)
+    console.log(`📧 Contact form: ${name} <${email}> - "${subject}"`)
 
     return res.status(200).json({
       success: true,
@@ -9783,7 +9783,7 @@ app.post('/api/ocr-pdf',
 
     const ocrLang   = ocrLangFrom(req.body && req.body.language)
     const filePath  = file.path
-    const tmpFiles  = [] // temp page PNGs — deleted after OCR
+    const tmpFiles  = [] // temp page PNGs - deleted after OCR
 
     const cleanup = () => {
       try { if (fs.existsSync(filePath)) fs.unlinkSync(filePath) } catch (_) {}
@@ -9903,7 +9903,7 @@ app.post('/api/ocr-pdf',
               const words = ocrWordsFromData(data, 72 / dpi)
               ocrWords[i] = words
               pageTexts[i] = (data.text || '').trim()
-              console.log(`[OCR] Page ${i + 1} — ${words.length} words @${dpi}dpi`)
+              console.log(`[OCR] Page ${i + 1} - ${words.length} words @${dpi}dpi`)
             } catch (pageErr) {
               console.error(`[OCR] Page ${i + 1} failed:`, pageErr.message)
             } finally {
@@ -10089,7 +10089,7 @@ app.post('/api/ocr-pdf',
             fs.rmSync(entryPath, { recursive: true, force: true })
             removed++
           }
-        } catch { /* file may already be gone — ignore */ }
+        } catch { /* file may already be gone - ignore */ }
       }
     }
     if (removed > 0) console.log(`🧹 Temp sweep: removed ${removed} expired item(s)`)

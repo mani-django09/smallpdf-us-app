@@ -1,6 +1,6 @@
 {
-  "pageTitle": "الأسعار — SmallPDF.us",
-  "metaDescription": "Starter · Pro — فوترة شهرية أو سنوية. كل أدوات PDF، وملفات حتى 100 MB، وبلا إعلانات.",
+  "pageTitle": "الأسعار: أدوات PDF المجانية و Pro | SmallPDF.us",
+  "metaDescription": "قارن بين خطط SmallPDF.us. مجانية للاستخدام اليومي؛ وStarter وPro تضيفان ملفات أكبر ومعالجة دفعية ودون إعلانات وأولوية في المعالجة.",
   "badge": "أسعار بسيطة، دون مفاجآت",
   "hero": {
     "title": "اختر الباقة التي تناسبك",
@@ -11,7 +11,7 @@
     "yearly": "سنوياً",
     "monthsFree": "شهران مجاناً",
     "saveAnnually": "🎉 توفّر حتى $98 في السنة مع الفوترة السنوية",
-    "billedAnnually": "تُفوتر سنوياً — ${total}/سنة",
+    "billedAnnually": "تُفوتر سنوياً - ${total}/سنة",
     "billedMonthly": "تُفوتر شهرياً · ألغِ في أي وقت",
     "save": "وفّر ${amount}"
   },
@@ -107,7 +107,7 @@
   "toolLimits": {
     "title": "حدود كل أداة",
     "subtitle": "حدود حجم الملف وعدد الدفعة بدقة لكل أداة، موزعة حسب الباقة.",
-    "singleFileNote": "— = أداة ملف واحد (لا ينطبق حد الدفعة)",
+    "singleFileNote": "- = أداة ملف واحد (لا ينطبق حد الدفعة)",
     "colSize": "الحجم · الدفعة",
     "groups": {
       "pdfTools": "أدوات PDF",
@@ -147,9 +147,9 @@
   "bottomCta": {
     "title": "رقّ باقتك",
     "subtitle": "انضم إلى المحترفين حول العالم الذين يستخدمون SmallPDF.us. وألغِ في أي وقت.",
-    "proBtnMonthly": "احصل على Pro — $19/شهر",
-    "proBtnYearly": "احصل على Pro — $190/سنة",
-    "starterBtn": "احصل على Starter — $9/شهر"
+    "proBtnMonthly": "احصل على Pro - $19/شهر",
+    "proBtnYearly": "احصل على Pro - $190/سنة",
+    "starterBtn": "احصل على Starter - $9/شهر"
   },
   "notices": {
     "checkoutCancelled": "أُلغيت عملية الدفع، ولم يُخصم أي مبلغ.",

@@ -57,7 +57,7 @@ function buildSpec() {
           content: { 'multipart/form-data': { schema: { type: 'object', properties: props, required } } },
         },
         responses: {
-          200: { description: 'Success — the processed file.', content: { [e.returns]: { schema: { type: 'string', format: 'binary' } } } },
+          200: { description: 'Success - the processed file.', content: { [e.returns]: { schema: { type: 'string', format: 'binary' } } } },
           400: errorResponse('Invalid input.'),
           401: errorResponse('Missing or invalid API key.'),
           429: errorResponse('Monthly quota exceeded.'),

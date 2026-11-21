@@ -134,7 +134,7 @@ const JWT_SECRET_DC = process.env.JWT_SECRET || 'change-this-secret-in-productio
 const DAILY_CONV_BUCKET = 'conv-daily'
 
 const DAILY_CONV_LIMITS = {
-  guest:   5,   // not logged in — same as a free account (5 free uses/day for everyone)
+  guest:   5,   // not logged in - same as a free account (5 free uses/day for everyone)
   free:    5,   // logged in, free plan
   starter: 0,   // 0 = unlimited
   pro:     0,

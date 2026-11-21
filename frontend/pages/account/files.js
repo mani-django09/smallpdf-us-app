@@ -16,7 +16,7 @@ import { getApiUrl } from '../../lib/getApiUrl'
 import { useTranslations } from '../../lib/i18n'
 
 function fmtSize(bytes) {
-  if (!bytes) return '—'
+  if (!bytes) return '-'
   const mb = bytes / 1024 / 1024
   if (mb >= 1) return `${mb.toFixed(2)} MB`
   return `${(bytes / 1024).toFixed(0)} KB`

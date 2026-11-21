@@ -164,7 +164,7 @@ export default function DownloadExcelToPDF() {
       }
 
       const blob = await response.blob()
-      setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
+      setDownloadedBlob(blob)  // reuse for print - backend deletes file after first serve
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement("a")
       a.href = url

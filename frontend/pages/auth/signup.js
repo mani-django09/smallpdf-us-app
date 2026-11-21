@@ -320,7 +320,7 @@ export default function SignupPage() {
                           ))}
                         </div>
                         <p style={{ fontSize: 11.5, color: strengthConfig[strength].color, margin: '5px 0 0', fontWeight: 600 }}>
-                          {['', 'Weak — add numbers & symbols', 'Fair — add uppercase letters', 'Good — almost there!', '✓ Strong password'][strength]}
+                          {['', 'Weak - add numbers & symbols', 'Fair - add uppercase letters', 'Good - almost there!', '✓ Strong password'][strength]}
                         </p>
                       </div>
                     )}

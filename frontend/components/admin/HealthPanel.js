@@ -45,12 +45,12 @@ export default function HealthPanel({ api, token, onUnauthorized }) {
         </Card>
       </div>
 
-      <Card title="What's failing (last 24 h)" subtitle="Grouped by tool and message — fix the top ones first" pad={false}>
+      <Card title="What's failing (last 24 h)" subtitle="Grouped by tool and message - fix the top ones first" pad={false}>
         {recentErrors.length ? (
           <ul className="divide-y divide-slate-100">{recentErrors.map((e, i) => (
             <li key={i} className="px-5 py-3 flex items-start gap-3"><Badge tone="red">{e.n}×</Badge>
               <div className="min-w-0"><div className="text-sm text-slate-800 break-words">{e.message}</div><div className="text-[11px] text-slate-400 mt-0.5">{e.tool || "general"} · last <span title={formatIST(e.last)}>{timeAgo(e.last)}</span></div></div></li>))}</ul>
-        ) : <EmptyState title="No errors in the last 24 hours" hint="Nice — nothing to fix." />}
+        ) : <EmptyState title="No errors in the last 24 hours" hint="Nice - nothing to fix." />}
       </Card>
     </div>
   )

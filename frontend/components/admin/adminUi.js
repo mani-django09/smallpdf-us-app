@@ -3,12 +3,12 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { ArrowUpRight, ArrowDownRight, Minus, Loader2 } from "lucide-react"
 import { Sparkline } from "./charts"
 
-export const fmtNum = (n) => (n === null || n === undefined || Number.isNaN(n) ? "—" : new Intl.NumberFormat("en-IN").format(Math.round(n)))
+export const fmtNum = (n) => (n === null || n === undefined || Number.isNaN(n) ? "-" : new Intl.NumberFormat("en-IN").format(Math.round(n)))
 export const fmtCompact = (n) => new Intl.NumberFormat("en-IN", { notation: "compact", maximumFractionDigits: 1 }).format(n || 0)
 export const fmtMoney = (n, cur = "USD") =>
   (cur === "INR" ? "₹" : "$") + new Intl.NumberFormat("en-IN", { maximumFractionDigits: n % 1 ? 2 : 0 }).format(n || 0)
 export const fmtBytes = (b) => {
-  if (!b && b !== 0) return "—"
+  if (!b && b !== 0) return "-"
   const u = ["B", "KB", "MB", "GB", "TB"]; let i = 0, v = b
   while (v >= 1024 && i < u.length - 1) { v /= 1024; i++ }
   return `${v.toFixed(v >= 100 || i === 0 ? 0 : 1)} ${u[i]}`

@@ -1,6 +1,6 @@
 {
   "badge": "Ücretsiz PDF Düzenleyici",
-  "heroTitle": "PDF Düzenle",
+  "heroTitle": "PDF Metnini Düzenle online ve ücretsiz",
   "heroSubtitle": "PDF'inizdeki herhangi bir metne tıklayın ve yeniden yazın. Gerçek satır içi düzenleme: ücretsiz, güvenli ve kullanımı kolay.",
   "dropTitle": "PDF'inizi buraya bırakın",
   "dropSubtitle": "ya da tıklayıp seçin, ücretsiz 10 MB'a kadar",
@@ -83,7 +83,7 @@
   "faq5Q": "Parolayla korunan bir PDF'i düzenleyebilir miyim?",
   "faq5A": "Lütfen önce PDF Kilidini Aç aracımızla PDF'in kilidini açın, sonra kilidi açılan dosyayı düzenleyin.",
   "preview": {
-    "pageTitle": "PDF Düzenle — Herhangi Bir Metne Tıklayın",
+    "pageTitle": "PDF Düzenle - Herhangi Bir Metne Tıklayın",
     "heading": "PDF'inizi düzenleyin",
     "subheading": "Düzenlemek için sayfadaki herhangi bir metne tıklayın, sonra kaydedin.",
     "changeFile": "Dosyayı değiştir",
@@ -161,7 +161,7 @@
     "pagesLabel": "Sayfalar",
     "secureLabel": "Güvenli"
   },
-  "seoTitle": "PDF Düzenle Online Ücretsiz — PDF'teki Metni Değiştirin | SmallPDF.us",
-  "seoDescription": "PDF'teki metni çevrimiçi ve ücretsiz düzenleyin. Herhangi bir metin satırına tıklayıp doğrudan tarayıcınızda yeniden yazın; filigran yok, çıktı keskin ve aranabilir kalır.",
+  "seoTitle": "PDF Düzenle: Metni Online Değiştir | SmallPDF.us",
+  "seoDescription": "PDF içindeki metni online ve ücretsiz düzenleyin. Bir satıra tıklayın ve tarayıcıda yeniden yazın. Filigran yok, çıktı net ve aranabilir kalır.",
   "seoKeywords": "pdf düzenle, pdf metnini düzenle, pdf'i online düzenle, pdf'teki metni değiştir, pdf metin düzenleyici, ücretsiz pdf düzenleyici"
 }

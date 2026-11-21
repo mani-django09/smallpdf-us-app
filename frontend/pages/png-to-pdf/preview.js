@@ -60,7 +60,7 @@ export default function PreviewPngToPdf() {
     } else {
       routerRef.current.push("/png-to-pdf")
     }
-  }, []) // ✅ Empty deps — runs once on mount only
+  }, []) // ✅ Empty deps - runs once on mount only
 
   const handleReorder = (fromIndex, toIndex) => {
     const newFiles = [...filesData]

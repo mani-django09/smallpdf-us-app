@@ -326,7 +326,7 @@ async function webhookHandler(req, res) {
         [userId, subId]
       ).catch(() => null)
       if (other) {
-        console.log(`[LS webhook] skip deactivate user=${userId} — another active subscription exists (row ${other.id})`)
+        console.log(`[LS webhook] skip deactivate user=${userId} - another active subscription exists (row ${other.id})`)
         return
       }
       await dbRun(
@@ -376,7 +376,7 @@ async function webhookHandler(req, res) {
           try {
             const s = await lsRequest('GET', '/subscriptions/' + subId)
             periodEnd = s?.data?.attributes?.renews_at || null
-          } catch (_) { /* keep null — COALESCE keeps the existing expiry */ }
+          } catch (_) { /* keep null - COALESCE keeps the existing expiry */ }
         }
         await upsertSub('active')
         await activateUser(planName)

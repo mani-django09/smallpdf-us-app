@@ -1,19 +1,19 @@
 {
   "seo": {
-    "title": "OCR PDF Ücretsiz — Taranmış PDF'ten Metin Çıkar | SmallPDF.us",
-    "description": "Taranmış PDF'leri ücretsiz aranabilir metne dönüştürün. OCR aracımız Türkçe ve İngilizce metni okur; aranabilir PDF ya da Word çıktısı verir. Kurulum gerekmez.",
+    "title": "PDF OCR: Taranmış PDF'den Metin Al | SmallPDF.us",
+    "description": "Taranmış PDF'yi ücretsiz online OCR ile aranabilir ve kopyalanabilir yapın. Aranabilir PDF indirin; Word ve TXT ücretli planlarda. Kurulum gerekmez.",
     "keywords": "OCR PDF, PDF'ten metin çıkar, taranmış PDF'ten metne, PDF OCR online, PDF'i aranabilir yap, ücretsiz OCR aracı, PDF metin çıkarma, optik karakter tanıma PDF, aranabilir PDF, taranmış belgeden metne"
   },
   "hero": {
-    "title": "OCR PDF —",
-    "titleHighlight": "Metin Çıkar",
-    "titleSuffix": "Taranmış Her Belgeden",
+    "title": "PDF OCR Online:",
+    "titleHighlight": "Taranmış PDF'den",
+    "titleSuffix": "Metin Çıkar",
     "subtitle": "Görsel tabanlı, taranmış ya da kamerayla çekilmiş PDF'leri aranabilir, kopyalanabilir belgelere dönüştürün. Türkçe ve İngilizce metni okur, kurulacak bir şey yok."
   },
   "upload": {
     "dropActive": "PDF'inizi buraya bırakın",
     "heading": "Taranmış Bir PDF Yükleyin",
-    "subheading": "Sürükleyip bırakın ya da tıklayıp seçin — yalnızca PDF dosyaları",
+    "subheading": "Sürükleyip bırakın ya da tıklayıp seçin - yalnızca PDF dosyaları",
     "button": "OCR için PDF Seç",
     "sslEncrypted": "SSL şifreli",
     "filesDeleted": "Dosyalar 1 saatte silinir",
@@ -171,10 +171,10 @@
   "cta": {
     "heading": "PDF'inizi Aranabilir Yapın",
     "subtitle": "Taranmış bir PDF yükleyin ve aranabilir, kopyalanabilir bir belge indirin. Ücretsiz başlayın.",
-    "button": "OCR'a Şimdi Başla — Ücretsiz"
+    "button": "OCR'a Şimdi Başla - Ücretsiz"
   },
   "preview": {
-    "pageTitle": "OCR PDF Önizleme — SmallPDF.us",
+    "pageTitle": "OCR PDF Önizleme - SmallPDF.us",
     "changeFile": "Dosyayı değiştir",
     "headerTitle": "Metin Çıkarmaya Hazır",
     "headerSubtitle": "Dosyanızı gözden geçirin ve OCR'ı çalıştırın",
@@ -187,7 +187,7 @@
     "receiveDocx": "Çıkarılan metni içeren Word belgesi (.docx)",
     "receiveTxt": "Kolay kopyala-yapıştır için düz metin dosyası (.txt)",
     "receiveProOnly": "Word ve TXT dışa aktarma (yalnızca Pro)",
-    "runOcrButton": "OCR Çalıştır — Metni Çıkar",
+    "runOcrButton": "OCR Çalıştır - Metni Çıkar",
     "securePrivate": "Güvenli ve gizli",
     "autoDeleted": "1 saatte otomatik silinir",
     "pleaseWait": "Lütfen bekleyin, bu sekmeyi kapatmayın",
@@ -215,7 +215,7 @@
     "advertisement": "Reklam"
   },
   "process": {
-    "pageTitle": "OCR İşleniyor — SmallPDF.us",
+    "pageTitle": "OCR İşleniyor - SmallPDF.us",
     "backLink": "OCR PDF'e Dön",
     "processingTitle": "OCR Sürüyor…",
     "standardQueue": "Standart kuyruk. Pro öncelik kuyruğu kullanır.",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "OCR PDF'i İndir — SmallPDF.us",
+    "pageTitle": "OCR PDF'i İndir - SmallPDF.us",
     "successTitle": "OCR Tamamlandı!",
     "pagesProcessed": "{count} sayfa işlendi",
     "wordsExtracted": "~{count} kelime çıkarıldı",

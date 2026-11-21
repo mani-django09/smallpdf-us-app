@@ -403,7 +403,7 @@ async function paypalWebhookHandler(req, res) {
     // event with no headers at all and upgrade any account for free.)
     const webhookId = process.env.PAYPAL_WEBHOOK_ID
     if (!webhookId) {
-      console.error('❌ PAYPAL_WEBHOOK_ID not configured — rejecting webhook for safety')
+      console.error('❌ PAYPAL_WEBHOOK_ID not configured - rejecting webhook for safety')
       return res.status(500).send('Webhook verification not configured')
     }
 
@@ -414,7 +414,7 @@ async function paypalWebhookHandler(req, res) {
     const transmissionSig  = req.headers['paypal-transmission-sig']
 
     if (!transmissionId || !transmissionSig || !transmissionTime || !certUrl || !authAlgo) {
-      console.warn('❌ PayPal webhook missing required verification headers — rejecting')
+      console.warn('❌ PayPal webhook missing required verification headers - rejecting')
       return res.status(400).send('Missing verification headers')
     }
 
@@ -440,7 +440,7 @@ async function paypalWebhookHandler(req, res) {
         webhook_event:     event,
       }, token)
     } catch (verifyErr) {
-      console.error('❌ PayPal webhook signature verification errored — rejecting:', verifyErr.message)
+      console.error('❌ PayPal webhook signature verification errored - rejecting:', verifyErr.message)
       return res.status(400).send('Webhook verification failed')
     }
 
@@ -577,7 +577,7 @@ module.exports = { router, paypalWebhookHandler }
 
 // ── Startup env check ──────────────────────────────────────────────────────────
 ;(function checkEnv() {
-  console.log('💳 paypalRoutes loaded — mode:', PAYPAL_MODE)
+  console.log('💳 paypalRoutes loaded - mode:', PAYPAL_MODE)
   console.log('   PAYPAL_CLIENT_ID              :', process.env.PAYPAL_CLIENT_ID         ? `${process.env.PAYPAL_CLIENT_ID.slice(0, 15)}...` : '❌ MISSING')
   console.log('   PAYPAL_CLIENT_SECRET          :', process.env.PAYPAL_CLIENT_SECRET     ? '✅ set' : '❌ MISSING')
   console.log('   PAYPAL_WEBHOOK_ID             :', process.env.PAYPAL_WEBHOOK_ID        ? '✅ set' : '⚠️  not set')

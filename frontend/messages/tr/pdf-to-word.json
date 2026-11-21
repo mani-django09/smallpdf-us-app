@@ -1,10 +1,10 @@
 {
   "seo": {
-    "title": "PDF'den Word'e Ücretsiz Dönüştür – Hızlı ve Güvenli | SmallPDF.us",
-    "description": "PDF dosyalarını çevrimiçi ve ücretsiz, tamamen düzenlenebilir Word belgelerine (.docx) dönüştürün. Düzen, görseller ve biçimlendirme mümkün olduğunca özgün haline yakın tutulur. Tarayıcınızda çalışır."
+    "title": "PDF'yi Word'e Dönüştür: DOCX Ücretsiz | SmallPDF.us",
+    "description": "PDF'yi Word'e (DOCX) online ve ücretsiz dönüştürün. Düzeni, tabloları ve görselleri koruyan düzenlenebilir belge alın. Tarayıcıda çalışır, kurulum yok."
   },
 
-  "heroTitle": "PDF'i Word'e Dönüştür",
+  "heroTitle": "PDF'yi Word'e Dönüştür online ve ücretsiz",
   "heroTitleHighlight": "Ücretsiz ve Saniyeler İçinde",
   "heroSubtitle": "PDF dosyalarınızı, düzen mümkün olduğunca özgün haline yakın kalacak şekilde düzenlenebilir Word belgelerine çevirin. Dosyanızı yükleyin ve .docx'i indirin.",
 
@@ -109,7 +109,7 @@
   "ctaButton": "PDF'imi Word'e Dönüştür",
 
   "preview": {
-    "layoutTitle": "PDF'i Word'e Dönüştür — Önizleme",
+    "layoutTitle": "PDF'i Word'e Dönüştür - Önizleme",
     "layoutDesc": "Dosyalarınızı gözden geçirin ve Word'e dönüştürmeyi başlatın.",
     "loadingText": "Belgeleriniz yükleniyor…",
     "changeFiles": "Dosyaları değiştir",

@@ -1,9 +1,9 @@
 {
-  "pageTitle": "PDF API — PDFの結合・変換・圧縮・保護 | SmallPDF.us",
+  "pageTitle": "PDF API - PDFの結合・変換・圧縮・保護 | SmallPDF.us",
   "pageDescription": "シンプルで高速なPDF REST API。結合、分割、回転、圧縮、パスワード保護、PDF⇄Word・JPG・PNG変換。無料枠あり、cURL・Node.js・Pythonのコードサンプル付き。",
   "heroBadge": "開発者向け API · v1",
   "heroTitle": "開発者のために作られたPDF API",
-  "heroDesc": "タスクごとにシンプルなRESTエンドポイントを1つ。PDFの結合・変換・圧縮・保護をどの言語からでも — SDKなし、サーバー不要、PDFライブラリ不要。",
+  "heroDesc": "タスクごとにシンプルなRESTエンドポイントを1つ。PDFの結合・変換・圧縮・保護をどの言語からでも - SDKなし、サーバー不要、PDFライブラリ不要。",
   "heroCtaPrimary": "無料APIキーを取得",
   "heroCtaSecondary": "クイックスタート",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "すべてのリクエストにシークレットキーを",
     "desc2": "ヘッダーに含めてください。",
     "dashboard": "ダッシュボード",
-    "warning": "キーはサーバーサイドで管理 — クライアントコードに公開しないでください。"
+    "warning": "キーはサーバーサイドで管理 - クライアントコードに公開しないでください。"
   },
   "baseUrl": {
     "desc": "すべてのエンドポイントは",

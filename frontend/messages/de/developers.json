@@ -1,9 +1,9 @@
 {
-  "pageTitle": "PDF API — PDFs zusammenführen, konvertieren, komprimieren & schützen | SmallPDF.us",
+  "pageTitle": "PDF API - PDFs zusammenführen, konvertieren, komprimieren & schützen | SmallPDF.us",
   "pageDescription": "Eine einfache, schnelle REST-API für PDFs: zusammenführen, aufteilen, drehen, komprimieren, passwortschützen und PDF⇄Word, JPG, PNG konvertieren. Kostenlose Stufe, Code-Beispiele in cURL, Node.js & Python.",
   "heroBadge": "Entwickler API · v1",
   "heroTitle": "Die PDF-API für Entwickler",
-  "heroDesc": "Ein einfacher REST-Endpunkt pro Aufgabe. PDFs zusammenführen, konvertieren, komprimieren und schützen — aus jeder Sprache, ohne SDK, ohne Server.",
+  "heroDesc": "Ein einfacher REST-Endpunkt pro Aufgabe. PDFs zusammenführen, konvertieren, komprimieren und schützen - aus jeder Sprache, ohne SDK, ohne Server.",
   "heroCtaPrimary": "Kostenlosen API-Schlüssel holen",
   "heroCtaSecondary": "Schnellstart",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "Jede Anfrage muss Ihren geheimen Schlüssel im",
     "desc2": "-Header enthalten. Schlüssel verwalten Sie in Ihrem",
     "dashboard": "Dashboard",
-    "warning": "Schlüssel serverseitig aufbewahren — niemals im Client-Code exponieren."
+    "warning": "Schlüssel serverseitig aufbewahren - niemals im Client-Code exponieren."
   },
   "baseUrl": {
     "desc": "Alle Endpunkte sind",

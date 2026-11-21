@@ -29,7 +29,7 @@ export default function EmailCapture({ className = "" }) {
     return (
       <div className={`flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 ${className}`}>
         <CheckCircle className="w-4 h-4 flex-shrink-0" />
-        <span>You're subscribed — we'll email you when new tools launch.</span>
+        <span>You're subscribed - we'll email you when new tools launch.</span>
       </div>
     )
   }
@@ -58,7 +58,7 @@ export default function EmailCapture({ className = "" }) {
         </button>
       </form>
       {status === "error" && (
-        <p className="text-xs text-red-600 mt-2">Something went wrong — please try again.</p>
+        <p className="text-xs text-red-600 mt-2">Something went wrong - please try again.</p>
       )}
     </div>
   )

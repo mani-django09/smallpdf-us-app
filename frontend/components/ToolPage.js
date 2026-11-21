@@ -228,7 +228,7 @@ export default function ToolPage({
                     Drop your file{multiple ? 's' : ''} here
                   </p>
                   <p className="text-sm text-gray-500">
-                    or click to browse — {acceptedFormats.join(', ')} supported
+                    or click to browse - {acceptedFormats.join(', ')} supported
                   </p>
                 </div>
 
@@ -272,7 +272,7 @@ export default function ToolPage({
                   {loading ? (
                     <><Loader className="w-5 h-5 animate-spin" aria-hidden="true" /><span>Processing…</span></>
                   ) : (
-                    <><Zap className="w-5 h-5" aria-hidden="true" /><span>Convert Now — Free</span></>
+                    <><Zap className="w-5 h-5" aria-hidden="true" /><span>Convert Now - Free</span></>
                   )}
                 </button>
               </form>

@@ -1,19 +1,19 @@
 {
   "seo": {
-    "title": "OCR PDF Free — Extract Text from Scanned PDF | SmallPDF.us",
-    "description": "Turn scanned PDFs into searchable text free. Our OCR tool supports 100+ languages, outputs searchable PDF or Word. No install needed.",
+    "title": "OCR PDF Online Free: Scanned PDF to Text | SmallPDF.us",
+    "description": "Make scanned PDFs searchable and copyable with free online OCR. Download a searchable PDF, or Word and TXT on paid plans. No install needed.",
     "keywords": "OCR PDF, extract text from PDF, scanned PDF to text, PDF OCR online, make PDF searchable, OCR tool free, PDF text extraction, optical character recognition PDF, searchable PDF, scanned document to text"
   },
   "hero": {
-    "title": "OCR PDF —",
+    "title": "OCR PDF Online:",
     "titleHighlight": "Extract Text",
-    "titleSuffix": "from Any Scanned Document",
+    "titleSuffix": "from Scanned PDFs",
     "subtitle": "Turn image-based, scanned or camera-captured PDFs into searchable, copy-pasteable documents. 100+ languages, with nothing to install."
   },
   "upload": {
     "dropActive": "Drop your PDF here",
     "heading": "Upload a Scanned PDF",
-    "subheading": "Drag & drop or click to browse — PDF files only",
+    "subheading": "Drag & drop or click to browse - PDF files only",
     "button": "Choose PDF to OCR",
     "sslEncrypted": "SSL encrypted",
     "filesDeleted": "Files deleted in 1 hr",
@@ -37,7 +37,7 @@
       },
       {
         "title": "100+ Languages Auto-Detected",
-        "desc": "Latin, Cyrillic, Arabic, Hebrew, CJK (Chinese, Japanese, Korean), Devanagari, Thai, and more — the correct character model is applied automatically per page."
+        "desc": "Latin, Cyrillic, Arabic, Hebrew, CJK (Chinese, Japanese, Korean), Devanagari, Thai, and more - the correct character model is applied automatically per page."
       },
       {
         "title": "Non-Destructive Searchable PDF",
@@ -58,7 +58,7 @@
     ]
   },
   "howItWorks": {
-    "sectionTitle": "How It Works — 3 Simple Steps",
+    "sectionTitle": "How It Works - 3 Simple Steps",
     "sectionSubtitle": "Upload a scan and download a searchable PDF.",
     "steps": [
       {
@@ -79,7 +79,7 @@
     ]
   },
   "useCases": {
-    "sectionTitle": "Who Uses OCR PDF — and Why",
+    "sectionTitle": "Who Uses OCR PDF - and Why",
     "sectionSubtitle": "Every day, professionals across dozens of industries rely on accurate OCR to unlock the data locked inside their scanned documents.",
     "items": [
       {
@@ -88,7 +88,7 @@
       },
       {
         "title": "Healthcare & Medical",
-        "desc": "Digitise handwritten or printed patient records, lab results, and prescriptions — making them accessible to EHR systems and compliance audits."
+        "desc": "Digitise handwritten or printed patient records, lab results, and prescriptions - making them accessible to EHR systems and compliance audits."
       },
       {
         "title": "Academic Research",
@@ -110,10 +110,10 @@
   },
   "diveTitle": "What actually happens during OCR",
   "diveSubtitle": "How OCR reads your scan, and what affects accuracy.",
-  "dive1Title": "Native text vs. scanned text — how OCR tells the difference",
-  "dive1Desc": "A digitally created PDF already has a text layer, so running OCR on it is unnecessary — the tool detects this and can skip pages that already have selectable text. Scanned pages, which are just images with no text layer, are the ones that actually need OCR processing.",
+  "dive1Title": "Native text vs. scanned text - how OCR tells the difference",
+  "dive1Desc": "A digitally created PDF already has a text layer, so running OCR on it is unnecessary - the tool detects this and can skip pages that already have selectable text. Scanned pages, which are just images with no text layer, are the ones that actually need OCR processing.",
   "dive2Title": "What affects OCR accuracy",
-  "dive2Desc": "Scan resolution matters most — a clear 300 DPI scan recognizes far more accurately than a blurry phone photo. Font clarity, contrast between text and background, and page skew also matter; the pipeline corrects for skew and noise automatically, but very low-quality scans still produce more errors.",
+  "dive2Desc": "Scan resolution matters most - a clear 300 DPI scan recognizes far more accurately than a blurry phone photo. Font clarity, contrast between text and background, and page skew also matter; the pipeline corrects for skew and noise automatically, but very low-quality scans still produce more errors.",
   "dive3Title": "Multiple languages in one document",
   "dive3Desc": "OCR language models are trained per-language, so mixed-language documents can be more error-prone than single-language ones unless the correct language (or languages) is selected before processing. Selecting the right language set upfront meaningfully improves recognition accuracy.",
   "dive4Title": "Searchable PDF vs. extracted text file",
@@ -121,7 +121,7 @@
   "dive5Title": "Does OCR work on handwriting?",
   "dive5Desc": "Standard OCR models are trained on printed text and struggle significantly with handwriting, especially cursive or inconsistent handwriting. Clear, block-letter handwriting sometimes recognizes reasonably well, but accuracy drops sharply compared to printed or typed text.",
   "dive6Title": "Tables and structured data in scanned documents",
-  "dive6Desc": "OCR recognizes the text within a table, but doesn't automatically reconstruct it as a structured table — the result is a searchable page where the numbers and labels are findable, not necessarily preserved column-and-row structure. For that, a dedicated PDF-to-Excel conversion is a better fit.",
+  "dive6Desc": "OCR recognizes the text within a table, but doesn't automatically reconstruct it as a structured table - the result is a searchable page where the numbers and labels are findable, not necessarily preserved column-and-row structure. For that, a dedicated PDF-to-Excel conversion is a better fit.",
   "faq": {
     "sectionTitle": "Frequently Asked Questions",
     "sectionSubtitle": "Quick answers on limits, privacy and results.",
@@ -132,7 +132,7 @@
       },
       {
         "q": "What types of PDFs benefit from OCR?",
-        "a": "Any PDF that contains scanned images of text — documents from a flatbed scanner, camera photos saved as PDF, faxes, printed forms, or archival microfilm scans — will benefit from OCR. If your PDF already contains selectable text (i.e. you can highlight words), it is a 'native' PDF and OCR is not required, though our tool can still extract and reformat its content."
+        "a": "Any PDF that contains scanned images of text - documents from a flatbed scanner, camera photos saved as PDF, faxes, printed forms, or archival microfilm scans - will benefit from OCR. If your PDF already contains selectable text (i.e. you can highlight words), it is a 'native' PDF and OCR is not required, though our tool can still extract and reformat its content."
       },
       {
         "q": "How accurate is the OCR?",
@@ -148,33 +148,33 @@
       },
       {
         "q": "Can I OCR a multi-page PDF?",
-        "a": "Free plan users can process up to 2 pages per OCR job — ideal for quick extractions from short documents. Pro and Agency plan users can OCR PDFs of unlimited page count in a single job, and can also submit up to 10 files at once via Batch OCR, making it efficient to process large document sets without re-uploading one by one."
+        "a": "Free plan users can process up to 2 pages per OCR job - ideal for quick extractions from short documents. Pro and Agency plan users can OCR PDFs of unlimited page count in a single job, and can also submit up to 10 files at once via Batch OCR, making it efficient to process large document sets without re-uploading one by one."
       },
       {
         "q": "What output formats can I download?",
-        "a": "Free users receive a searchable PDF — visually identical to the original but with an embedded, invisible text layer that enables Ctrl+F search, copy-paste, and accessibility tools. Pro and Agency users can additionally export the extracted text as a formatted .docx Word document (preserving paragraphs and basic layout) or as a raw .txt file for data pipelines, translation tools, or content management systems."
+        "a": "Free users receive a searchable PDF - visually identical to the original but with an embedded, invisible text layer that enables Ctrl+F search, copy-paste, and accessibility tools. Pro and Agency users can additionally export the extracted text as a formatted .docx Word document (preserving paragraphs and basic layout) or as a raw .txt file for data pipelines, translation tools, or content management systems."
       },
       {
         "q": "Why is OCR limited to 1 per day on the free plan?",
-        "a": "Optical character recognition is computationally intensive — each page requires significant GPU time for preprocessing and inference. We provide 1 free OCR run per day to keep the service fast and reliable for all users. Upgrade to Pro for unlimited OCR runs, priority queue access, larger file support, and batch processing. Pro jobs run in a priority queue."
+        "a": "Optical character recognition is computationally intensive - each page requires significant GPU time for preprocessing and inference. We provide 1 free OCR run per day to keep the service fast and reliable for all users. Upgrade to Pro for unlimited OCR runs, priority queue access, larger file support, and batch processing. Pro jobs run in a priority queue."
       }
     ]
   },
   "seoContent": {
     "h2": "What Is OCR and Why Does Your PDF Need It?",
-    "p1": "Optical Character Recognition (OCR) is the technology that bridges the gap between a flat, image-based PDF and a live, interactive document. When you scan a paper contract, photograph a receipt, or save a printed report as PDF, the file is essentially a picture — the computer sees pixel patterns, not letters. OCR changes that. It analyses every page, recognises individual characters with trained machine-learning models, and reconstructs the text in digital form — all without altering a single pixel of the original visual layout.",
+    "p1": "Optical Character Recognition (OCR) is the technology that bridges the gap between a flat, image-based PDF and a live, interactive document. When you scan a paper contract, photograph a receipt, or save a printed report as PDF, the file is essentially a picture - the computer sees pixel patterns, not letters. OCR changes that. It analyses every page, recognises individual characters with trained machine-learning models, and reconstructs the text in digital form - all without altering a single pixel of the original visual layout.",
     "p2": "The result is a <strong>searchable PDF</strong>: visually identical to the original, but with an invisible, perfectly aligned text layer beneath the images. You can now Ctrl+F search a 200-page contract, highlight and copy a paragraph, or let accessibility tools narrate the content to visually impaired readers. Pro users go further, downloading the extracted text as an editable <strong>.docx Word file</strong> or a raw <strong>.txt file</strong> for downstream editing, translation, or indexing workflows.",
     "h3": "How SmallPDF.us Delivers Accurate OCR Results",
     "p3": "Accuracy in document processing is non-negotiable. Our OCR pipeline runs through four well-defined stages. First, <strong>pre-processing</strong>: each page is analysed for rotation, noise, contrast, and segmented into text regions and non-text figures. Second, <strong>language detection</strong>: a sample scan identifies whether you're working in Latin, Cyrillic, Arabic, CJK, or another of 100+ supported scripts, automatically selecting the correct character model. Third, the <strong>recognition engine</strong> runs character-by-character analysis using contextual language models to disambiguate similar glyphs (like \"I\", \"l\", and \"1\"). Finally, <strong>post-processing</strong> reconstructs words and sentences with correct spacing, hyphenation, and paragraph structure before embedding the text layer into your PDF.",
-    "p4": "For optimal results, ensure your source document was scanned at 300 DPI or higher with even, shadow-free lighting. Documents at 150 DPI or below, heavy background textures, or extreme skew may produce lower accuracy. In every case, the original visuals in your PDF remain completely untouched — only the invisible, searchable text layer is added on top."
+    "p4": "For optimal results, ensure your source document was scanned at 300 DPI or higher with even, shadow-free lighting. Documents at 150 DPI or below, heavy background textures, or extreme skew may produce lower accuracy. In every case, the original visuals in your PDF remain completely untouched - only the invisible, searchable text layer is added on top."
   },
   "cta": {
     "heading": "Make Your PDF Searchable",
     "subtitle": "Upload a scanned PDF and download a searchable, copy-pasteable document. Free to start.",
-    "button": "Start OCR Now — It's Free"
+    "button": "Start OCR Now - It's Free"
   },
   "preview": {
-    "pageTitle": "OCR PDF Preview — SmallPDF.us",
+    "pageTitle": "OCR PDF Preview - SmallPDF.us",
     "changeFile": "Change file",
     "headerTitle": "Ready to Extract Text",
     "headerSubtitle": "Review your file and run OCR",
@@ -187,10 +187,10 @@
     "receiveDocx": "Word document (.docx) with extracted text",
     "receiveTxt": "Plain text file (.txt) for easy copy-paste",
     "receiveProOnly": "Word & TXT export (Pro only)",
-    "runOcrButton": "Run OCR — Extract Text",
+    "runOcrButton": "Run OCR - Extract Text",
     "securePrivate": "Secure & private",
     "autoDeleted": "Auto-deleted in 1 hr",
-    "pleaseWait": "Please wait — do not close this tab",
+    "pleaseWait": "Please wait - do not close this tab",
     "ocrFailed": "OCR Failed",
     "tryAgain": "Try Again",
     "upgradeToPro": "Upgrade to Pro",
@@ -215,7 +215,7 @@
     "advertisement": "Advertisement"
   },
   "process": {
-    "pageTitle": "OCR Processing — SmallPDF.us",
+    "pageTitle": "OCR Processing - SmallPDF.us",
     "backLink": "Back to OCR PDF",
     "processingTitle": "OCR in Progress…",
     "standardQueue": "Standard queue. Pro uses a priority queue.",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "Download OCR PDF — SmallPDF.us",
+    "pageTitle": "Download OCR PDF - SmallPDF.us",
     "successTitle": "OCR Complete!",
     "pagesProcessed": "{count} page{plural} processed",
     "wordsExtracted": "~{count} words extracted",
@@ -257,7 +257,7 @@
     "imagePdfUpgrade": "Upgrade to Pro",
     "imagePdfUpgradeSuffix": "for advanced OCR engine support on scanned documents.",
     "alreadySearchableTitle": "Your PDF already had selectable text",
-    "alreadySearchableDesc": "No OCR was needed — you can already search and copy its text. Your file is unchanged.",
+    "alreadySearchableDesc": "No OCR was needed - you can already search and copy its text. Your file is unchanged.",
     "noTextTitle": "No text could be recognised",
     "noTextDesc": "Try a clearer scan: straight pages, good contrast and at least 300 DPI. Handwriting is not supported.",
     "proUpsellTitle": "Want more from OCR?",

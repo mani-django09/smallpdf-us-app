@@ -65,7 +65,7 @@ export default function DownloadUnlockPdf() {
     } else {
       routerRef.current.push("/unlock-pdf")
     }
-  }, []) // ✅ Empty deps — runs once on mount only
+  }, []) // ✅ Empty deps - runs once on mount only
 
   const handleDownload = async (file) => {
     try {
@@ -82,7 +82,7 @@ export default function DownloadUnlockPdf() {
       if (result.fileCount === 1) {
         const response = await fetch(`${API_URL}${result.downloadUrl}`)
         const blob = await response.blob()
-        setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
+        setDownloadedBlob(blob)  // reuse for print - backend deletes file after first serve
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url
@@ -96,7 +96,7 @@ export default function DownloadUnlockPdf() {
       } else {
         const response = await fetch(`${API_URL}/api/download-unlocked/${result.jobId}`)
         const blob = await response.blob()
-        setDownloadedBlob(blob)  // reuse for print — backend deletes file after first serve
+        setDownloadedBlob(blob)  // reuse for print - backend deletes file after first serve
         const url = window.URL.createObjectURL(blob)
         const a = document.createElement("a")
         a.href = url

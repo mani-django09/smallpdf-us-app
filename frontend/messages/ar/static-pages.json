@@ -1,6 +1,6 @@
 {
   "contact": {
-    "pageTitle": "اتصل بنا — SmallPDF.us",
+    "pageTitle": "اتصل بنا - SmallPDF.us",
     "pageDescription": "تواصل مع فريق SmallPDF.us. نقرأ كل رسالة ونردّ خلال 24 ساعة.",
     "heroTitle": "يسعدنا أن نسمع منك",
     "heroSubtitle": "سؤال أو خلل أو اقتراح ميزة؟ أرسل لنا رسالة، فأشخاص حقيقيون يقرؤون كل واحدة منها.",
@@ -41,7 +41,7 @@
     ]
   },
   "about": {
-    "pageTitle": "من نحن — SmallPDF.us",
+    "pageTitle": "من نحن - SmallPDF.us",
     "pageDescription": "تعرّف على فريق SmallPDF.us ومهمته: أدوات PDF مجانية وخاصة وقوية للجميع.",
     "heroTitle": "مبني لكل من يتعامل مع ملفات PDF",
     "heroSubtitle": "مشروع مستقل قائم على قناعة واحدة: أدوات PDF الرائعة يجب أن تكون مجانية وسريعة وخاصة، دون حيل.",
@@ -124,7 +124,7 @@
     ]
   },
   "privacy": {
-    "layoutTitle": "سياسة الخصوصية — SmallPDF.us",
+    "layoutTitle": "سياسة الخصوصية - SmallPDF.us",
     "layoutDescription": "سياسة الخصوصية في SmallPDF.us. نعالج ملفاتك ونحذفها خلال ساعة. دون تتبّع ودون بيع للبيانات.",
     "heroTitle": "خصوصيتك هي بنية نظامنا",
     "lastUpdated": "آخر تحديث: مارس 2026",
@@ -219,7 +219,7 @@
     "bottomRefund": "سياسة الاسترداد"
   },
   "terms": {
-    "layoutTitle": "شروط الخدمة — SmallPDF.us",
+    "layoutTitle": "شروط الخدمة - SmallPDF.us",
     "layoutDescription": "اقرأ شروط الخدمة في SmallPDF.us. مجاني، دون رسوم مخفية، وتُحذف الملفات خلال ساعة.",
     "heroTitle": "شروط الخدمة",
     "lastUpdated": "آخر تحديث: مارس 2026",
@@ -293,7 +293,7 @@
     "bottomRefund": "سياسة الاسترداد"
   },
   "refund": {
-    "seoTitle": "سياسة الاسترداد — استرداد المال خلال 14 يوماً | SmallPDF.us",
+    "seoTitle": "سياسة الاسترداد - استرداد المال خلال 14 يوماً | SmallPDF.us",
     "seoDescription": "يقدّم SmallPDF.us ضمان استرداد المال خلال 14 يوماً للمشتركين الجدد. تعرّف على كيفية طلب الاسترداد لباقات Starter أو Pro أو Agency.",
     "seoKeywords": "سياسة استرداد smallpdf, ضمان استرداد المال, إلغاء الاشتراك, الفوترة",
     "badge": "سياسة الاسترداد",
@@ -373,13 +373,13 @@
     "contactPara": "لطلبات الاسترداد أو أسئلة الفوترة أو مساعدة الإلغاء، تواصل مع فريق الدعم لدينا:",
     "contactEmail": "contact@smallpdf.us",
     "contactResponseTime": "نسعى إلى الردّ خلال يومَي عمل",
-    "contactSubjectHint": "طلب استرداد — SmallPDF.us",
+    "contactSubjectHint": "طلب استرداد - SmallPDF.us",
     "ctaTitle": "أسئلة عن الاسترداد؟",
     "ctaSubtitle": "يسعدنا مساعدتك. راسلنا وسنتولى الأمر.",
     "ctaRequestBtn": "اطلب استرداداً",
     "ctaTermsBtn": "شروط الخدمة",
     "ctaPrivacyBtn": "سياسة الخصوصية",
-    "pageTitle": "سياسة الاسترداد — استرداد المال خلال 14 يوماً | SmallPDF.us",
+    "pageTitle": "سياسة الاسترداد - استرداد المال خلال 14 يوماً | SmallPDF.us",
     "pageDescription": "يقدّم SmallPDF.us ضمان استرداد المال خلال 14 يوماً للمشتركين الجدد. تعرّف على كيفية طلب الاسترداد لباقات Starter أو Pro أو Agency.",
     "pageKeywords": "سياسة استرداد smallpdf, ضمان استرداد المال, إلغاء الاشتراك, الفوترة",
     "sidebarTitle": "تحتاج إلى استرداد؟",
@@ -412,7 +412,7 @@
     "cancelIntlDesc": "تتجدد الباقات الدولية تلقائياً شهرياً أو سنوياً عبر Lemon Squeezy حتى تُلغى. ويمكنك الإلغاء في أي وقت من لوحة حسابك تحت الإعدادات ← الاشتراك، أو عبر رابط بوابة الفوترة في Lemon Squeezy في رسالة تأكيد الدفع. وتبقى باقتك فعّالة حتى نهاية دورة الفوترة الحالية. ولا تُصدَر مبالغ مستردة نسبية عن الأيام المتبقية بعد الإلغاء.",
     "contactIntro": "لطلبات الاسترداد أو أسئلة الفوترة أو مساعدة الإلغاء، تواصل مع فريق الدعم لدينا:",
     "contactResponse": "نسعى إلى الردّ خلال يومَي عمل",
-    "contactSubject": "طلب استرداد — SmallPDF.us",
+    "contactSubject": "طلب استرداد - SmallPDF.us",
     "ctaDesc": "يسعدنا مساعدتك. راسلنا وسنتولى الأمر.",
     "ctaButton": "اطلب استرداداً",
     "ctaTerms": "شروط الخدمة",

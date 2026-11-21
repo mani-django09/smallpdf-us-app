@@ -97,10 +97,10 @@ const QUOTAS = [
   { plan: "Max",     calls: "100,000 / month", price: "Contact sales" },
 ]
 const ERRORS = [
-  ["200", "—",                          "Success. The processed file is returned in the body."],
+  ["200", "-",                          "Success. The processed file is returned in the body."],
   ["400", "BAD_INPUT",                  "Missing or invalid file / parameters."],
   ["401", "NO_API_KEY · BAD_API_KEY",   "Missing, invalid or revoked key."],
-  ["429", "QUOTA_EXCEEDED",             "Monthly quota used up — upgrade your plan."],
+  ["429", "QUOTA_EXCEEDED",             "Monthly quota used up - upgrade your plan."],
   ["500", "PROCESSING_ERROR",           "The file could not be processed."],
 ]
 

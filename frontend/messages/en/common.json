@@ -15,14 +15,14 @@
   "toolErrors": {
     "passwordProtected": "\"{name}\" is protected with an open password. Remove it with our Unlock PDF tool first, then try again.",
     "alreadyLocked": "\"{name}\" already has an open password. Remove it with our Unlock PDF tool first, then protect it again.",
-    "corrupt": "Could not read \"{name}\". The file may be damaged — try re-saving or re-downloading it.",
-    "unreadableImages": "Could not read: {names}. The image may be damaged or in an unsupported format — save it as JPG or PNG and try again.",
+    "corrupt": "Could not read \"{name}\". The file may be damaged - try re-saving or re-downloading it.",
+    "unreadableImages": "Could not read: {names}. The image may be damaged or in an unsupported format - save it as JPG or PNG and try again.",
     "someSkipped": "Your PDF is ready, but these images could not be read and were left out: {names}",
-    "skippedFiles": "Done — but these files could not be read and were left out: {names}",
+    "skippedFiles": "Done - but these files could not be read and were left out: {names}",
     "fileTooLarge": "\"{name}\" is larger than 100 MB, the maximum per file. Please compress or split it first."
   },
   "extension": {
-    "oneClick": "Use these tools in one click —",
+    "oneClick": "Use these tools in one click -",
     "addToChrome": "Add SmallPDF.us to Chrome",
     "dismiss": "Dismiss",
     "freeExtension": "Free extension",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Free PDF Tools — Convert, Compress & Merge | SmallPDF.us",
-      "description": "27 free PDF and image tools. Convert, compress, merge and split in seconds — free to start. Files encrypted in transit and auto-deleted within 1 hour.",
+      "title": "Free Online PDF Tools: Merge, Split, Convert | SmallPDF.us",
+      "description": "27 free online PDF and image tools. Merge, split, compress, convert, edit and unlock PDFs in seconds. Files are encrypted and deleted after 1 hour.",
       "keywords": "free pdf tools, pdf converter, compress pdf, merge pdf, pdf to word, word to pdf, split pdf, pdf editor online"
     }
   },
@@ -144,7 +144,7 @@
       "delete": "Delete",
       "deleteConfirm": "Delete \"{name}\"? This cannot be undone.",
       "errorLoad": "Could not load your files",
-      "errorDownload": "Download failed — the file may have expired.",
+      "errorDownload": "Download failed - the file may have expired.",
       "errorDelete": "Delete failed",
       "expired": "Expired",
       "leftHours": "{h}h {m}m left",
@@ -180,7 +180,7 @@
       "Batch processing",
       "No ads"
     ],
-    "upgradeBtn": "Upgrade to Pro — Coming Soon",
+    "upgradeBtn": "Upgrade to Pro - Coming Soon",
     "planBadgeFree": "Free",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Enterprise"

@@ -1,9 +1,9 @@
 {
-  "pageTitle": "API PDF — Fusionner, Convertir, Compresser & Protéger des PDFs | SmallPDF.us",
+  "pageTitle": "API PDF - Fusionner, Convertir, Compresser & Protéger des PDFs | SmallPDF.us",
   "pageDescription": "Une API REST simple et rapide pour les PDFs : fusionner, diviser, faire pivoter, compresser, protéger par mot de passe et convertir PDF⇄Word, JPG, PNG. Niveau gratuit, exemples de code en cURL, Node.js & Python.",
   "heroBadge": "API Développeur · v1",
   "heroTitle": "L'API PDF conçue pour les développeurs",
-  "heroDesc": "Un simple endpoint REST par tâche. Fusionnez, convertissez, compressez et protégez des PDFs depuis n'importe quel langage — sans SDK, sans serveurs, sans librairies PDF.",
+  "heroDesc": "Un simple endpoint REST par tâche. Fusionnez, convertissez, compressez et protégez des PDFs depuis n'importe quel langage - sans SDK, sans serveurs, sans librairies PDF.",
   "heroCtaPrimary": "Obtenir une clé API gratuite",
   "heroCtaSecondary": "Démarrage rapide",
   "trust": {
@@ -40,7 +40,7 @@
     "desc": "Chaque requête doit inclure votre clé secrète dans l'en-tête",
     "desc2": ". Créez et gérez vos clés dans votre",
     "dashboard": "tableau de bord",
-    "warning": "Gardez les clés côté serveur — ne les exposez jamais dans le code client."
+    "warning": "Gardez les clés côté serveur - ne les exposez jamais dans le code client."
   },
   "baseUrl": {
     "desc": "Tous les endpoints sont",

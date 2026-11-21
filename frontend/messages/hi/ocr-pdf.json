@@ -1,19 +1,19 @@
 {
   "seo": {
-    "title": "OCR PDF फ़्री — स्कैन की हुई PDF से टेक्स्ट निकालें | SmallPDF.us",
-    "description": "स्कैन की हुई PDF को खोजने लायक टेक्स्ट वाली PDF बनाएँ, फ़्री में। हमारा OCR अंग्रेज़ी (English) टेक्स्ट पढ़ता है। कुछ इंस्टॉल नहीं करना।",
+    "title": "PDF OCR: स्कैन्ड PDF से टेक्स्ट निकालें | SmallPDF.us",
+    "description": "स्कैन्ड PDF को फ्री ऑनलाइन OCR से सर्चेबल और कॉपी होने लायक बनाएं। सर्चेबल PDF डाउनलोड करें; Word और TXT पेड प्लान में। इंस्टॉल की ज़रूरत नहीं।",
     "keywords": "OCR PDF, PDF से टेक्स्ट निकालें, स्कैन की गई PDF से टेक्स्ट, PDF OCR ऑनलाइन, PDF को खोजने योग्य बनाएँ, मुफ़्त OCR टूल, PDF टेक्स्ट एक्सट्रैक्शन, खोजने योग्य PDF"
   },
   "hero": {
-    "title": "OCR PDF —",
-    "titleHighlight": "टेक्स्ट निकालें",
-    "titleSuffix": "किसी भी स्कैन किए काग़ज़ से",
+    "title": "PDF OCR ऑनलाइन:",
+    "titleHighlight": "स्कैन्ड PDF",
+    "titleSuffix": "से टेक्स्ट निकालें",
     "subtitle": "स्कैन की हुई या फ़ोन से खींची PDF को ऐसी फ़ाइल बनाएँ जिसका टेक्स्ट खोजा और कॉपी किया जा सके। अभी अंग्रेज़ी टेक्स्ट सबसे अच्छे से पढ़ा जाता है। कुछ इंस्टॉल नहीं करना।"
   },
   "upload": {
     "dropActive": "अपनी PDF यहाँ छोड़ें",
     "heading": "स्कैन की गई PDF अपलोड करें",
-    "subheading": "खींचकर छोड़ें या क्लिक करके चुनें — सिर्फ़ PDF",
+    "subheading": "खींचकर छोड़ें या क्लिक करके चुनें - सिर्फ़ PDF",
     "button": "OCR के लिए PDF चुनें",
     "sslEncrypted": "SSL एन्क्रिप्टेड",
     "filesDeleted": "फ़ाइलें 1 घंटे में डिलीट",
@@ -58,7 +58,7 @@
     ]
   },
   "howItWorks": {
-    "sectionTitle": "कैसे करें — 3 आसान स्टेप",
+    "sectionTitle": "कैसे करें - 3 आसान स्टेप",
     "sectionSubtitle": "स्कैन अपलोड करें और खोजने लायक PDF डाउनलोड करें।",
     "steps": [
       {
@@ -171,10 +171,10 @@
   "cta": {
     "heading": "अपनी PDF को खोजने योग्य बनाएँ",
     "subtitle": "स्कैन की हुई PDF अपलोड करें और ऐसी PDF पाएँ जिसका टेक्स्ट खोजा और कॉपी किया जा सके। शुरू करना फ़्री।",
-    "button": "अभी OCR शुरू करें — फ़्री"
+    "button": "अभी OCR शुरू करें - फ़्री"
   },
   "preview": {
-    "pageTitle": "OCR PDF प्रीव्यू — SmallPDF.us",
+    "pageTitle": "OCR PDF प्रीव्यू - SmallPDF.us",
     "changeFile": "फ़ाइल बदलें",
     "headerTitle": "टेक्स्ट निकालने के लिए तैयार",
     "headerSubtitle": "अपनी फ़ाइल देखें और OCR चलाएँ",
@@ -187,10 +187,10 @@
     "receiveDocx": "निकाले गए टेक्स्ट वाली Word फ़ाइल (.docx)",
     "receiveTxt": "आसान कॉपी-पेस्ट के लिए सादी टेक्स्ट फ़ाइल (.txt)",
     "receiveProOnly": "Word और TXT एक्सपोर्ट (केवल Pro)",
-    "runOcrButton": "OCR चलाएँ — टेक्स्ट निकालें",
+    "runOcrButton": "OCR चलाएँ - टेक्स्ट निकालें",
     "securePrivate": "सुरक्षित और निजी",
     "autoDeleted": "1 घंटे में अपने-आप डिलीट",
-    "pleaseWait": "कृपया रुकें — यह टैब बंद न करें",
+    "pleaseWait": "कृपया रुकें - यह टैब बंद न करें",
     "ocrFailed": "OCR विफल रहा",
     "tryAgain": "दोबारा कोशिश करें",
     "upgradeToPro": "Pro में अपग्रेड करें",
@@ -215,7 +215,7 @@
     "advertisement": "विज्ञापन"
   },
   "process": {
-    "pageTitle": "OCR प्रोसेसिंग — SmallPDF.us",
+    "pageTitle": "OCR प्रोसेसिंग - SmallPDF.us",
     "backLink": "OCR PDF पर वापस",
     "processingTitle": "OCR जारी है…",
     "standardQueue": "आम लाइन। Pro वालों का काम पहले होता है।",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "OCR PDF डाउनलोड करें — SmallPDF.us",
+    "pageTitle": "OCR PDF डाउनलोड करें - SmallPDF.us",
     "successTitle": "OCR पूरा हुआ!",
     "pagesProcessed": "{count} पेज प्रोसेस हुआ",
     "wordsExtracted": "~{count} शब्द निकाले गए",
@@ -257,7 +257,7 @@
     "imagePdfUpgrade": "Pro में अपग्रेड करें",
     "imagePdfUpgradeSuffix": "स्कैन किए काग़ज़ों पर बेहतर OCR के लिए।",
     "alreadySearchableTitle": "आपकी PDF में पहले से टेक्स्ट था",
-    "alreadySearchableDesc": "OCR की ज़रूरत नहीं पड़ी — इसका टेक्स्ट आप पहले से खोज और कॉपी कर सकते हैं। फ़ाइल वैसी ही है।",
+    "alreadySearchableDesc": "OCR की ज़रूरत नहीं पड़ी - इसका टेक्स्ट आप पहले से खोज और कॉपी कर सकते हैं। फ़ाइल वैसी ही है।",
     "noTextTitle": "कोई टेक्स्ट नहीं पढ़ा जा सका",
     "noTextDesc": "ज़्यादा साफ़ स्कैन आज़माएँ: सीधे पेज, अच्छी रोशनी और कम से कम 300 DPI। हाथ की लिखावट नहीं पढ़ी जाती।",
     "proUpsellTitle": "OCR से और चाहिए?",

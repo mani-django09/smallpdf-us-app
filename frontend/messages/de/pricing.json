@@ -1,6 +1,6 @@
 {
-  "pageTitle": "Preise — SmallPDF.us",
-  "metaDescription": "Starter · Pro — monatliche oder jährliche Abrechnung. Alle PDF-Tools, Dateien bis 100 MB, keine Werbung.",
+  "pageTitle": "Preise: Kostenlose und Pro PDF-Tools | SmallPDF.us",
+  "metaDescription": "Die Pakete von SmallPDF.us im Vergleich. Kostenlos für den Alltag; Starter und Pro mit größeren Dateien, Stapelverarbeitung, ohne Werbung und mit Priorität.",
   "badge": "Einfache Preise, keine Überraschungen",
   "hero": {
     "title": "Wähle den passenden Plan",
@@ -11,7 +11,7 @@
     "yearly": "Jährlich",
     "monthsFree": "2 Monate gratis",
     "saveAnnually": "🎉 Spare bis zu $98/Jahr mit Jahresabrechnung",
-    "billedAnnually": "Jährlich abgerechnet — ${total}/Jahr",
+    "billedAnnually": "Jährlich abgerechnet - ${total}/Jahr",
     "billedMonthly": "Monatlich abgerechnet · Jederzeit kündbar",
     "save": "${amount} sparen"
   },
@@ -36,7 +36,7 @@
   "features": {
     "allTools": "Alle PDF- & Bildwerkzeuge",
     "upTo200MB": "Bis zu 100 MB pro Datei (200 MB beim Zusammenführen)",
-    "officeUpTo50MB": "Office-Konvertierungen — bis zu 20 MB",
+    "officeUpTo50MB": "Office-Konvertierungen - bis zu 20 MB",
     "standardProcessing": "Standardverarbeitung",
     "retain24h": "Dateien 24 Stunden gespeichert",
     "adFree": "Werbefreies Erlebnis",
@@ -44,8 +44,8 @@
     "priorityProcessing": "Prioritätsverarbeitung",
     "apiAccess": "API-Zugang",
     "everythingInStarter": "Alles aus Starter",
-    "unlimitedFileSize": "Dateien bis 100 MB — alle Tools",
-    "officeUnlimited": "Office-Konvertierungen — bis zu 100 MB",
+    "unlimitedFileSize": "Dateien bis 100 MB - alle Tools",
+    "officeUnlimited": "Office-Konvertierungen - bis zu 100 MB",
     "priorityQueue": "Prioritäts-Warteschlange",
     "retain48h": "Dateien 48 Stunden gespeichert",
     "batch20": "Bis zu 20 Dateien pro Batch",
@@ -59,14 +59,14 @@
     "priorityPhoneEmail": "Prioritäts-Telefon- & E-Mail-Support",
     "customInvoicing": "Individuelle Rechnungsstellung möglich",
     "upTo100MB": "Bis zu 5–25 MB pro Datei",
-    "officeUpTo15MB": "Office-Konvertierungen — bis zu 5 MB",
+    "officeUpTo15MB": "Office-Konvertierungen - bis zu 5 MB",
     "retain1h": "Dateien nach 1 Stunde gelöscht",
     "adsShown": "Werbung wird angezeigt"
   },
   "currentPlan": "Aktueller Plan",
   "perMonth": "/Monat",
   "freeBanner": {
-    "title": "Kostenloser Plan — immer verfügbar",
+    "title": "Kostenloser Plan - immer verfügbar",
     "subtitle": "5 kostenlose Nutzungen pro Tag · Alle Tools · 5–25 MB Limit · 1 Stunde Aufbewahrung · Werbung",
     "signupLink": "Kostenlos registrieren →"
   },
@@ -119,7 +119,7 @@
   "toolLimits": {
     "title": "Limits pro Tool",
     "subtitle": "Genaue Dateigrößen- und Batch-Limits für jedes Tool, aufgeschlüsselt nach Plan.",
-    "singleFileNote": "— = Einzeldatei-Tool (kein Batch-Limit)",
+    "singleFileNote": "- = Einzeldatei-Tool (kein Batch-Limit)",
     "colSize": "Größe · Batch",
     "groups": {
       "pdfTools": "PDF-Tools",
@@ -132,11 +132,11 @@
     "items": [
       {
         "q": "Was ist der Unterschied zwischen monatlicher und jährlicher Abrechnung?",
-        "a": "Monatliche Abrechnung wird jeden Monat berechnet. Jährliche Abrechnung wird einmal pro Jahr zu einem ermäßigten Tarif berechnet — entspricht 2 Monaten gratis (du zahlst für 10, erhältst 12). Du kannst deinen bevorzugten Abrechnungszyklus beim Checkout wählen."
+        "a": "Monatliche Abrechnung wird jeden Monat berechnet. Jährliche Abrechnung wird einmal pro Jahr zu einem ermäßigten Tarif berechnet - entspricht 2 Monaten gratis (du zahlst für 10, erhältst 12). Du kannst deinen bevorzugten Abrechnungszyklus beim Checkout wählen."
       },
       {
         "q": "Kann ich jederzeit kündigen?",
-        "a": "Ja — kündige mit einem Klick auf deiner Konto-Abonnementseite. Dein Plan bleibt bis zum Ende des aktuellen Abrechnungszeitraums aktiv und wechselt dann automatisch auf Kostenlos. Keine versteckten Gebühren."
+        "a": "Ja - kündige mit einem Klick auf deiner Konto-Abonnementseite. Dein Plan bleibt bis zum Ende des aktuellen Abrechnungszeitraums aktiv und wechselt dann automatisch auf Kostenlos. Keine versteckten Gebühren."
       },
       {
         "q": "Kann ich nach der Anmeldung zwischen monatlicher und jährlicher Abrechnung wechseln?",
@@ -144,7 +144,7 @@
       },
       {
         "q": "Welche Zahlungsmethoden werden akzeptiert?",
-        "a": "Alle gängigen Kredit-/Debitkarten (Visa, Mastercard, RuPay), UPI, Online-Banking und Wallets — sicher verarbeitet über Razorpay. Alle Transaktionen sind PCI-DSS-konform."
+        "a": "Alle gängigen Kredit-/Debitkarten (Visa, Mastercard, RuPay), UPI, Online-Banking und Wallets - sicher verarbeitet über Razorpay. Alle Transaktionen sind PCI-DSS-konform."
       },
       {
         "q": "Was passiert mit meinen Dateien nach der Aufbewahrungszeit?",
@@ -152,23 +152,23 @@
       },
       {
         "q": "Gibt es eine Rückerstattungsrichtlinie?",
-        "a": "Ja — wenn du nicht zufrieden bist innerhalb von 14 Tagen nach deiner ersten Zahlung, kontaktiere uns für eine vollständige Rückerstattung. Keine Fragen gestellt."
+        "a": "Ja - wenn du nicht zufrieden bist innerhalb von 14 Tagen nach deiner ersten Zahlung, kontaktiere uns für eine vollständige Rückerstattung. Keine Fragen gestellt."
       },
       {
         "q": "Unterstützt der Agency-Plan mehrere Benutzer?",
-        "a": "Ja — Agency umfasst 5 Team-Plätze. Jeder Platz erhält seinen eigenen Login mit gemeinsamer Abrechnung unter einem Konto. Benötigst du mehr? Kontaktiere uns."
+        "a": "Ja - Agency umfasst 5 Team-Plätze. Jeder Platz erhält seinen eigenen Login mit gemeinsamer Abrechnung unter einem Konto. Benötigst du mehr? Kontaktiere uns."
       }
     ]
   },
   "bottomCta": {
     "title": "Tarif upgraden",
     "subtitle": "Schließe dich Profis weltweit an, die SmallPDF.us nutzen. Jederzeit kündbar.",
-    "proBtnMonthly": "Pro holen — $19/Monat",
-    "proBtnYearly": "Pro holen — $190/Jahr",
-    "starterBtn": "Starter holen — $9/Monat"
+    "proBtnMonthly": "Pro holen - $19/Monat",
+    "proBtnYearly": "Pro holen - $190/Jahr",
+    "starterBtn": "Starter holen - $9/Monat"
   },
   "notices": {
-    "checkoutCancelled": "Checkout abgebrochen — es wurde keine Zahlung vorgenommen.",
+    "checkoutCancelled": "Checkout abgebrochen - es wurde keine Zahlung vorgenommen.",
     "dismiss": "Schließen",
     "contactSupport": "Support kontaktieren"
   },
@@ -213,6 +213,6 @@
   "perYear": "/Jahr",
   "secureCheckout": "Sichere Bezahlung",
   "payPalInstead": "Stattdessen mit PayPal bezahlen",
-  "annualSelected": "Jahresabrechnung gewählt — 17 % Rabatt, wird an der Kasse abgezogen",
+  "annualSelected": "Jahresabrechnung gewählt - 17 % Rabatt, wird an der Kasse abgezogen",
   "poweredBy": "Bereitgestellt von {name}"
 }

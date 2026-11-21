@@ -619,14 +619,14 @@ async function scheduleWelcomeSequence({ name, email }) {
           title: `More tools you might have missed`,
           body: `
 <p>Hi ${firstName},</p>
-<p>You've already discovered our PDF tools — here are a few more that power users love:</p>
+<p>You've already discovered our PDF tools - here are a few more that power users love:</p>
 <ul style="padding-left:20px;color:#374151;line-height:2;">
-  <li><strong>OCR PDF</strong> — Extract text from scanned PDFs (supports 100+ languages)</li>
-  <li><strong>PDF to Excel</strong> — Convert tables in PDFs directly to .xlsx files</li>
-  <li><strong>Unlock PDF</strong> — Remove password protection from any PDF</li>
-  <li><strong>Split PDF</strong> — Extract specific pages from a large document</li>
+  <li><strong>OCR PDF</strong> - Extract text from scanned PDFs (English, Arabic, Turkish and Vietnamese)</li>
+  <li><strong>PDF to Excel</strong> - Convert tables in PDFs directly to .xlsx files</li>
+  <li><strong>Unlock PDF</strong> - Remove password protection from any PDF</li>
+  <li><strong>Split PDF</strong> - Extract specific pages from a large document</li>
 </ul>
-<p style="color:#6b7280;font-size:14px;">All of these work right in your browser — no software needed.</p>`,
+<p style="color:#6b7280;font-size:14px;">All of these work right in your browser - no software needed.</p>`,
           buttonText: 'See All 18 Tools',
           buttonUrl: `${siteUrl}/`,
           footer: `You're receiving this because you signed up at SmallPDF.us. <a href="${siteUrl}/account/" style="color:#DC2626;">Manage preferences</a>`,

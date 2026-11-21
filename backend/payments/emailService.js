@@ -29,7 +29,7 @@ function createTransporter() {
 
 async function sendEmail({ to, subject, html }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn('⚠️  SMTP not configured — skipping email to', to)
+    console.warn('⚠️  SMTP not configured - skipping email to', to)
     return
   }
   try {
@@ -229,7 +229,7 @@ async function sendCancellationScheduledEmail({ name, email, plan, expiresAt }) 
       <div style="text-align:center;margin:24px 0;">
         ${btn('Reactivate Plan →', `${SITE}/pricing`)}
       </div>
-      ${p('We\'re sorry to see you go. If you had any issues, please let us know at <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a> — we\'d love to help.', 'font-size:13px;color:#94a3b8;')}
+      ${p('We\'re sorry to see you go. If you had any issues, please let us know at <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a> - we\'d love to help.', 'font-size:13px;color:#94a3b8;')}
     `),
   })
 }
@@ -305,16 +305,16 @@ async function sendAbandonedCheckoutEmail({ name, email, plan }) {
     html: wrap(`
       ${h1('Your upgrade is almost done')}
       ${p(`Hi ${name || 'there'},`)}
-      ${p(`You started upgrading to the <strong>${label}</strong> plan, but the payment was never completed — often because the UPI approval step in your bank app got missed.`)}
+      ${p(`You started upgrading to the <strong>${label}</strong> plan, but the payment was never completed - often because the UPI approval step in your bank app got missed.`)}
       ${infoBox([
         ['Plan',   label],
         ['Status', '⏳ Awaiting payment authorisation'],
       ])}
-      ${p('If you paid by UPI, check your banking app for a pending mandate approval. Otherwise, just start again below — it takes under a minute.')}
+      ${p('If you paid by UPI, check your banking app for a pending mandate approval. Otherwise, just start again below - it takes under a minute.')}
       <div style="text-align:center;margin:24px 0;">
         ${btn('Complete Your Upgrade →', `${SITE}/pricing`)}
       </div>
-      ${p(`Changed your mind? No action needed — you'll stay on the free plan. Questions? Reply to this email or write to <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a>.`, 'font-size:13px;color:#94a3b8;')}
+      ${p(`Changed your mind? No action needed - you'll stay on the free plan. Questions? Reply to this email or write to <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a>.`, 'font-size:13px;color:#94a3b8;')}
     `),
   })
 }
@@ -331,17 +331,17 @@ async function sendFreeUserNurtureEmail({ name, email, isIndia }) {
     html: wrap(`
       ${h1('Still on the free plan? Here\'s what you\'re missing')}
       ${p(`Hi ${name || 'there'},`)}
-      ${p(`Thanks for trying SmallPDF.us. The free plan works great for the occasional file — but if you're compressing, converting, or merging often, here's what <strong>Starter</strong> (${starterPrice}) adds:`)}
+      ${p(`Thanks for trying SmallPDF.us. The free plan works great for the occasional file - but if you're compressing, converting, or merging often, here's what <strong>Starter</strong> (${starterPrice}) adds:`)}
       <ul style="margin:0 0 20px;padding-left:20px;color:#475569;font-size:14px;line-height:2;">
-        <li><strong>Bigger files</strong> — up to 20MB per upload instead of 15MB</li>
-        <li><strong>Bigger batches</strong> — process up to 10 files at once instead of 2</li>
-        <li><strong>Zero ads</strong> — a clean, uninterrupted workspace</li>
-        <li><strong>Priority processing</strong> — your files skip the queue</li>
+        <li><strong>Bigger files</strong> - up to 20MB per upload instead of 15MB</li>
+        <li><strong>Bigger batches</strong> - process up to 10 files at once instead of 2</li>
+        <li><strong>Zero ads</strong> - a clean, uninterrupted workspace</li>
+        <li><strong>Priority processing</strong> - your files skip the queue</li>
       </ul>
       <div style="text-align:center;margin:24px 0;">
         ${btn('See Plans & Pricing →', `${SITE}/pricing`)}
       </div>
-      ${p(`Not ready yet? No problem — the free plan isn't going anywhere. Questions? Reply to this email or write to <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a>.`, 'font-size:13px;color:#94a3b8;')}
+      ${p(`Not ready yet? No problem - the free plan isn't going anywhere. Questions? Reply to this email or write to <a href="mailto:${SUPPORT}" style="color:#dc2626;">${SUPPORT}</a>.`, 'font-size:13px;color:#94a3b8;')}
       ${p(`Payment: ${payment}`, 'font-size:12px;color:#cbd5e1;')}
     `),
   })

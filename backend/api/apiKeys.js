@@ -130,7 +130,7 @@ router.post('/', requireAuth, async (req, res) => {
       'INSERT INTO api_keys (user_id, name, key_hash, key_prefix) VALUES (?, ?, ?, ?)',
       [req.user.id, name, hashKey(rawKey), prefix]
     )
-    res.json({ success: true, key: rawKey, name, note: 'Store this key now — it will not be shown again.' })
+    res.json({ success: true, key: rawKey, name, note: 'Store this key now - it will not be shown again.' })
   } catch (err) {
     console.error('[apiKeys] create error:', err.message)
     res.status(500).json({ success: false, error: 'Could not create API key' })

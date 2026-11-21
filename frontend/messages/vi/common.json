@@ -15,14 +15,14 @@
   "toolErrors": {
     "passwordProtected": "\"{name}\" được bảo vệ bằng mật khẩu mở tệp. Hãy gỡ mật khẩu bằng công cụ Mở khóa PDF của chúng tôi trước, rồi thử lại.",
     "alreadyLocked": "\"{name}\" đã có mật khẩu mở tệp. Hãy gỡ mật khẩu bằng công cụ Mở khóa PDF của chúng tôi trước, rồi bảo vệ lại.",
-    "corrupt": "Không thể đọc \"{name}\". Tệp có thể bị hỏng — hãy thử lưu lại hoặc tải lại tệp.",
-    "unreadableImages": "Không thể đọc: {names}. Ảnh có thể bị hỏng hoặc có định dạng không được hỗ trợ — hãy lưu thành JPG hoặc PNG rồi thử lại.",
+    "corrupt": "Không thể đọc \"{name}\". Tệp có thể bị hỏng - hãy thử lưu lại hoặc tải lại tệp.",
+    "unreadableImages": "Không thể đọc: {names}. Ảnh có thể bị hỏng hoặc có định dạng không được hỗ trợ - hãy lưu thành JPG hoặc PNG rồi thử lại.",
     "someSkipped": "PDF của bạn đã sẵn sàng, nhưng những ảnh sau không đọc được và đã bị bỏ qua: {names}",
-    "skippedFiles": "Hoàn tất — nhưng những tệp sau không đọc được và đã bị bỏ qua: {names}",
+    "skippedFiles": "Hoàn tất - nhưng những tệp sau không đọc được và đã bị bỏ qua: {names}",
     "fileTooLarge": "\"{name}\" lớn hơn 100 MB, mức tối đa cho mỗi tệp. Vui lòng nén hoặc tách tệp trước."
   },
   "extension": {
-    "oneClick": "Dùng các công cụ này chỉ với một lần nhấp —",
+    "oneClick": "Dùng các công cụ này chỉ với một lần nhấp -",
     "addToChrome": "Thêm SmallPDF.us vào Chrome",
     "dismiss": "Đóng",
     "freeExtension": "Tiện ích miễn phí",
@@ -102,8 +102,8 @@
   },
   "seo": {
     "home": {
-      "title": "Công cụ PDF miễn phí — Chuyển đổi, Nén & Gộp PDF | SmallPDF.us",
-      "description": "27 công cụ PDF và ảnh miễn phí. Chuyển đổi, nén, gộp và tách tệp chỉ trong vài giây — miễn phí để bắt đầu. Tệp được mã hóa khi truyền tải và tự động xóa trong vòng 1 giờ.",
+      "title": "Công cụ PDF miễn phí: Gộp, Tách, Nén | SmallPDF.us",
+      "description": "27 công cụ online miễn phí cho PDF và hình ảnh. Gộp, tách, nén, chuyển đổi, chỉnh sửa và mở khóa PDF trong vài giây. Tệp được mã hóa và xóa sau 1 giờ.",
       "keywords": "công cụ pdf miễn phí, chuyển đổi pdf, nén pdf, gộp pdf, pdf sang word, word sang pdf, tách pdf, chỉnh sửa pdf online"
     }
   },
@@ -144,7 +144,7 @@
       "delete": "Xóa",
       "deleteConfirm": "Xóa \"{name}\"? Hành động này không thể hoàn tác.",
       "errorLoad": "Không thể tải các tệp của bạn",
-      "errorDownload": "Tải xuống thất bại — tệp có thể đã hết hạn.",
+      "errorDownload": "Tải xuống thất bại - tệp có thể đã hết hạn.",
       "errorDelete": "Xóa thất bại",
       "expired": "Đã hết hạn",
       "leftHours": "Còn {h} giờ {m} phút",
@@ -180,7 +180,7 @@
       "Xử lý hàng loạt",
       "Không quảng cáo"
     ],
-    "upgradeBtn": "Nâng cấp lên Pro — Sắp ra mắt",
+    "upgradeBtn": "Nâng cấp lên Pro - Sắp ra mắt",
     "planBadgeFree": "Miễn phí",
     "planBadgePro": "Pro",
     "planBadgeEnterprise": "Doanh nghiệp"

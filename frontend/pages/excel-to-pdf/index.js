@@ -282,7 +282,7 @@ export default function ExcelToPDF() {
         <div className="bg-gradient-to-br from-white via-emerald-50 to-teal-50 border-b border-emerald-200">
           <div className="max-w-4xl mx-auto px-4 pt-4 pb-4 text-center">
             <h1 className="font-display text-3xl md:text-4xl font-bold text-slate-900 mb-3">
-              {t('excelToPdf.uploadTitle')} <span className="text-emerald-600">{t('excelToPdf.heroHighlight')}</span>
+              {t('excelToPdf.heroTitle')}
             </h1>
 
             <p className="font-body text-base text-slate-600 max-w-2xl mx-auto mb-2">

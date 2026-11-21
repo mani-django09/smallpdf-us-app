@@ -12,7 +12,7 @@ import { getApiUrl } from "../../lib/getApiUrl"
 import { getPageMessages } from "../../lib/i18nLoader"
 
 function fmtDate(d) {
-  if (!d) return "—"
+  if (!d) return "-"
   return new Date(d).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
 }
 
@@ -123,7 +123,7 @@ export default function ApiDashboard() {
         {newKey && (
           <div className="bg-emerald-50 border-2 border-emerald-200 rounded-xl p-4 mb-6">
             <p className="text-sm font-semibold text-emerald-900 mb-1">Your new API key</p>
-            <p className="text-xs text-emerald-700 mb-3">Copy it now — for security we won't show it again.</p>
+            <p className="text-xs text-emerald-700 mb-3">Copy it now - for security we won't show it again.</p>
             <div className="flex items-center gap-2">
               <code className="flex-1 bg-white border border-emerald-200 rounded-lg px-3 py-2 text-xs font-mono text-gray-800 break-all">{newKey}</code>
               <button onClick={copyKey} className="flex-shrink-0 inline-flex items-center gap-1 bg-emerald-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-emerald-700">

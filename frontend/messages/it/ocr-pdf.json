@@ -1,19 +1,19 @@
 {
   "seo": {
-    "title": "OCR PDF gratis – estrai testo da scansioni | SmallPDF.us",
-    "description": "Trasforma PDF scansionati o basati su immagini in documenti ricercabili. Oltre 100 lingue, output in PDF ricercabile o Word. Nessuna installazione.",
+    "title": "OCR PDF: testo da un PDF scansionato | SmallPDF.us",
+    "description": "Rendi un PDF scansionato ricercabile e copiabile con OCR online gratis. Scarica un PDF ricercabile; Word e TXT con i piani a pagamento. Senza installazioni.",
     "keywords": "OCR PDF, estrarre testo da PDF, PDF scansionato in testo, OCR PDF online, rendere PDF ricercabile, strumento OCR gratuito, estrazione testo PDF, riconoscimento ottico caratteri PDF"
   },
   "hero": {
-    "title": "OCR PDF —",
-    "titleHighlight": "Estrai il testo",
-    "titleSuffix": "da qualsiasi documento scansionato",
+    "title": "OCR PDF online:",
+    "titleHighlight": "estrai il",
+    "titleSuffix": "testo da un PDF scansionato",
     "subtitle": "Trasforma PDF basati su immagini, scansionati o fotografati in documenti ricercabili e con testo copiabile. Oltre 100 lingue, senza niente da installare."
   },
   "upload": {
     "dropActive": "Trascina il tuo PDF qui",
     "heading": "Carica un PDF scansionato",
-    "subheading": "Trascina e rilascia o clicca per sfogliare — solo file PDF",
+    "subheading": "Trascina e rilascia o clicca per sfogliare - solo file PDF",
     "button": "Scegli PDF per OCR",
     "sslEncrypted": "Crittografia SSL",
     "filesDeleted": "File eliminati in 1 ora",
@@ -37,7 +37,7 @@
       },
       {
         "title": "100+ lingue rilevate automaticamente",
-        "desc": "Latino, cirillico, arabo, ebraico, CJK (cinese, giapponese, coreano), devanagari, tailandese e altro — il modello di caratteri corretto viene applicato automaticamente per pagina."
+        "desc": "Latino, cirillico, arabo, ebraico, CJK (cinese, giapponese, coreano), devanagari, tailandese e altro - il modello di caratteri corretto viene applicato automaticamente per pagina."
       },
       {
         "title": "PDF ricercabile non distruttivo",
@@ -58,7 +58,7 @@
     ]
   },
   "howItWorks": {
-    "sectionTitle": "Come funziona — 3 semplici passaggi",
+    "sectionTitle": "Come funziona - 3 semplici passaggi",
     "sectionSubtitle": "Carica una scansione e scarica un PDF ricercabile.",
     "steps": [
       {
@@ -79,7 +79,7 @@
     ]
   },
   "useCases": {
-    "sectionTitle": "Chi usa l'OCR PDF — e perché",
+    "sectionTitle": "Chi usa l'OCR PDF - e perché",
     "sectionSubtitle": "Ogni giorno, professionisti di decine di settori si affidano a un OCR preciso per sbloccare i dati bloccati nei loro documenti scansionati.",
     "items": [
       {
@@ -88,7 +88,7 @@
       },
       {
         "title": "Sanità e medicina",
-        "desc": "Digitalizza cartelle cliniche scritte a mano o stampate, referti di laboratorio e prescrizioni — rendendole accessibili ai sistemi EHR e alle verifiche di conformità."
+        "desc": "Digitalizza cartelle cliniche scritte a mano o stampate, referti di laboratorio e prescrizioni - rendendole accessibili ai sistemi EHR e alle verifiche di conformità."
       },
       {
         "title": "Ricerca accademica",
@@ -111,7 +111,7 @@
   "diveTitle": "Cosa succede davvero quando esegui l'OCR",
   "diveSubtitle": "Come l'OCR legge la tua scansione e cosa influisce sull'accuratezza.",
   "dive1Title": "Rilevamento di testo nativo vs. scansionato",
-  "dive1Desc": "Alcuni PDF contengono già testo nativo selezionabile — in quel caso l'OCR non è necessario. Il nostro strumento rileva ed elabora solo le immagini scansionate, lasciando intatte le pagine che già contengono testo digitale.",
+  "dive1Desc": "Alcuni PDF contengono già testo nativo selezionabile - in quel caso l'OCR non è necessario. Il nostro strumento rileva ed elabora solo le immagini scansionate, lasciando intatte le pagine che già contengono testo digitale.",
   "dive2Title": "Cosa influisce sulla precisione del riconoscimento",
   "dive2Desc": "La precisione dell'OCR dipende dalla qualità della scansione: una risoluzione (DPI) più alta è meglio, meno inclinazione della pagina è meglio, un contrasto maggiore tra testo e sfondo è meglio. Scansioni di bassa qualità, bassa risoluzione o pagine fotografate storte possono causare più errori di riconoscimento.",
   "dive3Title": "Elaborazione di documenti multilingue",
@@ -119,7 +119,7 @@
   "dive4Title": "PDF ricercabile vs. file di testo estratto",
   "dive4Desc": "Puoi scegliere tra due formati di output: un PDF ricercabile che sovrappone un livello di testo invisibile sull'aspetto originale, oppure un file di testo semplice contenente solo il testo riconosciuto. Scegli il primo per archiviare il documento, il secondo per riutilizzare il testo.",
   "dive5Title": "Limiti con la scrittura a mano",
-  "dive5Desc": "L'OCR è ottimizzato per riconoscere testo stampato. La scrittura a mano, in particolare corsiva o disordinata, è significativamente meno precisa del testo stampato — anche uno stampatello ben formato può dare risultati variabili.",
+  "dive5Desc": "L'OCR è ottimizzato per riconoscere testo stampato. La scrittura a mano, in particolare corsiva o disordinata, è significativamente meno precisa del testo stampato - anche uno stampatello ben formato può dare risultati variabili.",
   "dive6Title": "Una nota su tabelle e dati strutturati",
   "dive6Desc": "L'OCR riconosce il testo ma non preserva in modo affidabile la struttura di righe/colonne delle tabelle. Se lo scopo principale del tuo documento è l'estrazione di dati tabellari, il nostro strumento dedicato Da PDF a Excel è più adatto a ricostruire la struttura reale della tabella.",
   "faq": {
@@ -132,7 +132,7 @@
       },
       {
         "q": "Quali tipi di PDF beneficiano dell'OCR?",
-        "a": "Qualsiasi PDF che contiene immagini scansionate di testo — documenti da uno scanner flatbed, foto di fotocamera salvate come PDF, fax, moduli stampati o scansioni di microfilm d'archivio — beneficerà dell'OCR. Se il tuo PDF contiene già testo selezionabile (cioè puoi evidenziare le parole), è un PDF 'nativo' e l'OCR non è necessario."
+        "a": "Qualsiasi PDF che contiene immagini scansionate di testo - documenti da uno scanner flatbed, foto di fotocamera salvate come PDF, fax, moduli stampati o scansioni di microfilm d'archivio - beneficerà dell'OCR. Se il tuo PDF contiene già testo selezionabile (cioè puoi evidenziare le parole), è un PDF 'nativo' e l'OCR non è necessario."
       },
       {
         "q": "Quanto è accurato l'OCR?",
@@ -152,7 +152,7 @@
       },
       {
         "q": "Quali formati di output posso scaricare?",
-        "a": "Gli utenti gratuiti ricevono un PDF ricercabile — visivamente identico all'originale ma con un livello di testo invisibile incorporato che abilita la ricerca Ctrl+F, copia-incolla e strumenti di accessibilità. Gli utenti Pro e Agency possono anche esportare il testo estratto come documento Word .docx formattato o come file .txt grezzo per pipeline di dati, strumenti di traduzione o sistemi di gestione dei contenuti."
+        "a": "Gli utenti gratuiti ricevono un PDF ricercabile - visivamente identico all'originale ma con un livello di testo invisibile incorporato che abilita la ricerca Ctrl+F, copia-incolla e strumenti di accessibilità. Gli utenti Pro e Agency possono anche esportare il testo estratto come documento Word .docx formattato o come file .txt grezzo per pipeline di dati, strumenti di traduzione o sistemi di gestione dei contenuti."
       },
       {
         "q": "Perché l'OCR è limitato a 1 al giorno nel piano gratuito?",
@@ -162,7 +162,7 @@
   },
   "seoContent": {
     "h2": "Cos'è l'OCR e perché il tuo PDF ne ha bisogno?",
-    "p1": "L'OCR (Riconoscimento Ottico dei Caratteri) è la tecnologia che colma il divario tra un PDF piatto basato su immagini e un documento vivo e interattivo. Quando scansioniamo un contratto cartaceo, fotografiamo una ricevuta o salviamo un report stampato come PDF, il file è essenzialmente un'immagine — il computer vede pattern di pixel, non lettere. L'OCR cambia tutto questo.",
+    "p1": "L'OCR (Riconoscimento Ottico dei Caratteri) è la tecnologia che colma il divario tra un PDF piatto basato su immagini e un documento vivo e interattivo. Quando scansioniamo un contratto cartaceo, fotografiamo una ricevuta o salviamo un report stampato come PDF, il file è essenzialmente un'immagine - il computer vede pattern di pixel, non lettere. L'OCR cambia tutto questo.",
     "p2": "Il risultato è un <strong>PDF ricercabile</strong>: visivamente identico all'originale, ma con un livello di testo invisibile e perfettamente allineato sotto le immagini. Ora puoi cercare con Ctrl+F in un contratto di 200 pagine, evidenziare e copiare un paragrafo, o lasciare che gli strumenti di accessibilità narrino il contenuto ai lettori ipovedenti. Gli utenti Pro fanno di più, scaricando il testo estratto come <strong>file Word .docx</strong> modificabile o come <strong>file .txt</strong> grezzo.",
     "h3": "Come SmallPDF.us fornisce risultati OCR precisi",
     "p3": "La precisione nell'elaborazione dei documenti è non negoziabile. Il nostro pipeline OCR passa attraverso quattro fasi ben definite. Prima, il <strong>pretrattamento</strong>: ogni pagina viene analizzata per rotazione, rumore, contrasto e segmentata in regioni di testo e figure non testuali. Secondo, il <strong>rilevamento della lingua</strong>: una scansione campione identifica se stai lavorando in latino, cirillico, arabo, CJK o un altro dei 100+ script supportati. Terzo, il <strong>motore di riconoscimento</strong> esegue l'analisi carattere per carattere. Infine, il <strong>post-trattamento</strong> ricostruisce parole e frasi prima di incorporare il livello di testo nel tuo PDF.",
@@ -171,10 +171,10 @@
   "cta": {
     "heading": "Rendi ricercabile il tuo PDF",
     "subtitle": "Carica un PDF scansionato e scarica un documento ricercabile con testo copiabile. Gratis per iniziare.",
-    "button": "Inizia l'OCR ora — È gratuito"
+    "button": "Inizia l'OCR ora - È gratuito"
   },
   "preview": {
-    "pageTitle": "Anteprima OCR PDF — SmallPDF.us",
+    "pageTitle": "Anteprima OCR PDF - SmallPDF.us",
     "changeFile": "Cambia file",
     "headerTitle": "Pronto per estrarre il testo",
     "headerSubtitle": "Controlla il file ed esegui l'OCR",
@@ -187,10 +187,10 @@
     "receiveDocx": "Documento Word (.docx) con testo estratto",
     "receiveTxt": "File di testo semplice (.txt) per copia-incolla facile",
     "receiveProOnly": "Esportazione Word e TXT (solo Pro)",
-    "runOcrButton": "Esegui OCR — Estrai testo",
+    "runOcrButton": "Esegui OCR - Estrai testo",
     "securePrivate": "Sicuro e privato",
     "autoDeleted": "Auto-eliminato in 1 ora",
-    "pleaseWait": "Attendere — non chiudere questa scheda",
+    "pleaseWait": "Attendere - non chiudere questa scheda",
     "ocrFailed": "OCR fallito",
     "tryAgain": "Riprova",
     "upgradeToPro": "Passa a Pro",
@@ -215,7 +215,7 @@
     "advertisement": "Pubblicità"
   },
   "process": {
-    "pageTitle": "Elaborazione OCR — SmallPDF.us",
+    "pageTitle": "Elaborazione OCR - SmallPDF.us",
     "backLink": "Torna a OCR PDF",
     "processingTitle": "OCR in corso…",
     "standardQueue": "Coda standard. Pro usa una coda prioritaria.",
@@ -240,7 +240,7 @@
     ]
   },
   "download": {
-    "pageTitle": "Scarica OCR PDF — SmallPDF.us",
+    "pageTitle": "Scarica OCR PDF - SmallPDF.us",
     "successTitle": "OCR completato!",
     "pagesProcessed": "{count} pagina{plural} elaborata{plural}",
     "wordsExtracted": "~{count} parole estratte",

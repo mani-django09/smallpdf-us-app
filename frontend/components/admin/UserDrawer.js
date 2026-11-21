@@ -23,7 +23,7 @@ export default function UserDrawer({ api, token, userId, onClose, onUnauthorized
       if (res.status === 401) return onUnauthorized && onUnauthorized()
       const j = await res.json().catch(() => ({}))
       if (!res.ok) throw new Error(j.error || `HTTP ${res.status}`)
-      setNote(`${label} — done`); reload(); onChanged && onChanged()
+      setNote(`${label} - done`); reload(); onChanged && onChanged()
     } catch (e) { setNote(`Failed: ${e.message}`) } finally { setBusy("") }
   }
   const u = data?.user
@@ -42,7 +42,7 @@ export default function UserDrawer({ api, token, userId, onClose, onUnauthorized
             <>
               <div className="flex items-center gap-4">
                 {u.avatar ? <img src={u.avatar} alt="" className="w-14 h-14 rounded-full object-cover" referrerPolicy="no-referrer" /> : <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center text-xl font-bold">{(u.name || u.email || "?")[0].toUpperCase()}</div>}
-                <div className="min-w-0"><div className="font-semibold text-slate-900 truncate">{u.name || "—"}</div><div className="text-sm text-slate-500 truncate flex items-center gap-1"><Mail className="w-3.5 h-3.5 shrink-0" />{u.email}</div>
+                <div className="min-w-0"><div className="font-semibold text-slate-900 truncate">{u.name || "-"}</div><div className="text-sm text-slate-500 truncate flex items-center gap-1"><Mail className="w-3.5 h-3.5 shrink-0" />{u.email}</div>
                   <div className="mt-1.5 flex flex-wrap gap-1.5"><Badge tone={PLAN_TONE[u.plan] || "slate"}>{u.plan}</Badge>{u.email_verified ? <Badge tone="green">verified</Badge> : <Badge tone="amber">unverified</Badge>}{u.is_banned ? <Badge tone="red">banned</Badge> : null}{u.google ? <Badge tone="blue">Google</Badge> : null}</div></div>
               </div>
 
@@ -50,8 +50,8 @@ export default function UserDrawer({ api, token, userId, onClose, onUnauthorized
                 <Row k="User ID">#{u.id}</Row>
                 <Row k="Joined"><span title={formatIST(u.created_at)}>{formatIST(u.created_at, { seconds: false })}</span></Row>
                 <Row k="Last login">{u.last_login_at ? <span title={formatIST(u.last_login_at)}>{timeAgo(u.last_login_at)}</span> : "Never"}</Row>
-                <Row k="Plan ends">{u.plan_expires_at ? formatISTDate(u.plan_expires_at) : u.plan === "free" ? "—" : "no expiry"}</Row>
-                <Row k="Gateway">{[u.has_razorpay && "Razorpay", u.has_paypal && "PayPal", data.subscriptions.some((s) => s.gateway === "lemonsqueezy") && "Lemon Squeezy"].filter(Boolean).join(", ") || "—"}</Row>
+                <Row k="Plan ends">{u.plan_expires_at ? formatISTDate(u.plan_expires_at) : u.plan === "free" ? "-" : "no expiry"}</Row>
+                <Row k="Gateway">{[u.has_razorpay && "Razorpay", u.has_paypal && "PayPal", data.subscriptions.some((s) => s.gateway === "lemonsqueezy") && "Lemon Squeezy"].filter(Boolean).join(", ") || "-"}</Row>
                 {u.is_banned && u.ban_reason ? <Row k="Ban reason">{u.ban_reason}</Row> : null}
               </Section>
 
@@ -71,7 +71,7 @@ export default function UserDrawer({ api, token, userId, onClose, onUnauthorized
 
               <Section title={`Payments (${data.payments.length})`}>
                 {data.payments.length ? <ul className="divide-y divide-slate-100">{data.payments.map((p, i) => (
-                  <li key={i} className="py-2 flex items-center gap-2 text-sm"><Badge tone={{ activated: "green", renewed: "blue", failed: "red" }[p.event] || "slate"}>{p.event}</Badge><span className="text-slate-600">{p.plan} · {p.gateway}</span><span className="ml-auto text-right"><div className="font-semibold">{p.amount ? fmtMoney(p.amount / 100, p.currency) : "—"}</div><div className="text-[11px] text-slate-400">{formatISTDate(p.created_at)}</div></span></li>))}</ul>
+                  <li key={i} className="py-2 flex items-center gap-2 text-sm"><Badge tone={{ activated: "green", renewed: "blue", failed: "red" }[p.event] || "slate"}>{p.event}</Badge><span className="text-slate-600">{p.plan} · {p.gateway}</span><span className="ml-auto text-right"><div className="font-semibold">{p.amount ? fmtMoney(p.amount / 100, p.currency) : "-"}</div><div className="text-[11px] text-slate-400">{formatISTDate(p.created_at)}</div></span></li>))}</ul>
                   : <p className="text-sm text-slate-400">No payments recorded{data.subscriptions.length ? " (older subscription below)" : ""}.</p>}
                 {data.subscriptions.map((s, i) => (<div key={i} className="text-xs text-slate-500 mt-1">{s.gateway} · {s.plan} · <b>{s.status}</b>{s.current_period_end ? ` · until ${formatISTDate(s.current_period_end)}` : ""}</div>))}
               </Section>

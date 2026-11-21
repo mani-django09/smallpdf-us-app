@@ -1,9 +1,9 @@
 {
   "seo": {
-    "title": "PDF in Word umwandeln – kostenlos & ohne Anmeldung | SmallPDF.us",
-    "description": "Wandeln Sie PDF-Dateien kostenlos online in vollständig bearbeitbare Word-Dokumente (.docx) um. Layout, Bilder und Formatierung bleiben so nah wie möglich am Original. Läuft in Ihrem Browser."
+    "title": "PDF in Word umwandeln: Kostenlos zu DOCX | SmallPDF.us",
+    "description": "PDF in Word (DOCX) umwandeln, online und kostenlos. Das bearbeitbare Dokument behält Layout, Tabellen und Bilder. Läuft im Browser, ohne Installation."
   },
-  "heroTitle": "PDF in Word umwandeln",
+  "heroTitle": "PDF in Word umwandeln online & kostenlos",
   "heroTitleHighlight": "kostenlos & sofort",
   "heroSubtitle": "Machen Sie aus Ihren PDF-Dateien bearbeitbare Word-Dokumente, mit einem Layout so nah wie möglich am Original. Laden Sie Ihre Datei hoch und laden Sie die .docx herunter.",
   "dropTitle": "PDF-Dateien hier ablegen",
@@ -58,13 +58,13 @@
   "diveTitle": "Was bei der Umwandlung in Word tatsächlich passiert",
   "diveSubtitle": "Wie Layout, Schriften und gescannte Seiten behandelt werden.",
   "dive1Title": "Bleibt die Formatierung bei der Umwandlung erhalten?",
-  "dive1Desc": "Einfache Dokumente — Absätze, Überschriften, einfache Tabellen — werden fast perfekt konvertiert. Komplexe Layouts mit überlappenden Textfeldern, ungewöhnlichen Schriftersetzungen oder aufwendigen Design-Elementen verschieben sich manchmal leicht, da Words Layout-Engine und das feste PDF-Layout unterschiedlich funktionieren.",
+  "dive1Desc": "Einfache Dokumente - Absätze, Überschriften, einfache Tabellen - werden fast perfekt konvertiert. Komplexe Layouts mit überlappenden Textfeldern, ungewöhnlichen Schriftersetzungen oder aufwendigen Design-Elementen verschieben sich manchmal leicht, da Words Layout-Engine und das feste PDF-Layout unterschiedlich funktionieren.",
   "dive2Title": "Gescannte PDFs benötigen zuerst OCR",
-  "dive2Desc": "Ein gescanntes PDF ist nur ein Bild einer Seite, ohne zugrunde liegenden Text zum Extrahieren — eine direkte Konvertierung ergibt ein leeres oder reines Bilddokument. Unser Konverter führt bei gescannten Seiten automatisch zuerst OCR durch, sodass die entstehende Word-Datei echten, editierbaren Text statt eines Bildes enthält.",
+  "dive2Desc": "Ein gescanntes PDF ist nur ein Bild einer Seite, ohne zugrunde liegenden Text zum Extrahieren - eine direkte Konvertierung ergibt ein leeres oder reines Bilddokument. Unser Konverter führt bei gescannten Seiten automatisch zuerst OCR durch, sodass die entstehende Word-Datei echten, editierbaren Text statt eines Bildes enthält.",
   "dive3Title": "Was Sie danach leicht bearbeiten können und was nicht",
-  "dive3Desc": "Absatztext, Überschriften und einfache Tabellen werden zu vollständig editierbarem Word-Inhalt. Komplexe Grafiken, als Bild eingebettete Diagramme und präzise pixelgenaue Positionierung aus designlastigen PDFs werden oft als Bilder statt als editierbare Objekte konvertiert — sie werden korrekt angezeigt, müssen zum Ändern aber ersetzt werden.",
+  "dive3Desc": "Absatztext, Überschriften und einfache Tabellen werden zu vollständig editierbarem Word-Inhalt. Komplexe Grafiken, als Bild eingebettete Diagramme und präzise pixelgenaue Positionierung aus designlastigen PDFs werden oft als Bilder statt als editierbare Objekte konvertiert - sie werden korrekt angezeigt, müssen zum Ändern aber ersetzt werden.",
   "dive4Title": "Mehrspaltige Layouts und Formulare",
-  "dive4Desc": "Mehrspaltiger Text, etwa in einem Newsletter oder einer wissenschaftlichen Arbeit, wird wo möglich in Words eigene Spaltenformatierung umgewandelt und behält das visuelle Layout bei. Interaktive PDF-Formularfelder werden optisch übernommen, aber die Ausfüllbarkeit selbst geht nicht mit über — Sie sehen die Feldumrisse als normale Elemente.",
+  "dive4Desc": "Mehrspaltiger Text, etwa in einem Newsletter oder einer wissenschaftlichen Arbeit, wird wo möglich in Words eigene Spaltenformatierung umgewandelt und behält das visuelle Layout bei. Interaktive PDF-Formularfelder werden optisch übernommen, aber die Ausfüllbarkeit selbst geht nicht mit über - Sie sehen die Feldumrisse als normale Elemente.",
   "dive5Title": "Schriften, die Ihr Computer nicht hat",
   "dive5Desc": "Verwendet das Original-PDF eine Schrift, die auf Ihrem System nicht installiert ist, ersetzt Word sie beim Öffnen durch die nächstliegende verfügbare Schrift, was Zeilenumbrüche und Abstände leicht verschieben kann. Das vorherige Einbetten der Schrift im PDF liefert, wenn möglich, die genaueste Ersetzung.",
   "dive6Title": "PDF zu Word vs. direkte Konvertierung zu Google Docs",

@@ -132,7 +132,7 @@ export default function RotateDownload() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-3 mt-6">
                 <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">
-                  <div className="text-2xl font-bold text-slate-900">{result.pageCount || "—"}</div>
+                  <div className="text-2xl font-bold text-slate-900">{result.pageCount || "-"}</div>
                   <div className="text-xs text-slate-500 mt-1">{t("rotatePdf.download.pagesLabel")}</div>
                 </div>
                 <div className="text-center p-4 bg-slate-50 rounded-xl border border-slate-100">

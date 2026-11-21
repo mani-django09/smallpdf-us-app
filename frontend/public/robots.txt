@@ -1,4 +1,4 @@
-# robots.txt — smallpdf.us
+# robots.txt - smallpdf.us
 # Last updated: 2026-10-16
 
 User-agent: *
@@ -6,7 +6,7 @@ Allow: /
 Allow: /_next/static/
 Allow: /_next/image/
 
-# Block processing/utility pages — no standalone SEO value
+# Block processing/utility pages - no standalone SEO value
 Disallow: /api/
 Disallow: /account/
 Disallow: /auth/
@@ -16,7 +16,7 @@ Disallow: /payment/
 # every crawled /uploads/ URL turns into a 404 soon after. Keep crawlers out.
 Disallow: /uploads/
 
-# AI search engines and assistants that crawl, browse or cite on a user's behalf —
+# AI search engines and assistants that crawl, browse or cite on a user's behalf -
 # allowed deliberately so smallpdf.us can be cited and linked from ChatGPT, Claude,
 # Perplexity, Gemini, Copilot, Apple, Meta AI etc.
 # IMPORTANT: a crawler that matches a specific group IGNORES the "*" group above,
@@ -50,12 +50,12 @@ Disallow: /admin/
 Disallow: /payment/
 Disallow: /uploads/
 
-# Pure dataset-scraping bots with no referral/citation upside — keep blocked.
+# Pure dataset-scraping bots with no referral/citation upside - keep blocked.
 User-agent: Omgilibot
 Disallow: /
 
 # Bytespider is also nginx-level blocked (confirmed abusive crawl volume,
-# see smallpdf-bots.conf) — Disallow here too for crawlers that respect it.
+# see smallpdf-bots.conf) - Disallow here too for crawlers that respect it.
 User-agent: Bytespider
 Disallow: /
 

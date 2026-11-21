@@ -1,13 +1,13 @@
 {
   "seo": {
-    "title": "PDF से Word फ़्री में बदलें – जल्दी और सुरक्षित | SmallPDF.us",
-    "description": "PDF को ऑनलाइन फ़्री में एडिट होने वाली Word फ़ाइल (.docx) में बदलें। लेआउट, फ़ोटो और फ़ॉर्मेटिंग जितना हो सके असली जैसे रहते हैं। सीधे आपके ब्राउज़र में।"
+    "title": "PDF to Word: PDF को DOCX में बदलें | SmallPDF.us",
+    "description": "PDF को Word (DOCX) में ऑनलाइन फ्री बदलें। लेआउट, टेबल और इमेज के साथ एडिट होने वाला डॉक्यूमेंट पाएं। ब्राउज़र में चलता है, इंस्टॉल नहीं करना।"
   },
-  "heroTitle": "PDF से Word में बदलें",
+  "heroTitle": "PDF को Word में बदलें ऑनलाइन फ्री",
   "heroTitleHighlight": "मुफ़्त और कुछ ही सेकंड में",
   "heroSubtitle": "अपनी PDF को ऐसी Word फ़ाइल में बदलें जिसे आप एडिट कर सकें। लेआउट जितना हो सके असली जैसा रहता है। फ़ाइल अपलोड करें और .docx डाउनलोड करें।",
   "dropTitle": "अपनी PDF फ़ाइलें यहाँ छोड़ें",
-  "dropActive": "अब छोड़ दें — हमें मिल गई!",
+  "dropActive": "अब छोड़ दें - हमें मिल गई!",
   "dropSubtitle": "या अपने डिवाइस से फ़ाइलें चुनने के लिए क्लिक करें",
   "selectFiles": "PDF फ़ाइलें चुनें",
   "pdfFormat": "केवल PDF फ़ॉर्मेट",
@@ -31,7 +31,7 @@
   "errorMaxSize": "फ़ाइल बहुत बड़ी है। फ़्री प्लान में एक फ़ाइल 5 MB तक हो सकती है।",
   "errorNoFiles": "आगे बढ़ने के लिए कम से कम एक PDF फ़ाइल चुनें।",
   "errorProcessing": "फ़ाइल प्रोसेस करते समय कुछ गड़बड़ हो गई। कृपया फिर से कोशिश करें।",
-  "errorPreviewLoading": "प्रीव्यू अभी लोड हो रहा है — कृपया थोड़ा रुकें।",
+  "errorPreviewLoading": "प्रीव्यू अभी लोड हो रहा है - कृपया थोड़ा रुकें।",
   "errorPreviewFailed": "प्रीव्यू लोड नहीं हो सका। फ़ाइल खराब हो सकती है।",
   "featuresTitle": "SmallPDF.us क्यों इस्तेमाल करें?",
   "featuresSubtitle": "हमारा टूल हर PDF को ध्यान से पढ़ता है, ताकि Word फ़ाइल असली PDF जैसी ही बने।",
@@ -85,7 +85,7 @@
   "ctaSubtitle": "एक बार में 1 फ़ाइल के लिए मुफ़्त, 5 MB तक।",
   "ctaButton": "मेरी PDF को Word में बदलें",
   "preview": {
-    "layoutTitle": "PDF से Word में बदलें — प्रीव्यू",
+    "layoutTitle": "PDF से Word में बदलें - प्रीव्यू",
     "layoutDesc": "अपनी फ़ाइलें देखें और Word में कन्वर्ज़न शुरू करें।",
     "loadingText": "आपके दस्तावेज़ लोड हो रहे हैं…",
     "changeFiles": "फ़ाइलें बदलें",
@@ -122,8 +122,8 @@
     "stage5": "आख़िरी काम हो रहा है…",
     "stageComplete": "कन्वर्ज़न पूरा हुआ!",
     "percentComplete": "% पूरा",
-    "convertingText_singular": "{{count}} फ़ाइल बदली जा रही है — कृपया यह टैब बंद न करें।",
-    "convertingText_plural": "{{count}} फ़ाइलें बदली जा रही हैं — कृपया यह टैब बंद न करें।",
+    "convertingText_singular": "{{count}} फ़ाइल बदली जा रही है - कृपया यह टैब बंद न करें।",
+    "convertingText_plural": "{{count}} फ़ाइलें बदली जा रही हैं - कृपया यह टैब बंद न करें।",
     "conversionFailed": "कन्वर्ज़न विफल रहा"
   },
   "download": {
@@ -146,7 +146,7 @@
     "downloadFailed": "डाउनलोड विफल: {{error}}",
     "convertAnother": "और PDF बदलें",
     "shareTitle": "मेरा बदला हुआ Word दस्तावेज़",
-    "shareText": "मैंने SmallPDF.us से अपनी PDF को Word में बदला — आप भी आज़माएँ!",
+    "shareText": "मैंने SmallPDF.us से अपनी PDF को Word में बदला - आप भी आज़माएँ!",
     "editable": "पूरी तरह एडिट होने लायक",
     "encrypted": "एन्क्रिप्टेड और सुरक्षित",
     "expiresIn": "अवधि समाप्त होगी",

@@ -114,7 +114,7 @@ export default function CompressImage() {
         name: f.name,
         size: f.size,
         type: f.file.type,
-        preview: f.preview, // blob URL — valid within same tab session
+        preview: f.preview, // blob URL - valid within same tab session
       }))
 
       sessionStorage.setItem("uploadedCompressImages", JSON.stringify(fileMetadata))

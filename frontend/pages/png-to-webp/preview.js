@@ -42,7 +42,7 @@ export default function PreviewPngToWebp() {
     } else {
       routerRef.current.push("/png-to-webp")
     }
-  }, []) // ✅ Empty deps — runs once on mount only
+  }, []) // ✅ Empty deps - runs once on mount only
 
   const toggleFileSelection = (id) => {
     setSelectedFiles((prev) => (prev.includes(id) ? prev.filter((fid) => fid !== id) : [...prev, id]))

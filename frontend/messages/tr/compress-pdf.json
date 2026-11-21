@@ -1,6 +1,6 @@
 {
   "heroTitle": "PDF Sıkıştır",
-  "heroTitleHighlight": "Online ve Ücretsiz",
+  "heroTitleHighlight": "online ve ücretsiz",
   "heroSubtitle": "Seçtiğiniz moda ve dosyanın içeriğine göre PDF'inizi %20-90 oranında küçültün. Ücretsiz pakette aynı anda 2 dosyaya kadar yükleyebilirsiniz.",
   "uploadPrompt": "PDF'lerinizi Buraya Bırakın",
   "dropActive": "Yüklemek İçin Bırakın!",
@@ -176,8 +176,8 @@
     "alreadyOptimizedDesc": "Bu PDF zaten iyi sıkıştırılmıştı, bu yüzden kalitesini korumak için orijinali bıraktık.",
     "savedBytes": "{size} tasarruf ettiniz"
   },
-  "metaTitle": "PDF Sıkıştır Ücretsiz — Boyutu %90'a Kadar Küçültün | SmallPDF.us",
-  "metaDescription": "PDF dosyalarını çevrimiçi ve ücretsiz sıkıştırın. En Yüksek Kalite, Dengeli ya da Aşırı modla dosya boyutunu %90'a kadar azaltın. Dosyalar 1 saat sonra silinir.",
+  "metaTitle": "PDF Sıkıştır: Boyutu Küçült, Ücretsiz | SmallPDF.us",
+  "metaDescription": "PDF sıkıştırma işlemini online ve ücretsiz yapın. En yüksek kalite, dengeli veya yüksek sıkıştırma ile boyutu %90'a kadar küçültün. Dosyalar 1 saat sonra silinir.",
   "guide": {
     "title": "PDF 100 KB, 200 KB ya da 1 MB'a nasıl sıkıştırılır",
     "intro": "PDF'inizi yukarıdan yükleyin, **Aşırı** sıkıştırmayı seçin ve sonucu indirin. Taranmış ve fotoğraf ağırlıklı PDF'ler genellikle epey küçülür; bu çoğu zaman yalnızca 100 KB ya da 200 KB altındaki dosyaları kabul eden formlar için yeterlidir. Çoğunlukla metinden oluşan PDF'ler zaten küçüktür, bu yüzden daha az küçülür.",

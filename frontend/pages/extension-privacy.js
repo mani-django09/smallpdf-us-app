@@ -7,7 +7,7 @@ export default function ExtensionPrivacy() {
   return (
     <Layout>
       <SEOHead
-        title="Chrome Extension Privacy Policy — SmallPDF.us"
+        title="Chrome Extension Privacy Policy - SmallPDF.us"
         description="Privacy policy for the SmallPDF.us Chrome extension: what data it accesses, what it stores, and what it never sends anywhere."
         noIndex={true}
       />
@@ -31,7 +31,7 @@ export default function ExtensionPrivacy() {
 
           <section>
             <p>
-              This extension is a launcher for smallpdf.us tools — it does not convert or
+              This extension is a launcher for smallpdf.us tools - it does not convert or
               edit files itself. Every action opens the matching tool page on smallpdf.us in
               a new tab, where our{" "}
               <a href="/privacy" className="text-red-600 font-semibold hover:underline">main privacy policy</a>{" "}
@@ -47,7 +47,7 @@ export default function ExtensionPrivacy() {
             <p>
               When <em>you</em> choose a tool for a PDF or image you are viewing (from the popup or the
               right-click menu), the extension downloads that one file and places it into the upload
-              field of the smallpdf.us tool page it just opened — exactly as if you had picked the file
+              field of the smallpdf.us tool page it just opened - exactly as if you had picked the file
               yourself. The file goes only to smallpdf.us, and only after that click. Nothing is
               downloaded or sent without it.
             </p>
@@ -78,8 +78,8 @@ export default function ExtensionPrivacy() {
               <h2 className="text-base font-black text-gray-900">What it reads</h2>
             </div>
             <p>
-              When you open the popup, the extension reads the URL of your <em>current active tab</em> —
-              nothing else, and only at that moment — to suggest a matching tool (for example,
+              When you open the popup, the extension reads the URL of your <em>current active tab</em> -
+              nothing else, and only at that moment - to suggest a matching tool (for example,
               offering "Compress PDF" if you have a .pdf file open). It does not read page
               content or track your browsing.
             </p>
@@ -99,7 +99,7 @@ export default function ExtensionPrivacy() {
             <p className="text-xs text-gray-500">
               Links you open from the extension carry standard UTM parameters
               (<code className="bg-gray-100 px-1 py-0.5 rounded">utm_source=chrome_extension</code>) so we can
-              see in aggregate analytics how many people use the extension — the same kind of
+              see in aggregate analytics how many people use the extension - the same kind of
               tag any "shared from X" link carries. This is not personal data and is not tied
               to you individually.
             </p>

@@ -69,7 +69,7 @@ export default function PreviewUnlockPdf() {
     } else {
       routerRef.current.push("/unlock-pdf")
     }
-  }, []) // ✅ Empty deps — runs once on mount only
+  }, []) // ✅ Empty deps - runs once on mount only
 
   const handlePasswordChange = (id, value) => {
     setPasswords((prev) => ({ ...prev, [id]: value }))

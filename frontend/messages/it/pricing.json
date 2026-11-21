@@ -1,6 +1,6 @@
 {
-  "pageTitle": "Prezzi — SmallPDF.us",
-  "metaDescription": "Starter · Pro — fatturazione mensile o annuale. Tutti gli strumenti PDF, file fino a 100 MB, senza pubblicità.",
+  "pageTitle": "Prezzi: strumenti PDF gratis e Pro | SmallPDF.us",
+  "metaDescription": "Confronta i piani di SmallPDF.us. Gratis per l'uso quotidiano; Starter e Pro aggiungono file più grandi, elaborazione in blocco, niente pubblicità e priorità.",
   "badge": "Prezzi semplici, nessuna sorpresa",
   "hero": {
     "title": "Scegli il piano adatto a te",
@@ -11,7 +11,7 @@
     "yearly": "Annuale",
     "monthsFree": "2 mesi gratuiti",
     "saveAnnually": "🎉 Risparmia fino a $98/anno con la fatturazione annuale",
-    "billedAnnually": "Fatturato annualmente — ${total}/anno",
+    "billedAnnually": "Fatturato annualmente - ${total}/anno",
     "billedMonthly": "Fatturato mensilmente · Disdici in qualsiasi momento",
     "save": "Risparmia ${amount}"
   },
@@ -36,7 +36,7 @@
   "features": {
     "allTools": "Tutti gli strumenti PDF e immagine",
     "upTo200MB": "Fino a 100 MB per file (200 MB per l'unione)",
-    "officeUpTo50MB": "Conversioni Office — fino a 20 MB",
+    "officeUpTo50MB": "Conversioni Office - fino a 20 MB",
     "standardProcessing": "Elaborazione standard",
     "retain24h": "File conservati 24 ore",
     "adFree": "Esperienza senza pubblicità",
@@ -44,8 +44,8 @@
     "priorityProcessing": "Elaborazione prioritaria",
     "apiAccess": "Accesso API",
     "everythingInStarter": "Tutto in Starter",
-    "unlimitedFileSize": "File fino a 100 MB — tutti gli strumenti",
-    "officeUnlimited": "Conversioni Office — fino a 100 MB",
+    "unlimitedFileSize": "File fino a 100 MB - tutti gli strumenti",
+    "officeUnlimited": "Conversioni Office - fino a 100 MB",
     "priorityQueue": "Coda di elaborazione prioritaria",
     "retain48h": "File conservati 48 ore",
     "batch20": "Fino a 20 file per batch",
@@ -59,14 +59,14 @@
     "priorityPhoneEmail": "Supporto telefonico ed e-mail prioritario",
     "customInvoicing": "Fatturazione personalizzata disponibile",
     "upTo100MB": "Fino a 5–25 MB per file",
-    "officeUpTo15MB": "Conversioni Office — fino a 5 MB",
+    "officeUpTo15MB": "Conversioni Office - fino a 5 MB",
     "retain1h": "File eliminati dopo 1 ora",
     "adsShown": "Pubblicità mostrata"
   },
   "currentPlan": "Piano attuale",
   "perMonth": "/mese",
   "freeBanner": {
-    "title": "Piano gratuito — sempre disponibile",
+    "title": "Piano gratuito - sempre disponibile",
     "subtitle": "5 usi gratuiti al giorno · Tutti gli strumenti · Limite 5–25 MB · Conservazione 1 ora · Pubblicità",
     "signupLink": "Registrati gratis →"
   },
@@ -119,7 +119,7 @@
   "toolLimits": {
     "title": "Limiti per strumento",
     "subtitle": "Limiti esatti di dimensione file e batch per ogni strumento, suddivisi per piano.",
-    "singleFileNote": "— = strumento file singolo (nessun limite di batch)",
+    "singleFileNote": "- = strumento file singolo (nessun limite di batch)",
     "colSize": "dimensione · batch",
     "groups": {
       "pdfTools": "Strumenti PDF",
@@ -132,11 +132,11 @@
     "items": [
       {
         "q": "Qual è la differenza tra fatturazione mensile e annuale?",
-        "a": "La fatturazione mensile ti viene addebitata ogni mese. La fatturazione annuale ti viene addebitata una volta all'anno a una tariffa scontata — equivalente a 2 mesi gratuiti (paghi per 10, ottieni 12). Puoi scegliere il tuo ciclo di fatturazione preferito al momento del pagamento."
+        "a": "La fatturazione mensile ti viene addebitata ogni mese. La fatturazione annuale ti viene addebitata una volta all'anno a una tariffa scontata - equivalente a 2 mesi gratuiti (paghi per 10, ottieni 12). Puoi scegliere il tuo ciclo di fatturazione preferito al momento del pagamento."
       },
       {
         "q": "Posso annullare in qualsiasi momento?",
-        "a": "Sì — annulla con un clic dalla pagina abbonamento del tuo account. Il tuo piano rimane attivo fino alla fine del periodo di fatturazione corrente, poi torna automaticamente al piano gratuito. Nessun costo nascosto."
+        "a": "Sì - annulla con un clic dalla pagina abbonamento del tuo account. Il tuo piano rimane attivo fino alla fine del periodo di fatturazione corrente, poi torna automaticamente al piano gratuito. Nessun costo nascosto."
       },
       {
         "q": "Posso passare dalla fatturazione mensile a quella annuale dopo l'iscrizione?",
@@ -144,7 +144,7 @@
       },
       {
         "q": "Quali metodi di pagamento sono accettati?",
-        "a": "Tutte le principali carte di credito/debito (Visa, Mastercard, RuPay), UPI, home banking e portafogli — elaborati in modo sicuro tramite Razorpay. Tutte le transazioni sono conformi PCI-DSS."
+        "a": "Tutte le principali carte di credito/debito (Visa, Mastercard, RuPay), UPI, home banking e portafogli - elaborati in modo sicuro tramite Razorpay. Tutte le transazioni sono conformi PCI-DSS."
       },
       {
         "q": "Cosa succede ai miei file dopo il periodo di conservazione?",
@@ -152,23 +152,23 @@
       },
       {
         "q": "Esiste una politica di rimborso?",
-        "a": "Sì — se non sei soddisfatto entro 14 giorni dal primo addebito, contattaci per un rimborso completo. Senza fare domande."
+        "a": "Sì - se non sei soddisfatto entro 14 giorni dal primo addebito, contattaci per un rimborso completo. Senza fare domande."
       },
       {
         "q": "Il piano Agency supporta più utenti?",
-        "a": "Sì — Agency include 5 posti del team. Ogni posto ottiene il proprio accesso con fatturazione condivisa sotto un unico account. Ne hai bisogno di più? Contattaci."
+        "a": "Sì - Agency include 5 posti del team. Ogni posto ottiene il proprio accesso con fatturazione condivisa sotto un unico account. Ne hai bisogno di più? Contattaci."
       }
     ]
   },
   "bottomCta": {
     "title": "Passa a un piano superiore",
     "subtitle": "Unisciti a professionisti di tutto il mondo che usano SmallPDF.us. Disdici in qualsiasi momento.",
-    "proBtnMonthly": "Ottieni Pro — $19/mese",
-    "proBtnYearly": "Ottieni Pro — $190/anno",
-    "starterBtn": "Ottieni Starter — $9/mese"
+    "proBtnMonthly": "Ottieni Pro - $19/mese",
+    "proBtnYearly": "Ottieni Pro - $190/anno",
+    "starterBtn": "Ottieni Starter - $9/mese"
   },
   "notices": {
-    "checkoutCancelled": "Pagamento annullato — nessun addebito è stato effettuato.",
+    "checkoutCancelled": "Pagamento annullato - nessun addebito è stato effettuato.",
     "dismiss": "Chiudi",
     "contactSupport": "contatta il supporto"
   },
