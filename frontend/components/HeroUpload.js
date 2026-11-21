@@ -69,7 +69,7 @@ export default function HeroUpload({ compact = false }) {
       className="hidden"
       accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.odp,.jpg,.jpeg,.png,.webp,.heic,.heif"
       onChange={(e) => pick(e.target.files)}
-      aria-label={L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo', vi: 'Chọn tệp', hi: 'फ़ाइल चुनें', ar: 'اختر ملفاً' })}
+      aria-label={L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo', vi: 'Chọn tệp', hi: 'फ़ाइल चुनें', ar: 'اختر ملفاً', tr: 'Bir dosya seçin' })}
     />
   )
 
@@ -94,11 +94,11 @@ export default function HeroUpload({ compact = false }) {
         <div>
           <p className={`font-semibold text-gray-700 mb-0.5 ${compact ? 'text-sm' : 'text-xs'}`}>
             {compact
-              ? L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo', vi: 'Chọn tệp', hi: 'फ़ाइल चुनें', ar: 'اختر ملفاً' })
-              : L(locale, { ja: 'ファイルをドロップ', de: 'Datei ablegen', fr: 'Déposer le fichier', es: 'Soltar archivo', en: 'Drop your file here', it: 'Trascina il file', id: 'Seret file di sini', pt: 'Solte o arquivo aqui', vi: 'Thả tệp của bạn vào đây', hi: 'अपनी फ़ाइल यहाँ छोड़ें', ar: 'أفلت ملفك هنا' })}
+              ? L(locale, { ja: 'ファイルを選択', de: 'Datei auswählen', fr: 'Choisir un fichier', es: 'Elegir archivo', en: 'Choose a file', it: 'Scegli un file', id: 'Pilih file', pt: 'Escolher arquivo', vi: 'Chọn tệp', hi: 'फ़ाइल चुनें', ar: 'اختر ملفاً', tr: 'Bir dosya seçin' })
+              : L(locale, { ja: 'ファイルをドロップ', de: 'Datei ablegen', fr: 'Déposer le fichier', es: 'Soltar archivo', en: 'Drop your file here', it: 'Trascina il file', id: 'Seret file di sini', pt: 'Solte o arquivo aqui', vi: 'Thả tệp của bạn vào đây', hi: 'अपनी फ़ाइल यहाँ छोड़ें', ar: 'أفلت ملفك هنا', tr: 'Dosyanızı buraya bırakın' })}
           </p>
           <p className="text-[10px] text-gray-400">
-            {compact ? 'PDF, DOCX, JPG, PNG, XLSX…' : L(locale, { ja: 'またはクリックして選択 · PDF, DOCX, JPG, PNG…', de: 'oder klicken · PDF, DOCX, JPG, PNG…', fr: 'ou cliquez · PDF, DOCX, JPG, PNG…', es: 'o haz clic · PDF, DOCX, JPG, PNG…', en: 'or click to browse · PDF, DOCX, JPG, PNG…', it: 'o fai clic · PDF, DOCX, JPG, PNG…', id: 'atau klik · PDF, DOCX, JPG, PNG…', pt: 'ou clique · PDF, DOCX, JPG, PNG…', vi: 'hoặc nhấp để chọn · PDF, DOCX, JPG, PNG…', hi: 'या ब्राउज़ करने के लिए क्लिक करें · PDF, DOCX, JPG, PNG…', ar: 'أو اضغط للاختيار · PDF وDOCX وJPG وPNG…' })}
+            {compact ? 'PDF, DOCX, JPG, PNG, XLSX…' : L(locale, { ja: 'またはクリックして選択 · PDF, DOCX, JPG, PNG…', de: 'oder klicken · PDF, DOCX, JPG, PNG…', fr: 'ou cliquez · PDF, DOCX, JPG, PNG…', es: 'o haz clic · PDF, DOCX, JPG, PNG…', en: 'or click to browse · PDF, DOCX, JPG, PNG…', it: 'o fai clic · PDF, DOCX, JPG, PNG…', id: 'atau klik · PDF, DOCX, JPG, PNG…', pt: 'ou clique · PDF, DOCX, JPG, PNG…', vi: 'hoặc nhấp để chọn · PDF, DOCX, JPG, PNG…', hi: 'या ब्राउज़ करने के लिए क्लिक करें · PDF, DOCX, JPG, PNG…', ar: 'أو اضغط للاختيار · PDF وDOCX وJPG وPNG…', tr: 'ya da tıklayıp seçin · PDF, DOCX, JPG, PNG…' })}
           </p>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function HeroUpload({ compact = false }) {
       {tools.length ? (
         <>
           <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">
-            {L(locale, { ja: '何をしますか？', de: 'Was möchten Sie tun?', fr: 'Que voulez-vous faire ?', es: '¿Qué quieres hacer?', en: 'What do you want to do?', it: 'Cosa vuoi fare?', id: 'Apa yang ingin Anda lakukan?', pt: 'O que você quer fazer?', vi: 'Bạn muốn làm gì?', hi: 'आप क्या करना चाहते हैं?', ar: 'ماذا تريد أن تفعل؟' })}
+            {L(locale, { ja: '何をしますか？', de: 'Was möchten Sie tun?', fr: 'Que voulez-vous faire ?', es: '¿Qué quieres hacer?', en: 'What do you want to do?', it: 'Cosa vuoi fare?', id: 'Apa yang ingin Anda lakukan?', pt: 'O que você quer fazer?', vi: 'Bạn muốn làm gì?', hi: 'आप क्या करना चाहते हैं?', ar: 'ماذا تريد أن تفعل؟', tr: 'Ne yapmak istiyorsunuz?' })}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {tools.map(([href, key], i) => (
@@ -142,7 +142,7 @@ export default function HeroUpload({ compact = false }) {
         </>
       ) : (
         <p className="text-xs text-red-600">
-          {L(locale, { ja: 'このファイル形式には対応していません', de: 'Dieser Dateityp wird nicht unterstützt', fr: "Ce type de fichier n'est pas pris en charge", es: 'Este tipo de archivo no es compatible', en: "This file type isn't supported", it: 'Tipo di file non supportato', id: 'Jenis file ini tidak didukung', pt: 'Este tipo de arquivo não é compatível', vi: 'Không hỗ trợ loại tệp này', hi: 'यह फ़ाइल प्रकार सपोर्ट नहीं होता', ar: 'نوع الملف هذا غير مدعوم' })}
+          {L(locale, { ja: 'このファイル形式には対応していません', de: 'Dieser Dateityp wird nicht unterstützt', fr: "Ce type de fichier n'est pas pris en charge", es: 'Este tipo de archivo no es compatible', en: "This file type isn't supported", it: 'Tipo di file non supportato', id: 'Jenis file ini tidak didukung', pt: 'Este tipo de arquivo não é compatível', vi: 'Không hỗ trợ loại tệp này', hi: 'यह फ़ाइल प्रकार सपोर्ट नहीं होता', ar: 'نوع الملف هذا غير مدعوم', tr: 'Bu dosya türü desteklenmiyor' })}
         </p>
       )}
     </div>

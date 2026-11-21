@@ -41,6 +41,7 @@ const INLINE_T = {
     vi: "anh-da-chuyen-doi.pdf",
     hi: "badli-gai-images.pdf",
     ar: "converted-images.pdf",
+    tr: "donusturulen-gorseller.pdf",
   },
 }
 

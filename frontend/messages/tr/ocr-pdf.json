@@ -1,0 +1,269 @@
+{
+  "seo": {
+    "title": "OCR PDF Ücretsiz — Taranmış PDF'ten Metin Çıkar | SmallPDF.us",
+    "description": "Taranmış PDF'leri ücretsiz aranabilir metne dönüştürün. OCR aracımız Türkçe ve İngilizce metni okur; aranabilir PDF ya da Word çıktısı verir. Kurulum gerekmez.",
+    "keywords": "OCR PDF, PDF'ten metin çıkar, taranmış PDF'ten metne, PDF OCR online, PDF'i aranabilir yap, ücretsiz OCR aracı, PDF metin çıkarma, optik karakter tanıma PDF, aranabilir PDF, taranmış belgeden metne"
+  },
+  "hero": {
+    "title": "OCR PDF —",
+    "titleHighlight": "Metin Çıkar",
+    "titleSuffix": "Taranmış Her Belgeden",
+    "subtitle": "Görsel tabanlı, taranmış ya da kamerayla çekilmiş PDF'leri aranabilir, kopyalanabilir belgelere dönüştürün. Türkçe ve İngilizce metni okur, kurulacak bir şey yok."
+  },
+  "upload": {
+    "dropActive": "PDF'inizi buraya bırakın",
+    "heading": "Taranmış Bir PDF Yükleyin",
+    "subheading": "Sürükleyip bırakın ya da tıklayıp seçin — yalnızca PDF dosyaları",
+    "button": "OCR için PDF Seç",
+    "sslEncrypted": "SSL şifreli",
+    "filesDeleted": "Dosyalar 1 saatte silinir",
+    "noSignUp": "Hızlı ve Kolay",
+    "freeLimits": "Ücretsiz:",
+    "freeLimitsValue": "10 MB · 2 sayfa · günde 1",
+    "proLimits": "Pro:",
+    "proLimitsValue": "100 MB+ · Sınırsız sayfa · Toplu OCR",
+    "preparing": "OCR hazırlanıyor…",
+    "preparingSubtitle": "Belgeniz yükleniyor ve sıraya alınıyor",
+    "errorOnlyPdf": "Yalnızca PDF dosyaları kabul edilir. Lütfen bir .pdf dosyası yükleyin.",
+    "errorSeePlans": "Pro paketlerine bakın →"
+  },
+  "features": {
+    "sectionTitle": "SmallPDF.us OCR'ı Neden Öne Çıkıyor",
+    "sectionSubtitle": "OCR hattımız baştan doğruluk, gizlilik ve gerçek dünya belge çeşitliliği için tasarlandı.",
+    "items": [
+      {
+        "title": "Yüksek Karakter Doğruluğu",
+        "desc": "Çok geçişli tanıma karışık yazı tiplerini, döndürülmüş sayfaları, bozulmuş taramaları ve çok sütunlu düzenleri ele alır. Temiz 300 DPI+ kaynak belgeler sürekli keskin ve son derece doğru sonuçlar üretir."
+      },
+      {
+        "title": "Türkçe ve İngilizce",
+        "desc": "OCR'ımız Türkçe metni (ç, ğ, ı, İ, ö, ş, ü dahil) İngilizce kelimeler ve sayılarla birlikte okur. Diğer diller henüz desteklenmez; bu yüzden onlar doğru sonuç vermez. Doğruluk, net ve düz bir taramayla artar."
+      },
+      {
+        "title": "Özgünü Bozmayan Aranabilir PDF",
+        "desc": "Özgün düzeniniz, görselleriniz ve biçimlendirmeniz kusursuz korunur. Üzerine şeffaf, piksel hizalı bir metin katmanı bindiririz; böylece arama, kopyalama ve ekran okuyucular kusursuz çalışır."
+      },
+      {
+        "title": "Pro Kullanıcılar İçin Öncelik Kuyruğu",
+        "desc": "Pro kullanıcılar standart kuyruğu tamamen atlar. Tek sayfalık OCR işleri 3 saniyenin altında tamamlanır, çok sayfalı partiler sayfaları paralel işler."
+      },
+      {
+        "title": "Sıfır Bilgi Gizliliği",
+        "desc": "Aktarımda TLS 1.3, iş başına yalıtılmış hesaplama kapsayıcıları, 1 saat (ücretsiz) ya da 72 saat (ücretli) içinde otomatik silme. Belge içeriğinizi okumaz ya da paylaşmayız."
+      },
+      {
+        "title": "Word ve TXT Dışa Aktarma (Pro)",
+        "desc": "Aranabilir PDF'in ötesine geçin. OCR sonuçlarını Word'de düzenlemek için .docx olarak, dizinleme, çeviri hatları ve içerik yönetim iş akışları için .txt olarak dışa aktarın."
+      }
+    ]
+  },
+  "howItWorks": {
+    "sectionTitle": "Nasıl Çalışır: 3 Basit Adım",
+    "sectionSubtitle": "Bir tarama yükleyin ve aranabilir PDF indirin.",
+    "steps": [
+      {
+        "title": "Taranmış PDF'inizi Yükleyin",
+        "desc": "Sürükleyip bırakın ya da tıklayıp seçin. Sözleşmeler, faturalar, kitaplar, formlar ve kamera fotoğrafları dahil her PDF'i kabul ederiz.",
+        "badge": "Ücretsiz: 10 MB · 2 sayfa"
+      },
+      {
+        "title": "OCR Motoru Sayfaları İşler",
+        "desc": "Her sayfanın eğimi düzeltilir, gürültüsü giderilir ve karakter tanıma modelinden geçirilir. Metin koordinatları özgün geometriye geri eşlenir.",
+        "badge": "Türkçe ve İngilizce"
+      },
+      {
+        "title": "Aranabilir PDF'i İndirin",
+        "desc": "Belgenizi tamamen gömülü, görünmez bir metin katmanıyla alın. Ctrl+F arama, kopyala-yapıştır ve ekran okuyucular artık her yerinde çalışır.",
+        "badge": "Pro: ayrıca .docx ve .txt"
+      }
+    ]
+  },
+  "useCases": {
+    "sectionTitle": "OCR PDF'i Kimler Kullanır ve Neden",
+    "sectionSubtitle": "Onlarca sektörden profesyoneller, taranmış belgelerinin içine kilitlenmiş verilerin kilidini açmak için her gün doğru OCR'a güvenir.",
+    "items": [
+      {
+        "title": "Hukuk Profesyonelleri",
+        "desc": "Taranmış mahkeme dosyalarını, ifadeleri ve sözleşmeleri, dava hazırlığı sırasında hızlı anahtar kelime araması ve atıf takibi için aranabilir PDF'lere dönüştürün."
+      },
+      {
+        "title": "Sağlık ve Tıp",
+        "desc": "El yazısı ya da basılı hasta kayıtlarını, laboratuvar sonuçlarını ve reçeteleri dijitalleştirin; bunları elektronik sağlık kaydı sistemlerine ve uyumluluk denetimlerine erişilebilir kılın."
+      },
+      {
+        "title": "Akademik Araştırma",
+        "desc": "Taranmış dergi makalelerinden, tarihî arşivlerden ve kütüphane kitaplarından metin çıkararak tam metin aramayı, atıf yönetimini ve dil analizini mümkün kılın."
+      },
+      {
+        "title": "Finans ve Muhasebe",
+        "desc": "Faturalara, fişlere, banka ekstrelerine ve vergi belgelerine OCR uygulayarak muhasebe yazılımına veri girişini otomatikleştirin ve maliyetli elle yazma hatalarını ortadan kaldırın."
+      },
+      {
+        "title": "Türkçe ve İngilizce Belgeler",
+        "desc": "Türkçe ya da İngilizce sözleşmeleri, evrakları ve yazışmaları güvenle işleyin. Diğer dillerdeki taranmış belgelerin henüz desteklenmediğini unutmayın."
+      },
+      {
+        "title": "Mühendislik ve Mimarlık",
+        "desc": "Revizyon takibi ve BIM iş akışı entegrasyonu için taranmış planlardan ve teknik çizimlerden şartnameleri, parça numaralarını ve ölçüleri çıkarın."
+      }
+    ]
+  },
+  "diveTitle": "OCR sırasında aslında ne olur",
+  "diveSubtitle": "OCR taramanızı nasıl okur ve doğruluğu ne etkiler.",
+  "dive1Title": "Yerel metin ve taranmış metin: OCR farkı nasıl anlar",
+  "dive1Desc": "Dijital olarak oluşturulmuş bir PDF'in zaten bir metin katmanı vardır, bu yüzden üzerinde OCR çalıştırmak gereksizdir; araç bunu algılar ve seçilebilir metni olan sayfaları atlayabilir. Metin katmanı olmayan, yalnızca görsellerden oluşan taranmış sayfalar ise gerçekten OCR işlemesine ihtiyaç duyanlardır.",
+  "dive2Title": "OCR doğruluğunu ne etkiler",
+  "dive2Desc": "Tarama çözünürlüğü en önemlisidir; net bir 300 DPI tarama, bulanık bir telefon fotoğrafından çok daha doğru tanınır. Yazı tipi netliği, metin ile arka plan arasındaki kontrast ve sayfa eğimi de önemlidir; hat eğimi ve gürültüyü otomatik düzeltir, ama çok düşük kaliteli taramalar yine de daha çok hata üretir.",
+  "dive3Title": "Tek belgede birden çok dil",
+  "dive3Desc": "OCR dil modelleri her dil için ayrı eğitilir. Türkçe sayfamızda tanıma, Türkçe ile İngilizceyi birlikte çalıştırır; böylece Türkçe belgedeki İngilizce kelimeler ve sayılar da okunur. Desteklenmeyen diğer diller ise doğru okunmaz.",
+  "dive4Title": "Aranabilir PDF ve çıkarılmış metin dosyası",
+  "dive4Desc": "Varsayılan olarak OCR, özgün taranmış görselin üzerine görünmez bir metin katmanı ekler; böylece PDF değişmemiş görünür ama aranabilir ve kopyalanabilir olur. Ham metni kendi dosyasına çıkarmak istiyorsanız yalnızca aranabilir PDF çıktısını değil, ayrı bir metin dışa aktarma seçeneğini arayın.",
+  "dive5Title": "OCR el yazısında çalışır mı?",
+  "dive5Desc": "Standart OCR modelleri basılı metin üzerinde eğitilir ve el yazısıyla, özellikle bitişik ya da tutarsız el yazısıyla ciddi biçimde zorlanır. Net, ayrık harfli el yazısı bazen makul tanınabilir, ama doğruluk basılı ya da daktilo metne kıyasla keskin biçimde düşer.",
+  "dive6Title": "Taranmış belgelerde tablolar ve yapılandırılmış veri",
+  "dive6Desc": "OCR bir tablonun içindeki metni tanır ama onu otomatik olarak yapılandırılmış tablo olarak yeniden kurmaz; sonuç, sayıların ve etiketlerin bulunabildiği aranabilir bir sayfadır, sütun-satır yapısının mutlaka korunduğu bir sayfa değil. Bunun için özel bir PDF'den Excel'e dönüştürme daha uygundur.",
+  "faq": {
+    "sectionTitle": "Sık Sorulan Sorular",
+    "sectionSubtitle": "Limitler, gizlilik ve sonuçlar hakkında kısa yanıtlar.",
+    "items": [
+      {
+        "q": "OCR bir PDF üzerinde nasıl çalışır?",
+        "a": "OCR (optik karakter tanıma), PDF'inizin her sayfasını bir görsel olarak ele alır ve çok aşamalı bir hattan geçirir: eğim düzeltme, gürültü giderme, kontrast normalleştirme, ardından piksel desenlerini Unicode karakterlere eşleyen bir karakter tanıma modeli. Yeniden kurulan metin, özgün görsellerin üzerine görünmez bir katman olarak gömülür; böylece belge, özgün düzenin tek bir pikselini bile değiştirmeden tamamen aranabilir ve kopyalanabilir olur."
+      },
+      {
+        "q": "Hangi tür PDF'ler OCR'dan yararlanır?",
+        "a": "Metin içeren taranmış görseller barındıran her PDF (düz yataklı tarayıcıdan gelen belgeler, PDF olarak kaydedilmiş kamera fotoğrafları, fakslar, basılı formlar ya da arşiv mikrofilm taramaları) OCR'dan yararlanır. PDF'iniz zaten seçilebilir metin içeriyorsa (yani kelimeleri vurgulayabiliyorsanız) bu «yerel» bir PDF'tir ve OCR gerekmez; ancak aracımız yine de içeriğini çıkarıp yeniden biçimlendirebilir."
+      },
+      {
+        "q": "OCR ne kadar doğru?",
+        "a": "300 DPI ve üzeri temiz, yüksek çözünürlüklü taramalarda motorumuz standart Latin alfabeli belgelerde çok yüksek karakter doğruluğuna ulaşır. Doğruluk tarama kalitesine göre doğal olarak değişir: bulanık, düşük kontrastlı ya da ağır bozulmuş görseller daha düşük puan alır. El yazısı metin kısmen desteklenir ama basılı metinden belirgin biçimde daha zordur. En iyi sonuç için daima en az 300 DPI ve eşit ışıkla taramanızı öneririz."
+      },
+      {
+        "q": "PDF'im gizli ve güvende mi?",
+        "a": "Gizlilik, SmallPDF.us'i nasıl kurduğumuzun temelidir. Her yükleme TLS 1.3 şifrelemesiyle yol alır. Dosyanız, işiniz tamamlanır tamamlanmaz yok edilen yalıtılmış, tek kullanımlık bir hesaplama kapsayıcısında işlenir. Ücretsiz paket dosyaları 1 saat içinde, ücretli paket dosyaları 72 saat içinde kalıcı olarak silinir. Belge içeriğinizi okumaz, dizinlemez, paylaşmaz ya da satmaz, onu yukarıdaki takvime göre sileriz. Tüm ayrıntılar için Gizlilik Politikamıza bakabilirsiniz."
+      },
+      {
+        "q": "OCR hangi dilleri destekliyor?",
+        "a": "OCR motorumuz şu an Türkçe sayfasında Türkçe ve İngilizceyi, İngilizce sayfalarda İngilizceyi okur. Diğer diller henüz desteklenmez; bu yüzden onlardan doğru sonuç alamazsınız. Listeyi genişletmek için çalışıyoruz."
+      },
+      {
+        "q": "Çok sayfalı bir PDF'e OCR uygulayabilir miyim?",
+        "a": "Ücretsiz paket kullanıcıları OCR işi başına en fazla 2 sayfa işleyebilir; bu, kısa belgelerden hızlı çıkarma için idealdir. Pro ve Agency paket kullanıcıları tek işte sınırsız sayfalı PDF'lere OCR uygulayabilir ve ayrıca Toplu OCR ile aynı anda 10 dosyaya kadar gönderebilir; büyük belge setlerini tek tek yeniden yüklemeden verimli işler."
+      },
+      {
+        "q": "Hangi çıktı biçimlerini indirebilirim?",
+        "a": "Ücretsiz kullanıcılar aranabilir bir PDF alır: özgün hâliyle görsel olarak aynı, ama Ctrl+F aramasını, kopyala-yapıştırı ve erişilebilirlik araçlarını mümkün kılan gömülü, görünmez bir metin katmanıyla. Pro ve Agency kullanıcıları ayrıca çıkarılan metni biçimlendirilmiş bir .docx Word belgesi (paragrafları ve temel düzeni koruyarak) ya da veri hatları, çeviri araçları ya da içerik yönetim sistemleri için ham bir .txt dosyası olarak dışa aktarabilir."
+      },
+      {
+        "q": "OCR ücretsiz pakette neden günde 1 ile sınırlı?",
+        "a": "Optik karakter tanıma hesaplama açısından yoğundur; her sayfa ön işleme ve çıkarım için ciddi işlem süresi gerektirir. Hizmeti herkes için hızlı ve güvenilir tutmak adına günde 1 ücretsiz OCR çalıştırması sunuyoruz. Sınırsız OCR çalıştırması, öncelik kuyruğu erişimi, daha büyük dosya desteği ve toplu işleme için Pro'ya yükseltin. Pro işleri öncelik kuyruğunda çalışır."
+      }
+    ]
+  },
+  "seoContent": {
+    "h2": "OCR Nedir ve PDF'inizin Buna Neden İhtiyacı Var?",
+    "p1": "Optik Karakter Tanıma (OCR), düz, görsel tabanlı bir PDF ile canlı, etkileşimli bir belge arasındaki boşluğu kapatan teknolojidir. Kâğıt bir sözleşmeyi taradığınızda, bir fişin fotoğrafını çektiğinizde ya da basılı bir raporu PDF olarak kaydettiğinizde dosya özünde bir resimdir; bilgisayar harf değil, piksel desenleri görür. OCR bunu değiştirir. Her sayfayı inceler, eğitilmiş makine öğrenmesi modelleriyle tek tek karakterleri tanır ve metni dijital biçimde yeniden kurar; hepsi özgün görsel düzenin tek bir pikselini bile değiştirmeden.",
+    "p2": "Sonuç, bir <strong>aranabilir PDF</strong>'tir: özgünüyle görsel olarak aynı, ama görsellerin altında görünmez, kusursuz hizalı bir metin katmanıyla. Artık 200 sayfalık bir sözleşmede Ctrl+F ile arama yapabilir, bir paragrafı vurgulayıp kopyalayabilir ya da erişilebilirlik araçlarının içeriği görme engelli okuyuculara seslendirmesine izin verebilirsiniz. Pro kullanıcılar bir adım daha ileri gider; çıkarılan metni sonraki düzenleme, çeviri ya da dizinleme iş akışları için düzenlenebilir bir <strong>.docx Word dosyası</strong> ya da ham bir <strong>.txt dosyası</strong> olarak indirir.",
+    "h3": "SmallPDF.us Doğru OCR Sonuçlarını Nasıl Sağlar",
+    "p3": "Belge işlemede doğruluk pazarlık konusu değildir. OCR hattımız dört iyi tanımlanmış aşamadan geçer. Birincisi <strong>ön işleme</strong>: her sayfa dönme, gürültü ve kontrast açısından incelenir ve metin bölgelerine ile metin olmayan şekillere ayrılır. İkincisi <strong>dil modeli seçimi</strong>: şu an desteklenen diller olan Türkçe ve İngilizce için uygun karakter modeli uygulanır. Üçüncüsü <strong>tanıma motoru</strong>, benzer glifleri (örneğin «I», «l» ve «1») ayırt etmek için bağlamsal dil modelleri kullanarak karakter karakter analiz yapar. Son olarak <strong>son işleme</strong>, metin katmanını PDF'inize gömmeden önce doğru boşluk, heceleme ve paragraf yapısıyla kelimeleri ve cümleleri yeniden kurar.",
+    "p4": "En iyi sonuçlar için kaynak belgenizin 300 DPI ya da daha yüksek çözünürlükte, eşit ve gölgesiz ışıkla tarandığından emin olun. 150 DPI ve altındaki belgeler, yoğun arka plan dokuları ya da aşırı eğim daha düşük doğruluk üretebilir. Her durumda PDF'inizdeki özgün görseller tamamen dokunulmadan kalır; yalnızca görünmez, aranabilir metin katmanı üzerine eklenir."
+  },
+  "cta": {
+    "heading": "PDF'inizi Aranabilir Yapın",
+    "subtitle": "Taranmış bir PDF yükleyin ve aranabilir, kopyalanabilir bir belge indirin. Ücretsiz başlayın.",
+    "button": "OCR'a Şimdi Başla — Ücretsiz"
+  },
+  "preview": {
+    "pageTitle": "OCR PDF Önizleme — SmallPDF.us",
+    "changeFile": "Dosyayı değiştir",
+    "headerTitle": "Metin Çıkarmaya Hazır",
+    "headerSubtitle": "Dosyanızı gözden geçirin ve OCR'ı çalıştırın",
+    "fileReady": "Hazır",
+    "freePlanTitle": "Ücretsiz Paket Limitleri",
+    "freePlanDesc": "2 sayfaya kadar · 10 MB dosya · günde 1 OCR · Standart kuyruk",
+    "proPlanDesc": "Pro: Sınırsız sayfa · 100 MB · PDF + Word + TXT çıktısı",
+    "whatYoullReceive": "Neler alacaksınız",
+    "receiveSearchablePdf": "Gömülü metin katmanlı aranabilir PDF",
+    "receiveDocx": "Çıkarılan metni içeren Word belgesi (.docx)",
+    "receiveTxt": "Kolay kopyala-yapıştır için düz metin dosyası (.txt)",
+    "receiveProOnly": "Word ve TXT dışa aktarma (yalnızca Pro)",
+    "runOcrButton": "OCR Çalıştır — Metni Çıkar",
+    "securePrivate": "Güvenli ve gizli",
+    "autoDeleted": "1 saatte otomatik silinir",
+    "pleaseWait": "Lütfen bekleyin, bu sekmeyi kapatmayın",
+    "ocrFailed": "OCR Başarısız Oldu",
+    "tryAgain": "Tekrar Dene",
+    "upgradeToPro": "Pro'ya Yükselt",
+    "uploadDifferent": "Farklı bir dosya yükle",
+    "sidebarHowTitle": "OCR Nasıl Çalışır",
+    "sidebarSteps": [
+      "PDF'inizi yükleyin",
+      "Metin çıkarılır",
+      "Aranabilir PDF oluşturulur",
+      "Dosyalarınızı indirin"
+    ],
+    "sidebarSecurityTitle": "Güvenlik",
+    "sidebarSecurityItems": [
+      "256 bit SSL şifreleme",
+      "1 saatte otomatik silinir",
+      "Veri saklanmaz ya da satılmaz",
+      "Her an indirin ve silin"
+    ],
+    "sidebarProTitle": "Pro'ya Yükselt",
+    "sidebarProDesc": "Sınırsız sayfa, toplu OCR, Word ve TXT dışa aktarma, öncelik kuyruğu",
+    "sidebarProButton": "Paketlere Bak →",
+    "advertisement": "Reklam"
+  },
+  "process": {
+    "pageTitle": "OCR İşleniyor — SmallPDF.us",
+    "backLink": "OCR PDF'e Dön",
+    "processingTitle": "OCR Sürüyor…",
+    "standardQueue": "Standart kuyruk. Pro öncelik kuyruğu kullanır.",
+    "doneTitle": "OCR Tamamlandı!",
+    "pagesProcessed": "{count} sayfa işlendi",
+    "wordsExtracted": "~{count} kelime çıkarıldı",
+    "downloadPdf": "Aranabilir PDF'i İndir",
+    "downloadDocx": "Word'ü İndir (.docx)",
+    "downloadTxt": "Düz Metni İndir (.txt)",
+    "upsellTitle": "Daha fazlasını mı istiyorsunuz?",
+    "upsellDesc": "Pro kullanıcılar bu belgeyi ayrıca Word dosyası ya da düz metin olarak indirebilir, sınırsız sayfaya OCR uygulayabilir ve aynı anda 10 PDF'e kadar partileri işleyebilir.",
+    "upgradePro": "Pro'ya Yükselt",
+    "ocrAnother": "Başka bir belgeye OCR uygula",
+    "errorTitle": "OCR Başarısız Oldu",
+    "stages": [
+      "Belge yükleniyor…",
+      "Sayfalar ön işleniyor…",
+      "Karakter tanıma çalışıyor…",
+      "Metin düzeni yeniden kuruluyor…",
+      "Metin katmanı gömülüyor…",
+      "PDF'iniz tamamlanıyor…"
+    ]
+  },
+  "download": {
+    "pageTitle": "OCR PDF'i İndir — SmallPDF.us",
+    "successTitle": "OCR Tamamlandı!",
+    "pagesProcessed": "{count} sayfa işlendi",
+    "wordsExtracted": "~{count} kelime çıkarıldı",
+    "fileReady": "Hazır",
+    "downloadPdf": "Aranabilir PDF'i İndir",
+    "downloading": "İndiriliyor…",
+    "downloaded": "İndirildi!",
+    "downloadDocx": "Word'ü İndir (.docx)",
+    "downloadTxt": "Düz Metni İndir (.txt)",
+    "secureDownload": "Güvenli indirme",
+    "autoDeleted": "Dosyalar 1 saatte otomatik silinir",
+    "imagePdfTitle": "Taranmış / görsel tabanlı PDF algılandı",
+    "imagePdfDesc": "Bu PDF dijital metin yerine görseller içeriyor, bu yüzden metin otomatik çıkarılamadı. İndirilen PDF bir açıklama sayfası içeriyor.",
+    "imagePdfUpgrade": "Pro'ya yükseltin",
+    "imagePdfUpgradeSuffix": "taranmış belgelerde gelişmiş OCR motoru desteği için.",
+    "alreadySearchableTitle": "PDF'inizde zaten seçilebilir metin vardı",
+    "alreadySearchableDesc": "OCR gerekmedi; metnini zaten arayıp kopyalayabilirsiniz. Dosyanız değişmedi.",
+    "noTextTitle": "Hiçbir metin tanınamadı",
+    "noTextDesc": "Daha net bir tarama deneyin: düz sayfalar, iyi kontrast ve en az 300 DPI. El yazısı desteklenmez.",
+    "proUpsellTitle": "OCR'dan daha fazlasını mı istiyorsunuz?",
+    "proUpsellDesc": "Sınırsız sayfa, toplu OCR, Word ve TXT dışa aktarma, 100 MB dosyalar ve öncelikli işleme için Pro'ya yükseltin.",
+    "proUpsellLink": "Pro'ya Yükselt",
+    "ocrAnother": "Başka bir belgeye OCR uygula",
+    "advertisement": "Reklam"
+  }
+}

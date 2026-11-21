@@ -15,10 +15,11 @@ const LOCALE_LANG_MAP = {
   vi: 'vi',
   hi: 'hi',
   ar: 'ar',
+  tr: 'tr',
 }
 
 // Locales that use translated URL slugs (ja uses English slugs under /ja/)
-const LOCALIZED_LOCALES = ['de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar']
+const LOCALIZED_LOCALES = ['de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr']
 
 export default function SEOHead({
   title,
@@ -358,7 +359,7 @@ export default function SEOHead({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:site_name" content="SmallPDF.us" />
-      <meta property="og:locale" content={locale === 'ja' ? 'ja_JP' : locale === 'pt' ? 'pt_BR' : locale === 'de' ? 'de_DE' : locale === 'fr' ? 'fr_FR' : locale === 'es' ? 'es_ES' : locale === 'it' ? 'it_IT' : locale === 'id' ? 'id_ID' : locale === 'vi' ? 'vi_VN' : locale === 'hi' ? 'hi_IN' : locale === 'ar' ? 'ar_AR' : 'en_US'} />
+      <meta property="og:locale" content={locale === 'ja' ? 'ja_JP' : locale === 'pt' ? 'pt_BR' : locale === 'de' ? 'de_DE' : locale === 'fr' ? 'fr_FR' : locale === 'es' ? 'es_ES' : locale === 'it' ? 'it_IT' : locale === 'id' ? 'id_ID' : locale === 'vi' ? 'vi_VN' : locale === 'hi' ? 'hi_IN' : locale === 'ar' ? 'ar_AR' : locale === 'tr' ? 'tr_TR' : 'en_US'} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

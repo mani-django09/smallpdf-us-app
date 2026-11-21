@@ -455,7 +455,7 @@ function buildSameToolAliasRewrites(fromSlug, toSlug) {
     { source: `/${fromSlug}/download`,  destination: `/${toSlug}/download` },
     { source: `/${fromSlug}/download/`, destination: `/${toSlug}/download/` },
   ]
-  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar']) {
+  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr']) {
     rewrites.push({ source: `/${locale}/${fromSlug}/preview`,   destination: `/${locale}/${toSlug}/preview`,   locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/preview/`,  destination: `/${locale}/${toSlug}/preview/`,  locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/download`,  destination: `/${locale}/${toSlug}/download`,  locale: false })
@@ -525,7 +525,7 @@ const nextConfig = {
   trailingSlash: true,
 
   i18n: {
-    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar'],
+    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr'],
     defaultLocale: 'en',
     localeDetection: false, // ← Prevent Accept-Language header causing redirects for Googlebot
   },
@@ -711,7 +711,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options',   value: 'nosniff' },
           { key: 'X-XSS-Protection',         value: '1; mode=block' },
           { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
-          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi, hi, ar' },
+          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi, hi, ar, tr' },
         ],
       },
       // ── Immutable cache for Next.js JS/CSS chunks (fingerprinted filenames) ──

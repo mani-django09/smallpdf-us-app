@@ -9726,7 +9726,7 @@ function drawInvisibleWords(page, font, words) {
 // The client sends form field `language`. English (default), Vietnamese and Arabic
 // are installed; anything else falls back to English. Vietnamese runs
 // "vie+eng" so Latin words and numbers inside a Vietnamese document still read.
-const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', ara: 'ara+eng', ar: 'ara+eng', eng: 'eng', en: 'eng' }
+const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', ara: 'ara+eng', ar: 'ara+eng', tur: 'tur+eng', tr: 'tur+eng', eng: 'eng', en: 'eng' }
 function ocrLangFrom(v) {
   return OCR_LANGS[String(v || '').toLowerCase().trim()] || 'eng'
 }

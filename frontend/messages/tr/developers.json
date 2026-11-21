@@ -1,0 +1,78 @@
+{
+  "pageTitle": "PDF API — PDF'leri Birleştirin, Dönüştürün, Sıkıştırın ve Koruyun | SmallPDF.us",
+  "pageDescription": "PDF için basit, hızlı bir REST API: birleştirin, bölün, döndürün, sıkıştırın, parolayla koruyun ve PDF ⇄ Word, JPG, PNG dönüştürün. Ücretsiz paket, cURL, Node.js ve Python'da kod örnekleri.",
+  "heroBadge": "Geliştirici API'si · v1",
+  "heroTitle": "Geliştiriciler için yapılmış PDF API'si",
+  "heroDesc": "Her görev için tek bir basit REST uç noktası. PDF'leri her dilden birleştirin, dönüştürün, sıkıştırın ve koruyun; SDK yok, sunucu yok, uğraşacağınız PDF kütüphaneleri yok.",
+  "heroCtaPrimary": "Ücretsiz API anahtarınızı alın",
+  "heroCtaSecondary": "Hızlı başlangıç",
+  "trust": {
+    "endpoints": { "title": "11 uç nokta", "desc": "PDF, Word ve görseller" },
+    "noSdk": { "title": "SDK yok", "desc": "Düz HTTP + multipart" },
+    "private": { "title": "Gizli", "desc": "Taranır ve otomatik silinir" },
+    "anyLang": { "title": "Her dil", "desc": "cURL, Node, Python…" }
+  },
+  "toc": {
+    "label": "Dokümantasyon",
+    "quickstart": "Hızlı başlangıç",
+    "authentication": "Kimlik doğrulama",
+    "baseUrl": "Temel URL ve yanıtlar",
+    "endpoints": "Uç noktalar",
+    "quota": "Paketler ve kota",
+    "errors": "Hata kodları",
+    "apiKeys": "API anahtarlarınız"
+  },
+  "sections": {
+    "quickstart": "Hızlı başlangıç",
+    "authentication": "Kimlik doğrulama",
+    "baseUrl": "Temel URL ve yanıtlar",
+    "endpoints": "Uç noktalar",
+    "quota": "Paketler ve kota",
+    "errors": "Durum ve hata kodları",
+    "cta": "Bugün geliştirmeye başlayın"
+  },
+  "steps": {
+    "getKey": { "title": "1. Anahtar alın", "desc": "Giriş yapın ve kontrol panelinizde bir anahtar oluşturun." },
+    "callEndpoint": { "title": "2. Bir uç noktayı çağırın", "desc": "Dosyanızı multipart/form-data olarak POST edin." },
+    "getResult": { "title": "3. Sonucu alın", "desc": "İşlenen dosya anında geri akar." }
+  },
+  "auth": {
+    "desc": "Her istek gizli anahtarınızı şu başlıkta içermelidir:",
+    "desc2": "Anahtarları şuradan oluşturup yönetin:",
+    "dashboard": "kontrol paneli",
+    "warning": "Anahtarları sunucu tarafında tutun; asla istemci kodunda ifşa etmeyin."
+  },
+  "baseUrl": {
+    "desc": "Tüm uç noktalar",
+    "desc2": "şu adresin altındadır:",
+    "bullet1": "Başarı durumunda işlenen dosya doğrudan yanıt gövdesinde döner.",
+    "bullet2": "Hata durumunda bir JSON gövdesi döner:",
+    "bullet3": "Her yanıt şunu içerir:",
+    "bullet4": "Yüklenen dosyalar kötü amaçlı yazılım için taranır ve işlemden hemen sonra sunucularımızdan silinir."
+  },
+  "params": {
+    "label": "Parametreler",
+    "required": "zorunlu",
+    "optional": "isteğe bağlı",
+    "returns": "Döndürür"
+  },
+  "categories": {
+    "organize": "Düzenle",
+    "convert": "Dönüştür",
+    "optimize": "Optimize Et",
+    "secure": "Güvenlik"
+  },
+  "quota": {
+    "cols": { "plan": "Paket", "calls": "API çağrıları", "price": "Fiyat" },
+    "note": "Kota her ayın 1'inde (UTC) sıfırlanır. Yalnızca başarılı çağrılar sayılır.",
+    "pricing": "Tam fiyatlandırmayı görün"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "Kod", "meaning": "Anlamı" }
+  },
+  "cta": {
+    "title": "Bugün geliştirmeye başlayın",
+    "desc": "Ücretsiz bir API anahtarı oluşturun ve ilk çağrınızı bir dakikadan kısa sürede yapın.",
+    "button": "API anahtarınızı alın"
+  }
+}

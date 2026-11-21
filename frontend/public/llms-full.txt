@@ -25,7 +25,7 @@ Regional prices apply in India (Rupees, via Razorpay) and Indonesia (discounted 
 
 ## Tools
 
-Each tool page is at https://smallpdf.us/<name>/ and in 11 languages at https://smallpdf.us/<language>/<localized-name>/.
+Each tool page is at https://smallpdf.us/<name>/ and in 12 languages at https://smallpdf.us/<language>/<localized-name>/.
 
 ### Compress PDF: https://smallpdf.us/compress-pdf/
 Reduces PDF size by re-encoding embedded images at lower quality, removing unused data and recompressing streams. Text stays text (sharp and searchable); images lose some detail. Several compression levels. PDFs with fillable form fields are only compressed losslessly so the fields keep working. Free: 2 files at once, 20 MB each.

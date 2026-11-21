@@ -117,6 +117,12 @@ export default function CookieConsent() {
       decline: 'رفض',
       policy: 'الخصوصية',
     },
+    tr: {
+      msg: 'Bu siteyi ücretsiz tutmak için analiz ve reklam çerezleri kullanıyoruz.',
+      accept: 'Kabul et',
+      decline: 'Reddet',
+      policy: 'Gizlilik',
+    },
   }
 
   const t = texts[locale] || texts.en

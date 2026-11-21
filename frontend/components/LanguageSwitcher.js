@@ -20,6 +20,7 @@ export default function LanguageSwitcher() {
     { code: 'vi', name: 'Tiếng Việt',        flag: '🇻🇳' },
     { code: 'hi', name: 'हिन्दी',              flag: '🇮🇳' },
     { code: 'ar', name: 'العربية',             flag: '🇸🇦' },
+    { code: 'tr', name: 'Türkçe',              flag: '🇹🇷' },
   ]
 
   const currentLanguage = languages.find(l => l.code === locale) || languages[0]

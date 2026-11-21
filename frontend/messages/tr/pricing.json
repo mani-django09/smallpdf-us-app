@@ -1,0 +1,202 @@
+{
+  "pageTitle": "Fiyatlandırma — SmallPDF.us",
+  "metaDescription": "Starter · Pro — aylık ya da yıllık faturalama. Tüm PDF araçları, 100 MB'a kadar dosyalar, reklamsız.",
+  "badge": "Basit fiyatlandırma, sürpriz yok",
+  "hero": {
+    "title": "Size uyan paketi seçin",
+    "subtitle": "Tüm paketler her PDF ve görsel aracını içerir. Daha büyük dosyalar, daha hızlı işleme ve sıfır reklam için yükseltin."
+  },
+  "billing": {
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "monthsFree": "2 ay ücretsiz",
+    "saveAnnually": "🎉 Yıllık faturalamayla yılda $98'a kadar tasarruf edersiniz",
+    "billedAnnually": "Yıllık faturalanır — ${total}/yıl",
+    "billedMonthly": "Aylık faturalanır · İstediğiniz zaman iptal edin",
+    "save": "${amount} tasarruf"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Bireyler için ideal",
+      "cta": "Starter'ı Al"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Yoğun kullanıcılar için",
+      "cta": "Pro'yu Al",
+      "badge": "En Popüler"
+    },
+    "free": {
+      "name": "Ücretsiz",
+      "description": "Ara sıra kullanım için",
+      "cta": "Ücretsiz Başla"
+    }
+  },
+  "features": {
+    "allTools": "Tüm PDF ve görsel araçları",
+    "upTo200MB": "Dosya başına 100 MB'a kadar (birleştirmede 200 MB)",
+    "officeUpTo50MB": "Office dönüştürmeleri — 20 MB'a kadar",
+    "standardProcessing": "Standart işleme",
+    "retain24h": "Dosyalar 24 saat saklanır",
+    "adFree": "Reklamsız deneyim",
+    "batch10": "Toplu işte 10 dosyaya kadar",
+    "priorityProcessing": "Öncelikli işleme",
+    "apiAccess": "API erişimi",
+    "everythingInStarter": "Starter'daki her şey",
+    "unlimitedFileSize": "100 MB'a kadar dosyalar — tüm araçlar",
+    "officeUnlimited": "Office dönüştürmeleri — 100 MB'a kadar",
+    "priorityQueue": "Öncelikli işleme kuyruğu",
+    "retain48h": "Dosyalar 48 saat saklanır",
+    "batch20": "Toplu işte 20 dosyaya kadar",
+    "emailSupport": "E-posta desteği",
+    "everythingInPro": "Pro'daki her şey",
+    "dedicatedProcessing": "Özel işleme",
+    "retain72h": "Dosyalar 72 saat saklanır",
+    "batch50": "Toplu işte 50 dosyaya kadar",
+    "fullApiWebhooks": "Tam API erişimi + webhook'lar",
+    "teamSeats": "Ekip yönetimi (5 koltuk)",
+    "priorityPhoneEmail": "Öncelikli telefon ve e-posta desteği",
+    "customInvoicing": "Özel faturalandırma mevcut",
+    "upTo100MB": "Dosya başına 5–25 MB'a kadar",
+    "officeUpTo15MB": "Office dönüştürmeleri — 5 MB'a kadar",
+    "retain1h": "Dosyalar 1 saat sonra silinir",
+    "adsShown": "Reklamlar gösterilir"
+  },
+  "currentPlan": "Mevcut Paket",
+  "perMonth": "/ay",
+  "freeBanner": {
+    "title": "Ücretsiz Paket — her zaman mevcut",
+    "subtitle": "Günde 5 ücretsiz kullanım · Tüm araçlar · 5–25 MB sınırı · 1 saat saklama · Reklamlar gösterilir",
+    "signupLink": "Ücretsiz kaydol →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "SSL Şifreli", "subtitle": "Tüm aktarımlar güvende" },
+    "autoDelete": { "title": "Otomatik silinir", "subtitle": "Dosyalar zamanında kaldırılır" },
+    "fast": { "title": "Hızlı işleme", "subtitle": "Ücretli paketler için öncelik kuyruğu" },
+    "noFees": { "title": "Gizli ücret yok", "subtitle": "İstediğiniz zaman, anında iptal" }
+  },
+  "compareTable": {
+    "title": "Tam özellik karşılaştırması",
+    "featureCol": "Özellik",
+    "rows": {
+      "dailyUses": "Günlük ücretsiz kullanım",
+      "pdfToolSize": "PDF aracı dosya boyutu",
+      "officeConversions": "Office dönüştürmeleri",
+      "imageTools": "Görsel araçları",
+      "batchFiles": "İş başına toplu dosya",
+      "processingSpeed": "İşleme hızı",
+      "fileRetention": "Dosya saklama",
+      "ads": "Reklamlar",
+      "apiAccess": "API erişimi",
+      "teamSeats": "Ekip koltukları",
+      "emailSupport": "E-posta desteği",
+      "phoneSupport": "Telefon desteği"
+    },
+    "values": {
+      "fivePerDay": "Günde 5",
+      "standard": "Standart",
+      "priority": "Öncelikli",
+      "dedicated": "Özel",
+      "unlimited": "Sınırsız",
+      "yes": "Evet",
+      "none": "Yok",
+      "fiveSeats": "5 koltuk"
+    }
+  },
+  "toolLimits": {
+    "title": "Araç başına limitler",
+    "subtitle": "Her araç için, pakete göre ayrılmış tam dosya boyutu ve toplu işlem sayısı limitleri.",
+    "singleFileNote": "— = tek dosyalı araç (toplu işlem sınırı geçerli değil)",
+    "colSize": "boyut · toplu",
+    "groups": {
+      "pdfTools": "PDF Araçları",
+      "officeConversions": "Office Dönüştürmeleri",
+      "imageTools": "Görsel Araçları"
+    }
+  },
+  "faq": {
+    "title": "Sık sorulan sorular",
+    "items": [
+      {
+        "q": "Aylık ve yıllık faturalama arasındaki fark nedir?",
+        "a": "Aylık faturalama sizden her ay ödeme alır. Yıllık faturalama, 2 ay ücretsize denk gelen indirimli bir fiyatla yılda bir kez ödeme alır (10 ay ödersiniz, 12 ay alırsınız). Tercih ettiğiniz faturalama döngüsünü ödeme sırasında seçebilirsiniz."
+      },
+      {
+        "q": "İstediğim zaman iptal edebilir miyim?",
+        "a": "Evet, hesabınızın abonelik sayfasından tek tıkla iptal edin. Paketiniz mevcut faturalama döneminin sonuna kadar aktif kalır, sonra otomatik olarak Ücretsiz'e döner. Gizli ücret yok."
+      },
+      {
+        "q": "Abone olduktan sonra aylık ve yıllık arasında geçiş yapabilir miyim?",
+        "a": "Faturalama döngüsünü değiştirmek için mevcut paketinizi iptal edin ve yeni döngüyle yeniden abone olun. Pro erişiminiz mevcut döneminiz bitene kadar devam eder."
+      },
+      {
+        "q": "Hangi ödeme yöntemleri kabul ediliyor?",
+        "a": "Tüm büyük kredi/banka kartları (Visa, Mastercard, RuPay), UPI, İnternet bankacılığı ve cüzdanlar; Razorpay üzerinden güvenle işlenir. Tüm işlemler PCI-DSS uyumludur."
+      },
+      {
+        "q": "Saklama süresinden sonra dosyalarıma ne oluyor?",
+        "a": "Dosyalar sunucularımızdan otomatik ve kalıcı olarak silinir. Dosyalarınızı asla satmaz ya da paylaşmayız. Tüm aktarımlar SSL ile şifrelenir."
+      },
+      {
+        "q": "İade politikası var mı?",
+        "a": "Evet, ilk ödemenizden sonraki 14 gün içinde memnun kalmazsanız tam iade için bizimle iletişime geçin. Soru sormadan."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Paketinizi yükseltin",
+    "subtitle": "SmallPDF.us'i kullanan dünyanın dört bir yanındaki profesyonellere katılın. İstediğiniz zaman iptal edin.",
+    "proBtnMonthly": "Pro'yu Al — $19/ay",
+    "proBtnYearly": "Pro'yu Al — $190/yıl",
+    "starterBtn": "Starter'ı Al — $9/ay"
+  },
+  "notices": {
+    "checkoutCancelled": "Ödeme iptal edildi; hiçbir ücret alınmadı.",
+    "dismiss": "Kapat",
+    "contactSupport": "desteğe başvurun"
+  },
+  "noCardRequired": "Kredi kartı gerekmez",
+  "socialProof": {
+    "moneyBack": "14 gün para iade garantisi",
+    "cancelAnytime": "İstediğiniz zaman iptal edin",
+    "noHiddenFees": "Gizli ücret yok"
+  },
+  "stats": {
+    "tools": "PDF ve Görsel Araçları",
+    "languages": "Dil",
+    "autoDelete": "Dosyalar Otomatik Silinir",
+    "encrypted": "Şifreli Aktarımlar"
+  },
+  "whatYouGet": {
+    "title": "Aynı araçlar. Yalnızca limitler olmadan.",
+    "subtitle": "Ücretsiz paket zaten 27 aracın hepsine erişim verir. Ücretli paketler sürtünmeyi kaldırır: daha büyük dosyalar, toplu işleme, reklamsız, öncelikli işleme.",
+    "items": {
+      "bigger": {
+        "title": "Daha büyük dosyalar",
+        "desc": "Starter'da araca göre 200 MB'a kadar, Pro'da sınırsız. İş akışınızın ortasında takılmayı bırakın."
+      },
+      "batch": {
+        "title": "Toplu işleme",
+        "desc": "Birden çok dosyayı aynı anda dönüştürün ya da sıkıştırın. Tek tek değil."
+      },
+      "noAds": {
+        "title": "Reklam yok",
+        "desc": "Hiç kesinti olmayan temiz bir arayüz. Yalnızca araç, başka hiçbir şey."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} dosya",
+    "files": "{n} dosya",
+    "pages": "{n} sayfa",
+    "perDay": "günde {n}",
+    "hour": "{n} saat",
+    "hours": "{n} saat"
+  },
+  "perYear": "/yıl",
+  "secureCheckout": "Güvenli ödeme",
+  "payPalInstead": "Bunun yerine PayPal ile öde",
+  "annualSelected": "Yıllık faturalama seçildi — %17 indirim, ödemede uygulanır",
+  "poweredBy": "{name} tarafından desteklenir"
+}

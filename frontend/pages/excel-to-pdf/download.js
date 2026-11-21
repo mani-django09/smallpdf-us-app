@@ -42,6 +42,7 @@ const INLINE_T = {
     vi: "Tài liệu PDF",
     hi: "PDF दस्तावेज़",
     ar: "مستند PDF",
+    tr: "PDF Belgesi",
   },
   conversionPreservedNote: {
     en: "Excel file successfully converted to PDF. Formatting, charts, and data fully preserved.",
@@ -55,6 +56,7 @@ const INLINE_T = {
     vi: "Đã chuyển tệp Excel sang PDF thành công. Định dạng, biểu đồ và dữ liệu được giữ nguyên hoàn toàn.",
     hi: "Excel फ़ाइल सफलतापूर्वक PDF में बदल गई। फ़ॉर्मेटिंग, चार्ट और डेटा पूरी तरह सुरक्षित हैं।",
     ar: "تم تحويل ملف Excel إلى PDF بنجاح. التنسيق والمخططات والبيانات محفوظة بالكامل.",
+    tr: "Excel dosyası başarıyla PDF'e dönüştürüldü. Biçimlendirme, grafikler ve veriler tamamen korundu.",
   },
   loadResultError: {
     en: "Failed to load conversion result", ja: "変換結果の読み込みに失敗しました",
@@ -66,6 +68,7 @@ const INLINE_T = {
     vi: "Không tải được kết quả chuyển đổi",
     hi: "कन्वर्ज़न का नतीजा लोड नहीं हो सका",
     ar: "تعذّر تحميل نتيجة التحويل",
+    tr: "Dönüştürme sonucu yüklenemedi",
   },
   downloadUrlNotFound: {
     en: "Download URL not found", ja: "ダウンロードURLが見つかりません",
@@ -75,6 +78,7 @@ const INLINE_T = {
     vi: "Không tìm thấy URL tải xuống",
     hi: "डाउनलोड URL नहीं मिला",
     ar: "لم يُعثر على رابط التنزيل",
+    tr: "İndirme bağlantısı bulunamadı",
   },
   downloadFailedPrefix: {
     en: "Download failed: ", ja: "ダウンロード失敗: ", de: "Download fehlgeschlagen: ",
@@ -83,6 +87,7 @@ const INLINE_T = {
     vi: "Tải xuống thất bại: ",
     hi: "डाउनलोड विफल: ",
     ar: "فشل التنزيل: ",
+    tr: "İndirme başarısız oldu: ",
   },
 }
 
