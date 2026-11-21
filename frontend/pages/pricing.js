@@ -53,7 +53,7 @@ const FREE_PLAN_FEATURE_KEYS = [
   { key: 'adsShown',           included: 'warn' },
   { key: 'adFree',             included: false  },
   { key: 'priorityProcessing', included: false  },
-  { key: 'apiAccess',          included: false  },
+  { key: 'apiAccess',          included: true  },
 ]
 
 const PLANS = [
@@ -82,7 +82,7 @@ const PLANS = [
       { key: 'adFree',             included: true  },
       { key: 'batch10',            included: true  },
       { key: 'priorityProcessing', included: false },
-      { key: 'apiAccess',          included: false },
+      { key: 'apiAccess',          included: true },
     ],
   },
   {
@@ -101,7 +101,7 @@ const PLANS = [
       { key: 'adFree',              included: true  },
       { key: 'batch20',             included: true  },
       { key: 'emailSupport',        included: true  },
-      { key: 'apiAccess',           included: false },
+      { key: 'apiAccess',           included: true },
     ],
   },
 ]
@@ -117,7 +117,7 @@ const COMPARE_ROW_DEFS = [
   { labelKey: 'processingSpeed',  free: 'standard',  starter: 'standard',     pro: 'priority'  },
   { labelKey: 'fileRetention',    free: '1 hour',    starter: '24 hours',     pro: '48 hours'  },
   { labelKey: 'ads',              free: 'yes',       starter: 'none',         pro: 'none'      },
-  { labelKey: 'apiAccess',        free: false,       starter: false,          pro: false       },
+  { labelKey: 'apiAccess',        free: true,        starter: true,           pro: true        },
   { labelKey: 'teamSeats',        free: false,       starter: false,          pro: false       },
   { labelKey: 'emailSupport',     free: false,       starter: false,          pro: true        },
 ]
