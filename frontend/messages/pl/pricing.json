@@ -1,0 +1,202 @@
+{
+  "pageTitle": "Cennik narzędzi PDF: Free, Starter i Pro | SmallPDF.us",
+  "metaDescription": "Porównaj plany SmallPDF.us. Darmowy na co dzień. Starter i Pro dodają większe pliki, przetwarzanie wsadowe, brak reklam i priorytetowe przetwarzanie, z płatnością miesięczną lub roczną.",
+  "badge": "Prosty cennik, bez niespodzianek",
+  "hero": {
+    "title": "Wybierz plan, który do Ciebie pasuje",
+    "subtitle": "Każdy plan obejmuje wszystkie narzędzia do PDF i obrazów. Wyższy plan to większe pliki, szybsze przetwarzanie i zero reklam."
+  },
+  "billing": {
+    "monthly": "Miesięcznie",
+    "yearly": "Rocznie",
+    "monthsFree": "2 miesiące gratis",
+    "saveAnnually": "🎉 Przy płatności rocznej oszczędzasz do 98 USD w skali roku",
+    "billedAnnually": "Rozliczane rocznie - ${total}/rok",
+    "billedMonthly": "Rozliczane co miesiąc · Rezygnacja w dowolnej chwili",
+    "save": "Oszczędzasz ${amount}"
+  },
+  "plans": {
+    "starter": {
+      "name": "Starter",
+      "description": "Dla osób indywidualnych",
+      "cta": "Wybierz Starter"
+    },
+    "pro": {
+      "name": "Pro",
+      "description": "Dla intensywnych użytkowników",
+      "cta": "Wybierz Pro",
+      "badge": "Najczęściej wybierany"
+    },
+    "free": {
+      "name": "Free",
+      "description": "Na okazjonalne użycie",
+      "cta": "Zacznij za darmo"
+    }
+  },
+  "features": {
+    "allTools": "Wszystkie narzędzia do PDF i obrazów",
+    "upTo200MB": "Do 100 MB na plik (200 MB przy łączeniu)",
+    "officeUpTo50MB": "Konwersje dokumentów Office - do 20 MB",
+    "standardProcessing": "Standardowe przetwarzanie",
+    "retain24h": "Pliki przechowywane 24 godziny",
+    "adFree": "Bez reklam",
+    "batch10": "Do 10 plików w jednej partii",
+    "priorityProcessing": "Priorytetowe przetwarzanie",
+    "apiAccess": "Dostęp do API",
+    "everythingInStarter": "Wszystko z planu Starter",
+    "unlimitedFileSize": "Pliki do 100 MB we wszystkich narzędziach",
+    "officeUnlimited": "Konwersje dokumentów Office - do 100 MB",
+    "priorityQueue": "Kolejka z priorytetem",
+    "retain48h": "Pliki przechowywane 48 godzin",
+    "batch20": "Do 20 plików w jednej partii",
+    "emailSupport": "Wsparcie e-mailowe",
+    "everythingInPro": "Wszystko z planu Pro",
+    "dedicatedProcessing": "Dedykowane przetwarzanie",
+    "retain72h": "Pliki przechowywane 72 godziny",
+    "batch50": "Do 50 plików w jednej partii",
+    "fullApiWebhooks": "Pełny dostęp do API i webhooki",
+    "teamSeats": "Zarządzanie zespołem (5 miejsc)",
+    "priorityPhoneEmail": "Priorytetowe wsparcie telefoniczne i e-mailowe",
+    "customInvoicing": "Możliwość indywidualnego fakturowania",
+    "upTo100MB": "Od 5 do 25 MB na plik",
+    "officeUpTo15MB": "Konwersje dokumentów Office - do 5 MB",
+    "retain1h": "Pliki usuwane po 1 godzinie",
+    "adsShown": "Z reklamami"
+  },
+  "currentPlan": "Twój obecny plan",
+  "perMonth": "/mies.",
+  "freeBanner": {
+    "title": "Plan Free - zawsze dostępny",
+    "subtitle": "5 darmowych użyć dziennie · Wszystkie narzędzia · Limit 5–25 MB · Pliki przechowywane 1 godzinę · Z reklamami",
+    "signupLink": "Załóż darmowe konto →"
+  },
+  "trustBadges": {
+    "ssl": { "title": "Szyfrowanie SSL", "subtitle": "Każdy transfer jest zabezpieczony" },
+    "autoDelete": { "title": "Automatyczne usuwanie", "subtitle": "Pliki znikają zgodnie z harmonogramem" },
+    "fast": { "title": "Szybkie przetwarzanie", "subtitle": "Kolejka z priorytetem w planach płatnych" },
+    "noFees": { "title": "Bez ukrytych opłat", "subtitle": "Rezygnacja w dowolnej chwili, od razu" }
+  },
+  "compareTable": {
+    "title": "Pełne porównanie funkcji",
+    "featureCol": "Funkcja",
+    "rows": {
+      "dailyUses": "Darmowe użycia dziennie",
+      "pdfToolSize": "Rozmiar pliku w narzędziach PDF",
+      "officeConversions": "Konwersje dokumentów Office",
+      "imageTools": "Narzędzia do obrazów",
+      "batchFiles": "Liczba plików w jednej partii",
+      "processingSpeed": "Szybkość przetwarzania",
+      "fileRetention": "Czas przechowywania plików",
+      "ads": "Reklamy",
+      "apiAccess": "Dostęp do API",
+      "teamSeats": "Miejsca w zespole",
+      "emailSupport": "Wsparcie e-mailowe",
+      "phoneSupport": "Wsparcie telefoniczne"
+    },
+    "values": {
+      "fivePerDay": "5 dziennie",
+      "standard": "Standardowa",
+      "priority": "Priorytetowa",
+      "dedicated": "Dedykowana",
+      "unlimited": "Bez limitu",
+      "yes": "Tak",
+      "none": "Brak",
+      "fiveSeats": "5 miejsc"
+    }
+  },
+  "toolLimits": {
+    "title": "Limity dla poszczególnych narzędzi",
+    "subtitle": "Dokładne limity rozmiaru pliku i liczby plików w partii dla każdego narzędzia, z podziałem na plany.",
+    "singleFileNote": "- = narzędzie do jednego pliku (limit partii nie dotyczy)",
+    "colSize": "rozmiar · partia",
+    "groups": {
+      "pdfTools": "Narzędzia PDF",
+      "officeConversions": "Konwersje dokumentów Office",
+      "imageTools": "Narzędzia do obrazów"
+    }
+  },
+  "faq": {
+    "title": "Częste pytania",
+    "items": [
+      {
+        "q": "Czym różni się płatność miesięczna od rocznej?",
+        "a": "Przy płatności miesięcznej płacisz co miesiąc. Przy rocznej płacisz raz w roku, w niższej cenie, co daje 2 miesiące gratis (płacisz za 10, dostajesz 12). Okres rozliczeniowy wybierasz przy zakupie."
+      },
+      {
+        "q": "Czy mogę zrezygnować w dowolnej chwili?",
+        "a": "Tak. Rezygnujesz jednym kliknięciem na stronie subskrypcji w swoim koncie. Plan pozostaje aktywny do końca bieżącego okresu rozliczeniowego, a potem sam wraca do planu Free. Żadnych ukrytych opłat."
+      },
+      {
+        "q": "Czy po zakupie mogę przejść z płatności miesięcznej na roczną i odwrotnie?",
+        "a": "Żeby zmienić okres rozliczeniowy, anuluj obecny plan i wykup go ponownie z nowym okresem. Dostęp do Pro działa do końca bieżącego okresu."
+      },
+      {
+        "q": "Jakie metody płatności przyjmujecie?",
+        "a": "Najpopularniejsze karty kredytowe i debetowe (Visa, Mastercard) oraz PayPal. W Indiach dostępne są też UPI, net banking i portfele, obsługiwane przez Razorpay. Wszystkie transakcje są zgodne z PCI-DSS."
+      },
+      {
+        "q": "Co dzieje się z moimi plikami po upływie czasu przechowywania?",
+        "a": "Pliki są trwale i automatycznie usuwane z naszych serwerów. Nigdy ich nie sprzedajemy ani nie udostępniamy. Każdy transfer jest szyfrowany przez SSL."
+      },
+      {
+        "q": "Czy macie zasady zwrotów?",
+        "a": "Tak. Jeśli w ciągu 14 dni od pierwszej płatności uznasz, że to nie dla Ciebie, napisz do nas, a zwrócimy całą kwotę. Bez pytań."
+      }
+    ]
+  },
+  "bottomCta": {
+    "title": "Przejdź na wyższy plan",
+    "subtitle": "Dołącz do profesjonalistów z całego świata, którzy korzystają z SmallPDF.us. Rezygnacja w dowolnej chwili.",
+    "proBtnMonthly": "Wybierz Pro - 19 USD/mies.",
+    "proBtnYearly": "Wybierz Pro - 190 USD/rok",
+    "starterBtn": "Wybierz Starter - 9 USD/mies."
+  },
+  "notices": {
+    "checkoutCancelled": "Zakup anulowany. Nie pobraliśmy żadnej opłaty.",
+    "dismiss": "Zamknij",
+    "contactSupport": "napisz do wsparcia"
+  },
+  "noCardRequired": "Karta płatnicza nie jest potrzebna",
+  "socialProof": {
+    "moneyBack": "14 dni na zwrot pieniędzy",
+    "cancelAnytime": "Rezygnacja w dowolnej chwili",
+    "noHiddenFees": "Bez ukrytych opłat"
+  },
+  "stats": {
+    "tools": "Narzędzi do PDF i obrazów",
+    "languages": "Języków",
+    "autoDelete": "Automatyczne usuwanie plików",
+    "encrypted": "Szyfrowane transfery"
+  },
+  "whatYouGet": {
+    "title": "Te same narzędzia. Tylko bez limitów.",
+    "subtitle": "Plan Free daje już dostęp do wszystkich 27 narzędzi. Premium usuwa przeszkody: większe pliki, przetwarzanie wsadowe, brak reklam i priorytetowe przetwarzanie.",
+    "items": {
+      "bigger": {
+        "title": "Większe pliki",
+        "desc": "Do 100 MB na plik (200 MB przy łączeniu PDF), zależnie od narzędzia i planu. Koniec z blokadą w połowie pracy."
+      },
+      "batch": {
+        "title": "Przetwarzanie wsadowe",
+        "desc": "Konwertuj lub kompresuj wiele plików naraz, a nie jeden po drugim."
+      },
+      "noAds": {
+        "title": "Bez reklam",
+        "desc": "Czysty interfejs, zero rozpraszaczy. Tylko narzędzie i nic więcej."
+      }
+    }
+  },
+  "units": {
+    "file": "{n} plik",
+    "files": "Plików: {n}",
+    "pages": "Stron: {n}",
+    "perDay": "{n}/dzień",
+    "hour": "{n} godzina",
+    "hours": "{n} godz."
+  },
+  "perYear": "/rok",
+  "secureCheckout": "Bezpieczna płatność",
+  "payPalInstead": "Zapłać przez PayPal",
+  "annualSelected": "Wybrano płatność roczną - 17% taniej, zniżka naliczana przy zakupie",
+  "poweredBy": "Obsługuje {name}"
+}

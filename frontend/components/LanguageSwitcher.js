@@ -22,6 +22,7 @@ export default function LanguageSwitcher() {
     { code: 'ar', name: 'العربية',             flag: '🇸🇦' },
     { code: 'tr', name: 'Türkçe',              flag: '🇹🇷' },
     { code: 'ru', name: 'Русский',             flag: '🇷🇺' },
+    { code: 'pl', name: 'Polski',              flag: '🇵🇱' },
   ]
 
   const currentLanguage = languages.find(l => l.code === locale) || languages[0]

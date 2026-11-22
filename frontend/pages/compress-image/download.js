@@ -412,7 +412,7 @@ export default function DownloadCompressImage() {
                       <>
                         <Download className="w-5 h-5 group-hover:animate-bounce" />
                         <span className="relative">
-                          {t("compressImage.downloadBtn").replace("{label}", fileCount > 1 ? "Files" : "Image")}
+                          {t("compressImage.downloadBtn").replace("{label}", router.locale === "pl" ? (fileCount > 1 ? "pliki" : "obraz") : (fileCount > 1 ? "Files" : "Image"))}
                         </span>
                         <ArrowRight className="w-4 h-4 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       </>

@@ -44,7 +44,7 @@ const INLINE_T = {
     hi: "PDF दस्तावेज़",
     ar: "مستند PDF",
     tr: "PDF Belgesi",
-    ru: "PDF-документ",
+    ru: "PDF-документ", pl: "Dokument PDF",
   },
   conversionPreservedNote: {
     en: "Excel file successfully converted to PDF. Formatting, charts, and data fully preserved.",
@@ -59,7 +59,7 @@ const INLINE_T = {
     hi: "Excel फ़ाइल सफलतापूर्वक PDF में बदल गई। फ़ॉर्मेटिंग, चार्ट और डेटा पूरी तरह सुरक्षित हैं।",
     ar: "تم تحويل ملف Excel إلى PDF بنجاح. التنسيق والمخططات والبيانات محفوظة بالكامل.",
     tr: "Excel dosyası başarıyla PDF'e dönüştürüldü. Biçimlendirme, grafikler ve veriler tamamen korundu.",
-    ru: "Файл Excel успешно конвертирован в PDF. Оформление, диаграммы и данные сохранены полностью.",
+    ru: "Файл Excel успешно конвертирован в PDF. Оформление, диаграммы и данные сохранены полностью.", pl: "Plik Excel został przekonwertowany na PDF. Formatowanie, wykresy i dane zostały w pełni zachowane.",
   },
   loadResultError: {
     en: "Failed to load conversion result", ja: "変換結果の読み込みに失敗しました",
@@ -72,7 +72,7 @@ const INLINE_T = {
     hi: "कन्वर्ज़न का नतीजा लोड नहीं हो सका",
     ar: "تعذّر تحميل نتيجة التحويل",
     tr: "Dönüştürme sonucu yüklenemedi",
-    ru: "Не удалось загрузить результат конвертации",
+    ru: "Не удалось загрузить результат конвертации", pl: "Nie udało się wczytać wyniku konwersji",
   },
   downloadUrlNotFound: {
     en: "Download URL not found", ja: "ダウンロードURLが見つかりません",
@@ -83,7 +83,7 @@ const INLINE_T = {
     hi: "डाउनलोड URL नहीं मिला",
     ar: "لم يُعثر على رابط التنزيل",
     tr: "İndirme bağlantısı bulunamadı",
-    ru: "Ссылка для скачивания не найдена",
+    ru: "Ссылка для скачивания не найдена", pl: "Nie znaleziono adresu do pobrania",
   },
   downloadFailedPrefix: {
     en: "Download failed: ", ja: "ダウンロード失敗: ", de: "Download fehlgeschlagen: ",
@@ -93,7 +93,7 @@ const INLINE_T = {
     hi: "डाउनलोड विफल: ",
     ar: "فشل التنزيل: ",
     tr: "İndirme başarısız oldu: ",
-    ru: "Не удалось скачать: ",
+    ru: "Не удалось скачать: ", pl: "Pobieranie nie powiodło się: ",
   },
 }
 

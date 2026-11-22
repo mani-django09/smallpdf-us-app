@@ -1,0 +1,78 @@
+{
+  "pageTitle": "API do PDF - łączenie, konwersja, kompresja i ochrona PDF | SmallPDF.us",
+  "pageDescription": "Proste i szybkie REST API do PDF: łączenie, dzielenie, obracanie, kompresja, zabezpieczanie hasłem oraz konwersja PDF ⇄ Word, JPG, PNG. Darmowy pakiet, przykłady w cURL, Node.js i Pythonie.",
+  "heroBadge": "API dla programistów · v1",
+  "heroTitle": "API do PDF stworzone z myślą o programistach",
+  "heroDesc": "Jeden prosty endpoint REST na każde zadanie. Łącz, konwertuj, kompresuj i zabezpieczaj pliki PDF z dowolnego języka. Bez SDK, bez własnych serwerów, bez walki z bibliotekami PDF.",
+  "heroCtaPrimary": "Odbierz darmowy klucz API",
+  "heroCtaSecondary": "Szybki start",
+  "trust": {
+    "endpoints": { "title": "11 endpointów", "desc": "PDF, Word i obrazy" },
+    "noSdk": { "title": "Bez SDK", "desc": "Zwykły HTTP + multipart" },
+    "private": { "title": "Prywatnie", "desc": "Skanowane i automatycznie usuwane" },
+    "anyLang": { "title": "Dowolny język", "desc": "cURL, Node, Python…" }
+  },
+  "toc": {
+    "label": "Dokumentacja",
+    "quickstart": "Szybki start",
+    "authentication": "Uwierzytelnianie",
+    "baseUrl": "Adres bazowy i odpowiedzi",
+    "endpoints": "Endpointy",
+    "quota": "Plany i limity",
+    "errors": "Kody błędów",
+    "apiKeys": "Twoje klucze API"
+  },
+  "sections": {
+    "quickstart": "Szybki start",
+    "authentication": "Uwierzytelnianie",
+    "baseUrl": "Adres bazowy i odpowiedzi",
+    "endpoints": "Endpointy",
+    "quota": "Plany i limity",
+    "errors": "Kody statusu i błędów",
+    "cta": "Zacznij budować już dziś"
+  },
+  "steps": {
+    "getKey": { "title": "1. Weź klucz", "desc": "Zaloguj się i utwórz klucz w swoim panelu." },
+    "callEndpoint": { "title": "2. Wywołaj endpoint", "desc": "Wyślij plik metodą POST jako multipart/form-data." },
+    "getResult": { "title": "3. Odbierz wynik", "desc": "Przetworzony plik wraca od razu w odpowiedzi." }
+  },
+  "auth": {
+    "desc": "Każde żądanie musi zawierać Twój tajny klucz w nagłówku",
+    "desc2": "przy każdym wywołaniu. Klucze tworzysz i zarządzasz nimi w swoim",
+    "dashboard": "panelu",
+    "warning": "Trzymaj klucze po stronie serwera i nigdy nie umieszczaj ich w kodzie klienta."
+  },
+  "baseUrl": {
+    "desc": "Wszystkie endpointy działają metodą",
+    "desc2": "pod adresem:",
+    "bullet1": "Gdy wszystko się uda, przetworzony plik wraca bezpośrednio w treści odpowiedzi.",
+    "bullet2": "W razie błędu dostajesz treść w formacie JSON:",
+    "bullet3": "Każda odpowiedź zawiera",
+    "bullet4": "Wgrane pliki są skanowane pod kątem złośliwego oprogramowania i usuwane z naszych serwerów zaraz po przetworzeniu."
+  },
+  "params": {
+    "label": "Parametry",
+    "required": "wymagany",
+    "optional": "opcjonalny",
+    "returns": "Zwraca"
+  },
+  "categories": {
+    "organize": "Organizacja",
+    "convert": "Konwersja",
+    "optimize": "Optymalizacja",
+    "secure": "Ochrona"
+  },
+  "quota": {
+    "cols": { "plan": "Plan", "calls": "Wywołania API", "price": "Cena" },
+    "note": "Limit odnawia się pierwszego dnia każdego miesiąca (UTC). Liczą się tylko udane wywołania.",
+    "pricing": "Zobacz pełny cennik"
+  },
+  "errors": {
+    "cols": { "http": "HTTP", "code": "Kod", "meaning": "Znaczenie" }
+  },
+  "cta": {
+    "title": "Zacznij budować już dziś",
+    "desc": "Utwórz darmowy klucz API i wykonaj pierwsze wywołanie w mniej niż minutę.",
+    "button": "Odbierz klucz API"
+  }
+}

@@ -70,7 +70,7 @@ export default function OcrPdfProcess() {
     try {
       const formData = new FormData()
       formData.append("file", file)
-      formData.append("language", locale === "vi" ? "vie" : locale === "ar" ? "ara" : locale === "tr" ? "tur" : locale === "ru" ? "rus" : "eng")
+      formData.append("language", locale === "vi" ? "vie" : locale === "ar" ? "ara" : locale === "tr" ? "tur" : locale === "ru" ? "rus" : locale === "pl" ? "pol" : "eng")
       if (isPro) formData.append("outputFormats", "pdf,docx,txt")
 
       const API_URL =

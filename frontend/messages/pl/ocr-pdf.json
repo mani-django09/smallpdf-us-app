@@ -1,0 +1,269 @@
+{
+  "seo": {
+    "title": "OCR PDF online za darmo: zeskanowany PDF na tekst | SmallPDF.us",
+    "description": "Spraw, żeby zeskanowane pliki PDF dało się przeszukiwać i kopiować, dzięki darmowemu rozpoznawaniu tekstu (OCR) online. Pobierz PDF z możliwością wyszukiwania, a w planach płatnych także Word i TXT. Nic nie trzeba instalować.",
+    "keywords": "OCR PDF, wyciągnij tekst z PDF, zeskanowany PDF na tekst, OCR PDF online, przeszukiwalny PDF, darmowy OCR, ekstrakcja tekstu z PDF, optyczne rozpoznawanie znaków PDF, PDF z możliwością wyszukiwania, zeskanowany dokument na tekst"
+  },
+  "hero": {
+    "title": "OCR PDF online:",
+    "titleHighlight": "wyciągnij tekst",
+    "titleSuffix": "z zeskanowanych plików PDF",
+    "subtitle": "Zamień pliki PDF złożone z obrazów, skanów i zdjęć z aparatu w dokumenty, które da się przeszukiwać i kopiować. Czyta tekst polski i angielski, nic nie trzeba instalować."
+  },
+  "upload": {
+    "dropActive": "Upuść swój PDF tutaj",
+    "heading": "Wgraj zeskanowany PDF",
+    "subheading": "Przeciągnij plik albo kliknij, aby go wybrać. Tylko pliki PDF",
+    "button": "Wybierz PDF do OCR",
+    "sslEncrypted": "Szyfrowanie SSL",
+    "filesDeleted": "Pliki usuwane po 1 godz.",
+    "noSignUp": "Szybko i prosto",
+    "freeLimits": "Free:",
+    "freeLimitsValue": "10 MB · 2 strony · 1 dziennie",
+    "proLimits": "Pro:",
+    "proLimitsValue": "100 MB+ · Strony bez limitu · OCR wsadowy",
+    "preparing": "Przygotowujemy OCR…",
+    "preparingSubtitle": "Wgrywamy i kolejkujemy Twój dokument",
+    "errorOnlyPdf": "Przyjmujemy tylko pliki PDF. Wgraj plik .pdf.",
+    "errorSeePlans": "Zobacz plany Pro →"
+  },
+  "features": {
+    "sectionTitle": "Czym wyróżnia się OCR w SmallPDF.us",
+    "sectionSubtitle": "Nasz potok OCR zbudowany na wieloletnim doświadczeniu w przetwarzaniu dokumentów został zaprojektowany od podstaw z myślą o dokładności, prywatności i rzeczywistej różnorodności dokumentów.",
+    "items": [
+      {
+        "title": "Wysoka dokładność znaków",
+        "desc": "Wieloprzebiegowe rozpoznawanie radzi sobie z mieszanymi czcionkami, obróconymi stronami, pogorszonymi skanami i układami wielokolumnowymi. Czyste dokumenty źródłowe w 300 DPI lub więcej dają stale ostre, bardzo dokładne wyniki."
+      },
+      {
+        "title": "Polski i angielski",
+        "desc": "Nasz OCR czyta tekst polski razem z angielskimi słowami i cyframi, łącznie z polskimi znakami: ą, ć, ę, ł, ń, ó, ś, ź, ż. Inne języki nie są na razie obsługiwane, więc przy nich wynik będzie błędny. Dokładność rośnie, gdy skan jest wyraźny i prosty."
+      },
+      {
+        "title": "Przeszukiwalny PDF bez niszczenia oryginału",
+        "desc": "Oryginalny układ, obrazy i formatowanie zostają idealnie zachowane. Nakładamy przezroczystą warstwę tekstową dopasowaną do pikseli, dzięki czemu wyszukiwanie, kopiowanie i czytniki ekranu działają bez zarzutu."
+      },
+      {
+        "title": "Kolejka priorytetowa dla użytkowników Pro",
+        "desc": "Użytkownicy Pro całkowicie omijają standardową kolejkę. Rozpoznanie jednej strony trwa poniżej 3 sekund, a strony w wielostronicowych partiach są przetwarzane równolegle."
+      },
+      {
+        "title": "Prywatność bez kompromisów",
+        "desc": "TLS 1.3 podczas przesyłania, automatyczne usunięcie w ciągu godziny (plan darmowy) lub do 72 godzin (plany płatne). Nie czytamy zawartości Twoich dokumentów i nikomu jej nie przekazujemy."
+      },
+      {
+        "title": "Eksport do Worda i TXT (Pro)",
+        "desc": "Nie poprzestawaj na przeszukiwalnym PDF. Wyeksportuj wyniki OCR jako .docx do edycji w Wordzie albo jako .txt do indeksowania, tłumaczenia i systemów zarządzania treścią."
+      }
+    ]
+  },
+  "howItWorks": {
+    "sectionTitle": "Jak to działa: 3 proste kroki",
+    "sectionSubtitle": "Wgraj skan i pobierz przeszukiwalny PDF.",
+    "steps": [
+      {
+        "title": "Wgraj zeskanowany PDF",
+        "desc": "Przeciągnij plik albo kliknij, aby go wybrać. Przyjmujemy dowolny PDF, w tym umowy, faktury, książki, formularze i zdjęcia z aparatu.",
+        "badge": "Free: 10 MB · 2 strony"
+      },
+      {
+        "title": "Silnik OCR przetwarza strony",
+        "desc": "Każda strona jest prostowana, odszumiana i przepuszczana przez nasz model rozpoznawania znaków. Współrzędne tekstu są mapowane z powrotem na oryginalną geometrię.",
+        "badge": "Polski i angielski"
+      },
+      {
+        "title": "Pobierz przeszukiwalny PDF",
+        "desc": "Dostajesz dokument z w pełni osadzoną, niewidoczną warstwą tekstową. Wyszukiwanie Ctrl+F, kopiowanie i czytniki ekranu działają teraz w każdym miejscu pliku.",
+        "badge": "Pro: także .docx i .txt"
+      }
+    ]
+  },
+  "useCases": {
+    "sectionTitle": "Kto korzysta z OCR PDF i po co",
+    "sectionSubtitle": "Każdego dnia profesjonaliści z wielu branż polegają na dokładnym OCR, żeby odblokować dane zamknięte w zeskanowanych dokumentach.",
+    "items": [
+      {
+        "title": "Prawnicy",
+        "desc": "Zamieniaj zeskanowane pisma procesowe, protokoły i umowy w przeszukiwalne pliki PDF, żeby szybko wyszukiwać słowa kluczowe i odnosić się do cytatów podczas przygotowywania sprawy."
+      },
+      {
+        "title": "Ochrona zdrowia i medycyna",
+        "desc": "Cyfryzuj drukowaną dokumentację pacjentów, wyniki badań i recepty, żeby były dostępne dla systemów dokumentacji medycznej i audytów zgodności."
+      },
+      {
+        "title": "Badania naukowe",
+        "desc": "Wyciągaj tekst ze zeskanowanych artykułów, archiwów historycznych i książek z bibliotek, żeby włączyć wyszukiwanie pełnotekstowe, zarządzanie cytowaniami i analizę NLP."
+      },
+      {
+        "title": "Finanse i księgowość",
+        "desc": "Rozpoznawaj faktury, paragony, wyciągi bankowe i dokumenty podatkowe, żeby zautomatyzować wprowadzanie danych do programu księgowego i uniknąć kosztownych błędów przy ręcznym przepisywaniu."
+      },
+      {
+        "title": "Dokumenty po polsku i angielsku",
+        "desc": "Pewnie przetwarzaj umowy, dokumenty i korespondencję po polsku lub angielsku. Pamiętaj, że skany w innych językach nie są na razie obsługiwane."
+      },
+      {
+        "title": "Inżynieria i architektura",
+        "desc": "Wyciągaj specyfikacje, numery części i wymiary ze zeskanowanych rysunków technicznych i planów, żeby śledzić rewizje i włączać je do procesów BIM."
+      }
+    ]
+  },
+  "diveTitle": "Co naprawdę dzieje się podczas OCR",
+  "diveSubtitle": "Jak OCR czyta Twój skan i co wpływa na dokładność.",
+  "dive1Title": "Tekst natywny a zeskanowany: jak OCR je odróżnia",
+  "dive1Desc": "PDF stworzony cyfrowo ma już warstwę tekstową, więc uruchamianie OCR jest zbędne. Narzędzie to wykrywa i może pominąć strony, które mają już zaznaczalny tekst. Zeskanowane strony, czyli same obrazy bez warstwy tekstowej, to te, które faktycznie wymagają OCR.",
+  "dive2Title": "Co wpływa na dokładność OCR",
+  "dive2Desc": "Najważniejsza jest rozdzielczość skanu: wyraźny skan 300 DPI jest rozpoznawany znacznie dokładniej niż rozmyte zdjęcie z telefonu. Liczy się też czytelność czcionki, kontrast między tekstem a tłem i przekrzywienie strony. Potok sam koryguje przekrzywienie i szum, ale skany bardzo słabej jakości nadal dają więcej błędów.",
+  "dive3Title": "Kilka języków w jednym dokumencie",
+  "dive3Desc": "Modele rozpoznawania są trenowane osobno dla każdego języka. Na naszej polskiej stronie rozpoznawanie działa jednocześnie dla polskiego i angielskiego, więc angielskie słowa i cyfry w polskim dokumencie też są odczytywane. Pozostałe języki nie są obsługiwane i są rozpoznawane błędnie.",
+  "dive4Title": "Przeszukiwalny PDF a wyodrębniony plik tekstowy",
+  "dive4Desc": "Domyślnie OCR dodaje niewidoczną warstwę tekstową nad oryginalnym zeskanowanym obrazem, więc PDF wygląda tak samo, ale można go przeszukiwać i kopiować. Jeśli potrzebujesz surowego tekstu w osobnym pliku, poszukaj oddzielnej opcji eksportu tekstu, a nie samego wyniku w postaci przeszukiwalnego PDF.",
+  "dive5Title": "Czy OCR działa na pismo odręczne?",
+  "dive5Desc": "Standardowe modele OCR są trenowane na tekście drukowanym i mocno sobie nie radzą z pismem odręcznym, zwłaszcza pochyłym lub niespójnym. Wyraźne pismo drukowane czasem rozpoznaje się całkiem dobrze, ale dokładność wyraźnie spada w porównaniu z tekstem drukowanym lub maszynowym.",
+  "dive6Title": "Tabele i dane ustrukturyzowane w zeskanowanych dokumentach",
+  "dive6Desc": "OCR rozpoznaje tekst w tabeli, ale nie odtwarza jej automatycznie jako uporządkowanej tabeli. Wynikiem jest przeszukiwalna strona, na której liczby i opisy da się znaleźć, ale struktura kolumn i wierszy nie musi być zachowana. Do tego lepiej nadaje się osobna konwersja PDF na Excel.",
+  "faq": {
+    "sectionTitle": "Najczęstsze pytania",
+    "sectionSubtitle": "Krótkie odpowiedzi o limitach, prywatności i wynikach.",
+    "items": [
+      {
+        "q": "Jak działa OCR w pliku PDF?",
+        "a": "OCR (optyczne rozpoznawanie znaków) traktuje każdą stronę PDF jak obraz i przepuszcza ją przez kilka etapów: prostowanie, usuwanie szumu, normalizację kontrastu, a potem model rozpoznawania znaków oparty na głębokim uczeniu, który przypisuje wzorce pikseli do znaków Unicode. Odtworzony tekst jest osadzany jako niewidoczna warstwa nad oryginalną grafiką, dzięki czemu dokument da się w pełni przeszukiwać i kopiować, bez zmiany ani jednego piksela oryginalnego układu."
+      },
+      {
+        "q": "Jakie pliki PDF skorzystają z OCR?",
+        "a": "Z OCR skorzysta każdy PDF, który zawiera zeskanowane obrazy tekstu: dokumenty ze skanera płaskiego, zdjęcia z aparatu zapisane jako PDF, faksy, wydrukowane formularze albo skany mikrofilmów archiwalnych. Jeśli Twój PDF ma już zaznaczalny tekst (czyli możesz podświetlać słowa), jest „natywny” i OCR nie jest potrzebny, choć nasze narzędzie nadal może wyciągnąć i przeformatować jego zawartość."
+      },
+      {
+        "q": "Jak dokładny jest OCR?",
+        "a": "Przy czystych skanach w wysokiej rozdzielczości, od 300 DPI wzwyż, nasz silnik osiąga bardzo wysoką dokładność znaków w standardowych dokumentach pisanych alfabetem łacińskim. Dokładność naturalnie zależy od jakości skanu: rozmyte, niskokontrastowe lub mocno zniekształcone obrazy dadzą gorsze wyniki. Tekst odręczny jest obsługiwany tylko częściowo i jest znacznie trudniejszy niż drukowany. Najlepsze rezultaty daje skanowanie w minimum 300 DPI przy równym oświetleniu."
+      },
+      {
+        "q": "Czy mój PDF jest prywatny i bezpieczny?",
+        "a": "Prywatność jest dla nas podstawą tego, jak zbudowaliśmy SmallPDF.us. Każde wgranie plik przechodzi przez szyfrowane połączenie TLS 1.3. Pliki z planu darmowego są automatycznie i trwale usuwane w ciągu godziny, a pliki z planów płatnych w ciągu 72 godzin. Nie czytamy, nie indeksujemy, nie udostępniamy ani nie sprzedajemy zawartości Twoich dokumentów, a pliki usuwamy zgodnie z powyższym harmonogramem. Wszystkie szczegóły znajdziesz w naszej Polityce prywatności."
+      },
+      {
+        "q": "Jakie języki obsługuje OCR?",
+        "a": "Obecnie na polskiej stronie nasz silnik czyta tekst polski i angielski, a na stronach angielskich tylko angielski. Pozostałe języki nie są na razie obsługiwane, więc przy nich nie dostaniesz poprawnego wyniku. Pracujemy nad rozszerzeniem listy."
+      },
+      {
+        "q": "Czy mogę zrobić OCR wielostronicowego PDF?",
+        "a": "W planie darmowym w jednym zadaniu OCR przetwarzane są do 2 stron, co świetnie sprawdza się przy szybkim wyciąganiu tekstu z krótkich dokumentów. Użytkownicy planów Pro i Agency mogą rozpoznawać pliki PDF o dowolnej liczbie stron w jednym zadaniu, a także wysyłać do 10 plików naraz przez OCR wsadowy, więc duże zestawy dokumentów można przetwarzać bez wgrywania ich pojedynczo."
+      },
+      {
+        "q": "Jakie formaty wyjściowe mogę pobrać?",
+        "a": "Użytkownicy planu darmowego dostają przeszukiwalny PDF: wizualnie identyczny z oryginałem, ale z osadzoną, niewidoczną warstwą tekstową, która umożliwia wyszukiwanie Ctrl+F, kopiowanie i działanie narzędzi ułatwień dostępu. Użytkownicy planów Pro i Agency mogą dodatkowo wyeksportować wyciągnięty tekst jako sformatowany dokument Word .docx (z zachowaniem akapitów i podstawowego układu) albo jako surowy plik .txt do potoków danych, narzędzi do tłumaczenia lub systemów zarządzania treścią."
+      },
+      {
+        "q": "Dlaczego OCR jest ograniczony do 1 dziennie w planie darmowym?",
+        "a": "Optyczne rozpoznawanie znaków wymaga dużej mocy obliczeniowej: każda strona potrzebuje zauważalnego czasu procesora na przygotowanie i rozpoznanie. Dajemy 1 darmowe uruchomienie OCR dziennie, żeby usługa pozostawała szybka i niezawodna dla wszystkich. Przejdź na Pro, żeby uruchamiać OCR bez ograniczeń, korzystać z kolejki priorytetowej, większych plików i przetwarzania wsadowego. Zadania Pro są wykonywane w kolejce priorytetowej."
+      }
+    ]
+  },
+  "seoContent": {
+    "h2": "Czym jest OCR i dlaczego Twój PDF go potrzebuje?",
+    "p1": "Optyczne rozpoznawanie znaków (OCR) to technologia, która zamienia płaski PDF złożony z obrazów w żywy, interaktywny dokument. Gdy skanujesz papierową umowę, fotografujesz paragon albo zapisujesz wydrukowany raport jako PDF, plik jest w gruncie rzeczy obrazkiem: komputer widzi wzorce pikseli, a nie litery. OCR to zmienia. Analizuje każdą stronę, rozpoznaje pojedyncze znaki dzięki wytrenowanym modelom uczenia maszynowego i odtwarza tekst w postaci cyfrowej, nie zmieniając ani jednego piksela oryginalnego układu.",
+    "p2": "Efektem jest <strong>przeszukiwalny PDF</strong>: wizualnie identyczny z oryginałem, ale z niewidoczną, idealnie dopasowaną warstwą tekstową pod obrazami. Możesz teraz przeszukać 200-stronicową umowę skrótem Ctrl+F, zaznaczyć i skopiować akapit albo pozwolić narzędziom ułatwień dostępu czytać treść osobom niewidzącym i słabowidzącym. Użytkownicy Pro mogą pójść dalej i pobrać wyciągnięty tekst jako edytowalny plik <strong>.docx do Worda</strong> albo surowy plik <strong>.txt</strong> do dalszej edycji, tłumaczenia lub indeksowania.",
+    "h3": "Jak SmallPDF.us zapewnia dokładne wyniki OCR",
+    "p3": "W przetwarzaniu dokumentów dokładność nie podlega negocjacjom. Nasz potok OCR przechodzi cztery wyraźne etapy. Najpierw <strong>wstępne przetwarzanie</strong>: każda strona jest analizowana pod kątem obrotu, szumu i kontrastu oraz dzielona na obszary tekstowe i nietekstowe. Potem <strong>wybór modelu językowego</strong>: stosowany jest odpowiedni model znaków dla obecnie obsługiwanych języków, polskiego i angielskiego. Następnie <strong>silnik rozpoznawania</strong> analizuje znak po znaku, używając kontekstowych modeli językowych, żeby rozróżniać podobne glify (na przykład „I”, „l” i „1”). Na końcu <strong>przetwarzanie końcowe</strong> odtwarza słowa i zdania z prawidłowymi odstępami, dzieleniem wyrazów i strukturą akapitów, zanim osadzi warstwę tekstową w Twoim PDF.",
+    "p4": "Żeby uzyskać najlepsze wyniki, upewnij się, że dokument źródłowy został zeskanowany w 300 DPI lub wyżej, przy równym oświetleniu bez cieni. Dokumenty w 150 DPI lub niższej rozdzielczości, z mocną fakturą tła albo dużym przekrzywieniem mogą dawać niższą dokładność. W każdym przypadku oryginalna grafika w Twoim PDF pozostaje całkowicie nietknięta, dodawana jest tylko niewidoczna, przeszukiwalna warstwa tekstowa."
+  },
+  "cta": {
+    "heading": "Spraw, żeby Twój PDF dało się przeszukiwać",
+    "subtitle": "Wgraj zeskanowany PDF i pobierz dokument, który można przeszukiwać i kopiować. Na start za darmo.",
+    "button": "Zacznij OCR teraz. To nic nie kosztuje"
+  },
+  "preview": {
+    "pageTitle": "Podgląd OCR PDF - SmallPDF.us",
+    "changeFile": "Zmień plik",
+    "headerTitle": "Gotowe do wyciągnięcia tekstu",
+    "headerSubtitle": "Sprawdź plik i uruchom OCR",
+    "fileReady": "Gotowe",
+    "freePlanTitle": "Limity planu darmowego",
+    "freePlanDesc": "Do 2 stron · plik do 10 MB · 1 OCR dziennie · standardowa kolejka",
+    "proPlanDesc": "Pro: strony bez limitu · 100 MB · wynik w PDF, Word i TXT",
+    "whatYoullReceive": "Co dostaniesz",
+    "receiveSearchablePdf": "Przeszukiwalny PDF z osadzoną warstwą tekstu",
+    "receiveDocx": "Dokument Word (.docx) z wyciągniętym tekstem",
+    "receiveTxt": "Zwykły plik tekstowy (.txt) do łatwego kopiowania",
+    "receiveProOnly": "Eksport do Worda i TXT (tylko Pro)",
+    "runOcrButton": "Uruchom OCR i wyciągnij tekst",
+    "securePrivate": "Bezpiecznie i prywatnie",
+    "autoDeleted": "Usunięcie po 1 godz.",
+    "pleaseWait": "Poczekaj i nie zamykaj tej karty",
+    "ocrFailed": "OCR nie powiódł się",
+    "tryAgain": "Spróbuj ponownie",
+    "upgradeToPro": "Przejdź na Pro",
+    "uploadDifferent": "Wgraj inny plik",
+    "sidebarHowTitle": "Jak działa OCR",
+    "sidebarSteps": [
+      "Wgraj swój PDF",
+      "Wyciągamy warstwę tekstu",
+      "Tworzymy przeszukiwalny PDF",
+      "Pobierz swoje pliki"
+    ],
+    "sidebarSecurityTitle": "Bezpieczeństwo",
+    "sidebarSecurityItems": [
+      "Szyfrowanie SSL 256-bit",
+      "Usunięcie po 1 godzinie",
+      "Dane nie są przechowywane ani sprzedawane",
+      "Pobierz i usuń w dowolnej chwili"
+    ],
+    "sidebarProTitle": "Przejdź na Pro",
+    "sidebarProDesc": "Strony bez limitu, OCR wsadowy, eksport do Worda i TXT, kolejka priorytetowa",
+    "sidebarProButton": "Zobacz plany →",
+    "advertisement": "Reklama"
+  },
+  "process": {
+    "pageTitle": "Przetwarzanie OCR - SmallPDF.us",
+    "backLink": "Wróć do OCR PDF",
+    "processingTitle": "OCR w toku…",
+    "standardQueue": "Standardowa kolejka. Pro korzysta z kolejki priorytetowej.",
+    "doneTitle": "OCR zakończony!",
+    "pagesProcessed": "Przetworzone strony: {count}",
+    "wordsExtracted": "Wyciągnięte słowa: ok. {count}",
+    "downloadPdf": "Pobierz przeszukiwalny PDF",
+    "downloadDocx": "Pobierz Word (.docx)",
+    "downloadTxt": "Pobierz zwykły tekst (.txt)",
+    "upsellTitle": "Chcesz więcej?",
+    "upsellDesc": "Użytkownicy Pro mogą też pobrać ten dokument jako plik Word albo zwykły tekst, rozpoznawać dowolną liczbę stron i przetwarzać partie do 10 plików PDF naraz.",
+    "upgradePro": "Przejdź na Pro",
+    "ocrAnother": "Zrób OCR kolejnego dokumentu",
+    "errorTitle": "OCR nie powiódł się",
+    "stages": [
+      "Wgrywamy dokument…",
+      "Wstępnie przetwarzamy strony…",
+      "Rozpoznajemy znaki…",
+      "Odtwarzamy układ tekstu…",
+      "Osadzamy warstwę tekstu…",
+      "Kończymy Twój PDF…"
+    ]
+  },
+  "download": {
+    "pageTitle": "Pobierz PDF z OCR - SmallPDF.us",
+    "successTitle": "OCR zakończony!",
+    "pagesProcessed": "Przetworzone strony: {count}",
+    "wordsExtracted": "Wyciągnięte słowa: ok. {count}",
+    "fileReady": "Gotowe",
+    "downloadPdf": "Pobierz przeszukiwalny PDF",
+    "downloading": "Pobieramy…",
+    "downloaded": "Pobrano!",
+    "downloadDocx": "Pobierz Word (.docx)",
+    "downloadTxt": "Pobierz zwykły tekst (.txt)",
+    "secureDownload": "Bezpieczne pobieranie",
+    "autoDeleted": "Pliki usuwane po 1 godz.",
+    "imagePdfTitle": "Wykryto zeskanowany PDF lub PDF z obrazów",
+    "imagePdfDesc": "Ten PDF zawiera obrazy zamiast tekstu cyfrowego, więc nie udało się automatycznie wyciągnąć tekstu. Pobrany PDF zawiera stronę z wyjaśnieniem.",
+    "imagePdfUpgrade": "Przejdź na Pro",
+    "imagePdfUpgradeSuffix": ", żeby korzystać z zaawansowanej obsługi silnika OCR przy zeskanowanych dokumentach.",
+    "alreadySearchableTitle": "Twój PDF miał już zaznaczalny tekst",
+    "alreadySearchableDesc": "OCR nie był potrzebny, bo możesz już przeszukiwać i kopiować jego tekst. Twój plik pozostał bez zmian.",
+    "noTextTitle": "Nie udało się rozpoznać żadnego tekstu",
+    "noTextDesc": "Spróbuj wyraźniejszego skanu: proste strony, dobry kontrast i co najmniej 300 DPI. Pismo odręczne nie jest obsługiwane.",
+    "proUpsellTitle": "Chcesz więcej od OCR?",
+    "proUpsellDesc": "Przejdź na Pro, żeby dostać strony bez limitu, OCR wsadowy, eksport do Worda i TXT, pliki do 100 MB i priorytetowe przetwarzanie.",
+    "proUpsellLink": "Przejdź na Pro",
+    "ocrAnother": "Zrób OCR kolejnego dokumentu",
+    "advertisement": "Reklama"
+  }
+}

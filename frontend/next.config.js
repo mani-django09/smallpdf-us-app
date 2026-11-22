@@ -272,6 +272,45 @@ const viSubPages = {
   'tai-xuong': 'download',
 }
 
+// ── Polish slugs → EN (ASCII, so URLs need no percent-encoding) ──
+const plToEn = {
+  'kompresuj-pdf': 'compress-pdf',
+  'polacz-pdf': 'merge-pdf',
+  'podziel-pdf': 'split-pdf',
+  'odblokuj-pdf': 'unlock-pdf',
+  'obroc-pdf': 'rotate-pdf',
+  'zabezpiecz-pdf': 'protect-pdf',
+  'zaczernij-pdf': 'redact-pdf',
+  'pdf-na-word': 'pdf-to-word',
+  'word-na-pdf': 'word-to-pdf',
+  'pdf-na-jpg': 'pdf-to-jpg',
+  'jpg-na-pdf': 'jpg-to-pdf',
+  'pdf-na-png': 'pdf-to-png',
+  'png-na-pdf': 'png-to-pdf',
+  'pdf-na-ppt': 'pdf-to-ppt',
+  'ppt-na-pdf': 'ppt-to-pdf',
+  'pdf-na-excel': 'pdf-to-excel',
+  'excel-na-pdf': 'excel-to-pdf',
+  'webp-na-png': 'webp-to-png',
+  'png-na-webp': 'png-to-webp',
+  'heic-na-jpg': 'heic-to-jpg',
+  'heic-na-png': 'heic-to-png',
+  'kompresuj-obraz': 'compress-image',
+  'kompresuj-obraz-do-50kb': 'compress-image-to-50kb',
+  'kompresuj-obraz-do-100kb': 'compress-image-to-100kb',
+  'kompresuj-obraz-do-20kb': 'compress-image-to-20kb',
+  'edytuj-pdf': 'edit-pdf',
+  'o-nas': 'about',
+  'kontakt': 'contact',
+  'polityka-prywatnosci': 'privacy',
+  'regulamin': 'terms',
+}
+
+const plSubPages = {
+  'podglad': 'preview',
+  'pobieranie': 'download',
+}
+
 // ── Hindi slugs → EN (Latin / Hinglish, so URLs need no percent-encoding) ──
 // Hindi uses the SAME slugs as English (/hi/compress-pdf). These are the
 // short-lived Hinglish slugs, kept only to 301 old links to the English slugs.
@@ -400,6 +439,7 @@ const ocrSubPages = {
   id: { 'pratinjau': 'preview', 'unduh': 'download' },
   pt: { 'visualizar': 'preview', 'baixar': 'download' },
   vi: { 'xem-truoc': 'preview', 'tai-xuong': 'download' },
+  pl: { 'podglad': 'preview', 'pobieranie': 'download' },
 }
 
 // edit-pdf keeps its 'edit-pdf' slug only for 'id' (de/fr/es/it/pt got real
@@ -455,7 +495,7 @@ function buildSameToolAliasRewrites(fromSlug, toSlug) {
     { source: `/${fromSlug}/download`,  destination: `/${toSlug}/download` },
     { source: `/${fromSlug}/download/`, destination: `/${toSlug}/download/` },
   ]
-  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr', 'ru']) {
+  for (const locale of ['ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr', 'ru', 'pl']) {
     rewrites.push({ source: `/${locale}/${fromSlug}/preview`,   destination: `/${locale}/${toSlug}/preview`,   locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/preview/`,  destination: `/${locale}/${toSlug}/preview/`,  locale: false })
     rewrites.push({ source: `/${locale}/${fromSlug}/download`,  destination: `/${locale}/${toSlug}/download`,  locale: false })
@@ -483,6 +523,7 @@ const compressImage50kbSlugs = {
   id: 'kompres-gambar-ke-50kb',
   pt: 'comprimir-imagem-para-50kb',
   vi: 'nen-anh-xuong-50kb',
+  pl: 'kompresuj-obraz-do-50kb',
 }
 const compressImage100kbSlugs = {
   de: 'bild-auf-100kb-komprimieren',
@@ -492,6 +533,7 @@ const compressImage100kbSlugs = {
   id: 'kompres-gambar-ke-100kb',
   pt: 'comprimir-imagem-para-100kb',
   vi: 'nen-anh-xuong-100kb',
+  pl: 'kompresuj-obraz-do-100kb',
 }
 const compressImage20kbSlugs = {
   de: 'bild-auf-20kb-komprimieren',
@@ -501,9 +543,10 @@ const compressImage20kbSlugs = {
   id: 'kompres-gambar-ke-20kb',
   pt: 'comprimir-imagem-para-20kb',
   vi: 'nen-anh-xuong-20kb',
+  pl: 'kompresuj-obraz-do-20kb',
 }
 const compressImage50kbSubPagesByLocale = {
-  de: deSubPages, fr: frSubPages, es: esSubPages, it: itSubPages, id: idSubPages, pt: ptSubPages, vi: viSubPages,
+  de: deSubPages, fr: frSubPages, es: esSubPages, it: itSubPages, id: idSubPages, pt: ptSubPages, vi: viSubPages, pl: plSubPages,
 }
 function buildCompressImageTargetKbSubRewrites(slugsMap) {
   const rewrites = []
@@ -525,7 +568,7 @@ const nextConfig = {
   trailingSlash: true,
 
   i18n: {
-    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr', 'ru'],
+    locales: ['en', 'ja', 'de', 'fr', 'es', 'it', 'id', 'pt', 'vi', 'hi', 'ar', 'tr', 'ru', 'pl'],
     defaultLocale: 'en',
     localeDetection: false, // ← Prevent Accept-Language header causing redirects for Googlebot
   },
@@ -562,6 +605,7 @@ const nextConfig = {
       ...buildLocaleRewrites('id', idToEn, idSubPages),
       ...buildLocaleRewrites('pt', ptToEn, ptSubPages),
       ...buildLocaleRewrites('vi', viToEn, viSubPages),
+      ...buildLocaleRewrites('pl', plToEn, plSubPages),
       // ocr-pdf (all locales) and edit-pdf (id only) keep the same top-level
       // slug but still have localized sub-pages
       ...buildSameSlugRewrites('ocr-pdf', ocrSubPages),
@@ -678,6 +722,7 @@ const nextConfig = {
       ...buildLocaleRedirects('id', idToEn, idSubPages),
       ...buildLocaleRedirects('pt', ptToEn, ptSubPages),
       ...buildLocaleRedirects('vi', viToEn, viSubPages),
+      ...buildLocaleRedirects('pl', plToEn, plSubPages),
       ...buildHiLegacyRedirects(),
       // ocr-pdf / edit-pdf canonical sub-page redirects
       ...buildSameSlugRedirects('ocr-pdf', ocrSubPages),
@@ -711,7 +756,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options',   value: 'nosniff' },
           { key: 'X-XSS-Protection',         value: '1; mode=block' },
           { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
-          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi, hi, ar, tr, ru' },
+          { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi, hi, ar, tr, ru, pl' },
         ],
       },
       // ── Immutable cache for Next.js JS/CSS chunks (fingerprinted filenames) ──

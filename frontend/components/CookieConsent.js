@@ -129,6 +129,12 @@ export default function CookieConsent() {
       decline: 'Отклонить',
       policy: 'Конфиденциальность',
     },
+    pl: {
+      msg: 'Używamy plików cookie do analityki i reklam, dzięki czemu ta strona może pozostać darmowa.',
+      accept: 'Akceptuję',
+      decline: 'Odrzucam',
+      policy: 'Prywatność',
+    },
   }
 
   const t = texts[locale] || texts.en

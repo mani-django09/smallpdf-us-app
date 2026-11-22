@@ -53,6 +53,7 @@ const TEXT = {
   ar: ['تابع بهذا الملف', 'لا حاجة لتنزيله ورفعه مرة أخرى.', 'تعذّر تحميل الملف. يُرجى تنزيله ثم رفعه إلى الأداة التالية.'],
   tr: ['Bu dosyayla devam edin', 'İndirip yeniden yüklemenize gerek yok.', 'Dosya yüklenemedi. Lütfen indirip sonraki araca yükleyin.'],
   ru: ['Продолжить с этим файлом', 'Не нужно скачивать и загружать его заново.', 'Не удалось загрузить файл. Скачайте его и загрузите в следующий инструмент.'],
+  pl: ['Kontynuuj z tym plikiem', 'Nie musisz go pobierać i wgrywać od nowa.', 'Nie udało się wczytać pliku. Pobierz go i wgraj do następnego narzędzia.'],
 }
 
 const MIME = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' }
