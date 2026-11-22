@@ -3,6 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -441,6 +442,7 @@ export default function DownloadPage() {
                       {copied ? <CheckCircle className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
+                  <ContinueWith current="word-to-pdf" blob={downloadedBlob} getUrl={() => file} fileName={"converted.pdf"} />
                   {/* ── Upgrade upsell ── */}
                   <UpgradeUpsell className="mt-4" />
 

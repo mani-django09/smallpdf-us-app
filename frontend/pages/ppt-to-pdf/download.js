@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -443,6 +444,7 @@ export default function DownloadPptToPdf() {
                       {copied ? <CheckCircle className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
+                  <ContinueWith current="ppt-to-pdf" blob={downloadedBlob} getUrl={() => `/api/download-ppt-pdf/${convertResult?.jobId}`} fileName={"converted.pdf"} />
                   {/* ── Upgrade upsell ── */}
                   <UpgradeUpsell className="mt-4" />
 

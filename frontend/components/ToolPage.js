@@ -481,7 +481,7 @@ export default function ToolPage({
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
-                <span>Files deleted after 1 hour</span>
+                <span>Files auto-deleted (free: ~1 hour)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
@@ -489,7 +489,7 @@ export default function ToolPage({
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
-                <span>GDPR compliant</span>
+                <span>Never shared or sold</span>
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -317,6 +318,7 @@ export default function DownloadHeicToJpg() {
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
+                  <ContinueWith current="heic-to-jpg" blob={downloadedBlob} getUrl={() => `/api/download-heic-jpg/${jobId || convertResult?.jobId}`} fileName={"photo.jpg"} />
 
                   {/* ── Upgrade upsell ── */}
                   <UpgradeUpsell className="mt-4" />

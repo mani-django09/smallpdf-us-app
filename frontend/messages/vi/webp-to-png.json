@@ -57,7 +57,7 @@
   "faq3Q": "Vì sao tôi nên chuyển WEBP sang PNG?",
   "faq3A": "WEBP rất tốt cho hiệu năng web, nhưng chưa được hỗ trợ phổ biến. Phần mềm cũ, một số công cụ thiết kế và hầu hết quy trình in ấn yêu cầu PNG hoặc JPG. Chuyển sang PNG cho bạn khả năng tương thích rộng nhất mà không đánh đổi chất lượng ảnh.",
   "faq4Q": "Tệp của tôi được giữ trên máy chủ bao lâu?",
-  "faq4A": "Các tệp bạn tải lên và PNG đã chuyển đổi tự động bị xóa trong vòng 1 giờ. Khi bạn đóng trang tải xuống, chúng sẽ biến mất - chúng tôi không giữ bản sao.",
+  "faq4A": "Với gói miễn phí, tệp bạn tải lên và PNG đã chuyển đổi tự động bị xóa khoảng 1 giờ sau khi xử lý. Gói trả phí giữ kết quả trong \"Tệp của tôi\" 24 hoặc 48 giờ để bạn tải lại. Chúng tôi không bao giờ bán hay chia sẻ tệp của bạn.",
   "faq5Q": "Tôi có thể chuyển tệp WEBP có độ trong suốt sang PNG không?",
   "faq5A": "Có. PNG hỗ trợ đầy đủ độ trong suốt alpha, nên mọi vùng trong suốt trong WEBP của bạn được giữ trong kết quả, phù hợp với logo, biểu tượng và tài nguyên thiết kế.",
   "seo1Title": "WEBP và PNG - Nên dùng cái nào?",

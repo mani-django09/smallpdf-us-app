@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -336,6 +337,7 @@ export default function OcrPdfDownload() {
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
+                <ContinueWith current="ocr-pdf" blob={downloadedBlob} getUrl={() => result?.pdfUrl} fileName={"ocr.pdf"} />
               </div>
             </div>
 

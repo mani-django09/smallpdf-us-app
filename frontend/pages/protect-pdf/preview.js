@@ -81,9 +81,11 @@ export default function ProtectPreview() {
 
     try {
       const fd = new FormData()
-      fd.append("file", protectPdfStore.file, protectPdfStore.name)
+      const files = protectPdfStore.files?.length ? protectPdfStore.files : [protectPdfStore.file]
+      const multi = files.length > 1
+      files.forEach((f) => fd.append(multi ? "files" : "file", f, f.name))
       fd.append("password", password)
-      const resp = await authFetch(`${getApiUrl()}/api/protect-pdf`, { method: "POST", body: fd })
+      const resp = await authFetch(`${getApiUrl()}/api/protect-pdf${multi ? "-batch" : ""}`, { method: "POST", body: fd })
       const data = await resp.json()
       if (handleDailyLimitError(resp.status, data)) { setProcessing(false); setProgress(0); return }  // daily-limit upgrade modal
       if (!resp.ok || !data.success) {
@@ -94,7 +96,7 @@ export default function ProtectPreview() {
 
       setProgress(100); setStage(t("protectPdf.preview.stageComplete"))
       const absoluteUrl = data.downloadUrl.startsWith("http") ? data.downloadUrl : `${getApiUrl()}${data.downloadUrl}`
-      sessionStorage.setItem("protectResult", JSON.stringify({ downloadUrl: absoluteUrl, convertedName: data.convertedName, pageCount: pageCount }))
+      sessionStorage.setItem("protectResult", JSON.stringify({ downloadUrl: absoluteUrl, convertedName: data.convertedName, fileCount: data.fileCount || 1, pageCount: pageCount }))
       setTimeout(() => goToDownload(router, "/protect-pdf/download"), 400)
     } catch (e) {
       setError(e.message || t("protectPdf.errorGeneric"))
@@ -148,7 +150,7 @@ export default function ProtectPreview() {
                       {thumb ? <img src={thumb} alt="preview" className="max-h-full max-w-full shadow-md" /> : <div className="text-slate-400 flex flex-col items-center gap-2"><FileText className="w-10 h-10" /><span className="text-xs">{t("protectPdf.loadingPreview")}</span></div>}
                       <div className="absolute inset-0 flex items-center justify-center bg-slate-900/10"><div className="w-12 h-12 bg-emerald-600/90 rounded-full flex items-center justify-center shadow-lg"><Lock className="w-6 h-6 text-white" /></div></div>
                     </div>
-                    <p className="text-xs text-slate-500 mt-2 truncate max-w-xs">{meta.name}{pageCount > 0 && ` · ${pageCount} ${pageCount > 1 ? t("protectPdf.pagesWord") : t("protectPdf.pageWord")}`}</p>
+                    <p className="text-xs text-slate-500 mt-2 truncate max-w-xs">{meta.name}{protectPdfStore.files?.length > 1 && ` +${protectPdfStore.files.length - 1}`}{pageCount > 0 && ` · ${pageCount} ${pageCount > 1 ? t("protectPdf.pagesWord") : t("protectPdf.pageWord")}`}</p>
                   </div>
                   {/* Password form */}
                   <div>

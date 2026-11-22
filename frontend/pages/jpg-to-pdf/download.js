@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -431,6 +432,7 @@ export default function DownloadJpgToPdf() {
                       {copied ? <CheckCircle className="w-4 h-4 text-orange-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
+                  <ContinueWith current="jpg-to-pdf" blob={downloadedBlob} getUrl={() => `/api/download-jpg-pdf/${convertResult?.jobId}`} fileName={"images.pdf"} />
                   {/* ── Upgrade upsell ── */}
                   <UpgradeUpsell className="mt-4" />
 

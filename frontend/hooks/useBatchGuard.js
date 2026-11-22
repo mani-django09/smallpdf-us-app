@@ -51,6 +51,8 @@ export const BATCH_LIMITS = {
   'png-to-webp':    { free: 2,  starter: 10, pro: 20,  ent: 20  },
   'heic-to-jpg':    { free: 5,  starter: 10, pro: 20,  ent: 20  },
   'heic-to-png':    { free: 5,  starter: 10, pro: 20,  ent: 20  },
+  'rotate-pdf':     { free: 1,  starter: 10, pro: 20,  ent: 20  },
+  'protect-pdf':    { free: 1,  starter: 10, pro: 20,  ent: 20  },
 }
 
 function getAllowedCount(limits, user) {

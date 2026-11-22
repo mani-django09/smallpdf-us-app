@@ -78,10 +78,12 @@ export default function RotatePreview() {
 
     try {
       const fd = new FormData()
-      fd.append("file", rotatePdfStore.file, rotatePdfStore.name)
+      const files = rotatePdfStore.files?.length ? rotatePdfStore.files : [rotatePdfStore.file]
+      const multi = files.length > 1
+      files.forEach((f) => fd.append(multi ? "files" : "file", f, f.name))
       fd.append("angle", String(rotation))
 
-      const resp = await authFetch(`${getApiUrl()}/api/rotate-pdf`, { method: "POST", body: fd })
+      const resp = await authFetch(`${getApiUrl()}/api/rotate-pdf${multi ? "-batch" : ""}`, { method: "POST", body: fd })
       const data = await resp.json()
       if (handleDailyLimitError(resp.status, data)) { setProcessing(false); setProgress(0); return }  // daily-limit upgrade modal
       if (!resp.ok || !data.success) {
@@ -94,7 +96,7 @@ export default function RotatePreview() {
       setProgress(100); setStage(t("rotatePdf.preview.stageComplete"))
       const absoluteUrl = data.downloadUrl.startsWith("http") ? data.downloadUrl : `${getApiUrl()}${data.downloadUrl}`
       sessionStorage.setItem("rotateResult", JSON.stringify({
-        downloadUrl: absoluteUrl, convertedName: data.convertedName, pageCount: data.pageCount || pageCount, angle: rotation,
+        downloadUrl: absoluteUrl, convertedName: data.convertedName, fileCount: data.fileCount || 1, pageCount: data.pageCount || pageCount, angle: rotation,
       }))
       setTimeout(() => goToDownload(router, "/rotate-pdf/download"), 400)
     } catch (e) {
@@ -153,7 +155,7 @@ export default function RotatePreview() {
                       )}
                     </div>
                     <p className="text-xs text-slate-500 mt-2 truncate max-w-xs">
-                      {meta.name}{pageCount > 0 && ` · ${pageCount} ${pageCount > 1 ? t("rotatePdf.pagesWord") : t("rotatePdf.pageWord")}`}
+                      {meta.name}{rotatePdfStore.files?.length > 1 && ` +${rotatePdfStore.files.length - 1}`}{pageCount > 0 && ` · ${pageCount} ${pageCount > 1 ? t("rotatePdf.pagesWord") : t("rotatePdf.pageWord")}`}
                     </p>
                   </div>
                   {/* Controls */}

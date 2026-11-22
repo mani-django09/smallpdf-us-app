@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -479,6 +480,7 @@ export default function DownloadCompressImage() {
                       {copied ? <CheckCircle className="w-4 h-4 text-purple-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
+                  <ContinueWith current="compress-image" blob={downloadedBlob} getUrl={() => `/api/download-compressed/${jobId}`} fileName={"compressed-image.jpg"} />
 
                   {/* ── Upgrade upsell ── */}
                   <UpgradeUpsell className="mt-4" />

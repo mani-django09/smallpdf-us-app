@@ -10,13 +10,14 @@ import RelatedTools from "../../components/RelatedTools"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
   Upload, Lock, AlertCircle, CheckCircle2, Shield, Zap, Clock,
   ChevronDown, KeyRound, ShieldCheck, MonitorSmartphone, Gift, Sparkles,
 } from "lucide-react"
 
 // In-memory store — File survives nav to /preview within the same tab.
-export const protectPdfStore = { file: null, name: "", size: 0 }
+export const protectPdfStore = { file: null, files: [], name: "", size: 0 }
 
 const FEATURE_ICONS = [ShieldCheck, KeyRound, MonitorSmartphone, Shield, Sparkles, Gift]
 
@@ -24,6 +25,7 @@ export default function ProtectPdf() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
   const { checkFiles, PremiumGateModal } = useFileSizeGuard("protect-pdf")
+  const { checkBatch, BatchGateModal } = useBatchGuard("protect-pdf")
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
@@ -35,18 +37,24 @@ export default function ProtectPdf() {
     return null
   }
 
-  const handleFile = (f) => {
+  // Several PDFs = a batch (paid plans; useBatchGuard shows the upgrade modal).
+  const handleFiles = (list) => {
     setError("")
-    const v = validateFile(f)
-    if (v) { setError(v); return }
-    if (!checkFiles([f])) return
+    const arr = Array.from(list || [])
+    if (!arr.length) return
+    for (const f of arr) { const v = validateFile(f); if (v) { setError(v); return } }
+    if (!checkBatch(arr)) return
+    if (!checkFiles(arr)) return
+
     setIsProcessing(true)
-    protectPdfStore.file = f
-    protectPdfStore.name = f.name
-    protectPdfStore.size = f.size
+    protectPdfStore.files = arr
+    protectPdfStore.file = arr[0]
+    protectPdfStore.name = arr[0].name
+    protectPdfStore.size = arr.reduce((n, f) => n + f.size, 0)
     sessionStorage.setItem("protectPdfReady", "1")
     setTimeout(() => router.push("/protect-pdf/preview"), 500)
   }
+
 
   const handleDrag = useCallback((e) => {
     e.preventDefault(); e.stopPropagation()
@@ -55,7 +63,7 @@ export default function ProtectPdf() {
   }, [])
   const handleDrop = useCallback((e) => {
     e.preventDefault(); e.stopPropagation(); setDragActive(false)
-    if (e.dataTransfer.files?.[0]) handleFile(e.dataTransfer.files[0])
+    if (e.dataTransfer.files?.length) handleFiles(e.dataTransfer.files)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const features = [1, 2, 3, 4, 5, 6].map((n, i) => ({ Icon: FEATURE_ICONS[i], title: t(`protectPdf.feature${n}Title`), desc: t(`protectPdf.feature${n}Desc`) }))
@@ -95,7 +103,7 @@ export default function ProtectPdf() {
               onDragEnter={handleDrag} onDragLeave={handleDrag} onDragOver={handleDrag} onDrop={handleDrop}
             >
               <input type="file" id="protect-upload" accept=".pdf,application/pdf" className="hidden" disabled={isProcessing}
-                onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); e.target.value = "" }} />
+                multiple onChange={(e) => { if (e.target.files?.length) handleFiles(e.target.files); e.target.value = "" }} />
               {isProcessing ? (
                 <div className="space-y-3 py-2">
                   <div className="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg animate-pulse"><Lock className="w-8 h-8 text-white" /></div>
@@ -251,6 +259,7 @@ export default function ProtectPdf() {
 
       <RelatedTools current="protect-pdf" />
       {PremiumGateModal}
+      {BatchGateModal}
     </Layout>
   )
 }

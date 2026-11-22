@@ -57,7 +57,7 @@
   "faq3Q": "Mengapa perlu mengonversi WEBP ke PNG?",
   "faq3A": "WEBP bagus untuk performa web, tetapi tidak didukung secara universal. Perangkat lunak lama, beberapa alat desain, dan sebagian besar alur kerja cetak memerlukan PNG atau JPG. PNG menawarkan kompatibilitas terluas tanpa mengorbankan kualitas gambar.",
   "faq4Q": "Berapa lama file saya disimpan di server?",
-  "faq4A": "File yang diunggah dan PNG yang dikonversi dihapus secara otomatis dalam 1 jam. Begitu Anda menutup halaman unduhan, file tersebut hilang selamanya.",
+  "faq4A": "Pada paket gratis, file yang diunggah dan PNG hasil konversi dihapus otomatis sekitar 1 jam setelah diproses. Paket berbayar menyimpan hasil di \"File Saya\" selama 24 atau 48 jam agar bisa diunduh lagi. Kami tidak pernah menjual atau membagikan file Anda.",
   "faq5Q": "Bisakah saya mengonversi file WEBP dengan transparansi ke PNG?",
   "faq5A": "Ya. PNG mendukung transparansi alfa penuh, sehingga area transparan pada WEBP Anda dipertahankan di hasilnya, cocok untuk logo, ikon, dan aset desain.",
   "seo1Title": "WEBP vs PNG - Mana yang Harus Digunakan?",

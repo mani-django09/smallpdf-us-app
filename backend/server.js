@@ -153,7 +153,7 @@ if (typeof globalThis.Path2D === 'undefined') {
     : ['https://smallpdf.us', 'https://www.smallpdf.us'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Client-Id']
 }))
   // ⚠️ Razorpay webhook MUST be before express.json() — needs raw body
   app.use('/api/payments/webhook', express.raw({ type: 'application/json' }), webhookHandler)
@@ -4828,6 +4828,124 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         status: "error",
       })
       res.status(500).json({ error: error.message })
+    }
+  })
+
+
+  // ── Rotate / Protect PDF: batch (paid plans) ─────────────────────────────
+  // Same work as the single-file routes above, for several PDFs at once; the
+  // results come back as one ZIP. batchLimiter caps the file count per plan
+  // (free = 1, so free users keep using the single-file routes).
+  async function zipOutputs(outputs, zipName) {
+    const storedZip = `${genJobId()}-${zipName}`
+    const zipPath = path.join("./uploads", storedZip)
+    await new Promise((resolve, reject) => {
+      const out = fs.createWriteStream(zipPath)
+      const archive = archiver("zip", { zlib: { level: 6 } })
+      out.on("close", resolve)
+      archive.on("error", reject)
+      archive.pipe(out)
+      const used = new Set()
+      for (const o of outputs) {
+        let name = o.name, n = 2
+        while (used.has(name.toLowerCase())) name = o.name.replace(/\.pdf$/i, `-${n++}.pdf`)
+        used.add(name.toLowerCase())
+        archive.file(o.path, { name })
+      }
+      archive.finalize()
+    })
+    for (const o of outputs) await safeUnlink(o.path)
+    return { storedZip, zipPath }
+  }
+
+  async function finishBatch(req, res, tool, outputs, zipName) {
+    const { storedZip, zipPath } = await zipOutputs(outputs, zipName)
+    const size = fs.statSync(zipPath).size
+    if (req.user) {
+      await recordUserFile({
+        userId: req.user.id, plan: req.user.plan, tool, originalName: zipName,
+        storedPath: path.resolve(zipPath), downloadUrl: `/uploads/${storedZip}`, fileSize: size,
+      })
+    }
+    logActivity({ type: "conversion", action: `${tool.replace(/-/g, "_")}_batch_complete`, tool, conversionType: tool, fileCount: outputs.length, ip: req.clientIP, status: "success" })
+    res.json({ success: true, downloadUrl: `/uploads/${storedZip}`, convertedName: zipName, fileCount: outputs.length })
+  }
+
+  async function batchFailed(req, res, tool, outputs, error) {
+    for (const f of req.files || []) await safeUnlink(f.path)
+    for (const o of outputs) await safeUnlink(o.path)
+    console.error(`${tool} batch error:`, error.message)
+    logActivity({ type: "conversion", action: `${tool.replace(/-/g, "_")}_batch_failed`, tool, error: error.message, ip: req.clientIP, status: error.code ? "warning" : "error" })
+    if (error.code) return res.status(422).json({ error: error.code, message: error.message, fileName: error.fileName })
+    res.status(500).json({ error: "Processing failed" })
+  }
+
+  app.post("/api/rotate-pdf-batch", upload.array("files", 20), fileSizeLimiter("rotate-pdf"), batchLimiter("rotate-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
+    const outputs = []
+    try {
+      if (!req.files || !req.files.length) return res.status(400).json({ error: "No PDF files uploaded" })
+      const { degrees, PDFName } = require("pdf-lib")
+      let angle = parseInt(req.body.angle, 10)
+      if (isNaN(angle)) angle = 90
+      const delta = ((angle % 360) + 360) % 360
+      if (delta % 90 !== 0) {
+        for (const f of req.files) await safeUnlink(f.path)
+        return res.status(400).json({ error: "INVALID_ANGLE", message: "Rotation must be a multiple of 90 degrees." })
+      }
+      logActivity({ type: "upload", action: "pdfs_uploaded_for_rotate", tool: "rotate-pdf", fileCount: req.files.length, ip: req.clientIP, userAgent: req.headers["user-agent"], status: "processing" })
+
+      for (const file of req.files) {
+        const pdf = await loadPdfForEditing(file.path, file.originalname)
+        for (const page of pdf.getPages()) {
+          const inh = page.node.getInheritableAttribute(PDFName.of("Rotate"))
+          const current = inh && typeof inh.asNumber === "function" ? inh.asNumber() : (page.getRotation().angle || 0)
+          page.setRotation(degrees((((current + delta) % 360) + 360) % 360))
+        }
+        const outPath = path.join("./uploads", `${genJobId()}-rotated.pdf`)
+        fs.writeFileSync(outPath, await pdf.save())
+        await safeUnlink(file.path)
+        outputs.push({ path: outPath, name: `rotated-${path.basename(file.originalname, path.extname(file.originalname))}.pdf` })
+      }
+      await finishBatch(req, res, "rotate-pdf", outputs, "rotated-pdfs.zip")
+    } catch (error) {
+      await batchFailed(req, res, "rotate-pdf", outputs, error)
+    }
+  })
+
+  app.post("/api/protect-pdf-batch", upload.array("files", 20), fileSizeLimiter("protect-pdf"), batchLimiter("protect-pdf"), dailyConversionLimiter(), fileValidation, virusScan, optionalAuth, async (req, res) => {
+    const { execFile } = require("child_process")
+    const execFileP = util.promisify(execFile)
+    const outputs = []
+    try {
+      if (!req.files || !req.files.length) return res.status(400).json({ error: "No PDF files uploaded" })
+      const password = (req.body.password || "").toString()
+      if (!password || password.length > 256) {
+        for (const f of req.files) await safeUnlink(f.path)
+        return res.status(400).json({ error: password ? "Password is too long (max 256 characters)." : "A password is required to protect the PDF." })
+      }
+      logActivity({ type: "upload", action: "pdfs_uploaded_for_protect", tool: "protect-pdf", fileCount: req.files.length, ip: req.clientIP, userAgent: req.headers["user-agent"], status: "processing" })
+
+      for (const file of req.files) {
+        const outPath = path.join("./uploads", `${genJobId()}-protected.pdf`)
+        try {
+          await execFileP("qpdf", ["--encrypt", password, password, "256", "--", file.path, outPath])
+        } catch (qErr) {
+          // exit 3 = warnings with a usable file; only fail when nothing was written.
+          if (!fs.existsSync(outPath) || fs.statSync(outPath).size === 0) {
+            // Never log qErr.message: it echoes the command line, i.e. the password.
+            const alreadyLocked = /invalid password|encrypted/i.test(String(qErr.stderr || ""))
+            const err = new Error(alreadyLocked ? "This PDF already has an open password. Remove it with Unlock PDF first." : "Could not read this PDF. The file may be damaged.")
+            err.code = alreadyLocked ? "PASSWORD_PROTECTED" : "CORRUPT_PDF"
+            err.fileName = file.originalname
+            throw err
+          }
+        }
+        await safeUnlink(file.path)
+        outputs.push({ path: outPath, name: `protected-${path.basename(file.originalname, path.extname(file.originalname))}.pdf` })
+      }
+      await finishBatch(req, res, "protect-pdf", outputs, "protected-pdfs.zip")
+    } catch (error) {
+      await batchFailed(req, res, "protect-pdf", outputs, error)
     }
   })
 

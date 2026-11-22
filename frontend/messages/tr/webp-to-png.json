@@ -57,7 +57,7 @@
   "faq3Q": "WEBP'yi neden PNG'ye dönüştüreyim?",
   "faq3A": "WEBP web performansı için harikadır ama evrensel olarak desteklenmez. Eski yazılımlar, bazı tasarım araçları ve çoğu baskı iş akışı PNG ya da JPG bekler. PNG'ye dönüştürmek, görsel kalitesinden ödün vermeden en geniş uyumluluğu sağlar.",
   "faq4Q": "Dosyalarım sunucuda ne kadar tutuluyor?",
-  "faq4A": "Yüklediğiniz dosyalar ve dönüştürülen PNG'ler 1 saat içinde otomatik silinir. İndirme sayfasını kapattığınız anda yok olurlar; kopya tutmayız.",
+  "faq4A": "Ücretsiz planda yüklediğiniz dosyalar ve dönüştürülen PNG'ler işlemden yaklaşık 1 saat sonra otomatik silinir. Ücretli planlar sonuçları tekrar indirebilmeniz için \"Dosyalarım\" bölümünde 24 veya 48 saat tutar. Dosyalarınızı asla satmaz veya paylaşmayız.",
   "faq5Q": "Şeffaflıklı WEBP dosyalarını PNG'ye dönüştürebilir miyim?",
   "faq5A": "Evet. PNG tam alfa şeffaflığını destekler; böylece WEBP'nizdeki şeffaf alanlar çıktıda korunur ve bu logolar, simgeler ve tasarım varlıkları için uygundur.",
   "seo1Title": "WEBP ve PNG: Hangisini Kullanmalı?",

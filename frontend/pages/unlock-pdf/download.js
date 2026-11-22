@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -414,6 +415,7 @@ export default function DownloadUnlockPdf() {
               <span>{t("unlockPdf.downloadBackHomeBtn")}</span>
             </button>
           </div>
+          <ContinueWith current="unlock-pdf" blob={downloadedBlob} getUrl={() => result?.fileCount === 1 ? result?.downloadUrl : `/api/download-unlocked/${result?.jobId}`} fileName={"unlocked.pdf"} />
 
           {/* Mid-content Ad */}
           <div className="mt-6 bg-white rounded-2xl p-3 shadow-sm border border-slate-200">

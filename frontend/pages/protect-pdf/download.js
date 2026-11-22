@@ -134,10 +134,10 @@ export default function ProtectDownload() {
                 <button onClick={() => router.push("/protect-pdf")} className="flex-1 flex items-center justify-center gap-2 text-emerald-600 hover:text-emerald-700 font-medium py-2">
                   <RefreshCw className="w-4 h-4" /> {t("protectPdf.download.protectAnother")}
                 </button>
-                <button onClick={handlePrint} disabled={printing} title={t("fileActions.print")}
+                {(result?.fileCount || 1) === 1 && <button onClick={handlePrint} disabled={printing} title={t("fileActions.print")}
                   className="py-2 px-4 rounded-xl text-sm bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center text-slate-700 disabled:opacity-60">
                   {printing ? <div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin" /> : <Printer className="w-4 h-4" />}
-                </button>
+                </button>}
                 <button onClick={handleDelete} title={t("fileActions.delete")}
                   className="py-2 px-4 rounded-xl text-sm bg-red-100 hover:bg-red-200 transition-colors flex items-center justify-center text-red-600">
                   <Trash2 className="w-4 h-4" />

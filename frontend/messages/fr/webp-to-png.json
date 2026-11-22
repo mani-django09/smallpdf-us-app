@@ -57,7 +57,7 @@
   "faq3Q": "Pourquoi convertir du WEBP en PNG ?",
   "faq3A": "Le WEBP est idéal pour le web, mais n'est pas universellement supporté. Les anciens logiciels, certains outils de conception et la plupart des flux de travail d'impression nécessitent du PNG ou du JPG. Le PNG offre la compatibilité la plus large.",
   "faq4Q": "Combien de temps mes fichiers sont-ils conservés sur le serveur ?",
-  "faq4A": "Vos fichiers importés et vos PNG convertis sont automatiquement supprimés dans les 1 heure. Une fois la page de téléchargement fermée, ils disparaissent définitivement.",
+  "faq4A": "Avec le forfait gratuit, vos fichiers importés et vos PNG convertis sont supprimés automatiquement environ 1 heure après le traitement. Les forfaits payants conservent les résultats 24 ou 48 heures dans « Mes fichiers » pour les retélécharger. Nous ne vendons ni ne partageons jamais vos fichiers.",
   "faq5Q": "Puis-je convertir des fichiers WEBP avec transparence en PNG ?",
   "faq5A": "Oui. Le PNG gère la transparence alpha complète, de sorte que les zones transparentes de votre WEBP sont conservées dans le résultat, ce qui convient aux logos, icônes et ressources de design.",
   "seo1Title": "WEBP vs PNG - Lequel Utiliser ?",

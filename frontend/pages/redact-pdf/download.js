@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import SEOHead from "../../components/SEOHead"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import PromoBanner from "../../components/PromoBanner"
@@ -165,6 +166,7 @@ export default function RedactDownload() {
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
+              <ContinueWith current="redact-pdf" blob={downloadedBlob} getUrl={() => result?.downloadUrl} fileName={result?.convertedName || "redacted.pdf"} />
             </div>
           </div>
 

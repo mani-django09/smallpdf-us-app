@@ -13,6 +13,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -362,6 +363,7 @@ export default function DownloadWebpToPng() {
                       {copied ? <CheckCircle className="w-4 h-4 text-teal-600" /> : <Copy className="w-4 h-4" />}
                     </button>
                   </div>
+                  <ContinueWith current="webp-to-png" blob={downloadedBlob} getUrl={() => `/api/download/${convertResult?.jobId}`} fileName={"image.png"} />
                   {/* ── Upgrade upsell ── */}
                   <UpgradeUpsell className="mt-4" />
 

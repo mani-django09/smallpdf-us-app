@@ -10,6 +10,7 @@ import RelatedTools from "../../components/RelatedTools"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
+import { useBatchGuard } from "../../hooks/useBatchGuard"
 import {
   Upload, RotateCw, AlertCircle, CheckCircle2, Shield, Zap, Clock,
   ChevronDown, Eye, Sparkles, MonitorSmartphone, Gift,
@@ -17,7 +18,7 @@ import {
 
 // In-memory store — the File object survives client-side nav to /preview within
 // the same tab (no base64 / sessionStorage bloat for large PDFs).
-export const rotatePdfStore = { file: null, name: "", size: 0 }
+export const rotatePdfStore = { file: null, files: [], name: "", size: 0 }
 
 const FEATURE_ICONS = [RotateCw, Sparkles, MonitorSmartphone, Shield, Eye, Gift]
 
@@ -25,6 +26,7 @@ export default function RotatePdf() {
   const router = useLocalizedRouter()
   const { t } = useTranslations()
   const { checkFiles, PremiumGateModal } = useFileSizeGuard("rotate-pdf")
+  const { checkBatch, BatchGateModal } = useBatchGuard("rotate-pdf")
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
@@ -38,19 +40,24 @@ export default function RotatePdf() {
     return null
   }
 
-  const handleFile = (f) => {
+  // Several PDFs = a batch (paid plans; useBatchGuard shows the upgrade modal).
+  const handleFiles = (list) => {
     setError("")
-    const v = validateFile(f)
-    if (v) { setError(v); return }
-    if (!checkFiles([f])) return
+    const arr = Array.from(list || [])
+    if (!arr.length) return
+    for (const f of arr) { const v = validateFile(f); if (v) { setError(v); return } }
+    if (!checkBatch(arr)) return
+    if (!checkFiles(arr)) return
 
     setIsProcessing(true)
-    rotatePdfStore.file = f
-    rotatePdfStore.name = f.name
-    rotatePdfStore.size = f.size
+    rotatePdfStore.files = arr
+    rotatePdfStore.file = arr[0]
+    rotatePdfStore.name = arr[0].name
+    rotatePdfStore.size = arr.reduce((n, f) => n + f.size, 0)
     sessionStorage.setItem("rotatePdfReady", "1")
     setTimeout(() => router.push("/rotate-pdf/preview"), 500)
   }
+
 
   const handleDrag = useCallback((e) => {
     e.preventDefault(); e.stopPropagation()
@@ -60,7 +67,7 @@ export default function RotatePdf() {
 
   const handleDrop = useCallback((e) => {
     e.preventDefault(); e.stopPropagation(); setDragActive(false)
-    if (e.dataTransfer.files?.[0]) handleFile(e.dataTransfer.files[0])
+    if (e.dataTransfer.files?.length) handleFiles(e.dataTransfer.files)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const features = [1, 2, 3, 4, 5, 6].map((n, i) => ({
@@ -128,7 +135,7 @@ export default function RotatePdf() {
             >
               <input
                 type="file" id="rotate-upload" accept=".pdf,application/pdf" className="hidden" disabled={isProcessing}
-                onChange={(e) => { if (e.target.files?.[0]) handleFile(e.target.files[0]); e.target.value = "" }}
+                multiple onChange={(e) => { if (e.target.files?.length) handleFiles(e.target.files); e.target.value = "" }}
               />
               {isProcessing ? (
                 <div className="space-y-3 py-2">
@@ -312,6 +319,7 @@ export default function RotatePdf() {
 
       <RelatedTools current="rotate-pdf" />
       {PremiumGateModal}
+      {BatchGateModal}
     </Layout>
   )
 }

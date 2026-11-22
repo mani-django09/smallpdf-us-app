@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -460,6 +461,7 @@ export default function DownloadExcelToPDF() {
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
+              <ContinueWith current="excel-to-pdf" blob={downloadedBlob} getUrl={() => result?.downloadUrl} fileName={"converted.pdf"} />
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
+import ContinueWith from "../../components/ContinueWith"
 import UpgradeUpsell from "../../components/UpgradeUpsell"
 import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
@@ -412,6 +413,7 @@ export default function DownloadJPG() {
               <Trash2 className="w-4 h-4" />
             </button>
           </div>
+          <ContinueWith current="pdf-to-jpg" blob={downloadedBlob} getUrl={() => result?.downloadUrl} fileName={"page.jpg"} />
 
           {/* Convert Another */}
           <div className="text-center mt-4">
