@@ -1,7 +1,7 @@
 {
   "heroTitle": "Compress PDF Online,",
   "heroTitleHighlight": "Reduce File Size",
-  "heroSubtitle": "Shrink your PDF by 20-90%, depending on the mode you pick and what is inside the file. Upload up to 2 files at once on the free plan.",
+  "heroSubtitle": "Pick a size like 100 KB or 200 KB and get a PDF just under it, at the best quality that fits. Upload up to 2 files at once on the free plan.",
   "uploadPrompt": "Drop Your PDFs Here",
   "dropActive": "Release to Upload!",
   "dragHint": "Drag and drop your PDF files, or click the button below",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Please select at least one PDF file.",
   "errorTooManyFiles": "You can compress up to 2 files at once on the free plan.",
   "featuresTitle": "Why Our PDF Compressor Works Better",
-  "featuresSubtitle": "Upload a PDF, pick a compression level, and download a smaller file.",
+  "featuresSubtitle": "Upload a PDF, pick a target size, and download a smaller file.",
   "feature1Title": "Smart Image Compression",
   "feature1Desc": "We re-encode embedded images, the biggest cause of large PDFs, at a lower quality and resolution.",
-  "feature2Title": "Up to 90% Smaller",
-  "feature2Desc": "Choose Extreme for the smallest file, or Balanced for a cleaner-looking result.",
+  "feature2Title": "Hit an Exact Size",
+  "feature2Desc": "Choose 20, 50, 100, 200 or 500 KB, or type your own. We land just under it, not far below.",
   "feature3Title": "Encrypted and Deleted",
   "feature3Desc": "Files are encrypted in transit and automatically deleted from our servers within one hour. We do not read, keep or share them.",
   "stepsTitle": "Compress in Three Steps",
-  "stepsSubtitle": "Upload, choose a level, download.",
+  "stepsSubtitle": "Upload, pick a size, download.",
   "step1Title": "Upload Your PDFs",
   "step1Desc": "Select up to 2 PDF files at once on the free plan, each up to 20MB. Drag and drop or click to browse.",
-  "step2Title": "Pick a Compression Level",
-  "step2Desc": "Choose Maximum Quality, Balanced, or Extreme Compression. Balanced is the default for most files.",
+  "step2Title": "Pick a Target Size",
+  "step2Desc": "Choose 20, 50, 100, 200 or 500 KB, or enter a custom size. We keep the best image quality that still fits.",
   "step3Title": "Download Smaller Files",
   "step3Desc": "Most files finish in under 10 seconds. Download your optimized PDF files straight away.",
   "diveTitle": "What actually happens when you compress",
@@ -46,15 +46,15 @@
   "dive4Title": "When compression won't help much",
   "dive4Desc": "If a PDF's images were already heavily compressed before being embedded, common with PDFs exported from other online tools, there's not much redundancy left to squeeze out. Re-compressing an already-compressed image mostly just adds generation loss without much size benefit.",
   "dive5Title": "Does compression affect print quality?",
-  "dive5Desc": "At our standard compression level, the quality loss is meant to be barely visible on screen and in most print output. For documents you plan to print at large sizes or professional quality, it's worth reviewing a page or two before distributing widely.",
+  "dive5Desc": "We pick the highest image quality that still fits your target, so a larger target gives a sharper result. With very small targets (20 to 50 KB), photos and scans get noticeably softer, so check a page before you submit or print it.",
   "dive6Title": "Compressing multiple PDFs at once",
   "dive6Desc": "You can upload and compress several PDFs in the same batch - each is compressed independently and returned as its own file. Compression ratio varies per file since it depends on each PDF's own image content, not a fixed percentage applied to everything.",
   "faqTitle": "Common Questions",
   "faqSubtitle": "Quick answers on limits, privacy and results.",
   "faq1Question": "How much can I reduce my PDF file size?",
-  "faq1Answer": "It depends on what's in the PDF. Files heavy with images can shrink by up to 90%. Text-only documents typically see 20–40% reduction. The Extreme mode gives the smallest file; Balanced keeps quality high.",
+  "faq1Answer": "It depends on what's in the PDF. Scanned and photo-heavy files can usually reach 100 KB or 200 KB. Text-only documents are already small and may not go much lower. If your target can't be reached, we tell you and give you the smallest version we could make.",
   "faq2Question": "Will the compressed PDF look different?",
-  "faq2Answer": "In Balanced mode, the difference is barely noticeable - text stays crisp and images look clean. Extreme mode does reduce image quality slightly, but it's a big size win if that's what you need.",
+  "faq2Answer": "Only as much as needed. We use the best quality that still fits the size you chose, so a 500 KB target looks close to the original while 20 KB is visibly softer. Text stays as text and stays sharp.",
   "faq3Question": "Can I compress more than one PDF at a time?",
   "faq3Answer": "Yes - the free plan lets you compress up to 2 PDFs at once. Starter and Pro allow up to 10 files per batch. We process them all together and give you a zip file to download when there's more than one.",
   "faq4Question": "Is there a file size limit?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Everything is deleted within one hour of processing. Your files are encrypted during the upload and transfer. We don't read them, keep them, or share them.",
   "seoTitle": "When You Need to Shrink a PDF",
   "seoP1": "Large PDFs are hard to email and slow to upload. Scanned documents and image-heavy presentations are the usual cause, and the compressor shrinks both with nothing to install.",
-  "seoP2": "You choose how aggressive the compression is. Maximum Quality mode (20–40% reduction) keeps everything looking sharp. Balanced (40–70%) is the go-to for most files. Extreme (70–90%) gives you the smallest possible file when size matters more than perfect image quality.",
+  "seoP2": "You choose the final size. Pick 20, 50, 100, 200 or 500 KB, or type any size, and we search for the highest image quality that still fits. A 200 KB target usually gives you a file of about 195 to 199 KB, not one far smaller than you needed. If a file can't get that small without becoming unreadable, we tell you.",
   "seoSubtitle": "Works With Any PDF",
   "seoP3": "Any PDF works, and scanned documents shrink the most because each page is a full-resolution image. It runs in the browser on desktop, tablet and phone.",
   "ctaTitle": "Compress Your PDF Now",
@@ -125,7 +125,13 @@
       "compressing": "Compressing your PDF…",
       "finalizing": "Finalizing compressed files…",
       "complete": "Compression complete!"
-    }
+    },
+    "modeLevel": "Compression Level",
+    "modeTarget": "Target size",
+    "targetHint": "Pick the maximum file size you need (e.g. a portal's upload limit). We shrink images step by step until the PDF fits. Text-only PDFs may not go below a certain size.",
+    "custom": "Custom:",
+    "customPlaceholder": "e.g. 150",
+    "chooseTargetSize": "Pick a target size and start"
   },
   "download": {
     "compressionComplete": "Compression Complete!",
@@ -174,41 +180,39 @@
     "errorExpired": "This file has expired and was deleted for your privacy. Please compress it again.",
     "alreadyOptimized": "Already optimized",
     "alreadyOptimizedDesc": "This PDF was already well compressed, so we kept the original to protect its quality.",
-    "savedBytes": "You saved {size}"
+    "savedBytes": "You saved {size}",
+    "targetReached": "Done: your PDF is under {kb} KB.",
+    "targetMissed": "We couldn't get this PDF under {kb} KB without making it unreadable. This is the smallest version we could make. Try a larger target, or split the PDF into fewer pages."
   },
   "metaTitle": "Compress PDF Online Free: Reduce PDF Size | SmallPDF.us",
-  "metaDescription": "Compress PDF files online for free. Reduce PDF file size by up to 90% with Maximum Quality, Balanced or Extreme mode. Files are deleted after 1 hour.",
+  "metaDescription": "Compress PDF online free to an exact size: 20 KB, 50 KB, 100 KB, 200 KB, 500 KB or your own. Best quality that fits. Files deleted after 1 hour.",
   "guide": {
     "title": "How to compress a PDF to 100 KB, 200 KB or 1 MB",
-    "intro": "Upload your PDF above, choose **Extreme** compression and download the result. Scanned and photo-heavy PDFs usually shrink a lot, often enough for forms that only accept files under 100 KB or 200 KB. PDFs that are mostly text are already small, so they shrink less.",
+    "intro": "Upload your PDF above, pick the size your form allows (for example **100 KB** or **200 KB**) and download the result. We land just under that size at the best quality that fits. Scanned and photo-heavy PDFs usually get there easily; PDFs that are mostly text are already small and shrink less.",
     "table": {
       "headers": [
-        "Level",
-        "What it does",
-        "Typical saving",
-        "Good for"
+        "Target size",
+        "Good for",
+        "What to expect"
       ],
       "rows": [
         [
-          "Maximum Quality",
-          "Keeps images at 150 dpi",
-          "About 20–50%",
-          "Printing, documents with fine detail"
+          "20 to 50 KB",
+          "Strict government and exam forms",
+          "Photos and scans look softer; text pages stay readable"
         ],
         [
-          "Balanced (default)",
-          "Images at 96 dpi",
-          "About 50–75%",
-          "Email and most upload forms"
+          "100 to 200 KB",
+          "Job portals and application forms",
+          "Scans stay clear and readable"
         ],
         [
-          "Extreme",
-          "Images at 72 dpi with the strongest compression",
-          "About 70–90%",
-          "Strict limits such as 100 KB or 200 KB"
+          "500 KB and up",
+          "Email and most uploads",
+          "Close to the original quality"
         ]
       ],
-      "note": "These are typical results, not guarantees. The saving depends on what is inside your file."
+      "note": "Typical results, not guarantees. How small a PDF can go depends on what is inside it."
     },
     "sections": [
       {

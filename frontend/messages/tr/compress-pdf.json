@@ -1,7 +1,7 @@
 {
   "heroTitle": "PDF Sıkıştır",
   "heroTitleHighlight": "online ve ücretsiz",
-  "heroSubtitle": "Seçtiğiniz moda ve dosyanın içeriğine göre PDF'inizi %20-90 oranında küçültün. Ücretsiz pakette aynı anda 2 dosyaya kadar yükleyebilirsiniz.",
+  "heroSubtitle": "100 KB veya 200 KB gibi bir boyut seçin ve hemen altında, sığan en iyi kalitede bir PDF alın. Ücretsiz planda tek seferde 2 dosyaya kadar yükleyin.",
   "uploadPrompt": "PDF'lerinizi Buraya Bırakın",
   "dropActive": "Yüklemek İçin Bırakın!",
   "dragHint": "PDF dosyalarınızı sürükleyip bırakın ya da aşağıdaki düğmeye tıklayın",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Lütfen en az bir PDF dosyası seçin.",
   "errorTooManyFiles": "Ücretsiz pakette aynı anda en fazla 2 dosya sıkıştırabilirsiniz.",
   "featuresTitle": "PDF Sıkıştırıcımız Neden Daha İyi Çalışır",
-  "featuresSubtitle": "Bir PDF yükleyin, sıkıştırma düzeyini seçin ve daha küçük dosyayı indirin.",
+  "featuresSubtitle": "PDF yükleyin, hedef boyutu seçin ve daha küçük dosyayı indirin.",
   "feature1Title": "Akıllı Görsel Sıkıştırma",
   "feature1Desc": "PDF'lerin büyümesinin en büyük nedeni olan gömülü görselleri daha düşük kalite ve çözünürlükle yeniden kodluyoruz.",
-  "feature2Title": "%90'a Kadar Daha Küçük",
-  "feature2Desc": "En küçük dosya için Aşırı'yı, daha temiz görünen bir sonuç için Dengeli'yi seçin.",
+  "feature2Title": "Tam İstediğiniz Boyut",
+  "feature2Desc": "20, 50, 100, 200 veya 500 KB seçin ya da kendi boyutunuzu yazın. Sonuç hemen altında olur, çok altında değil.",
   "feature3Title": "Şifrelenir ve Silinir",
   "feature3Desc": "Dosyalar aktarım sırasında şifrelenir ve bir saat içinde sunucularımızdan otomatik olarak silinir. Okumaz, saklamaz, paylaşmayız.",
   "stepsTitle": "Üç Adımda Sıkıştırın",
-  "stepsSubtitle": "Yükleyin, düzey seçin, indirin.",
+  "stepsSubtitle": "Yükleyin, boyut seçin, indirin.",
   "step1Title": "PDF'lerinizi Yükleyin",
   "step1Desc": "Ücretsiz pakette aynı anda 2 PDF dosyasına kadar, her biri en fazla 20MB olacak şekilde seçin. Sürükleyip bırakın ya da tıklayıp seçin.",
-  "step2Title": "Sıkıştırma Düzeyini Seçin",
-  "step2Desc": "En Yüksek Kalite, Dengeli ya da Aşırı Sıkıştırma'dan birini seçin. Çoğu dosya için varsayılan Dengeli'dir.",
+  "step2Title": "Hedef Boyutu Seçin",
+  "step2Desc": "20, 50, 100, 200 veya 500 KB ya da özel bir boyut seçin. Hâlâ sığan en iyi görüntü kalitesini koruruz.",
   "step3Title": "Daha Küçük Dosyaları İndirin",
   "step3Desc": "Çoğu dosya 10 saniyeden kısa sürede biter. Optimize edilmiş PDF'lerinizi hemen indirin.",
   "diveTitle": "Sıkıştırınca aslında ne olur",
@@ -46,15 +46,15 @@
   "dive4Title": "Sıkıştırmanın pek işe yaramadığı durumlar",
   "dive4Desc": "Bir PDF'in görselleri gömülmeden önce zaten ağır biçimde sıkıştırılmışsa (başka çevrimiçi araçlardan dışa aktarılan PDF'lerde sık görülür), sıkıştırılacak fazla bir şey kalmamıştır. Zaten sıkıştırılmış bir görseli yeniden sıkıştırmak çoğunlukla boyutta pek kazanç sağlamadan kalite kaybı ekler.",
   "dive5Title": "Sıkıştırma baskı kalitesini etkiler mi?",
-  "dive5Desc": "Standart sıkıştırma düzeyimizde kalite kaybının ekranda ve çoğu baskı çıktısında güçlükle fark edilmesi hedeflenir. Büyük boyutta ya da profesyonel kalitede basmayı planladığınız belgelerde, geniş çapta dağıtmadan önce bir iki sayfayı gözden geçirmeye değer.",
+  "dive5Desc": "Hedefinize sığan en yüksek görüntü kalitesini seçeriz; yani daha büyük hedef daha net sonuç verir. Çok küçük hedeflerde (20 ile 50 KB) fotoğraflar ve taramalar belirgin şekilde yumuşar, bu yüzden göndermeden veya yazdırmadan önce bir sayfayı kontrol edin.",
   "dive6Title": "Birden çok PDF'i aynı anda sıkıştırmak",
   "dive6Desc": "Aynı toplu işte birkaç PDF yükleyip sıkıştırabilirsiniz; her biri bağımsız olarak sıkıştırılır ve ayrı bir dosya olarak döner. Sıkıştırma oranı dosyadan dosyaya değişir, çünkü her şeye uygulanan sabit bir yüzde değil, her PDF'in kendi görsel içeriği belirleyicidir.",
   "faqTitle": "Sık Sorulan Sorular",
   "faqSubtitle": "Limitler, gizlilik ve sonuçlar hakkında kısa yanıtlar.",
   "faq1Question": "PDF dosya boyutunu ne kadar küçültebilirim?",
-  "faq1Answer": "PDF'in içeriğine bağlı. Görselleri çok olan dosyalar %90'a kadar küçülebilir. Yalnızca metin içeren belgelerde genellikle %20-40 küçülme görülür. Aşırı mod en küçük dosyayı verir; Dengeli ise kaliteyi yüksek tutar.",
+  "faq1Answer": "PDF'in içeriğine bağlıdır. Taranmış ve fotoğraf ağırlıklı dosyalar genellikle 100 KB veya 200 KB'a iner. Yalnızca metin içeren belgeler zaten küçüktür ve çok fazla küçülmeyebilir. Hedefe ulaşılamazsa size bildirir ve yapabildiğimiz en küçük sürümü veririz.",
   "faq2Question": "Sıkıştırılmış PDF farklı görünecek mi?",
-  "faq2Answer": "Dengeli modda fark güçlükle fark edilir; metin net kalır, görseller temiz görünür. Aşırı mod görsel kalitesini biraz düşürür, ama ihtiyacınız küçük boyutsa büyük bir kazançtır.",
+  "faq2Answer": "Yalnızca gerektiği kadar. Seçtiğiniz boyuta sığan en iyi kaliteyi kullanırız: 500 KB'da dosya neredeyse orijinal gibi görünür, 20 KB'da belirgin şekilde yumuşaktır. Metin metin olarak kalır ve net kalır.",
   "faq3Question": "Aynı anda birden fazla PDF sıkıştırabilir miyim?",
   "faq3Answer": "Evet, ücretsiz paket aynı anda 2 PDF'e kadar sıkıştırmanıza izin verir. Starter ve Pro'da toplu işte 10 dosyaya kadar çıkılır. Hepsini birlikte işler, birden fazlaysa indirmeniz için bir zip dosyası veririz.",
   "faq4Question": "Dosya boyutu sınırı var mı?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Her şey işlemden sonra bir saat içinde silinir. Dosyalarınız yükleme ve aktarım sırasında şifrelenir. Onları okumaz, saklamaz, paylaşmayız.",
   "seoTitle": "PDF'i Ne Zaman Küçültmeniz Gerekir",
   "seoP1": "Büyük PDF'leri e-postayla göndermek zor, yüklemek yavaştır. Genellikle sebep taranmış belgeler ve görsel ağırlıklı sunumlardır; sıkıştırıcı ikisini de hiçbir şey kurmadan küçültür.",
-  "seoP2": "Sıkıştırmanın ne kadar sert olacağını siz seçersiniz. En Yüksek Kalite modu (%20-40 küçülme) her şeyi net tutar. Dengeli (%40-70) çoğu dosya için başvurulacak seçenektir. Aşırı (%70-90), boyut kusursuz görsel kaliteden daha önemliyse mümkün olan en küçük dosyayı verir.",
+  "seoP2": "Son boyutu siz seçersiniz. 20, 50, 100, 200 veya 500 KB seçin ya da herhangi bir boyut yazın; biz de hâlâ sığan en yüksek görüntü kalitesini buluruz. 200 KB hedef genellikle yaklaşık 195 ile 199 KB arası bir dosya verir, gerekenden çok daha küçük bir dosya değil. Bir dosya okunamaz hale gelmeden o kadar küçülemiyorsa size söyleriz.",
   "seoSubtitle": "Her PDF ile Çalışır",
   "seoP3": "Her PDF çalışır; her sayfası tam çözünürlüklü bir görsel olduğu için taranmış belgeler en çok küçülür. Masaüstünde, tablette ve telefonda tarayıcıda çalışır.",
   "ctaTitle": "PDF'inizi Şimdi Sıkıştırın",
@@ -125,7 +125,13 @@
       "compressing": "PDF'iniz sıkıştırılıyor…",
       "finalizing": "Sıkıştırılmış dosyalar tamamlanıyor…",
       "complete": "Sıkıştırma tamamlandı!"
-    }
+    },
+    "modeLevel": "Sıkıştırma Düzeyi",
+    "modeTarget": "Hedef boyut",
+    "targetHint": "İhtiyacınız olan en büyük dosya boyutunu seçin (örneğin bir portalın yükleme sınırı). PDF sığana kadar görselleri adım adım küçültürüz. Yalnızca metin içeren PDF'ler belirli bir boyutun altına inemez.",
+    "custom": "Özel:",
+    "customPlaceholder": "örn. 150",
+    "chooseTargetSize": "Hedef boyutu seçin ve başlayın"
   },
   "download": {
     "compressionComplete": "Sıkıştırma Tamamlandı!",
@@ -174,41 +180,39 @@
     "errorExpired": "Bu dosyanın süresi doldu ve gizliliğiniz için silindi. Lütfen yeniden sıkıştırın.",
     "alreadyOptimized": "Zaten optimize",
     "alreadyOptimizedDesc": "Bu PDF zaten iyi sıkıştırılmıştı, bu yüzden kalitesini korumak için orijinali bıraktık.",
-    "savedBytes": "{size} tasarruf ettiniz"
+    "savedBytes": "{size} tasarruf ettiniz",
+    "targetReached": "Tamam: PDF'niz artık {kb} KB'nin altında.",
+    "targetMissed": "Bu PDF okunamaz hale gelmeden {kb} KB'nin altına indirilemedi. Yapabildiğimiz en küçük sürüm bu. Daha büyük bir hedef deneyin veya PDF'yi bölün."
   },
   "metaTitle": "PDF Sıkıştır: Boyutu Küçült, Ücretsiz | SmallPDF.us",
-  "metaDescription": "PDF sıkıştırma işlemini online ve ücretsiz yapın. En yüksek kalite, dengeli veya yüksek sıkıştırma ile boyutu %90'a kadar küçültün. Dosyalar 1 saat sonra silinir.",
+  "metaDescription": "PDF'yi ücretsiz olarak tam boyuta sıkıştırın: 20, 50, 100, 200, 500 KB veya kendi boyutunuz. Sığan en iyi kalite. Dosyalar 1 saat sonra silinir.",
   "guide": {
     "title": "PDF 100 KB, 200 KB ya da 1 MB'a nasıl sıkıştırılır",
-    "intro": "PDF'inizi yukarıdan yükleyin, **Aşırı** sıkıştırmayı seçin ve sonucu indirin. Taranmış ve fotoğraf ağırlıklı PDF'ler genellikle epey küçülür; bu çoğu zaman yalnızca 100 KB ya da 200 KB altındaki dosyaları kabul eden formlar için yeterlidir. Çoğunlukla metinden oluşan PDF'ler zaten küçüktür, bu yüzden daha az küçülür.",
+    "intro": "PDF'nizi yukarıya yükleyin, formun kabul ettiği boyutu seçin (örneğin **100 KB** veya **200 KB**) ve sonucu indirin. Sonuç bu boyutun hemen altında, sığan en iyi kalitede olur. Taranmış ve fotoğraflı PDF'ler genellikle kolayca ulaşır; çoğunlukla metin olan PDF'ler zaten küçüktür ve daha az küçülür.",
     "table": {
       "headers": [
-        "Düzey",
-        "Ne yapar",
-        "Tipik kazanç",
-        "Şunlar için iyi"
+        "Hedef boyut",
+        "Uygun olduğu yer",
+        "Ne beklemeli"
       ],
       "rows": [
         [
-          "En Yüksek Kalite",
-          "Görselleri 150 dpi'da tutar",
-          "Yaklaşık %20–50",
-          "Baskı, ince ayrıntılı belgeler"
+          "20 ile 50 KB",
+          "Katı resmi ve sınav formları",
+          "Fotoğraf ve taramalar daha yumuşak; metin okunur"
         ],
         [
-          "Dengeli (varsayılan)",
-          "Görseller 96 dpi'da",
-          "Yaklaşık %50–75",
-          "E-posta ve çoğu yükleme formu"
+          "100 ile 200 KB",
+          "İş portalları ve başvuru formları",
+          "Taramalar net ve okunur kalır"
         ],
         [
-          "Aşırı",
-          "Görseller en güçlü sıkıştırmayla 72 dpi'da",
-          "Yaklaşık %70–90",
-          "100 KB ya da 200 KB gibi sıkı sınırlar"
+          "500 KB ve üzeri",
+          "E-posta ve çoğu yükleme",
+          "Orijinale yakın kalite"
         ]
       ],
-      "note": "Bunlar tipik sonuçlardır, garanti değildir. Kazanç dosyanızın içeriğine bağlıdır."
+      "note": "Tipik sonuçlardır, garanti değildir. Bir PDF'in ne kadar küçülebileceği içeriğine bağlıdır."
     },
     "sections": [
       {

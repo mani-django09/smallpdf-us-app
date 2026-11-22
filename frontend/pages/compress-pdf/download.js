@@ -259,12 +259,6 @@ export default function DownloadCompressPdf() {
   const savingsDisplay = savings <= 0 ? '< 1' : savings
   const alreadyOptimized = savings <= 0
 
-  const compressionLabels = {
-    maximum: t('compressPdf.download.maximum'),
-    balanced: t('compressPdf.download.balanced'),
-    extreme:  t('compressPdf.download.extreme'),
-  }
-
   return (
     <Layout title="Download Compressed PDF - SmallPDF.us" description="Download your compressed PDF files">
       <SEOHead
@@ -440,6 +434,15 @@ export default function DownloadCompressPdf() {
                           ? t('compressPdf.download.alreadyOptimizedDesc')
                           : t('compressPdf.download.savedBytes', { size: formatFileSize(originalSize - compressedSize) })}
                       </p>
+                    </div>
+                  )}
+
+                  {/* Target size outcome (preview page "Target size" mode) */}
+                  {compressResult?.targetSizeKB > 0 && typeof compressResult?.targetReached === "boolean" && (
+                    <div className={`mt-4 rounded-xl border p-3 text-sm ${compressResult.targetReached ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-amber-50 border-amber-200 text-amber-900"}`}>
+                      {compressResult.targetReached
+                        ? t('compressPdf.download.targetReached', { kb: compressResult.targetSizeKB })
+                        : t('compressPdf.download.targetMissed', { kb: compressResult.targetSizeKB })}
                     </div>
                   )}
 

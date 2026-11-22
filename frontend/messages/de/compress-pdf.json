@@ -1,7 +1,7 @@
 {
   "heroTitle": "PDF komprimieren",
   "heroTitleHighlight": "online & kostenlos",
-  "heroSubtitle": "Verkleinern Sie Ihr PDF um 20-90 %, je nach gewähltem Modus und Inhalt der Datei. Im kostenlosen Tarif können Sie bis zu 2 Dateien gleichzeitig hochladen.",
+  "heroSubtitle": "Wählen Sie eine Größe wie 100 KB oder 200 KB und erhalten Sie ein PDF knapp darunter, in der besten Qualität, die passt. Im kostenlosen Plan bis zu 2 Dateien gleichzeitig.",
   "uploadPrompt": "PDFs hier ablegen",
   "dropActive": "Jetzt loslassen!",
   "dragHint": "PDF-Dateien hierher ziehen oder auf die Schaltfläche klicken",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Bitte wählen Sie mindestens eine PDF-Datei aus.",
   "errorTooManyFiles": "Sie können bis zu 10 Dateien gleichzeitig komprimieren.",
   "featuresTitle": "Warum unser PDF-Komprimierer besser ist",
-  "featuresSubtitle": "Laden Sie ein PDF hoch, wählen Sie eine Komprimierungsstufe und laden Sie eine kleinere Datei herunter.",
+  "featuresSubtitle": "PDF hochladen, Zielgröße wählen und eine kleinere Datei herunterladen.",
   "feature1Title": "Intelligente Bildkomprimierung",
   "feature1Desc": "Wir kodieren eingebettete Bilder, die häufigste Ursache großer PDFs, mit geringerer Qualität und Auflösung neu.",
-  "feature2Title": "Bis zu 90 % kleiner",
-  "feature2Desc": "Wählen Sie Extrem für die kleinste Datei oder Ausgewogen für ein sauberer aussehendes Ergebnis.",
+  "feature2Title": "Exakte Zielgröße",
+  "feature2Desc": "Wählen Sie 20, 50, 100, 200 oder 500 KB oder geben Sie eine eigene Größe ein. Das Ergebnis liegt knapp darunter, nicht weit darunter.",
   "feature3Title": "Verschlüsselt und gelöscht",
   "feature3Desc": "Dateien werden bei der Übertragung verschlüsselt und innerhalb einer Stunde automatisch von unseren Servern gelöscht. Wir lesen, speichern oder teilen sie nicht.",
   "stepsTitle": "Komprimieren in drei Schritten",
-  "stepsSubtitle": "Hochladen, Stufe wählen, herunterladen.",
+  "stepsSubtitle": "Hochladen, Größe wählen, herunterladen.",
   "step1Title": "PDFs hochladen",
   "step1Desc": "Im kostenlosen Plan bis zu 2 PDF-Dateien auf einmal auswählen, jede bis zu 20 MB. Ziehen und ablegen oder klicken.",
-  "step2Title": "Komprimierungsstufe wählen",
-  "step2Desc": "Wählen Sie Maximale Qualität, Ausgewogen oder Extreme Komprimierung. Ausgewogen ist für die meisten Dateien voreingestellt.",
+  "step2Title": "Zielgröße wählen",
+  "step2Desc": "Wählen Sie 20, 50, 100, 200 oder 500 KB oder eine eigene Größe. Wir behalten die beste Bildqualität, die noch passt.",
   "step3Title": "Kleinere Dateien herunterladen",
   "step3Desc": "Die meisten Dateien sind in unter 10 Sekunden fertig. Laden Sie Ihre optimierten PDF-Dateien sofort herunter.",
   "diveTitle": "Was beim Komprimieren tatsächlich passiert",
@@ -46,15 +46,15 @@
   "dive4Title": "Wenn Komprimierung kaum hilft",
   "dive4Desc": "Wenn die Bilder eines PDFs bereits vor dem Einbetten stark komprimiert wurden - häufig bei PDFs aus anderen Online-Tools - bleibt kaum Redundanz übrig, die man herausholen könnte. Ein bereits komprimiertes Bild erneut zu komprimieren, fügt meist nur Generationsverluste hinzu, ohne nennenswerten Größenvorteil.",
   "dive5Title": "Beeinflusst Komprimierung die Druckqualität?",
-  "dive5Desc": "Bei unserer Standardstufe soll der Qualitätsverlust am Bildschirm und in den meisten Ausdrucken kaum sichtbar sein. Wenn Sie Dokumente in großem Format oder in professioneller Qualität drucken wollen, lohnt es sich, vor der Weitergabe ein, zwei Seiten zu prüfen.",
+  "dive5Desc": "Wir wählen die höchste Bildqualität, die noch in Ihre Zielgröße passt; ein größeres Ziel ergibt also ein schärferes Ergebnis. Bei sehr kleinen Zielen (20 bis 50 KB) werden Fotos und Scans sichtbar weicher, prüfen Sie daher eine Seite vor dem Einreichen oder Drucken.",
   "dive6Title": "Mehrere PDFs gleichzeitig komprimieren",
   "dive6Desc": "Sie können mehrere PDFs im selben Durchgang hochladen und komprimieren - jedes wird unabhängig komprimiert und als eigene Datei zurückgegeben. Das Komprimierungsverhältnis variiert pro Datei, da es vom jeweiligen Bildinhalt abhängt, nicht von einem festen Prozentsatz für alle.",
   "faqTitle": "Häufige Fragen",
   "faqSubtitle": "Kurze Antworten zu Limits, Datenschutz und Ergebnissen.",
   "faq1Question": "Wie stark kann ich eine PDF-Datei verkleinern?",
-  "faq1Answer": "Das hängt vom Inhalt ab. Bilderreiche Dateien können um bis zu 90 % schrumpfen. Textdokumente verlieren typischerweise 20–40 %. Der Extreme-Modus liefert die kleinste Datei; Ausgewogen hält die Qualität hoch.",
+  "faq1Answer": "Das hängt vom Inhalt ab. Gescannte und bildlastige Dateien erreichen meist 100 KB oder 200 KB. Reine Text-PDFs sind schon klein und lassen sich kaum weiter verkleinern. Wenn das Ziel nicht erreichbar ist, sagen wir es Ihnen und liefern die kleinstmögliche Version.",
   "faq2Question": "Sieht das komprimierte PDF anders aus?",
-  "faq2Answer": "Im ausgewogenen Modus ist der Unterschied kaum merklich – Text bleibt scharf und Bilder sehen gut aus. Im Extreme-Modus sinkt die Bildqualität etwas, dafür ist die Datei deutlich kleiner.",
+  "faq2Answer": "Nur so viel wie nötig. Wir nutzen die beste Qualität, die in die gewählte Größe passt: Bei 500 KB sieht die Datei fast wie das Original aus, bei 20 KB sichtbar weicher. Text bleibt Text und bleibt scharf.",
   "faq3Question": "Kann ich mehrere PDFs gleichzeitig komprimieren?",
   "faq3Answer": "Ja. Im kostenlosen Tarif können Sie bis zu 2 PDFs gleichzeitig komprimieren. Starter und Pro erlauben bis zu 10 Dateien pro Stapel. Wir verarbeiten sie alle zusammen und stellen Ihnen bei mehr als einer Datei eine ZIP-Datei zum Download bereit.",
   "faq4Question": "Gibt es eine Dateigrößenbeschränkung?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Alles wird innerhalb von 1 Stunde gelöscht. Ihre Dateien werden beim Upload verschlüsselt. Wir lesen, behalten oder teilen sie nicht.",
   "seoTitle": "Wann Sie ein PDF verkleinern müssen",
   "seoP1": "Große PDFs lassen sich schlecht per E-Mail verschicken und laden langsam hoch. Meist sind gescannte Dokumente und bildlastige Präsentationen die Ursache, und der Kompressor verkleinert beide, ohne dass Sie etwas installieren müssen.",
-  "seoP2": "Sie bestimmen, wie aggressiv komprimiert wird. Maximale Qualität (20–40 % Reduktion) hält alles scharf. Ausgewogen (40–70 %) ist die Standardwahl. Extrem (70–90 %) gibt die kleinstmögliche Datei, wenn die Größe wichtiger ist als perfekte Bildqualität.",
+  "seoP2": "Sie bestimmen die Endgröße. Wählen Sie 20, 50, 100, 200 oder 500 KB oder eine beliebige Größe, und wir suchen die höchste Bildqualität, die noch passt. Ein Ziel von 200 KB ergibt meist eine Datei von etwa 195 bis 199 KB, nicht eine viel kleinere als nötig. Lässt sich eine Datei nicht so weit verkleinern, ohne unlesbar zu werden, sagen wir es Ihnen.",
   "seoSubtitle": "Funktioniert mit jedem PDF",
   "seoP3": "Jedes PDF funktioniert, und gescannte Dokumente schrumpfen am stärksten, weil jede Seite ein Bild in voller Auflösung ist. Es läuft im Browser auf Desktop, Tablet und Smartphone.",
   "ctaTitle": "Jetzt PDF komprimieren",
@@ -125,7 +125,13 @@
       "compressing": "PDF wird komprimiert…",
       "finalizing": "Komprimierte Dateien werden finalisiert…",
       "complete": "Komprimierung abgeschlossen!"
-    }
+    },
+    "modeLevel": "Komprimierungsstufe",
+    "modeTarget": "Zielgröße",
+    "targetHint": "Wählen Sie die maximale Dateigröße (z. B. das Upload-Limit eines Portals). Wir verkleinern die Bilder schrittweise, bis das PDF passt. Reine Text-PDFs lassen sich nicht beliebig verkleinern.",
+    "custom": "Eigene:",
+    "customPlaceholder": "z. B. 150",
+    "chooseTargetSize": "Zielgröße wählen und starten"
   },
   "download": {
     "compressionComplete": "Komprimierung abgeschlossen!",
@@ -174,41 +180,39 @@
     "errorExpired": "Diese Datei ist abgelaufen und wurde zum Schutz Ihrer Privatsphäre gelöscht. Bitte komprimieren Sie sie erneut.",
     "alreadyOptimized": "Bereits optimiert",
     "alreadyOptimizedDesc": "Dieses PDF war bereits gut komprimiert – wir haben das Original behalten, um die Qualität zu schützen.",
-    "savedBytes": "Sie haben {size} gespart"
+    "savedBytes": "Sie haben {size} gespart",
+    "targetReached": "Fertig: Ihr PDF ist kleiner als {kb} KB.",
+    "targetMissed": "Dieses PDF ließ sich nicht unter {kb} KB bringen, ohne unlesbar zu werden. Das ist die kleinste mögliche Version. Wählen Sie ein größeres Ziel oder teilen Sie das PDF auf."
   },
   "metaTitle": "PDF komprimieren: Dateigröße online senken | SmallPDF.us",
-  "metaDescription": "PDF online kostenlos komprimieren und die Dateigröße um bis zu 90 % senken, mit hoher, ausgewogener oder maximaler Kompression. Löschung nach 1 Stunde.",
+  "metaDescription": "PDF kostenlos auf eine exakte Größe komprimieren: 20, 50, 100, 200, 500 KB oder eigene Größe. Beste Qualität, die passt. Dateien nach 1 Stunde gelöscht.",
   "guide": {
     "title": "So komprimieren Sie ein PDF auf 100 KB, 200 KB oder 1 MB",
-    "intro": "Laden Sie Ihr PDF oben hoch, wählen Sie die Komprimierung **Extrem** und laden Sie das Ergebnis herunter. Gescannte und bildlastige PDFs werden meist deutlich kleiner, oft klein genug für Formulare, die nur Dateien unter 100 KB oder 200 KB annehmen. PDFs mit überwiegend Text sind bereits klein und schrumpfen daher weniger.",
+    "intro": "Laden Sie oben Ihr PDF hoch, wählen Sie die erlaubte Größe Ihres Formulars (zum Beispiel **100 KB** oder **200 KB**) und laden Sie das Ergebnis herunter. Es liegt knapp unter dieser Größe, in der besten Qualität, die passt. Gescannte und bildlastige PDFs schaffen das meist leicht; textlastige PDFs sind schon klein und schrumpfen weniger.",
     "table": {
       "headers": [
-        "Stufe",
-        "Was sie macht",
-        "Typische Ersparnis",
-        "Geeignet für"
+        "Zielgröße",
+        "Geeignet für",
+        "Was Sie erwarten können"
       ],
       "rows": [
         [
-          "Maximale Qualität",
-          "Bilder bleiben bei 150 dpi",
-          "Etwa 20–50 %",
-          "Drucken, Dokumente mit feinen Details"
+          "20 bis 50 KB",
+          "Strenge Behörden- und Prüfungsformulare",
+          "Fotos und Scans weicher; Textseiten bleiben lesbar"
         ],
         [
-          "Ausgewogen (Standard)",
-          "Bilder mit 96 dpi",
-          "Etwa 50–75 %",
-          "E-Mail und die meisten Upload-Formulare"
+          "100 bis 200 KB",
+          "Jobportale und Antragsformulare",
+          "Scans bleiben klar und lesbar"
         ],
         [
-          "Extrem",
-          "Bilder mit 72 dpi und stärkster Komprimierung",
-          "Etwa 70–90 %",
-          "Strenge Grenzen wie 100 KB oder 200 KB"
+          "Ab 500 KB",
+          "E-Mail und die meisten Uploads",
+          "Nahezu Originalqualität"
         ]
       ],
-      "note": "Das sind typische Ergebnisse, keine Garantie. Die Ersparnis hängt vom Inhalt Ihrer Datei ab."
+      "note": "Typische Ergebnisse, keine Garantie. Wie klein ein PDF werden kann, hängt von seinem Inhalt ab."
     },
     "sections": [
       {

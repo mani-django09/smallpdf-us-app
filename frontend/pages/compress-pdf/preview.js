@@ -4,7 +4,7 @@ import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from '../../lib/i18n'
 import { getPageMessages } from '../../lib/i18nLoader'
-import { FileText, ArrowLeft, Play, Trash2, CheckCircle, Minimize2 } from "lucide-react"
+import { FileText, ArrowLeft, Play, Trash2, CheckCircle, Minimize2, Target } from "lucide-react"
 import { compressPdfStore } from "./index"
 import AdSenseUnit from "../../components/AdSenseUnit"
 import PromoBanner from "../../components/PromoBanner"
@@ -59,7 +59,10 @@ export default function PreviewCompressPdf() {
   const [progress, setProgress] = useState(0)
   const [stage, setStage] = useState("")
   const [selectedFiles, setSelectedFiles] = useState([])
-  const [compressionLevel, setCompressionLevel] = useState("balanced")
+  // The only mode: fit each PDF just under an exact KB size (e.g. a portal
+  // with a 200 KB cap). The server picks the best quality that still fits.
+  const [targetSizeKB, setTargetSizeKB] = useState(200)
+  const [customTargetInput, setCustomTargetInput] = useState("")
   const [error, setError] = useState("")
 
   const routerRef = useRef(router)
@@ -71,8 +74,10 @@ export default function PreviewCompressPdf() {
       const files = compressPdfStore.files
       setFilesData(files)
       setSelectedFiles(files.map((f) => f.id))
-      const storedLevel = sessionStorage.getItem("compressionLevel")
-      if (storedLevel) setCompressionLevel(storedLevel)
+      // Default: the largest preset that still actually shrinks the smallest file.
+      const smallest = Math.min(...files.map((f) => f.size))
+      const fitting = [500, 200, 100, 50, 20].find((kb) => kb * 1024 < smallest * 0.9)
+      setTargetSizeKB(fitting || 20)
     } else {
       // Store cleared (e.g. page refresh) — send back to upload
       routerRef.current.push("/compress-pdf")
@@ -138,7 +143,7 @@ export default function PreviewCompressPdf() {
     for (const fileData of filesToCompress) {
       formData.append("files", fileData.file, fileData.name)
     }
-    formData.append("level", compressionLevel)
+    formData.append("targetSizeKB", String(targetSizeKB))
 
     const { status, body } = await uploadWithProgress(`${getApiUrl()}/api/compress-pdf-batch`, formData, (frac) => {
       if (frac >= 1) startServerPhase()
@@ -171,7 +176,7 @@ export default function PreviewCompressPdf() {
         fileCount: filesToCompress.length,
         fileName: filesToCompress[0]?.name,
         totalOriginalSize: filesToCompress.reduce((acc, f) => acc + f.size, 0),
-        compressionLevel,
+        targetSizeKB,
       }),
     )
     
@@ -193,35 +198,8 @@ export default function PreviewCompressPdf() {
   const totalSize = filesData.reduce((acc, f) => acc + f.size, 0)
   const selectedCount = selectedFiles.length
 
-  const compressionOptions = [
-    {
-      id: "maximum",
-      name: t('compressPdf.preview.maximum.name'),
-      desc: t('compressPdf.preview.maximum.desc'),
-      reduction: t('compressPdf.preview.maximum.reduction'),
-      color: "bg-blue-600",
-    },
-    {
-      id: "balanced",
-      name: t('compressPdf.preview.balanced.name'),
-      desc: t('compressPdf.preview.balanced.desc'),
-      reduction: t('compressPdf.preview.balanced.reduction'),
-      color: "bg-rose-600",
-    },
-    {
-      id: "extreme",
-      name: t('compressPdf.preview.extreme.name'),
-      desc: t('compressPdf.preview.extreme.desc'),
-      reduction: t('compressPdf.preview.extreme.reduction'),
-      color: "bg-amber-600",
-    },
-  ]
-
-  const compressionLabels = {
-    maximum: { name: t('compressPdf.preview.maximum.name'), reduction: t('compressPdf.preview.maximum.reduction') },
-    balanced: { name: t('compressPdf.preview.balanced.name'), reduction: t('compressPdf.preview.balanced.reduction') },
-    extreme:  { name: t('compressPdf.preview.extreme.name'),  reduction: t('compressPdf.preview.extreme.reduction')  },
-  }
+  const targetSizePresets = [20, 50, 100, 200, 500]
+  const isCustomTarget = !targetSizePresets.includes(targetSizeKB)
 
   if (filesData.length === 0) {
     return (
@@ -290,7 +268,7 @@ export default function PreviewCompressPdf() {
               <h1 className="font-display text-lg sm:text-xl font-bold text-slate-900">
                 {t('compressPdf.preview.readyToCompress')} {filesData.length} PDF{filesData.length > 1 ? "s" : ""}
               </h1>
-              <p className="font-body text-xs text-slate-600">{t('compressPdf.preview.chooseCompressionLevel')}</p>
+              <p className="font-body text-xs text-slate-600">{t('compressPdf.preview.chooseTargetSize')}</p>
             </div>
           </div>
         </div>
@@ -335,37 +313,56 @@ export default function PreviewCompressPdf() {
                 <div className="p-5">
                   {!compressing ? (
                     <>
-                      {/* Compression Level Selector */}
+                      {/* Target size picker */}
                       <div className="mb-5">
-                        <h3 className="font-display text-sm font-semibold text-slate-700 mb-3">
-                          {t('compressPdf.preview.chooseLevel')}
+                        <h3 className="font-display text-sm font-semibold text-slate-700 mb-2 inline-flex items-center gap-1.5">
+                          <Target className="w-4 h-4 text-rose-600" />
+                          {t('compressPdf.preview.modeTarget')}
                         </h3>
-                        <div className="grid grid-cols-3 gap-3">
-                          {compressionOptions.map((option) => (
+                      <div>
+                        <p className="text-xs text-slate-500 mb-3">{t('compressPdf.preview.targetHint')}</p>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {targetSizePresets.map((kb) => (
                             <button
-                              key={option.id}
-                              onClick={() => setCompressionLevel(option.id)}
-                              className={`p-3 rounded-xl border-2 transition-all text-left ${
-                                compressionLevel === option.id
-                                  ? "border-rose-500 bg-rose-50 shadow-md"
-                                  : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                              key={kb}
+                              onClick={() => { setTargetSizeKB(kb); setCustomTargetInput("") }}
+                              className={`px-4 py-2 rounded-xl border-2 font-display text-sm font-bold transition-all ${
+                                !isCustomTarget && targetSizeKB === kb
+                                  ? "border-rose-500 bg-rose-50 text-rose-700"
+                                  : "border-slate-200 hover:border-slate-300 bg-white text-slate-700"
                               }`}
                             >
-                              <div
-                                className={`w-8 h-8 ${option.color} rounded-lg flex items-center justify-center mb-2`}
-                              >
-                                <Minimize2 className="w-4 h-4 text-white" />
-                              </div>
-                              <p className="text-xs font-semibold text-slate-900">{option.name}</p>
-                              <p className="text-[10px] text-slate-500 mt-0.5">{option.reduction} {t('compressPdf.preview.estSmaller')}</p>
+                              {kb} KB
                             </button>
                           ))}
                         </div>
-                        <p className="text-xs text-slate-500 mt-2 text-center">
-                          {compressionLevel === "maximum" && t('compressPdf.preview.maximum.hint')}
-                          {compressionLevel === "balanced" && t('compressPdf.preview.balanced.hint')}
-                          {compressionLevel === "extreme"  && t('compressPdf.preview.extreme.hint')}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-medium text-slate-500">{t('compressPdf.preview.custom')}</span>
+                          <div className="relative">
+                            <input
+                              type="number"
+                              min="5"
+                              max="500000"
+                              placeholder={t('compressPdf.preview.customPlaceholder')}
+                              value={customTargetInput}
+                              onChange={(e) => {
+                                const v = e.target.value
+                                setCustomTargetInput(v)
+                                const n = parseInt(v, 10)
+                                if (Number.isFinite(n) && n >= 5) setTargetSizeKB(n)
+                              }}
+                              className={`w-28 pl-3 pr-9 py-1.5 rounded-lg border-2 text-sm font-semibold outline-none transition-all ${
+                                isCustomTarget
+                                  ? "border-rose-500 bg-rose-50 text-rose-700"
+                                  : "border-slate-200 focus:border-rose-400 text-slate-700"
+                              }`}
+                            />
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-medium pointer-events-none">
+                              KB
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                       </div>
 
                       {/* File List */}
@@ -447,9 +444,9 @@ export default function PreviewCompressPdf() {
                         </div>
                         <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-100">
                           <div className="font-display text-lg font-bold text-rose-600">
-                            {compressionLabels[compressionLevel].reduction}
+                            ≤{targetSizeKB} KB
                           </div>
-                          <div className="font-body text-xs text-slate-500">{t('compressPdf.preview.estSmaller')}</div>
+                          <div className="font-body text-xs text-slate-500">{t('compressPdf.preview.modeTarget')}</div>
                         </div>
                         <div className="text-center p-3 bg-slate-50 rounded-lg border border-slate-100">
                           <div className="font-display text-lg font-bold text-slate-900">&lt;10s</div>
@@ -478,7 +475,7 @@ export default function PreviewCompressPdf() {
                       <div className="bg-rose-50 border border-rose-200 rounded-lg p-3">
                         <p className="font-body text-xs text-rose-800 text-center">
                           {selectedCount !== 1 ? t('compressPdf.preview.compressBtnPlural').replace('{n}', selectedCount) : t('compressPdf.preview.compressBtn').replace('{n}', selectedCount)}{" "}
-                          {compressionLabels[compressionLevel].name} {t('compressPdf.preview.compressingWith')}
+                          (≤{targetSizeKB} KB)
                         </p>
                       </div>
                     </div>

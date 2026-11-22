@@ -1,7 +1,7 @@
 {
   "heroTitle": "Nén file PDF",
   "heroTitleHighlight": "online miễn phí",
-  "heroSubtitle": "Thu nhỏ PDF của bạn 20-90%, tùy chế độ bạn chọn và nội dung bên trong tệp. Có thể tải lên tối đa 2 tệp cùng lúc với gói miễn phí.",
+  "heroSubtitle": "Chọn dung lượng như 100 KB hoặc 200 KB và nhận PDF vừa dưới mức đó, với chất lượng tốt nhất có thể. Gói miễn phí cho tải lên tối đa 2 tệp mỗi lần.",
   "uploadPrompt": "Thả các tệp PDF của bạn vào đây",
   "dropActive": "Thả ra để tải lên!",
   "dragHint": "Kéo và thả tệp PDF của bạn, hoặc nhấp vào nút bên dưới",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Vui lòng chọn ít nhất một tệp PDF.",
   "errorTooManyFiles": "Bạn có thể nén tối đa 2 tệp cùng lúc với gói miễn phí.",
   "featuresTitle": "Vì sao công cụ nén PDF của chúng tôi hiệu quả hơn",
-  "featuresSubtitle": "Tải PDF lên, chọn mức nén và tải về tệp nhỏ hơn.",
+  "featuresSubtitle": "Tải PDF lên, chọn dung lượng mục tiêu và tải về tệp nhỏ hơn.",
   "feature1Title": "Nén ảnh thông minh",
   "feature1Desc": "Chúng tôi mã hóa lại các ảnh nhúng - nguyên nhân lớn nhất khiến PDF nặng - ở chất lượng và độ phân giải thấp hơn.",
-  "feature2Title": "Nhỏ hơn tới 90%",
-  "feature2Desc": "Chọn Cực mạnh để có tệp nhỏ nhất, hoặc Cân bằng để có kết quả đẹp mắt hơn.",
+  "feature2Title": "Đúng dung lượng bạn cần",
+  "feature2Desc": "Chọn 20, 50, 100, 200 hoặc 500 KB, hoặc tự nhập. Kết quả vừa dưới mức đó, không thấp hơn quá nhiều.",
   "feature3Title": "Được mã hóa và xóa",
   "feature3Desc": "Tệp được mã hóa khi truyền tải và tự động xóa khỏi máy chủ của chúng tôi trong vòng một giờ. Chúng tôi không đọc, không giữ lại và không chia sẻ chúng.",
   "stepsTitle": "Nén trong ba bước",
-  "stepsSubtitle": "Tải lên, chọn mức nén, tải xuống.",
+  "stepsSubtitle": "Tải lên, chọn dung lượng, tải về.",
   "step1Title": "Tải PDF của bạn lên",
   "step1Desc": "Chọn tối đa 2 tệp PDF cùng lúc với gói miễn phí, mỗi tệp tối đa 20MB. Kéo thả hoặc nhấp để chọn.",
-  "step2Title": "Chọn mức nén",
-  "step2Desc": "Chọn Chất lượng tối đa, Cân bằng hoặc Nén cực mạnh. Cân bằng là mặc định phù hợp với hầu hết các tệp.",
+  "step2Title": "Chọn dung lượng mục tiêu",
+  "step2Desc": "Chọn 20, 50, 100, 200 hoặc 500 KB, hoặc nhập dung lượng tùy chỉnh. Chúng tôi giữ chất lượng ảnh tốt nhất mà vẫn vừa.",
   "step3Title": "Tải về các tệp nhỏ hơn",
   "step3Desc": "Hầu hết tệp hoàn tất trong chưa đầy 10 giây. Tải ngay các tệp PDF đã tối ưu của bạn.",
   "diveTitle": "Điều thực sự xảy ra khi bạn nén",
@@ -46,15 +46,15 @@
   "dive4Title": "Khi nào nén không giúp được nhiều",
   "dive4Desc": "Nếu ảnh trong PDF đã được nén mạnh từ trước khi nhúng, điều thường gặp với PDF xuất từ các công cụ trực tuyến khác, thì không còn nhiều phần thừa để ép nữa. Nén lại một ảnh đã nén chủ yếu chỉ làm giảm chất lượng mà không giảm được bao nhiêu dung lượng.",
   "dive5Title": "Nén có ảnh hưởng đến chất lượng in không?",
-  "dive5Desc": "Ở mức nén tiêu chuẩn của chúng tôi, mức giảm chất lượng được thiết kế để gần như không thể nhận thấy trên màn hình và trong hầu hết các bản in. Với tài liệu bạn định in khổ lớn hoặc chất lượng chuyên nghiệp, nên xem lại một hai trang trước khi phân phối rộng rãi.",
+  "dive5Desc": "Chúng tôi chọn chất lượng ảnh cao nhất vẫn vừa với mục tiêu, nên mục tiêu càng lớn thì kết quả càng nét. Với mục tiêu rất nhỏ (20 đến 50 KB), ảnh và bản quét sẽ mờ hơn rõ rệt, vì vậy hãy kiểm tra một trang trước khi nộp hoặc in.",
   "dive6Title": "Nén nhiều PDF cùng lúc",
   "dive6Desc": "Bạn có thể tải lên và nén nhiều PDF trong cùng một lô - mỗi tệp được nén độc lập và trả về dưới dạng tệp riêng. Tỷ lệ nén khác nhau tùy từng tệp vì phụ thuộc vào nội dung ảnh của riêng mỗi PDF, chứ không phải một tỷ lệ cố định áp dụng cho tất cả.",
   "faqTitle": "Câu hỏi thường gặp",
   "faqSubtitle": "Giải đáp nhanh về giới hạn, quyền riêng tư và kết quả.",
   "faq1Question": "Tôi có thể giảm dung lượng tệp PDF bao nhiêu?",
-  "faq1Answer": "Tùy vào nội dung trong PDF. Tệp nhiều ảnh có thể nhỏ đi tới 90%. Tài liệu chỉ có văn bản thường giảm 20–40%. Chế độ Cực mạnh cho tệp nhỏ nhất; chế độ Cân bằng giữ chất lượng cao.",
+  "faq1Answer": "Tùy vào nội dung PDF. Tệp quét hoặc nhiều ảnh thường giảm được xuống 100 KB hoặc 200 KB. Tài liệu chỉ có chữ vốn đã nhỏ và có thể không giảm thêm nhiều. Nếu không đạt được mục tiêu, chúng tôi sẽ báo cho bạn và đưa ra phiên bản nhỏ nhất có thể.",
   "faq2Question": "PDF sau khi nén có trông khác đi không?",
-  "faq2Answer": "Ở chế độ Cân bằng, sự khác biệt gần như không nhận thấy - văn bản vẫn sắc nét và ảnh trông sạch. Chế độ Cực mạnh có làm giảm nhẹ chất lượng ảnh, nhưng giúp giảm dung lượng đáng kể nếu đó là điều bạn cần.",
+  "faq2Answer": "Chỉ ở mức cần thiết. Chúng tôi dùng chất lượng tốt nhất vẫn vừa với dung lượng bạn chọn: ở 500 KB tệp gần như bản gốc, ở 20 KB mờ hơn rõ rệt. Chữ vẫn là chữ và vẫn sắc nét.",
   "faq3Question": "Tôi có thể nén nhiều hơn một PDF cùng lúc không?",
   "faq3Answer": "Có - gói miễn phí cho phép nén tối đa 2 PDF cùng lúc. Gói Starter và Pro cho phép tối đa 10 tệp mỗi lô. Chúng tôi xử lý tất cả cùng nhau và đưa cho bạn một tệp zip để tải xuống khi có nhiều hơn một tệp.",
   "faq4Question": "Có giới hạn dung lượng tệp không?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Mọi thứ đều bị xóa trong vòng một giờ sau khi xử lý. Tệp của bạn được mã hóa trong quá trình tải lên và truyền tải. Chúng tôi không đọc, không giữ lại và không chia sẻ chúng.",
   "seoTitle": "Khi bạn cần thu nhỏ một tệp PDF",
   "seoP1": "PDF dung lượng lớn khó gửi email và tải lên chậm. Tài liệu quét và bản trình bày nhiều ảnh là nguyên nhân thường gặp, và công cụ nén thu nhỏ được cả hai mà không cần cài đặt gì.",
-  "seoP2": "Bạn chọn mức độ nén mạnh đến đâu. Chế độ Chất lượng tối đa (giảm 20–40%) giữ mọi thứ sắc nét. Cân bằng (40–70%) là lựa chọn phù hợp với hầu hết các tệp. Cực mạnh (70–90%) cho ra tệp nhỏ nhất có thể khi dung lượng quan trọng hơn chất lượng ảnh hoàn hảo.",
+  "seoP2": "Bạn quyết định dung lượng cuối cùng. Chọn 20, 50, 100, 200 hoặc 500 KB, hoặc nhập bất kỳ dung lượng nào, và chúng tôi tìm chất lượng ảnh cao nhất vẫn vừa. Mục tiêu 200 KB thường cho tệp khoảng 195 đến 199 KB, không nhỏ hơn mức cần quá nhiều. Nếu tệp không thể nhỏ đến vậy mà vẫn đọc được, chúng tôi sẽ báo cho bạn.",
   "seoSubtitle": "Hoạt động với mọi PDF",
   "seoP3": "PDF nào cũng dùng được, và tài liệu quét nhỏ đi nhiều nhất vì mỗi trang là một ảnh có độ phân giải đầy đủ. Công cụ chạy trên trình duyệt, trên máy tính, máy tính bảng và điện thoại.",
   "ctaTitle": "Nén PDF của bạn ngay",
@@ -125,7 +125,13 @@
       "compressing": "Đang nén PDF của bạn…",
       "finalizing": "Đang hoàn tất các tệp đã nén…",
       "complete": "Nén hoàn tất!"
-    }
+    },
+    "modeLevel": "Mức nén",
+    "modeTarget": "Dung lượng mục tiêu",
+    "targetHint": "Chọn dung lượng tối đa bạn cần (ví dụ giới hạn tải lên của một cổng thông tin). Chúng tôi giảm ảnh từng bước cho đến khi PDF vừa. PDF chỉ có chữ không thể nhỏ hơn một mức nhất định.",
+    "custom": "Tùy chỉnh:",
+    "customPlaceholder": "ví dụ 150",
+    "chooseTargetSize": "Chọn dung lượng mục tiêu và bắt đầu"
   },
   "download": {
     "compressionComplete": "Nén hoàn tất!",
@@ -174,41 +180,39 @@
     "errorExpired": "Tệp này đã hết hạn và bị xóa để bảo vệ quyền riêng tư của bạn. Vui lòng nén lại.",
     "alreadyOptimized": "Đã được tối ưu",
     "alreadyOptimizedDesc": "PDF này vốn đã được nén tốt, nên chúng tôi giữ lại bản gốc để bảo vệ chất lượng của nó.",
-    "savedBytes": "Bạn đã tiết kiệm {size}"
+    "savedBytes": "Bạn đã tiết kiệm {size}",
+    "targetReached": "Xong: PDF của bạn đã dưới {kb} KB.",
+    "targetMissed": "Không thể đưa PDF này xuống dưới {kb} KB mà vẫn đọc được. Đây là phiên bản nhỏ nhất có thể. Hãy chọn mục tiêu lớn hơn hoặc tách PDF."
   },
   "metaTitle": "Nén file PDF online: giảm dung lượng | SmallPDF.us",
-  "metaDescription": "Nén file PDF online miễn phí. Giảm dung lượng đến 90 % với chế độ chất lượng cao nhất, cân bằng hoặc tối đa. Tệp bị xóa sau 1 giờ.",
+  "metaDescription": "Nén PDF miễn phí đến đúng dung lượng: 20, 50, 100, 200, 500 KB hoặc tự chọn. Chất lượng tốt nhất vẫn vừa. Tệp bị xóa sau 1 giờ.",
   "guide": {
     "title": "Cách nén PDF xuống 100 KB, 200 KB hoặc 1 MB",
-    "intro": "Tải PDF của bạn lên ở trên, chọn nén **Cực mạnh** và tải kết quả về. PDF quét và PDF nhiều ảnh chụp thường nhỏ đi rất nhiều, thường đủ cho các biểu mẫu chỉ nhận tệp dưới 100 KB hoặc 200 KB. PDF chủ yếu là văn bản vốn đã nhỏ nên giảm ít hơn.",
+    "intro": "Tải PDF lên ở trên, chọn dung lượng mà biểu mẫu cho phép (ví dụ **100 KB** hoặc **200 KB**) rồi tải kết quả về. Tệp sẽ vừa dưới mức đó với chất lượng tốt nhất có thể. PDF quét hoặc nhiều ảnh thường dễ đạt; PDF chủ yếu là chữ vốn đã nhỏ nên giảm ít hơn.",
     "table": {
       "headers": [
-        "Mức",
-        "Tác dụng",
-        "Mức giảm thường gặp",
-        "Phù hợp cho"
+        "Dung lượng mục tiêu",
+        "Phù hợp cho",
+        "Kết quả dự kiến"
       ],
       "rows": [
         [
-          "Chất lượng tối đa",
-          "Giữ ảnh ở 150 dpi",
-          "Khoảng 20–50%",
-          "In ấn, tài liệu có chi tiết nhỏ"
+          "20 đến 50 KB",
+          "Biểu mẫu nhà nước và thi cử khắt khe",
+          "Ảnh và bản quét mờ hơn; chữ vẫn đọc được"
         ],
         [
-          "Cân bằng (mặc định)",
-          "Ảnh ở 96 dpi",
-          "Khoảng 50–75%",
-          "Email và hầu hết biểu mẫu tải lên"
+          "100 đến 200 KB",
+          "Cổng tuyển dụng và đơn đăng ký",
+          "Bản quét vẫn rõ và dễ đọc"
         ],
         [
-          "Cực mạnh",
-          "Ảnh ở 72 dpi với mức nén mạnh nhất",
-          "Khoảng 70–90%",
-          "Giới hạn nghiêm ngặt như 100 KB hoặc 200 KB"
+          "Từ 500 KB",
+          "Email và hầu hết các lượt tải lên",
+          "Gần như chất lượng gốc"
         ]
       ],
-      "note": "Đây là kết quả thường gặp, không phải cam kết. Mức giảm phụ thuộc vào nội dung bên trong tệp của bạn."
+      "note": "Kết quả thông thường, không phải cam kết. PDF nhỏ được đến đâu tùy vào nội dung bên trong."
     },
     "sections": [
       {

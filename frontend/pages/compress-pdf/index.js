@@ -145,7 +145,7 @@ export default function CompressPdf() {
           "Up to 90% size reduction",
           "Smart image optimization",
           "Batch processing",
-          "Choose a compression level: smaller file or higher quality",
+          "Compress to an exact size: 20, 50, 100, 200, 500 KB or custom",
           "Free plan available"
         ]
       },
@@ -173,8 +173,8 @@ export default function CompressPdf() {
           },
           {
             "@type": "HowToStep",
-            "name": "Choose Compression Level",
-            "text": "Select maximum quality (20-40%), balanced (40-70%), or extreme compression (70-90%) based on your needs. Balanced is recommended for most users.",
+            "name": "Pick a Target Size",
+            "text": "Choose 20, 50, 100, 200 or 500 KB, or enter a custom size. The PDF is compressed to just under that size at the best image quality that fits.",
             "position": 2
           },
           {

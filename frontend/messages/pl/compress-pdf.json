@@ -1,7 +1,7 @@
 {
   "heroTitle": "Kompresuj PDF online,",
   "heroTitleHighlight": "zmniejsz rozmiar pliku",
-  "heroSubtitle": "Zmniejsz PDF o 20–90%, zależnie od wybranego trybu i tego, co jest w pliku. W planie darmowym możesz wgrać do 2 plików naraz.",
+  "heroSubtitle": "Wybierz rozmiar, np. 100 KB lub 200 KB, i otrzymaj PDF tuż poniżej, w najlepszej jakości, jaka się mieści. W darmowym planie do 2 plików naraz.",
   "uploadPrompt": "Upuść tutaj swoje pliki PDF",
   "dropActive": "Puść, żeby wgrać!",
   "dragHint": "Przeciągnij pliki PDF albo kliknij przycisk poniżej",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Wybierz co najmniej jeden plik PDF.",
   "errorTooManyFiles": "W planie darmowym możesz skompresować do 2 plików naraz.",
   "featuresTitle": "Dlaczego nasz kompresor PDF sprawdza się lepiej",
-  "featuresSubtitle": "Wgraj PDF, wybierz poziom kompresji i pobierz mniejszy plik.",
+  "featuresSubtitle": "Prześlij PDF, wybierz docelowy rozmiar i pobierz mniejszy plik.",
   "feature1Title": "Inteligentna kompresja obrazów",
   "feature1Desc": "Obrazy osadzone w pliku to najczęstszy powód, dla którego PDF jest ogromny. Zapisujemy je ponownie w niższej jakości i rozdzielczości.",
-  "feature2Title": "Nawet o 90% mniejszy",
-  "feature2Desc": "Wybierz tryb Ekstremalny, żeby uzyskać najmniejszy plik, albo Zrównoważony, jeśli zależy Ci na ładniejszym wyglądzie.",
+  "feature2Title": "Dokładny rozmiar",
+  "feature2Desc": "Wybierz 20, 50, 100, 200 lub 500 KB albo wpisz własny. Wynik jest tuż poniżej, a nie dużo niżej.",
   "feature3Title": "Szyfrowane i usuwane",
   "feature3Desc": "Pliki są szyfrowane podczas przesyłania i automatycznie usuwane z naszych serwerów w ciągu godziny. Nie czytamy ich, nie przechowujemy ani nie udostępniamy.",
   "stepsTitle": "Kompresja w trzech krokach",
-  "stepsSubtitle": "Wgraj, wybierz poziom, pobierz.",
+  "stepsSubtitle": "Prześlij, wybierz rozmiar, pobierz.",
   "step1Title": "Wgraj pliki PDF",
   "step1Desc": "W planie darmowym wybierz do 2 plików PDF naraz, każdy do 20 MB. Przeciągnij je albo kliknij, żeby wybrać.",
-  "step2Title": "Wybierz poziom kompresji",
-  "step2Desc": "Do wyboru: Maksymalna jakość, Zrównoważona albo Ekstremalna kompresja. Dla większości plików domyślnie sprawdza się Zrównoważona.",
+  "step2Title": "Wybierz docelowy rozmiar",
+  "step2Desc": "Wybierz 20, 50, 100, 200 lub 500 KB albo własny rozmiar. Zachowujemy najlepszą jakość obrazów, która się mieści.",
   "step3Title": "Pobierz mniejsze pliki",
   "step3Desc": "Większość plików jest gotowa w mniej niż 10 sekund. Zoptymalizowane pliki PDF możesz pobrać od razu.",
   "diveTitle": "Co naprawdę dzieje się podczas kompresji",
@@ -46,15 +46,15 @@
   "dive4Title": "Kiedy kompresja niewiele da",
   "dive4Desc": "Jeśli obrazy w PDF były już mocno skompresowane, zanim je osadzono, a tak bywa w plikach z innych narzędzi online, to nie ma już z czego wyciskać. Ponowna kompresja skompresowanego obrazu głównie pogarsza jakość, a rozmiar zmienia się niewiele.",
   "dive5Title": "Czy kompresja wpływa na jakość wydruku?",
-  "dive5Desc": "Przy standardowym poziomie kompresji utrata jakości ma być ledwo widoczna na ekranie i na większości wydruków. Jeśli planujesz drukować dokument w dużym formacie albo w jakości profesjonalnej, warto przed rozesłaniem obejrzeć kilka stron.",
+  "dive5Desc": "Wybieramy najwyższą jakość obrazów, która mieści się w celu, więc większy cel daje ostrzejszy wynik. Przy bardzo małych celach (20 do 50 KB) zdjęcia i skany są wyraźnie mniej ostre, dlatego sprawdź stronę przed wysłaniem lub drukiem.",
   "dive6Title": "Kompresja wielu plików PDF naraz",
   "dive6Desc": "W jednej partii możesz wgrać i skompresować kilka plików PDF. Każdy jest kompresowany osobno i wraca jako osobny plik. Stopień kompresji jest różny dla każdego pliku, bo zależy od obrazów, które zawiera, a nie od stałego procentu stosowanego do wszystkich.",
   "faqTitle": "Częste pytania",
   "faqSubtitle": "Krótkie odpowiedzi o limitach, prywatności i wynikach.",
   "faq1Question": "O ile mogę zmniejszyć rozmiar pliku PDF?",
-  "faq1Answer": "To zależy od zawartości pliku. Pliki pełne obrazów mogą się zmniejszyć nawet o 90%. Dokumenty z samym tekstem zwykle tracą 20–40%. Tryb Ekstremalny daje najmniejszy plik, a Zrównoważony zachowuje wysoką jakość.",
+  "faq1Answer": "Zależy to od zawartości PDF. Skany i pliki pełne zdjęć zwykle osiągają 100 KB lub 200 KB. Dokumenty zawierające tylko tekst są już małe i mogą niewiele się zmniejszyć. Jeśli celu nie da się osiągnąć, informujemy o tym i dajemy najmniejszą możliwą wersję.",
   "faq2Question": "Czy skompresowany PDF będzie wyglądał inaczej?",
-  "faq2Answer": "W trybie Zrównoważonym różnica jest ledwo zauważalna: tekst pozostaje ostry, a obrazy wyglądają czysto. Tryb Ekstremalny nieco obniża jakość obrazów, ale mocno zmniejsza rozmiar, jeśli właśnie o to Ci chodzi.",
+  "faq2Answer": "Tylko tyle, ile trzeba. Używamy najlepszej jakości, która mieści się w wybranym rozmiarze: przy 500 KB plik wygląda prawie jak oryginał, przy 20 KB jest wyraźnie mniej ostry. Tekst pozostaje tekstem i pozostaje ostry.",
   "faq3Question": "Czy mogę skompresować więcej niż jeden PDF naraz?",
   "faq3Answer": "Tak. W planie darmowym możesz skompresować do 2 plików PDF naraz, a Starter i Pro pozwalają na do 10 plików w partii. Przetwarzamy je razem, a gdy plików jest więcej niż jeden, dostajesz do pobrania archiwum zip.",
   "faq4Question": "Czy jest limit rozmiaru pliku?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Wszystko jest usuwane w ciągu godziny od przetworzenia. Pliki są szyfrowane podczas wgrywania i przesyłania. Nie czytamy ich, nie przechowujemy ani nie udostępniamy.",
   "seoTitle": "Kiedy trzeba zmniejszyć PDF",
   "seoP1": "Duże pliki PDF trudno wysłać e-mailem i długo się wgrywają. Najczęściej winne są zeskanowane dokumenty i prezentacje pełne obrazów, a nasz kompresor zmniejsza jedne i drugie, bez instalowania czegokolwiek.",
-  "seoP2": "To Ty decydujesz, jak mocno plik ma być skompresowany. Tryb Maksymalna jakość (zmniejszenie o 20–40%) zachowuje ostrość wszystkiego. Zrównoważony (40–70%) to wybór na co dzień dla większości plików. Ekstremalny (70–90%) daje najmniejszy możliwy plik, gdy rozmiar liczy się bardziej niż perfekcyjna jakość obrazu.",
+  "seoP2": "To Ty wybierasz końcowy rozmiar. Wybierz 20, 50, 100, 200 lub 500 KB albo wpisz dowolny rozmiar, a my znajdziemy najwyższą jakość obrazów, która się mieści. Cel 200 KB zwykle daje plik około 195 do 199 KB, a nie dużo mniejszy, niż potrzebujesz. Jeśli pliku nie da się tak zmniejszyć bez utraty czytelności, powiemy Ci o tym.",
   "seoSubtitle": "Działa z każdym PDF",
   "seoP3": "Sprawdzi się każdy PDF, a zeskanowane dokumenty zmniejszają się najbardziej, bo każda strona to obraz w pełnej rozdzielczości. Działa w przeglądarce na komputerze, tablecie i telefonie.",
   "ctaTitle": "Skompresuj swój PDF teraz",
@@ -125,7 +125,13 @@
       "compressing": "Kompresujemy Twój PDF…",
       "finalizing": "Kończymy skompresowane pliki…",
       "complete": "Kompresja zakończona!"
-    }
+    },
+    "modeLevel": "Poziom kompresji",
+    "modeTarget": "Docelowy rozmiar",
+    "targetHint": "Wybierz maksymalny rozmiar pliku (np. limit przesyłania na portalu). Stopniowo zmniejszamy obrazy, aż PDF się zmieści. Pliki PDF zawierające tylko tekst nie zejdą poniżej pewnego rozmiaru.",
+    "custom": "Własny:",
+    "customPlaceholder": "np. 150",
+    "chooseTargetSize": "Wybierz docelowy rozmiar i zacznij"
   },
   "download": {
     "compressionComplete": "Kompresja zakończona!",
@@ -174,41 +180,39 @@
     "errorExpired": "Ten plik wygasł i został usunięty dla Twojej prywatności. Skompresuj go ponownie.",
     "alreadyOptimized": "Już zoptymalizowany",
     "alreadyOptimizedDesc": "Ten PDF był już dobrze skompresowany, więc zostawiliśmy oryginał, żeby nie pogorszyć jego jakości.",
-    "savedBytes": "Oszczędzasz {size}"
+    "savedBytes": "Oszczędzasz {size}",
+    "targetReached": "Gotowe: Twój PDF ma mniej niż {kb} KB.",
+    "targetMissed": "Nie udało się zmniejszyć tego PDF poniżej {kb} KB bez utraty czytelności. To najmniejsza możliwa wersja. Wybierz większy cel lub podziel PDF."
   },
   "metaTitle": "Kompresuj PDF online za darmo: zmniejsz rozmiar PDF | SmallPDF.us",
-  "metaDescription": "Kompresuj pliki PDF online za darmo. Zmniejsz rozmiar PDF nawet o 90% w trybie Maksymalna jakość, Zrównoważony lub Ekstremalny. Pliki są usuwane po godzinie.",
+  "metaDescription": "Kompresuj PDF za darmo do dokładnego rozmiaru: 20, 50, 100, 200, 500 KB lub własny. Najlepsza jakość, jaka się mieści. Pliki usuwane po 1 godzinie.",
   "guide": {
     "title": "Jak zmniejszyć PDF do 100 KB, 200 KB lub 1 MB",
-    "intro": "Wgraj PDF powyżej, wybierz kompresję **Ekstremalną** i pobierz wynik. Zeskanowane pliki PDF i te pełne zdjęć zwykle kurczą się bardzo mocno, często na tyle, żeby przejść w formularzach przyjmujących pliki poniżej 100 KB lub 200 KB. Pliki PDF z samym tekstem są już małe, więc zmniejszają się mniej.",
+    "intro": "Prześlij PDF powyżej, wybierz rozmiar akceptowany przez formularz (na przykład **100 KB** lub **200 KB**) i pobierz wynik. Będzie tuż poniżej tego rozmiaru, w najlepszej jakości, jaka się mieści. Skany i PDF ze zdjęciami zwykle łatwo to osiągają; PDF z samym tekstem są już małe i zmniejszają się mniej.",
     "table": {
       "headers": [
-        "Poziom",
-        "Co robi",
-        "Typowa oszczędność",
-        "Do czego"
+        "Docelowy rozmiar",
+        "Do czego",
+        "Czego się spodziewać"
       ],
       "rows": [
         [
-          "Maksymalna jakość",
-          "Zachowuje obrazy w 150 dpi",
-          "Około 20–50%",
-          "Wydruki, dokumenty z drobnymi szczegółami"
+          "20 do 50 KB",
+          "Rygorystyczne formularze urzędowe i egzaminacyjne",
+          "Zdjęcia i skany mniej ostre; tekst czytelny"
         ],
         [
-          "Zrównoważona (domyślna)",
-          "Obrazy w 96 dpi",
-          "Około 50–75%",
-          "E-mail i większość formularzy z wgrywaniem plików"
+          "100 do 200 KB",
+          "Portale pracy i formularze zgłoszeniowe",
+          "Skany pozostają wyraźne i czytelne"
         ],
         [
-          "Ekstremalna",
-          "Obrazy w 72 dpi z najmocniejszą kompresją",
-          "Około 70–90%",
-          "Ścisłe limity, np. 100 KB lub 200 KB"
+          "500 KB i więcej",
+          "E-mail i większość przesyłek",
+          "Jakość bliska oryginałowi"
         ]
       ],
-      "note": "To typowe wyniki, a nie obietnica. Oszczędność zależy od tego, co jest w Twoim pliku."
+      "note": "Typowe wyniki, bez gwarancji. To, jak bardzo można zmniejszyć PDF, zależy od jego zawartości."
     },
     "sections": [
       {

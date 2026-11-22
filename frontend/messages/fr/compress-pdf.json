@@ -1,7 +1,7 @@
 {
   "heroTitle": "Compresser un PDF",
   "heroTitleHighlight": "en ligne, gratuit",
-  "heroSubtitle": "Réduisez votre PDF de 20 à 90 %, selon le mode choisi et le contenu du fichier. Importez jusqu'à 2 fichiers à la fois avec l'offre gratuite.",
+  "heroSubtitle": "Choisissez une taille comme 100 Ko ou 200 Ko et obtenez un PDF juste en dessous, avec la meilleure qualité possible. Jusqu'à 2 fichiers à la fois avec l'offre gratuite.",
   "uploadPrompt": "Déposez vos PDFs ici",
   "dropActive": "Lâchez maintenant !",
   "dragHint": "Glissez-déposez vos fichiers PDF ou cliquez sur le bouton ci-dessous",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Veuillez sélectionner au moins un fichier PDF.",
   "errorTooManyFiles": "Vous pouvez compresser jusqu'à 10 fichiers à la fois.",
   "featuresTitle": "Pourquoi notre compresseur PDF est meilleur",
-  "featuresSubtitle": "Importez un PDF, choisissez un niveau de compression et téléchargez un fichier plus léger.",
+  "featuresSubtitle": "Importez un PDF, choisissez une taille cible et téléchargez un fichier plus léger.",
   "feature1Title": "Compression intelligente des images",
   "feature1Desc": "Nous réencodons les images intégrées, première cause des PDF volumineux, avec une qualité et une résolution plus basses.",
-  "feature2Title": "Jusqu'à 90 % plus léger",
-  "feature2Desc": "Choisissez Extrême pour le fichier le plus léger, ou Équilibré pour un résultat d'aspect plus net.",
+  "feature2Title": "Une taille exacte",
+  "feature2Desc": "Choisissez 20, 50, 100, 200 ou 500 Ko, ou saisissez la vôtre. Le résultat arrive juste en dessous, pas bien en dessous.",
   "feature3Title": "Chiffré et supprimé",
   "feature3Desc": "Les fichiers sont chiffrés pendant le transfert et supprimés automatiquement de nos serveurs sous une heure. Nous ne les lisons, ne les conservons et ne les partageons pas.",
   "stepsTitle": "Compresser en trois étapes",
-  "stepsSubtitle": "Importer, choisir un niveau, télécharger.",
+  "stepsSubtitle": "Importez, choisissez une taille, téléchargez.",
   "step1Title": "Importez vos PDFs",
   "step1Desc": "Avec le plan gratuit, sélectionnez jusqu'à 2 fichiers PDF à la fois, jusqu'à 20 Mo chacun. Glissez-déposez ou cliquez.",
-  "step2Title": "Choisissez le niveau de compression",
-  "step2Desc": "Choisissez Qualité maximale, Équilibré ou Compression extrême. Équilibré est le réglage par défaut pour la plupart des fichiers.",
+  "step2Title": "Choisir une taille cible",
+  "step2Desc": "Choisissez 20, 50, 100, 200 ou 500 Ko, ou une taille personnalisée. Nous gardons la meilleure qualité d'image qui tient encore.",
   "step3Title": "Téléchargez des fichiers plus légers",
   "step3Desc": "La plupart des fichiers sont traités en moins de 10 secondes. Téléchargez vos PDF optimisés immédiatement.",
   "diveTitle": "Ce qui se passe réellement lors de la compression",
@@ -46,15 +46,15 @@
   "dive4Title": "Quand la compression n'aide pas beaucoup",
   "dive4Desc": "Si les images d'un PDF étaient déjà fortement compressées avant leur intégration - courant pour les PDF exportés depuis d'autres outils en ligne - il reste peu de redondance à extraire. Recompresser une image déjà compressée ajoute surtout une perte de génération sans grand bénéfice de taille.",
   "dive5Title": "La compression affecte-t-elle la qualité d'impression ?",
-  "dive5Desc": "Au niveau de compression standard, la perte de qualité est censée être à peine visible à l'écran et dans la plupart des impressions. Si vous comptez imprimer les documents en grand format ou en qualité professionnelle, il vaut la peine de vérifier une ou deux pages avant une large diffusion.",
+  "dive5Desc": "Nous retenons la meilleure qualité d'image qui tient dans votre cible : plus la cible est grande, plus le résultat est net. Avec de très petites cibles (20 à 50 Ko), photos et scans deviennent plus flous, vérifiez donc une page avant de l'envoyer ou de l'imprimer.",
   "dive6Title": "Compresser plusieurs PDF à la fois",
   "dive6Desc": "Vous pouvez importer et compresser plusieurs PDF dans le même lot - chacun est compressé indépendamment et renvoyé comme fichier séparé. Le taux de compression varie selon le fichier, car il dépend du contenu image propre à chaque PDF, pas d'un pourcentage fixe appliqué à tous.",
   "faqTitle": "Questions fréquentes",
   "faqSubtitle": "Réponses rapides sur les limites, la confidentialité et les résultats.",
   "faq1Question": "De combien puis-je réduire mon fichier PDF ?",
-  "faq1Answer": "Cela dépend du contenu. Les fichiers riches en images peuvent être réduits jusqu'à 90 %. Les documents texte voient généralement une réduction de 20 à 40 %. Le mode Extrême donne le fichier le plus petit ; Équilibré maintient une haute qualité.",
+  "faq1Answer": "Cela dépend du contenu du PDF. Les fichiers scannés ou riches en photos atteignent généralement 100 Ko ou 200 Ko. Les documents purement textuels sont déjà légers et ne descendent pas beaucoup plus. Si la cible est impossible, nous vous le disons et fournissons la plus petite version possible.",
   "faq2Question": "Le PDF compressé aura-t-il l'air différent ?",
-  "faq2Answer": "En mode Équilibré, la différence est à peine perceptible - le texte reste net et les images propres. En mode Extrême, la qualité des images baisse légèrement, mais le gain de taille est significatif.",
+  "faq2Answer": "Seulement ce qu'il faut. Nous utilisons la meilleure qualité qui tient dans la taille choisie : à 500 Ko le fichier ressemble presque à l'original, à 20 Ko il est visiblement plus flou. Le texte reste du texte et reste net.",
   "faq3Question": "Puis-je compresser plusieurs PDFs à la fois ?",
   "faq3Answer": "Oui. L'offre gratuite permet de compresser jusqu'à 2 PDF à la fois. Starter et Pro autorisent jusqu'à 10 fichiers par lot. Nous les traitons tous ensemble et vous donnons un fichier ZIP à télécharger quand il y en a plusieurs.",
   "faq4Question": "Y a-t-il une limite de taille de fichier ?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Tout est supprimé dans l'heure suivant le traitement. Vos fichiers sont chiffrés pendant l'upload. Nous ne les lisons pas, ne les conservons pas, ne les partageons pas.",
   "seoTitle": "Quand vous avez besoin de réduire un PDF",
   "seoP1": "Les gros PDF sont difficiles à envoyer par e-mail et lents à importer. Les documents scannés et les présentations riches en images en sont la cause habituelle, et le compresseur allège les deux sans rien à installer.",
-  "seoP2": "Vous choisissez l'intensité de la compression. Le mode Qualité maximale (20–40 %) garde tout net. Équilibré (40–70 %) est le choix par défaut. Extrême (70–90 %) donne le fichier le plus petit quand la taille prime sur la qualité.",
+  "seoP2": "Vous choisissez la taille finale. Prenez 20, 50, 100, 200 ou 500 Ko, ou saisissez n'importe quelle taille, et nous cherchons la meilleure qualité d'image qui tient encore. Une cible de 200 Ko donne en général un fichier d'environ 195 à 199 Ko, pas un fichier bien plus petit que nécessaire. Si un fichier ne peut pas descendre aussi bas sans devenir illisible, nous vous le disons.",
   "seoSubtitle": "Compatible avec tous les PDFs",
   "seoP3": "Tout PDF convient, et les documents scannés sont ceux qui diminuent le plus, car chaque page est une image en pleine résolution. Il fonctionne dans le navigateur sur ordinateur, tablette et téléphone.",
   "ctaTitle": "Compressez votre PDF maintenant",
@@ -125,7 +125,13 @@
       "compressing": "Compression du PDF…",
       "finalizing": "Finalisation des fichiers compressés…",
       "complete": "Compression terminée !"
-    }
+    },
+    "modeLevel": "Niveau de compression",
+    "modeTarget": "Taille cible",
+    "targetHint": "Choisissez la taille maximale souhaitée (par exemple la limite d'envoi d'un portail). Nous réduisons les images par étapes jusqu'à ce que le PDF tienne. Un PDF contenant uniquement du texte ne descend pas sous une certaine taille.",
+    "custom": "Personnalisé :",
+    "customPlaceholder": "ex. 150",
+    "chooseTargetSize": "Choisissez une taille cible et lancez"
   },
   "download": {
     "compressionComplete": "Compression terminée !",
@@ -174,41 +180,39 @@
     "errorExpired": "Ce fichier a expiré et a été supprimé pour protéger votre vie privée. Veuillez le compresser à nouveau.",
     "alreadyOptimized": "Déjà optimisé",
     "alreadyOptimizedDesc": "Ce PDF était déjà bien compressé : nous avons conservé l’original pour préserver sa qualité.",
-    "savedBytes": "Vous avez économisé {size}"
+    "savedBytes": "Vous avez économisé {size}",
+    "targetReached": "Terminé : votre PDF fait moins de {kb} Ko.",
+    "targetMissed": "Impossible de passer ce PDF sous {kb} Ko sans le rendre illisible. Voici la plus petite version possible. Essayez une cible plus grande ou divisez le PDF."
   },
   "metaTitle": "Compresser PDF : réduire la taille en ligne | SmallPDF.us",
-  "metaDescription": "Compresser un PDF en ligne gratuitement. Réduisez le poids jusqu'à 90 % en mode qualité maximale, équilibré ou extrême. Fichiers supprimés après 1 heure.",
+  "metaDescription": "Compressez un PDF gratuitement à une taille exacte : 20, 50, 100, 200, 500 Ko ou la vôtre. Meilleure qualité possible. Fichiers supprimés après 1 heure.",
   "guide": {
     "title": "Comment compresser un PDF à 100 Ko, 200 Ko ou 1 Mo",
-    "intro": "Importez votre PDF ci-dessus, choisissez la compression **Extrême** et téléchargez le résultat. Les PDF scannés ou riches en photos réduisent généralement beaucoup, souvent assez pour les formulaires qui n'acceptent que des fichiers de moins de 100 Ko ou 200 Ko. Les PDF composés surtout de texte sont déjà légers et réduisent donc moins.",
+    "intro": "Importez votre PDF ci-dessus, choisissez la taille acceptée par votre formulaire (par exemple **100 Ko** ou **200 Ko**) et téléchargez le résultat. Il arrive juste en dessous, avec la meilleure qualité possible. Les PDF scannés ou riches en photos y parviennent facilement ; les PDF surtout textuels sont déjà légers et réduisent moins.",
     "table": {
       "headers": [
-        "Niveau",
-        "Ce qu'il fait",
-        "Gain habituel",
-        "Idéal pour"
+        "Taille cible",
+        "Idéal pour",
+        "À quoi s'attendre"
       ],
       "rows": [
         [
-          "Qualité maximale",
-          "Garde les images à 150 dpi",
-          "Environ 20 à 50 %",
-          "Impression, documents très détaillés"
+          "20 à 50 Ko",
+          "Formulaires administratifs et d'examens stricts",
+          "Photos et scans plus flous ; le texte reste lisible"
         ],
         [
-          "Équilibré (par défaut)",
-          "Images à 96 dpi",
-          "Environ 50 à 75 %",
-          "E-mail et la plupart des formulaires"
+          "100 à 200 Ko",
+          "Sites d'emploi et dossiers de candidature",
+          "Les scans restent nets et lisibles"
         ],
         [
-          "Extrême",
-          "Images à 72 dpi avec la compression la plus forte",
-          "Environ 70 à 90 %",
-          "Limites strictes comme 100 Ko ou 200 Ko"
+          "500 Ko et plus",
+          "E-mail et la plupart des envois",
+          "Qualité proche de l'original"
         ]
       ],
-      "note": "Ce sont des résultats habituels, pas des garanties. Le gain dépend du contenu de votre fichier."
+      "note": "Résultats typiques, sans garantie. La taille minimale d'un PDF dépend de son contenu."
     },
     "sections": [
       {

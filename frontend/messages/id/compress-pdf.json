@@ -1,7 +1,7 @@
 {
   "heroTitle": "Kompres PDF",
   "heroTitleHighlight": "online gratis",
-  "heroSubtitle": "Perkecil PDF Anda sebesar 20-90%, tergantung mode yang dipilih dan isi file. Unggah hingga 2 file sekaligus di paket gratis.",
+  "heroSubtitle": "Pilih ukuran seperti 100 KB atau 200 KB dan dapatkan PDF tepat di bawahnya, dengan kualitas terbaik yang muat. Unggah hingga 2 file sekaligus di paket gratis.",
   "uploadPrompt": "Taruh PDF Anda di sini",
   "dropActive": "Lepaskan sekarang!",
   "dragHint": "Seret dan lepas file PDF Anda, atau klik tombol di bawah",
@@ -20,19 +20,19 @@
   "errorNoFiles": "Pilih setidaknya satu file PDF.",
   "errorTooManyFiles": "Anda dapat mengompres hingga 10 file sekaligus.",
   "featuresTitle": "Mengapa kompresor PDF kami lebih baik",
-  "featuresSubtitle": "Unggah PDF, pilih tingkat kompresi, dan unduh file yang lebih kecil.",
+  "featuresSubtitle": "Unggah PDF, pilih ukuran target, lalu unduh file yang lebih kecil.",
   "feature1Title": "Kompresi gambar cerdas",
   "feature1Desc": "Kami mengenkode ulang gambar tertanam, penyebab terbesar PDF berukuran besar, dengan kualitas dan resolusi lebih rendah.",
-  "feature2Title": "Hingga 90% lebih kecil",
-  "feature2Desc": "Pilih Ekstrem untuk file terkecil, atau Seimbang untuk hasil yang terlihat lebih bersih.",
+  "feature2Title": "Ukuran yang Tepat",
+  "feature2Desc": "Pilih 20, 50, 100, 200 atau 500 KB, atau ketik ukuran sendiri. Hasilnya tepat di bawahnya, bukan jauh di bawah.",
   "feature3Title": "Terenkripsi dan Dihapus",
   "feature3Desc": "File dienkripsi saat transfer dan otomatis dihapus dari server kami dalam satu jam. Kami tidak membaca, menyimpan, atau membagikannya.",
   "stepsTitle": "Kompres dalam tiga langkah",
-  "stepsSubtitle": "Unggah, pilih tingkat, unduh.",
+  "stepsSubtitle": "Unggah, pilih ukuran, unduh.",
   "step1Title": "Unggah PDF Anda",
   "step1Desc": "Pada paket gratis, pilih hingga 2 file PDF sekaligus, masing-masing hingga 20 MB. Seret dan lepas atau klik.",
-  "step2Title": "Pilih tingkat kompresi",
-  "step2Desc": "Pilih Kualitas Maksimum, Seimbang, atau Kompresi Ekstrem. Seimbang adalah pengaturan default untuk sebagian besar file.",
+  "step2Title": "Pilih Ukuran Target",
+  "step2Desc": "Pilih 20, 50, 100, 200 atau 500 KB, atau masukkan ukuran khusus. Kami mempertahankan kualitas gambar terbaik yang masih muat.",
   "step3Title": "Unduh file yang lebih kecil",
   "step3Desc": "Sebagian besar file selesai dalam kurang dari 10 detik. Unduh PDF yang sudah dioptimalkan langsung.",
   "diveTitle": "Apa yang sebenarnya terjadi saat mengompres",
@@ -46,15 +46,15 @@
   "dive4Title": "Saat kompresi tidak banyak membantu",
   "dive4Desc": "Jika gambar dalam PDF sudah sangat terkompresi sebelum disematkan - umum terjadi pada PDF hasil ekspor dari alat online lain - tidak banyak lagi redundansi yang bisa diperas keluar. Mengompres ulang gambar yang sudah terkompresi umumnya hanya menambah penurunan kualitas generasi tanpa manfaat ukuran yang berarti.",
   "dive5Title": "Apakah kompresi memengaruhi kualitas cetak?",
-  "dive5Desc": "Pada tingkat kompresi standar kami, penurunan kualitas dimaksudkan nyaris tidak terlihat di layar maupun pada sebagian besar hasil cetak. Untuk dokumen yang akan dicetak dalam ukuran besar atau kualitas profesional, sebaiknya periksa satu atau dua halaman sebelum disebarkan luas.",
+  "dive5Desc": "Kami memilih kualitas gambar tertinggi yang masih muat dalam target Anda, jadi target lebih besar memberi hasil lebih tajam. Pada target sangat kecil (20 sampai 50 KB), foto dan hasil pindaian terlihat lebih lembut, jadi periksa satu halaman sebelum mengirim atau mencetak.",
   "dive6Title": "Mengompres beberapa PDF sekaligus",
   "dive6Desc": "Anda dapat mengunggah dan mengompres beberapa PDF dalam satu batch yang sama - masing-masing dikompres secara independen dan dikembalikan sebagai file sendiri. Rasio kompresi bervariasi per file karena bergantung pada konten gambar masing-masing PDF, bukan persentase tetap yang diterapkan ke semuanya.",
   "faqTitle": "Pertanyaan umum",
   "faqSubtitle": "Jawaban singkat tentang batas, privasi, dan hasil.",
   "faq1Question": "Seberapa banyak saya bisa mengurangi ukuran PDF?",
-  "faq1Answer": "Tergantung isinya. File yang banyak gambar bisa menyusut hingga 90%. Dokumen teks biasanya berkurang 20–40%. Mode Ekstrem memberi file terkecil; Seimbang mempertahankan kualitas tinggi.",
+  "faq1Answer": "Tergantung isi PDF. File hasil pindaian atau penuh foto biasanya bisa mencapai 100 KB atau 200 KB. Dokumen yang hanya berisi teks sudah kecil dan mungkin tidak turun banyak. Jika target tidak tercapai, kami memberi tahu Anda dan memberikan versi terkecil yang bisa dibuat.",
   "faq2Question": "Apakah PDF yang dikompres akan terlihat berbeda?",
-  "faq2Answer": "Dalam mode Seimbang, perbedaannya hampir tidak terasa - teks tetap tajam dan gambar bersih. Mode Ekstrem sedikit mengurangi kualitas gambar, namun penghematan ukurannya signifikan.",
+  "faq2Answer": "Hanya sebanyak yang perlu. Kami memakai kualitas terbaik yang muat dalam ukuran pilihan Anda: pada 500 KB file hampir sama dengan aslinya, pada 20 KB terlihat lebih lembut. Teks tetap teks dan tetap tajam.",
   "faq3Question": "Bisakah saya mengompres beberapa PDF sekaligus?",
   "faq3Answer": "Ya. Paket gratis memungkinkan Anda mengompres hingga 2 PDF sekaligus. Starter dan Pro mengizinkan hingga 10 file per batch. Kami memproses semuanya bersama-sama dan memberi Anda file ZIP untuk diunduh jika lebih dari satu.",
   "faq4Question": "Apakah ada batasan ukuran file?",
@@ -63,7 +63,7 @@
   "faq5Answer": "Semuanya dihapus dalam satu jam. File Anda dienkripsi saat diunggah. Kami tidak membaca, menyimpan, atau membagikannya.",
   "seoTitle": "Kapan Anda perlu mengecilkan PDF",
   "seoP1": "PDF besar sulit dikirim lewat email dan lambat diunggah. Dokumen hasil pindai dan presentasi penuh gambar biasanya penyebabnya, dan kompresor ini memperkecil keduanya tanpa perlu menginstal apa pun.",
-  "seoP2": "Anda menentukan seberapa agresif kompresinya. Mode Kualitas maksimum (20–40%) menjaga semuanya tetap tajam. Seimbang (40–70%) adalah pilihan standar. Ekstrem (70–90%) memberi file sekecil mungkin ketika ukuran lebih penting dari kualitas.",
+  "seoP2": "Anda yang menentukan ukuran akhir. Pilih 20, 50, 100, 200 atau 500 KB, atau ketik ukuran apa pun, dan kami mencari kualitas gambar tertinggi yang masih muat. Target 200 KB biasanya menghasilkan file sekitar 195 sampai 199 KB, bukan jauh lebih kecil dari yang dibutuhkan. Jika file tidak bisa sekecil itu tanpa menjadi tidak terbaca, kami memberi tahu Anda.",
   "seoSubtitle": "Bekerja dengan PDF apapun",
   "seoP3": "PDF apa pun bisa dipakai, dan dokumen hasil pindai menyusut paling banyak karena setiap halamannya adalah gambar beresolusi penuh. Berjalan di browser pada desktop, tablet, dan ponsel.",
   "ctaTitle": "Kompres PDF Anda sekarang",
@@ -125,7 +125,13 @@
       "compressing": "Mengompres PDF Anda…",
       "finalizing": "Menyelesaikan file yang dikompres…",
       "complete": "Kompresi selesai!"
-    }
+    },
+    "modeLevel": "Tingkat Kompresi",
+    "modeTarget": "Ukuran target",
+    "targetHint": "Pilih ukuran file maksimum yang Anda perlukan (misalnya batas unggah sebuah portal). Kami mengecilkan gambar bertahap sampai PDF muat. PDF yang hanya berisi teks tidak bisa lebih kecil dari batas tertentu.",
+    "custom": "Kustom:",
+    "customPlaceholder": "mis. 150",
+    "chooseTargetSize": "Pilih ukuran target lalu mulai"
   },
   "download": {
     "compressionComplete": "Kompresi Selesai!",
@@ -174,41 +180,39 @@
     "errorExpired": "File ini sudah kedaluwarsa dan dihapus demi privasi Anda. Silakan kompres lagi.",
     "alreadyOptimized": "Sudah optimal",
     "alreadyOptimizedDesc": "PDF ini sudah terkompresi dengan baik, jadi kami mempertahankan file asli agar kualitasnya terjaga.",
-    "savedBytes": "Anda menghemat {size}"
+    "savedBytes": "Anda menghemat {size}",
+    "targetReached": "Selesai: PDF Anda kini di bawah {kb} KB.",
+    "targetMissed": "PDF ini tidak bisa dibuat di bawah {kb} KB tanpa menjadi tidak terbaca. Ini versi terkecil yang bisa kami buat. Coba target yang lebih besar, atau pisahkan PDF."
   },
   "metaTitle": "Kompres PDF Online: Perkecil Ukuran Gratis | SmallPDF.us",
-  "metaDescription": "Kompres PDF online gratis. Perkecil ukuran file hingga 90 % dengan mode kualitas maksimum, seimbang, atau ekstrem. File dihapus setelah 1 jam.",
+  "metaDescription": "Kompres PDF gratis ke ukuran tepat: 20, 50, 100, 200, 500 KB atau ukuran sendiri. Kualitas terbaik yang muat. File dihapus setelah 1 jam.",
   "guide": {
     "title": "Cara mengompres PDF menjadi 100 KB, 200 KB, atau 1 MB",
-    "intro": "Unggah PDF Anda di atas, pilih kompresi **Ekstrem**, lalu unduh hasilnya. PDF hasil scan dan yang berisi banyak foto biasanya mengecil jauh, sering kali cukup untuk formulir yang hanya menerima file di bawah 100 KB atau 200 KB. PDF yang sebagian besar berisi teks sudah kecil, jadi pengurangannya lebih sedikit.",
+    "intro": "Unggah PDF Anda di atas, pilih ukuran yang diterima formulir (misalnya **100 KB** atau **200 KB**) dan unduh hasilnya. Hasilnya tepat di bawah ukuran itu dengan kualitas terbaik yang muat. PDF hasil pindaian atau penuh foto biasanya mudah mencapainya; PDF yang sebagian besar teks sudah kecil dan berkurang lebih sedikit.",
     "table": {
       "headers": [
-        "Tingkat",
-        "Fungsinya",
-        "Penghematan umum",
-        "Cocok untuk"
+        "Ukuran target",
+        "Cocok untuk",
+        "Yang bisa diharapkan"
       ],
       "rows": [
         [
-          "Kualitas Maksimum",
-          "Gambar tetap 150 dpi",
-          "Sekitar 20–50%",
-          "Mencetak, dokumen dengan detail halus"
+          "20 sampai 50 KB",
+          "Formulir pemerintah dan ujian yang ketat",
+          "Foto dan pindaian lebih lembut; teks tetap terbaca"
         ],
         [
-          "Seimbang (bawaan)",
-          "Gambar 96 dpi",
-          "Sekitar 50–75%",
-          "Email dan sebagian besar formulir unggahan"
+          "100 sampai 200 KB",
+          "Portal kerja dan formulir pendaftaran",
+          "Pindaian tetap jelas dan terbaca"
         ],
         [
-          "Ekstrem",
-          "Gambar 72 dpi dengan kompresi terkuat",
-          "Sekitar 70–90%",
-          "Batas ketat seperti 100 KB atau 200 KB"
+          "500 KB ke atas",
+          "Email dan sebagian besar unggahan",
+          "Mendekati kualitas asli"
         ]
       ],
-      "note": "Ini hasil umum, bukan jaminan. Penghematan tergantung isi file Anda."
+      "note": "Hasil umum, bukan jaminan. Seberapa kecil PDF bisa dibuat tergantung isinya."
     },
     "sections": [
       {

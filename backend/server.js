@@ -5013,8 +5013,13 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
 
     // Whitelisted: this value is placed UNQUOTED into the python command line,
     // so any other string (e.g. "balanced; <cmd>") would run as shell code.
-    const compressionLevel = ["maximum", "balanced", "extreme"].includes(req.body.level) ? req.body.level : "balanced"
-    console.log(`  Level: ${compressionLevel}`)
+    let compressionLevel = ["maximum", "balanced", "extreme"].includes(req.body.level) ? req.body.level : "balanced"
+    // Optional "fit under N KB" mode (preview page Target size picker). Only a
+    // number is used from it, never the raw string.
+    const targetKBRaw = parseInt(req.body.targetSizeKB, 10)
+    const targetSizeKB = Number.isFinite(targetKBRaw) && targetKBRaw >= 5 && targetKBRaw <= 500000 ? targetKBRaw : null
+    const targetBytes = targetSizeKB ? targetSizeKB * 1024 : null
+    console.log(`  Level: ${compressionLevel}${targetSizeKB ? ` | target ≤${targetSizeKB} KB` : ""}`)
 
     // ── Python script path (place compress_pdf.py in same folder as server.js) ──
     const pythonScript = path.join(__dirname, "compress_pdf.py")
@@ -5071,7 +5076,16 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         `-dJPEGQuality=${s.jpegQuality}`, `-dAutoRotatePages=/None`,
         `-dCompressPages=true`, `-dUseFlateCompression=true`,
         ...s.extraFlags,
-        `-sOutputFile="${outputPath}"`, `"${inputPath}"`,
+        `-sOutputFile="${outputPath}"`,
+        // pdfwrite ignores -dJPEGQuality; the real JPEG knob is the QFactor in
+        // the image dicts (0.05 ≈ near-lossless, 2+ ≈ very lossy). Target mode
+        // sets it so JPEG quality actually changes the size. qFactor is a
+        // number we compute, never user input.
+        ...(Number.isFinite(s.qFactor) ? [
+          `-c "<< /ColorImageDict << /QFactor ${s.qFactor.toFixed(3)} /Blend 1 /HSamples [1 1 1 1] /VSamples [1 1 1 1] >> /GrayImageDict << /QFactor ${s.qFactor.toFixed(3)} /Blend 1 /HSamples [1 1 1 1] /VSamples [1 1 1 1] >> >> setdistillerparams"`,
+          `-f`,
+        ] : []),
+        `"${inputPath}"`,
       ].join(" ")
     }
 
@@ -5101,8 +5115,33 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
     const compressDeadline = Date.now() + 270000
     const passBudget = (capMs) => Math.min(capMs, compressDeadline - Date.now() - 10000)
 
+    // Target mode: one quality knob q in [0,1]. 1 = near-original images
+    // (300 dpi, JPEG 95), 0 = the harshest we allow (30 dpi, JPEG 10). We
+    // binary-search q for the LARGEST file that still fits under the target,
+    // so a 200 KB target lands at ~190-199 KB with the best possible quality
+    // instead of overshooting down to 70 KB. Each try starts from the
+    // lossless pass output, so quality loss never stacks between tries.
+    const qualityAt = (q) => ({
+      ...gsSettings.extreme,
+      // Without this, JPEGs at/below the chosen DPI are copied untouched and
+      // the JPEG quality knob does nothing (a 200-dpi scan jumped 280 KB -> 600 KB).
+      extraFlags: [...gsSettings.extreme.extraFlags, "-dPassThroughJPEGImages=false"],
+      downsampleType: "/Bicubic",
+      colorDPI: Math.round(30 + q * 270),
+      grayDPI: Math.round(30 + q * 270),
+      monoDPI: Math.round(72 + q * 228),
+      jpegQuality: Math.round(10 + q * 85),
+    })
+
+    const targetResults = []
+
     for (const file of req.files) {
       totalOriginalSize += file.size
+
+      // Target mode: the normal passes stay lossless (pikepdf + qpdf); all
+      // image downsampling is done by the target search below.
+      if (targetBytes) compressionLevel = "balanced"
+      const fileSettings = gsSettings[compressionLevel] || settings
 
       const ts             = Date.now()
       const outputFilename  = `${ts}-compressed-${file.originalname}`
@@ -5110,6 +5149,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       const pass1Path       = path.join(compressedDir, `${ts}-p1-${file.originalname}`)
       const pass2Path       = path.join(compressedDir, `${ts}-p2-${file.originalname}`)
       const pass3Path       = path.join(compressedDir, `${ts}-p3-${file.originalname}`)
+      const ladderTmp       = []
 
       console.log(`\n  ⏳ ${file.originalname} (${formatFileSize(file.size)})`)
 
@@ -5149,8 +5189,8 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
           unreadable = true
         }
         if (hasForm) console.log(`     Pass2 GS: skipped - PDF has fillable form fields`)
-        if (!hasForm) try {
-          const gsCmd = buildGsCommand(gsInput, pass2Path, settings)
+        if (!hasForm && !targetBytes) try {
+          const gsCmd = buildGsCommand(gsInput, pass2Path, fileSettings)
           const t2 = passBudget(180000)
           if (t2 < 5000) throw new Error("skipped - request time budget used up")
           await execPromise(gsCmd, { timeout: t2, maxBuffer: 200 * 1024 * 1024 })
@@ -5198,14 +5238,99 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         }
 
         // ── Pick smallest of all passes — never inflate the file ──
-        const winner = pickSmallest([
+        let winner = pickSmallest([
           pass3OK ? { path: pass3Path, size: pass3Size } : null,
           pass2OK ? { path: pass2Path, size: pass2Size } : null,
           pass1OK ? { path: pass1Path, size: pass1Size } : null,
           { path: file.path, size: file.size },
         ])
 
+        // ── Target mode: biggest file that still fits under the target ──
+        if (targetBytes && winner.size > targetBytes && !hasForm) {
+          const searchInput = winner.path
+          const cache = new Map()
+          let tryNo = 0
+          const tryParams = async (qs) => {
+            qs = { ...qs, qFactor: 0.05 + ((100 - qs.jpegQuality) / 90) * 2.0 }
+            const key = `${qs.colorDPI}-${qs.jpegQuality}`
+            if (cache.has(key)) return cache.get(key)
+            const tb = passBudget(90000)
+            if (tb < 5000) return undefined // out of time: stop searching
+            const stepGs = path.join(compressedDir, `${ts}-t${tryNo}-gs.pdf`)
+            const stepQ  = path.join(compressedDir, `${ts}-t${tryNo}-q.pdf`)
+            tryNo++
+            ladderTmp.push(stepGs, stepQ)
+            let res = null
+            try {
+              await execPromise(buildGsCommand(searchInput, stepGs, qs), { timeout: tb, maxBuffer: 200 * 1024 * 1024 })
+              const tq = passBudget(30000)
+              if (tq >= 5000) {
+                try {
+                  await execPromise(`qpdf --compress-streams=y --object-streams=generate --recompress-flate --compression-level=9 "${stepGs}" "${stepQ}"`, { timeout: tq, maxBuffer: 200 * 1024 * 1024 })
+                } catch (_) { /* qpdf exit 3 = warnings, file still written */ }
+              }
+              res = pickSmallest([{ path: stepQ }, { path: stepGs }])
+              if (res) res.qs = qs
+              console.log(`     Target try ${qs.colorDPI}dpi jpeg${qs.jpegQuality}: ${res ? formatFileSize(res.size) : "no output"}`)
+            } catch (stepErr) {
+              console.log(`     Target try ${qs.colorDPI}dpi jpeg${qs.jpegQuality}: FAILED - ${stepErr.message.slice(0, 80)}`)
+            }
+            cache.set(key, res)
+            return res
+          }
+          const tryQuality = (q) => tryParams(qualityAt(q))
+
+          const fitsIn = (r) => r && r.size <= targetBytes
+          let best = null       // largest result that fits
+          let smallest = winner // fallback when nothing fits
+          const consider = (r) => {
+            if (!r) return
+            if (r.size < smallest.size) smallest = r
+            if (fitsIn(r) && (!best || r.size > best.size)) best = r
+          }
+
+          const top = await tryQuality(1)
+          consider(top)
+          let outOfTime = top === undefined
+          if (top !== undefined && !fitsIn(top)) {
+            const bottom = await tryQuality(0)
+            consider(bottom)
+            if (fitsIn(bottom)) {
+              // Fits at q=0 but not q=1: search between. Stop once within 1.5%.
+              let lo = 0, hi = 1
+              for (let i = 0; i < 12 && best.size < targetBytes * 0.985; i++) {
+                const mid = (lo + hi) / 2
+                const r = await tryQuality(mid)
+                if (r === undefined) { outOfTime = true; break }
+                consider(r)
+                if (fitsIn(r)) lo = mid; else hi = mid
+              }
+            }
+          }
+          // Fine-tune: integer DPI/JPEG steps are coarse together, so nudge
+          // each one alone (JPEG quality first, then DPI) to creep up to just
+          // under the target. Also runs when even q=1 fits (JPEG can go to 100).
+          const nudge = async (field, max) => {
+            let lo = best.qs[field], hi = max + 1
+            for (let i = 0; i < 5 && !outOfTime && hi - lo > 1 && best.size < targetBytes * 0.985; i++) {
+              const mid = Math.floor((lo + hi) / 2)
+              const qs = { ...best.qs, [field]: mid }
+              if (field === "colorDPI") qs.grayDPI = mid
+              const r = await tryParams(qs)
+              if (r === undefined) { outOfTime = true; break }
+              consider(r)
+              if (fitsIn(r)) lo = mid; else hi = mid
+            }
+          }
+          if (best?.qs) {
+            await nudge("jpegQuality", Math.min(100, best.qs.jpegQuality + 15))
+            await nudge("colorDPI", Math.min(300, best.qs.colorDPI + 30))
+          }
+          winner = best || smallest
+        }
+
         fs.copyFileSync(winner.path, finalOutputPath)
+        if (targetBytes) targetResults.push(winner.size <= targetBytes)
 
         const finalSize       = winner.size
         const savedBytes      = Math.max(0, file.size - finalSize)
@@ -5242,7 +5367,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         } catch (_) {}
 
       } finally {
-        for (const tmp of [pass1Path, pass2Path, pass3Path]) {
+        for (const tmp of [pass1Path, pass2Path, pass3Path, ...ladderTmp]) {
           try { if (fs.existsSync(tmp)) fs.unlinkSync(tmp) } catch (_) {}
         }
         try { if (fs.existsSync(file.path)) fs.unlinkSync(file.path) } catch (_) {}
@@ -5266,6 +5391,8 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
     const savedPercentage = totalOriginalSize > 0
       ? Math.max(0, Math.round(((totalOriginalSize - totalCompressedSize) / totalOriginalSize) * 100))
       : 0
+    // null = no target asked; true only when every file fit under it.
+    const targetReached = targetBytes ? targetResults.length > 0 && targetResults.every(Boolean) : null
 
     logActivity({ type: "conversion", action: "compress_pdf_complete", tool: "compress-pdf",
       conversionType: "compress-pdf", fileCount: compressedFiles.length,
@@ -5280,6 +5407,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       fs.writeFileSync(path.join(compressedDir, ".meta.json"), JSON.stringify({
         createdAt: Date.now(), compressionLevel, totalOriginalSize, compressedSize: totalCompressedSize,
         savedPercentage, files: compressedFiles,
+        targetSizeKB, targetReached,
       }))
     } catch (_) {}
 
@@ -5306,6 +5434,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       totalOriginalSize, compressedSize: totalCompressedSize,
       savedPercentage, compressionLevel,
       expectedReduction: settings.expectedReduction,
+      targetSizeKB, targetReached,
       files: compressedFiles,
       damagedFiles: corruptFiles,
     })
