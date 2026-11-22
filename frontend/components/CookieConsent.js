@@ -123,6 +123,12 @@ export default function CookieConsent() {
       decline: 'Reddet',
       policy: 'Gizlilik',
     },
+    ru: {
+      msg: 'Мы используем файлы cookie для аналитики и рекламы, чтобы этот сайт оставался бесплатным.',
+      accept: 'Принять',
+      decline: 'Отклонить',
+      policy: 'Конфиденциальность',
+    },
   }
 
   const t = texts[locale] || texts.en

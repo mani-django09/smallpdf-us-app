@@ -43,6 +43,7 @@ const INLINE_T = {
     hi: "badli-gai-images.pdf",
     ar: "converted-images.pdf",
     tr: "donusturulen-gorseller.pdf",
+    ru: "konvertirovannye-izobrazheniya.pdf",
   },
 }
 

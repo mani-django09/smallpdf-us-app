@@ -52,6 +52,7 @@ const TEXT = {
   vi: ['Tiếp tục với tệp này', 'Không cần tải xuống rồi tải lên lại.', 'Không thể tải tệp. Vui lòng tải xuống và tải lên công cụ tiếp theo.'],
   ar: ['تابع بهذا الملف', 'لا حاجة لتنزيله ورفعه مرة أخرى.', 'تعذّر تحميل الملف. يُرجى تنزيله ثم رفعه إلى الأداة التالية.'],
   tr: ['Bu dosyayla devam edin', 'İndirip yeniden yüklemenize gerek yok.', 'Dosya yüklenemedi. Lütfen indirip sonraki araca yükleyin.'],
+  ru: ['Продолжить с этим файлом', 'Не нужно скачивать и загружать его заново.', 'Не удалось загрузить файл. Скачайте его и загрузите в следующий инструмент.'],
 }
 
 const MIME = { pdf: 'application/pdf', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp' }

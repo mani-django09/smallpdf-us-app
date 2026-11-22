@@ -46,7 +46,7 @@ function deviceOf(ua) {
   if (/Mobi|Android|iPhone|iPod/i.test(s)) return 'mobile'
   return 'desktop'
 }
-const LOCALES = new Set(['en', 'de', 'es', 'fr', 'id', 'it', 'ja', 'pt', 'vi', 'hi', 'ar', 'tr'])
+const LOCALES = new Set(['en', 'de', 'es', 'fr', 'id', 'it', 'ja', 'pt', 'vi', 'hi', 'ar', 'tr', 'ru'])
 
 function registerVisitBeacon(app) {
   ensureTable().catch((e) => console.warn('[visits] table not ready:', e.message))

@@ -24,6 +24,7 @@ const INLINE_T = {
     hi: "{n} PDF फ़ाइलें चुनी गईं",
     ar: "تم تحديد {n} ملفات PDF",
     tr: "{n} PDF dosyası seçildi",
+    ru: "Выбрано PDF-файлов: {n}",
   },
   totalSize: {
     en: "Total: {size} MB", ja: "合計: {size} MB", de: "Gesamt: {size} MB",
@@ -33,6 +34,7 @@ const INLINE_T = {
     hi: "कुल: {size} MB",
     ar: "الإجمالي: {size} MB",
     tr: "Toplam: {size} MB",
+    ru: "Всего: {size} МБ",
   },
   errPassword: {
     en: "\"{name}\" is protected with an open password. Remove it with our Unlock PDF tool first, then merge again.",
@@ -47,6 +49,7 @@ const INLINE_T = {
     hi: "\"{name}\" खोलने के पासवर्ड से सुरक्षित है। पहले हमारे PDF अनलॉक करें टूल से उसे हटाएँ, फिर दोबारा जोड़ें।",
     ar: "\"{name}\" محمي بكلمة مرور فتح. أزلها أولاً بأداة فك قفل PDF لدينا، ثم ادمج الملفات مرة أخرى.",
     tr: "\"{name}\" bir açma parolasıyla korunuyor. Önce PDF Kilidini Aç aracımızla parolayı kaldırın, sonra tekrar birleştirin.",
+    ru: "Файл «{name}» защищён паролем на открытие. Сначала снимите пароль инструментом «Разблокировать PDF», затем объедините файлы снова.",
   },
   errCorrupt: {
     en: "Could not read \"{name}\". The file may be damaged - try re-saving or re-downloading it.",
@@ -61,6 +64,7 @@ const INLINE_T = {
     hi: "\"{name}\" पढ़ी नहीं जा सकी। फ़ाइल खराब हो सकती है - उसे दोबारा सहेजें या दोबारा डाउनलोड करें।",
     ar: "تعذّرت قراءة \"{name}\". قد يكون الملف تالفاً، فجرّب حفظه مجدداً أو إعادة تنزيله.",
     tr: "\"{name}\" okunamadı. Dosya hasarlı olabilir; yeniden kaydetmeyi ya da tekrar indirmeyi deneyin.",
+    ru: "Не удалось прочитать файл «{name}». Возможно, он повреждён. Попробуйте пересохранить или заново скачать его.",
   },
   errGeneric: {
     en: "Merging failed. Please try again in a moment.", de: "Zusammenführen fehlgeschlagen. Bitte versuchen Sie es gleich noch einmal.",
@@ -71,6 +75,7 @@ const INLINE_T = {
     hi: "जोड़ना विफल रहा। कृपया कुछ देर बाद दोबारा कोशिश करें।",
     ar: "فشل الدمج. حاول مرة أخرى بعد قليل.",
     tr: "Birleştirme başarısız oldu. Lütfen biraz sonra tekrar deneyin.",
+    ru: "Не удалось объединить файлы. Попробуйте ещё раз чуть позже.",
   },
   loading: {
     en: "Loading...", ja: "読み込み中...", de: "Wird geladen...",
@@ -80,6 +85,7 @@ const INLINE_T = {
     hi: "लोड हो रहा है...",
     ar: "جارٍ التحميل...",
     tr: "Yükleniyor...",
+    ru: "Загрузка...",
   },
 }
 

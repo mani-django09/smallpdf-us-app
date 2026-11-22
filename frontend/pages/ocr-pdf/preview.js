@@ -84,7 +84,7 @@ export default function OcrPdfPreview() {
     try {
       const formData = new FormData()
       formData.append("file", file)
-      formData.append("language", locale === "vi" ? "vie" : locale === "ar" ? "ara" : locale === "tr" ? "tur" : "eng")
+      formData.append("language", locale === "vi" ? "vie" : locale === "ar" ? "ara" : locale === "tr" ? "tur" : locale === "ru" ? "rus" : "eng")
 
       const API_URL =
         typeof window !== "undefined" &&

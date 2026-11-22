@@ -4360,9 +4360,43 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         if (/times|georgia|garamond|serif|roman|minion|book|cambria/.test(f)) return "serif"
         return "sans"
       }
+      // Built-in PDF fonts are WinAnsi only (no Cyrillic, Greek, Vietnamese, ...). When a line holds
+      // such characters we draw it with an embedded Noto Sans instead, which keeps it real text.
+      const UNI_FONT_DIR = process.env.EDIT_UNICODE_FONT_DIR || "/usr/share/fonts/truetype/noto"
+      const UNI_FONT_FILES = { uni: "NotoSans-Regular.ttf", uniB: "NotoSans-Bold.ttf", uniI: "NotoSans-Italic.ttf", uniBI: "NotoSans-BoldItalic.ttf" }
+      const embedUniFonts = async (doc) => {
+        const out = {}
+        try {
+          doc.registerFontkit(require("@pdf-lib/fontkit"))
+          for (const [key, file] of Object.entries(UNI_FONT_FILES)) {
+            const fp = path.join(UNI_FONT_DIR, file)
+            if (fs.existsSync(fp)) out[key] = await doc.embedFont(fs.readFileSync(fp), { subset: true })
+          }
+        } catch (err) {
+          console.warn("[edit-pdf] Unicode font unavailable:", err.message)
+        }
+        return out
+      }
+      // An embedded TTF never throws for a character it lacks (it silently draws .notdef), so ask the
+      // font itself whether every code point has a glyph; otherwise Hindi/Arabic/CJK edits would
+      // come out as empty boxes instead of falling back to the rasterised page.
+      const coversText = (font, text) => {
+        const fk = font && font.embedder && font.embedder.font
+        if (!fk || typeof fk.hasGlyphForCodePoint !== "function") return false
+        for (const ch of String(text || "")) {
+          const cp = ch.codePointAt(0)
+          if (cp > 32 && !fk.hasGlyphForCodePoint(cp)) return false
+        }
+        return true
+      }
       const pickFont = (fonts, e) => {
         const suffix = e.bold && e.italic ? "BI" : e.bold ? "B" : e.italic ? "I" : ""
-        return fonts[familyOf(e) + suffix] || fonts.sans
+        const std = fonts[familyOf(e) + suffix] || fonts.sans
+        if (fonts.uni && !encodable(std, e.text)) {
+          const uni = fonts["uni" + suffix] || fonts.uni
+          if (encodable(uni, e.text) && coversText(uni, e.text)) return uni
+        }
+        return std
       }
       const encodable = (font, text) => {
         try { font.widthOfTextAtSize(String(text || ""), 12); return true } catch (_) { return false }
@@ -4574,6 +4608,8 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       }
 
       const probeFonts = await embedFonts(srcDoc)
+      const needsUni = Object.values(editsByPage).some((list) => list.some((e) => !encodable(pickFont(probeFonts, e), e.text)))
+      if (needsUni) Object.assign(probeFonts, await embedUniFonts(srcDoc))
       const rasterPages = new Set()
       for (const [pStr, list] of Object.entries(editsByPage)) {
         for (const e of list) {
@@ -4607,6 +4643,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
         const EDIT_DPI = 200
         const outDoc = await PDFLibDocument.create()
         const outFonts = await embedFonts(outDoc)
+        if (needsUni) Object.assign(outFonts, await embedUniFonts(outDoc))
 
         const escapeXml = (s) => String(s ?? "").replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" }[c]))
         const svgFamily = (e) => {
@@ -9844,7 +9881,7 @@ function drawInvisibleWords(page, font, words) {
 // The client sends form field `language`. English (default), Vietnamese and Arabic
 // are installed; anything else falls back to English. Vietnamese runs
 // "vie+eng" so Latin words and numbers inside a Vietnamese document still read.
-const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', ara: 'ara+eng', ar: 'ara+eng', tur: 'tur+eng', tr: 'tur+eng', eng: 'eng', en: 'eng' }
+const OCR_LANGS = { vie: 'vie+eng', vi: 'vie+eng', ara: 'ara+eng', ar: 'ara+eng', tur: 'tur+eng', tr: 'tur+eng', rus: 'rus+eng', ru: 'rus+eng', eng: 'eng', en: 'eng' }
 function ocrLangFrom(v) {
   return OCR_LANGS[String(v || '').toLowerCase().trim()] || 'eng'
 }

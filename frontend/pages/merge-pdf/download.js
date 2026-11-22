@@ -46,6 +46,7 @@ const INLINE_T = {
     hi: "मेरी जोड़ी हुई PDF",
     ar: "ملف PDF الذي دمجته",
     tr: "Birleştirdiğim PDF",
+    ru: "Мой объединённый PDF",
   },
   shareText: {
     en: "Check out my merged PDF file", ja: "結合したPDFファイルをご覧ください",
@@ -59,6 +60,7 @@ const INLINE_T = {
     hi: "मेरी जोड़ी हुई PDF फ़ाइल देखें",
     ar: "شاهد ملف PDF الذي دمجته",
     tr: "Birleştirdiğim PDF dosyasına göz atın",
+    ru: "Посмотрите на мой объединённый PDF-файл",
   },
   filesSelected: {
     en: "{n} PDF Files Selected", ja: "{n}個のPDFファイルを選択",
@@ -69,6 +71,7 @@ const INLINE_T = {
     hi: "{n} PDF फ़ाइलें चुनी गईं",
     ar: "تم تحديد {n} ملفات PDF",
     tr: "{n} PDF dosyası seçildi",
+    ru: "Выбрано PDF-файлов: {n}",
   },
   totalSize: {
     en: "Total: {size} MB", ja: "合計: {size} MB", de: "Gesamt: {size} MB",
@@ -78,6 +81,7 @@ const INLINE_T = {
     hi: "कुल: {size} MB",
     ar: "الإجمالي: {size} MB",
     tr: "Toplam: {size} MB",
+    ru: "Всего: {size} МБ",
   },
   loading: {
     en: "Loading...", ja: "読み込み中...", de: "Wird geladen...",
@@ -87,6 +91,7 @@ const INLINE_T = {
     hi: "लोड हो रहा है...",
     ar: "جارٍ التحميل...",
     tr: "Yükleniyor...",
+    ru: "Загрузка...",
   },
 }
 

@@ -55,6 +55,12 @@ export default function MyDocument({ locale }) {
           media="print"
           onLoad="this.media='all'"
         />
+        {locale === 'ru' && (
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+          />
+        )}
         {locale === 'ar' && (
           <link
             rel="stylesheet"

@@ -299,3 +299,15 @@ html.dark .shadow-lg {
 @keyframes promoFade { from { opacity: 0 } to { opacity: 1 } }
 .promo-fade { animation: promoFade .4s ease-out; }
 @media (prefers-reduced-motion: reduce) { .promo-fade { animation: none; } }
+
+/* Russian: DM Sans and Plus Jakarta Sans have no Cyrillic glyphs, so Cyrillic text
+   falls through to Manrope (same geometric feel) while Latin names (PDF, Word)
+   keep the site fonts. */
+html[lang="ru"] body, html[lang="ru"] button, html[lang="ru"] input, html[lang="ru"] textarea, html[lang="ru"] select {
+  font-family: 'DM Sans', 'Manrope', 'Segoe UI', Roboto, Arial, sans-serif;
+}
+html[lang="ru"] h1, html[lang="ru"] h2, html[lang="ru"] h3, html[lang="ru"] h4 {
+  font-family: 'Plus Jakarta Sans', 'Manrope', 'Segoe UI', Roboto, Arial, sans-serif;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
