@@ -63,9 +63,13 @@ export default function DownloadCompressPdf() {
     // On a reload / shared link the query is empty until the router is ready;
     // redirecting before that sent every refresh back to the upload page.
     if (!router.isReady) return
-    const result = sessionStorage.getItem("pdfCompressResult")
+    // Only trust the stored result if it belongs to THIS job — an earlier
+    // compress in the same tab left a stale one that showed the wrong stats.
+    let result = null
+    try { result = JSON.parse(sessionStorage.getItem("pdfCompressResult") || "null") } catch (_) {}
+    if (result && jobId && result.jobId && result.jobId !== jobId) result = null
     if (result) {
-      setCompressResult(JSON.parse(result))
+      setCompressResult(result)
       setTimeout(() => setShowSuccess(true), 100)
     } else if (jobId) {
       // Session lost (e.g. page refresh, shared link) — fetch metadata from API
@@ -442,7 +446,17 @@ export default function DownloadCompressPdf() {
                     <div className={`mt-4 rounded-xl border p-3 text-sm ${compressResult.targetReached ? "bg-emerald-50 border-emerald-200 text-emerald-800" : "bg-amber-50 border-amber-200 text-amber-900"}`}>
                       {compressResult.targetReached
                         ? t('compressPdf.download.targetReached', { kb: compressResult.targetSizeKB })
-                        : t('compressPdf.download.targetMissed', { kb: compressResult.targetSizeKB })}
+                        : compressResult.minSizeKB > 0
+                          ? t('compressPdf.download.targetMissedMin', { kb: compressResult.targetSizeKB, min: compressResult.minSizeKB })
+                          : t('compressPdf.download.targetMissed', { kb: compressResult.targetSizeKB })}
+                      {!compressResult.targetReached && (
+                        <button
+                          onClick={() => router.push("/split-pdf")}
+                          className="mt-2 block font-semibold underline"
+                        >
+                          {t('compressPdf.download.splitCta')}
+                        </button>
+                      )}
                     </div>
                   )}
 

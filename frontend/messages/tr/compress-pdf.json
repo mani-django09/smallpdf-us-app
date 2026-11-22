@@ -182,7 +182,9 @@
     "alreadyOptimizedDesc": "Bu PDF zaten iyi sıkıştırılmıştı, bu yüzden kalitesini korumak için orijinali bıraktık.",
     "savedBytes": "{size} tasarruf ettiniz",
     "targetReached": "Tamam: PDF'niz artık {kb} KB'nin altında.",
-    "targetMissed": "Bu PDF okunamaz hale gelmeden {kb} KB'nin altına indirilemedi. Yapabildiğimiz en küçük sürüm bu. Daha büyük bir hedef deneyin veya PDF'yi bölün."
+    "targetMissed": "Bu PDF okunamaz hale gelmeden {kb} KB'nin altına indirilemedi. Yapabildiğimiz en küçük sürüm bu. Daha büyük bir hedef deneyin veya PDF'yi bölün.",
+    "targetMissedMin": "Bu PDF okunamaz hale gelmeden yaklaşık {min} KB'nin altına inemez, bu yüzden {kb} KB mümkün değil. Bunun yerine görselleri net tuttuk. {kb} KB'ye sığdırmak için PDF'yi daha küçük parçalara bölün ve her parçayı sıkıştırın.",
+    "splitCta": "Bu PDF'yi parçalara böl"
   },
   "metaTitle": "PDF Sıkıştır: Boyutu Küçült, Ücretsiz | SmallPDF.us",
   "metaDescription": "PDF'yi ücretsiz olarak tam boyuta sıkıştırın: 20, 50, 100, 200, 500 KB veya kendi boyutunuz. Sığan en iyi kalite. Dosyalar 1 saat sonra silinir.",

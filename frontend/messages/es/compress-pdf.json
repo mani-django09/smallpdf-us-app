@@ -182,7 +182,9 @@
     "alreadyOptimizedDesc": "Este PDF ya estaba bien comprimido, así que conservamos el original para proteger su calidad.",
     "savedBytes": "Ahorraste {size}",
     "targetReached": "Listo: tu PDF pesa menos de {kb} KB.",
-    "targetMissed": "No pudimos dejar este PDF por debajo de {kb} KB sin que dejara de ser legible. Esta es la versión más pequeña posible. Prueba un objetivo mayor o divide el PDF."
+    "targetMissed": "No pudimos dejar este PDF por debajo de {kb} KB sin que dejara de ser legible. Esta es la versión más pequeña posible. Prueba un objetivo mayor o divide el PDF.",
+    "targetMissedMin": "Este PDF no puede bajar de unos {min} KB sin volverse ilegible, así que {kb} KB no es posible. Por eso mantuvimos las imágenes nítidas. Para llegar a {kb} KB, divide el PDF en partes más pequeñas y comprime cada una.",
+    "splitCta": "Dividir este PDF en partes"
   },
   "metaTitle": "Comprimir PDF online: reducir tamaño gratis | SmallPDF.us",
   "metaDescription": "Comprime PDF gratis a un tamaño exacto: 20, 50, 100, 200, 500 KB o el tuyo. La mejor calidad que cabe. Archivos eliminados tras 1 hora.",

@@ -182,7 +182,9 @@
     "alreadyOptimizedDesc": "PDF này vốn đã được nén tốt, nên chúng tôi giữ lại bản gốc để bảo vệ chất lượng của nó.",
     "savedBytes": "Bạn đã tiết kiệm {size}",
     "targetReached": "Xong: PDF của bạn đã dưới {kb} KB.",
-    "targetMissed": "Không thể đưa PDF này xuống dưới {kb} KB mà vẫn đọc được. Đây là phiên bản nhỏ nhất có thể. Hãy chọn mục tiêu lớn hơn hoặc tách PDF."
+    "targetMissed": "Không thể đưa PDF này xuống dưới {kb} KB mà vẫn đọc được. Đây là phiên bản nhỏ nhất có thể. Hãy chọn mục tiêu lớn hơn hoặc tách PDF.",
+    "targetMissedMin": "PDF này không thể nhỏ hơn khoảng {min} KB mà vẫn đọc được, nên không thể đạt {kb} KB. Vì vậy chúng tôi giữ ảnh rõ nét. Để vừa {kb} KB, hãy tách PDF thành các phần nhỏ hơn và nén từng phần.",
+    "splitCta": "Tách PDF này thành nhiều phần"
   },
   "metaTitle": "Nén file PDF online: giảm dung lượng | SmallPDF.us",
   "metaDescription": "Nén PDF miễn phí đến đúng dung lượng: 20, 50, 100, 200, 500 KB hoặc tự chọn. Chất lượng tốt nhất vẫn vừa. Tệp bị xóa sau 1 giờ.",

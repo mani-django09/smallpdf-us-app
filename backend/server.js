@@ -5134,6 +5134,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
     })
 
     const targetResults = []
+    const targetMinSizes = [] // floors of files that could not reach the target
 
     for (const file of req.files) {
       totalOriginalSize += file.size
@@ -5246,7 +5247,9 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
         ])
 
         // ── Target mode: biggest file that still fits under the target ──
+        let minSizeBytes = null
         if (targetBytes && winner.size > targetBytes && !hasForm) {
+          const lossless = winner
           const searchInput = winner.path
           const cache = new Map()
           let tryNo = 0
@@ -5280,7 +5283,13 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
           }
           const tryQuality = (q) => tryParams(qualityAt(q))
 
-          const fitsIn = (r) => r && r.size <= targetBytes
+          // `limit` starts as the user's target. If even the harshest setting
+          // can't reach it, the file has a hard floor (text, tables and fonts
+          // don't shrink); crushing the images then saves almost nothing, so
+          // the limit is relaxed to floor + 15% and the same search finds the
+          // best quality inside that, and the floor is reported to the user.
+          let limit = targetBytes
+          const fitsIn = (r) => r && r.size <= limit
           let best = null       // largest result that fits
           let smallest = winner // fallback when nothing fits
           const consider = (r) => {
@@ -5288,31 +5297,47 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
             if (r.size < smallest.size) smallest = r
             if (fitsIn(r) && (!best || r.size > best.size)) best = r
           }
+          let outOfTime = false
+          // Precise (within 1.5%) for a real target; the relaxed floor+15%
+          // limit is only a soft bound, so 90% of it is close enough there.
+          let closeEnough = 0.985
+          const searchBetween = async (lo, hi) => {
+            for (let i = 0; i < 12 && !outOfTime && best && best.size < limit * closeEnough; i++) {
+              const mid = (lo + hi) / 2
+              const r = await tryQuality(mid)
+              if (r === undefined) { outOfTime = true; break }
+              consider(r)
+              if (fitsIn(r)) lo = mid; else hi = mid
+            }
+          }
 
           const top = await tryQuality(1)
           consider(top)
-          let outOfTime = top === undefined
+          if (top === undefined) outOfTime = true
           if (top !== undefined && !fitsIn(top)) {
             const bottom = await tryQuality(0)
             consider(bottom)
-            if (fitsIn(bottom)) {
+            if (bottom === undefined) outOfTime = true
+            else if (fitsIn(bottom)) {
               // Fits at q=0 but not q=1: search between. Stop once within 1.5%.
-              let lo = 0, hi = 1
-              for (let i = 0; i < 12 && best.size < targetBytes * 0.985; i++) {
-                const mid = (lo + hi) / 2
-                const r = await tryQuality(mid)
-                if (r === undefined) { outOfTime = true; break }
-                consider(r)
-                if (fitsIn(r)) lo = mid; else hi = mid
-              }
+              await searchBetween(0, 1)
+            } else if (bottom) {
+              // Unreachable: remember the floor, then aim for quality near it.
+              minSizeBytes = smallest.size
+              limit = Math.max(smallest.size * 1.15, smallest.size + 30 * 1024)
+              best = null
+              closeEnough = 0.9
+              for (const r of [lossless, ...cache.values()]) consider(r)
+              console.log(`     Target unreachable: floor ${formatFileSize(minSizeBytes)}, keeping quality up to ${formatFileSize(limit)}`)
+              await searchBetween(0, 1)
             }
           }
           // Fine-tune: integer DPI/JPEG steps are coarse together, so nudge
           // each one alone (JPEG quality first, then DPI) to creep up to just
-          // under the target. Also runs when even q=1 fits (JPEG can go to 100).
+          // under the limit. Also runs when even q=1 fits (JPEG can go to 100).
           const nudge = async (field, max) => {
             let lo = best.qs[field], hi = max + 1
-            for (let i = 0; i < 5 && !outOfTime && hi - lo > 1 && best.size < targetBytes * 0.985; i++) {
+            for (let i = 0; i < 5 && !outOfTime && hi - lo > 1 && best.size < limit * 0.985; i++) {
               const mid = Math.floor((lo + hi) / 2)
               const qs = { ...best.qs, [field]: mid }
               if (field === "colorDPI") qs.grayDPI = mid
@@ -5322,7 +5347,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
               if (fitsIn(r)) lo = mid; else hi = mid
             }
           }
-          if (best?.qs) {
+          if (best?.qs && !minSizeBytes) {
             await nudge("jpegQuality", Math.min(100, best.qs.jpegQuality + 15))
             await nudge("colorDPI", Math.min(300, best.qs.colorDPI + 30))
           }
@@ -5331,6 +5356,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
 
         fs.copyFileSync(winner.path, finalOutputPath)
         if (targetBytes) targetResults.push(winner.size <= targetBytes)
+        if (minSizeBytes) targetMinSizes.push(minSizeBytes)
 
         const finalSize       = winner.size
         const savedBytes      = Math.max(0, file.size - finalSize)
@@ -5346,6 +5372,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
           compressedSize: finalSize,
           savedBytes,
           savedPercentage,
+          ...(minSizeBytes ? { minSizeKB: Math.ceil(minSizeBytes / 1024) } : {}),
         })
 
       } catch (fileErr) {
@@ -5393,6 +5420,8 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       : 0
     // null = no target asked; true only when every file fit under it.
     const targetReached = targetBytes ? targetResults.length > 0 && targetResults.every(Boolean) : null
+    // Smallest size the hardest file can reach (shown when the target was missed).
+    const minSizeKB = targetMinSizes.length ? Math.ceil(Math.max(...targetMinSizes) / 1024) : null
 
     logActivity({ type: "conversion", action: "compress_pdf_complete", tool: "compress-pdf",
       conversionType: "compress-pdf", fileCount: compressedFiles.length,
@@ -5407,7 +5436,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       fs.writeFileSync(path.join(compressedDir, ".meta.json"), JSON.stringify({
         createdAt: Date.now(), compressionLevel, totalOriginalSize, compressedSize: totalCompressedSize,
         savedPercentage, files: compressedFiles,
-        targetSizeKB, targetReached,
+        targetSizeKB, targetReached, minSizeKB,
       }))
     } catch (_) {}
 
@@ -5434,7 +5463,7 @@ app.post("/api/compress-pdf-batch", upload.array("files", 500), fileSizeLimiter(
       totalOriginalSize, compressedSize: totalCompressedSize,
       savedPercentage, compressionLevel,
       expectedReduction: settings.expectedReduction,
-      targetSizeKB, targetReached,
+      targetSizeKB, targetReached, minSizeKB,
       files: compressedFiles,
       damagedFiles: corruptFiles,
     })

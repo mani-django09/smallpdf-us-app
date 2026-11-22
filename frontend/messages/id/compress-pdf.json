@@ -182,7 +182,9 @@
     "alreadyOptimizedDesc": "PDF ini sudah terkompresi dengan baik, jadi kami mempertahankan file asli agar kualitasnya terjaga.",
     "savedBytes": "Anda menghemat {size}",
     "targetReached": "Selesai: PDF Anda kini di bawah {kb} KB.",
-    "targetMissed": "PDF ini tidak bisa dibuat di bawah {kb} KB tanpa menjadi tidak terbaca. Ini versi terkecil yang bisa kami buat. Coba target yang lebih besar, atau pisahkan PDF."
+    "targetMissed": "PDF ini tidak bisa dibuat di bawah {kb} KB tanpa menjadi tidak terbaca. Ini versi terkecil yang bisa kami buat. Coba target yang lebih besar, atau pisahkan PDF.",
+    "targetMissedMin": "PDF ini tidak bisa lebih kecil dari sekitar {min} KB tanpa menjadi tidak terbaca, jadi {kb} KB tidak mungkin. Karena itu gambar tetap kami jaga jelas. Agar muat {kb} KB, pisahkan PDF menjadi beberapa bagian lalu kompres tiap bagian.",
+    "splitCta": "Pisahkan PDF ini menjadi beberapa bagian"
   },
   "metaTitle": "Kompres PDF Online: Perkecil Ukuran Gratis | SmallPDF.us",
   "metaDescription": "Kompres PDF gratis ke ukuran tepat: 20, 50, 100, 200, 500 KB atau ukuran sendiri. Kualitas terbaik yang muat. File dihapus setelah 1 jam.",
