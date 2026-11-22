@@ -1,82 +1,152 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
-import { Globe, Loader2, ChevronDown } from 'lucide-react'
+import { Globe, Loader2, ChevronDown, Check } from 'lucide-react'
 import { localePath } from '../lib/route-translations'
 
-export default function LanguageSwitcher() {
+// Native names are shown in their own script so people can always find their language.
+const LANGUAGES = [
+  { code: 'en', name: 'English' },
+  { code: 'es', name: 'Español' },
+  { code: 'pt', name: 'Português' },
+  { code: 'fr', name: 'Français' },
+  { code: 'de', name: 'Deutsch' },
+  { code: 'it', name: 'Italiano' },
+  { code: 'pl', name: 'Polski' },
+  { code: 'tr', name: 'Türkçe' },
+  { code: 'ru', name: 'Русский' },
+  { code: 'ar', name: 'العربية' },
+  { code: 'hi', name: 'हिन्दी' },
+  { code: 'id', name: 'Bahasa Indonesia' },
+  { code: 'vi', name: 'Tiếng Việt' },
+  { code: 'ja', name: '日本語' },
+]
+
+// inline = always rendered in normal flow (mobile drawer). Default = floating menu (desktop bar).
+export default function LanguageSwitcher({ inline = false }) {
   const router = useRouter()
-  const { locale, pathname } = router
+  const { locale, pathname, asPath } = router
   const [switching, setSwitching] = useState(false)
+  const [open, setOpen] = useState(false)
+  const rootRef = useRef(null)
+  const closeTimer = useRef(null)
+  const byHover = useRef(false)
 
-  const languages = [
-    { code: 'en', name: 'English',           flag: '🇺🇸' },
-    { code: 'ja', name: '日本語',            flag: '🇯🇵' },
-    { code: 'de', name: 'Deutsch',           flag: '🇩🇪' },
-    { code: 'fr', name: 'Français',          flag: '🇫🇷' },
-    { code: 'es', name: 'Español',           flag: '🇪🇸' },
-    { code: 'it', name: 'Italiano',          flag: '🇮🇹' },
-    { code: 'id', name: 'Bahasa Indonesia',  flag: '🇮🇩' },
-    { code: 'pt', name: 'Português',         flag: '🇧🇷' },
-    { code: 'vi', name: 'Tiếng Việt',        flag: '🇻🇳' },
-    { code: 'hi', name: 'हिन्दी',              flag: '🇮🇳' },
-    { code: 'ar', name: 'العربية',             flag: '🇸🇦' },
-    { code: 'tr', name: 'Türkçe',              flag: '🇹🇷' },
-    { code: 'ru', name: 'Русский',             flag: '🇷🇺' },
-    { code: 'pl', name: 'Polski',              flag: '🇵🇱' },
-  ]
+  const current = LANGUAGES.find((l) => l.code === locale) || LANGUAGES[0]
 
-  const currentLanguage = languages.find(l => l.code === locale) || languages[0]
+  // Close on outside click / Escape
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false) }
+    const onKey = (e) => { if (e.key === 'Escape') { setOpen(false); rootRef.current?.querySelector('button')?.focus() } }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('touchstart', onDown, { passive: true })
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('touchstart', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+  useEffect(() => () => clearTimeout(closeTimer.current), [])
 
-  const switchLanguage = (newLocale) => {
-    if (newLocale === locale || switching) return
+  // Hard navigation: the client router can't fetch /_next/data for localized slugs
+  // (e.g. /fr/compresser-pdf.json doesn't exist), so a normal page load is used and the
+  // server rewrite picks the right page. Dynamic routes (blog posts) fall back to the real path.
+  const hrefFor = (code) => {
+    const base = pathname.includes('[') ? (asPath || '/').split(/[?#]/)[0] : pathname
+    return localePath(base, code)
+  }
+  const onPick = (e, code) => {
+    if (code === locale) { e.preventDefault(); setOpen(false); return }
+    if (switching) { e.preventDefault(); return }
     setSwitching(true)
-
-    // ── Why window.location instead of router.push ────────────────────────
-    // Next.js client-side router fetches page data from:
-    //   /_next/data/[buildId]/fr/compresser-pdf.json   ← doesn't exist
-    // The actual data lives at:
-    //   /_next/data/[buildId]/fr/compress-pdf.json     ← real file path
-    // router.push() fails silently and snaps back to English.
-    // A hard navigation hits the server → rewrite kicks in → correct locale loads.
-    // ─────────────────────────────────────────────────────────────────────
-    const newUrl = localePath(pathname, newLocale)
-    window.location.href = newUrl
   }
 
+  const hoverOpen = () => { if (inline) return; clearTimeout(closeTimer.current); if (!open) byHover.current = true; setOpen(true) }
+  const hoverClose = () => { if (inline) return; byHover.current = false; clearTimeout(closeTimer.current); closeTimer.current = setTimeout(() => setOpen(false), 160) }
+
+  const panel = (
+    <ul
+      role="listbox"
+      aria-label="Language"
+      className={
+        inline
+          ? 'mt-2 grid grid-cols-2 gap-1'
+          : 'grid max-h-[min(70vh,420px)] grid-cols-2 gap-1 overflow-y-auto overscroll-contain'
+      }
+    >
+      {LANGUAGES.map((lang) => {
+        const active = lang.code === locale
+        return (
+          <li key={lang.code} role="presentation">
+            <a
+              href={hrefFor(lang.code)}
+              hrefLang={lang.code}
+              lang={lang.code}
+              role="option"
+              aria-selected={active}
+              onClick={(e) => onPick(e, lang.code)}
+              className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#14130F] ${
+                active ? 'bg-red-50 font-semibold text-red-600' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+              }`}
+            >
+              <span className="min-w-0 flex-1 truncate">{lang.name}</span>
+              {active && <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />}
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  )
+
   return (
-    <div className="relative group">
+    <div
+      ref={rootRef}
+      className={inline ? 'relative' : 'relative'}
+      onMouseEnter={hoverOpen}
+      onMouseLeave={hoverClose}
+    >
       <button
-        className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+        type="button"
+        className={
+          inline
+            ? 'flex w-full items-center gap-2 rounded-2xl border-2 border-[#14130F]/15 bg-white px-4 py-3 text-sm font-bold text-[#14130F] outline-none focus-visible:ring-2 focus-visible:ring-[#14130F]'
+            : 'flex items-center gap-1.5 rounded-lg px-2 py-2 text-slate-500 outline-none transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-[#14130F] xl:px-2.5'
+        }
         aria-label="Switch language"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => {
+          // a click right after the hover-open should keep the menu open, not flip it shut
+          if (byHover.current) { byHover.current = false; setOpen(true); return }
+          setOpen((v) => !v)
+        }}
         disabled={switching}
       >
-        {switching
-          ? <Loader2 className="w-4 h-4 animate-spin" />
-          : <Globe className="w-4 h-4" />
-        }
-        <span className="text-[15px] font-medium">{currentLanguage.name}</span>
-        <ChevronDown className="w-3.5 h-3.5 opacity-60 transition-transform duration-200 group-hover:rotate-180" aria-hidden="true" />
+        {switching ? <Loader2 className="h-4 w-4 animate-spin" /> : <Globe className="h-4 w-4" aria-hidden="true" />}
+        {inline ? (
+          <span className="flex-1 text-left">{current.name}</span>
+        ) : (
+          <>
+            {/* compact code on mid-size bars, full name when there is room */}
+            <span className="text-[14px] font-semibold uppercase xl:hidden">{current.code}</span>
+            <span className="hidden text-[15px] font-medium xl:inline">{current.name}</span>
+          </>
+        )}
+        <ChevronDown className={`h-3.5 w-3.5 opacity-60 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} aria-hidden="true" />
       </button>
 
-      <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-2xl shadow-2xl shadow-slate-900/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
-        {languages.map((lang) => (
-          <button
-            key={lang.code}
-            onClick={() => switchLanguage(lang.code)}
-            disabled={switching}
-            className={`w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center gap-2.5 disabled:opacity-50 ${
-              locale === lang.code
-                ? 'text-red-600 font-semibold bg-red-50'
-                : 'text-gray-700 hover:bg-red-50 hover:text-red-600'
-            }`}
-          >
-            <span>{lang.name}</span>
-            {locale === lang.code && (
-              <span className="ml-auto w-1.5 h-1.5 rounded-full bg-red-500" />
-            )}
-          </button>
-        ))}
-      </div>
+      {inline ? (
+        open && panel
+      ) : (
+        open && (
+          <div className="absolute right-0 top-full z-50 pt-2">
+            <div className="w-[300px] rounded-2xl border border-gray-100 bg-white p-2 shadow-2xl shadow-slate-900/10">
+              {panel}
+            </div>
+          </div>
+        )
+      )}
     </div>
   )
 }

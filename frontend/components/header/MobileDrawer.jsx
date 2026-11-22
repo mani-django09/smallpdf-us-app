@@ -73,7 +73,7 @@ export default function MobileDrawer({ nav, t, locale, isActive, user, loading, 
                 <Link href={`/auth/signup?redirect=${redirect}`} onClick={onClose} className="flex items-center justify-center gap-1.5 rounded-2xl bg-[#14130F] px-4 py-3 text-sm font-bold text-white">{t("layout.signUpFree")}<ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
               </>
             ))}
-            <div className="pt-1"><LanguageSwitcher /></div>
+            <div className="pt-1"><LanguageSwitcher inline /></div>
           </div>
         </Dialog>
       </Modal>
