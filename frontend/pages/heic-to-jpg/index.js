@@ -2,7 +2,7 @@ import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import ToolGuide from "../../components/ToolGuide"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
@@ -150,7 +150,7 @@ export default function HeicToJpg() {
         {/* Header Ad */}
         <div className="bg-white px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

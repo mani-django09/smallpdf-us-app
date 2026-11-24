@@ -8,9 +8,8 @@ import { useTranslations } from "../lib/i18n"
 import { getPageMessages } from '../lib/i18nLoader'
 import { useFileSizeGuard } from "../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../hooks/useBatchGuard"
-import AdSenseUnit from "../components/AdSenseUnit"
+import AdSenseHeader from "../components/AdSenseHeader"
 import useDailyLimit from '../hooks/useDailyLimit'
-import AdLabel from "../components/AdLabel"
 
 // Store raw File object in memory — no base64, no sessionStorage size limit
 export const wordToPdfStore = { file: null, meta: null }
@@ -220,7 +219,7 @@ export default function WordToPDF() {
         {/* Header Ad */}
         <div className="bg-white px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 
@@ -527,8 +526,6 @@ export default function WordToPDF() {
         {/* Bottom Ad */}
         <div className="bg-white px-4 py-6">
           <div className="hidden lg:block max-w-4xl mx-auto">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-            <AdSenseUnit adSlot="1617102171" />
           </div>
         </div>
         <RelatedTools current="word-to-pdf" />

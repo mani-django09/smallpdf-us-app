@@ -7,7 +7,7 @@ import { redactPdfStore } from "./index"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import PrivacyNotice from "../../components/PrivacyNotice"
 import { useTranslations } from "../../lib/i18n"
@@ -357,7 +357,7 @@ export default function RedactPreview() {
         </div>
       </div>
 
-      <div className="bg-slate-50 px-4 pt-5"><div className="max-w-6xl mx-auto"><AdSenseUnit adSlot="8004544994" size="leaderboard" /></div></div>
+      <div className="bg-slate-50 px-4 pt-5"><div className="max-w-6xl mx-auto"><AdSenseHeader /></div></div>
 
       <div className="bg-slate-50 min-h-screen py-6 px-4">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-10 gap-5">

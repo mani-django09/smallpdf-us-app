@@ -26,9 +26,8 @@ import { useIsIndia } from "../../hooks/useIsIndia"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { printBlob, printFile } from "../../lib/fileActions"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
-import AdLabel from "../../components/AdLabel"
 
 
 export default function DownloadUnlockPdf() {
@@ -197,7 +196,7 @@ export default function DownloadUnlockPdf() {
 
           {/* Header Ad */}
           <div className="mb-6">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
 
           {/* Success Header */}
@@ -419,8 +418,6 @@ export default function DownloadUnlockPdf() {
 
           {/* Mid-content Ad */}
           <div className="mt-6 bg-white rounded-2xl p-3 shadow-sm border border-slate-200">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-            <AdSenseUnit adSlot="unlock-pdf-dl-mid" size="leaderboard" />
           </div>
 
           {/* Related Tools */}

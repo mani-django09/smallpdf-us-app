@@ -13,7 +13,7 @@ import {
   Crown, CheckCircle2, AlertCircle,
 } from "lucide-react"
 import { ocrPdfStore } from "./index"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import useDailyLimit from '../../hooks/useDailyLimit'
 import { goToDownload } from "../../lib/fullPageNav"
@@ -175,7 +175,7 @@ export default function OcrPdfPreview() {
         {/* Ad */}
         <div className="bg-slate-50 px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

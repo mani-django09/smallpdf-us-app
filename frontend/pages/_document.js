@@ -4,6 +4,8 @@ export default function MyDocument({ locale }) {
   return (
     <Html lang={locale || 'en'} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <Head>
+        {/* Google AdSense */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6913093595582462" crossOrigin="anonymous"></script>
         {/* ========================================
             CRITICAL PERFORMANCE OPTIMIZATIONS
         ======================================== */}
@@ -11,9 +13,6 @@ export default function MyDocument({ locale }) {
         {/* Preconnect to critical domains - Load these FIRST */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Only 3 preconnects (Lighthouse advises <= 4): fonts x2 + the GPT host. GA/GTM load
-            lazily (dns-prefetch below is enough); the other ad/PayPal hosts were removed 2026-10-21. */}
-        <link rel="preconnect" href="https://securepubads.g.doubleclick.net" />
 
         {/* DNS Prefetch for faster lookups */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />

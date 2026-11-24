@@ -5,7 +5,7 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { ArrowLeft, ImageIcon, Check, Download, AlertCircle } from "lucide-react"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import { goToDownload } from "../../lib/fullPageNav"
 
@@ -185,7 +185,7 @@ export default function PreviewPDFtoPNG() {
         {/* Header Ad */}
         <div className="bg-blue-50 px-4 pt-5">
           <div className="max-w-5xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

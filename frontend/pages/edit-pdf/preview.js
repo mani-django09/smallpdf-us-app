@@ -16,7 +16,7 @@ import { editPdfStore } from "./index"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
@@ -904,7 +904,7 @@ export default function EditPreview() {
 
         {/* Header Ad */}
         <div className="max-w-[1500px] mx-auto px-3 lg:px-4 pt-4">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseHeader />
         </div>
 
         {error && (

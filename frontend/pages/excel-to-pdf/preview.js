@@ -14,7 +14,7 @@ import {
   AlignCenter,
 } from "lucide-react"
 import { excelToPdfStore } from "./index"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
@@ -229,7 +229,7 @@ export default function PreviewExcelToPDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-5xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseHeader />
         </div>
       </div>
 

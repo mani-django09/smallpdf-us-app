@@ -2,7 +2,7 @@
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import ToolGuide from "../../components/ToolGuide"
 import SEOHead from "../../components/SEOHead"
 import { Upload, AlertCircle, CheckCircle2, Zap, Shield, ChevronDown, Unlock } from "lucide-react"
@@ -212,7 +212,7 @@ export default function UnlockPdf() {
       {/* Header Ad */}
       <div className="bg-white px-4 pt-5">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import RelatedTools from "../../components/RelatedTools"
 import PrivacyNotice from "../../components/PrivacyNotice"
@@ -13,7 +13,6 @@ import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { Download, CheckCircle, Lock, RefreshCw, KeyRound, Printer, Trash2 } from "lucide-react"
 import { printBlob, printFile } from "../../lib/fileActions"
-import AdLabel from "../../components/AdLabel"
 
 export default function ProtectDownload() {
   const router = useLocalizedRouter()
@@ -86,8 +85,7 @@ export default function ProtectDownload() {
 
       <div className="bg-white py-4 px-4 border-b border-slate-200">
         <div className="max-w-6xl mx-auto">
-          <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center"><AdLabel /></p>
-          <div className="flex justify-center"><AdSenseUnit adSlot="8004544994" size="leaderboard" /></div>
+                    <div className="flex justify-center"><AdSenseHeader /></div>
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { FileText, ArrowLeft, Play, Trash2, AlertCircle } from "lucide-react"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import ThumbEditControls from "../../components/ThumbEditControls"
@@ -279,7 +279,7 @@ export default function PreviewPngToPdf() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 sm:px-6 lg:px-8 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 

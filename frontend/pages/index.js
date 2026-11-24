@@ -9,7 +9,7 @@ import { useTranslations } from "../lib/i18n"
 import { getPageMessages } from '../lib/i18nLoader'
 import { getLocalizedRoute } from "../lib/route-translations"
 import { useLocalizedRouter } from "../lib/useLocalizedRouter"
-import AdSenseUnit from "../components/AdSenseUnit"
+import AdSenseHeader from "../components/AdSenseHeader"
 import HeroUpload from "../components/HeroUpload"
 import {
   FileText, Merge, Scissors, Gauge, FileImage, ArrowRight, ArrowUpRight, Check,
@@ -655,7 +655,7 @@ export default function HomePage() {
               collapses to nothing when the ad slot comes back empty. */}
           <div className="px-4 pt-3 sm:px-6">
             <div className="mx-auto max-w-6xl">
-              <AdSenseUnit size="leaderboard" className="rounded-xl overflow-hidden" />
+              <AdSenseHeader />
             </div>
           </div>
 

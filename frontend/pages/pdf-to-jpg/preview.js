@@ -13,7 +13,7 @@ import {
   FileImage,
   Settings,
 } from "lucide-react"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
@@ -170,7 +170,7 @@ export default function PreviewPDFToJPG() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-5">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 

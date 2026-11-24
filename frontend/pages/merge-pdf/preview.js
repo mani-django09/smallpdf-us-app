@@ -7,7 +7,7 @@ import { FileText, ArrowLeft, Play, Layers, GripVertical, Trash2 } from "lucide-
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { useAuth } from "../../context/AuthContext"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import { usePdfThumbnail } from "../../hooks/usePdfThumbnail"
 import useDailyLimit from "../../hooks/useDailyLimit"
@@ -370,7 +370,7 @@ export default function PreviewMergePDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-5">
         <div className="max-w-7xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 

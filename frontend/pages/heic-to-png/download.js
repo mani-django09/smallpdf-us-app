@@ -9,13 +9,12 @@ import { useTranslations } from "@/lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { Download, FileImage, CheckCircle, RefreshCw, Shield, Zap, Sparkles, Timer, ChevronRight, ArrowRight, Printer, Trash2 } from "lucide-react"
 import Link from "next/link"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import RelatedTools from "../../components/RelatedTools"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { printBlob, printFile, filenameFromDisposition } from "../../lib/fileActions"
-import AdLabel from "../../components/AdLabel"
 
 function getApiUrl() {
   if (typeof window === "undefined") return process.env.NEXT_PUBLIC_API_URL || "http://localhost:5011"
@@ -166,7 +165,7 @@ export default function DownloadHeicToPng() {
       {/* Header Ad */}
       <div className="bg-teal-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseHeader />
         </div>
       </div>
 
@@ -325,8 +324,6 @@ export default function DownloadHeicToPng() {
               </div>
               {/* Mid-content Ad */}
               <div className="bg-white rounded-2xl border border-slate-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="heic-to-png-dl-mid" size="leaderboard" />
               </div>
 
             </div>

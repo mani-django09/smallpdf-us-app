@@ -7,7 +7,7 @@ import { getPageMessages } from '../../lib/i18nLoader'
 import { FileImage, ArrowLeft, Play, Trash2, CheckCircle } from "lucide-react"
 import ThumbEditControls from "../../components/ThumbEditControls"
 import { filterCssById } from "../../lib/imageEdit"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
@@ -196,7 +196,7 @@ export default function PreviewHeicToJpg() {
         {/* Header Ad */}
         <div className="bg-orange-50 px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

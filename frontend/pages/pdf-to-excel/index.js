@@ -3,7 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import { getPageMessages } from "../../lib/i18nLoader"
 import RelatedTools from '../../components/RelatedTools'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import SEOHead from "../../components/SEOHead"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import { useBatchGuard } from "../../hooks/useBatchGuard"
@@ -1700,7 +1700,7 @@ export default function PdfToExcel() {
       {/* Header Ad */}
       <div className="bg-white px-4 pt-5">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 

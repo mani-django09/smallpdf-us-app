@@ -30,9 +30,8 @@ import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { printBlob, printFile } from "../../lib/fileActions"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
-import AdLabel from "../../components/AdLabel"
 
 // AdSense Component
 
@@ -326,7 +325,7 @@ export default function DownloadMergePDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 
@@ -384,14 +383,7 @@ export default function DownloadMergePDF() {
       {/* Top Banner Ad */}
       <div className="bg-white py-4 px-4 border-b border-slate-200">
         <div className="max-w-6xl mx-auto">
-          <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-            <AdLabel />
-          </p>
-          <div className="flex justify-center">
-            <AdSenseUnit 
-              adSlot="4209491059"
-              style={{ width: "728px", height: "90px" }}
-            />
+                    <div className="flex justify-center">
           </div>
         </div>
       </div>
@@ -549,14 +541,7 @@ export default function DownloadMergePDF() {
 
               {/* Mobile Ad - Below Features */}
               <div className="lg:hidden">
-                <p className="font-body text-[10px] font-medium text-slate-400 uppercase tracking-wider mb-2 text-center">
-                  <AdLabel />
-                </p>
-                <div className="flex justify-center">
-                  <AdSenseUnit 
-                    adSlot="4209491059"
-                    style={{ width: "320px", height: "50px" }}
-                  />
+                                <div className="flex justify-center">
                 </div>
               </div>
 

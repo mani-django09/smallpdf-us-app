@@ -6,7 +6,7 @@ import { useTranslations } from '../../lib/i18n'
 import { getPageMessages } from '../../lib/i18nLoader'
 import { FileText, ArrowLeft, Play, Trash2, CheckCircle, Minimize2, Target } from "lucide-react"
 import { compressPdfStore } from "./index"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import { useFileSizeGuard } from "../../hooks/useFileSizeGuard"
 import useDailyLimit from "../../hooks/useDailyLimit"
@@ -277,7 +277,7 @@ export default function PreviewCompressPdf() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseHeader />
         </div>
       </div>
 

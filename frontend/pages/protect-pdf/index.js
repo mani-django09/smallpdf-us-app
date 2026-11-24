@@ -5,7 +5,7 @@ import { useState, useCallback } from "react"
 import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import RelatedTools from "../../components/RelatedTools"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
@@ -85,7 +85,7 @@ export default function ProtectPdf() {
     <Layout title={t("protectPdf.heroTitle")} description={t("protectPdf.heroSubtitle")}>
       <SEOHead title={t("protectPdf.seoTitle")} description={t("protectPdf.seoDescription")} keywords={t("protectPdf.seoKeywords")} ogImage="/og-protect-pdf.jpg" structuredData={structuredData} />
 
-      <div className="bg-white px-4 pt-5"><div className="max-w-4xl mx-auto"><AdSenseUnit size="leaderboard" /></div></div>
+      <div className="bg-white px-4 pt-5"><div className="max-w-4xl mx-auto"><AdSenseHeader /></div></div>
 
       {/* Hero + Upload */}
       <div className="bg-gradient-to-br from-emerald-50 via-teal-50 to-green-50 py-10 px-4">

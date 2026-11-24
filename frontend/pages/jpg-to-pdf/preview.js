@@ -5,7 +5,7 @@ import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 import { FileText, ArrowLeft, Sparkles, Shield, Zap, Clock, Play, Trash2, CheckCircle } from "lucide-react"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import ThumbEditControls from "../../components/ThumbEditControls"
@@ -196,7 +196,7 @@ export default function PreviewJpgToPdf() {
         {/* Leaderboard ad — full-width strip above content */}
         <div className="bg-slate-50 px-4 pt-3 pb-1">
           <div className="max-w-6xl mx-auto">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

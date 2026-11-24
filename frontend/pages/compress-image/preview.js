@@ -7,7 +7,7 @@ import { getPageMessages } from '../../lib/i18nLoader'
 import { Minimize2, ArrowLeft, Play, Trash2, CheckCircle, Settings, Target } from "lucide-react"
 import ThumbEditControls from "../../components/ThumbEditControls"
 import { bakeImageTransform, filterCssById, hasTransform } from "../../lib/imageEdit"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import useDailyLimit from '../../hooks/useDailyLimit'
 import { goToDownload } from "../../lib/fullPageNav"
@@ -306,7 +306,7 @@ export default function PreviewCompressImage() {
         <div className="max-w-5xl mx-auto">
           {/* Header Ad */}
           <div className="mb-6">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
 
           {/* Back button */}

@@ -7,7 +7,7 @@ import EmailCapture from "../../components/EmailCapture"
 import SEOHead from "../../components/SEOHead"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import {
   Download,
@@ -31,7 +31,6 @@ import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import RelatedTools from "../../components/RelatedTools"
 import { printBlob, printFile, filenameFromDisposition } from "../../lib/fileActions"
-import AdLabel from "../../components/AdLabel"
 
 // Inline translations for strings not yet in JSON files
 const INLINE_T = {
@@ -264,7 +263,7 @@ export default function DownloadJpgToPdf() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseHeader />
         </div>
       </div>
 
@@ -501,8 +500,6 @@ export default function DownloadJpgToPdf() {
               </div>
               {/* Mid-content Ad */}
               <div className="bg-white rounded-2xl border border-slate-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="jpg-to-pdf-dl-mid" size="leaderboard" />
               </div>
 
             </div>

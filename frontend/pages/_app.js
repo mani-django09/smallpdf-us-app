@@ -13,67 +13,6 @@ import '../styles/rtl.css'
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
 
-  // ── Google Ad Manager (AdX) — load GPT + out-of-page slots once ─────────────
-  // ALL ads on the site are AdX/GPT now (AdSense was removed 2026-10-16): the
-  // leaderboard and the 300x250 rectangles in AdSenseUnit.js, plus the
-  // out-of-page Interstitial + sticky bottom Anchor (GPT_OUT_OF_PAGE_ENABLED;
-  // set it to false to turn the full-screen formats off again). To pause
-  // every ad, set GPT_SIDEBAR_ADS_ENABLED = false here AND GPT_ADS_ENABLED in
-  // AdSenseUnit.js (this flag alone also stops gpt.js from loading at all).
-  const GPT_SIDEBAR_ADS_ENABLED = true
-  const GPT_OUT_OF_PAGE_ENABLED = true // Interstitial + sticky bottom Anchor (AdX) - on since 2026-10-16, replaces the AdSense vignette/anchor
-  useEffect(() => {
-    if (!GPT_SIDEBAR_ADS_ENABLED) return
-    if (router.pathname.startsWith('/admin')) return   // no ads on admin
-    if (typeof window === 'undefined') return
-    if (window.__gptInit) return                         // already set up (also guards dev Strict Mode)
-    window.__gptInit = true
-
-    window.googletag = window.googletag || { cmd: [] }
-
-    // gpt.js + pubads_impl.js are ~1 s of main-thread work (measured with Lighthouse, 2026-10-21) —
-    // the biggest cause of the high Total Blocking Time. Fetch them once the page has loaded and
-    // the browser is idle (max ~2.5 s later) instead of right after hydration. Slots and the init
-    // block below only touch the googletag.cmd queue, so their order does not change.
-    const loadGpt = () => {
-      if (document.getElementById('gpt-js')) return
-      const s = document.createElement('script')
-      s.id = 'gpt-js'
-      s.async = true
-      s.src = 'https://securepubads.g.doubleclick.net/tag/js/gpt.js'
-      document.head.appendChild(s)
-    }
-    const whenIdle = () => ('requestIdleCallback' in window ? window.requestIdleCallback(loadGpt, { timeout: 2500 }) : setTimeout(loadGpt, 300))
-    if (document.readyState === 'complete') whenIdle()
-    else window.addEventListener('load', whenIdle, { once: true })
-
-    window.googletag.cmd.push(function () {
-      const pubads = window.googletag.pubads()
-
-      let interstitial, anchor
-      if (GPT_OUT_OF_PAGE_ENABLED) {
-        const OOP = window.googletag.enums.OutOfPageFormat
-        // Interstitial (full-screen, shows on navigation)
-        interstitial = window.googletag.defineOutOfPageSlot('/23028515350/Interstitial', OOP.INTERSTITIAL)
-        if (interstitial) interstitial.addService(pubads)
-
-        // Sticky bottom anchor
-        anchor = window.googletag.defineOutOfPageSlot('/23028515350/Anchor', OOP.BOTTOM_ANCHOR)
-        if (anchor) anchor.addService(pubads)
-      }
-
-      pubads.enableSingleRequest()
-      pubads.collapseEmptyDivs()
-      pubads.setTargeting('site', 'smallpdfus')
-      pubads.setTargeting('lang', document.documentElement.lang || 'en')
-
-      window.googletag.enableServices()
-
-      if (interstitial) window.googletag.display(interstitial)
-      if (anchor)       window.googletag.display(anchor)
-    })
-  }, [])
-
   // ── Traffic source beacon: once per browser tab session, tell the server where this visit came
   // from (document.referrer + utm_* in the landing URL). Powers the admin 'Traffic sources' tab.
   useEffect(() => {
@@ -156,7 +95,6 @@ function MyApp({ Component, pageProps }) {
         }}
       />
 
-      {/* Ads: Google Ad Manager (AdX) via GPT — loaded in the effect above */}
 
       {/* Theme Provider - Prevents hydration errors */}
       <TranslationsProvider messages={pageProps.messages}>

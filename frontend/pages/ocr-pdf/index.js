@@ -7,7 +7,7 @@ import { useState, useCallback } from "react"
 import Link from "next/link"
 import Layout from "../../components/Layout"
 import RelatedTools from '../../components/RelatedTools'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import SEOHead from "../../components/SEOHead"
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Zap, Shield,
@@ -154,7 +154,7 @@ export default function OcrPdf() {
         {/* Header Ad */}
         <div className="bg-white px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

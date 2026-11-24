@@ -1,8 +1,7 @@
 import { FileEdit } from "lucide-react"
 
 // House-ad-style card sized to slot into an empty ~300x250 ad rectangle
-// (sidebar "Ad 2" slots that rarely fill with real AdX demand — see
-// AdSenseUnit.js, every rectangle request hits the same GAM unit path).
+// 
 export default function ResumeMakerPromo({ className = "" }) {
   return (
     <div className={`rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden ${className}`} style={{ width: 300, maxWidth: "100%" }}>

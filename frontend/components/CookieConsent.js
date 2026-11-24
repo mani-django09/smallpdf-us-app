@@ -1,6 +1,6 @@
 // components/CookieConsent.js
 // GDPR-compliant cookie consent banner.
-// Google Analytics & Ad Manager (AdX) are loaded in _app.js. This banner:
+// Google Analytics is loaded in _app.js. This banner:
 //   1. Blocks GA until the user accepts non-essential cookies
 //   2. Remembers choice in localStorage for 365 days
 //   3. Shows for all users (GA anonymize_ip=true is not enough for GDPR)
@@ -33,8 +33,6 @@ export default function CookieConsent() {
     // Unblock GA
     window.dataLayer = window.dataLayer || []
     window.dataLayer.push({ event: 'cookie_consent_granted' })
-    // Ads are served via Google Ad Manager (AdX/GPT), initialized in _app.js.
-    // No page-level auto-ads init needed here.
   }
 
   const accept = () => {

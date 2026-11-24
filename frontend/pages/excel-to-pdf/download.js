@@ -28,10 +28,9 @@ import {
 import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import { printBlob, printFile } from "../../lib/fileActions"
-import AdLabel from "../../components/AdLabel"
 
 // Inline translations for strings not yet in JSON files
 // Covers all 8 supported locales — no new JSON keys needed
@@ -319,7 +318,7 @@ export default function DownloadExcelToPDF() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" label="Header Ad" className="rounded-xl overflow-hidden" />
+          <AdSenseHeader />
         </div>
       </div>
 
@@ -507,8 +506,6 @@ export default function DownloadExcelToPDF() {
 
           {/* Mid-content Ad */}
           <div className="mt-6 bg-white rounded-xl p-3 shadow-sm border border-slate-200">
-            <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-            <AdSenseUnit adSlot="excel-to-pdf-dl-mid" size="leaderboard" />
           </div>
 
           {/* Debug Info (remove in production) */}

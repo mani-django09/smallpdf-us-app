@@ -4,7 +4,6 @@ import Link from "next/link"
 import Image from "next/image"
 import Layout from "../../components/Layout"
 import SEOHead from "../../components/SEOHead"
-import AdSenseUnit from "../../components/AdSenseUnit"
 import { getApiUrl } from "../../lib/getApiUrl"
 import { getPageMessages } from "../../lib/i18nLoader"
 import {
@@ -13,7 +12,6 @@ import {
   Clock, Copy, Check, ChevronRight, BookOpen,
   ArrowLeft,
 } from "lucide-react"
-import AdLabel from "../../components/AdLabel"
 
 // Blog featured images are uploaded files served by nginx from backend/uploads/
 // (not a Next.js-known route), so next/image's local-path resolution can't
@@ -375,8 +373,6 @@ export default function BlogPost({ post: initialPost, relatedPosts: initialRelat
         {/* ── Header Ad ─────────────────────────────────────────────────── */}
         <div className="bg-slate-50 px-4 pt-8">
           <div className="max-w-5xl mx-auto">
-            <p className="text-[10px] text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
           </div>
         </div>
 
@@ -413,9 +409,7 @@ export default function BlogPost({ post: initialPost, relatedPosts: initialRelat
 
               {/* After-content Ad */}
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-8">
-                <p className="text-[10px] text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                <div className="flex justify-center">
-                  <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+                                <div className="flex justify-center">
                 </div>
               </div>
 
@@ -545,8 +539,6 @@ export default function BlogPost({ post: initialPost, relatedPosts: initialRelat
 
                 {/* Sidebar Ad */}
                 <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-3">
-                  <p className="text-[10px] text-center text-slate-400 mb-2 uppercase tracking-wide"><AdLabel /></p>
-                  <AdSenseUnit adSlot="8004544994" size="rectangle2" />
                 </div>
 
                 {/* Table of contents */}

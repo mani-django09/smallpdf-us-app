@@ -31,9 +31,8 @@ import Link from "next/link"
 import { useAuth } from "../../context/AuthContext"
 import { useIsIndia } from "../../hooks/useIsIndia"
 import { printBlob, printFile } from "../../lib/fileActions"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
-import AdLabel from "../../components/AdLabel"
 
 
 export default function DownloadPage() {
@@ -275,7 +274,7 @@ export default function DownloadPage() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-6">
         <div className="max-w-6xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 
@@ -518,8 +517,6 @@ export default function DownloadPage() {
               </div>
               {/* Mid-content Ad */}
               <div className="bg-white rounded-2xl border border-slate-200 p-3">
-                <p className="text-xs text-center text-slate-400 mb-2 uppercase tracking-wide font-body"><AdLabel /></p>
-                <AdSenseUnit adSlot="word-to-pdf-dl-mid" size="leaderboard" />
               </div>
 
             </div>

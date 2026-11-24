@@ -3,7 +3,7 @@ import { useLocalizedRouter } from "../../lib/useLocalizedRouter"
 import { getApiUrl } from "../../lib/getApiUrl"
 import Layout from "@/components/Layout"
 import RelatedTools from '../../components/RelatedTools'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import SEOHead from "@/components/SEOHead"
 import { useTranslations } from "@/lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
@@ -340,7 +340,7 @@ export default function SplitPdf() {
         {/* Header Ad */}
         <div className="bg-white px-4 pt-5">
           <div className="max-w-4xl mx-auto">
-            <AdSenseUnit size="leaderboard" />
+            <AdSenseHeader />
           </div>
         </div>
 

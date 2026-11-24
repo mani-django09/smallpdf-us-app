@@ -5,7 +5,7 @@ import SEOHead from "../../components/SEOHead"
 import { FileText, ArrowLeft, Key, Shield, Zap, Clock, Unlock, Trash2, CheckCircle, Lock, AlertTriangle } from "lucide-react"
 import { useTranslations } from "../../lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import useDailyLimit from '../../hooks/useDailyLimit'
 import { unlockPdfStore } from "./index"
@@ -227,7 +227,7 @@ export default function PreviewUnlockPdf() {
         <div className="max-w-6xl mx-auto">
           {/* Header Ad */}
           <div className="mb-6">
-            <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+            <AdSenseHeader />
           </div>
 
           <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6 items-start">

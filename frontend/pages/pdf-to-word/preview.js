@@ -7,7 +7,7 @@ import { useTranslations } from "@/lib/i18n"
 import { getPageMessages } from '../../lib/i18nLoader'
 // FIX #8: Import the in-memory file store from the upload page
 import { pendingPdfFiles } from "./index"
-import AdSenseUnit from "../../components/AdSenseUnit"
+import AdSenseHeader from "../../components/AdSenseHeader"
 import PromoBanner from "../../components/PromoBanner"
 import LoadingPromo from "../../components/LoadingPromo"
 import useDailyLimit from '../../hooks/useDailyLimit'
@@ -232,7 +232,7 @@ export default function PreviewPdfToWord() {
       {/* Header Ad */}
       <div className="bg-slate-50 px-4 pt-5">
         <div className="max-w-4xl mx-auto">
-          <AdSenseUnit adSlot="8004544994" size="leaderboard" />
+          <AdSenseHeader />
         </div>
       </div>
 

@@ -1,5 +1,4 @@
 google.com, pub-6913093595582462, DIRECT, f08c47fec0942fa0
-google.com, pub-5629042300523238, DIRECT, f08c47fec0942fa0
 
 #Ad.Plus
 ad.plus, NetworkCode, DIRECT
