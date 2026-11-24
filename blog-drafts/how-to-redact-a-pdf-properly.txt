@@ -1,0 +1,74 @@
+TITLE: How to Redact a PDF Properly (Black Boxes Aren't Enough)
+SLUG: how-to-redact-a-pdf-properly
+EXCERPT: A black rectangle drawn over text can leave that text fully readable underneath. Here's how to remove sensitive information from a PDF for good.
+AUTHOR: Manikant
+CATEGORY: Guides
+---
+To redact a PDF properly, you have to remove the sensitive content from the file, not just cover it up. Drawing a black box or highlight over text in most PDF editors hides it on screen, but the words are often still in the file, and anyone can copy them out. A real redaction tool replaces that part of the page so there's nothing left to recover.
+
+This mistake catches professionals too. In January 2019, a court filing by Paul Manafort's lawyers had blacked-out passages that reporters read simply by copying the text and pasting it elsewhere.
+
+<h2>Why Black Boxes Fail</h2>
+
+A PDF is built in layers. The text sits in one place and anything you draw is added on top. When you put a black rectangle over a name, the name doesn't go away. It's just hidden from view, and the file still contains it.
+
+That leaves several easy ways to get the hidden text back:
+
+- Select the area and copy it, then paste into any text editor
+- Search the document with Ctrl+F, which can find words under the box
+- Open the file in a PDF editor and move or delete the rectangle
+- Run a basic text extraction tool over the file
+
+The same goes for white boxes, highlighter set to black, and black-coloured text. All of them change how the page looks and leave the content in place.
+
+<h2>What Real Redaction Does</h2>
+
+True redaction permanently removes the content underneath. Our <a href="/redact-pdf">Redact PDF</a> tool does this by turning each page you mark into an image and burning the black boxes into its pixels. The text under a box no longer exists as text, so copying, searching and editing have nothing to find.
+
+Pages you don't mark are left as they were. On marked pages, we also add a hidden text layer to what's left, so the rest of the page can still be searched and copied. That text comes from reading the final image, after the boxes are burned in, so redacted words can't come back this way.
+
+<h2>Step-by-Step: Redact a PDF Online</h2>
+
+1. Open <a href="/redact-pdf">Redact PDF</a> and upload your document
+2. Drag a box over everything you want removed, on every page where it appears
+3. To save time, use Find &amp; Redact to search for a word, or the presets for emails and phone or ID numbers, then mark all the matches
+4. Click Redact and download the new file
+5. Check the result (see the next section), then share that version
+
+Ctrl+Z undoes the last box if you make a mistake. Boxes are only applied when you click Redact, so you can review them all first.
+
+<h2>How to Check That It Worked</h2>
+
+Never send a redacted file without testing it. It takes about a minute:
+
+- Press Ctrl+F and search for a name or number you removed
+- Try to select the blacked-out area, copy it and paste it somewhere
+- Skim every page, since the same detail often appears in headers, footers or signature blocks
+
+If the search finds nothing and the paste comes up empty, the redaction worked. Keep the unredacted original somewhere safe, and make sure you send the redacted copy, not the original with a similar file name.
+
+<h2>What People Forget to Redact</h2>
+
+Missed details are the other common failure. Before you start, look for:
+
+- Account numbers, ID numbers and dates of birth, which often repeat across pages
+- Email addresses and phone numbers in signatures and footers
+- Names inside charts, table captions and image labels
+- Pictures of signatures, stamps and ID cards
+- File properties such as title and author, which sit outside the page content
+
+Page redaction works on what's on the page, so check the file name and document properties too. Also remember that context can give things away: if a sentence still says "the CFO of the company", blacking out the name doesn't achieve much.
+
+<h2>Can Redacted Text Be Recovered?</h2>
+Not if the redaction was done properly, because the original content is no longer in the file. With our tool, marked areas become solid black pixels. If someone only drew a shape over the text, then yes, it can usually be recovered in seconds.
+
+<h2>Is It Safe to Upload a Sensitive Document?</h2>
+The connection is encrypted with HTTPS, and files are deleted from our servers within 1 hour. There are two exceptions: results saved in My Files on paid plans are kept for 24 to 48 hours, and if a job fails, the uploaded file is kept for up to 24 hours so we can fix the error. Our <a href="/privacy">Privacy Policy</a> has the details. If your employer has rules about third-party tools, check those first.
+
+<h2>Does Redacting Make the PDF Bigger?</h2>
+It can, slightly, because marked pages become images. If you need a smaller file afterwards, run it through <a href="/compress-pdf">Compress PDF</a>.
+
+<h2>What's the Difference Between Redacting and Password Protecting?</h2>
+A password controls who can open a file, but anyone who has the password sees everything. Redaction removes information so nobody can see it, whoever opens the file. Use <a href="/protect-pdf">Protect PDF</a> when the right people need the full document, and redaction when they shouldn't see parts of it.
+
+Done properly, redaction takes a few minutes, and it's far cheaper than a leak. Try it on your next document with our <a href="/redact-pdf">Redact PDF</a> tool.

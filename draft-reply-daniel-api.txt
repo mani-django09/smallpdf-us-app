@@ -1,0 +1,36 @@
+To: daniel.doernberg@gmail.com
+Subject: Re: is it possible to run your software via an API on our Linux server?
+
+Hi Daniel,
+
+Thanks for reaching out, and sorry about the confusion on the pricing page. The API is available. That grayed-out row is a mistake on our pricing page that I'm fixing now.
+
+Here's how it works:
+
+- It's a hosted REST API, so your Linux server calls it over HTTPS. There's nothing to install, and any language with an HTTP client works (cURL, Python, Node, PHP and so on).
+- Endpoints: merge, split, rotate, compress, protect, PDF to Word, Word to PDF, PDF to JPG/PNG and JPG/PNG to PDF.
+- Docs and code samples: https://smallpdf.us/developers
+- OpenAPI spec: https://smallpdf.us/api/v1/openapi.json
+
+To get started:
+1. Create a free account at https://smallpdf.us/auth/signup
+2. Generate a key at https://smallpdf.us/account/api
+3. Send it in the X-API-Key header, for example:
+
+   curl -X POST https://smallpdf.us/api/v1/compress \
+     -H "X-API-Key: YOUR_API_KEY" \
+     -F "file=@document.pdf" -o compressed.pdf
+
+Monthly quotas:
+- Free: 50 calls
+- Starter ($9/mo): 1,000 calls
+- Pro ($19/mo): 10,000 calls
+- More than that: just reply and we'll set up a higher limit.
+
+Uploaded files are scanned for malware and deleted from our servers right after processing.
+
+One thing to note: we don't offer a self-hosted version you can install on your own server. The processing runs on our servers. If you need everything to stay inside your own network, tell me a bit more about your use case and I'll see what we can do.
+
+Best regards,
+Manikant
+SmallPDF.us

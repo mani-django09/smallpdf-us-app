@@ -1,0 +1,25 @@
+Subject: Re: Data Protection Review — SmallPDF.us API
+
+Hi Mahad,
+
+Thanks for reaching out, and for flagging this as part of your data protection review.
+
+A couple of relevant points on how SmallPDF.us handles files:
+
+- All uploaded files are automatically and permanently deleted from our servers within 2 hours of processing — there is no long-term or permanent storage of any file content.
+- Files are encrypted in transit.
+
+We're open to discussing a data transfer/processing agreement. Could you share your standard DPA template so we can review the specific terms (data categories, sub-processors, breach notification timelines, retention, etc.) and confirm what we're able to commit to?
+
+It would also help us scope this properly if you could let us know:
+
+- Roughly what volume/type of files are being processed through the API, and whether health data specifically flows through it on a regular basis.
+- Which entity would be the data controller on your side for this processing.
+
+Happy to move this forward once we've had a chance to review your template.
+
+Many thanks,
+
+[Your Name]
+SmallPDF.us
+support@smallpdf.us
