@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "SmallPDF.us — Free PDF & Image Tools",
-  "version": "1.0.0",
-  "description": "Merge, split, compress and convert PDFs and images in one click. 27 free tools, straight from your toolbar.",
+  "version": "1.1.0",
+  "description": "Compress, merge, split and convert PDFs and images in one click. Open a PDF and send it straight to any of 27 free tools.",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
@@ -11,7 +11,7 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "SmallPDF.us — PDF Tools",
+    "default_title": "SmallPDF.us — PDF Tools (Alt+Shift+P)",
     "default_icon": {
       "16": "icons/icon-16.png",
       "32": "icons/icon-32.png",
@@ -19,9 +19,22 @@
       "128": "icons/icon-128.png"
     }
   },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+P" },
+      "description": "Open SmallPDF.us tools"
+    }
+  },
   "background": {
     "service_worker": "background.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://smallpdf.us/*"],
+      "js": ["handoff.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "permissions": [
     "contextMenus",
     "storage",
@@ -29,5 +42,9 @@
   ],
   "host_permissions": [
     "https://smallpdf.us/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
   ]
 }
