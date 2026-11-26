@@ -28,7 +28,9 @@
     "freeExtension": "Ücretsiz eklenti",
     "addChromeShort": "Chrome'a ekle"
   },
-  "ads": { "label": "Reklam" },
+  "ads": {
+    "label": "Reklam"
+  },
   "fileActions": {
     "print": "Yazdır",
     "delete": "Sil",
@@ -229,7 +231,7 @@
     "daily": {
       "title": "Günlük limite ulaşıldı",
       "resets": "{time} saatinde sıfırlanır",
-      "body": "Bugünkü {limit} ücretsiz dönüştürme hakkınızı kullandınız. Sınırsız dönüştürme için Pro'ya yükseltin.",
+      "body": "Bugünkü {limit} ücretsiz dönüştürme hakkını kullandın. Bugünden itibaren sınırsız dönüştürme için yükselt.",
       "includes": "Pro paketine dahil olanlar",
       "comeBack": "Yarın tekrar gelin",
       "features": [
@@ -238,7 +240,12 @@
         "Toplu işlemde 20 dosyaya kadar",
         "Reklamsız",
         "Öncelikli işleme"
-      ]
+      ],
+      "cta": "Starter'ı {price}/ay ile al",
+      "perMonth": "/ay",
+      "perDay": "günde yaklaşık {price}",
+      "allPlans": "Tüm planları karşılaştır",
+      "cancelAnytime": "İstediğin zaman iptal et"
     },
     "size": {
       "body": "Dosyanız ({size}), {tool} için geçerli {limit} limitini aşıyor.",

@@ -28,7 +28,9 @@
     "freeExtension": "Darmowe rozszerzenie",
     "addChromeShort": "Dodaj do Chrome"
   },
-  "ads": { "label": "Reklama" },
+  "ads": {
+    "label": "Reklama"
+  },
   "fileActions": {
     "print": "Drukuj",
     "delete": "Usuń",
@@ -229,7 +231,7 @@
     "daily": {
       "title": "Dzienny limit wyczerpany",
       "resets": "Odnowi się o {time}",
-      "body": "Wykorzystano {limit} darmowych konwersji na dziś. Przejdź na Pro, żeby konwertować bez ograniczeń.",
+      "body": "Wykorzystałeś dziś {limit} darmowych konwersji. Przejdź na plan płatny, aby od dziś konwertować bez limitu.",
       "includes": "Plan Pro obejmuje",
       "comeBack": "Wróć jutro",
       "features": [
@@ -238,7 +240,12 @@
         "Do 20 plików w jednej partii",
         "Bez reklam",
         "Priorytetowe przetwarzanie"
-      ]
+      ],
+      "cta": "Wybierz Starter za {price}/mies.",
+      "perMonth": "/mies.",
+      "perDay": "ok. {price} dziennie",
+      "allPlans": "Porównaj wszystkie plany",
+      "cancelAnytime": "Anuluj w każdej chwili"
     },
     "size": {
       "body": "Twój plik ({size}) przekracza limit {limit} dla narzędzia: {tool}.",

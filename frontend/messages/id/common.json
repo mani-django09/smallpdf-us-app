@@ -28,7 +28,9 @@
     "freeExtension": "Ekstensi gratis",
     "addChromeShort": "Tambahkan ke Chrome"
   },
-  "ads": { "label": "Iklan" },
+  "ads": {
+    "label": "Iklan"
+  },
   "fileActions": {
     "print": "Cetak",
     "delete": "Hapus",
@@ -229,7 +231,7 @@
     "daily": {
       "title": "Batas harian tercapai",
       "resets": "Direset pukul {time}",
-      "body": "Anda sudah memakai {limit} konversi gratis hari ini. Upgrade ke Pro untuk konversi tanpa batas.",
+      "body": "Anda sudah memakai {limit} konversi gratis hari ini. Upgrade untuk konversi tanpa batas, mulai hari ini.",
       "includes": "Paket Pro mencakup",
       "comeBack": "Kembali besok",
       "features": [
@@ -238,7 +240,12 @@
         "Hingga 20 file per batch",
         "Tanpa iklan",
         "Pemrosesan prioritas"
-      ]
+      ],
+      "cta": "Ambil Starter {price}/bulan",
+      "perMonth": "/bln",
+      "perDay": "sekitar {price} per hari",
+      "allPlans": "Bandingkan semua paket",
+      "cancelAnytime": "Batalkan kapan saja"
     },
     "size": {
       "body": "File Anda ({size}) melebihi batas {limit} untuk {tool}.",

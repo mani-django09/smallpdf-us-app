@@ -28,7 +28,9 @@
     "freeExtension": "Kostenlose Erweiterung",
     "addChromeShort": "Zu Chrome hinzufügen"
   },
-  "ads": { "label": "Anzeige" },
+  "ads": {
+    "label": "Anzeige"
+  },
   "fileActions": {
     "print": "Drucken",
     "delete": "Löschen",
@@ -233,7 +235,7 @@
     "daily": {
       "title": "Tageslimit erreicht",
       "resets": "Wird um {time} zurückgesetzt",
-      "body": "Du hast deine {limit} kostenlosen Konvertierungen für heute verbraucht. Mit Pro konvertierst du unbegrenzt.",
+      "body": "Du hast deine {limit} kostenlosen Konvertierungen für heute verbraucht. Upgrade für unbegrenzte Konvertierungen, ab sofort.",
       "includes": "Im Pro-Tarif enthalten",
       "comeBack": "Morgen wiederkommen",
       "features": [
@@ -242,7 +244,12 @@
         "Bis zu 20 Dateien pro Stapel",
         "Keine Werbung",
         "Bevorzugte Verarbeitung"
-      ]
+      ],
+      "cta": "Starter für {price}/Monat holen",
+      "perMonth": "/Monat",
+      "perDay": "etwa {price} pro Tag",
+      "allPlans": "Alle Tarife vergleichen",
+      "cancelAnytime": "Jederzeit kündbar"
     },
     "size": {
       "body": "Deine Datei ({size}) überschreitet das Limit von {limit} für {tool}.",

@@ -28,7 +28,9 @@
     "freeExtension": "Tiện ích miễn phí",
     "addChromeShort": "Thêm vào Chrome"
   },
-  "ads": { "label": "Quảng cáo" },
+  "ads": {
+    "label": "Quảng cáo"
+  },
   "fileActions": {
     "print": "In",
     "delete": "Xóa",
@@ -229,7 +231,7 @@
     "daily": {
       "title": "Đã hết lượt trong ngày",
       "resets": "Làm mới lúc {time}",
-      "body": "Bạn đã dùng hết {limit} lượt chuyển đổi miễn phí hôm nay. Nâng cấp lên Pro để chuyển đổi không giới hạn.",
+      "body": "Bạn đã dùng hết {limit} lượt chuyển đổi miễn phí hôm nay. Nâng cấp để chuyển đổi không giới hạn ngay từ hôm nay.",
       "includes": "Gói Pro bao gồm",
       "comeBack": "Quay lại vào ngày mai",
       "features": [
@@ -238,7 +240,12 @@
         "Tối đa 20 tệp mỗi lần xử lý hàng loạt",
         "Không quảng cáo",
         "Xử lý ưu tiên"
-      ]
+      ],
+      "cta": "Dùng Starter với {price}/tháng",
+      "perMonth": "/tháng",
+      "perDay": "khoảng {price} mỗi ngày",
+      "allPlans": "So sánh tất cả gói",
+      "cancelAnytime": "Hủy bất cứ lúc nào"
     },
     "size": {
       "body": "Tệp của bạn ({size}) vượt quá giới hạn {limit} của {tool}.",

@@ -28,7 +28,9 @@
     "freeExtension": "Free extension",
     "addChromeShort": "Add to Chrome"
   },
-  "ads": { "label": "Advertisement" },
+  "ads": {
+    "label": "Advertisement"
+  },
   "fileActions": {
     "print": "Print",
     "delete": "Delete",
@@ -229,7 +231,7 @@
     "daily": {
       "title": "Daily limit reached",
       "resets": "Resets at {time}",
-      "body": "You've used your {limit} free conversions for today. Upgrade to Pro for unlimited conversions.",
+      "body": "You've used your {limit} free conversions for today. Upgrade for unlimited conversions, starting today.",
       "includes": "Pro plan includes",
       "comeBack": "Come back tomorrow",
       "features": [
@@ -238,7 +240,12 @@
         "Up to 20 files per batch",
         "No ads",
         "Priority processing"
-      ]
+      ],
+      "cta": "Get Starter for {price}/month",
+      "perMonth": "/month",
+      "perDay": "about {price} a day",
+      "allPlans": "Compare all plans",
+      "cancelAnytime": "Cancel anytime"
     },
     "size": {
       "body": "Your file ({size}) is over the {limit} limit for {tool}.",

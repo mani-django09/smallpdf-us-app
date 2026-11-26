@@ -28,7 +28,9 @@
     "freeExtension": "Extensão gratuita",
     "addChromeShort": "Adicionar ao Chrome"
   },
-  "ads": { "label": "Publicidade" },
+  "ads": {
+    "label": "Publicidade"
+  },
   "fileActions": {
     "print": "Imprimir",
     "delete": "Excluir",
@@ -229,7 +231,7 @@
     "daily": {
       "title": "Limite diário atingido",
       "resets": "Reinicia às {time}",
-      "body": "Você usou suas {limit} conversões gratuitas de hoje. Assine o Pro para ter conversões ilimitadas.",
+      "body": "Você já usou suas {limit} conversões grátis de hoje. Faça upgrade para ter conversões ilimitadas a partir de hoje.",
       "includes": "O plano Pro inclui",
       "comeBack": "Voltar amanhã",
       "features": [
@@ -238,7 +240,12 @@
         "Até 20 arquivos por lote",
         "Sem anúncios",
         "Processamento prioritário"
-      ]
+      ],
+      "cta": "Assine o Starter por {price}/mês",
+      "perMonth": "/mês",
+      "perDay": "cerca de {price} por dia",
+      "allPlans": "Comparar todos os planos",
+      "cancelAnytime": "Cancele quando quiser"
     },
     "size": {
       "body": "Seu arquivo ({size}) ultrapassa o limite de {limit} para {tool}.",
