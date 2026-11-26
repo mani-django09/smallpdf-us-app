@@ -856,7 +856,7 @@ export default function HomePage() {
             <div className="grid items-start gap-8 rounded-[36px] border-2 border-[#14130F] bg-white p-6 sm:p-10 md:grid-cols-[220px,1fr]">
               <figure className="mx-auto w-44 md:w-full">
                 <div className="overflow-hidden rounded-[28px] border-2 border-[#14130F] bg-[#DCE8FF]">
-                  <img src="/team/manikant.png" alt="Manikant" width="440" height="608" loading="lazy" className="aspect-square w-full object-cover" />
+                  <img src="/team/manikant.webp" alt="Manikant" width="480" height="480" loading="lazy" decoding="async" className="aspect-square w-full object-cover" />
                 </div>
                 <figcaption className="mt-3 text-center text-sm font-bold">Manikant<span className="block text-xs font-medium text-[#14130F]/55">New Delhi, India</span></figcaption>
               </figure>

@@ -76,6 +76,8 @@ export default function MyDocument({ locale }) {
         {/* ========================================
             SEO IMPROVEMENTS
         ======================================== */}
+        {/* Point AI crawlers at the plain-text site summary */}
+        <link rel="alternate" type="text/plain" title="LLMs.txt" href="/llms.txt" />
 
       </Head>
       <body>

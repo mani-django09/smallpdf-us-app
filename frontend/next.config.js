@@ -751,11 +751,10 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
+          // X-Frame-Options, nosniff, X-XSS-Protection, Referrer-Policy and HSTS are
+          // set by nginx (sites-enabled/smallpdf.us). Setting them here too sent each header twice.
           { key: 'X-DNS-Prefetch-Control',  value: 'on' },
-          { key: 'X-Frame-Options',          value: 'SAMEORIGIN' },
-          { key: 'X-Content-Type-Options',   value: 'nosniff' },
-          { key: 'X-XSS-Protection',         value: '1; mode=block' },
-          { key: 'Referrer-Policy',          value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy',       value: 'camera=(), microphone=(), geolocation=()' },
           { key: 'Content-Language',         value: 'en, ja, de, fr, es, it, id, pt, vi, hi, ar, tr, ru, pl' },
         ],
       },

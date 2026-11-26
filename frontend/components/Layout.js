@@ -44,10 +44,16 @@ export default function Layout({ children, title, description }) {
   return (
     <>
       <div className="min-h-screen flex flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-slate-900 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:ring-2 focus:ring-blue-600"
+        >
+          Skip to content
+        </a>
         {/* Top "Add to Chrome" bar removed 2026-10-16 (owner request). The footer badge below stays. */}
         <DynamicHeader />
 
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1} className="outline-none">{children}</main>
 
         {/* Footer */}
         <footer className="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 text-gray-300 mt-20">
