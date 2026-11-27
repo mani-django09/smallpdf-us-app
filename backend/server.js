@@ -4193,7 +4193,10 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       const outBytes = await outDoc.save()
       const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname))
       const outputFilename = `redacted-${baseName}.pdf`
-      const outputPath = path.join("./uploads", outputFilename)
+      // Unique stored name: /uploads is served publicly, so a bare "redacted-<name>.pdf"
+      // let two users with the same filename overwrite or download each other's file.
+      const storedFilename = `${genJobId()}-${outputFilename}`
+      const outputPath = path.join("./uploads", storedFilename)
       fs.writeFileSync(outputPath, outBytes)
 
       if (fs.existsSync(inputPath)) fs.unlinkSync(inputPath)
@@ -4205,7 +4208,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
           tool: "redact-pdf",
           originalName: outputFilename,
           storedPath: path.resolve(outputPath),
-          downloadUrl: `/uploads/${outputFilename}`,
+          downloadUrl: `/uploads/${storedFilename}`,
           fileSize: outBytes.length,
         })
       }
@@ -4223,7 +4226,7 @@ app.get("/api/download-excel-pdf/:jobId", async (req, res) => {
       res.json({
         success: true,
         message: "PDF redacted successfully",
-        downloadUrl: `/uploads/${outputFilename}`,
+        downloadUrl: `/uploads/${storedFilename}`,
         convertedName: outputFilename,
         pageCount,
         redactedPages: Object.keys(boxesByPage).length,
