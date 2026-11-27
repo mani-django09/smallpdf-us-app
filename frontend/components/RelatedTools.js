@@ -7,6 +7,7 @@
  */
 import Link from 'next/link'
 import { useTranslations } from '../lib/i18n'
+import { localePath } from '../lib/route-translations'
 
 const ALL_TOOLS = {
   'merge-pdf':      { name: 'Merge PDF',         desc: 'Combine PDFs into one',           href: '/merge-pdf' },
@@ -48,7 +49,10 @@ const RELATED_MAP = {
   'pdf-to-jpg':     ['jpg-to-pdf', 'pdf-to-png', 'compress-image', 'compress-pdf', 'split-pdf'],
   'png-to-pdf':     ['jpg-to-pdf', 'pdf-to-png', 'compress-image', 'merge-pdf', 'compress-pdf'],
   'pdf-to-png':     ['png-to-pdf', 'pdf-to-jpg', 'compress-image', 'compress-pdf', 'split-pdf'],
-  'compress-image': ['compress-pdf', 'jpg-to-pdf', 'png-to-pdf', 'pdf-to-jpg', 'pdf-to-png'],
+  'compress-image': ['compress-image-to-20kb', 'compress-image-to-50kb', 'compress-image-to-100kb', 'jpg-to-pdf', 'compress-pdf'],
+  'compress-image-to-20kb':  ['compress-image-to-50kb', 'compress-image-to-100kb', 'compress-image', 'jpg-to-pdf', 'compress-pdf'],
+  'compress-image-to-50kb':  ['compress-image-to-20kb', 'compress-image-to-100kb', 'compress-image', 'jpg-to-pdf', 'compress-pdf'],
+  'compress-image-to-100kb': ['compress-image-to-20kb', 'compress-image-to-50kb', 'compress-image', 'jpg-to-pdf', 'compress-pdf'],
   'pdf-to-excel':   ['pdf-to-word', 'excel-to-pdf', 'pdf-to-ppt', 'compress-pdf', 'merge-pdf'],
   'excel-to-pdf':   ['pdf-to-excel', 'pdf-to-word', 'ppt-to-pdf', 'compress-pdf', 'merge-pdf'],
   'pdf-to-ppt':     ['pdf-to-word', 'ppt-to-pdf', 'pdf-to-excel', 'compress-pdf', 'merge-pdf'],
@@ -65,11 +69,12 @@ const RELATED_MAP = {
   'edit-pdf':       ['redact-pdf', 'protect-pdf', 'unlock-pdf', 'merge-pdf', 'compress-pdf'],
 }
 
-// 'merge-pdf' -> 'mergePdf' (the nav.* / navDesc.* keys in common.json, present in all locales)
-const toKey = (slug) => slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+// 'merge-pdf' -> 'mergePdf' (the nav.* / navDesc.* keys in common.json, present in all locales).
+// The target-size pages use shorter keys (nav.compressImage20kb, not compressImageTo20kb).
+const toKey = (slug) => slug.replace(/^compress-image-to-/, 'compress-image-').replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase())
 
 export default function RelatedTools({ current }) {
-  const { t } = useTranslations()
+  const { t, locale } = useTranslations()
   const keys = RELATED_MAP[current] || []
   if (keys.length === 0) return null
   // t() returns the key itself when a translation is missing — fall back to English then.
@@ -88,7 +93,9 @@ export default function RelatedTools({ current }) {
             return (
               <Link
                 key={key}
-                href={tool.href}
+                // Link straight to the translated slug (/id/kompres-pdf/), not /id/compress-pdf/ which 301s
+                href={localePath(tool.href, locale || 'en')}
+                locale={false}
                 className="flex flex-col items-center text-center bg-white rounded-xl p-3 border border-gray-100 shadow-sm hover:border-red-200 hover:shadow-md transition-all group"
               >
                 <span className="text-xs font-bold text-gray-900 group-hover:text-red-600 transition-colors leading-tight">

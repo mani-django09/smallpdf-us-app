@@ -433,7 +433,7 @@ export default function CompressImageTo100KB() {
           <div className="hidden lg:block max-w-4xl mx-auto">
           </div>
         </div>
-        <RelatedTools current="compress-image" />
+        <RelatedTools current="compress-image-to-100kb" />
       </Layout>
       {PremiumGateModal}
       {BatchGateModal}
