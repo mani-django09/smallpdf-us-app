@@ -174,5 +174,11 @@
   "downloadErrorFailed": "Gagal mengunduh file. Silakan coba lagi.",
   "related50kbLead": "Butuh ukuran file tertentu untuk formulir atau unggahan ujian? Coba alat",
   "related50kbLink": "kompres gambar ke 50KB",
-  "related50kbTail": "kami, dibuat khusus untuk lamaran dan ujian dengan batas ukuran yang ketat."
+  "related50kbTail": "kami, dibuat khusus untuk lamaran dan ujian dengan batas ukuran yang ketat.",
+  "nextStepTitle": "Setelah Foto Dikompres, Jadikan PDF",
+  "nextStepLead": "Banyak formulir pendaftaran meminta berkas dalam format PDF. Setelah ukuran foto mengecil, Anda bisa",
+  "nextStepJpgLink": "ubah JPG ke PDF",
+  "nextStepMiddle": "dan menggabungkan beberapa foto, misalnya KTP, ijazah, dan transkrip, menjadi satu dokumen. Jika hasil PDF masih terlalu besar untuk diunggah,",
+  "nextStepPdfLink": "kompres PDF",
+  "nextStepTail": "tersebut sebelum mengirimnya."
 }

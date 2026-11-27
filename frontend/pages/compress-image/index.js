@@ -550,6 +550,25 @@ export default function CompressImage() {
                 </a>{" "}
                 {t("compressImage.related50kbTail")}
               </p>
+              {/* Rendered only for locales that define these strings (currently id) */}
+              {t("compressImage.nextStepLead") !== "compressImage.nextStepLead" && (
+                <>
+                  <h3 className="font-display text-xl font-bold text-slate-900 mb-3 mt-6">
+                    {t("compressImage.nextStepTitle")}
+                  </h3>
+                  <p className="font-body text-slate-700">
+                    {t("compressImage.nextStepLead")}{" "}
+                    <a href={localePath("/jpg-to-pdf", locale).replace(/\/?$/, "/")} className="text-blue-600 font-semibold hover:underline">
+                      {t("compressImage.nextStepJpgLink")}
+                    </a>{" "}
+                    {t("compressImage.nextStepMiddle")}{" "}
+                    <a href={localePath("/compress-pdf", locale).replace(/\/?$/, "/")} className="text-blue-600 font-semibold hover:underline">
+                      {t("compressImage.nextStepPdfLink")}
+                    </a>{" "}
+                    {t("compressImage.nextStepTail")}
+                  </p>
+                </>
+              )}
             </div>
           </div>
         </div>
