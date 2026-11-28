@@ -40,7 +40,7 @@
   "step3Desc": "Lưu ảnh đã nén và tải trực tiếp lên biểu mẫu thi hoặc hồ sơ của bạn.",
 
   "whyTitle": "Vì sao biểu mẫu yêu cầu ảnh 100KB?",
-  "whyP1": "Mức trần 100KB giúp máy chủ tiếp nhận hồ sơ chạy nhanh và giảm chi phí lưu trữ khi hàng nghìn ứng viên tải ảnh lên cùng lúc - đó là lý do vì sao đây là giới hạn rất phổ biến trên các cổng tuyển dụng của chính phủ Ấn Độ. SSC CGL, UPSC, kỳ thi ngân hàng IBPS và nhiều biểu mẫu tuyển dụng của PSC bang và đường sắt đều quy định giới hạn dung lượng ảnh trong khoảng này, và các tệp vượt giới hạn sẽ bị từ chối ngay khi nộp.",
+  "whyP1": "Giới hạn dung lượng giúp máy chủ tiếp nhận hồ sơ chạy nhanh và giảm chi phí lưu trữ khi nhiều ứng viên tải tệp lên cùng lúc. Quy định khác nhau tùy kỳ thi: UPSC nhận ảnh 20-200KB, nhưng hướng dẫn IBPS 2026 mà chúng tôi đã kiểm tra chỉ cho phép 20-50KB, còn SSC CGL 2026 chụp ảnh trực tiếp ngay trong biểu mẫu. Tệp nằm ngoài khoảng yêu cầu có thể bị từ chối.",
   "whyP2": "Vấn đề là một bức ảnh chụp trực tiếp từ camera điện thoại thường nặng 2-5MB - lớn hơn 20-50 lần. Chỉ đổi kích thước không đảm bảo đạt đúng mục tiêu KB, và đó là điều công cụ này làm trực tiếp: chọn 100KB, tải ảnh lên và tải về tệp có kích cỡ phù hợp cho biểu mẫu.",
   "howTitle": "Cách hoạt động",
   "howP": "Ảnh của bạn được mã hóa lại để đạt 100KB hoặc nhỏ hơn mà vẫn giữ văn bản và khuôn mặt dễ đọc trong một ảnh kiểu biểu mẫu, thường không mất chất lượng nhìn thấy được. Nếu bạn cần dung lượng khác, cùng công cụ này cũng hỗ trợ các mục tiêu tùy chỉnh như 20KB hoặc 50KB.",
@@ -62,7 +62,7 @@
 
   "faqTitle": "Câu hỏi thường gặp",
   "faq1Q": "Những kỳ thi và biểu mẫu nào cần ảnh 100KB?",
-  "faq1A": "Nhiều cổng thi và tuyển dụng của chính phủ Ấn Độ - SSC, UPSC, IBPS, Railway RRB và nhiều biểu mẫu PSC bang - giới hạn ảnh tải lên ở 100KB. Giới hạn chính xác tùy theo từng biểu mẫu, nên hãy kiểm tra kỹ hướng dẫn trên hồ sơ cụ thể của bạn trước khi tải lên.",
+  "faq1A": "Điều này tùy biểu mẫu. UPSC nhận ảnh 20-200KB, nên tệp tối đa 100KB là phù hợp nếu đạt ít nhất 20KB. Tệp này có thể quá lớn đối với IBPS, vì hướng dẫn 2026 mà chúng tôi đã kiểm tra yêu cầu 20-50KB. SSC CGL 2026 chụp ảnh trực tiếp ngay trong biểu mẫu. Giới hạn có thể thay đổi, hãy kiểm tra hướng dẫn hiện hành của biểu mẫu.",
   "faq2Q": "Nén xuống 100KB có làm ảnh của tôi bị mờ không?",
   "faq2A": "Không đáng kể với ảnh thẻ hoặc ảnh hồ sơ tiêu chuẩn. Công cụ hạ chất lượng JPEG trước và chỉ giảm nhẹ kích thước điểm ảnh nếu bắt buộc, nên văn bản và các đường nét khuôn mặt vẫn đọc rõ.",
   "faq3Q": "Tôi có thể nén những định dạng ảnh nào xuống 100KB?",

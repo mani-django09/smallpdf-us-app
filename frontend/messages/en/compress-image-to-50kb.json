@@ -40,7 +40,7 @@
   "step3Desc": "Save your compressed photo and upload it directly to your exam or application form.",
 
   "whyTitle": "Why do forms ask for a 50KB photo?",
-  "whyP1": "A 50KB cap keeps application servers fast and storage costs down when thousands of applicants upload photos at once - which is why it's such a common limit on Indian government recruitment portals. SSC CGL, UPSC, IBPS bank exams, and several state PSC and railway recruitment forms all specify a photo or signature size limit in this range, and uploads over the limit are simply rejected at submission.",
+  "whyP1": "A size limit keeps application servers fast and storage costs down when many applicants upload files at once. Rules differ by exam: the 2026 IBPS guidelines we checked ask for a photo of 20-50 KB, while the SSC CGL 2026 notice has the photo captured live in the form. A file outside the required range can be rejected.",
   "whyP2": "The problem is that a photo straight off a phone camera is usually 2-5MB - 40-100x too large. Resizing dimensions alone doesn't reliably hit an exact KB target, which is what this tool does directly: pick 50KB, upload your photo, and download a file sized right for the form.",
   "howTitle": "How it works",
   "howP": "Your photo is re-encoded to land at or under 50KB while keeping it readable for a small ID-style image, usually with no visible quality loss. If you need a different size, the same tool supports custom targets like 20KB or 100KB too.",
@@ -62,7 +62,7 @@
 
   "faqTitle": "Frequently asked questions",
   "faq1Q": "Which exams and forms need a 50KB photo or signature?",
-  "faq1A": "Most Indian government exam and recruitment portals - SSC, UPSC, IBPS, Railway RRB, and many state PSC forms - cap the photo or signature upload at 50KB. The exact limit varies by form, so double-check the instructions on your specific application before uploading.",
+  "faq1A": "One example is IBPS, whose 2026 guidelines we checked ask for a photo of 20-50 KB. UPSC accepts a photo of 20-200 KB and a signature of 20-100 KB. A 50 KB file is too large for an SSC CGL 2026 signature, which must be 10-20 KB. Limits can change, so check your form's current instructions and the size of your downloaded file, including any minimum.",
   "faq2Q": "Will compressing to 50KB make my photo blurry?",
   "faq2A": "Not noticeably for ID-photo or signature use. The tool lowers JPEG quality first and reduces pixel dimensions slightly only if it has to, so a small ID-style photo or signature stays readable.",
   "faq3Q": "What image formats can I compress to 50KB?",

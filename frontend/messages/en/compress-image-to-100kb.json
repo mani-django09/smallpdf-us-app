@@ -40,7 +40,7 @@
   "step3Desc": "Save your compressed photo and upload it directly to your exam or application form.",
 
   "whyTitle": "Why do forms ask for a 100KB photo?",
-  "whyP1": "A 100KB cap keeps application servers fast and storage costs down when thousands of applicants upload photos at once - which is why it's such a common limit on Indian government recruitment portals. SSC CGL, UPSC, IBPS bank exams, and several state PSC and railway recruitment forms all specify a photo size limit in this range, and uploads over the limit are simply rejected at submission.",
+  "whyP1": "A size limit keeps application servers fast and storage costs down when many applicants upload files at once. Rules differ by exam: UPSC accepts a photo of 20-200 KB, but the 2026 IBPS guidelines we checked allow only 20-50 KB, and the SSC CGL 2026 notice has the photo captured live in the form. A file outside the required range can be rejected.",
   "whyP2": "The problem is that a photo straight off a phone camera is usually 2-5MB - 20-50x too large. Resizing dimensions alone doesn't reliably hit an exact KB target, which is what this tool does directly: pick 100KB, upload your photo, and download a file sized right for the form.",
   "howTitle": "How it works",
   "howP": "Your photo is re-encoded to land at or under 100KB while keeping text and faces readable in a form-style image, usually with no visible quality loss. If you need a different size, the same tool supports custom targets like 20KB or 50KB too.",
@@ -62,7 +62,7 @@
 
   "faqTitle": "Frequently asked questions",
   "faq1Q": "Which exams and forms need a 100KB photo?",
-  "faq1A": "Many Indian government exam and recruitment portals - SSC, UPSC, IBPS, Railway RRB, and various state PSC forms - cap the photo upload at 100KB. The exact limit varies by form, so double-check the instructions on your specific application before uploading.",
+  "faq1A": "It depends on the form. UPSC accepts a photo of 20-200 KB, so a file of up to 100 KB fits if it is at least 20 KB. It is too large for IBPS, where the 2026 guidelines we checked ask for 20-50 KB. SSC CGL 2026 captures the photo live in the form. Limits can change, so check your form's current instructions.",
   "faq2Q": "Will compressing to 100KB make my photo blurry?",
   "faq2A": "Not noticeably for a standard ID or application photo. The tool lowers JPEG quality first and reduces pixel dimensions slightly only if it has to, so text and facial features stay readable.",
   "faq3Q": "What image formats can I compress to 100KB?",
